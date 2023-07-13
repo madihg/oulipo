@@ -1,2 +1,2 @@
 # oulipo
-home of experimental computational poetry
+Home of experimental computational poetry

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hammer & Sorrows</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: #f8f8f8;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80%;
+            justify-content: space-between;
+        }
+
+        #hammer {
+            font-size: 6em;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            transition: transform 2s;
+        }
+
+        #sorrows {
+            font-size: 2em;
+            position: absolute;
+            top: 40%;
+            left: 60%;
+            transition: opacity 2s;
+        }
+
+        #smash {
+            margin-top: 2em;
+            font-size: 1.5em;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="hammer">HAMMER</h1>
+        <h3 id="sorrows">sorrows</h3>
+        <button id="smash">SMASH</button>
+    </div>
+    <script>
+        document.getElementById('smash').addEventListener('click', function() {
+            let hammer = document.getElementById('hammer');
+            let sorrows = document.getElementById('sorrows');
+
+            hammer.style.transform = 'rotate(290deg)';
+
+            hammer.addEventListener('transitionend', function() {
+                sorrows.style.opacity = '0';
+            });
+        });
+    </script>
+</body>
+</html>

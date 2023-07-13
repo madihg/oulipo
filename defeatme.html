@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        #message {
+            display: flex;
+            justify-content: center;
+            position: relative;
+            height: 200px;
+        }
+        .letter {
+            display: inline-block;
+            margin: 5px;
+            position: relative;
+            transition: transform 2s;
+        }
+        .fall {
+            transform: translateY(90vh);
+        }
+        #reformButton {
+            display: none;
+            position: absolute;
+            bottom: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px;
+            background-color: lightblue;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div id="message">
+        <span class="letter">d</span>
+        <span class="letter">e</span>
+        <span class="letter">f</span>
+        <span class="letter">e</span>
+        <span class="letter">a</span>
+        <span class="letter">t</span>
+        <span class="letter"> </span>
+        <span class="letter">m</span>
+        <span class="letter">e</span>
+    </div>
+    <button id="reformButton">again</button>
+
+    <script>
+        let message = document.getElementById('message');
+        let letters = document.querySelectorAll('.letter');
+        let button = document.getElementById('reformButton');
+
+        message.addEventListener('click', function() {
+            letters.forEach(letter => {
+                letter.classList.add('fall');
+            });
+            button.style.display = 'block';
+        });
+
+        button.addEventListener('click', function() {
+            letters.forEach(letter => {
+                letter.classList.remove('fall');
+            });
+            button.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

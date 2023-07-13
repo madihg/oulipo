@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .typewriter {
+      font-family: 'Courier New', Courier, monospace;
+      overflow: hidden; /* Ensures the content is not revealed until the animation */
+      white-space: nowrap; /* Keeps the content on a single line */
+      margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+      letter-spacing: .15em; /* Adjust as needed */
+      animation: 
+        typing 3.5s steps(40, end),
+        blink-caret .75s step-end infinite;
+    }
+
+    /* The typing effect */
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    /* The typewriter cursor effect */
+    @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: black; }
+    }
+
+    /* The fade out effect */
+    .fade-out {
+      animation: fadeOut 5s forwards;
+    }
+
+    @keyframes fadeOut {
+      0% {opacity: 1;}
+      100% {opacity: 0;}
+    }
+  </style>
+</head>
+<body>
+  <div id="type-div" class="typewriter"></div>
+
+  <script>
+    const typeDiv = document.getElementById('type-div');
+    const words = ['type me into you', 'type me', 'type me out of you'];
+    let wordIndex = 0;
+    let charIndex = 0;
+
+    function type() {
+      if (charIndex < words[wordIndex].length) {
+        typeDiv.textContent += words[wordIndex].charAt(charIndex);
+        charIndex++;
+        setTimeout(type, 200);
+      } else if (wordIndex < words.length - 1) {
+        wordIndex++;
+        charIndex = 0;
+        typeDiv.textContent = '';
+        setTimeout(type, 1000);
+      } else {
+        typeDiv.classList.add('fade-out');
+      }
+    }
+
+    type();
+  </script>
+</body>
+</html>

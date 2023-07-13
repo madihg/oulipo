@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-size: 2em;
+        }
+
+        .time-element {
+            position: relative;
+            margin: 0 5px;
+            animation: float 5s infinite;
+        }
+
+        .time-element:nth-child(even) {
+            animation-duration: 4s;
+        }
+
+        .time-element:nth-child(3n) {
+            animation-duration: 6s;
+        }
+
+        .time-element:nth-child(4n) {
+            animation-duration: 7s;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+            25% {
+                transform: translate(20px, 15px);
+            }
+            50% {
+                transform: translate(-15px, 30px);
+            }
+            75% {
+                transform: translate(-20px, -10px);
+            }
+            100% {
+                transform: translate(0, 0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="timer" class="center"></div>
+    <script>
+        // Set the date we're counting up from
+        var countUpDate = new Date("July 4, 2023 12:00:00 PDT").getTime();
+
+        // Update the count up every 1 second
+        var timer = setInterval(function() {
+            var now = new Date().getTime();
+            
+            // Find the distance between now and the count up time
+            var distance = now - countUpDate;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Split the time components into separate elements
+            var timerHTML = `
+                <span class="time-element">${days}</span>
+                <span class="time-element">d</span>
+                <span class="time-element">${hours}</span>
+                <span class="time-element">h</span>
+                <span class="time-element">${minutes}</span>
+                <span class="time-element">m</span>
+                <span class="time-element">${seconds}</span>
+                <span class="time-element">s</span>
+            `;
+
+            // Display the result in the element with id="timer"
+            document.getElementById("timer").innerHTML = timerHTML;
+
+        }, 1000);
+    </script>
+</body>
+</html>

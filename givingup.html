@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Page 1</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .button-container {
+      display: flex;
+      /* Place buttons horizontally */
+      flex-direction: row;
+    }
+
+    button {
+      margin-bottom: 10px;
+    }
+
+    .button-left {
+      /* Move button to the left */
+      position: relative;
+    }
+
+    .button-right {
+      /* Move button to the right */
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button class="button-left" onclick="location.href='page2.html'">I am giving up</button>
+    <button class="button-right" onclick="location.href='page2.html'">on choosing</button>
+  </div>
+
+  <script>
+    window.onload = function() {
+      var gap = Math.floor(Math.random() * 100);
+      var top = Math.floor(Math.random() * 100);
+      var marginLeft = Math.floor(Math.random() * 100);
+      var marginRight = Math.floor(Math.random() * 100);
+
+      document.querySelector(".button-container").style.gap = gap + "px";
+      document.querySelector(".button-left").style.marginLeft = marginLeft + "px";
+      document.querySelector(".button-right").style.marginRight = marginRight + "px";
+      document.querySelector(".button-right").style.top = top + "px";
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+body {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+#buttonContainer {
+  width: 80vw;
+  height: 80vw;
+  max-width: 300px;
+  max-height: 300px;
+  display: flex;
+  justify-content: space-between;
+  align-items: space-between;
+  flex-direction: column;
+  position: relative;
+  transition: opacity 1s ease-out;
+}
+
+#button {
+  width: 100%;
+  height: 100%;
+  text-align: left;
+  font-size: calc(3px + 3vmin);
+  padding: 20px;
+  overflow: auto;
+  position: absolute;
+  z-index: 1;
+  transition: opacity 1s ease-out;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: calc(50% - 20px);
+  visibility: hidden;
+  animation: mymove 2s infinite;
+}
+
+.dot:nth-child(2) {
+  left: 50%;
+}
+
+.dot:nth-child(3) {
+  left: calc(50% + 20px);
+}
+
+@keyframes mymove {
+  0% {top: calc(50% - 10px);}
+  50% {top: calc(50% + 10px);}
+  100% {top: calc(50% - 10px);}
+}
+</style>
+</head>
+<body>
+
+<div id="buttonContainer">
+  <button id="button" onclick="startAnimation()">I the hereforth signatory have yanked the plug the cord upon it we used as clothesline have pushed my knee into the back of destiny's leg brought it to the ground salt on its hands chafing the soil its tongue so close to dirt so close it winnows speck from speck this life a conversation where we've been outspeaking the world</button>
+  <span class="dot"></span>
+  <span class="dot"></span>
+  <span class="dot"></span>
+</div>
+
+<script>
+function startAnimation() {
+  var button = document.getElementById('button');
+  var dots = document.getElementsByClassName("dot");
+  button.style.opacity = '0';
+  setTimeout(function(){ button.style.display = 'none'; }, 1000);
+  for (var i = 0; i < dots.length; i++) {
+    dots[i].style.visibility = "visible";
+  }
+}
+</script>
+
+</body>
+</html>

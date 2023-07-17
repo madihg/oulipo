@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #fafafa;
+        }
+
+        .button {
+            padding: 10px;
+            margin: 80px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 2s;
+        }
+
+        .running {
+            margin: 20px;
+            transition: all 2s;
+        }
+    </style>
+</head>
+<body>
+    <button class="button" id="button">Hit The Road</button>
+    <p class="running" id="running">Running</p>
+
+    <script>
+        let button = document.getElementById('button');
+        let running = document.getElementById('running');
+        let buttonInitialPosition = button.getBoundingClientRect().top;
+        let runningMoving = false;
+
+        button.addEventListener('click', () => {
+            if (runningMoving) {
+                // Reset positions
+                running.style.transform = `translateX(0px)`;
+                button.style.transform = `translateY(0px)`;
+                runningMoving = false;
+            } else {
+                // Button falls and hits running
+                let distance = running.getBoundingClientRect().top - button.getBoundingClientRect().bottom;
+                button.style.transform = `translateY(${distance}px)`;
+
+                // After the button has fallen, start moving running
+                setTimeout(() => {
+                    running.style.transform = `translateX(${window.innerWidth}px)`;
+                    runningMoving = true;
+                }, 2000); // This should match the transition duration in the CSS
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Human Figure</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    svg {
+      cursor: pointer;
+    }
+    text, path, line, circle {
+      transition: transform 0.3s ease-in-out;
+    }
+  </style>
+</head>
+<body>
+  <svg id="figureSvg" viewBox="0 0 400 400">
+    <!-- Connecting Paths (Behind the figure) -->
+    <path id="pathL" d="M 175 50 Q 180 150 150 300" stroke="black" stroke-width="1" fill="none"/>
+    <path id="pathO" d="M 200 50 Q 205 150 200 250" stroke="black" stroke-width="1" fill="none"/>
+    <path id="pathV" d="M 225 50 Q 220 150 250 300" stroke="black" stroke-width="1" fill="none"/>
+    <path id="pathE" d="M 250 50 Q 245 150 250 300" stroke="black" stroke-width="1" fill="none"/>
+    
+    <!-- Human Figure -->
+    <g id="figureGroup">
+      <circle id="head" cx="200" cy="200" r="50" stroke="black" stroke-width="3" fill="white" />
+      <line id="body" x1="200" y1="250" x2="200" y2="350" stroke="black" stroke-width="3"/>
+      <line id="leftArm" x1="200" y1="250" x2="150" y2="300" stroke="black" stroke-width="3"/>
+      <line id="rightArm" x1="200" y1="250" x2="250" y2="300" stroke="black" stroke-width="3"/>
+      <line id="leftLeg" x1="200" y1="350" x2="150" y2="450" stroke="black" stroke-width="3"/>
+      <line id="rightLeg" x1="200" y1="350" x2="250" y2="450" stroke="black" stroke-width="3"/>
+    </g>
+
+    <!-- Word 'LOVE' -->
+    <text id="letterL" x="175" y="50" font-family="Verdana" font-size="35" fill="black">L</text>
+    <text id="letterO" x="200" y="50" font-family="Verdana" font-size="35" fill="black">O</text>
+    <text id="letterV" x="225" y="50" font-family="Verdana" font-size="35" fill="black">V</text>
+    <text id="letterE" x="250" y="50" font-family="Verdana" font-size="35" fill="black">E</text>
+  </svg>
+
+  <script>
+    const mapping = {
+      'letterL': ['leftArm', 'pathL'],
+      'letterO': ['leftLeg', 'pathO'],
+      'letterV': ['rightLeg', 'pathV'],
+      'letterE': ['rightArm', 'pathE'],
+    };
+
+    Object.keys(mapping).forEach(letter => {
+      const [limb, path] = mapping[letter];
+      document.getElementById(letter).addEventListener('mouseover', function() {
+        const rotation = Math.random() * 30 - 15;
+        const xOffset = Math.random() * 20 - 10;
+        const yOffset = Math.random() * 20 - 10;
+
+        // Transformations for the figure group
+        const figureGroup = document.getElementById('figureGroup');
+        figureGroup.setAttribute('transform', `translate(${xOffset}, ${yOffset})`);
+
+        // Transformations for the connecting path
+        const pathElement = document.getElementById(path);
+        pathElement.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+
+        // Transformations for the letter
+        this.style.transform = `translate(${xOffset}px, ${yOffset}px)`;
+      });
+    });
+  </script>
+</body>
+</html>
+

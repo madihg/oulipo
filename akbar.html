@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Layers Example</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        #container {
+            position: relative;
+            height: 100%;
+        }
+        #backLayer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            font-size: 10em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+        }
+        #frontLayer {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: white;
+            z-index: 2;
+            overflow: auto;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="backLayer">أكبر</div>
+        <div id="frontLayer">
+            <p>
+                In his book _Reel Bad Arabs: How Hollywood Vilifies a People_, Jack Shaheen argues that Hollywood has a long history of portraying Arabs in a negative light. He analyzes over 1,000 films and finds a consistent pattern of hateful stereotypes, which he believes rob an entire people of their humanity.
+            </p>
+            <p>
+                Shaheen argues that these stereotypes are not simply harmless entertainment, but have real-world consequences. He notes that when Arabs are constantly portrayed as villains in the media, it can lead to increased prejudice and discrimination against them.
+            </p>
+            <p>
+                One of the most common Arab stereotypes in Hollywood films is the "Oriental other." This stereotype portrays Arabs as exotic, mysterious, and even dangerous. It is often used to justify Western intervention in the Middle East.
+            </p>
+            <p>
+                Another common stereotype is the "Arab terrorist." This stereotype portrays Arabs as violent and irrational. It is often used to justify Islamophobia and other forms of discrimination against Muslims.
+            </p>
+            <p>
+                Shaheen argues that Hollywood has a responsibility to portray Arabs more accurately and humanely. He calls on filmmakers to challenge the negative stereotypes that have been perpetuated for decades. He also encourages audiences to be critical of the films they watch and to question the way Arabs are portrayed.
+            </p>
+            
+        </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', (event) => {
+            const frontLayer = document.getElementById('frontLayer');
+            frontLayer.addEventListener('click', function(e) {
+                const x = e.clientX;
+                const y = e.clientY;
+                const size = Math.random() * (72 - 36) + 36; // Size in pixels, between 0.5 to 1.5 inch (1 inch = 72 pixels)
+                
+                const svgNS = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttributeNS(null, "width", "100%");
+                svg.setAttributeNS(null, "height", "100%");
+                svg.style.position = "absolute";
+                svg.style.top = 0;
+                svg.style.left = 0;
+                svg.style.pointerEvents = "none";
+
+                const circle = document.createElementNS(svgNS, "circle");
+                circle.setAttributeNS(null, "cx", x);
+                circle.setAttributeNS(null, "cy", y);
+                circle.setAttributeNS(null, "r", size / 2);
+                circle.setAttributeNS(null, "fill", "white");
+                
+                svg.appendChild(circle);
+
+                frontLayer.appendChild(svg);
+            });
+        });
+    </script>
+</body>
+</html>

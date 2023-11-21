@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Poem Interaction</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f0f0f0;
+    }
+    .poem {
+      text-align: center;
+    }
+    span {
+      display: inline-block;
+      transition: transform 0.5s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="poem">
+    <p><span>They</span> <span>flee</span> <span>from</span> <span>me</span> <span>that</span> <span>sometime</span> <span>did</span> <span>me</span> <span>seek</span></p>
+    <p><span>With</span> <span>naked</span> <span>foot,</span> <span>stalking</span> <span>in</span> <span>my</span> <span>chamber.</span></p>
+    <p><span>I</span> <span>have</span> <span>seen</span> <span>them</span> <span>gentle,</span> <span>tame,</span> <span>and</span> <span>meek,</span></p>
+    <p><span>That</span> <span>now</span> <span>are</span> <span>wild</span> <span>and</span> <span>do</span> <span>not</span> <span>remember</span></p>
+    <p><span>That</span> <span>sometime</span> <span>they</span> <span>put</span> <span>themself</span> <span>in</span> <span>danger</span></p>
+    <p><span>To</span> <span>take</span> <span>bread</span> <span>at</span> <span>my</span> <span>hand;</span> <span>and</span> <span>now</span> <span>they</span> <span>range,</span></p>
+    <p><span>Busily</span> <span>seeking</span> <span>with</span> <span>a</span> <span>continual</span> <span>change.</span></p>
+</div>
+
+
+  <script>
+    const MIN_DISTANCE = 72; // Equivalent to 1 inch
+    const poemWords = document.querySelectorAll('.poem span');
+
+    document.addEventListener('mousemove', function(event) {
+      const { clientX, clientY } = event;
+      poemWords.forEach((word) => {
+        const rect = word.getBoundingClientRect();
+        const wordCenterX = rect.left + rect.width / 2;
+        const wordCenterY = rect.top + rect.height / 2;
+        const deltaX = wordCenterX - clientX;
+        const deltaY = wordCenterY - clientY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+        if (distance < MIN_DISTANCE) {
+          const angle = Math.atan2(deltaY, deltaX);
+          const moveX = MIN_DISTANCE * Math.cos(angle);
+          const moveY = MIN_DISTANCE * Math.sin(angle);
+          word.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        } else {
+          word.style.transform = 'translate(0, 0)';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    #iText {
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 24px;
+    }
+    #floatingText {
+        position: absolute;
+        pointer-events: none;
+    }
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: -1;
+    }
+    #sentence {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+</style>
+</head>
+<body>
+    <div id="iText">I.</div>
+    <div id="floatingText"></div>
+    <canvas></canvas>
+    <div id="sentence"></div>
+
+    <script>
+        const words = 
+        ["Words", "transformed", "create", "unique", "dynamic", "sentences", "easily", "and", "efficiently", "make"];
+        const floatingText = document.getElementById('floatingText');
+        const sentence = document.getElementById('sentence');
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+        let lastClick = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+        let lineThickness = 1;
+        let currentWord = "";
+        let sentenceWords = [];
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        document.addEventListener('mousemove', (e) => {
+            currentWord = words[Math.floor(Math.random() * words.length)];
+            floatingText.style.left = e.pageX + 'px';
+            floatingText.style.top = e.pageY + 'px';
+            floatingText.textContent = currentWord;
+        });
+
+        document.addEventListener('click', (e) => {
+            ctx.beginPath();
+            ctx.moveTo(lastClick.x, lastClick.y);
+            ctx.lineTo(e.pageX, e.pageY);
+            ctx.lineWidth = lineThickness;
+            ctx.stroke();
+            drawText(currentWord, e.pageX, e.pageY);
+            lastClick = { x: e.pageX, y: e.pageY };
+            lineThickness += 1;
+            sentenceWords.push(currentWord);
+            sentence.textContent = sentenceWords.join(" ");
+        });
+
+        function drawText(text, x, y) {
+            ctx.font = "16px Arial";
+            ctx.fillText(text, x, y);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+    </script>
+</body>
+</html>

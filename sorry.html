@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Exhibit D</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            font-size: 4em;
+            color: beige;
+        }
+        #container {
+            text-align: center;
+            cursor: pointer;
+            transition: opacity 2s ease;
+        }
+        .letter {
+            display: inline-block;
+            margin: 0 0.05em;
+            transition: transform 1s ease;
+        }
+        #thankYou {
+            display: none;
+            opacity: 0;
+            color: beige;
+            transition: opacity 2s ease;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <!-- Letters will be appended here -->
+    </div>
+    <div id="thankYou">
+        <div>thank</div>
+        <div>you</div>
+    </div>
+    <script>
+        const word = 'sorry';
+        const container = document.getElementById('container');
+        const thankYou = document.getElementById('thankYou');
+
+        word.split('').forEach((letter) => {
+            const letterElement = document.createElement('span');
+            letterElement.className = 'letter';
+            letterElement.textContent = letter;
+            container.appendChild(letterElement);
+        });
+
+        const disperseLetters = () => {
+            document.querySelectorAll('.letter').forEach((element) => {
+                const moveX = (Math.random() - 0.5) * window.innerWidth;
+                const moveY = (Math.random() - 0.5) * window.innerHeight;
+                const rotate = (Math.random() - 0.5) * 360;
+
+                element.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${rotate}deg)`;
+            });
+        };
+
+        const reformLetters = () => {
+            document.querySelectorAll('.letter').forEach((element) => {
+                element.style.transform = 'translate(0, 0) rotate(0)';
+            });
+        };
+
+        document.addEventListener('click', () => {
+            // Fade out the word 'sorry'
+            container.style.opacity = 0;
+            disperseLetters();
+
+            // Wait for the fade out to complete, then display and fade in 'thank you'
+            setTimeout(() => {
+                thankYou.style.display = 'block';
+                thankYou.style.opacity = 1;
+            }, 2000);
+        });
+
+        container.addEventListener('mouseover', disperseLetters);
+        container.addEventListener('mouseout', reformLetters);
+    </script>
+</body>
+</html>

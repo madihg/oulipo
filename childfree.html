@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Childfree</title>
+    <title>Exhibit B</title>
     <style>
         body {
             background-color: black;
@@ -12,14 +12,23 @@
             height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: center;
-            overflow: hidden;
+            align-items: center; /* Center vertically */
         }
-
+        
+        #text-container {
+            width: 80%;
+            max-height: 80vh; /* Adjust as needed */
+            overflow-y: auto; /* Keep scrollable if content exceeds container height */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center lines horizontally */
+        }
+        
         .text-line {
-            position: absolute;
             font-size: 20px;
             cursor: pointer;
+            text-align: center; /* Center text within each line */
+            margin: 0.5em 0; /* Space out lines */
         }
 
         .letter {
@@ -81,25 +90,29 @@
             let lineElements = [];
 
             document.body.addEventListener('click', function() {
-                if (currentLineIndex >= lines.length) return;
-
-                const lineText = lines[currentLineIndex];
-                const lineElement = createLineElement(lineText, currentLineIndex);
-                document.getElementById('text-container').appendChild(lineElement);
-
-                lineElements.push(lineElement);
-
-                if (lineElements.length > 3) {
+                if (currentLineIndex < lines.length) {
+                    const lineText = lines[currentLineIndex];
+                    const lineElement = createLineElement(lineText, currentLineIndex);
+                    document.getElementById('text-container').appendChild(lineElement);
+            
+                    lineElements.push(lineElement);
+                }
+            
+                if (lineElements.length > 3 || currentLineIndex >= lines.length - 3) {
                     animateAndRemoveLine(lineElements.shift());
                 }
-
-                currentLineIndex++;
+            
+                if (currentLineIndex < lines.length) {
+                    currentLineIndex++;
+                }
             });
 
             function createLineElement(text, index) {
                 const lineDiv = document.createElement('div');
                 lineDiv.className = 'text-line';
                 lineDiv.style.top = (index * 30) + 'px'; // Positioning lines vertically
+                const horizontalOffset = (Math.random() - 0.5) * 100; // Random horizontal offset
+                lineDiv.style.transform = `translateX(${horizontalOffset}px)`; // Apply horizontal offset
 
                 text.split('').forEach(char => {
                     const span = document.createElement('span');

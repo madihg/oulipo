@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Judgement Day, Son</title>
+<title>Multiple Windows</title>
 <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
 <style>
   body, html {
@@ -36,11 +36,11 @@
 </head>
 <body>
 
-<h1>Another Judgement Day</h1>
+<h1>A Solemn Title</h1>
 <button id="openWindowsBtn">Case Against the Son</button>
 
 <script>
-function openWindows() {
+  function openWindows() {
     const pages = ['https://www.easypolls.net/#/mypolls','https://www.oulipo.xyz/window-image.html', 'https://www.oulipo.xyz/sorry.html', 'https://www.oulipo.xyz/tally.html', 'https://www.oulipo.xyz/childfree.html', 'https://www.oulipo.xyz/impossible.html'];
     const screenCenterX = window.screen.width / 2 - 300; // Center X, subtract half the window width
     const screenCenterY = window.screen.height / 2 - 300; // Center Y, subtract half the window height
@@ -50,7 +50,7 @@ function openWindows() {
         const angle = (index / pages.length) * 2 * Math.PI; // Calculate angle for each window
         const x = screenCenterX + radius * Math.cos(angle) - (600 / 2); // Adjust X to circle around center
         const y = screenCenterY + radius * Math.sin(angle) - (600 / 2); // Adjust Y to circle around center
-        window.open(page, '', `width=600,height=600,left=${x},top=${y}`);
+        window.open(page, '', `width=1000,height=1000,left=${x},top=${y}`);
     });
 }
 

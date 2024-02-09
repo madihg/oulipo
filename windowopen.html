@@ -50,7 +50,7 @@
         const angle = (index / pages.length) * 2 * Math.PI; // Calculate angle for each window
         const x = screenCenterX + radius * Math.cos(angle) - (600 / 2); // Adjust X to circle around center
         const y = screenCenterY + radius * Math.sin(angle) - (600 / 2); // Adjust Y to circle around center
-        window.open(page, '', `width=1000,height=1000,left=${x},top=${y}`);
+        window.open(page, '', `width=400,height=400,left=${x},top=${y}`);
     });
 }
 

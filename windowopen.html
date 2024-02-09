@@ -40,18 +40,29 @@
 <button id="openWindowsBtn">Case Against the Son</button>
 
 <script>
-  function openWindows() {
-    const pages = ['https://www.easypolls.net/#/mypolls','https://vote.easypolls.net/65c3d20d99e9f700667daef4','https://www.oulipo.xyz/window-image.html', 'https://www.oulipo.xyz/sorry.html', 'https://www.oulipo.xyz/tally.html', 'https://www.oulipo.xyz/childfree.html', 'https://www.oulipo.xyz/impossible.html'];
-    const screenCenterX = window.screen.width / 2 - 300; // Center X, subtract half the window width
-    const screenCenterY = window.screen.height / 2 - 300; // Center Y, subtract half the window height
-    const radius = 200; // Radius from the center of the screen
+function openWindows() {
+  const pages = [
+    'https://www.easypolls.net/#/mypolls',
+    'https://vote.easypolls.net/65c3d20d99e9f700667daef4',
+    'https://www.oulipo.xyz/window-image.html', 
+    'https://www.oulipo.xyz/sorry.html', 
+    'https://www.oulipo.xyz/tally.html', 
+    'https://www.oulipo.xyz/childfree.html', 
+    'https://www.oulipo.xyz/impossible.html'
+  ];
 
-    pages.forEach((page, index) => {
-        const angle = (index / pages.length) * 2 * Math.PI; // Calculate angle for each window
-        const x = screenCenterX + radius * Math.cos(angle) - (600 / 2); // Adjust X to circle around center
-        const y = screenCenterY + radius * Math.sin(angle) - (600 / 2); // Adjust Y to circle around center
-        window.open(page, '', `width=400,height=400,left=${x},top=${y}`);
-    });
+  pages.forEach(() => {
+    const windowWidth = 600;
+    const windowHeight = 600;
+    // Ensure the window is fully visible: subtract window dimensions from screen dimensions
+    const maxX = window.screen.width - windowWidth;
+    const maxY = window.screen.height - windowHeight;
+    // Generate random positions within the visible screen area
+    const x = Math.floor(Math.random() * maxX);
+    const y = Math.floor(Math.random() * maxY);
+
+    window.open(page, '', `width=${windowWidth},height=${windowHeight},left=${x},top=${y}`);
+  });
 }
 
 document.getElementById('openWindowsBtn').addEventListener('click', openWindows);

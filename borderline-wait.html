@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wait</title>
+    <style>
+        body {
+            background-color: white;
+            color: green;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .countdown {
+            font-size: 72px;
+            font-weight: bold;
+        }
+
+        .container {
+            background-color: green; /* Set background color to green */
+            color: white; /* Set text color to white */
+            font-weight: bold; /* Make the text bold */
+            /* Other styles from your original code */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            display: none;
+            z-index: 3;
+            display: grid;
+            grid-template-columns: 1fr; /* Single column for elements */
+            grid-template-rows: auto auto; /* Two rows for elements */
+          }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>
+            Pursuant to the scheduled delivery protocol, please be advised that the documents pertinent to your request are currently in transit and are expected to reach their designated location within the remaining timeframe stipulated by our dispatch system:</h1>
+        <div class="countdown" id="countdown"></div>
+    </div>
+
+    <script>
+        // Set the date we're counting down to
+        const countdownDate = new Date(new Date().getTime() + 300 * 24 * 60 * 60 * 1000);
+
+        // Update the count down every 1 second
+        const x = setInterval(function () {
+
+            // Get today's date and time
+            const now = new Date().getTime();
+
+            // Find the distance between now and the countdown date
+            const distance = countdownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="countdown"
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "EXPIRED";
+            }
+        }, 1000);
+    </script>
+</body>
+
+</html>

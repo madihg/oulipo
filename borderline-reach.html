@@ -15,10 +15,22 @@
     justify-content: center; /* Center content horizontally */
     align-items: center; /* Center content vertically */
   }
+  .background-square {
+    position: absolute;
+    width: 500px; /* Example size, adjust as needed */
+    height: 500px; /* Match width for a square */
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1; /* Ensure it's behind most content but above the body background */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
   .more {
     position: absolute; /* Maintain precise control over positioning */
     font-size: 36px; /* Increase font size */
     white-space: nowrap; /* Prevent "more" from wrapping */
+    z-index: 2;
   }
   .code-text {
     font-family: "Courier New", monospace; /* Gives a code-like appearance */
@@ -48,7 +60,8 @@
 </style>
 </head>
 <body>
-    <div class="code-text">Step 2 of 3: Reach.<br>Paint the screen with<br>the more-ness of your ambition</div>
+    <div class="background-square"></div> <!-- Background square added -->
+    <div class="code-text">Step 2 of 3: Reach.<br>Paint the square with the<br>more-ness of your ambition</div>
     <button id="proceedButton" onclick="window.open('https://www.oulipo.xyz/borderline-erase.html', '_blank')">Ok, ok, you may proceed</button>
 <script>
   // Keep track of the used positions to avoid overlap

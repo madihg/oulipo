@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Exploration with Links</title>
+<style>
+  body {
+    padding: 20px;
+  }
+  .checkbox-container {
+    margin: 20px 0;
+  }
+  .checkbox-item {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+  }
+  #revealButton {
+    display: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Where is home for you?</h1>
+<div class="checkbox-container">
+  <label class="checkbox-item"><input type="checkbox" id="mapCheckbox" class="home-checkbox" data-url="https://map-your-journey.glitch.me/"> born on a map</label>
+  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://color-the-chameleon.glitch.me/"> the animal that changes</label>
+  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/borderline-deny.html"> denies</label>
+  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/borderline-erase.html"> erases</label>
+  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/borderline-reach.html"> reaches</label>
+  <label class="checkbox-item"><input type="checkbox" class="home-checkbox"> through</label>
+</div>
+<button id="revealButton" onclick="window.location='https://how-do-you-home.glitch.me/';">Take me Home</button>
+
+<script>
+  const checkboxes = document.querySelectorAll('.home-checkbox');
+  const revealButton = document.getElementById('revealButton');
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked) {
+        window.open(checkbox.getAttribute('data-url'), '_blank');
+      }
+
+      const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
+      revealButton.style.display = allChecked ? 'block' : 'none';
+    });
+  });
+</script>
+
+</body>
+</html>

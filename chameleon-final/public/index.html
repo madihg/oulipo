@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Collaborative Drawing over Image</title>
+  <style>
+    body,
+    html {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    #drawingCanvas {
+      position: absolute;
+      z-index: 2;
+    }
+    #backgroundImage {
+      position: absolute;
+      z-index: 1;
+      width: 400px;
+    }
+    #textInputContainer {
+      position: fixed; /* Use fixed positioning for constant location */
+      bottom: 10px; /* Adjust vertical position from bottom */
+      left: 10px; /* Adjust horizontal position from left */
+      display: flex; /* Arrange elements horizontally */
+      z-index: 10;
+    }
+    #user-count {
+      display: inline-block;
+      color: white;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 5px;
+      border-radius: 5px;
+      margin-right: 5px; /* Add spacing between elements */
+    }
+    #specialTextField {
+      width: 150px;
+    }
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="container">
+    <img
+      id="backgroundImage"
+      src="https://timcoster.files.wordpress.com/2016/10/chameleonsmallwhitebg.png"
+      alt="Background"
+    />
+  </div>
+  <div id="textInputContainer">
+    <div id="user-count">Loading...</div>
+    <input type="text" id="specialTextField" placeholder="searching for home" />
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.2.0/socket.io.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+  <script src="client.js"></script>
+  <script>
+    document
+      .getElementById("specialTextField")
+      .addEventListener("input", function () {
+        const value = this.value;
+        const container = document.getElementById("textInputContainer");
+
+        // Check if the special message is typed and if the button already exists
+        if (
+          value.toLowerCase() === "you are not alone" &&
+          !document.getElementById("specialButton")
+        ) {
+          const button = document.createElement("button");
+          button.id = "specialButton";
+          button.textContent = "maybe";
+          button.onclick = function () {
+            window.location.href = "https://example.com"; // Replace with the actual URL
+          };
+          container.appendChild(button);
+        }
+      });
+  </script>
+</body>
+</html>

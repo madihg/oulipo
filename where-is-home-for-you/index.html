@@ -45,8 +45,12 @@
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
       if (checkbox.checked) {
-        // Attempt to open in a new window by specifying dimensions
-        window.open(checkbox.getAttribute('data-url'), '_blank', 'width=600,height=400');
+        // Generate random positions for the new window
+        const leftPosition = Math.floor(Math.random() * window.screen.width);
+        const topPosition = Math.floor(Math.random() * window.screen.height);
+
+        // Open the new window at a random position
+        window.open(checkbox.getAttribute('data-url'), '_blank', `width=600,height=400,left=${leftPosition},top=${topPosition}`);
       }
 
       const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);

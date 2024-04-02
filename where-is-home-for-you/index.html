@@ -45,7 +45,8 @@
   checkboxes.forEach(checkbox => {
     checkbox.addEventListener('change', () => {
       if (checkbox.checked) {
-        window.open(checkbox.getAttribute('data-url'), '_blank');
+        // Attempt to open in a new window by specifying dimensions
+        window.open(checkbox.getAttribute('data-url'), '_blank', 'width=600,height=400');
       }
 
       const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);

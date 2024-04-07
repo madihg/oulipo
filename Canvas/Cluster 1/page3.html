@@ -6,25 +6,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draggable Images</title>
         <style>
-        body, html {
-        height: 100%;
-        margin: 0;
-        display: flex;
-    }
-    
-    #imageContainer {
-        justify-content: center;
-        align-items: center;
-        position: relative; /* Required for absolute positioning of children */
-    }
-    
-    .draggable {
-        cursor: grab;
-        position: absolute; /* Stack images */
-        transition: transform 0.2s; /* Smooth transition for repositioning */
-        max-width: 400px;
-        min-width: 200px;
-    }
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* Stack vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+/* Position h1 in the upper right corner */
+h1 {
+    position: absolute;
+    top: 0
+    right: 0;
+    margin: 10px; /* Add a little space from the edges */
+}
+
+#imageContainer {
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    flex-grow: 1; /* Allow the container to expand */
+    width: 100%; /* Take full width to allow proper centering */
+}
+
+.draggable {
+    cursor: grab;
+    transition: transform 0.2s; /* Smooth transition for repositioning */
+    max-width: 400px;
+    min-width: 200px;
+}
+
     </style>
 </head>
 
@@ -33,12 +46,11 @@
         Deserve It
     </h1>
     <div id="imageContainer">
-        <img src="https://www.oulipo.xyz/Canvas/assets/2peeps.png" class="draggable" alt="2peeps" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/2peeps2.webp" class="draggable" alt="2peeps2" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/khalo.png" class="draggable" alt="Khalo" draggable="false">
         <img src="https://www.oulipo.xyz/Canvas/assets/printer1.webp" class="draggable" alt="Printer1" draggable="false">
         <img src="https://www.oulipo.xyz/Canvas/assets/printer2.webp" class="draggable" alt="Printer2" draggable="false">
         <img src="https://www.oulipo.xyz/Canvas/assets/printer3.webp" class="draggable" alt="Printer3" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/2peeps.png" class="draggable" alt="2peeps" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/2peeps2.webp" class="draggable" alt="2peeps2" draggable="false">
     </div>
 
     <script src="script.js"></script>

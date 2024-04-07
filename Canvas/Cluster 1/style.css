@@ -1,0 +1,23 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://img.freepik.com/premium-vector/doodle-black-white-gift-box-outline-cartoon-package-with-present-bow-delivery-valentine-parcel_448971-461.jpg');
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+#imageContainer {
+    position: relative; /* Required for absolute positioning of children */
+}
+
+.draggable {
+    cursor: grab;
+    position: absolute; /* Stack images */
+    transition: transform 0.2s; /* Smooth transition for repositioning */
+    max-width: 400px;
+    min-width: 200px;
+}

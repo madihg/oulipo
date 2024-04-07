@@ -8,13 +8,16 @@
   body {
     padding: 20px;
   }
-  .checkbox-container {
-    margin: 20px 0;
-  }
-  .checkbox-item {
+  .link-item {
     display: block;
     margin-bottom: 10px;
     font-size: 20px;
+    cursor: pointer;
+    transition: color 0.5s ease;
+  }
+  .struck-through {
+    text-decoration: line-through;
+    color: grey;
   }
   #revealButton {
     display: none;
@@ -28,36 +31,39 @@
 <body>
 
 <h1>Where is home for you?</h1>
-<div class="checkbox-container">
-  <label class="checkbox-item"><input type="checkbox" id="mapCheckbox" class="home-checkbox" data-url="https://www.oulipo.xyz/map-your-journey/public/index.html"> born on a map</label>
-  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/chameleon-final/public/index.html"> the animal that changes</label>
-  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/borderline-deny.html"> denies</label>
-  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/impossible.html"> erases</label>
-  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/borderline-reach.html"> reaches</label>
-  <label class="checkbox-item"><input type="checkbox" class="home-checkbox" data-url="https://www.oulipo.xyz/how-do-you-home/public/index.html"> through</label>
+<div id="linkContainer">
+  <div class="link-item" data-url="https://www.oulipo.xyz/map-your-journey/public/index.html">born on a map</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/chameleon-final/public/index.html">the animal that changes</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/borderline-deny.html">denies</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/impossible.html">erases</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/borderline-reach.html">reaches</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/how-do-you-home/public/index.html">through</div>
 </div>
 <button id="revealButton" onclick="window.location='https://www.oulipo.xyz/how-do-you-home/public/index.html';">Take me Home</button>
 
 <script>
-  const checkboxes = document.querySelectorAll('.home-checkbox');
+  const linkItems = document.querySelectorAll('.link-item');
   const revealButton = document.getElementById('revealButton');
 
-  checkboxes.forEach(checkbox => {
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked) {
-        // Generate random positions for the new window
-        const leftPosition = Math.floor(Math.random() * window.screen.width);
-        const topPosition = Math.floor(Math.random() * window.screen.height);
+  linkItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Apply strike-through styling slowly
+      this.classList.add('struck-through');
 
-        // Open the new window at a random position
-        window.open(checkbox.getAttribute('data-url'), '_blank', `width=600,height=400,left=${leftPosition},top=${topPosition}`);
-      }
+      // Generate random positions for the new window
+      const leftPosition = Math.floor(Math.random() * window.screen.width);
+      const topPosition = Math.floor(Math.random() * window.screen.height);
 
-      const allChecked = Array.from(checkboxes).every(checkbox => checkbox.checked);
-      revealButton.style.display = allChecked ? 'block' : 'none';
+      // Open the new window at a random position
+      window.open(this.getAttribute('data-url'), '_blank', `width=600,height=400,left=${leftPosition},top=${topPosition}`);
+      
+      // Check if all items are struck through to display the button
+      const allStruckThrough = Array.from(linkItems).every(item => item.classList.contains('struck-through'));
+      revealButton.style.display = allStruckThrough ? 'block' : 'none';
     });
   });
 </script>
 
 </body>
 </html>
+

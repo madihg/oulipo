@@ -5,7 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Draggable Images</title>
-    <link rel="stylesheet" href="style.css">
+        <style>
+        body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('https://static.vecteezy.com/system/resources/previews/004/677/707/original/a-illustration-in-a-black-color-and-a-white-background-of-a-burning-fire-creative-hand-drawing-graphic-free-vector.jpg');
+        background-size: cover; /* Cover the entire page */
+        background-position: center; /* Center the background image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+    }
+    
+    #imageContainer {
+        position: relative; /* Required for absolute positioning of children */
+    }
+    
+    .draggable {
+        cursor: grab;
+        position: absolute; /* Stack images */
+        transition: transform 0.2s; /* Smooth transition for repositioning */
+        max-width: 400px;
+        min-width: 200px;
+    }
+    </style>
 </head>
 
 <body>

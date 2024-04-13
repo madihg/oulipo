@@ -46,6 +46,6 @@ document.getElementById('openPageBtn').addEventListener('click', function() {
     window.open('https://www.oulipo.xyz/Canvas/Cluster 1/qrcode.html', '_blank', 'width=600,height=400,left=200,top=200,toolbar=no,scrollbars=no,resizable=yes');
 
     // Opens the second link in a new window or tab
-    window.open('https://www.oulipo.xyz/where-is-home-for-you/index.html', '_blank', 'width=600,height=400,left=250,top=250,toolbar=no,scrollbars=no,resizable=yes');
+    window.open('https://www.oulipo.xyz/where-is-home-for-you/index.html', '_blank', 'width=800,height=800,left=250,top=250,toolbar=no,scrollbars=no,resizable=yes');
 });
 

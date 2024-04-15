@@ -43,17 +43,13 @@
 
 <script>
 
-    // Add hover event listener to each word
-    document.querySelectorAll('.word').forEach((wordElement) => {
-        const wordText = wordElement.textContent.replace(/[.,!?]/g, ''); // Remove punctuation
+    document.querySelectorAll('.word').forEach(wordElement => {
         wordElement.addEventListener('mouseover', function() {
-            if (!text2Set.has(wordText) || (text2Frequency[wordText] && text2Frequency[wordText] <= 0)) {
-                wordElement.classList.add('disappear');
-            } else {
-                text2Frequency[wordText]--;
-            }
+            // Apply the disappear class to make the word vanish
+            wordElement.classList.add('disappear');
         });
     });
+
 </script>
 
 

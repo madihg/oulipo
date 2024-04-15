@@ -42,15 +42,6 @@
     
 
 <script>
-    // Define Text 2 as an array
-    const text2Words = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
-    const text2Set = new Set(text2Words);
-    
-    // Create a mapping to track the frequency of each word in Text 2
-    const text2Frequency = {};
-    text2Words.forEach(word => {
-        text2Frequency[word] = (text2Frequency[word] || 0) + 1;
-    });
 
     // Add hover event listener to each word
     document.querySelectorAll('.word').forEach((wordElement) => {

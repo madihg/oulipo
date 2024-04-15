@@ -43,22 +43,33 @@
 
 <script>
     // Specific words in the exact order and occurrence
-    const text2Words = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
-    let currentIndex = 0;
+    const targetWords = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
+    const targetIndices = [];
+    let indexCounter = 0;
 
-    document.querySelectorAll('.word').forEach((wordElement) => {
+    document.querySelectorAll('.word').forEach((wordElement, index) => {
+        const wordText = wordElement.textContent.trim();
+
+        // Check if the current word is in the target list at the correct position
+        if (wordText === targetWords[indexCounter]) {
+            targetIndices.push(index);  // Mark this index as a target that should not disappear
+            indexCounter++;  // Only move to the next target word after a match
+        }
+    });
+
+    document.querySelectorAll('.word').forEach((wordElement, index) => {
         wordElement.addEventListener('mouseover', function() {
-            const wordText = wordElement.textContent.trim();
-            if (wordText === 'disappeared') {
-                wordElement.textContent = 'disappear'; // Change "disappeared" to "disappear" on hover
-            } else if (wordText !== text2Words[currentIndex] || currentIndex >= text2Words.length) {
-                wordElement.classList.add('disappear'); // Make the word disappear if it's not the next in the list
-            } else {
-                currentIndex++; // Move to the next expected word
+            if (!targetIndices.includes(index)) {  // If the index of this word is not a target, hide it
+                if (wordElement.textContent.trim() === 'disappeared') {
+                    wordElement.textContent = 'disappear';  // Change "disappeared" to "disappear"
+                } else {
+                    wordElement.classList.add('disappear');
+                }
             }
         });
     });
 </script>
+
 
 </body>
 </html>

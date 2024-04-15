@@ -37,17 +37,24 @@
         <span class="word">better</span> <span class="word">connection</span> <span class="word">happens</span><br><br>
     
         <span class="word">I</span> <span class="word">know</span> <span class="word">staying</span> <span class="word">silent</span> <span class="word">isn't</span> <span class="word">cool</span><br>
-        <span class="word">but</span> <span class="word">just</span> <span class="word">a</span> <span class="word">thought</span>
+        <span class="word">but</span> <span class="word">just</span> <span the "word">a</span> <span class="word">thought</span>
     </div>
     
 
 <script>
-    const keepWords = new Set(['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent']);
+    // Specific words in the exact order and occurrence
+    const text2Words = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
+    let currentIndex = 0;
 
     document.querySelectorAll('.word').forEach((wordElement) => {
         wordElement.addEventListener('mouseover', function() {
-            if (!keepWords.has(wordElement.textContent.trim())) {
-                wordElement.classList.add('disappear');
+            const wordText = wordElement.textContent.trim();
+            if (wordText === 'disappeared') {
+                wordElement.textContent = 'disappear'; // Change "disappeared" to "disappear" on hover
+            } else if (wordText !== text2Words[currentIndex] || currentIndex >= text2Words.length) {
+                wordElement.classList.add('disappear'); // Make the word disappear if it's not the next in the list
+            } else {
+                currentIndex++; // Move to the next expected word
             }
         });
     });
@@ -55,4 +62,3 @@
 
 </body>
 </html>
-

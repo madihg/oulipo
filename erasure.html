@@ -42,24 +42,12 @@
     
 
 <script>
-    // Define Text 2 as an array
-    const text2Words = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
-    const text2Set = new Set(text2Words);
-    
-    // Create a mapping to track the frequency of each word in Text 2
-    const text2Frequency = {};
-    text2Words.forEach(word => {
-        text2Frequency[word] = (text2Frequency[word] || 0) + 1;
-    });
+    const keepWords = new Set(['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent']);
 
-    // Add hover event listener to each word
     document.querySelectorAll('.word').forEach((wordElement) => {
-        const wordText = wordElement.textContent.replace(/[.,!?]/g, ''); // Remove punctuation
         wordElement.addEventListener('mouseover', function() {
-            if (!text2Set.has(wordText) || (text2Frequency[wordText] && text2Frequency[wordText] <= 0)) {
+            if (!keepWords.has(wordElement.textContent.trim())) {
                 wordElement.classList.add('disappear');
-            } else {
-                text2Frequency[wordText]--;
             }
         });
     });
@@ -67,3 +55,4 @@
 
 </body>
 </html>
+

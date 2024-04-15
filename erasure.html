@@ -42,29 +42,24 @@
     
 
 <script>
-    // Specific words in the exact order and occurrence
-    const targetWords = [];
-    const targetIndices = [];
-    let indexCounter = 0;
-
-    document.querySelectorAll('.word').forEach((wordElement, index) => {
-        const wordText = wordElement.textContent.trim();
-
-        // Check if the current word is in the target list at the correct position
-        if (wordText === targetWords[indexCounter]) {
-            targetIndices.push(index);  // Mark this index as a target that should not disappear
-            indexCounter++;  // Only move to the next target word after a match
-        }
+    // Define Text 2 as an array
+    const text2Words = ['I', 'wish', 'you', 'would', 'disappear', 'Is', 'what', 'you', 'say', 'When', 'you', 'stay', 'silent'];
+    const text2Set = new Set(text2Words);
+    
+    // Create a mapping to track the frequency of each word in Text 2
+    const text2Frequency = {};
+    text2Words.forEach(word => {
+        text2Frequency[word] = (text2Frequency[word] || 0) + 1;
     });
 
-    document.querySelectorAll('.word').forEach((wordElement, index) => {
+    // Add hover event listener to each word
+    document.querySelectorAll('.word').forEach((wordElement) => {
+        const wordText = wordElement.textContent.replace(/[.,!?]/g, ''); // Remove punctuation
         wordElement.addEventListener('mouseover', function() {
-            if (!targetIndices.includes(index)) {  // If the index of this word is not a target, hide it
-                if (wordElement.textContent.trim() === 'disappeared') {
-                    wordElement.textContent = 'disappear';  // Change "disappeared" to "disappear"
-                } else {
-                    wordElement.classList.add('disappear');
-                }
+            if (!text2Set.has(wordText) || (text2Frequency[wordText] && text2Frequency[wordText] <= 0)) {
+                wordElement.classList.add('disappear');
+            } else {
+                text2Frequency[wordText]--;
             }
         });
     });

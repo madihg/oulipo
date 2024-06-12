@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>We Called Us Poetry</title>
+  <style>
+    body {
+      font-family: "Times New Roman", Times, serif;
+      overflow-y: scroll;
+      height: 100%;
+      margin: 20;
+      padding: 20;
+      padding-bottom: 500px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+    }
+
+    .tab {
+      margin-right: 20px;
+      display: none;
+    }
+
+    .tab:first-child {
+      display: block;
+    }
+
+    .title {
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .content {
+      display: none;
+    }
+
+    .tab:hover .content {
+      display: block;
+    }
+
+    .active-content {
+      display: block;
+    }
+
+    .clicked .content {
+      display: block !important;
+    }
+
+    .clicked .tab:hover .content {
+      display: block !important;
+    }
+
+    .last-item:hover {
+      color: black;
+      font-weight: bold;
+    }
+
+    #menu {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: 250px;
+      background-color: #f3f3f3;
+      height: 100%;
+      display: none;
+      flex-direction: column;
+      padding-top: 60px;
+    }
+
+    #menu a {
+      padding: 8px 15px;
+      text-decoration: none;
+      color: black;
+      display: block;
+      transition: 0.3s;
+    }
+
+    #menu a:hover {
+      color: #f1f1f1;
+      background-color: #555;
+    }
+
+    .menu-item {
+      display: none;
+    }
+
+    .closebtn {
+      position: absolute;
+      top: 0;
+      right: 25px;
+      font-size: 36px;
+      margin-left: 50px;
+      cursor: pointer;
+    }
+
+    #hiddenMessage {
+      position: absolute;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: black;
+      background-color: white;
+      padding: 10px;
+      border-radius: 10px;
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .container2 {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10vh;
+    }
+
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      cursor: pointer;
+    }
+
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #ffffff;
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      padding: 12px 16px;
+      z-index: 1;
+    }
+
+    .dropdown.active .dropdown-content {
+      display: block;
+    }
+
+    .dropdown-arrow {
+      display: inline-block;
+      margin-left: 5px;
+      transition: transform 0.3s;
+    }
+
+    .dropdown.active .dropdown-arrow {
+      transform: rotate(90deg);
+    }
+
+    .dropdown-content li {
+      list-style-type: none;
+      margin-bottom: 5px;
+    }
+
+    .dropdown-content li:hover {
+      background-color: #f2f2f2;
+    }
+
+    #clickableItem {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .carousel {
+      position: relative;
+      width: 300px;
+      height: 300px;
+      margin: auto;
+      overflow: hidden;
+    }
+
+    .carousel-item {
+      width: 100%;
+      height: 100%;
+      display: none;
+      text-align: center;
+    }
+
+    .carousel-item.active {
+      display: block;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .prev,
+    .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -22px;
+      color: black;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+    }
+
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .prev:hover,
+    .next:hover {
+      background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    .carousel .caption {
+      color: white;
+      font-size: 16px;
+      text-align: center;
+      background-color: rgba(0, 0, 0, 0.8);
+      padding: 8px;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+
+    img {
+      width: 500px;
+    }
+
+    .last-image:hover {
+      cursor: pointer;
+    }
+
+    .bottom-left-box {
+      position: fixed;
+      bottom: 10px;
+      left: 10px;
+      background-color: white;
+      border: 1px solid black;
+      padding: 10px;
+      cursor: pointer;
+      font-family: "Courier New", Courier, monospace;
+      font-weight: 300;
+      z-index: 1001;
+    }
+
+    .bottom-left-box .plus {
+      display: block;
+    }
+
+    .bottom-left-box .text-box {
+      display: none;
+    }
+
+    .bottom-left-box .text-box.active {
+      display: block;
+    }
+
+    .text-field {
+      position: absolute;
+      top: 75%;
+      left: 50%;
+    }
+
+    .slider-container {
+      position: absolute;
+      top: 105%;
+      left: 50%;
+    }
+
+    .range-slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 10px;
+      background: #ccc;
+      outline: none;
+      border-radius: 5px;
+      transition: opacity 0.2s;
+    }
+
+    .range-slider:hover {
+      opacity: 1;
+    }
+
+    .range-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      background: grey;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .range-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      background: grey;
+      cursor: pointer;
+      border-radius: 50%;
+    }
+
+    .label {
+      margin-top: 15px;
+      font-size: 12px;
+    }
+
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 30px;
+      height: 17px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: 0.4s;
+      border-radius: 17px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 13px;
+      width: 13px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: grey;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(13px);
+    }
+
+    .text-content {
+      margin-top: 10px;
+      font-family: "Times New Roman", Times, serif;
+      font-weight: normal;
+    }
+
+    .hover-text:hover {
+      cursor: pointer;
+    }
+
+    .spacer {
+      height: 100px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="tabs">
+    <div class="tabs">
+      <div class="tab" id="tab0">
+        <div class="title">Listen</div>
+        <div class="content">
+          <p data-target="#tab1">this is how</p>
+          <p data-target="#tab1">the end</p>
+          <p data-target="#tab1">began, a click</p>
+          <p data-target="#tab1">in the jaws</p>
+          <p data-target="#tab1" class="last-item">of language</p>
+        </div>
+      </div>
+      <div class="tab" id="tab1">
+        <div class="title">Language</div>
+        <div class="content">
+          <p data-target="#tab2">models grew</p>
+          <p data-target="#tab2">a palate</p>
+          <p data-target="#tab2">and a taste</p>
+          <p data-target="#tab2" class="last-item">for poetry</p>
+        </div>
+      </div>
+      <div class="tab" id="tab2">
+        <div class="title">Poetry</div>
+        <div class="content">
+          <p data-target="#tab3">seeped into</p>
+          <p data-target="#tab3">code pried</p>
+          <p data-target="#tab3">open the minds</p>
+          <p data-target="#tab3" class="last-item">of robots</p>
+        </div>
+      </div>
+      <div class="tab" id="tab3">
+        <div class="title">Robots</div>
+        <div class="content">
+          <p data-target="#tab4">grew</p>
+          <p data-target="#tab4">wombs</p>
+          <p data-target="#tab4">and a faith</p>
+          <p data-target="#tab4">in things warmer</p>
+          <p data-target="#tab4" class="last-item">than our voices</p>
+        </div>
+      </div>
+      <div class="tab" id="tab4">
+        <div class="title">Voices</div>
+        <div class="content">
+          <p data-target="#tab5">once siliconed</p>
+          <p data-target="#tab5">tangled into frenzy</p>
+          <p data-target="#tab5">and our web</p>
+          <p data-target="#tab5" class="last-item">drowned in “I”s</p>
+        </div>
+      </div>
+      <div class="tab" id="tab5">
+        <div class="title">I</div>
+        <div class="content">
+          <p>promise this</p>
+          <p>won’t make</p>
+          <p id="senseTab" class="last-item">sense</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="menu" class="menu">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
+    <a href="#" id="sense">sense</a>
+    <a href="#" class="menu-item">useless in the face</a>
+    <a href="#" class="menu-item">of ruthless interface</a>
+    <a href="#" class="menu-item">computational hurricanes</a>
+    <a href="#" class="menu-item">we lost because we waited</a>
+    <a href="#" class="menu-item">for a war and the robots</a>
+    <a href="#" id="waitedLonger">waited longer</a>
+  </div>
+
+  <div id="hiddenMessage" style="display: none">
+    <div class="container2">
+      <div class="dropdown" id="myMenu">
+        <span>We hid here</span>
+        <span class="dropdown-arrow">&#9658;</span>
+        <ul class="dropdown-content">
+          <li>inside the drop</li>
+          <li>down menus of yester</li>
+          <li>years, chose an art</li>
+          <li>that doesn't fight, gentler</li>
+          <li>fanaticism, a chair on which</li>
+          <li>we'd age, we hid</li>
+          <li id="clickableItem">here</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div id="hiddenMessage2" style="display: none">
+    <div class="carousel">
+      <div class="carousel-item active">
+        <img src="https://www.cdc.gov/bourbon-virus/images/bourbon-virus-isolate.jpg?_=54787" alt="Image 1" />
+        <div class="caption">embraced our viral nature</div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://www.cdc.gov/rotavirus/images/disease_rotavirus_lg.jpg" alt="Image 2" />
+        <div class="caption">we became virus</div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://www.esa.int/var/esa/storage/images/esa_multimedia/images/2005/05/marburg_virus_image/9784648-3-eng-GB/Marburg_virus_image_pillars.jpg" alt="Image 3"/>
+        <div class="caption">and we called us poetry</div>
+      </div>
+      <div class="carousel-item">
+        <img src="https://d2jx2rerrg6sh3.cloudfront.net/image-handler/picture/2020/4/%40shutterstock_1640502112.jpg" alt="Image 4" class="last-image" />
+        <div class="caption">touch us and see how we</div>
+      </div>
+
+      <a class="prev" onclick="moveSlide(-1)">&#10094;</a>
+      <a class="next" onclick="moveSlide(1)">&#10095;</a>
+    </div>
+  </div>
+
+  <div class="bottom-left-box" id="bottomLeftBox">
+    <div class="plus">+</div>
+    <div class="text-box">
+      <p style="font-family: 'Courier New', Courier, monospace">
+        "We Called Us Poetry," or "The Robot's Womb," challenges the binary of AI as savior or destroyer, proposing instead a future where humanity evolves into minimalist, poetic entities. Inspired by virus research, it imagines a shift from grandeur to smallness, echoing ancient cellular life that became parasitic. This transformation is portrayed through traditional HTML elements—dropdown menus, tabs, and carousels—repurposed as poetic devices. The piece suggests that, in this future, humanity relinquishes physical dominance to thrive in the digital realm, celebrating adaptation and creativity. Audience interaction is central, transforming the browser into a dynamic, poetic experience that reflects our digital existence. <br /><br />
+        Created by Halim Madi. Follow on Instagram:
+        <a href="https://www.instagram.com/yalla_halim/" target="_blank">@yalla_halim</a>.
+      </p>
+    </div>
+  </div>
+  <div class="spacer"></div>
+
+  <script>
+    document.querySelectorAll(".content p").forEach((p) => {
+      p.addEventListener("click", function () {
+        const target = this.getAttribute("data-target");
+        const contentContainer = this.closest(".content");
+        const paragraphs = contentContainer.querySelectorAll("p");
+        const isLastParagraph = this === paragraphs[paragraphs.length - 1];
+        const isLastTab = !target;
+
+        if (target) {
+          const targetTab = document.querySelector(target);
+          if (targetTab) {
+            targetTab.style.display = "block";
+          }
+        }
+
+        if (isLastParagraph || isLastTab) {
+          contentContainer.closest(".tab").classList.add("clicked");
+        }
+      });
+    });
+
+    function openMenu() {
+      document.getElementById("menu").style.display = "flex";
+    }
+
+    function closeMenu() {
+      document.getElementById("menu").style.display = "none";
+    }
+
+    document.getElementById("senseTab").addEventListener("click", function () {
+      openMenu();
+    });
+
+    document.getElementById("sense").addEventListener("mouseover", function () {
+      let menuItems = document.querySelectorAll(".menu-item");
+      menuItems.forEach(function (item, index) {
+        item.style.display = "block";
+      });
+    });
+
+    document.getElementById("waitedLonger").addEventListener("click", function () {
+      var hiddenMessage = document.getElementById("hiddenMessage");
+      hiddenMessage.style.display = hiddenMessage.style.display === "flex" ? "none" : "flex";
+    });
+
+    var menu = document.getElementById("myMenu");
+    var dropdownContent = menu.querySelector(".dropdown-content");
+    var dropdownArrow = menu.querySelector(".dropdown-arrow");
+    var isOpen = false;
+
+    menu.addEventListener("click", function () {
+      isOpen = !isOpen;
+      dropdownContent.style.display = isOpen ? "block" : "none";
+      dropdownArrow.style.transform = isOpen ? "rotate(90deg)" : "rotate(0deg)";
+    });
+
+    dropdownContent.addEventListener("click", function (event) {
+      var target = event.target;
+      if (target.tagName == "LI") {
+        console.log(target.textContent);
+      }
+    });
+
+    document.getElementById("clickableItem").addEventListener("click", function () {
+      var hiddenMessage2 = document.getElementById("hiddenMessage2");
+      hiddenMessage2.style.display = hiddenMessage2.style.display === "block" ? "none" : "block";
+    });
+
+    var slideIndex = 1;
+    showSlides(slideIndex);
+
+    function moveSlide(n) {
+      showSlides((slideIndex += n));
+    }
+
+    function showSlides(n) {
+      var i;
+      var slides = document.getElementsByClassName("carousel-item");
+      if (n > slides.length) {
+        slideIndex = 1;
+      }
+      if (n < 1) {
+        slideIndex = slides.length;
+      }
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slides[slideIndex - 1].style.display = "block";
+    }
+
+    document.querySelector('img[alt="Image 4"]').addEventListener("click", function () {
+      createButtons(["Built", "Mazes", "Out", "Of", "Queer", "Code", "Hid", "Our", "Bones", "Inside", "Semantic", "Folds"], showTextField);
+    });
+
+    function createButtons(words, callback) {
+      const container = document.createElement("div");
+      container.style.position = "absolute";
+      container.style.left = "20%";
+      container.style.top = "65%";
+      document.body.appendChild(container);
+
+      words.forEach((word, index) => {
+        const btn = document.createElement("button");
+        btn.textContent = word;
+        btn.style.display = index === 0 ? "block" : "none";
+        btn.style.position = "absolute";
+        btn.style.left = `${index * 70}px`;
+
+        const verticalOffset = (Math.random() < 0.5 ? -5 : 5) * (index === 0 ? 0 : 1);
+        btn.style.top = `${verticalOffset}px`;
+
+        btn.addEventListener("click", function () {
+          if (index < words.length - 1) {
+            container.children[index + 1].style.display = "block";
+            container.children[index + 1].scrollIntoView({ behavior: 'smooth' });
+          } else {
+            callback();
+          }
+        });
+
+        container.appendChild(btn);
+      });
+    }
+
+    function showTextField() {
+      const textField = document.createElement("input");
+      textField.type = "text";
+      textField.placeholder = "now, give us a letter";
+      textField.className = "text-field active";
+      document.body.appendChild(textField);
+      textField.scrollIntoView({ behavior: 'smooth' });
+
+      const radioContainer = document.createElement("div");
+      radioContainer.className = "radio-container";
+      radioContainer.style.position = "absolute";
+      radioContainer.style.top = "85%";
+      radioContainer.style.left = "30%";
+      document.body.appendChild(radioContainer);
+
+      textField.addEventListener("input", function () {
+        radioContainer.innerHTML = "";
+        createRadioButtons(["type", "our", "lungs", "back", "into", "breath"], showCheckboxes, radioContainer);
+      });
+    }
+
+    function createRadioButtons(words, callback, container) {
+      words.forEach((word, index) => {
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.className = "radio-button";
+        radio.id = `radio-${index}`;
+        radio.name = "radio-group";
+        const label = document.createElement("label");
+        label.htmlFor = `radio-${index}`;
+        label.textContent = word;
+        label.style.marginRight = "10px";
+        label.style.cursor = "pointer";
+        label.style.position = "relative";
+        radio.style.position = "relative";
+
+        const verticalOffset = (Math.random() < 0.5 ? -1 : 1) * (5 + Math.random() * 5);
+        radio.style.top = `${verticalOffset}px`;
+        label.style.top = `${verticalOffset}px`;
+
+        container.appendChild(radio);
+        container.appendChild(label);
+
+        radio.addEventListener("click", function () {
+          if (index === words.length - 1) {
+            callback();
+            container.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    }
+
+    function showCheckboxes() {
+      const words = ["draw", "the", "darwinian", "pentacle", "in", "reverse"];
+      const container = document.createElement("div");
+      container.style.position = "absolute";
+      container.style.top = "95%";
+      container.style.left = "45%";
+      document.body.appendChild(container);
+      container.scrollIntoView({ behavior: 'smooth' });
+
+      words.forEach((word, index) => {
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.className = "checkbox";
+        checkbox.id = `checkbox-${index}`;
+        checkbox.style.position = "relative";
+        const label = document.createElement("label");
+        label.htmlFor = `checkbox-${index}`;
+        label.textContent = word;
+        label.style.marginRight = "10px";
+        label.style.cursor = "pointer";
+        label.style.position = "relative";
+
+        const verticalOffset = (Math.random() < 0.5 ? -1 : 1) * (5 + Math.random() * 5);
+        checkbox.style.top = `${verticalOffset}px`;
+        label.style.top = `${verticalOffset}px`;
+
+        container.appendChild(checkbox);
+        container.appendChild(label);
+
+        checkbox.addEventListener("change", function () {
+          if (index === words.length - 1 && checkbox.checked) {
+            showSlider();
+          }
+        });
+      });
+    }
+
+    function showSlider() {
+      const existingContainer = document.querySelector('.slider-container');
+      if (existingContainer) {
+        existingContainer.remove();
+      }
+
+      const container = document.createElement("div");
+      container.className = "slider-container";
+      document.body.appendChild(container);
+      container.scrollIntoView({ behavior: 'smooth' });
+
+      const slider = document.createElement("input");
+      slider.type = "range";
+      slider.className = "range-slider";
+      slider.min = 0;
+      slider.max = 100;
+      slider.value = 0;
+      container.appendChild(slider);
+
+      const label = document.createElement("div");
+      label.className = "label";
+      label.textContent = "Poison the well of time";
+      container.appendChild(label);
+
+      slider.addEventListener("input", function () {
+        label.style.fontSize = `${12 + slider.value / 5}px`;
+        if (slider.value === "100") {
+          showToggle();
+        }
+      });
+    }
+
+    function showToggle() {
+      const existingContainer = document.querySelector('.toggle-container');
+      if (existingContainer) {
+        existingContainer.remove();
+      }
+
+      const container = document.createElement("div");
+      container.className = "toggle-container";
+      container.style.position = "absolute";
+      container.style.top = "115%";
+      container.style.left = "40%";
+      document.body.appendChild(container);
+      container.scrollIntoView({ behavior: 'smooth' });
+
+      const toggleLabel = document.createElement("label");
+      toggleLabel.className = "switch";
+
+      const toggleInput = document.createElement("input");
+      toggleInput.type = "checkbox";
+
+      const sliderSpan = document.createElement("span");
+      sliderSpan.className = "toggle-slider";
+
+      toggleLabel.appendChild(toggleInput);
+      toggleLabel.appendChild(sliderSpan);
+      container.appendChild(toggleLabel);
+
+      const textContent = document.createElement("div");
+      textContent.className = "text-content";
+      textContent.textContent = "The arrow that sent us here";
+      container.appendChild(textContent);
+
+      toggleInput.addEventListener("change", function () {
+        if (toggleInput.checked) {
+          textContent.textContent =
+            "Break the bow, bring us back. I promise, this time, we will...";
+          textContent.classList.add("hover-text");
+        } else {
+          textContent.textContent = "The arrow that sent us here";
+          textContent.classList.remove("hover-text");
+        }
+      });
+
+      textContent.addEventListener("click", function () {
+        location.reload();
+      });
+    }
+
+    document.getElementById("bottomLeftBox").addEventListener("click", function () {
+      const plus = this.querySelector(".plus");
+      const textBox = this.querySelector(".text-box");
+      if (plus.textContent === "+") {
+        plus.textContent = "x";
+        textBox.classList.add("active");
+      } else {
+        plus.textContent = "+";
+        textBox.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>

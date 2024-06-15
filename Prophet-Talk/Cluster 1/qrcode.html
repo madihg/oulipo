@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Image</title>
+    <style>
+        /* Ensures the body takes the full viewport height */
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center; /* Centers the image horizontally */
+            align-items: center; /* Centers the image vertically */
+        }
+        /* Styles for the image */
+        .centered-image {
+            max-width: 100%; /* Makes image responsive */
+            height: auto; /* Maintains aspect ratio */
+            border: 0; /* Optional: removes default border */
+        }
+    </style>
+</head>
+<body>
+
+<img src="https://www.oulipo.xyz/Canvas/assets/qrcode.png" alt="Descriptive Image Text" class="centered-image" width="800"> <!-- Adjust the width value as needed -->
+
+</body>
+</html>

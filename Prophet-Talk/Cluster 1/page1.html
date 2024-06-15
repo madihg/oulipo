@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First flight</title>
+<style>
+    body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('https://img.freepik.com/premium-vector/doodle-black-white-gift-box-outline-cartoon-package-with-present-bow-delivery-valentine-parcel_448971-461.jpg');
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+}
+
+#imageContainer {
+    position: relative; /* Required for absolute positioning of children */
+}
+
+.draggable {
+    cursor: grab;
+    position: absolute; /* Stack images */
+    transition: transform 0.2s; /* Smooth transition for repositioning */
+    max-width: 400px;
+    min-width: 200px;
+}
+.draggableButton {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    transition: none; /* Ensure no size transition on focus */
+}
+
+/* Optionally, reset any :active or :focus styles that might cause size changes */
+.draggableButton:active, .draggableButton:focus {
+    transform: none;
+}
+</style>
+</head>
+<body>
+    <div id="imageContainer">
+        <button id="openPageBtn" class="draggableButton">Orpheus sings</button>
+        <img src="https://hannahfielding.net/wp-content/uploads/2018/03/Frederic_Leighton.jpg" class="draggable" alt="Frederic Leighton" draggable="false">
+        <img src="https://em-content.zobj.net/source/apple/391/fire_1f525.png" class="draggable" alt="Fire Emoji 3" draggable="false">
+        <img src="https://em-content.zobj.net/source/apple/391/fire_1f525.png" class="draggable" alt="Fire Emoji 2" draggable="false">
+        <img src="https://em-content.zobj.net/source/apple/391/fire_1f525.png" class="draggable" alt="Fire Emoji 1" draggable="false">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Kratzenstein_orpheus.jpg/220px-Kratzenstein_orpheus.jpg" class="draggable" alt="Kratzenstein Orpheus" draggable="false" width="500">
+        <img src="https://www.arasale.com/secure/ml/miss2004.jpg" class="draggable" alt="miss lebanon" draggable="false" width="500">
+        <img src="https://s.lorientlejour.com/storage/attachments/1341/airportcopy_590545_666851_556627_655815.jpg/r/800/airportcopy_590545_666851_556627_655815.jpg" class="draggable" alt="Airport Image" draggable="false">
+        <img src="https://www.balkanphila.com/wp-content/uploads/2023/04/B25387.jpg" class="draggable" alt="Balkanphila Stamp" draggable="false">        
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draggable Images</title>
+        <style>
+        body, html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url('https://st2.depositphotos.com/1141522/5301/v/450/depositphotos_53014093-stock-illustration-stack-of-white-papers-hand.jpg');
+        background-size: cover; /* Cover the entire page */
+        background-position: center; /* Center the background image */
+        background-repeat: no-repeat; /* Do not repeat the image */
+    }
+    h1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px; /* Add a little space from the edges */
+}
+    #imageContainer {
+        position: relative; /* Required for absolute positioning of children */
+    }
+    
+    .draggable {
+        cursor: grab;
+        position: absolute; /* Stack images */
+        transition: transform 0.2s; /* Smooth transition for repositioning */
+        max-width: 400px;
+        min-width: 200px;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="imageContainer">
+        <img src="https://www.oulipo.xyz/Canvas/assets/installation4.png" class="draggable" alt="Installation 4" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/installation3.png" class="draggable" alt="Installation 3" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/installation2.png" class="draggable" alt="Installation 2" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/installation1.png" class="draggable" alt="Installation 1" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/brazil.png" class="draggable" alt="Brazil" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/peru.png" class="draggable" alt="Peru" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/japan.png" class="draggable" alt="Japan" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/france.png" class="draggable" alt="France" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/passport.png" class="draggable" alt="Passport" draggable="false">
+        <img src="https://www.oulipo.xyz/Canvas/assets/khalo.png" class="draggable" alt="khalo" draggable="false">
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

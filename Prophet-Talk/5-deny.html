@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deny</title>
+<style>
+  body {
+    overflow: hidden;
+    position: relative;
+    height: 100vh;
+  }
+  .question-box, .no-checkbox-label {
+    position: absolute;
+    z-index: 2; /* Questions above checkboxes */
+    transition: top 2s ease-out, left 2s ease-out; /* Smooth transition for both top and left properties */
+  }
+  .question-box {
+    width: 200px; /* Adjust value as needed */
+    height: 110px; /* Same value as width for square */
+    border: 1px solid #000;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  .no-checkbox-label {
+    z-index: 1; /* Ensure checkboxes are behind the questions */
+  }
+  #proceedButton {
+    background-color: green; /* Set background color to green */
+    color: white; /* Set text color to white */
+    font-weight: bold; /* Make the text bold */
+    /* Other styles from your original code */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    display: none;
+    z-index: 3;
+  }
+  .code-text {
+    font-family: "Courier New", monospace; /* Gives a code-like appearance */
+    position: fixed; /* Positions the div relative to the nearest positioned ancestor */
+    top: 10px; /* Aligns the top edge of the element with the top edge of its nearest positioned ancestor */
+    left: 10px; /* Aligns the left edge of the element with the left edge of its nearest positioned ancestor */
+    z-index: 10;
+    border: 1px solid black; /* Adds a thin black border */
+    padding: 10px; /* Adds space between the text and the border */
+    margin: 10px; /* Adds space outside the border */
+    background-color: white;
+  }
+</style>
+</head>
+<body>
+    <div class="code-text">Step 1 of 3: Deny.<br>"No" your way<br>to conformity</div>
+<script>
+  const questions = [
+  "Have you ever been a member or served in an insurgent organization (a group that uses weapons and fights against a government)?",
+  "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any prison or jail?",
+  "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any prison camp?",
+  "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any detention facility?",
+  "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any labor camp?",
+  "Have you ever been a worker, volunteer, or soldier, or did you otherwise ever serve in any other place where people were forced to stay?",
+  "Have you ever been part of any group, or did you ever help any group, unit, or organization that used a weapon against any person or threatened to do so?",
+  "When you were part of or helped this group, did you ever use a weapon against another person?",
+  "When you were part of or helped this group, did you ever tell another person that they would use a weapon against that person?",
+  "Have you ever sold, given, or provided weapons to any person, or help another person sell, give, or provide weapons to any person?",
+  "Did you know that this person was going to use the weapons against another person?",
+  "Did you know that this person was going to sell or give the weapons to someone who was going to use them against another person?",
+  "Have you ever received any type of military, paramilitary (a group of people who act like a military group but are not part of the official military), or weapons training?",
+  "Did you ever recruit (ask), enlist (sign up), conscript (require), or use any person under age 15 to serve in or help an armed force or group?",
+  "Did you ever use any person under age 15 to do anything that helped or supported people in combat?",
+  "Have you ever committed, assisted in committing, or attempted to commit a crime or offense for which you were not arrested?",
+  "Have you ever been arrested, cited, or detained by any law enforcement officer (including any and all immigration officials or the U.S. Armed Forces) for any reason?",
+  // Add all other questions here in a similar format
+  ];
+
+  function createQuestionElements() {
+    questions.forEach((question, index) => {
+      const questionBox = document.createElement('div');
+      questionBox.classList.add('question-box');
+      questionBox.textContent = question;
+      questionBox.style.top = `${Math.random() * (window.innerHeight - 20)}px`;
+      questionBox.style.left = `${Math.random() * (window.innerWidth - 20)}px`;
+
+      document.body.appendChild(questionBox);
+    });
+  }
+
+  function createCheckboxes() {
+    for (let i = 0; i < 5; i++) {
+      const label = document.createElement('label');
+      label.classList.add('no-checkbox-label');
+      label.style.top = `${Math.random() * (window.innerHeight - 20)}px`;
+      label.style.left = `${Math.random() * (window.innerWidth - 20)}px`;
+
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.onchange = checkAllChecked;
+
+      const text = document.createTextNode(' No');
+
+      label.appendChild(checkbox);
+      label.appendChild(text);
+
+      document.body.appendChild(label);
+    }
+  }
+
+  function floatElements(selector, interval) {
+    setInterval(() => {
+      document.querySelectorAll(selector).forEach(element => {
+        element.style.top = `${Math.random() * (window.innerHeight - element.offsetHeight)}px`;
+        element.style.left = `${Math.random() * (window.innerWidth - element.offsetWidth)}px`;
+      });
+    }, interval);
+  }
+
+  function checkAllChecked() {
+    const allChecked = [...document.querySelectorAll('input[type="checkbox"]')].every(checkbox => checkbox.checked);
+    if (allChecked) {
+      document.getElementById('proceedButton').style.display = 'block';
+    }
+  }
+
+  function openNewPage() {
+    // Specify the URL of the page you want to open
+    window.open('https://www.oulipo.xyz/borderline-reach.html', '_blank');
+  }
+
+  window.onload = () => {
+    createQuestionElements();
+    createCheckboxes();
+    const proceedButton = document.createElement('button');
+    proceedButton.id = 'proceedButton';
+    proceedButton.textContent = 'Good, you may proceed';
+    proceedButton.onclick = openNewPage; // Add event listener for click
+    document.body.appendChild(proceedButton);
+    floatElements('.question-box', 2000); // Adjust interval as needed
+    floatElements('.no-checkbox-label', 3000); // Adjust interval as needed
+  };
+</script>
+</body>
+</html>

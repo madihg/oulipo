@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home Exploration with Links</title>
+<style>
+  body {
+    padding: 20px;
+  }
+  .link-item {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    transition: color 0.5s ease;
+  }
+  .struck-through {
+    text-decoration: line-through;
+    color: grey;
+  }
+  #revealButton {
+    display: none;
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<h1>Where is home for you?</h1>
+<div id="linkContainer">
+  <div class="link-item" data-url="https://map-your-journey.glitch.me/">born on a map</div>
+  <div class="link-item">the animal that changes</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/Canvas/Cluster 1/page2.html" onclick="window.open('https://www.oulipo.xyz/borderline-deny.html', 'newWindow', 'width=800,height=600,left=100,top=100')">denies</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/impossible.html" onclick="window.open('https://www.oulipo.xyz/borderline-erase.html', 'newWindow', 'width=800,height=600,left=100,top=100')">erases</div>
+  <div class="link-item" data-url="https://www.oulipo.xyz/Canvas/Cluster 1/page3.html" onclick="window.open('https://www.oulipo.xyz/borderline-reach.html', 'newWindow', 'width=800,height=600,left=100,top=100')">reaches</div>
+  <div class="link-item">through</div>
+</div>
+
+<script>
+  const linkItems = document.querySelectorAll('.link-item');
+
+  linkItems.forEach(item => {
+    item.addEventListener('click', function() {
+      // Apply strike-through styling
+      this.classList.add('struck-through');
+
+      // Only open a new window if a URL is specified
+      if (this.getAttribute('data-url')) {
+        // Generate random positions for the new window
+        const leftPosition = Math.floor(Math.random() * window.screen.width);
+        const topPosition = Math.floor(Math.random() * window.screen.height);
+
+        // Open the new window at a random position
+        window.open(this.getAttribute('data-url'), '_blank', `width=600,height=600,right=150,top=150`);
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
+
+

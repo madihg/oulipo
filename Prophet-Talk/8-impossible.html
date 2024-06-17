@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Exhibit A</title>
+
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* To avoid scrollbars due to movement */
+        }
+        
+        .text {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 24px;
+        }
+        
+        #textA {
+            right: 10%; /* Adjust as needed */
+        }
+        
+        #textB {
+            left: 10%; /* Adjust as needed */
+        }
+        
+        span {
+            display: inline-block;
+            margin: 2px;
+            position: relative; /* For movement */
+            cursor: pointer;
+        }
+        
+    </style>
+
+</head>
+<body>
+    <div id="textA" class="text">
+        <span>صفحة</span> <span>مبللة</span> <span>بالكلمات</span> <span>الهواء</span> <span>لا</span> <span>يحملها</span> <span>ثقيلة</span> <span>مثل</span> <span>العقل</span>
+    </div>
+    <div id="textB" class="text">
+        <span>a</span> <span>page</span> <span>drenched</span> <span>in</span> <span>words</span> <span>air</span> <span>won't</span> <span>carry</span> <span>heavy</span> <span>like</span> <span>mind</span>
+    </div>
+    <script>
+        const textA = document.getElementById('textA');
+        const textB = document.getElementById('textB');
+        
+        document.addEventListener('mousemove', () => {
+            moveWords();
+        });
+        
+        function moveWords() {
+            let textAChildren = textA.children;
+            let textBChildren = textB.children;
+        
+            Array.from(textAChildren).forEach(child => {
+                let currentTransform = parseFloat(child.getAttribute('data-transform') || 0);
+                child.style.transform = `translateX(${currentTransform - 1}px)`; // Move to the left
+                child.setAttribute('data-transform', currentTransform - 1);
+            });
+        
+            Array.from(textBChildren).forEach(child => {
+                let currentTransform = parseFloat(child.getAttribute('data-transform') || 0);
+                child.style.transform = `translateX(${currentTransform + 1}px)`; // Move to the right
+                child.setAttribute('data-transform', currentTransform + 1);
+            });
+        }
+        
+    </script>
+</body>
+</html>

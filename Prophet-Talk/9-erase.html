@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Continuous Movement</title>
+    <style>
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            font-family: "Times New Roman", serif;
+            /* Updated line */
+        }
+
+        .word {
+            position: absolute;
+            cursor: pointer;
+            font-size: 24px;
+            opacity: 1;
+            transition: transform 0.1s linear;
+        }
+
+        .code-text {
+            font-family: "Courier New", monospace;
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            z-index: 10;
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            background-color: white;
+        }
+
+        #completionButton {
+            background-color: green;
+            color: white;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 16px;
+            display: none;
+            z-index: 3;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="code-text">Step 2 of 3: Erase.<br>Click your heritage<br>out of existence</div>
+    <div id="translationDisplay"
+        style="position: fixed; left: 0; top: 50%; transform: translateY(-50%); font-size: 24px; padding-left: 20px;">
+    </div>
+
+    <div id="container"></div>
+    <button id="completionButton" onclick="window.open('https://www.oulipo.xyz/borderline-wait.html', '_blank')">You
+        passed. Here are your papers</button>
+
+    <script>
+        const words = ["كلمة", "أمل", "حياة", "سلام", "محبة", "علم", "نور", "حرية", "قوة"];
+        const translations = {
+            "كلمة": "Word",
+            "أمل": "Hope",
+            "حياة": "Life",
+            "سلام": "Peace",
+            "محبة": "Love",
+            "علم": "Science",
+            "نور": "Light",
+            "حرية": "Freedom",
+            "قوة": "Strength"
+        };
+        const container = document.getElementById('container');
+        const completionButton = document.getElementById('completionButton');
+        const translationDisplay = document.getElementById('translationDisplay'); // Get the translation display element
+
+        function generateRandom(max, min = 0) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        words.forEach((word) => {
+            let dx = generateRandom(1, -1); // Slower horizontal speed
+            let dy = generateRandom(1, -1); // Slower vertical speed
+
+            const element = document.createElement('div');
+            element.classList.add('word');
+            element.textContent = word;
+            container.appendChild(element);
+            element.style.left = `${generateRandom(window.innerWidth - 100)}px`;
+            element.style.top = `${generateRandom(window.innerHeight - 20)}px`;
+
+            function moveWord() {
+                let x = element.offsetLeft + dx;
+                let y = element.offsetTop + dy;
+
+                // Reverse direction upon hitting the window boundary
+                if (x < 0 || x > window.innerWidth - element.offsetWidth) dx *= -1;
+                if (y < 0 || y > window.innerHeight - element.offsetHeight) dy *= -1;
+
+                element.style.left = x + 'px';
+                element.style.top = y + 'px';
+
+                requestAnimationFrame(moveWord);
+            }
+
+            moveWord();
+
+            element.addEventListener('click', () => {
+
+                translationDisplay.textContent = translations[word];
+                // Cancel continuous movement by removing the transform and transition
+                element.style.transition = 'opacity 2s ease';
+                element.style.opacity = '0';
+
+                setTimeout(() => {
+                    element.remove();
+                    if (!container.hasChildNodes()) {
+                        completionButton.style.display = 'block';
+                    }
+                }, 2000); // Wait for the fade-out transition before removal
+            });
+        });
+    </script>
+</body>
+
+</html>

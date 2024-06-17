@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reach</title>
+<style>
+  body {
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0; /* Remove default body margin */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Center content horizontally */
+    align-items: center; /* Center content vertically */
+  }
+  .background-square {
+    position: absolute;
+    width: 500px; /* Example size, adjust as needed */
+    height: 500px; /* Match width for a square */
+    background-color: white;
+    border: 2px solid black;
+    z-index: 1; /* Ensure it's behind most content but above the body background */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .more {
+    position: absolute; /* Maintain precise control over positioning */
+    font-size: 36px; /* Increase font size */
+    white-space: nowrap; /* Prevent "more" from wrapping */
+    z-index: 2;
+  }
+  .code-text {
+    font-family: "Courier New", monospace; /* Gives a code-like appearance */
+    position: fixed; /* Positions the div relative to the nearest positioned ancestor */
+    top: 10px; /* Aligns the top edge of the element with the top edge of its nearest positioned ancestor */
+    left: 10px; /* Aligns the left edge of the element with the left edge of its nearest positioned ancestor */
+    z-index: 10;
+    border: 1px solid black; /* Adds a thin black border */
+    padding: 10px; /* Adds space between the text and the border */
+    margin: 10px; /* Adds space outside the border */
+    background-color: white;
+  }
+  #proceedButton {
+    background-color: green; /* Set background color to green */
+    color: white; /* Set text color to white */
+    font-weight: bold; /* Make the text bold */
+    /* Other styles from your original code */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 20px;
+    font-size: 16px;
+    display: none;
+    z-index: 3;
+  }
+</style>
+</head>
+<body>
+    <div class="background-square"></div> <!-- Background square added -->
+    <div class="code-text">Step 3 of 3: Reach.<br>Paint the square with the<br>more-ness of your ambition</div>
+    <button id="proceedButton" onclick="window.open('https://www.oulipo.xyz/borderline-erase.html', '_blank')">Ok, ok, you may proceed</button>
+<script>
+  // Keep track of the used positions to avoid overlap
+  let occupiedPositions = {};
+  let moreCount = 0; // Initialize counter for "more" instances
+
+  const proceedButton = document.getElementById('proceedButton');
+
+  document.addEventListener('mousemove', (e) => {
+    if (moreCount >= 500) {
+      // Display the button when 200 or more "more" instances exist
+      proceedButton.style.display = 'block';
+      return; // Stop adding more instances after 200
+    }
+
+    const more = document.createElement('span');
+    more.className = 'more';
+    more.textContent = 'more';
+
+    // Adjust position to be within the closest non-occupied space
+    let adjustedX = e.pageX;
+    let adjustedY = e.pageY;
+    const key = `${adjustedX},${adjustedY}`;
+
+    if (!occupiedPositions[key]) {
+      more.style.left = `${adjustedX}px`;
+      more.style.top = `${adjustedY}px`;
+      document.body.appendChild(more);
+      occupiedPositions[key] = true;
+      moreCount++; // Increment counter for each unique "more"
+    }
+  });
+</script>
+
+</body>
+</html>

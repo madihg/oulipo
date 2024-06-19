@@ -44,10 +44,10 @@
     background-color: white;
   }
   #proceedButton {
-    background-color: green; /* Set background color to green */
-    color: white; /* Set text color to white */
-    font-weight: bold; /* Make the text bold */
-    /* Other styles from your original code */
+    font-family: "Courier New", monospace;
+    background-color: black;
+    color: white;
+    border: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -56,13 +56,17 @@
     font-size: 16px;
     display: none;
     z-index: 3;
+    cursor: pointer;
   }
+  #proceedButton:hover {
+        background-color: grey;
+      }
 </style>
 </head>
 <body>
     <div class="background-square"></div> <!-- Background square added -->
     <div class="code-text">Step 3 of 3: Reach.<br>Paint the square with the<br>more-ness of your ambition</div>
-    <button id="proceedButton" onclick="window.open('https://www.oulipo.xyz/borderline-erase.html', '_blank')">Ok, ok, you may proceed</button>
+    <button id="proceedButton" onclick="window.open('https://how-do-you-home.glitch.me/', '_blank')">Ok, ok, you may proceed</button>
 <script>
   // Keep track of the used positions to avoid overlap
   let occupiedPositions = {};

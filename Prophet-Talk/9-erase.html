@@ -35,9 +35,10 @@
         }
 
         #completionButton {
-            background-color: green;
+            font-family: "Courier New", monospace;
+            background-color: black;
             color: white;
-            font-weight: bold;
+            border: none;
             position: absolute;
             top: 50%;
             left: 50%;
@@ -46,6 +47,11 @@
             font-size: 16px;
             display: none;
             z-index: 3;
+            cursor: pointer;
+        }
+
+        #completionButton:hover {
+            background-color: grey;
         }
     </style>
 </head>
@@ -57,8 +63,8 @@
     </div>
 
     <div id="container"></div>
-    <button id="completionButton" onclick="window.open('https://www.oulipo.xyz/borderline-wait.html', '_blank')">You
-        passed. Here are your papers</button>
+    <button id="completionButton"
+        onclick="window.open('https://github.com/madihg/oulipo/blob/6474a551943e13fe3eb39c3838c92720f3608425/Prophet-Talk/10-gender-reveal.html', '_blank')">Erode</button>
 
     <script>
         const words = ["كلمة", "أمل", "حياة", "سلام", "محبة", "علم", "نور", "حرية", "قوة"];

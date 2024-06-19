@@ -34,21 +34,37 @@
         max-width: 400px;
         min-width: 200px;
     }
+    .draggableButton {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    border: none;
+    border-radius: 5px;
+    transition: none; /* Ensure no size transition on focus */
+}
+
+/* Optionally, reset any :active or :focus styles that might cause size changes */
+.draggableButton:active, .draggableButton:focus {
+    transform: none;
+}
     </style>
 </head>
 
 <body>
     <div id="imageContainer">
-        <img src="https://www.oulipo.xyz/Canvas/assets/installation4.png" class="draggable" alt="Installation 4" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/installation3.png" class="draggable" alt="Installation 3" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/installation2.png" class="draggable" alt="Installation 2" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/installation1.png" class="draggable" alt="Installation 1" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/brazil.png" class="draggable" alt="Brazil" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/peru.png" class="draggable" alt="Peru" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/japan.png" class="draggable" alt="Japan" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/france.png" class="draggable" alt="France" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/passport.png" class="draggable" alt="Passport" draggable="false">
-        <img src="https://www.oulipo.xyz/Canvas/assets/khalo.png" class="draggable" alt="khalo" draggable="false">
+        <button id="openPageBtn" class="draggableButton">Whomp sings</button>
+        <img src="Prophet-Talk/assets/ocean-vuong.jpg" class="draggable" alt="ocean-vuong" draggable="false">
+        <img src="Prophet-Talk/assets/audre-lorde.jpeg" class="draggable" alt="audre-lorde" draggable="false">
+        <img src="madihg/oulipo/Prophet-Talk/assets/gertrude-stein.jpeg" class="draggable" alt="gertrude-stein" draggable="false">
+        <img src="Prophet-Talk/assets/adrienne-rich.jpeg" class="draggable" alt="adrienne-rich" draggable="false">
+        <img src="Prophet-Talk/assets/walt_whitman.jpg" class="draggable" alt="walt-whitman" draggable="false">
+        <img src="Prophet-Talk/assets/marble-block.jpg" class="draggable" alt="marble-block" draggable="false">
+        <img src="Prophet-Talk/assets/invasions-kickstarter.png" class="draggable" alt="invasions-kickstarter" draggable="false">
+        <img src="Prophet-Talk/assets/invasions_inside.jpg" class="draggable" alt="invasions inside" draggable="false">
+        <img src="Prophet-Talk/assets/invasions-outside.jpg" class="draggable" alt="invasions outside" draggable="false">
     </div>
 
     <script>
@@ -97,11 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 document.getElementById('openPageBtn').addEventListener('click', function() {
-    // Opens the first link in a new window or tab
-    window.open('https://www.oulipo.xyz/Canvas/Cluster 1/qrcode.html', '_blank', 'width=600,height=800,right=100,top=200,toolbar=no,scrollbars=no,resizable=yes');
-
-    // Opens the second link in a new window or tab
-    window.open('https://www.oulipo.xyz/where-is-home-for-you/index.html', '_blank', 'width=600,height=400,left=250,top=250,toolbar=no,scrollbars=no,resizable=yes');
+    window.open('https://scam-ai-poet.vercel.app/', '_blank', 'width=600,height=800,right=100,top=200,toolbar=no,scrollbars=no,resizable=yes');
 });
 
 

@@ -26,10 +26,10 @@
     z-index: 1; /* Ensure checkboxes are behind the questions */
   }
   #proceedButton {
-    background-color: green; /* Set background color to green */
-    color: white; /* Set text color to white */
-    font-weight: bold; /* Make the text bold */
-    /* Other styles from your original code */
+    font-family: "Courier New", monospace;
+    background-color: black;
+    color: white;
+    border: none;
     position: absolute;
     top: 50%;
     left: 50%;
@@ -38,7 +38,12 @@
     font-size: 16px;
     display: none;
     z-index: 3;
+    cursor: pointer;
   }
+  #proceedButton:hover {
+        background-color: grey;
+      }
+  
   .code-text {
     font-family: "Courier New", monospace; /* Gives a code-like appearance */
     position: fixed; /* Positions the div relative to the nearest positioned ancestor */
@@ -126,7 +131,7 @@
 
   function openNewPage() {
     // Specify the URL of the page you want to open
-    window.open('https://www.oulipo.xyz/borderline-reach.html', '_blank');
+    window.open('https://www.redeclarations.com', '_blank');
   }
 
   window.onload = () => {
@@ -134,7 +139,7 @@
     createCheckboxes();
     const proceedButton = document.createElement('button');
     proceedButton.id = 'proceedButton';
-    proceedButton.textContent = 'Good, you may proceed';
+    proceedButton.textContent = 'Re / Claim';
     proceedButton.onclick = openNewPage; // Add event listener for click
     document.body.appendChild(proceedButton);
     floatElements('.question-box', 2000); // Adjust interval as needed

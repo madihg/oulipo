@@ -39,8 +39,6 @@
 <h1>Judgement / Day</h1>
 <button id="openWindowsBtn">Case Against the Son</button>
 
-
-
 <script>
   function openWindows() {
     const pages = [
@@ -48,7 +46,7 @@
       'childfree.html',
       'tally.html',  
       'sorry.html', 
-      'window-image.html',         
+      'window-image.html', 
     ];
 
     pages.forEach((page) => {
@@ -61,7 +59,7 @@
         const x = Math.floor(Math.random() * maxX);
         const y = Math.floor(Math.random() * maxY);
 
-        window.open(page, '', `width=${windowWidth},height=${windowHeight},left=${x},top=${y}`);
+        window.open(page, '_blank', `noopener,noreferrer,width=${windowWidth},height=${windowHeight},left=${x},top=${y}`);
     });
 }
 

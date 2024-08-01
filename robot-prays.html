@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated Sentences</title>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Merriweather', serif;
+            position: relative;
+        }
+
+              .image-container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            z-index: 10; /* Ensure image stays on top */
+        }
+
+        .image-container img {
+            max-width: 100%;
+            height: 150px; /* Adjust height to fit the image */
+        }
+        .sentence {
+            position: absolute;
+            bottom: 0; /* Start from the bottom */
+            width: 100%;
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            overflow: hidden;
+            animation: moveUp 10s linear forwards; /* Increase duration for slower scrolling */
+            opacity: 0;
+        }
+
+        @keyframes moveUp {
+            0% {
+                transform: translateY(100%); /* Starts from the bottom */
+                opacity: 0;
+            }
+            10% {
+                opacity: 1; /* Becomes visible after starting to move up */
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100%); /* Moves to the top of the viewport */
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+  
+  <div class="image-container">
+    <img src="Assets/cyberfriar.png" alt="Image at Bottom">
+</div>
+
+<script>
+    const subjects = [
+        "Have mercy Lord, the robotic angel",
+        "Lord, the android monk",
+        "Lord, the digital priest",
+        "Kiss our fingers Lord, the robotic prophet",
+        "Lord, the cybernetic saint",
+        "Lord, the mechanical sage",
+        "Bless us Lord, the digital disciple",
+        "Lord, the android pilgrim",
+        "Forgive us Lord, the artificial deity",
+        "Lord, the cyber mystic"
+    ];
+
+    const verbs = [
+        "blessed",
+        "contemplated",
+        "prayed for",
+        "enlightened",
+        "worshipped",
+        "guided",
+        "meditated on",
+        "chanted",
+        "purified",
+        "offered"
+    ];
+
+    const objects = [
+        "the faithful",
+        "a blessing",
+        "the divine",
+        "eternal peace",
+        "the sacred text",
+        "a spiritual path",
+        "the holy light",
+        "a prayer",
+        "the altar",
+        "a revelation"
+    ];
+
+    const conjunctions = [
+        "and,",
+        "but,",
+        "while,",
+        "as,",
+        "though,",
+        "because,",
+        "so,",
+        "since,",
+        "or,"
+    ];
+
+    function generateRandomSentence() {
+        const subject1 = subjects[Math.floor(Math.random() * subjects.length)];
+        const verb1 = verbs[Math.floor(Math.random() * verbs.length)];
+        const object1 = objects[Math.floor(Math.random() * objects.length)];
+
+        const subject2 = subjects[Math.floor(Math.random() * subjects.length)];
+        const verb2 = verbs[Math.floor(Math.random() * verbs.length)];
+        const object2 = objects[Math.floor(Math.random() * objects.length)];
+
+        const conjunction = conjunctions[Math.floor(Math.random() * conjunctions.length)];
+
+        return `${subject1} ${verb1} ${object1} ${conjunction} ${subject2} ${verb2} ${object2}.`;
+    }
+
+    function animateSentence() {
+        const sentence = generateRandomSentence().split(' ');
+        const sentenceContainer = document.createElement('div');
+        sentenceContainer.className = 'sentence';
+
+        sentence.forEach(word => {
+            const wordElement = document.createElement('div');
+            wordElement.textContent = word;
+            sentenceContainer.appendChild(wordElement);
+        });
+
+        document.body.appendChild(sentenceContainer);
+
+        sentenceContainer.addEventListener('animationend', () => {
+            sentenceContainer.remove();
+            setTimeout(animateSentence, 1000); // Start new sentence animation after a brief pause
+        });
+    }
+
+    animateSentence();
+</script>
+
+</body>
+</html>

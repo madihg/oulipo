@@ -1,153 +1,387 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>oulipo.xyz</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>συℓιρσ.χуz</title>
   <style>
     body {
       margin: 0;
       padding: 0;
-      background-color: #fdfdfd; /* Slightly off-white background */
-      color: #000000; /* Black text color */
+      background-color: #fdfdfd;
+      color: #000;
+      font-family: "Times New Roman", "Times", serif;
+      font-stretch: condensed;
     }
-
+    
     .container {
-      max-width: 800px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 20px;
-      text-align: left; /* Align text to the left */
     }
-
+    
     h1 {
       font-size: 32px;
       margin-bottom: 10px;
     }
-
+    
     h2 {
       font-size: 20px;
-      margin-bottom: 20px;
+      margin-bottom: 10px; /* Reduced space */
+      font-style: italic;
+      font-weight: normal;
     }
-
+    
+    .subtitle {
+      margin-bottom: 10px; /* Further reduce spacing if needed */
+    }
+    
     .subtitle a {
       text-decoration: none;
+      color: #007BFF;
     }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
+    
+    details {
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      background-color: #ffffff; /* White background for sections */
+      padding: 5px;
+      border-radius: 4px;
     }
-
-    li {
+    
+    summary {
+      font-size: 24px;
+      cursor: pointer;
+      padding: 10px;
+      outline: none;
+      list-style: none;
+    }
+    
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 10px;
+    }
+    
+    .grid-item {
+      border: 1px solid #ddd;
+      background-color: #fff;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .grid-item img {
+      width: 100%;
+      height: auto;
+      display: block;
+      border-bottom: 1px solid #ddd;
       margin-bottom: 10px;
     }
-
+    
+    .grid-item a {
+      text-decoration: none;
+      color: #007BFF;
+      font-weight: normal; /* Remove bold */
+      display: block;
+      margin-top: 5px;
+    }
+    
+    .grid-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .description {
+      font-size: 0.9em;
+      margin-top: 5px;
+      color: #555;
+    }
+    
     @media only screen and (max-width: 600px) {
       h1 {
         font-size: 24px;
       }
-
       h2 {
         font-size: 16px;
+      }
+      summary {
+        font-size: 20px;
       }
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>oulipo.xyz</h1>
+    <h1>συℓιρσ.χуz</h1>
     <h2>home of experimental computational poetry</h2>
     <div class="subtitle">
       by <a href="https://www.instagram.com/yalla_halim">@yallah_halim</a>
-      <br/><br/>
+      <br /><br />
     </div>
-    <br/>
-    <ul>
-      <li style="margin-top:20px;"><strong>Serious</strong></li>
-      <li><a href="we-called-us-poetry.html">We Called Us Poetry</a></li>
-      <li><a href="phenomenal.html">Phenomenal Fields</a></li>
-      <li><a href="dontbe.html">Don't Be</a></li>
-      <li><a href="trail.html">Red Trail</a></li>
-      <li><a href="erasure.html">Erasure</a> after Kate Baer's "Re: Holding Police Accountable"</li>
-      <li><a href="joycut.html">Fleeting Joy</a></li>
-      <li><a href="hover.html">Hover</a></li>
-      <li><a href="Blushing.html">Blushing</a></li>
-      <li><a href="bend.html">Bend</a></li>
-      <li><a href="allsortsofthings.html">All Sorts of Things</a></li>
-      <li><a href="akbar.html">Reel Bad</a> after Jack Shaheen's "Reel Bad Arabs: How Hollywood Vilifies a People"</li>
-      
-      <li style="margin-top:20px;"><strong>Silly</strong></li>
-      <li><a href="brainstorm.html">Brainstorm</a></li>
-      <li><a href="choose.html">Choose</a></li>
-      <li><a href="defeatme.html">Defeat Me</a></li>
-      <li><a href="hittheroad.html">Hit the Road</a></li>
-      <li><a href="Typewriter.html">In and Out of You</a></li>
-      <li><a href="https://scam-ai-poet.vercel.app/">Got scam? Scam AI can help</a></li>
-
-      <li style="margin-top:20px;"><strong>Collaborations</strong></li>
-      <li><a href="theyfleefromme.html">They flee from me</a> with Leonardo Flores, after Sir Thomas Wyatt's "They Flee From Me"</li>
-
-      <li><strong>Gray Area Talk</strong></li>
-      <li><a href="Canvas/Cluster 1/page1.html">Cluster</a></li>
-      <li><a href="where-is-home-for-you/index.html">Where is home for you?</a></li>
-      <li><a href="map-your-journey/public/index.html">Born on a map</a></li>
-      <li><a href="chameleon-final/public/index.html">The animal that changes</a></li>
-      <li><a href="borderline-deny.html">Denies</a></li>
-      <li><a href="impossible.html">Erases</a></li>
-      <li><a href="borderline-reach.html">Reaches</a></li>
-      <li><a href="how-do-you-home/public/index.html">How do you home?</a></li>
-
-      <li><strong>Deserve it</strong></li>
-      <li><a href="deserve-it-1-welcome.html">Welcome</a></li>
-      <li><a href="deserve-it-2-deny.html">Deny</a></li>
-      <li><a href="deserve-it-3-reach.html">Reach</a></li>
-      <li><a href="deserve-it-3-alt-checkboard.html">Alt - Checkboard</a></li>
-      <li><a href="deserve-it-4-erase.html">Erase</a></li>
-      <li><a href="deserve-it-4-alt-altpunch.html">Alt - Punch Music Holes</a></li>
-      <li><a href="deserve-it-5-id.html">Get an ID</a></li>
-      <li><a href="deserve-it-5-alt-candle.html">Alt - Light a candle</a></li>
-
-      <li><strong>Prophet</strong></li>
-      <li><a href="Prophet-Talk/1-page1.html">Cluster</a></li>
-      <li><a href="where-is-home-for-you/index.html">Where is home for you?</a></li>
-      <li><a href="map-your-journey/public/index.html">Born on a map</a></li>
-      <li><a href="chameleon-final/public/index.html">The animal that changes</a></li>
-      <li><a href="borderline-deny.html">Denies</a></li>
-      <li><a href="impossible.html">Erases</a></li>
-      <li><a href="https://github.com/madihg/oulipo/blob/6474a551943e13fe3eb39c3838c92720f3608425/Prophet-Talk/10-gender-reveal.html">Gender Reveal Party</a></li>
-      <li><a href="borderline-reach.html">Reaches</a></li>
-      <li><a href="how-do-you-home/public/index.html">How do you home?</a></li>
-
-      <li style="margin-top:20px;"><strong>Border/line</strong></li>
-      <li><a href="borderline-deny.html">Deny</a></li>
-      <li><a href="borderline-reach.html">Reach</a></li>
-      <li><a href="borderline-erase.html">Erase</a></li>
-      <li><a href="borderline-wait.html">Wait</a></li>
-      
-      <li style="margin-top:20px;"><strong>Case Against the Son</strong></li>
-      <li><a href="case-against-the-son/judgement-day.html">Judgement Day</a></li>
-      <li><a href="case-against-the-son/impossible.html">Impossible Conversation</a></li>
-      <li><a href="case-against-the-son/childfree.html">Childfree</a></li>
-      <li><a href="case-against-the-son/tally.html">Mother Tally</a></li>
-      <li><a href="case-against-the-son/sorry.html">Sorry</a></li>
-      <li><a href="case-against-the-son/window-image.html">Judge</a></li>
-      
-      <!-- The following list items have been commented out as per your request -->
-      <!-- REMOVE
-      <li><a href="lovepuppet.html">Love Puppet</a></li>
-      <li><a href="Experiment.html">Experiment</a></li>
-      <li><a href="Fadein.html">Fadein</a></li>
-      <li><a href="Invites.html">Invites</a></li>
-      <li><a href="Typewriter2.html">Typewriter2</a></li>
-      <li><a href="Typewriter3.html">Typewriter3</a></li>
-      <li><a href="blackhole.html">blackhole</a></li>
-      <li><a href="borderpoem.html">borderpoem</a></li>
-      <li><a href="fourth.html">fourth</a></li>
-      <li><a href="grow.html">grow</a></li>
-      <li><a href="hereforth.html">hereforth</a></li>
-      <li><a href="givingup.html">I am giving up</a></li>
-      -->
-    </ul>
+    
+    <!-- Latest experiments Section (merged grid) -->
+    <details>
+      <summary>Latest experiments</summary>
+      <div class="grid-container">
+        <!-- First group of items -->
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/we-called-us-poetry.html" alt="Snapshot of We Called Us Poetry" />
+          <a href="we-called-us-poetry.html">We Called Us Poetry</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/phenomenal.html" alt="Snapshot of Phenomenal Fields" />
+          <a href="phenomenal.html">Phenomenal Fields</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/dontbe.html" alt="Snapshot of Don't Be" />
+          <a href="dontbe.html">Don't Be</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/trail.html" alt="Snapshot of Red Trail" />
+          <a href="trail.html">Red Trail</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/erasure.html" alt="Snapshot of Erasure" />
+          <a href="erasure.html">Erasure</a>
+          <div class="description">after Kate Baer's "Re: Holding Police Accountable"</div>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/joycut.html" alt="Snapshot of Fleeting Joy" />
+          <a href="joycut.html">Fleeting Joy</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/hover.html" alt="Snapshot of Hover" />
+          <a href="hover.html">Hover</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/Blushing.html" alt="Snapshot of Blushing" />
+          <a href="Blushing.html">Blushing</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/bend.html" alt="Snapshot of Bend" />
+          <a href="bend.html">Bend</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/allsortsofthings.html" alt="Snapshot of All Sorts of Things" />
+          <a href="allsortsofthings.html">All Sorts of Things</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/akbar.html" alt="Snapshot of Reel Bad" />
+          <a href="akbar.html">Reel Bad</a>
+          <div class="description">after Jack Shaheen's "Reel Bad Arabs: How Hollywood Vilifies a People"</div>
+        </div>
+        <!-- Second group of items -->
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/brainstorm.html" alt="Snapshot of Brainstorm" />
+          <a href="brainstorm.html">Brainstorm</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/choose.html" alt="Snapshot of Choose" />
+          <a href="choose.html">Choose</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/defeatme.html" alt="Snapshot of Defeat Me" />
+          <a href="defeatme.html">Defeat Me</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/hittheroad.html" alt="Snapshot of Hit the Road" />
+          <a href="hittheroad.html">Hit the Road</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/Typewriter.html" alt="Snapshot of In and Out of You" />
+          <a href="Typewriter.html">In and Out of You</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://scam-ai-poet.vercel.app/" alt="Snapshot of Scam AI Poet" />
+          <a href="https://scam-ai-poet.vercel.app/">Got scam? Scam AI can help</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Gray Area Talk Section -->
+    <details>
+      <summary>Weirding the Web, Gray Area Talk</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/Canvas/Cluster%201/page1.html" alt="Snapshot of Cluster" />
+          <a href="Canvas/Cluster 1/page1.html">Cluster</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/where-is-home-for-you/index.html" alt="Snapshot of Where is home for you?" />
+          <a href="where-is-home-for-you/index.html">Where is home for you?</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/map-your-journey/public/index.html" alt="Snapshot of Born on a map" />
+          <a href="map-your-journey/public/index.html">Born on a map</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/chameleon-final/public/index.html" alt="Snapshot of The animal that changes" />
+          <a href="chameleon-final/public/index.html">The animal that changes</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-deny.html" alt="Snapshot of Denies" />
+          <a href="borderline-deny.html">Denies</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/impossible.html" alt="Snapshot of Erases" />
+          <a href="impossible.html">Erases</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-reach.html" alt="Snapshot of Reaches" />
+          <a href="borderline-reach.html">Reaches</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/how-do-you-home/public/index.html" alt="Snapshot of How do you home?" />
+          <a href="how-do-you-home/public/index.html">How do you home?</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Deserve it Section -->
+    <details>
+      <summary>Deserve it, Gray Area Performance</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-1-welcome.html" alt="Snapshot of Welcome" />
+          <a href="deserve-it-1-welcome.html">Welcome</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-2-deny.html" alt="Snapshot of Deny" />
+          <a href="deserve-it-2-deny.html">Deny</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-3-reach.html" alt="Snapshot of Reach" />
+          <a href="deserve-it-3-reach.html">Reach</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-3-alt-checkboard.html" alt="Snapshot of Alt - Checkboard" />
+          <a href="deserve-it-3-alt-checkboard.html">Alt - Checkboard</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-4-erase.html" alt="Snapshot of Erase" />
+          <a href="deserve-it-4-erase.html">Erase</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-4-alt-altpunch.html" alt="Snapshot of Alt - Punch Music Holes" />
+          <a href="deserve-it-4-alt-altpunch.html">Alt - Punch Music Holes</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-5-id.html" alt="Snapshot of Get an ID" />
+          <a href="deserve-it-5-id.html">Get an ID</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/deserve-it-5-alt-candle.html" alt="Snapshot of Alt - Light a candle" />
+          <a href="deserve-it-5-alt-candle.html">Alt - Light a candle</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Prophet Section -->
+    <details>
+      <summary>Weirding the Web, Prophet Consulting Talk</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/Prophet-Talk/1-page1.html" alt="Snapshot of Cluster" />
+          <a href="Prophet-Talk/1-page1.html">Cluster</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/where-is-home-for-you/index.html" alt="Snapshot of Where is home for you?" />
+          <a href="where-is-home-for-you/index.html">Where is home for you?</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/map-your-journey/public/index.html" alt="Snapshot of Born on a map" />
+          <a href="map-your-journey/public/index.html">Born on a map</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/chameleon-final/public/index.html" alt="Snapshot of The animal that changes" />
+          <a href="chameleon-final/public/index.html">The animal that changes</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-deny.html" alt="Snapshot of Denies" />
+          <a href="borderline-deny.html">Denies</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/impossible.html" alt="Snapshot of Erases" />
+          <a href="impossible.html">Erases</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-reach.html" alt="Snapshot of Reaches" />
+          <a href="borderline-reach.html">Reaches</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/how-do-you-home/public/index.html" alt="Snapshot of How do you home?" />
+          <a href="how-do-you-home/public/index.html">How do you home?</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Border/line Section -->
+    <details>
+      <summary>Border/line, Robert Coover Award</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-deny.html" alt="Snapshot of Deny" />
+          <a href="borderline-deny.html">Deny</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-reach.html" alt="Snapshot of Reach" />
+          <a href="borderline-reach.html">Reach</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-erase.html" alt="Snapshot of Erase" />
+          <a href="borderline-erase.html">Erase</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/borderline-wait.html" alt="Snapshot of Wait" />
+          <a href="borderline-wait.html">Wait</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Case Against the Son Section -->
+    <details>
+      <summary>Case Against the Son, Ongoing Performance</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/judgement-day.html" alt="Snapshot of Judgement Day" />
+          <a href="case-against-the-son/judgement-day.html">Judgement Day</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/impossible.html" alt="Snapshot of Impossible Conversation" />
+          <a href="case-against-the-son/impossible.html">Impossible Conversation</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/childfree.html" alt="Snapshot of Childfree" />
+          <a href="case-against-the-son/childfree.html">Childfree</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/tally.html" alt="Snapshot of Mother Tally" />
+          <a href="case-against-the-son/tally.html">Mother Tally</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/sorry.html" alt="Snapshot of Sorry" />
+          <a href="case-against-the-son/sorry.html">Sorry</a>
+        </div>
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/case-against-the-son/window-image.html" alt="Snapshot of Judge" />
+          <a href="case-against-the-son/window-image.html">Judge</a>
+        </div>
+      </div>
+    </details>
+    
+    <!-- Collaborations Section -->
+    <details>
+      <summary>Collaborations</summary>
+      <div class="grid-container">
+        <div class="grid-item">
+          <img src="https://image.thum.io/get/https://oulipo.xyz/theyfleefromme.html" alt="Snapshot of They flee from me" />
+          <a href="theyfleefromme.html">They flee from me</a>
+          <div class="description">with Leonardo Flores, after Sir Thomas Wyatt's "They Flee From Me"</div>
+        </div>
+      </div>
+    </details>
+    
   </div>
 </body>
 </html>

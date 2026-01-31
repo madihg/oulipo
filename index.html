@@ -4,45 +4,136 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>oulipo.xyz — Experimental Computational Poetry</title>
-  <meta name="description" content="A laboratory of experimental computational poetry by Halim Madi. Interactive HTML poems, non-human poets, anti-gravitational word interfaces, and somatic semantics.">
-  <meta property="og:title" content="oulipo.xyz — Experimental Computational Poetry">
-  <meta property="og:description" content="Interactive HTML poems and digital poetics by Halim Madi">
-  <meta property="og:type" content="website">
+  <meta name="description" content="A laboratory of experimental computational poetry by Halim Madi.">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>">
   
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap');
-    
-    :root {
-      --color-bg: #faf9f7;
-      --color-text: rgba(0, 0, 0, 0.85);
-      --color-text-muted: rgba(0, 0, 0, 0.6);
-      --color-accent: #c41e3a;
-      --color-border: rgba(0, 0, 0, 0.12);
-      --color-card-bg: #ffffff;
-      --font-display: 'Space Grotesk', sans-serif;
-      --font-mono: 'JetBrains Mono', monospace;
-      --font-body: 'Crimson Pro', Georgia, serif;
+    /* Cargo Fonts */
+    @font-face {
+      font-display: block;
+      font-family: "Standard";
+      src: url("https://type.cargo.site/files/Standard-Book.woff") format("woff");
+      font-style: normal;
+      font-weight: normal;
+    }
+    @font-face {
+      font-display: block;
+      font-family: "Standard";
+      src: url("https://type.cargo.site/files/Standard-Bold.woff") format("woff");
+      font-style: normal;
+      font-weight: bold;
+    }
+    @font-face {
+      font-display: block;
+      font-family: "Terminal Grotesque";
+      src: url("https://type.cargo.site/files/TerminalGrotesque.woff") format("woff");
+      font-style: normal;
+      font-weight: normal;
+    }
+    @font-face {
+      font-display: block;
+      font-family: "Diatype Variable";
+      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+      font-style: normal;
+      font-weight: 200 1000;
+    }
+    @font-face {
+      font-display: block;
+      font-family: "Diatype Mono Variable";
+      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+      font-style: normal;
+      font-weight: 200 700;
+    }
+
+    /* Base styles matching Cargo */
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ffffff;
+      color: rgba(0, 0, 0, 0.85);
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+      line-height: 1.2;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
     }
 
     * {
       box-sizing: border-box;
+    }
+
+    a {
+      color: rgba(0, 0, 0, 0.85);
+      text-decoration: underline;
+    }
+
+    a:hover {
+      opacity: 0.7;
+    }
+
+    a:active {
+      opacity: 0.7;
+    }
+
+    /* Typography */
+    h1 {
+      font-family: "Terminal Grotesque", sans-serif;
+      font-style: normal;
+      font-weight: 400;
       margin: 0;
-      padding: 0;
+      font-size: 7rem;
+      line-height: 0.9;
+      color: rgba(0, 0, 0, 0.85);
+      letter-spacing: 0;
     }
 
-    html {
-      font-size: 16px;
-      scroll-behavior: smooth;
+    h2 {
+      font-family: "Diatype Variable", sans-serif;
+      font-style: normal;
+      margin: 0;
+      color: #000000;
+      font-size: 2rem;
+      line-height: 1.2;
+      letter-spacing: 0;
+      font-weight: 700;
     }
 
-    body {
-      background-color: var(--color-bg);
-      color: var(--color-text);
-      font-family: var(--font-body);
-      line-height: 1.6;
-      min-height: 100vh;
-      -webkit-font-smoothing: antialiased;
+    .caption {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: #000000;
+      font-family: "Diatype Mono Variable", monospace;
+      font-style: normal;
+      line-height: 1.25;
+      letter-spacing: 0em;
+    }
+
+    .caption a {
+      color: #000000;
+      text-decoration: underline;
+    }
+
+    hr {
+      background: rgba(0, 0, 0, 0.75);
+      border: 0;
+      height: 1px;
+      display: block;
+      margin: 2rem 0;
+    }
+
+    /* Layout */
+    .page {
+      padding: 4rem;
+      max-width: 100%;
+    }
+
+    .page-content {
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     /* Navigation */
@@ -52,21 +143,19 @@
       left: 0;
       right: 0;
       z-index: 100;
-      background: var(--color-bg);
-      border-bottom: 1px solid var(--color-border);
-      padding: 1rem 2rem;
+      background-color: #ffffff;
+      padding: 1.5rem 4rem 1rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 600;
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+      font-weight: 400;
       text-decoration: none;
-      color: var(--color-text);
-      letter-spacing: -0.02em;
+      color: rgba(0, 0, 0, 0.85);
     }
 
     .nav-links {
@@ -75,312 +164,163 @@
     }
 
     .nav-links a {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
       text-decoration: none;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--color-accent);
+      color: rgba(0, 0, 0, 0.85);
     }
 
     /* Hero */
     .hero {
-      padding: 8rem 2rem 4rem;
-      max-width: 900px;
-      margin: 0 auto;
+      padding-top: 8rem;
+      padding-bottom: 2rem;
     }
 
     .hero h1 {
-      font-family: var(--font-display);
-      font-size: clamp(3rem, 8vw, 5.5rem);
-      font-weight: 700;
-      line-height: 0.95;
-      letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
-      color: var(--color-text);
     }
 
-    .hero h1 span {
-      display: block;
-      font-size: 0.35em;
-      font-weight: 400;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--color-text-muted);
-      margin-top: 0.5rem;
+    .hero-subtitle {
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 1.4;
+      max-width: 700px;
     }
 
-    .hero-description {
-      font-size: 1.25rem;
-      color: var(--color-text-muted);
-      max-width: 600px;
-      line-height: 1.7;
-    }
-
-    .hero-description a {
-      color: var(--color-accent);
-      text-decoration: none;
-      border-bottom: 1px solid currentColor;
-    }
-
-    .hero-description a:hover {
-      border-bottom-color: transparent;
-    }
-
-    /* Main content */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 2rem 4rem;
-    }
-
-    /* Section */
+    /* Sections */
     .section {
-      margin-bottom: 4rem;
+      margin-bottom: 3rem;
     }
 
     .section-header {
-      display: flex;
-      align-items: baseline;
-      gap: 1rem;
-      margin-bottom: 2rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--color-border);
-      cursor: pointer;
-      user-select: none;
-    }
-
-    .section-header:hover .section-toggle {
-      color: var(--color-accent);
+      margin-bottom: 1.5rem;
     }
 
     .section-title {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 600;
-      letter-spacing: -0.02em;
+      font-family: "Diatype Variable", sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
     }
 
     .section-subtitle {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+      font-family: "Diatype Mono Variable", monospace;
+      font-size: 1.2rem;
+      color: rgba(0, 0, 0, 0.6);
     }
 
-    .section-toggle {
-      margin-left: auto;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-      transition: transform 0.3s, color 0.2s;
-    }
-
-    .section.collapsed .section-toggle {
-      transform: rotate(-90deg);
-    }
-
-    .section-content {
+    /* Grid */
+    .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-      overflow: hidden;
-      transition: max-height 0.5s ease, opacity 0.3s ease;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
     }
 
-    .section.collapsed .section-content {
-      max-height: 0;
-      opacity: 0;
-      margin-top: 0;
+    @media (max-width: 900px) {
+      .grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
-    /* Card */
-    .card {
-      background: var(--color-card-bg);
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: transform 0.2s, box-shadow 0.2s;
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .page {
+        padding: 2rem;
+      }
+      
+      .nav {
+        padding: 1rem 2rem;
+      }
+      
+      h1 {
+        font-size: 4.5rem;
+      }
     }
 
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+    /* Work Item */
+    .work-item {
+      margin-bottom: 1rem;
     }
 
-    .card-image {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/10;
-      overflow: hidden;
-      background: linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%);
-    }
-
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-
-    .card:hover .card-image img {
-      transform: scale(1.03);
-    }
-
-    .card-image::after {
-      content: '→';
-      position: absolute;
-      bottom: 0.75rem;
-      right: 0.75rem;
-      width: 28px;
-      height: 28px;
-      background: var(--color-card-bg);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.9rem;
-      opacity: 0;
-      transform: translateX(-8px);
-      transition: opacity 0.2s, transform 0.2s;
-    }
-
-    .card:hover .card-image::after {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    .card-content {
-      padding: 1.25rem;
-    }
-
-    .card-title {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
+    .work-title {
+      font-family: "Diatype Variable", sans-serif;
+      font-size: 1.3rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.01em;
+      margin-bottom: 0.25rem;
     }
 
-    .card-title a {
-      color: var(--color-text);
+    .work-title a {
       text-decoration: none;
+      color: #000000;
     }
 
-    .card-title a:hover {
-      color: var(--color-accent);
+    .work-title a:hover {
+      text-decoration: underline;
     }
 
-    .card-description {
-      font-size: 0.95rem;
-      color: var(--color-text-muted);
-      line-height: 1.55;
+    .work-description {
+      font-family: Standard, sans-serif;
+      font-size: 1rem;
+      color: rgba(0, 0, 0, 0.7);
+      line-height: 1.4;
+      margin-bottom: 0.25rem;
     }
 
-    .card-meta {
-      margin-top: 0.75rem;
-      font-family: var(--font-mono);
-      font-size: 0.65rem;
-      color: var(--color-text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
+    .work-meta {
+      font-family: "Diatype Mono Variable", monospace;
+      font-size: 0.9rem;
+      color: rgba(0, 0, 0, 0.5);
+    }
+
+    /* Button style */
+    .button {
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.85);
+      display: inline-block;
+      border: 0.2rem solid rgba(0, 0, 0, 0.85);
+      border-radius: 0.5rem;
+      padding: 0.8rem 1rem;
+      text-decoration: none;
+      margin-top: 1rem;
+    }
+
+    .button:hover {
+      opacity: 0.7;
     }
 
     /* Footer */
     .footer {
-      border-top: 1px solid var(--color-border);
-      padding: 3rem 2rem;
+      padding: 3rem 4rem;
       text-align: center;
-    }
-
-    .footer-content {
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .footer p {
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      color: var(--color-text-muted);
-    }
-
-    .footer a {
-      color: var(--color-text);
-      text-decoration: none;
-    }
-
-    .footer a:hover {
-      color: var(--color-accent);
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
     }
 
     .footer-links {
       display: flex;
       justify-content: center;
       gap: 2rem;
-      margin-top: 1rem;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .nav {
-        padding: 1rem;
-      }
-
-      .nav-links {
-        gap: 1rem;
-      }
-
-      .hero {
-        padding: 6rem 1.5rem 3rem;
-      }
-
-      .hero h1 {
-        font-size: 2.5rem;
-      }
-
-      .container {
-        padding: 0 1.5rem 3rem;
-      }
-
-      .section-content {
-        grid-template-columns: 1fr;
-      }
-
-      .section-header {
-        flex-wrap: wrap;
-      }
+    .footer a {
+      font-family: "Diatype Mono Variable", monospace;
+      font-size: 1rem;
+      color: rgba(0, 0, 0, 0.6);
+      text-decoration: none;
     }
 
-    /* Placeholder styling for screenshots */
-    .card-image.placeholder {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-      color: rgba(255, 255, 255, 0.15);
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 700;
-    }
-
-    /* Loading state for images */
-    .card-image img {
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    .card-image img.loaded {
-      opacity: 1;
+    .footer a:hover {
+      color: rgba(0, 0, 0, 0.85);
     }
   </style>
 </head>
 <body>
+
   <!-- Navigation -->
   <nav class="nav">
     <a href="#" class="nav-logo">oulipo.xyz</a>
@@ -390,576 +330,342 @@
     </div>
   </nav>
 
-  <!-- Hero -->
-  <header class="hero">
-    <h1>
-      oulipo.xyz
-      <span>Experimental Computational Poetry</span>
-    </h1>
-    <p class="hero-description">
-      A kitchen laboratory of digital poetics by <a href="https://www.halimmadi.com" target="_blank">Halim Madi</a>. 
-      Non-human poets, anti-gravitational word interfaces, somatic semantics. 
-      This is where language breaks and mends.
-    </p>
-  </header>
-
   <!-- Main Content -->
-  <main class="container">
+  <div class="page">
+    <div class="page-content">
 
-    <!-- Interactive Experiments -->
-    <section class="section" id="experiments">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Interactive Experiments</h2>
-        <span class="section-subtitle">Standalone HTML Poetry</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
-        
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/we-called-us-poetry.html" alt="We Called Us Poetry" loading="lazy" onload="this.classList.add('loaded')">
+      <!-- Hero -->
+      <header class="hero">
+        <h1>oulipo.xyz</h1>
+        <p class="hero-subtitle">
+          A kitchen laboratory of experimental computational poetry by <a href="https://www.halimmadi.com" target="_blank">Halim Madi</a>. 
+          Non-human poets, anti-gravitational word interfaces, somatic semantics. This is where I break and mend things.
+        </p>
+      </header>
+
+      <hr>
+
+      <!-- Interactive Experiments -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Interactive Experiments</h2>
+          <p class="section-subtitle">Standalone HTML Poetry</p>
+        </div>
+        <div class="grid">
+          
+          <div class="work-item">
+            <div class="work-title"><a href="we-called-us-poetry.html">We Called Us Poetry</a></div>
+            <p class="work-description">A browser-based performance reimagining human-AI relations through viral transformation. Dropdowns, tabs, and carousels become poetic scaffolding.</p>
+            <p class="work-meta">Interactive HTML Poem</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="we-called-us-poetry.html">We Called Us Poetry</a></h3>
-            <p class="card-description">A browser-based performance reimagining human-AI relations through viral transformation. Dropdowns, tabs, and carousels become poetic scaffolding for a collective digital ritual.</p>
-            <p class="card-meta">Interactive HTML Poem</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="phenomenal.html">Phenomenal Fields</a></div>
+            <p class="work-description">An interactive canvas where mouse movements trace semantic connections. Each click draws threads between floating words.</p>
+            <p class="work-meta">Generative Poetry</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/phenomenal.html" alt="Phenomenal Fields" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="hover.html">Hover</a></div>
+            <p class="work-description">A war memory disperses on hover. Words scatter like shrapnel when approached, then slowly reassemble.</p>
+            <p class="work-meta">Kinetic Typography</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="phenomenal.html">Phenomenal Fields</a></h3>
-            <p class="card-description">An interactive canvas where mouse movements trace semantic connections. Each click draws threads between floating words, building sentences through gesture and chance.</p>
-            <p class="card-meta">Generative Poetry</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="trail.html">Red Trail</a></div>
+            <p class="work-description">Your cursor leaves a trail of red dots across the Wikipedia entry for Nakba. Reading becomes marking, marking becomes witnessing.</p>
+            <p class="work-meta">Interventionist Poetry</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/hover.html" alt="Hover" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="joycut.html">Fleeting Joy</a></div>
+            <p class="work-description">Words flee from your cursor like startled animals. A meditation on joy's elusiveness—the harder you chase, the further it scatters.</p>
+            <p class="work-meta">Responsive Typography</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="hover.html">Hover</a></h3>
-            <p class="card-description">A war memory disperses on hover. Words scatter like shrapnel when approached, then slowly reassemble—exploring how trauma fragments and reconstitutes in the body.</p>
-            <p class="card-meta">Kinetic Typography</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="bend.html">Bend</a></div>
+            <p class="work-description">A playful typographic exercise where letters literally bend on command. Click and watch the word transform.</p>
+            <p class="work-meta">Animated Typography</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/trail.html" alt="Red Trail" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="Blushing.html">Blushing</a></div>
+            <p class="work-description">An unfolding click-through poem about observation, bodies, and shame. Each interaction reveals the next line.</p>
+            <p class="work-meta">Sequential Interactive Poem</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="trail.html">Red Trail</a></h3>
-            <p class="card-description">Your cursor leaves a trail of red dots across the Wikipedia entry for Nakba. Reading becomes marking, marking becomes witnessing, the interface becomes a wound.</p>
-            <p class="card-meta">Interventionist Poetry</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="brainstorm.html">Brainstorm</a></div>
+            <p class="work-description">Click "storm" and watch "brain" orbit chaotically. Compound words decomposed into kinetic metaphor.</p>
+            <p class="work-meta">Kinetic Word Play</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/joycut.html" alt="Fleeting Joy" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="erasure.html">Erasure</a></div>
+            <p class="work-description">An interactive erasure poem after Kate Baer's "Re: Holding Police Accountable." Reveal hidden poetry by removing what's in the way.</p>
+            <p class="work-meta">Erasure Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="joycut.html">Fleeting Joy</a></h3>
-            <p class="card-description">Words flee from your cursor like startled animals. A meditation on joy's elusiveness—the harder you chase, the further it scatters.</p>
-            <p class="card-meta">Responsive Typography</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="dontbe.html">Don't Be</a></div>
+            <p class="work-description">An exploration of negation and identity. The interface refuses what it also invites.</p>
+            <p class="work-meta">Interactive Typography</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/bend.html" alt="Bend" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="allsortsofthings.html">All Sorts of Things</a></div>
+            <p class="work-description">A cataloguing poem about the infinite variety of experience. Lists as poetry, enumeration as meditation.</p>
+            <p class="work-meta">List Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="bend.html">Bend</a></h3>
-            <p class="card-description">A playful typographic exercise where letters literally bend on command. Click and watch the word transform—a meditation on flexibility and form.</p>
-            <p class="card-meta">Animated Typography</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="akbar.html">Reel Bad</a></div>
+            <p class="work-description">After Jack Shaheen's "Reel Bad Arabs." A meditation on stereotypes, representation, and the violence of images.</p>
+            <p class="work-meta">Critical Poetry</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/Blushing.html" alt="Blushing" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="choose.html">Choose</a></div>
+            <p class="work-description">A branching poem about decisions and their consequences. Every choice closes one door and opens another.</p>
+            <p class="work-meta">Choice-Based Narrative</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="Blushing.html">Blushing</a></h3>
-            <p class="card-description">An unfolding click-through poem about observation, bodies, and shame. Each interaction reveals the next line, building toward an intimate confession.</p>
-            <p class="card-meta">Sequential Interactive Poem</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="defeatme.html">Defeat Me</a></div>
+            <p class="work-description">An invitation to conflict, a dare. The poem asks to be overcome—but can language ever truly lose?</p>
+            <p class="work-meta">Confrontational Poetry</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/brainstorm.html" alt="Brainstorm" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="hittheroad.html">Hit the Road</a></div>
+            <p class="work-description">A kinetic poem about departure and movement. Letters scatter across the screen like travelers leaving home.</p>
+            <p class="work-meta">Migration Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="brainstorm.html">Brainstorm</a></h3>
-            <p class="card-description">Click "storm" and watch "brain" orbit chaotically. A literal visualization of mental turbulence—compound words decomposed into kinetic metaphor.</p>
-            <p class="card-meta">Kinetic Word Play</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="Typewriter.html">In and Out of You</a></div>
+            <p class="work-description">A typewriter effect reveals text character by character—the intimacy of watching words appear as if spoken directly to you.</p>
+            <p class="work-meta">Typewriter Poetry</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/erasure.html" alt="Erasure" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="https://scam-ai-poet.vercel.app/" target="_blank">Scam AI Poet ↗</a></div>
+            <p class="work-description">Got scam? An AI trained on scam emails generates new poetic frauds. The language of deception becomes absurdist verse.</p>
+            <p class="work-meta">AI-Generated Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="erasure.html">Erasure</a></h3>
-            <p class="card-description">An interactive erasure poem after Kate Baer's "Re: Holding Police Accountable." Reveal hidden poetry by removing what's in the way.</p>
-            <p class="card-meta">Erasure Poetry • After Kate Baer</p>
+
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Border/line Series -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Border/line</h2>
+          <p class="section-subtitle">Robert Coover Award Winner 2024</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-deny.html">Deny</a></div>
+            <p class="work-description">Hostile immigration questions float across the screen while "No" checkboxes flee your cursor. The interface becomes the border.</p>
+            <p class="work-meta">Step 1 of 4</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/dontbe.html" alt="Don't Be" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="dontbe.html">Don't Be</a></h3>
-            <p class="card-description">An exploration of negation and identity. The interface refuses what it also invites—don't be what you're told not to be.</p>
-            <p class="card-meta">Interactive Typography</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/allsortsofthings.html" alt="All Sorts of Things" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="allsortsofthings.html">All Sorts of Things</a></h3>
-            <p class="card-description">A cataloguing poem about the infinite variety of experience. Lists as poetry, enumeration as meditation.</p>
-            <p class="card-meta">List Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/akbar.html" alt="Reel Bad" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="akbar.html">Reel Bad</a></h3>
-            <p class="card-description">After Jack Shaheen's "Reel Bad Arabs: How Hollywood Vilifies a People." A meditation on stereotypes, representation, and the violence of images.</p>
-            <p class="card-meta">Critical Poetry • After Shaheen</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/choose.html" alt="Choose" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="choose.html">Choose</a></h3>
-            <p class="card-description">A branching poem about decisions and their consequences. Every choice closes one door and opens another.</p>
-            <p class="card-meta">Choice-Based Narrative</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/defeatme.html" alt="Defeat Me" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="defeatme.html">Defeat Me</a></h3>
-            <p class="card-description">An invitation to conflict, a dare. The poem asks to be overcome—but can language ever truly lose?</p>
-            <p class="card-meta">Confrontational Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/hittheroad.html" alt="Hit the Road" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="hittheroad.html">Hit the Road</a></h3>
-            <p class="card-description">A kinetic poem about departure and movement. Letters scatter across the screen like travelers leaving home.</p>
-            <p class="card-meta">Migration Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/Typewriter.html" alt="In and Out of You" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="Typewriter.html">In and Out of You</a></h3>
-            <p class="card-description">A typewriter effect reveals text character by character—the intimacy of watching words appear as if spoken directly to you.</p>
-            <p class="card-meta">Typewriter Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://scam-ai-poet.vercel.app/" alt="Scam AI Poet" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="https://scam-ai-poet.vercel.app/" target="_blank">Scam AI Poet</a></h3>
-            <p class="card-description">Got scam? An AI trained on scam emails generates new poetic frauds. The language of deception becomes absurdist verse.</p>
-            <p class="card-meta">AI-Generated Poetry • External</p>
-        </div>
-        </article>
-
-        </div>
-    </section>
-
-    <!-- Border/line Series -->
-    <section class="section" id="borderline">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Border/line</h2>
-        <span class="section-subtitle">Robert Coover Award Winner 2024</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/borderline-deny.html" alt="Deny" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-reach.html">Reach</a></div>
+            <p class="work-description">The body stretches toward belonging. Reaching across digital space mirrors the migrant's perpetual extension toward acceptance.</p>
+            <p class="work-meta">Step 2 of 4</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="borderline-deny.html">Deny</a></h3>
-            <p class="card-description">Hostile immigration questions float across the screen while "No" checkboxes flee your cursor. You must chase conformity to proceed. The interface becomes the border.</p>
-            <p class="card-meta">Step 1 of 4</p>
-        </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/borderline-reach.html" alt="Reach" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="borderline-reach.html">Reach</a></h3>
-            <p class="card-description">The body stretches toward belonging. Reaching across digital space mirrors the migrant's perpetual extension toward acceptance.</p>
-            <p class="card-meta">Step 2 of 4</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/borderline-erase.html" alt="Erase" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="borderline-erase.html">Erase</a></h3>
-            <p class="card-description">Identity fragments as the interface demands assimilation. What parts of yourself must you delete to pass through?</p>
-            <p class="card-meta">Step 3 of 4</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/borderline-wait.html" alt="Wait" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="borderline-wait.html">Wait</a></h3>
-            <p class="card-description">A countdown: 299 days until your documents arrive. The excruciating temporality of bureaucratic limbo rendered as interface.</p>
-            <p class="card-meta">Step 4 of 4</p>
-        </div>
-        </article>
-
-        </div>
-    </section>
-
-    <!-- Case Against the Son -->
-    <section class="section" id="case-against">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Case Against the Son</h2>
-        <span class="section-subtitle">Ongoing Performance Series</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/judgement-day.html" alt="Judgement Day" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-erase.html">Erase</a></div>
+            <p class="work-description">Identity fragments as the interface demands assimilation. What parts of yourself must you delete to pass through?</p>
+            <p class="work-meta">Step 3 of 4</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/judgement-day.html">Judgement Day</a></h3>
-            <p class="card-description">The son stands trial for crimes of existence. Family expectations become legal proceedings in this theatrical exploration of generational guilt.</p>
-            <p class="card-meta">Performance Documentation</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-wait.html">Wait</a></div>
+            <p class="work-description">A countdown: 299 days until your documents arrive. The excruciating temporality of bureaucratic limbo rendered as interface.</p>
+            <p class="work-meta">Step 4 of 4</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/impossible.html" alt="Impossible Conversation" loading="lazy" onload="this.classList.add('loaded')">
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Case Against the Son -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Case Against the Son</h2>
+          <p class="section-subtitle">Ongoing Performance Series</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/judgement-day.html">Judgement Day</a></div>
+            <p class="work-description">The son stands trial for crimes of existence. Family expectations become legal proceedings.</p>
+            <p class="work-meta">Performance Documentation</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/impossible.html">Impossible Conversation</a></h3>
-            <p class="card-description">Some dialogues can never happen. This piece stages the conversation that won't occur—between parent and child, past and present.</p>
-            <p class="card-meta">Dialogue Poem</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/impossible.html">Impossible Conversation</a></div>
+            <p class="work-description">Some dialogues can never happen. This piece stages the conversation that won't occur.</p>
+            <p class="work-meta">Dialogue Poem</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/childfree.html" alt="Childfree" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/childfree.html">Childfree</a></div>
+            <p class="work-description">A meditation on the choice not to reproduce. The line ends here—but does it have to be a tragedy?</p>
+            <p class="work-meta">Confessional Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/childfree.html">Childfree</a></h3>
-            <p class="card-description">A meditation on the choice not to reproduce. The line ends here—but does it have to be a tragedy?</p>
-            <p class="card-meta">Confessional Poetry</p>
-        </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/tally.html" alt="Mother Tally" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/tally.html">Mother Tally</a></h3>
-            <p class="card-description">A counting of debts, sacrifices, disappointments. The ledger of motherhood rendered visible and interactive.</p>
-            <p class="card-meta">Accounting Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/sorry.html" alt="Sorry" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/sorry.html">Sorry</a></h3>
-            <p class="card-description">The word that never comes, or comes too late, or comes but means nothing. An exploration of apology as performance.</p>
-            <p class="card-meta">Apology Poem</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/case-against-the-son/window-image.html" alt="Judge" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="case-against-the-son/window-image.html">Judge</a></h3>
-            <p class="card-description">Who sits in judgment? The parent? The self? The culture? An interactive exploration of internalized authority.</p>
-            <p class="card-meta">Visual Poetry</p>
-        </div>
-        </article>
-
-        </div>
-    </section>
-
-    <!-- Talks & Performances -->
-    <section class="section" id="talks">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Weirding the Web</h2>
-        <span class="section-subtitle">Gray Area & Prophet Consulting Talks</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/Canvas/Cluster%201/page1.html" alt="Cluster" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/tally.html">Mother Tally</a></div>
+            <p class="work-description">A counting of debts, sacrifices, disappointments. The ledger of motherhood rendered visible.</p>
+            <p class="work-meta">Accounting Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="Canvas/Cluster 1/page1.html">Cluster</a></h3>
-            <p class="card-description">An interactive installation exploring borders, identity, and belonging through passport imagery and participatory mapping.</p>
-            <p class="card-meta">Installation Documentation</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/sorry.html">Sorry</a></div>
+            <p class="work-description">The word that never comes, or comes too late, or comes but means nothing.</p>
+            <p class="work-meta">Apology Poem</p>
           </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/where-is-home-for-you/index.html" alt="Where is home for you?" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="case-against-the-son/window-image.html">Judge</a></div>
+            <p class="work-description">Who sits in judgment? The parent? The self? The culture?</p>
+            <p class="work-meta">Visual Poetry</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="where-is-home-for-you/index.html">Where is Home for You?</a></h3>
-            <p class="card-description">An interactive question that invites participants to locate belonging. Where does home live in your body? In memory? On a map?</p>
-            <p class="card-meta">Participatory Web Art</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/map-your-journey/public/index.html" alt="Born on a Map" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="map-your-journey/public/index.html">Born on a Map</a></h3>
-            <p class="card-description">We're all born somewhere on a map—but who drew those lines? An exploration of cartographic violence and national identity.</p>
-            <p class="card-meta">Interactive Cartography</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/chameleon-final/public/index.html" alt="The Animal That Changes" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="chameleon-final/public/index.html">The Animal That Changes</a></h3>
-            <p class="card-description">Migrants as chameleons: adapting, camouflaging, surviving. An interactive meditation on the performance of assimilation.</p>
-            <p class="card-meta">Metamorphosis Poetry</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/how-do-you-home/public/index.html" alt="How Do You Home?" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="how-do-you-home/public/index.html">How Do You Home?</a></h3>
-            <p class="card-description">Home as verb: the actions of making, keeping, losing, finding home. An interactive exploration of dwelling as practice.</p>
-            <p class="card-meta">Verb Poetry</p>
-        </div>
-        </article>
 
         </div>
-    </section>
+      </section>
 
-    <!-- Deserve It Performance -->
-    <section class="section" id="deserve-it">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Deserve It</h2>
-        <span class="section-subtitle">Gray Area Performance</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
+      <hr>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-1-welcome.html" alt="Welcome" loading="lazy" onload="this.classList.add('loaded')">
+      <!-- Weirding the Web -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Weirding the Web</h2>
+          <p class="section-subtitle">Gray Area & Prophet Consulting Talks</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="Canvas/Cluster 1/page1.html">Cluster</a></div>
+            <p class="work-description">An interactive installation exploring borders, identity, and belonging through passport imagery and participatory mapping.</p>
+            <p class="work-meta">Installation</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-1-welcome.html">Welcome</a></h3>
-            <p class="card-description">The performance begins with a greeting. But who is being welcomed, and into what?</p>
-            <p class="card-meta">Opening</p>
-        </div>
-        </article>
 
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-2-deny.html" alt="Deny" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-2-deny.html">Deny</a></h3>
-            <p class="card-description">The first movement of refusal. Before you can belong, you must perform denial.</p>
-            <p class="card-meta">Movement I</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-3-reach.html" alt="Reach" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-3-reach.html">Reach</a></h3>
-            <p class="card-description">Extension toward acceptance. The body stretches toward belonging that remains just out of grasp.</p>
-            <p class="card-meta">Movement II</p>
-      </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-4-erase.html" alt="Erase" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-4-erase.html">Erase</a></h3>
-            <p class="card-description">Self-erasure as survival strategy. What must disappear for the rest to remain?</p>
-            <p class="card-meta">Movement III</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-5-id.html" alt="Get an ID" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-5-id.html">Get an ID</a></h3>
-            <p class="card-description">Identity becomes document. The person reduced to paper, to number, to scannable code.</p>
-            <p class="card-meta">Movement IV</p>
-        </div>
-        </article>
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/deserve-it-5-alt-candle.html" alt="Light a Candle" loading="lazy" onload="this.classList.add('loaded')">
-        </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="deserve-it-5-alt-candle.html">Light a Candle</a></h3>
-            <p class="card-description">Alternative ending: ritual over bureaucracy. Perhaps belonging is kindled, not granted.</p>
-            <p class="card-meta">Alternative Ending</p>
-        </div>
-        </article>
-
-      </div>
-    </section>
-
-    <!-- Collaborations -->
-    <section class="section" id="collaborations">
-      <div class="section-header" onclick="toggleSection(this)">
-        <h2 class="section-title">Collaborations</h2>
-        <span class="section-subtitle">Works with Others</span>
-        <span class="section-toggle">↓</span>
-      </div>
-      <div class="section-content">
-
-        <article class="card">
-          <div class="card-image">
-            <img src="https://image.thum.io/get/width/640/crop/400/https://oulipo.xyz/theyfleefromme.html" alt="They Flee From Me" loading="lazy" onload="this.classList.add('loaded')">
+          <div class="work-item">
+            <div class="work-title"><a href="where-is-home-for-you/index.html">Where is Home for You?</a></div>
+            <p class="work-description">An interactive question that invites participants to locate belonging. Where does home live in your body?</p>
+            <p class="work-meta">Participatory Web Art</p>
           </div>
-          <div class="card-content">
-            <h3 class="card-title"><a href="theyfleefromme.html">They Flee From Me</a></h3>
-            <p class="card-description">A digital reimagining of Sir Thomas Wyatt's 16th-century poem, where words scatter like the "they" who once sought the speaker.</p>
-            <p class="card-meta">With Leonardo Flores • After Wyatt</p>
+
+          <div class="work-item">
+            <div class="work-title"><a href="map-your-journey/public/index.html">Born on a Map</a></div>
+            <p class="work-description">We're all born somewhere on a map—but who drew those lines? An exploration of cartographic violence.</p>
+            <p class="work-meta">Interactive Cartography</p>
           </div>
-        </article>
-    
+
+          <div class="work-item">
+            <div class="work-title"><a href="chameleon-final/public/index.html">The Animal That Changes</a></div>
+            <p class="work-description">Migrants as chameleons: adapting, camouflaging, surviving. An interactive meditation on assimilation.</p>
+            <p class="work-meta">Metamorphosis Poetry</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="how-do-you-home/public/index.html">How Do You Home?</a></div>
+            <p class="work-description">Home as verb: the actions of making, keeping, losing, finding home.</p>
+            <p class="work-meta">Verb Poetry</p>
+          </div>
+
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Deserve It -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Deserve It</h2>
+          <p class="section-subtitle">Gray Area Performance</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-1-welcome.html">Welcome</a></div>
+            <p class="work-description">The performance begins with a greeting. But who is being welcomed, and into what?</p>
+            <p class="work-meta">Opening</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-2-deny.html">Deny</a></div>
+            <p class="work-description">The first movement of refusal. Before you can belong, you must perform denial.</p>
+            <p class="work-meta">Movement I</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-3-reach.html">Reach</a></div>
+            <p class="work-description">Extension toward acceptance. The body stretches toward belonging that remains just out of grasp.</p>
+            <p class="work-meta">Movement II</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-4-erase.html">Erase</a></div>
+            <p class="work-description">Self-erasure as survival strategy. What must disappear for the rest to remain?</p>
+            <p class="work-meta">Movement III</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-5-id.html">Get an ID</a></div>
+            <p class="work-description">Identity becomes document. The person reduced to paper, to number, to scannable code.</p>
+            <p class="work-meta">Movement IV</p>
+          </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="deserve-it-5-alt-candle.html">Light a Candle</a></div>
+            <p class="work-description">Alternative ending: ritual over bureaucracy. Perhaps belonging is kindled, not granted.</p>
+            <p class="work-meta">Alternative Ending</p>
+          </div>
+
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Collaborations -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Collaborations</h2>
+          <p class="section-subtitle">Works with Others</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="theyfleefromme.html">They Flee From Me</a></div>
+            <p class="work-description">A digital reimagining of Sir Thomas Wyatt's 16th-century poem, where words scatter like the "they" who once sought the speaker.</p>
+            <p class="work-meta">With Leonardo Flores • After Wyatt</p>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
   </div>
-    </section>
-
-  </main>
 
   <!-- Footer -->
   <footer class="footer">
-    <div class="footer-content">
-      <p>oulipo.xyz — A laboratory of experimental computational poetry</p>
-      <div class="footer-links">
-        <a href="https://www.halimmadi.com" target="_blank">halimmadi.com</a>
-        <a href="https://www.instagram.com/yalla_halim" target="_blank">@yalla_halim</a>
-        <a href="https://halimmadi.substack.com" target="_blank">Newsletter</a>
-      </div>
+    <div class="footer-links">
+      <a href="https://www.halimmadi.com" target="_blank">halimmadi.com</a>
+      <a href="https://www.instagram.com/yalla_halim" target="_blank">@yalla_halim</a>
+      <a href="https://halimmadi.substack.com" target="_blank">Newsletter</a>
     </div>
   </footer>
 
-  <script>
-    // Toggle section collapse
-    function toggleSection(header) {
-      const section = header.parentElement;
-      section.classList.toggle('collapsed');
-    }
-
-    // Image error handling - show placeholder
-    document.querySelectorAll('.card-image img').forEach(img => {
-      img.addEventListener('error', function() {
-        this.style.display = 'none';
-        this.parentElement.classList.add('placeholder');
-        // Get first letter of card title for placeholder
-        const title = this.closest('.card').querySelector('.card-title').textContent;
-        this.parentElement.textContent = title.charAt(0).toUpperCase();
-      });
-    });
-
-    // Smooth reveal on scroll
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.card').forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-      observer.observe(card);
-    });
-  </script>
 </body>
 </html>

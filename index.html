@@ -344,6 +344,66 @@
       color: rgba(0, 0, 0, 0.5);
     }
 
+    /* Featured Work Item (with image, like halimmadi.com) */
+    .work-featured {
+      margin-bottom: 3rem;
+    }
+
+    .work-featured-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 2fr;
+      gap: 2rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .work-featured-header .caption {
+      font-family: "Diatype Mono Variable", monospace;
+      font-size: 1.2rem;
+      color: #000000;
+    }
+
+    .work-featured-header .caption a {
+      text-decoration: underline;
+    }
+
+    .work-featured-body {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 2rem;
+    }
+
+    .work-featured-image {
+      width: 100%;
+    }
+
+    .work-featured-image img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .work-featured-description {
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+      color: rgba(0, 0, 0, 0.85);
+      line-height: 1.4;
+    }
+
+    .work-featured-description em {
+      font-style: italic;
+    }
+
+    @media (max-width: 900px) {
+      .work-featured-header {
+        grid-template-columns: 1fr;
+        gap: 0.25rem;
+      }
+      
+      .work-featured-body {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* Mobile Styles */
     @media (max-width: 900px) {
       .grid {
@@ -434,6 +494,25 @@
 
       <hr>
 
+      <!-- Curl - Featured Work -->
+      <section class="work-featured">
+        <div class="work-featured-header">
+          <span class="caption"><a href="curl/">curl</a></span>
+          <span class="caption">Jan'26</span>
+          <span class="caption">Ongoing</span>
+        </div>
+        <div class="work-featured-body">
+          <div class="work-featured-image">
+            <img src="Assets/curl-screenshot.png" alt="curl - interactive poetry piece">
+          </div>
+          <div class="work-featured-description">
+            <em>curl</em> is an interactive visual poem exploring hair as archive, memory, and resistance. Through a scrolling journey down a single curling strand, the piece weaves together personal narratives, cultural histories, and the politics of Black and Brown hair. Pull, catch, release—each gesture reveals hidden stories embedded in texture, shape, and style.
+          </div>
+        </div>
+      </section>
+
+      <hr>
+
       <!-- Interactive Experiments -->
       <section class="section">
         <div class="section-header">
@@ -518,7 +597,7 @@
             <div class="work-title"><a href="choose.html">Choose</a></div>
             <p class="work-description">A branching poem about decisions and their consequences. Every choice closes one door and opens another.</p>
             <p class="work-meta">Choice-Based Narrative</p>
-        </div>
+      </div>
 
           <div class="work-item">
             <div class="work-title"><a href="defeatme.html">Defeat Me</a></div>

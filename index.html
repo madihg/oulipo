@@ -171,13 +171,6 @@
       top: 1.5rem;
       right: 4rem;
       z-index: 200;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .menu-toggle.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
       background: none;
       border: none;
       cursor: pointer;
@@ -188,6 +181,12 @@
       flex-direction: column;
       justify-content: center;
       gap: 5px;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .menu-toggle.hidden {
+      opacity: 0;
+      visibility: hidden;
     }
 
     .menu-toggle span {

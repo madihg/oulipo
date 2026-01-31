@@ -140,6 +140,25 @@
       margin: 0 auto;
     }
 
+    /* Site Header */
+    .site-header {
+      position: fixed;
+      top: 1.5rem;
+      left: 4rem;
+      z-index: 200;
+      font-family: Standard, sans-serif;
+      font-size: 1.3rem;
+    }
+
+    .site-header a {
+      text-decoration: none;
+      color: rgba(0, 0, 0, 0.85);
+    }
+
+    .site-header a:hover {
+      opacity: 0.7;
+    }
+
     /* Menu Toggle Button */
     .menu-toggle {
       position: fixed;
@@ -358,17 +377,16 @@
     }
 
     .work-featured-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr 2fr;
-      gap: 2rem;
       margin-bottom: 1.5rem;
     }
 
     .work-featured-header .caption {
+      display: block;
       font-family: "Diatype Mono Variable", monospace;
       font-size: 1.1rem;
       color: #000000;
       font-weight: 400;
+      line-height: 1.4;
     }
 
     .work-featured-header .caption a {
@@ -407,11 +425,6 @@
     }
 
     @media (max-width: 900px) {
-      .work-featured-header {
-        grid-template-columns: 1fr;
-        gap: 0.25rem;
-      }
-      
       .work-featured-body {
         grid-template-columns: 1fr;
       }
@@ -448,6 +461,11 @@
         font-size: 4.5rem;
       }
 
+      .site-header {
+        left: 1.5rem;
+        top: 1rem;
+      }
+
       .menu-toggle {
         top: 1rem;
         right: 1.5rem;
@@ -456,6 +474,11 @@
   </style>
 </head>
 <body>
+
+  <!-- Site Header -->
+  <div class="site-header">
+    <a href="https://halimmadi.com">Halim Madi</a>
+  </div>
 
   <!-- Menu Toggle Button -->
   <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
@@ -516,7 +539,7 @@
         <!-- curl -->
         <div class="work-featured">
           <div class="work-featured-header">
-            <span class="caption"><a href="curl/">curl</a></span>
+            <span class="caption"><a href="curl/">Curl</a></span>
             <span class="caption">Jan'26</span>
             <span class="caption">Ongoing</span>
         </div>
@@ -533,7 +556,7 @@
         <!-- Deserve It -->
         <div class="work-featured">
           <div class="work-featured-header">
-            <span class="caption"><a href="https://deserve.vercel.app/" target="_blank">Deserve It ↗</a></span>
+            <span class="caption"><a href="https://deserve.vercel.app/" target="_blank">Deserve It</a></span>
             <span class="caption">2024</span>
             <span class="caption">Gray Area Performance</span>
         </div>
@@ -568,11 +591,66 @@
 
       <hr>
 
-      <!-- Interactive Experiments -->
+      <!-- Non Human Poets -->
       <section class="section">
         <div class="section-header">
-          <h2 class="section-title">Interactive Experiments</h2>
-          <p class="section-subtitle">Standalone HTML Poetry</p>
+          <h2 class="section-title">Non Human Poets</h2>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="https://scam-ai-poet.vercel.app/" target="_blank">Scam AI Poet</a></div>
+            <p class="work-description">Got scam? An AI trained on scam emails generates new poetic frauds. The language of deception becomes absurdist verse.</p>
+            <p class="work-meta">AI-Generated Poetry</p>
+            <img src="Assets/screenshots/whomp.png" alt="Scam AI Poet screenshot" class="work-image">
+        </div>
+
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Border/line Series -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Border/line</h2>
+          <p class="section-subtitle">Robert Coover Award Winner 2024</p>
+        </div>
+        <div class="grid">
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-deny.html">Deny</a></div>
+            <p class="work-description">Hostile immigration questions float across the screen while "No" checkboxes flee your cursor. The interface becomes the border.</p>
+            <p class="work-meta">Step 1 of 4</p>
+        </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-reach.html">Reach</a></div>
+            <p class="work-description">The body stretches toward belonging. Reaching across digital space mirrors the migrant's perpetual extension toward acceptance.</p>
+            <p class="work-meta">Step 2 of 4</p>
+        </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-erase.html">Erase</a></div>
+            <p class="work-description">Identity fragments as the interface demands assimilation. What parts of yourself must you delete to pass through?</p>
+            <p class="work-meta">Step 3 of 4</p>
+        </div>
+
+          <div class="work-item">
+            <div class="work-title"><a href="borderline-wait.html">Wait</a></div>
+            <p class="work-description">A countdown: 299 days until your documents arrive. The excruciating temporality of bureaucratic limbo rendered as interface.</p>
+            <p class="work-meta">Step 4 of 4</p>
+      </div>
+
+        </div>
+      </section>
+
+      <hr>
+
+      <!-- Somatic Poetry Sandbox -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Somatic Poetry Sandbox</h2>
         </div>
         <div class="grid">
           
@@ -687,62 +765,6 @@
             <p class="work-meta">Typewriter Poetry</p>
             <img src="Assets/screenshots/typewriter.png" alt="Typewriter screenshot" class="work-image">
         </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="https://scam-ai-poet.vercel.app/" target="_blank">Scam AI Poet ↗</a></div>
-            <p class="work-description">Got scam? An AI trained on scam emails generates new poetic frauds. The language of deception becomes absurdist verse.</p>
-            <p class="work-meta">AI-Generated Poetry</p>
-            <img src="Assets/screenshots/whomp.png" alt="Scam AI Poet screenshot" class="work-image">
-        </div>
-
-        </div>
-      </section>
-
-      <hr>
-
-      <!-- Border/line Series -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">Border/line</h2>
-          <p class="section-subtitle">Robert Coover Award Winner 2024</p>
-        </div>
-        <div class="grid">
-
-          <div class="work-item">
-            <div class="work-title"><a href="borderline-deny.html">Deny</a></div>
-            <p class="work-description">Hostile immigration questions float across the screen while "No" checkboxes flee your cursor. The interface becomes the border.</p>
-            <p class="work-meta">Step 1 of 4</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="borderline-reach.html">Reach</a></div>
-            <p class="work-description">The body stretches toward belonging. Reaching across digital space mirrors the migrant's perpetual extension toward acceptance.</p>
-            <p class="work-meta">Step 2 of 4</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="borderline-erase.html">Erase</a></div>
-            <p class="work-description">Identity fragments as the interface demands assimilation. What parts of yourself must you delete to pass through?</p>
-            <p class="work-meta">Step 3 of 4</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="borderline-wait.html">Wait</a></div>
-            <p class="work-description">A countdown: 299 days until your documents arrive. The excruciating temporality of bureaucratic limbo rendered as interface.</p>
-            <p class="work-meta">Step 4 of 4</p>
-      </div>
-
-        </div>
-      </section>
-
-
-      <!-- Collaborations -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">Collaborations</h2>
-          <p class="section-subtitle">Works with Others</p>
-        </div>
-        <div class="grid">
 
           <div class="work-item">
             <div class="work-title"><a href="theyfleefromme.html">They Flee From Me</a></div>

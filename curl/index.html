@@ -1,0 +1,4343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>curl</title>
+    <!-- Leaflet for maps -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #ffffff;
+            min-height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+            font-family: 'EB Garamond', Georgia, serif;
+        }
+        
+        #canvas {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+        }
+        
+        .hint {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            border: 1px solid #000000;
+            padding: 12px 20px;
+            color: rgba(0, 0, 0, 0.6);
+            font-size: 13px;
+            font-style: italic;
+            letter-spacing: 0.02em;
+            pointer-events: none;
+            transition: opacity 0.8s;
+            z-index: 10;
+        }
+        
+        .hint.faded {
+            opacity: 0;
+        }
+        
+        /* Snail-shaped arrow */
+        .snail-arrow {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            pointer-events: none;
+        }
+        
+        .snail-arrow.visible {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .snail-arrow svg {
+            width: 80px;
+            height: 35px;
+            animation: curlyBounce 2s ease-in-out infinite;
+        }
+        
+        .snail-arrow .snail-line {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        
+        @keyframes curlyBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(4px); }
+        }
+        
+        .snail-arrow:hover svg {
+            animation: curlyWiggle 0.5s ease-in-out infinite;
+        }
+        
+        @keyframes curlyWiggle {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-3px); }
+            75% { transform: translateX(3px); }
+        }
+        
+        /* Hair phase UI elements */
+        .hair-bottom-box {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            border: 1px solid #000000;
+            padding: 15px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 20;
+        }
+        
+        .hair-bottom-box.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        
+        .hair-labels {
+            display: flex;
+            gap: 30px;
+            color: rgba(0, 0, 0, 0.5);
+            font-size: 13px;
+            font-style: italic;
+            letter-spacing: 0.02em;
+        }
+        
+        .hair-labels span {
+            display: inline-block;
+        }
+        
+        .progress {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid #000000;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+        
+        .progress-dot:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+        
+        .progress-dot.filled {
+            background: #000000;
+            border-color: #000000;
+            cursor: default;
+        }
+        
+        /* Coil buttons */
+        .coil-button {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 1px solid rgba(0, 0, 0, 0.4);
+            color: rgba(0, 0, 0, 0.8);
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 12px;
+            cursor: pointer;
+            transform: translate(-50%, -50%);
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: coilAppear 0.5s ease forwards;
+            z-index: 50;
+        }
+        
+        @media (max-width: 600px) {
+            .coil-button {
+                width: 32px;
+                height: 32px;
+                font-size: 13px;
+            }
+        }
+        
+        .coil-button:hover {
+            border-color: rgba(0, 0, 0, 0.8);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+        
+        .coil-button.revealed {
+            background: rgba(0, 0, 0, 0.05);
+            border-color: rgba(0, 0, 0, 0.6);
+        }
+        
+        @keyframes coilAppear {
+            0% { 
+                opacity: 0; 
+                transform: translate(-50%, -50%) scale(0); 
+            }
+            100% { 
+                opacity: 1; 
+                transform: translate(-50%, -50%) scale(1); 
+            }
+        }
+        
+        /* Sidequest trigger - animated curl shape */
+        .sidequest-trigger {
+            position: fixed;
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            z-index: 60;
+            opacity: 0;
+            animation: sidequestAppear 0.8s ease forwards;
+        }
+        .sidequest-trigger.trigger-c { width: 45px; height: 45px; }
+        .sidequest-trigger.trigger-u { width: 55px; height: 55px; }
+        .sidequest-trigger.trigger-r { width: 48px; height: 48px; }
+        .sidequest-trigger.trigger-l { width: 42px; height: 42px; }
+        
+        .sidequest-trigger canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        @keyframes sidequestAppear {
+            0% { 
+                opacity: 0;
+                transform: scale(0) rotate(-180deg);
+            }
+            60% {
+                opacity: 1;
+                transform: scale(1.2) rotate(20deg);
+            }
+            100% { 
+                opacity: 1;
+                transform: scale(1) rotate(0deg);
+            }
+        }
+        
+        @keyframes sidequestPulse {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.08) rotate(8deg); }
+            50% { transform: scale(0.95) rotate(-5deg); }
+            75% { transform: scale(1.05) rotate(3deg); }
+        }
+        
+        .sidequest-trigger.pulsing {
+            animation: sidequestAppear 0.8s ease forwards, sidequestPulse 2s ease-in-out 0.8s infinite;
+        }
+        
+        .sidequest-trigger:hover {
+            filter: brightness(0.9);
+        }
+        
+        /* Story overlay */
+        .story-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 100;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .story-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .story-content {
+            max-width: 400px;
+            padding: 40px 20px;
+            text-align: center;
+            color: rgba(0, 0, 0, 0.8);
+            font-size: 16px;
+            line-height: 2;
+        }
+        
+        .story-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: #000;
+            border: 1px solid #000;
+            color: #fff;
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 18px;
+            line-height: 34px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+        
+        .story-close:hover {
+            background: #fff;
+            color: #000;
+        }
+        
+        /* Gallery overlay */
+        .gallery-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 100;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        .gallery-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .gallery-wall {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+        }
+        
+        .gallery-piece {
+            background: #fff;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.08);
+        }
+        
+        .gallery-piece img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        
+        .gallery-piece.text-frame {
+            padding: 16px 20px;
+            font-size: 12px;
+            line-height: 1.75;
+            color: #000;
+        }
+        
+        @media (max-width: 699px) {
+            .gallery-wall {
+                padding: 20px 15px 100px 15px;
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 12px;
+                align-items: start;
+            }
+            
+            .gallery-piece {
+                width: 100%;
+            }
+            
+            .gallery-piece.m-span-2 {
+                grid-column: span 2;
+            }
+            
+            .gallery-piece.m-span-1 {
+                grid-column: span 1;
+            }
+            
+            .gallery-piece.m-push-right {
+                justify-self: end;
+            }
+            
+            .gallery-piece.m-push-left {
+                justify-self: start;
+            }
+            
+            .gallery-piece.m-narrow {
+                width: 85%;
+            }
+            
+            .gallery-piece.text-frame {
+                font-size: 13px;
+                padding: 14px 16px;
+                line-height: 1.7;
+            }
+        }
+        
+        @media (min-width: 700px) {
+            .gallery-wall {
+                height: 100vh;
+                min-height: 650px;
+                padding: 50px;
+            }
+            
+            .gallery-piece {
+                position: absolute;
+            }
+        }
+        
+        .gallery-close {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            background: #000;
+            border: 1px solid #000;
+            color: #fff;
+            font-family: 'EB Garamond', Georgia, serif;
+            font-size: 18px;
+            line-height: 34px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 200;
+        }
+        
+        .gallery-close:hover {
+            background: #fff;
+            color: #000;
+        }
+        
+        @media (max-width: 699px) {
+            .gallery-close {
+                top: 15px;
+                right: 15px;
+                width: 32px;
+                height: 32px;
+                font-size: 16px;
+                line-height: 30px;
+            }
+        }
+        
+        /* ========== CUSTOM LAYOUT STYLES ========== */
+        
+        /* ----- CONCEAL: One-by-one reveal in spiral pattern ----- */
+        .layout-conceal {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .conceal-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        .conceal-item {
+            position: absolute;
+            opacity: 0;
+            transform: scale(0.5) rotate(-20deg);
+            transition: opacity 0.5s ease, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+        }
+        .conceal-item.revealed {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+            pointer-events: auto;
+        }
+        .conceal-item img {
+            width: 120px;
+            height: auto;
+            max-height: 150px;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 12px rgba(0,0,0,0.15);
+            object-fit: cover;
+            display: block;
+        }
+        .conceal-item.text-item {
+            font-size: 13px;
+            line-height: 1.6;
+            padding: 14px 18px;
+            background: #fff;
+            border: 1px solid #000;
+            max-width: 200px;
+            text-align: left;
+            box-shadow: 2px 3px 12px rgba(0,0,0,0.1);
+        }
+        .conceal-hint {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(0,0,0,0.35);
+            letter-spacing: 0.02em;
+            font-family: 'EB Garamond', Georgia, serif;
+            z-index: 100;
+            transition: opacity 0.5s ease;
+        }
+        .conceal-hint.done {
+            opacity: 0;
+        }
+        .conceal-counter {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 13px;
+            color: rgba(0,0,0,0.3);
+            font-family: 'EB Garamond', Georgia, serif;
+            z-index: 100;
+        }
+        /* Desktop: larger elements */
+        @media (min-width: 768px) {
+            .conceal-item img {
+                width: 160px;
+                max-height: 200px;
+            }
+            .conceal-item.text-item {
+                font-size: 12px;
+                max-width: 240px;
+                padding: 18px 22px;
+            }
+        }
+        
+        /* ----- LOOSE: Bouncing images ----- */
+        .layout-loose {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .loose-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 13px;
+            line-height: 2;
+            text-align: center;
+            max-width: 400px;
+            padding: 25px 30px;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #000;
+            z-index: 10;
+        }
+        .loose-image {
+            position: absolute;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.1);
+            transition: box-shadow 0.3s;
+        }
+        .loose-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        
+        /* ----- FRIZZ: Grid then scroll ----- */
+        .layout-frizz {
+            min-height: 100vh;
+            padding-bottom: 100px;
+        }
+        .frizz-section {
+            min-height: auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            padding: 60px 30px;
+            position: relative;
+        }
+        .frizz-item {
+            border: 1px solid #000;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.08);
+            background: #fff;
+        }
+        .frizz-item img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .frizz-item.text-item {
+            padding: 20px;
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 350px;
+        }
+        .frizz-item.first-image {
+            width: 200px;
+        }
+        .frizz-item.last-image {
+            width: 280px;
+        }
+        .frizz-arrow {
+            display: none;
+            width: 100%;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 30px;
+            color: rgba(0,0,0,0.3);
+            animation: bounceDown 1s ease-in-out infinite;
+            cursor: pointer;
+            z-index: 10;
+        }
+        .frizz-arrow.visible {
+            display: block;
+        }
+        @keyframes bounceDown {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+        /* Mobile: single column flow */
+        @media (max-width: 600px) {
+            .frizz-section {
+                flex-direction: column;
+                align-items: center;
+                padding: 40px 15px;
+                gap: 15px;
+            }
+            .frizz-item {
+                width: 85vw !important;
+                max-width: 85vw !important;
+            }
+            .frizz-item.text-item {
+                width: 90vw !important;
+                max-width: 90vw !important;
+                font-size: 13px;
+            }
+            .frizz-item.first-image {
+                width: 90vw !important;
+                max-width: 90vw !important;
+            }
+            .frizz-item.last-image {
+                width: 90vw !important;
+                max-width: 90vw !important;
+            }
+            .frizz-arrow {
+                margin-top: 20px;
+            }
+        }
+        
+        /* ----- RAMBO: Structured reveal ----- */
+        .layout-rambo {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            cursor: pointer;
+            padding: 60px 20px 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+        .rambo-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+            align-items: flex-start;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+        .rambo-group.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .rambo-item {
+            border: 1px solid #000;
+            box-shadow: 2px 3px 10px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+        .rambo-item img {
+            display: block;
+            max-width: 200px;
+            max-height: 40vh;
+        }
+        .rambo-item.text-item {
+            padding: 20px 25px;
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 400px;
+        }
+        .rambo-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(0,0,0,0.2);
+            letter-spacing: 0.02em;
+            z-index: 10;
+        }
+        @media (max-width: 600px) {
+            .layout-rambo {
+                padding: 50px 15px 100px;
+                gap: 20px;
+            }
+            .rambo-item img {
+                max-width: 45vw;
+                max-height: 25vh;
+            }
+            .rambo-item.text-item {
+                max-width: 90vw;
+                font-size: 13px;
+                padding: 15px 18px;
+            }
+        }
+        
+        /* ----- STACKED: Drag cards layout ----- */
+        .layout-stacked {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .stacked-hint {
+            position: fixed;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(0,0,0,0.2);
+            letter-spacing: 0.02em;
+        }
+        .stacked-counter {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: rgba(0,0,0,0.2);
+        }
+        .stacked-card {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #000;
+            box-shadow: 3px 4px 12px rgba(0,0,0,0.1);
+            cursor: grab;
+            user-select: none;
+            -webkit-user-select: none;
+            touch-action: none;
+            transition: box-shadow 0.2s, transform 0.1s;
+        }
+        .stacked-card:active {
+            cursor: grabbing;
+            box-shadow: 6px 8px 20px rgba(0,0,0,0.15);
+        }
+        .stacked-card img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+            -webkit-user-drag: none;
+        }
+        .stacked-card.text-card {
+            padding: 20px 25px;
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 320px;
+        }
+        @media (max-width: 600px) {
+            .stacked-card.text-card {
+                padding: 15px 18px;
+                font-size: 13px;
+                line-height: 1.7;
+            }
+        }
+        
+        /* ----- SKRILLEX: Multi-deck scatter ----- */
+        .layout-skrillex {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            touch-action: none;
+        }
+        .skrillex-deck {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+        }
+        .skrillex-deck.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .skrillex-item {
+            position: absolute;
+            background: #fff;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.1);
+            cursor: grab;
+            user-select: none;
+            transition: box-shadow 0.2s, opacity 0.3s;
+        }
+        .skrillex-item:active {
+            cursor: grabbing;
+            box-shadow: 5px 8px 20px rgba(0,0,0,0.2);
+        }
+        .skrillex-item img {
+            display: block;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+        }
+        .skrillex-item.text-item {
+            padding: 18px 22px;
+            font-size: 12px;
+            line-height: 1.8;
+            max-width: 280px;
+            cursor: pointer;
+        }
+        .skrillex-item.text-item.is-trigger {
+            background: #000;
+            color: #fff;
+            cursor: pointer;
+        }
+        .skrillex-item.text-item.is-trigger:hover {
+            background: #222;
+        }
+        .skrillex-progress {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .skrillex-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #fff;
+            border: 1px solid #000;
+            transition: all 0.3s;
+        }
+        .skrillex-dot.active {
+            background: #000;
+        }
+        /* Snail arrow for gallery navigation (reusable) */
+        .gallery-snail-arrow {
+            position: fixed;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            cursor: pointer;
+            z-index: 20;
+            transition: opacity 0.5s ease;
+        }
+        .gallery-snail-arrow.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+        .gallery-snail-arrow svg {
+            width: 70px;
+            height: 30px;
+            animation: curlyBounce 2s ease-in-out infinite;
+        }
+        .gallery-snail-arrow .snail-line {
+            fill: none;
+            stroke: #000;
+            stroke-width: 2.5;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+        .gallery-snail-arrow:hover svg {
+            animation: curlyWiggle 0.5s ease-in-out infinite;
+        }
+        @media (max-width: 600px) {
+            .skrillex-item.text-item {
+                max-width: 220px;
+                font-size: 13px;
+                padding: 14px 16px;
+            }
+        }
+        
+        /* ----- PARALLAX: Layered scroll - simplified ----- */
+        .layout-parallax {
+            padding: 60px 20px 100px;
+        }
+        .parallax-section {
+            min-height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+            padding: 30px 20px;
+            margin-bottom: 20px;
+        }
+        .parallax-section:nth-of-type(even) {
+            flex-direction: column-reverse;
+        }
+        .parallax-item {
+            transition: transform 0.3s ease-out;
+            will-change: transform;
+        }
+        .parallax-item img {
+            display: block;
+            max-width: 70vw;
+            max-height: 60vh;
+            width: auto;
+            height: auto;
+            border: 1px solid #000;
+            box-shadow: 3px 4px 15px rgba(0,0,0,0.1);
+        }
+        .parallax-item.text-item {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 25px 30px;
+            max-width: 500px;
+            font-size: 12px;
+            line-height: 1.9;
+            box-shadow: 3px 4px 15px rgba(0,0,0,0.1);
+        }
+        .parallax-progress {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 50;
+        }
+        .parallax-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.15);
+            transition: background 0.3s;
+        }
+        .parallax-dot.active {
+            background: rgba(0,0,0,0.6);
+        }
+        @media (max-width: 600px) {
+            .layout-parallax {
+                padding: 40px 15px 80px;
+            }
+            .parallax-section {
+                padding: 20px 10px;
+                gap: 20px;
+                margin-bottom: 15px;
+            }
+            /* Disable parallax transform on mobile for visibility */
+            .parallax-item {
+                transform: none !important;
+            }
+            .parallax-item img {
+                max-width: 92vw;
+                max-height: none;
+            }
+            .parallax-item.text-item {
+                max-width: 92vw;
+                font-size: 13px;
+                padding: 18px;
+            }
+            .parallax-progress {
+                right: 10px;
+            }
+        }
+        
+        /* ----- COMIC GRID: Varied sizes like a comic, full images ----- */
+        .layout-comic {
+            padding: 15px;
+            min-height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: flex-start;
+            align-content: flex-start;
+        }
+        @media (min-width: 600px) {
+            .layout-comic {
+                padding: 30px;
+                gap: 10px;
+            }
+        }
+        .comic-cell {
+            border: 1px solid #000;
+            background: #fff;
+            cursor: pointer;
+            flex-shrink: 0;
+            box-shadow: 1px 2px 4px rgba(0,0,0,0.08);
+        }
+        .comic-cell img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .comic-cell.text-cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px 18px;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+        /* Desktop: varied widths for comic feel */
+        @media (min-width: 600px) {
+            .comic-cell.size-xl { width: calc(50% - 6px); }
+            .comic-cell.size-lg { width: calc(38% - 6px); }
+            .comic-cell.size-md { width: calc(30% - 6px); }
+            .comic-cell.size-sm { width: calc(22% - 6px); }
+            .comic-cell.text-cell { width: calc(45% - 6px); max-width: 400px; }
+        }
+        /* Mobile: 2-column comic grid feel */
+        @media (max-width: 599px) {
+            .layout-comic {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .comic-cell {
+                width: 100% !important;
+            }
+            .comic-cell.size-xl,
+            .comic-cell.text-cell {
+                grid-column: span 2;
+            }
+            .comic-cell.text-cell {
+                font-size: 12px;
+                padding: 12px 14px;
+            }
+        }
+        .comic-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+            z-index: 200;
+            padding: 40px;
+        }
+        .comic-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .comic-overlay img {
+            max-width: 90%;
+            max-height: 80vh;
+        }
+        .comic-overlay-text {
+            color: #fff;
+            font-size: 14px;
+            line-height: 2;
+            text-align: center;
+            max-width: 600px;
+        }
+        
+        /* ----- TYPEWRITER: Text then image ----- */
+        .layout-typewriter {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .typewriter-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease;
+        }
+        .typewriter-bg.visible {
+            opacity: 1;
+        }
+        .typewriter-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .typewriter-text {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #000;
+            padding: 30px 40px;
+            max-width: 500px;
+            font-size: 14px;
+            line-height: 2;
+            box-shadow: 3px 4px 20px rgba(0,0,0,0.15);
+        }
+        .typewriter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background: #000;
+            margin-left: 2px;
+            animation: cursorBlink 0.8s infinite;
+        }
+        @keyframes cursorBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+        @media (max-width: 600px) {
+            .typewriter-text {
+                max-width: 90%;
+                padding: 20px 25px;
+                font-size: 12px;
+            }
+        }
+        
+        /* ----- MOHAWK: Lines → fill → content ----- */
+        .layout-mohawk {
+            min-height: 100vh;
+            position: relative;
+            cursor: pointer;
+            padding-bottom: 100px;
+        }
+        .mohawk-line {
+            position: fixed;
+            top: 0;
+            width: 2px;
+            height: 100vh;
+            background: #000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 5;
+        }
+        .mohawk-line.left { left: 35%; }
+        .mohawk-line.right { right: 35%; }
+        .mohawk-line.visible { opacity: 1; }
+        .mohawk-fill {
+            position: fixed;
+            top: 0;
+            left: 35%;
+            right: 35%;
+            height: 100vh;
+            background: #000;
+            transform: scaleX(0);
+            transition: transform 0.6s ease;
+            z-index: 4;
+        }
+        .mohawk-fill.visible {
+            transform: scaleX(1);
+        }
+        .mohawk-content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 15px;
+            padding: 80px 20px;
+        }
+        .mohawk-item {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 8px rgba(0,0,0,0.1);
+            background: #fff;
+        }
+        .mohawk-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .mohawk-item img {
+            display: block;
+            max-width: 180px;
+            height: auto;
+        }
+        .mohawk-item.text-item {
+            padding: 18px 22px;
+            font-size: 13px;
+            line-height: 1.8;
+            max-width: 280px;
+        }
+        .mohawk-item.side-left {
+            margin-right: auto;
+            margin-left: 5%;
+        }
+        .mohawk-item.side-right {
+            margin-left: auto;
+            margin-right: 5%;
+        }
+        .mohawk-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(0,0,0,0.2);
+            letter-spacing: 0.02em;
+            z-index: 20;
+        }
+        @media (max-width: 600px) {
+            .mohawk-line.left { left: 30%; }
+            .mohawk-line.right { right: 30%; }
+            .mohawk-fill { left: 30%; right: 30%; }
+            .mohawk-content {
+                justify-content: center;
+                align-items: center;
+            }
+            .mohawk-item {
+                margin-left: auto !important;
+                margin-right: auto !important;
+            }
+            .mohawk-item img { max-width: 140px; }
+            .mohawk-item.text-item { max-width: 240px; font-size: 12px; }
+        }
+        
+        /* ----- PRO: Scrollable layered reveal ----- */
+        .layout-pro {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            cursor: pointer;
+        }
+        .pro-content {
+            padding: 40px 20px 100px;
+        }
+        .pro-section {
+            margin-bottom: 60px;
+        }
+        .pro-section.hidden {
+            display: none;
+        }
+        .pro-section.visible {
+            display: flex;
+            animation: proFadeIn 0.6s ease forwards;
+        }
+        @keyframes proFadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Back section: 2x2 grid of images */
+        .pro-back-section {
+            display: block;
+        }
+        .pro-back-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .pro-back-img {
+            border: 1px solid #000;
+            box-shadow: 3px 4px 15px rgba(0,0,0,0.12);
+            overflow: hidden;
+            animation: proImgFade 0.5s ease forwards;
+            opacity: 0;
+        }
+        @keyframes proImgFade {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .pro-back-img img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        /* Front sections: image + text stacked */
+        .pro-front-section {
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+            padding: 20px;
+        }
+        .pro-front-img {
+            border: 1px solid #000;
+            box-shadow: 3px 4px 12px rgba(0,0,0,0.15);
+            max-width: 400px;
+        }
+        .pro-front-img img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+        .pro-text {
+            background: #fff;
+            border: 1px solid #000;
+            padding: 25px 30px;
+            max-width: 500px;
+            font-size: 12px;
+            line-height: 1.9;
+            text-align: center;
+            box-shadow: 3px 4px 12px rgba(0,0,0,0.1);
+        }
+        .pro-hint {
+            position: fixed;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            font-family: 'EB Garamond', Georgia, serif;
+            color: rgba(0,0,0,0.3);
+            letter-spacing: 0.02em;
+            transition: opacity 0.5s;
+            z-index: 50;
+        }
+        @media (max-width: 600px) {
+            .pro-content {
+                padding: 30px 15px 80px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .pro-back-grid {
+                gap: 10px;
+                max-width: 90vw;
+            }
+            .pro-front-section {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .pro-front-img {
+                max-width: 90vw;
+                margin: 0 auto;
+            }
+            .pro-text {
+                max-width: 92vw;
+                font-size: 13px;
+                padding: 18px 20px;
+                margin: 0 auto;
+            }
+            .pro-section {
+                margin-bottom: 40px;
+                width: 100%;
+            }
+        }
+        
+        /* ----- HAIRDRESSERS: Map layout ----- */
+        .layout-map {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+        }
+        .map-container {
+            width: 100%;
+            height: 100%;
+            filter: grayscale(100%);
+        }
+        .map-text {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #000;
+            padding: 20px 25px;
+            max-width: 400px;
+            font-size: 12px;
+            line-height: 1.8;
+            text-align: center;
+            z-index: 1000;
+        }
+        @media (max-width: 600px) {
+            .map-text {
+                max-width: 90%;
+                font-size: 13px;
+                bottom: 70px;
+            }
+        }
+        
+        /* ----- DESERT: Simple overlay ----- */
+        .layout-desert {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .desert-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .desert-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .desert-text {
+            position: relative;
+            z-index: 10;
+            background: rgba(255,255,255,0.92);
+            border: 1px solid #000;
+            padding: 30px 40px;
+            max-width: 450px;
+            font-size: 16px;
+            line-height: 2;
+            text-align: center;
+            font-style: italic;
+            box-shadow: 3px 4px 15px rgba(0,0,0,0.15);
+        }
+        @media (max-width: 600px) {
+            .desert-text {
+                max-width: 85%;
+                padding: 20px 25px;
+                font-size: 14px;
+            }
+        }
+        
+        /* ----- MINARETS: Tower climbing ----- */
+        .layout-minarets {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+            cursor: pointer;
+        }
+        .minaret-tower {
+            position: fixed;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            height: 100vh;
+            z-index: 1;
+        }
+        .minaret-tower img {
+            height: 100%;
+            width: auto;
+            object-fit: contain;
+        }
+        .minaret-content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 40px 20px;
+        }
+        .minaret-item {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+            margin-bottom: 20px;
+            align-self: center;
+        }
+        .minaret-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .minaret-item.at-top {
+            position: fixed;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .minaret-item img {
+            max-width: 180px;
+            max-height: 30vh;
+            border: 1px solid #000;
+            box-shadow: 2px 3px 10px rgba(0,0,0,0.15);
+            display: block;
+        }
+        .minaret-item.text-item {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #000;
+            padding: 20px 25px;
+            max-width: 350px;
+            font-size: 12px;
+            line-height: 1.8;
+            box-shadow: 2px 3px 10px rgba(0,0,0,0.15);
+        }
+        .minaret-hint {
+            position: fixed;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: rgba(0,0,0,0.25);
+            letter-spacing: 0.02em;
+            z-index: 20;
+        }
+        @media (max-width: 600px) {
+            .minaret-item img {
+                max-width: 140px;
+            }
+            .minaret-item.text-item {
+                max-width: 280px;
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <div class="hint" id="hint">touch to uncurl</div>
+    
+    <!-- Simple curly arrow -->
+    <div class="snail-arrow" id="snail">
+        <svg viewBox="0 0 120 50">
+            <!-- Curly line with loop and arrow -->
+            <path d="M5,35 
+                     Q25,35 35,30 
+                     Q50,20 45,8 
+                     Q40,-5 30,8 
+                     Q20,22 35,32 
+                     Q55,45 75,38 
+                     Q95,32 110,35" 
+                  class="snail-line" fill="none"/>
+            <!-- Arrow head -->
+            <path d="M102,30 L112,35 L102,40" class="snail-line" fill="none"/>
+        </svg>
+    </div>
+    
+    <!-- Hair phase bottom box with labels and progress -->
+    <div class="hair-bottom-box" id="hair-bottom-box">
+        <div class="hair-labels">
+            <span>catch</span>
+            <span>pull</span>
+            <span>release</span>
+        </div>
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <!-- Story overlay -->
+    <div class="story-overlay" id="overlay">
+        <div class="story-content">
+            <p id="story-text"></p>
+            <button class="story-close" onclick="closeStory()">×</button>
+        </div>
+    </div>
+    
+    <!-- Gallery overlay -->
+    <div class="gallery-overlay" id="gallery-overlay">
+        <div class="gallery-wall" id="gallery-wall"></div>
+        <button class="gallery-close" onclick="closeGallery()">×</button>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height, centerX, centerY, scale;
+        let time = 0;
+        
+        // Phase: 'curl' = interactive CURL letters, 'transition' = morphing to hair, 'hair-fade', 'hair' = verlet simulation
+        let phase = 'curl';
+        let transitionProgress = 0;
+        let transitionStartTime = 0;
+        
+        // Magical particles for transition
+        const particles = [];
+        
+        // CURL letters state
+        let letterCurls = [1, 1, 1, 1];
+        let letterTargets = [1, 1, 1, 1];
+        let letterPositions = [];
+        
+        // Verlet hair segments
+        const segments = [];
+        let hairAlpha = 0;
+        
+        // Coils and buttons (from experiment-2-verlet)
+        const coils = [];
+        const buttons = [];
+        let coilCount = 0;
+        let isHoveringHair = false;
+        let pullStart = null;
+        let maxPull = 0;
+        
+        // Track current gallery for sidequest triggers
+        let currentGalleryIndex = -1;
+        let activeSidequestTrigger = null;
+        
+        // Sidequest mapping: main story index → sidequest shape type
+        const sidequestMap = {
+            6: { shape: 'c', position: 'right' },  // 7-frizz (index 6) → C shape → 7o-hairdressers
+            7: { shape: 'u', position: 'left' },   // 8-conceal (index 7) → U shape → 8o-loose
+            8: { shape: 'r', position: 'right' },  // 9-products (index 8) → R shape → 9o-desert
+            9: { shape: 'l', position: 'left' }    // 10-minarets (index 9) → L shape → 10o-pineapple
+        };
+        let isDragging = false;
+        let dragSegment = null;
+        
+        // Complete story content - folder, images (in order), and text paragraphs
+        const storyContent = [
+            {
+                // 1 - pompadour
+                folder: '1-pompadour',
+                // Ordered items: number determines order (0, 0a, 1, 1a, 1b, 2, 2a, 3, 4...)
+                items: [
+                    { type: 'text', file: '0.txt', content: "Catacombs, Paris, 2011 – My hair is a soft alpha manga male's pompadour. If not for the lights we hold, this photo would have been a black rectangle. The Parisian catacombs stretch far beyond the ossuary museum. No light touches this world." },
+                    { type: 'img', file: '0a.JPG' },
+                    { type: 'img', file: '1.webp' },
+                    { type: 'img', file: '1a.jpg' },
+                    { type: 'img', file: '1b.jpg' },
+                    { type: 'img', file: '1c.png' },
+                    { type: 'img', file: '1d.webp' },
+                    { type: 'text', file: '2.txt', content: "Close to the official museum's entrance, down an abandoned railway is a low door that folds you into the dark soundless uterine caves of Paris Haussmann hollowed to build the capital. The Dorian Gray portrait he hid beneath the bone-colored wig." },
+                    { type: 'img', file: '2a.png' },
+                    { type: 'img', file: '3.png' },
+                    { type: 'img', file: '4.png' }
+                ],
+                // Legacy format for other layouts that still use it
+                images: ['0a.JPG', '1.webp', '1a.jpg', '1b.jpg', '1c.png', '1d.webp', '2a.png', '3.png', '4.png'],
+                texts: [
+                    "Catacombs, Paris, 2011 – My hair is a soft alpha manga male's pompadour. If not for the lights we hold, this photo would have been a black rectangle. The Parisian catacombs stretch far beyond the ossuary museum. No light touches this world.",
+                    "Close to the official museum's entrance, down an abandoned railway is a low door that folds you into the dark soundless uterine caves of Paris Haussmann hollowed to build the capital. The Dorian Gray portrait he hid beneath the bone-colored wig."
+                ]
+            },
+            {
+                // 2 - zeroth
+                folder: '2-zeroth',
+                images: ['1.png', '1a.jpg', '3.webp', '3a.webp', '5.png'],
+                texts: [
+                    "Cite universitaire, Paris, 2011 – I have no memory of this. By now I know that hair is power, so am I boasting my baldness in the dead of a French winter the way one would a voluntary handicap? This must have happened in Palm Springs a few weeks before this picture was taken.",
+                    "The golden dice are a clue. They're a gift from a man in Palm Springs who says 'mother womb' when referring to the pool he inflated and with a stretch of his chin invites people to jump in with him. I remember shyly falling in love while we swam in silence – became twins. As he dries the skin covering his trapezius skin, he explains that the dice are a nod to the masters of uncertainty and I must have been in awe at how Americans turn plastic into story – why else would my clavicles still shiver at the memory of his fingers placing the cheap necklace against them, how they moored me there. I must have shaved my head that week in LA before flying out."
+                ]
+            },
+            {
+                // 3 - mohawk
+                folder: '3-mohawk',
+                items: [
+                    { type: 'text', file: '0.txt', content: 'Asheville, NC, 2011 – Our couchsurfing host shows up with a Mohawk and either the rocky backseats of midnight Greyhound buses or this country pressing its breadth into my thinned psyche that make me ask for one.' },
+                    { type: 'img', file: '1.webp' },
+                    { type: 'img', file: '2.jpg' },
+                    { type: 'text', file: '2a.txt', content: 'Matt or Spencer shaves the sides of my head into a blunt arrow there and then, and shows me how a head can taste like danger.' },
+                    { type: 'img', file: '3.png' },
+                    { type: 'img', file: '4.jpg' },
+                    { type: 'img', file: '5.jpg' },
+                    { type: 'img', file: '6.jpg' }
+                ],
+                images: ['1.webp', '2.jpg', '3.png', '4.jpg', '5.jpg', '6.jpg'],
+                texts: []
+            },
+            {
+                // 4 - pro
+                folder: '4-pro',
+                items: [
+                    { type: 'img', file: '1.JPG', group: 'back' },
+                    { type: 'img', file: '2.JPG', group: 'back' },
+                    { type: 'img', file: '3.JPG', group: 'back' },
+                    { type: 'img', file: '4.jpg', group: 'back' },
+                    { type: 'img', file: '5.png', group: 'front1' },
+                    { type: 'text', file: '5a.txt', content: 'Shoreditch, London, 2013 – My curls are the new kid in 6th grade – 11 or 12 – his frowning silence at recess the rumbling echo of a drag queen\'s flamboyance thrust against indifference.', group: 'front1' },
+                    { type: 'img', file: '6.gif', group: 'front2' },
+                    { type: 'text', file: '6a.txt', content: 'My curls shrink, court the gray walls of Shoreditch and Hackney Wick, dream up plans to enshrine companionship as a public service.', group: 'front2' }
+                ],
+                images: ['1.JPG', '2.JPG', '3.JPG', '4.jpg', '5.png', '6.gif'],
+                texts: []
+            },
+            {
+                // 5 - rambo
+                folder: '5-rambo',
+                images: ['1.png', '2.webp', '3.avif', '4.webp'],
+                texts: [
+                    "Castro, San Francisco, 2015 – There is nothing artificial about the intelligence the startup I co-found is touting. And so our very non-artificial Peruvian employee shares doubts about the venture, mentions how I come across as too yielding in meetings. « Maybe it's the curls » he says.",
+                    "And all I think about is how, despite Rambo's red bandana squeezing his black coils into submission, the curl somehow wandered off, became the mark of dilettantes and soft boys."
+                ]
+            },
+            {
+                // 6 - skrillex-sprawl
+                folder: '6-skrillex-sprawl',
+                // Multi-deck scatter: each number starts a new deck
+                decks: [
+                    {
+                        text: { file: '1.txt', content: "Santa Barbara, 2020 – I can tie his agreeableness when I ask for a picture to my dreams of a lump of hair falling predictably to one side." },
+                        images: ['1a.jpeg', '1b.png', '1c.png', '1d.png']
+                    },
+                    {
+                        text: { file: '2.txt', content: "But until I achieve asymmetry, my head is an accident." },
+                        images: ['2a.png', '2b.png', '2c.png']
+                    },
+                    {
+                        text: { file: '3.txt', content: "Vertical sprawling sentience. A dry coral littered with camels and lizards or a snow globe, dandruff Christmas and fleshy crystal mounds I break with my nails. I tie my head. I time my showers to be closer to before I am seen. Water drowns catastrophes." },
+                        images: ['3a.png', '3b.jpg']
+                    }
+                ],
+                // Legacy format
+                images: ['1a.jpeg', '1b.png', '1c.png', '1d.png', '2a.png', '2b.png', '2c.png', '3a.png', '3b.jpg'],
+                texts: [
+                    "Santa Barbara, 2020 – I can tie his agreeableness when I ask for a picture to my dreams of a lump of hair falling predictably to one side.",
+                    "But until I achieve asymmetry, my head is an accident.",
+                    "Vertical sprawling sentience. A dry coral littered with camels and lizards or a snow globe, dandruff Christmas and fleshy crystal mounds I break with my nails. I tie my head. I time my showers to be closer to before I am seen. Water drowns catastrophes."
+                ]
+            },
+            {
+                // 7 - frizz
+                folder: '7-frizz',
+                // Ordered items following number convention
+                items: [
+                    { type: 'text', file: '1.txt', content: "Multiple, WhatsApp, 2020 – Jess delivers most of everything with a laugh and so I'm not sure if she's advising a haircut when she says I look like Kramer." },
+                    { type: 'img', file: '1.avif' },
+                    { type: 'img', file: '2.png' },
+                    { type: 'img', file: '3.png' },
+                    { type: 'img', file: '3a.png' },
+                    { type: 'text', file: '3b.txt', content: "When Dave makes a point of sending me a picture of the Simpson character he mentions during our call, I take stock of the rift between my « curly Mohawk » Pinterest board and the collective imaginary's reception of my head." },
+                    { type: 'img', file: '4.png' },
+                    { type: 'img', file: '5.png' },
+                    { type: 'img', file: '6.png' }
+                ],
+                // Split for layout: top cluster (up to 3a), bottom section (3b onwards)
+                topItems: ['1.txt', '1.avif', '2.png', '3.png', '3a.png'],
+                bottomItems: ['3b.txt', '4.png', '5.png', '6.png'],
+                images: ['1.avif', '2.png', '3.png', '3a.png', '4.png', '5.png', '6.png'],
+                texts: [
+                    "Multiple, WhatsApp, 2020 – Jess delivers most of everything with a laugh and so I'm not sure if she's advising a haircut when she says I look like Kramer.",
+                    "When Dave makes a point of sending me a picture of the Simpson character he mentions during our call, I take stock of the rift between my « curly Mohawk » Pinterest board and the collective imaginary's reception of my head."
+                ],
+                sidequest: {
+                    folder: '7o-hairdressers',
+                    images: ['1.png', '2.png'],
+                    texts: [
+                        "Tenderloin, San Francisco, 2020 – I had gotten used to nurses gathering around my veins during blood donation runs. They'd point at the blue bulges, speak about them in the third person, hand the needle to their youngest so they could learn. Lily scrunches my hair longer than necessary, sticks a comb into it and marvels at its suspension. I think I hear her breath catch before she starts cutting."
+                    ]
+                }
+            },
+            {
+                // 8 - conceal
+                folder: '8-conceal',
+                items: [
+                    { type: 'img', file: '1.png' },
+                    { type: 'text', file: '1a.txt', content: 'Multiple, San Francisco, 2020 — The bandana, the hoodie.' },
+                    { type: 'img', file: '2.png' },
+                    { type: 'img', file: '2a.png' },
+                    { type: 'text', file: '2b.txt', content: 'The beanie, the flexi-wire headband, the silk hair scarf, the Kitsch satin wrap, the puff cuff, the failed French pin experiment, the microfiber plop towel' },
+                    { type: 'img', file: '3.png' },
+                    { type: 'img', file: '4.png' },
+                    { type: 'img', file: '4a.png' },
+                    { type: 'text', file: '4b.txt', content: 'The plaits Melena gave me, same as the horses she tended to.' },
+                    { type: 'img', file: '5.png' },
+                    { type: 'text', file: '6.txt', content: 'A landscaped capillary ecology, a wearable topology of control.' }
+                ],
+                images: ['1.png', '2.png', '2a.png', '3.png', '4.png', '4a.png', '5.png'],
+                texts: [],
+                sidequest: {
+                    folder: '8o-loose',
+                    images: ['37.png', '38.png', '39.png', '40.png', '41.png'],
+                    texts: [
+                        "To Bill, Marcel, Yasmine, Fouad, Ishamel, Doumit. The loose ones, the gravitationally impaired."
+                    ]
+                }
+            },
+            {
+                // 9 - products
+                folder: '9-products',
+                items: [
+                    { type: 'text', file: '0.txt', content: 'Ojai, 2022 — You wouldn\'t think protein had anything to do with curls. But it\'s right there in the r/curlygirl wiki and so I buy the products, stack dollops in my palms, pray my hair down, squeeze, scrunch as the goo oozes through my phalanges, wash my other crevasses as my head slurps its daily bread.' },
+                    { type: 'img', file: '1.png' },
+                    { type: 'img', file: '2.png' },
+                    { type: 'img', file: '3.png' },
+                    { type: 'text', file: '3b.txt', content: 'Shea moisture, Deva Curl, Weleda and the 13 other curly girl approved co-washes are moss, mending water to the scorched brown bark of each strand. Water brokers a peace between hair and gravity and both arch in agreement.' },
+                    { type: 'img', file: '4.png' },
+                    { type: 'img', file: '5.png' },
+                    { type: 'img', file: '6.png' }
+                ],
+                images: ['1.png', '2.png', '3.png', '4.png', '5.png', '6.png'],
+                texts: [],
+                sidequest: {
+                    folder: '9o-desert',
+                    images: [],
+                    texts: [
+                        "Desert dust is a wet miracle."
+                    ]
+                }
+            },
+            {
+                // 10 - minarets
+                folder: '10-minarets',
+                images: ['1a.jpg', '1b.png', '2.png', '2a.png', '3.jpg'],
+                texts: [
+                    "Beirut, 2023 – Either my self-esteem is metastasizing such that it's metabolized the ever-bolder scandals of my head or I'm softer now. And you can't strangle a cloud or choke cotton candy, the sugar melts into the roof of your mouth and it's magical, eating air.",
+                    "My hair is either a minaret or a berry bush and my curls sing to the eel, the patron saint of every dancing man, their body an homage to slippage, contortion."
+                ],
+                sidequest: {
+                    folder: '10o-pineapple',
+                    images: ['49.png'],
+                    texts: [
+                        "Every night when the clock strikes ten, I turn into a pineapple. It helps relieve the curls."
+                    ]
+                }
+            }
+        ];
+        
+        // Desktop scattered layouts
+        const desktopLayouts = [
+            [
+                { type: 'img', idx: 0, x: 4, y: 6, w: 34 },
+                { type: 'text', idx: 0, x: 44, y: 4, w: 26 },
+                { type: 'img', idx: 1, x: 74, y: 8, w: 20 },
+                { type: 'img', idx: 2, x: 6, y: 52, w: 22 },
+                { type: 'text', idx: 1, x: 32, y: 50, w: 38 },
+                { type: 'img', idx: 3, x: 74, y: 52, w: 20 }
+            ],
+            [
+                { type: 'text', idx: 0, x: 4, y: 6, w: 28 },
+                { type: 'img', idx: 0, x: 50, y: 4, w: 38 },
+                { type: 'img', idx: 1, x: 6, y: 45, w: 20 },
+                { type: 'img', idx: 2, x: 30, y: 48, w: 22 },
+                { type: 'img', idx: 3, x: 58, y: 52, w: 22 },
+                { type: 'text', idx: 1, x: 4, y: 72, w: 42 }
+            ],
+            [
+                { type: 'text', idx: 0, x: 4, y: 4, w: 32 },
+                { type: 'img', idx: 0, x: 42, y: 5, w: 28 },
+                { type: 'img', idx: 1, x: 76, y: 8, w: 18 },
+                { type: 'img', idx: 2, x: 4, y: 42, w: 24 },
+                { type: 'img', idx: 3, x: 34, y: 48, w: 20 },
+                { type: 'text', idx: 1, x: 58, y: 44, w: 36 }
+            ]
+        ];
+        
+        // Mobile layouts
+        const mobileLayouts = [
+            [
+                { type: 'img', idx: 0, span: 2 },
+                { type: 'text', idx: 0, span: 2 },
+                { type: 'img', idx: 1, span: 1, push: 'left' },
+                { type: 'img', idx: 2, span: 1, push: 'right' },
+                { type: 'img', idx: 3, span: 1, push: 'left', narrow: true },
+                { type: 'text', idx: 1, span: 1 }
+            ],
+            [
+                { type: 'text', idx: 0, span: 2 },
+                { type: 'img', idx: 0, span: 1, push: 'right' },
+                { type: 'img', idx: 1, span: 1, push: 'left' },
+                { type: 'img', idx: 2, span: 2 },
+                { type: 'text', idx: 1, span: 1 },
+                { type: 'img', idx: 3, span: 1, narrow: true }
+            ],
+            [
+                { type: 'img', idx: 0, span: 1 },
+                { type: 'img', idx: 1, span: 1, narrow: true },
+                { type: 'text', idx: 0, span: 2 },
+                { type: 'img', idx: 2, span: 2 },
+                { type: 'img', idx: 3, span: 1, push: 'right' },
+                { type: 'text', idx: 1, span: 1 }
+            ]
+        ];
+        
+        // Initialize progress dots
+        for (let i = 0; i < 10; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'progress-dot';
+            dot.addEventListener('click', () => {
+                if (phase === 'hair' && !dot.classList.contains('filled')) {
+                    createCoilAtPosition(i);
+                }
+            });
+            document.getElementById('progress').appendChild(dot);
+        }
+        
+        function resize() {
+            const oldCenterX = centerX;
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            centerX = width / 2;
+            centerY = height / 2;
+            scale = Math.min(width, height) / 6;
+            
+            // If hair exists, adjust anchor position to stay centered
+            if (segments.length > 0 && (phase === 'hair' || phase === 'hair-fade')) {
+                const dx = centerX - oldCenterX;
+                segments[0].x = centerX;
+                segments[0].px = centerX;
+            }
+        }
+        
+        // =====================
+        // CURL LETTERS FUNCTIONS
+        // =====================
+        
+        // Each letter gets a unique curl shape
+        function morphToSpiral(originalPoints, cx, cy, curlAmount, letterIndex) {
+            if (curlAmount < 0.01) return originalPoints;
+            
+            const result = [];
+            const numPoints = originalPoints.length;
+            const baseRadius = scale * 0.35;
+            
+            for (let i = 0; i < numPoints; i++) {
+                const t = i / (numPoints - 1);
+                const orig = originalPoints[i];
+                let curlX, curlY;
+                
+                switch(letterIndex) {
+                    case 0: // C - tight inward spiral (classic curl)
+                        {
+                            const loops = 3;
+                            const angle = t * Math.PI * 2 * loops;
+                            const r = baseRadius * (1 - t * 0.85);
+                            curlX = cx + Math.cos(angle) * r;
+                            curlY = cy + Math.sin(angle) * r;
+                        }
+                        break;
+                        
+                    case 1: // U - loose wave / S-curve
+                        {
+                            const waveX = Math.sin(t * Math.PI * 2.5) * baseRadius * 0.6;
+                            const waveY = (t - 0.5) * baseRadius * 1.8;
+                            curlX = cx + waveX;
+                            curlY = cy + waveY;
+                        }
+                        break;
+                        
+                    case 2: // R - figure-8 / infinity loop (bigger and rotated differently)
+                        {
+                            const angle = t * Math.PI * 2;
+                            const r = baseRadius * 0.7; // Bigger than others
+                            // Rotate the figure-8 by ~30 degrees
+                            const rotAngle = Math.PI / 6;
+                            const rawX = Math.sin(angle) * r;
+                            const rawY = Math.sin(angle * 2) * r * 0.6;
+                            curlX = cx + rawX * Math.cos(rotAngle) - rawY * Math.sin(rotAngle);
+                            curlY = cy + rawX * Math.sin(rotAngle) + rawY * Math.cos(rotAngle);
+                        }
+                        break;
+                        
+                    case 3: // L - bouncy spring / coil going down
+                        {
+                            const loops = 2.5;
+                            const angle = t * Math.PI * 2 * loops + Math.PI;
+                            const r = baseRadius * 0.4;
+                            const verticalOffset = (t - 0.5) * baseRadius * 1.2;
+                            curlX = cx + Math.cos(angle) * r;
+                            curlY = cy + verticalOffset + Math.sin(t * Math.PI) * r * 0.3;
+                        }
+                        break;
+                }
+                
+                result.push({
+                    x: orig.x + (curlX - orig.x) * curlAmount,
+                    y: orig.y + (curlY - orig.y) * curlAmount
+                });
+            }
+            
+            return result;
+        }
+        
+        function getLetterC(ox, oy, s) {
+            const points = [];
+            for (let i = 0; i <= 50; i++) {
+                const p = i / 50;
+                const angle = Math.PI * 0.35 + p * Math.PI * 1.3;
+                const r = s * 0.42;
+                points.push({
+                    x: ox + Math.cos(angle) * r,
+                    y: oy + Math.sin(angle) * r
+                });
+            }
+            return points;
+        }
+        
+        // Letter U - FIXED: clean U shape with proper round bottom
+        function getLetterU(ox, oy, s) {
+            const points = [];
+            const topY = oy - s * 0.38;
+            const bottomY = oy + s * 0.32;
+            const halfWidth = s * 0.2;
+            const curveRadius = halfWidth;
+            
+            // Left vertical stroke going down
+            for (let i = 0; i <= 15; i++) {
+                const p = i / 15;
+                points.push({
+                    x: ox - halfWidth,
+                    y: topY + p * (bottomY - curveRadius - topY)
+                });
+            }
+            
+            // Smooth rounded bottom - semicircle curving downward (like a smile)
+            for (let i = 0; i <= 30; i++) {
+                const p = i / 30;
+                const angle = Math.PI - p * Math.PI; // Go from PI to 0 so sin is positive at middle
+                points.push({
+                    x: ox + Math.cos(angle) * halfWidth,
+                    y: bottomY - curveRadius + Math.sin(angle) * curveRadius
+                });
+            }
+            
+            // Right vertical stroke going up
+            for (let i = 0; i <= 15; i++) {
+                const p = i / 15;
+                points.push({
+                    x: ox + halfWidth,
+                    y: (bottomY - curveRadius) - p * (bottomY - curveRadius - topY)
+                });
+            }
+            
+            return points;
+        }
+        
+        function getLetterR(ox, oy, s) {
+            const points = [];
+            const top = oy - s * 0.38;
+            const bottom = oy + s * 0.38;
+            const leftX = ox - s * 0.15;
+            
+            for (let i = 0; i <= 20; i++) {
+                const p = i / 20;
+                points.push({ x: leftX, y: bottom - p * (bottom - top) });
+            }
+            
+            for (let i = 0; i <= 5; i++) {
+                const p = i / 5;
+                points.push({ x: leftX + p * s * 0.12, y: top });
+            }
+            
+            const bowlCenterX = ox + s * 0.02;
+            const bowlCenterY = top + s * 0.18;
+            const bowlRadiusX = s * 0.17;
+            const bowlRadiusY = s * 0.18;
+            
+            for (let i = 0; i <= 20; i++) {
+                const p = i / 20;
+                const angle = -Math.PI / 2 + p * Math.PI;
+                points.push({
+                    x: bowlCenterX + Math.cos(angle) * bowlRadiusX,
+                    y: bowlCenterY + Math.sin(angle) * bowlRadiusY
+                });
+            }
+            
+            const midY = oy - s * 0.02;
+            for (let i = 0; i <= 5; i++) {
+                const p = i / 5;
+                points.push({
+                    x: bowlCenterX - bowlRadiusX + p * (leftX - (bowlCenterX - bowlRadiusX)),
+                    y: midY
+                });
+            }
+            
+            for (let i = 0; i <= 15; i++) {
+                const p = i / 15;
+                const startX = leftX + s * 0.05;
+                const endX = ox + s * 0.2;
+                points.push({
+                    x: startX + p * (endX - startX),
+                    y: midY + p * (bottom - midY)
+                });
+            }
+            
+            return points;
+        }
+        
+        function getLetterL(ox, oy, s) {
+            const points = [];
+            const top = oy - s * 0.38;
+            const bottom = oy + s * 0.38;
+            
+            for (let i = 0; i <= 30; i++) {
+                const p = i / 30;
+                points.push({ x: ox - s * 0.05, y: top + p * (bottom - top) });
+            }
+            
+            for (let i = 0; i <= 15; i++) {
+                const p = i / 15;
+                points.push({ x: ox - s * 0.05 + p * s * 0.28, y: bottom });
+            }
+            
+            return points;
+        }
+        
+        function drawCurve(points, color, lineWidth) {
+            if (points.length < 2) return;
+            
+            ctx.beginPath();
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            ctx.moveTo(points[0].x, points[0].y);
+            
+            for (let i = 1; i < points.length - 1; i++) {
+                const xc = (points[i].x + points[i + 1].x) / 2;
+                const yc = (points[i].y + points[i + 1].y) / 2;
+                ctx.quadraticCurveTo(points[i].x, points[i].y, xc, yc);
+            }
+            
+            ctx.lineTo(points[points.length - 1].x, points[points.length - 1].y);
+            ctx.stroke();
+        }
+        
+        function allLettersUncurled() {
+            return letterTargets.every(t => t < 0.5);
+        }
+        
+        function drawCurlLetters() {
+            const letterSpacing = scale * 1.05;
+            const startX = centerX - letterSpacing * 1.5;
+            
+            letterPositions = [
+                { x: startX, y: centerY },
+                { x: startX + letterSpacing, y: centerY },
+                { x: startX + letterSpacing * 2, y: centerY },
+                { x: startX + letterSpacing * 3, y: centerY }
+            ];
+            
+            const originals = [
+                getLetterC(letterPositions[0].x, letterPositions[0].y, scale),
+                getLetterU(letterPositions[1].x, letterPositions[1].y, scale),
+                getLetterR(letterPositions[2].x, letterPositions[2].y, scale),
+                getLetterL(letterPositions[3].x, letterPositions[3].y, scale)
+            ];
+            
+            for (let i = 0; i < 4; i++) {
+                const diff = letterTargets[i] - letterCurls[i];
+                letterCurls[i] += diff * 0.08;
+            }
+            
+            originals.forEach((original, i) => {
+                const morphed = morphToSpiral(original, letterPositions[i].x, letterPositions[i].y, letterCurls[i], i);
+                drawCurve(morphed, '#000000', 4);
+            });
+        }
+        
+        // =====================
+        // TRANSITION FUNCTIONS
+        // =====================
+        
+        function createParticle(x, y) {
+            const angle = Math.random() * Math.PI * 2;
+            const speed = 0.5 + Math.random() * 1.5;
+            particles.push({
+                x, y,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed - 0.5,
+                life: 1,
+                decay: 0.008 + Math.random() * 0.01,
+                size: 2 + Math.random() * 3,
+                curl: Math.random() * Math.PI * 2
+            });
+        }
+        
+        function updateParticles() {
+            for (let i = particles.length - 1; i >= 0; i--) {
+                const p = particles[i];
+                p.curl += 0.1;
+                p.x += p.vx + Math.sin(p.curl) * 0.5;
+                p.y += p.vy + Math.cos(p.curl * 0.7) * 0.3;
+                p.vy -= 0.02;
+                p.life -= p.decay;
+                
+                if (p.life <= 0) {
+                    particles.splice(i, 1);
+                    continue;
+                }
+                
+                // White circles with thin black border
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * p.life, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.life * 0.9})`;
+                ctx.fill();
+                ctx.strokeStyle = `rgba(0, 0, 0, ${p.life * 0.6})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+        
+        function drawTransition() {
+            const duration = 2500;
+            const elapsed = Date.now() - transitionStartTime;
+            transitionProgress = Math.min(elapsed / duration, 1);
+            
+            const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+            const progress = ease(transitionProgress);
+            
+            const letterSpacing = scale * 1.05;
+            const startX = centerX - letterSpacing * 1.5;
+            const targetX = centerX;
+            const lineTop = -20; // Start from beyond viewport (matches hair start)
+            const lineBottom = height * 0.85;
+            
+            const letterTargetYs = [
+                lineTop + (lineBottom - lineTop) * 0.15,
+                lineTop + (lineBottom - lineTop) * 0.38,
+                lineTop + (lineBottom - lineTop) * 0.62,
+                lineTop + (lineBottom - lineTop) * 0.85
+            ];
+            
+            if (progress < 0.6) {
+                const p = progress / 0.6;
+                const wobbleP = ease(p);
+                
+                for (let i = 0; i < 4; i++) {
+                    const origX = startX + letterSpacing * i;
+                    const origY = centerY;
+                    const wobbleX = Math.sin(time * 0.02 + i * 1.5) * 20 * (1 - p);
+                    const wobbleY = Math.cos(time * 0.015 + i * 2) * 15 * (1 - p);
+                    const currentX = origX + (targetX - origX) * wobbleP + wobbleX;
+                    const currentY = origY + (letterTargetYs[i] - origY) * wobbleP + wobbleY;
+                    const currentScale = scale * (1 - p * 0.7);
+                    
+                    let points;
+                    switch(i) {
+                        case 0: points = getLetterC(currentX, currentY, currentScale); break;
+                        case 1: points = getLetterU(currentX, currentY, currentScale); break;
+                        case 2: points = getLetterR(currentX, currentY, currentScale); break;
+                        case 3: points = getLetterL(currentX, currentY, currentScale); break;
+                    }
+                    
+                    const alpha = 1 - p * 0.5;
+                    drawCurve(points, `rgba(0,0,0,${alpha})`, 4 * (1 - p * 0.5));
+                    
+                    if (Math.random() < 0.15) {
+                        const randPoint = points[Math.floor(Math.random() * points.length)];
+                        createParticle(randPoint.x, randPoint.y);
+                    }
+                }
+            }
+            
+            if (progress >= 0.4) {
+                const lineProgress = (progress - 0.4) / 0.6;
+                const lineEase = ease(lineProgress);
+                const lineAlpha = lineEase;
+                
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(0,0,0,${lineAlpha})`;
+                ctx.lineWidth = 4 + lineEase * 2;
+                ctx.lineCap = 'round';
+                ctx.moveTo(centerX, lineTop);
+                ctx.lineTo(centerX, lineTop + (lineBottom - lineTop) * lineEase);
+                ctx.stroke();
+                
+                if (Math.random() < 0.1) {
+                    const y = lineTop + Math.random() * (lineBottom - lineTop) * lineEase;
+                    createParticle(centerX + (Math.random() - 0.5) * 10, y);
+                }
+            }
+            
+            updateParticles();
+            
+            if (transitionProgress >= 1) {
+                phase = 'hair-fade';
+                transitionStartTime = Date.now();
+                initHair();
+            }
+        }
+        
+        // =====================
+        // HAIR FUNCTIONS
+        // =====================
+        
+        function initHair() {
+            segments.length = 0;
+            const numSegments = 80;
+            const segmentLength = (height * 0.85) / numSegments;
+            const startX = width / 2;
+            const startY = -20; // Start from beyond the top of the viewport
+            
+            for (let i = 0; i < numSegments; i++) {
+                segments.push({
+                    x: startX,
+                    y: startY + i * segmentLength,
+                    px: startX,
+                    py: startY + i * segmentLength,
+                    length: segmentLength,
+                    locked: i === 0
+                });
+            }
+        }
+        
+        function updateHairPhysics() {
+            const gravity = 0.35;
+            const damping = 0.98;
+            const iterations = 10;
+            
+            for (let i = 1; i < segments.length; i++) {
+                const seg = segments[i];
+                if (seg.locked) continue;
+                
+                const vx = (seg.x - seg.px) * damping;
+                const vy = (seg.y - seg.py) * damping + gravity;
+                
+                seg.px = seg.x;
+                seg.py = seg.y;
+                seg.x += vx;
+                seg.y += vy;
+            }
+            
+            for (let iter = 0; iter < iterations; iter++) {
+                for (let i = 0; i < segments.length - 1; i++) {
+                    const a = segments[i];
+                    const b = segments[i + 1];
+                    
+                    const dx = b.x - a.x;
+                    const dy = b.y - a.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    const diff = (a.length - dist) / dist;
+                    
+                    const offsetX = dx * diff * 0.5;
+                    const offsetY = dy * diff * 0.5;
+                    
+                    if (!a.locked) { a.x -= offsetX; a.y -= offsetY; }
+                    if (!b.locked) { b.x += offsetX; b.y += offsetY; }
+                }
+            }
+            
+            for (let i = 0; i < segments.length; i++) {
+                const seg = segments[i];
+                if (i === 0) continue; // Don't adjust the anchor point
+                if (seg.x < 30) seg.x = 30;
+                if (seg.x > width - 30) seg.x = width - 30;
+                if (seg.y > height - 50) seg.y = height - 50; // Leave room for bottom UI
+            }
+            
+            // Update coils
+            for (const coil of coils) {
+                coil.phase += 0.015;
+                const age = (Date.now() - coil.created) / 1000;
+                coil.bounce = 1 + Math.sin(age * 3) * 0.03 * Math.exp(-age * 0.8);
+            }
+        }
+        
+        function drawHair(alpha = 1) {
+            const strandCount = 9;
+            
+            // Draw strands - thicker at top, tapering toward bottom
+            for (let strand = 0; strand < strandCount; strand++) {
+                const offset = (strand - (strandCount - 1) / 2) * 1.2;
+                const isCenter = strand === Math.floor(strandCount / 2);
+                
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(0, 0, 0, ${alpha})`; // Completely black
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.lineJoin = 'round';
+                
+                let skipUntil = -1;
+                
+                // Draw segments with tapering width (thicker at top)
+                for (let i = 1; i < segments.length; i++) {
+                    const seg = segments[i];
+                    const prev = segments[i - 1];
+                    
+                    // Calculate taper: thicker at top, thinner at bottom
+                    const taperProgress = i / segments.length;
+                    const baseWidth = isCenter ? 5 : 3.5;
+                    const lineWidth = baseWidth * (1 - taperProgress * 0.6); // Taper from 100% to 40%
+                    
+                    const coil = coils.find(c => c.segmentIndex === i);
+                    
+                    if (coil && i > skipUntil) {
+                        const r = coil.radius * coil.bounce;
+                        const cx = (prev.x + seg.x) / 2;
+                        const cy = (prev.y + seg.y) / 2;
+                        const side = coil.side;
+                        const wobble = Math.sin(coil.phase) * 2;
+                        
+                        ctx.beginPath();
+                        ctx.lineWidth = lineWidth;
+                        ctx.moveTo(prev.x + offset, prev.y);
+                        ctx.bezierCurveTo(
+                            cx + side * r * 0.3 + offset + wobble, cy - r * 0.4,
+                            cx + side * r * 1.1 + offset + wobble, cy - r * 0.2,
+                            cx + side * r * 1.0 + offset + wobble, cy + r * 0.3
+                        );
+                        ctx.bezierCurveTo(
+                            cx + side * r * 0.8 + offset + wobble, cy + r * 0.8,
+                            cx + side * r * 0.2 + offset + wobble, cy + r * 0.6,
+                            seg.x + offset, seg.y
+                        );
+                        ctx.stroke();
+                        
+                        // Position button
+                        if (isCenter) {
+                            const btnData = buttons.find(b => b.coil === coil);
+                            if (btnData) {
+                                const btnOffsetX = -side * 30;
+                                btnData.element.style.left = (cx + btnOffsetX + wobble) + 'px';
+                                btnData.element.style.top = (cy + r * 0.2) + 'px';
+                            }
+                        }
+                        
+                        skipUntil = i + 3;
+                    } else if (i > skipUntil) {
+                        ctx.beginPath();
+                        ctx.lineWidth = lineWidth;
+                        ctx.moveTo(prev.x + offset, prev.y);
+                        ctx.lineTo(seg.x + offset, seg.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            
+            // No highlight - keep hair pure black
+        }
+        
+        function drawHairFade() {
+            const duration = 1500;
+            const elapsed = Date.now() - transitionStartTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const ease = t => t * t * (3 - 2 * t);
+            
+            const lineTop = -20; // Matches hair start point
+            const lineBottom = height * 0.85;
+            
+            if (progress < 0.5) {
+                const lineAlpha = 1 - progress * 2;
+                ctx.beginPath();
+                ctx.strokeStyle = `rgba(0,0,0,${lineAlpha})`;
+                ctx.lineWidth = 6 - progress * 4;
+                ctx.lineCap = 'round';
+                ctx.moveTo(centerX, lineTop);
+                ctx.lineTo(centerX, lineBottom);
+                ctx.stroke();
+                
+                if (Math.random() < 0.08) {
+                    const y = lineTop + Math.random() * (lineBottom - lineTop);
+                    createParticle(centerX, y);
+                }
+            }
+            
+            updateParticles();
+            hairAlpha = ease(progress);
+            updateHairPhysics();
+            drawHair(hairAlpha);
+            
+            if (progress >= 1) {
+                phase = 'hair';
+                particles.length = 0;
+                // Show hair UI - just the bottom box
+                document.getElementById('hair-bottom-box').classList.add('visible');
+            }
+        }
+        
+        // =====================
+        // COIL FUNCTIONS
+        // =====================
+        
+        function createCoilAtPosition(dotIndex) {
+            if (coilCount >= 10) return;
+            
+            const totalSegments = segments.length;
+            const targetY = height * 0.08 + (dotIndex / 10) * height * 0.75;
+            
+            let bestSegment = null;
+            let bestDist = Infinity;
+            
+            for (let i = 5; i < totalSegments - 5; i++) {
+                const seg = segments[i];
+                const dist = Math.abs(seg.y - targetY);
+                
+                let tooClose = false;
+                for (const c of coils) {
+                    if (Math.abs(c.segmentIndex - i) < 6) {
+                        tooClose = true;
+                        break;
+                    }
+                }
+                
+                if (!tooClose && dist < bestDist) {
+                    bestDist = dist;
+                    bestSegment = i;
+                }
+            }
+            
+            if (bestSegment !== null) {
+                createCoil(bestSegment);
+            }
+        }
+        
+        function createCoil(segmentIndex) {
+            if (coilCount >= 10) return;
+            
+            for (const c of coils) {
+                if (Math.abs(c.segmentIndex - segmentIndex) < 6) return;
+            }
+            
+            const side = Math.random() < 0.5 ? -1 : 1;
+            const minRadius = 35;
+            const maxRadius = 70;
+            const radius = minRadius + Math.random() * (maxRadius - minRadius);
+            
+            const coil = {
+                segmentIndex,
+                radius: radius,
+                side: side,
+                bounce: 1,
+                phase: 0,
+                created: Date.now()
+            };
+            
+            coils.push(coil);
+            coilCount++;
+            
+            document.querySelectorAll('.progress-dot')[coilCount - 1].classList.add('filled');
+            
+            const btn = document.createElement('button');
+            btn.className = 'coil-button';
+            btn.textContent = coilCount;
+            btn.dataset.index = coilCount - 1;
+            btn.addEventListener('click', () => openStory(parseInt(btn.dataset.index)));
+            document.body.appendChild(btn);
+            buttons.push({ element: btn, coil });
+            
+            if (coilCount === 10) {
+                setTimeout(finale, 1500);
+            }
+        }
+        
+        // =====================
+        // STORY/GALLERY FUNCTIONS
+        // =====================
+        
+        // ========== CUSTOM GALLERY LAYOUTS ==========
+        
+        function generateGallery(storyIndex, isSidequest = false, sidequestData = null) {
+            const wall = document.getElementById('gallery-wall');
+            wall.innerHTML = '';
+            wall.className = 'gallery-wall'; // Reset classes
+            
+            // Track current gallery index for sidequest triggers
+            currentGalleryIndex = isSidequest ? -1 : storyIndex;
+            
+            const story = isSidequest && sidequestData ? sidequestData : storyContent[storyIndex];
+            const folder = story.folder;
+            const images = story.images || [];
+            const texts = story.texts || [];
+            
+            // Route to specialized layouts based on folder name
+            if (folder === '8-conceal') {
+                const items = story.items || null;
+                generateConcealLayout(wall, folder, items, images, texts);
+            } else if (folder === '8o-loose') {
+                generateLooseLayout(wall, folder, images, texts);
+            } else if (folder === '7-frizz') {
+                generateFrizzLayout(wall, folder, images, texts);
+            } else if (folder === '5-rambo') {
+                generateRamboLayout(wall, folder, images, texts);
+            } else if (folder === '6-skrillex-sprawl') {
+                // Use multi-deck scatter for skrillex
+                const decks = story.decks || null;
+                generateSkrillexLayout(wall, folder, decks, images, texts);
+            } else if (folder === '2-zeroth') {
+                generateParallaxLayout(wall, folder, images, texts);
+            } else if (folder === '1-pompadour') {
+                // Use ordered items array for pompadour
+                const items = story.items || null;
+                generateComicLayout(wall, folder, images, texts, items);
+            } else if (folder === '10o-pineapple') {
+                generateTypewriterLayout(wall, folder, images, texts);
+            } else if (folder === '3-mohawk') {
+                const items = story.items || null;
+                generateMohawkLayout(wall, folder, items, images, texts);
+            } else if (folder === '4-pro') {
+                const items = story.items || null;
+                generateProLayout(wall, folder, items, images, texts);
+            } else if (folder === '7o-hairdressers') {
+                generateMapLayout(wall, folder, images, texts);
+            } else if (folder === '9-products') {
+                const items = story.items || null;
+                generateStackedLayout(wall, folder, items, images, texts);
+            } else if (folder === '9o-desert') {
+                generateDesertLayout(wall, folder, images, texts);
+            } else if (folder === '10-minarets') {
+                generateMinaretsLayout(wall, folder, images, texts);
+            } else {
+                // Default layout for others
+                generateDefaultLayout(wall, folder, images, texts);
+            }
+        }
+        
+        // ----- CONCEAL: One-by-one reveal in spiral pattern -----
+        function generateConcealLayout(wall, folder, orderedItems, images, texts) {
+            wall.classList.add('layout-conceal');
+            
+            // Build items array from ordered items or fallback
+            const items = [];
+            if (orderedItems && orderedItems.length > 0) {
+                orderedItems.forEach(item => {
+                    if (item.type === 'img') {
+                        items.push({ type: 'img', src: `${folder}/${item.file}` });
+                    } else if (item.type === 'text') {
+                        items.push({ type: 'text', content: item.content || '' });
+                    }
+                });
+            } else {
+                // Fallback to old structure
+                images.forEach(img => items.push({ type: 'img', src: `${folder}/${img}` }));
+                texts.forEach(t => items.push({ type: 'text', content: t }));
+            }
+            
+            // Create container
+            const container = document.createElement('div');
+            container.className = 'conceal-container';
+            wall.appendChild(container);
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'conceal-hint';
+            hint.textContent = 'keep tapping';
+            wall.appendChild(hint);
+            
+            // Counter
+            const counter = document.createElement('div');
+            counter.className = 'conceal-counter';
+            counter.innerHTML = `<span id="conceal-count">0</span> / ${items.length}`;
+            wall.appendChild(counter);
+            
+            // Calculate positions - a flowing wave/spiral pattern
+            const isMobile = window.innerWidth < 768;
+            const vw = window.innerWidth;
+            const vh = window.innerHeight;
+            const totalItems = items.length;
+            
+            // Calculate item size for spacing
+            const itemSize = isMobile ? 130 : 170;
+            const padding = isMobile ? 20 : 40;
+            
+            // Create positions that flow in a wave pattern
+            // Start from top-left, flow across and down in a zigzag
+            const positions = [];
+            const cols = isMobile ? 2 : 3;
+            const rowHeight = isMobile ? vh * 0.22 : vh * 0.25;
+            const startY = 80;
+            
+            for (let i = 0; i < totalItems; i++) {
+                const row = Math.floor(i / cols);
+                const col = i % cols;
+                
+                // Zigzag: even rows go left-to-right, odd rows go right-to-left
+                const actualCol = row % 2 === 0 ? col : (cols - 1 - col);
+                
+                // Calculate base position
+                const colWidth = (vw - padding * 2) / cols;
+                let x = padding + colWidth * actualCol + colWidth / 2;
+                let y = startY + row * rowHeight;
+                
+                // Add organic offset - creates a wave effect
+                const waveOffset = Math.sin(i * 0.8) * (isMobile ? 15 : 25);
+                x += waveOffset;
+                
+                // Add slight randomness
+                x += (Math.random() - 0.5) * (isMobile ? 20 : 30);
+                y += (Math.random() - 0.5) * (isMobile ? 15 : 25);
+                
+                // Clamp to viewport
+                x = Math.max(padding + itemSize/2, Math.min(vw - padding - itemSize/2, x));
+                y = Math.max(70, Math.min(vh - 100, y));
+                
+                positions.push({ x, y });
+            }
+            
+            // Create all items (hidden)
+            const allElements = [];
+            items.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = 'conceal-item';
+                el.dataset.index = i;
+                
+                if (item.type === 'img') {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    el.appendChild(img);
+                } else {
+                    el.classList.add('text-item');
+                    el.textContent = item.content;
+                }
+                
+                // Position element
+                el.style.left = positions[i].x + 'px';
+                el.style.top = positions[i].y + 'px';
+                el.style.transform = 'translate(-50%, -50%) scale(0.5) rotate(-20deg)';
+                el.style.zIndex = i + 1; // Later items have higher z-index
+                
+                container.appendChild(el);
+                allElements.push(el);
+            });
+            
+            let currentIndex = 0;
+            
+            // Click handler - reveal ONE item per tap
+            wall.onclick = (e) => {
+                if (e.target.classList.contains('gallery-close')) return;
+                if (e.target.closest('.gallery-close')) return;
+                
+                if (currentIndex < items.length) {
+                    // Reveal next item
+                    const el = allElements[currentIndex];
+                    const randomRotate = (Math.random() - 0.5) * 8;
+                    el.style.transform = `translate(-50%, -50%) scale(1) rotate(${randomRotate}deg)`;
+                    el.classList.add('revealed');
+                    
+                    currentIndex++;
+                    document.getElementById('conceal-count').textContent = currentIndex;
+                    
+                    // Update hint when done
+                    if (currentIndex >= items.length) {
+                        hint.classList.add('done');
+                    }
+                }
+            };
+        }
+        
+        // ----- LOOSE: Bouncing images -----
+        function generateLooseLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-loose');
+            
+            // Centered text
+            if (texts[0]) {
+                const textEl = document.createElement('div');
+                textEl.className = 'loose-text';
+                textEl.textContent = texts[0];
+                wall.appendChild(textEl);
+            }
+            
+            // Bouncing images
+            const floaters = [];
+            images.forEach((img, i) => {
+                const el = document.createElement('div');
+                el.className = 'loose-image';
+                const imgEl = document.createElement('img');
+                imgEl.src = `${folder}/${img}`;
+                el.appendChild(imgEl);
+                
+                const size = 80 + Math.random() * 60;
+                el.style.width = size + 'px';
+                
+                wall.appendChild(el);
+                
+                floaters.push({
+                    el,
+                    x: Math.random() * (window.innerWidth - size - 40) + 20,
+                    y: Math.random() * (window.innerHeight - size - 40) + 20,
+                    vx: (Math.random() - 0.5) * 1.5,
+                    vy: (Math.random() - 0.5) * 1.5,
+                    w: size,
+                    h: size
+                });
+            });
+            
+            // Animation loop
+            let looseAnimId;
+            function animateLoose() {
+                floaters.forEach(f => {
+                    f.x += f.vx;
+                    f.y += f.vy;
+                    
+                    // Bounce off walls
+                    if (f.x <= 0 || f.x >= window.innerWidth - f.w) {
+                        f.vx *= -1;
+                        f.x = Math.max(0, Math.min(window.innerWidth - f.w, f.x));
+                    }
+                    if (f.y <= 0 || f.y >= window.innerHeight - f.h) {
+                        f.vy *= -1;
+                        f.y = Math.max(0, Math.min(window.innerHeight - f.h, f.y));
+                    }
+                    
+                    f.el.style.left = f.x + 'px';
+                    f.el.style.top = f.y + 'px';
+                });
+                
+                looseAnimId = requestAnimationFrame(animateLoose);
+            }
+            animateLoose();
+            
+            // Store animation id for cleanup
+            wall.dataset.animId = looseAnimId;
+        }
+        
+        // ----- FRIZZ: Grid then scroll -----
+        function generateFrizzLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-frizz');
+            
+            const isMobile = window.innerWidth < 600;
+            
+            // Top section: 1.txt, 1.avif, 2.png, 3.png, 3a.png
+            const topSection = document.createElement('div');
+            topSection.className = 'frizz-section';
+            
+            // Text 1 (1.txt)
+            if (texts[0]) {
+                const textEl = document.createElement('div');
+                textEl.className = 'frizz-item text-item';
+                textEl.textContent = texts[0];
+                topSection.appendChild(textEl);
+            }
+            
+            // Images: 1.avif, 2.png, 3.png, 3a.png (indices 0-3)
+            const topImages = images.slice(0, 4);
+            topImages.forEach((img, i) => {
+                const el = document.createElement('div');
+                el.className = 'frizz-item';
+                
+                // First image (1.avif) should be bigger
+                if (i === 0) {
+                    el.classList.add('first-image');
+                } else if (!isMobile) {
+                    el.style.width = (120 + Math.random() * 80) + 'px';
+                }
+                // On mobile, CSS handles the width
+                
+                const imgEl = document.createElement('img');
+                imgEl.src = `${folder}/${img}`;
+                el.appendChild(imgEl);
+                topSection.appendChild(el);
+            });
+            
+            // Arrow
+            const arrow = document.createElement('div');
+            arrow.className = 'frizz-arrow';
+            arrow.textContent = '↓';
+            arrow.onclick = () => {
+                wall.querySelector('.frizz-section:last-child').scrollIntoView({ behavior: 'smooth' });
+            };
+            topSection.appendChild(arrow);
+            
+            wall.appendChild(topSection);
+            
+            // Show arrow after a moment
+            setTimeout(() => arrow.classList.add('visible'), 1500);
+            
+            // Bottom section: 3b.txt FIRST, then 4.png, 5.png, 6.png
+            const bottomSection = document.createElement('div');
+            bottomSection.className = 'frizz-section';
+            
+            // Text 2 (3b.txt) - appears FIRST in bottom section
+            if (texts[1]) {
+                const textEl = document.createElement('div');
+                textEl.className = 'frizz-item text-item';
+                textEl.textContent = texts[1];
+                bottomSection.appendChild(textEl);
+            }
+            
+            // Images 4.png, 5.png, 6.png (indices 4, 5, 6)
+            const bottomImages = images.slice(4);
+            bottomImages.forEach((img, i) => {
+                const el = document.createElement('div');
+                el.className = 'frizz-item';
+                
+                // Last image (6.png) should be larger
+                if (i === bottomImages.length - 1) {
+                    el.classList.add('last-image');
+                } else {
+                    el.style.width = isMobile ? '85vw' : (150 + Math.random() * 100) + 'px';
+                }
+                
+                const imgEl = document.createElement('img');
+                imgEl.src = `${folder}/${img}`;
+                el.appendChild(imgEl);
+                bottomSection.appendChild(el);
+            });
+            
+            wall.appendChild(bottomSection);
+        }
+        
+        // ----- RAMBO: Scattered reveal from center -----
+        function generateRamboLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-rambo');
+            
+            // Sequence: Text1 → Image1 → Text2 + Images 2,3,4
+            const groups = [];
+            
+            // Group 1: Text 1
+            if (texts[0]) {
+                const g1 = document.createElement('div');
+                g1.className = 'rambo-group';
+                const t1 = document.createElement('div');
+                t1.className = 'rambo-item text-item';
+                t1.textContent = texts[0];
+                g1.appendChild(t1);
+                groups.push(g1);
+                wall.appendChild(g1);
+            }
+            
+            // Group 2: Image 1
+            if (images[0]) {
+                const g2 = document.createElement('div');
+                g2.className = 'rambo-group';
+                const img1 = document.createElement('div');
+                img1.className = 'rambo-item';
+                const imgEl = document.createElement('img');
+                imgEl.src = `${folder}/${images[0]}`;
+                img1.appendChild(imgEl);
+                g2.appendChild(img1);
+                groups.push(g2);
+                wall.appendChild(g2);
+            }
+            
+            // Group 3: Text 2 + remaining images (2, 3, 4)
+            const g3 = document.createElement('div');
+            g3.className = 'rambo-group';
+            
+            if (texts[1]) {
+                const t2 = document.createElement('div');
+                t2.className = 'rambo-item text-item';
+                t2.textContent = texts[1];
+                g3.appendChild(t2);
+            }
+            
+            // Images 2, 3, 4 (indices 1, 2, 3)
+            images.slice(1).forEach(img => {
+                const imgItem = document.createElement('div');
+                imgItem.className = 'rambo-item';
+                const imgEl = document.createElement('img');
+                imgEl.src = `${folder}/${img}`;
+                imgItem.appendChild(imgEl);
+                g3.appendChild(imgItem);
+            });
+            
+            if (g3.children.length > 0) {
+                groups.push(g3);
+                wall.appendChild(g3);
+            }
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'rambo-hint';
+            hint.textContent = 'tap to reveal';
+            wall.appendChild(hint);
+            
+            let step = 0;
+            
+            wall.onclick = (e) => {
+                if (e.target.classList.contains('gallery-close')) return;
+                
+                if (step < groups.length) {
+                    groups[step].classList.add('visible');
+                    step++;
+                    
+                    if (step >= groups.length) {
+                        hint.style.opacity = '0';
+                    }
+                }
+            };
+        }
+        
+        // ----- STACKED: Drag cards -----
+        function generateStackedLayout(wall, folder, orderedItems, images, texts) {
+            wall.classList.add('layout-stacked');
+            
+            // Build items array from ordered items or fallback
+            const items = [];
+            if (orderedItems && orderedItems.length > 0) {
+                orderedItems.forEach(item => {
+                    if (item.type === 'img') {
+                        items.push({ type: 'img', src: `${folder}/${item.file}` });
+                    } else if (item.type === 'text') {
+                        items.push({ type: 'text', content: item.content || '' });
+                    }
+                });
+            } else {
+                // Fallback to old structure
+                texts.forEach(t => items.push({ type: 'text', content: t }));
+                images.forEach(img => items.push({ type: 'img', src: `${folder}/${img}` }));
+            }
+            
+            let revealed = 0;
+            let zIndex = items.length + 100;
+            const isMobile = window.innerWidth < 600;
+            const centerX = window.innerWidth / 2;
+            const centerY = window.innerHeight / 2;
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'stacked-hint';
+            hint.textContent = 'drag cards away';
+            wall.appendChild(hint);
+            
+            // Counter
+            const counter = document.createElement('div');
+            counter.className = 'stacked-counter';
+            counter.innerHTML = `<span id="stacked-revealed">0</span> / ${items.length}`;
+            wall.appendChild(counter);
+            
+            // Create cards - first item should be on TOP (highest z-index)
+            // So we iterate normally but assign z-index in reverse
+            items.forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = 'stacked-card' + (item.type === 'text' ? ' text-card' : '');
+                
+                if (item.type === 'img') {
+                    const img = document.createElement('img');
+                    img.src = item.src;
+                    card.appendChild(img);
+                    card.style.width = isMobile ? '220px' : '300px';
+                } else {
+                    card.textContent = item.content;
+                    card.style.width = isMobile ? '260px' : '320px';
+                }
+                
+                // Position in stack - first item on top with highest z-index
+                const stackPosition = items.length - 1 - i;
+                const offset = stackPosition * 3;
+                card.style.zIndex = items.length - i; // First item gets highest z-index
+                card.style.transform = `rotate(${(Math.random() - 0.5) * 8}deg)`;
+                
+                wall.appendChild(card);
+                
+                // Position after appending (need dimensions)
+                setTimeout(() => {
+                    card.style.left = (centerX - card.offsetWidth / 2 + offset) + 'px';
+                    card.style.top = (centerY - card.offsetHeight / 2 + offset) + 'px';
+                }, 10);
+                
+                // Make draggable (works on both desktop and mobile)
+                makeStackedDraggable(card, () => {
+                    revealed++;
+                    document.getElementById('stacked-revealed').textContent = revealed;
+                }, () => zIndex++);
+            });
+        }
+        
+        function makeStackedDraggable(el, onReveal, getZ) {
+            let startX, startY, origX, origY;
+            let hasMoved = false;
+            let isDragging = false;
+            
+            function start(e) {
+                // Don't prevent default on touchstart to allow scrolling if needed
+                if (e.type === 'mousedown') e.preventDefault();
+                
+                isDragging = true;
+                const pos = e.touches ? e.touches[0] : e;
+                startX = pos.clientX;
+                startY = pos.clientY;
+                origX = el.offsetLeft;
+                origY = el.offsetTop;
+                hasMoved = false;
+                el.style.zIndex = getZ();
+                el.style.cursor = 'grabbing';
+                
+                document.addEventListener('mousemove', move);
+                document.addEventListener('mouseup', end);
+                document.addEventListener('touchmove', move, { passive: false });
+                document.addEventListener('touchend', end);
+            }
+            
+            function move(e) {
+                if (!isDragging) return;
+                e.preventDefault(); // Prevent scrolling while dragging
+                
+                const pos = e.touches ? e.touches[0] : e;
+                const dx = pos.clientX - startX;
+                const dy = pos.clientY - startY;
+                
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5) hasMoved = true;
+                
+                el.style.left = (origX + dx) + 'px';
+                el.style.top = (origY + dy) + 'px';
+            }
+            
+            function end() {
+                isDragging = false;
+                el.style.cursor = 'grab';
+                
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', end);
+                document.removeEventListener('touchmove', move);
+                document.removeEventListener('touchend', end);
+                
+                if (hasMoved && !el.dataset.revealed) {
+                    el.dataset.revealed = 'true';
+                    onReveal();
+                }
+            }
+            
+            el.addEventListener('mousedown', start);
+            el.addEventListener('touchstart', start, { passive: false });
+        }
+        
+        // ----- SKRILLEX: Multi-deck scatter -----
+        function generateSkrillexLayout(wall, folder, decks, images, texts) {
+            wall.classList.add('layout-skrillex');
+            
+            // Fallback if no decks structure
+            if (!decks || decks.length === 0) {
+                generateStackedLayout(wall, folder, images, texts);
+                return;
+            }
+            
+            const isMobile = window.innerWidth < 600;
+            let currentDeck = 0;
+            let zIndex = 100;
+            const deckElements = [];
+            
+            // Progress dots
+            const progress = document.createElement('div');
+            progress.className = 'skrillex-progress';
+            decks.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'skrillex-dot' + (i === 0 ? ' active' : '');
+                progress.appendChild(dot);
+            });
+            wall.appendChild(progress);
+            
+            // Simple curly arrow for navigation (same as landing page)
+            const snailArrow = document.createElement('div');
+            snailArrow.className = 'gallery-snail-arrow';
+            snailArrow.innerHTML = `
+                <svg viewBox="0 0 120 50">
+                    <!-- Curly line with loop and arrow -->
+                    <path d="M5,35 
+                             Q25,35 35,30 
+                             Q50,20 45,8 
+                             Q40,-5 30,8 
+                             Q20,22 35,32 
+                             Q55,45 75,38 
+                             Q95,32 110,35" 
+                          class="snail-line" fill="none"/>
+                    <!-- Arrow head -->
+                    <path d="M102,30 L112,35 L102,40" class="snail-line" fill="none"/>
+                </svg>
+            `;
+            wall.appendChild(snailArrow);
+            
+            // Create each deck
+            decks.forEach((deck, deckIndex) => {
+                const deckEl = document.createElement('div');
+                deckEl.className = 'skrillex-deck' + (deckIndex === 0 ? ' active' : '');
+                deckEl.dataset.deck = deckIndex;
+                
+                const items = [];
+                
+                // Text item (appears at top-right for deck 1, scattered for others)
+                if (deck.text) {
+                    const textEl = document.createElement('div');
+                    textEl.className = 'skrillex-item text-item';
+                    textEl.textContent = deck.text.content;
+                    textEl.style.width = isMobile ? '200px' : '260px';
+                    
+                    // Position: first deck text at top-right, others scattered
+                    if (deckIndex === 0) {
+                        textEl.style.right = '30px';
+                        textEl.style.top = '80px';
+                        textEl.style.left = 'auto';
+                    } else {
+                        // Text items for deck 2+ are triggers - clicking them advances
+                        textEl.classList.add('is-trigger');
+                    }
+                    
+                    items.push({ el: textEl, isText: true, isTrigger: deckIndex > 0 });
+                    deckEl.appendChild(textEl);
+                }
+                
+                // Image items - scattered
+                deck.images.forEach((img, imgIndex) => {
+                    const imgEl = document.createElement('div');
+                    imgEl.className = 'skrillex-item';
+                    
+                    const image = document.createElement('img');
+                    image.src = `${folder}/${img}`;
+                    imgEl.appendChild(image);
+                    
+                    const w = isMobile ? (100 + Math.random() * 60) : (140 + Math.random() * 80);
+                    imgEl.style.width = w + 'px';
+                    
+                    items.push({ el: imgEl, isText: false });
+                    deckEl.appendChild(imgEl);
+                });
+                
+                // Position items in scattered layout
+                positionSkrillexItems(items, deckIndex, isMobile);
+                
+                // Make items draggable
+                items.forEach(item => {
+                    if (!item.isTrigger) {
+                        makeSkrillexDraggable(item.el, () => zIndex++);
+                    }
+                });
+                
+                wall.appendChild(deckEl);
+                deckElements.push(deckEl);
+            });
+            
+            // Function to advance to next deck
+            function advanceDeck() {
+                if (currentDeck < decks.length - 1) {
+                    // Hide current deck
+                    deckElements[currentDeck].classList.remove('active');
+                    
+                    // Show next deck
+                    currentDeck++;
+                    deckElements[currentDeck].classList.add('active');
+                    
+                    // Update progress dots
+                    progress.querySelectorAll('.skrillex-dot').forEach((dot, i) => {
+                        dot.classList.toggle('active', i === currentDeck);
+                    });
+                    
+                    // Hide arrow on last deck
+                    if (currentDeck === decks.length - 1) {
+                        snailArrow.classList.add('hidden');
+                    }
+                }
+            }
+            
+            // Click handler for snail arrow
+            snailArrow.addEventListener('click', (e) => {
+                e.stopPropagation();
+                advanceDeck();
+            });
+            
+            // Also allow trigger texts to advance (keeping backwards compatibility)
+            wall.addEventListener('click', (e) => {
+                if (e.target.classList.contains('is-trigger')) {
+                    advanceDeck();
+                }
+            });
+        }
+        
+        function positionSkrillexItems(items, deckIndex, isMobile) {
+            const margin = isMobile ? 20 : 40;
+            const maxW = window.innerWidth;
+            const maxH = window.innerHeight;
+            
+            items.forEach((item, i) => {
+                // Skip first text item in deck 0 (already positioned)
+                if (deckIndex === 0 && i === 0 && item.isText) return;
+                
+                // Random scattered position
+                let x, y;
+                const attempts = 20;
+                for (let a = 0; a < attempts; a++) {
+                    x = margin + Math.random() * (maxW - 200 - margin * 2);
+                    y = margin + 60 + Math.random() * (maxH - 250 - margin * 2);
+                    // Good enough position
+                    break;
+                }
+                
+                item.el.style.left = x + 'px';
+                item.el.style.top = y + 'px';
+                item.el.style.transform = `rotate(${(Math.random() - 0.5) * 15}deg)`;
+                item.el.style.zIndex = i + 1;
+            });
+        }
+        
+        function makeSkrillexDraggable(el, getZ) {
+            let startX, startY, origX, origY;
+            
+            function start(e) {
+                e.preventDefault();
+                const pos = e.touches ? e.touches[0] : e;
+                startX = pos.clientX;
+                startY = pos.clientY;
+                origX = el.offsetLeft;
+                origY = el.offsetTop;
+                el.style.zIndex = getZ();
+                document.addEventListener('mousemove', move);
+                document.addEventListener('mouseup', end);
+                document.addEventListener('touchmove', move, { passive: false });
+                document.addEventListener('touchend', end);
+            }
+            
+            function move(e) {
+                e.preventDefault();
+                const pos = e.touches ? e.touches[0] : e;
+                el.style.left = (origX + pos.clientX - startX) + 'px';
+                el.style.top = (origY + pos.clientY - startY) + 'px';
+            }
+            
+            function end() {
+                document.removeEventListener('mousemove', move);
+                document.removeEventListener('mouseup', end);
+                document.removeEventListener('touchmove', move);
+                document.removeEventListener('touchend', end);
+            }
+            
+            el.addEventListener('mousedown', start);
+            el.addEventListener('touchstart', start, { passive: false });
+        }
+        
+        // ----- PARALLAX: Layered scroll (simplified) -----
+        function generateParallaxLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-parallax');
+            
+            // Create sections pairing images with texts
+            const numSections = Math.max(images.length, texts.length);
+            
+            // Progress dots
+            const progressWrap = document.createElement('div');
+            progressWrap.className = 'parallax-progress';
+            for (let i = 0; i < numSections; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'parallax-dot';
+                if (i === 0) dot.classList.add('active');
+                progressWrap.appendChild(dot);
+            }
+            wall.appendChild(progressWrap);
+            
+            for (let i = 0; i < numSections; i++) {
+                const section = document.createElement('div');
+                section.className = 'parallax-section';
+                
+                // Image
+                if (images[i]) {
+                    const imgItem = document.createElement('div');
+                    imgItem.className = 'parallax-item';
+                    imgItem.dataset.speed = (0.05 + Math.random() * 0.1).toFixed(2);
+                    
+                    const img = document.createElement('img');
+                    img.src = `${folder}/${images[i]}`;
+                    imgItem.appendChild(img);
+                    section.appendChild(imgItem);
+                }
+                
+                // Text
+                if (texts[i]) {
+                    const textItem = document.createElement('div');
+                    textItem.className = 'parallax-item text-item';
+                    textItem.dataset.speed = (-0.03 - Math.random() * 0.05).toFixed(2);
+                    textItem.textContent = texts[i];
+                    section.appendChild(textItem);
+                }
+                
+                wall.appendChild(section);
+            }
+            
+            // Subtle parallax effect on scroll
+            const galleryOverlay = document.getElementById('gallery-overlay');
+            let hasScrolled = false;
+            
+            function handleParallaxScroll() {
+                hasScrolled = true;
+                const isMobile = window.innerWidth < 600;
+                
+                // Only apply parallax transform on desktop
+                if (!isMobile) {
+                    const items = wall.querySelectorAll('.parallax-item');
+                    items.forEach(item => {
+                        const speed = parseFloat(item.dataset.speed) || 0;
+                        const rect = item.getBoundingClientRect();
+                        // Gentler parallax effect
+                        const offset = (rect.top - window.innerHeight / 2) * speed * 0.3;
+                        item.style.transform = `translateY(${offset}px)`;
+                    });
+                }
+                
+                // Update progress dots
+                const sections = wall.querySelectorAll('.parallax-section');
+                const dots = wall.querySelectorAll('.parallax-dot');
+                
+                sections.forEach((section, i) => {
+                    const rect = section.getBoundingClientRect();
+                    if (rect.top < window.innerHeight * 0.6 && rect.bottom > window.innerHeight * 0.4) {
+                        dots.forEach((d, j) => d.classList.toggle('active', j === i));
+                    }
+                });
+            }
+            
+            galleryOverlay.addEventListener('scroll', handleParallaxScroll);
+            wall.dataset.scrollHandler = 'parallax';
+        }
+        
+        // ----- COMIC: Varied grid sizes -----
+        function generateComicLayout(wall, folder, images, texts, items = null) {
+            wall.classList.add('layout-comic');
+            
+            // Size classes for comic panel variety (xl, lg, md, sm)
+            const sizePattern = ['xl', 'md', 'lg', 'sm', 'md', 'lg', 'sm', 'xl', 'md'];
+            let sizeIndex = 0;
+            
+            // Overlay for enlarged view
+            const overlay = document.createElement('div');
+            overlay.className = 'comic-overlay';
+            overlay.onclick = () => overlay.classList.remove('active');
+            wall.appendChild(overlay);
+            
+            // If we have ordered items array, use that
+            if (items && items.length > 0) {
+                items.forEach((item, i) => {
+                    const cell = document.createElement('div');
+                    
+                    if (item.type === 'text') {
+                        cell.className = 'comic-cell text-cell';
+                        cell.textContent = item.content;
+                        cell.onclick = () => {
+                            overlay.innerHTML = `<div class="comic-overlay-text">${item.content}</div>`;
+                            overlay.classList.add('active');
+                        };
+                    } else {
+                        // Image
+                        const sizeClass = sizePattern[sizeIndex % sizePattern.length];
+                        cell.className = `comic-cell size-${sizeClass}`;
+                        sizeIndex++;
+                        
+                        const imgEl = document.createElement('img');
+                        imgEl.src = `${folder}/${item.file}`;
+                        cell.appendChild(imgEl);
+                        
+                        cell.onclick = () => {
+                            overlay.innerHTML = `<img src="${folder}/${item.file}">`;
+                            overlay.classList.add('active');
+                        };
+                    }
+                    
+                    wall.appendChild(cell);
+                });
+            } else {
+                // Fallback: old format with separate texts and images
+                // Text panel first
+                if (texts[0]) {
+                    const textCell = document.createElement('div');
+                    textCell.className = 'comic-cell text-cell';
+                    textCell.textContent = texts[0];
+                    textCell.onclick = () => {
+                        overlay.innerHTML = `<div class="comic-overlay-text">${texts[0]}</div>`;
+                        overlay.classList.add('active');
+                    };
+                    wall.appendChild(textCell);
+                }
+                
+                // Image panels with varied sizes
+                images.forEach((img, i) => {
+                    const cell = document.createElement('div');
+                    const sizeClass = sizePattern[i % sizePattern.length];
+                    cell.className = `comic-cell size-${sizeClass}`;
+                    
+                    const imgEl = document.createElement('img');
+                    imgEl.src = `${folder}/${img}`;
+                    cell.appendChild(imgEl);
+                    
+                    cell.onclick = () => {
+                        overlay.innerHTML = `<img src="${folder}/${img}">`;
+                        overlay.classList.add('active');
+                    };
+                    
+                    wall.appendChild(cell);
+                });
+            }
+        }
+        
+        // ----- TYPEWRITER: Text types then image -----
+        function generateTypewriterLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-typewriter');
+            
+            // Background image
+            if (images[0]) {
+                const bgDiv = document.createElement('div');
+                bgDiv.className = 'typewriter-bg';
+                const img = document.createElement('img');
+                img.src = `${folder}/${images[0]}`;
+                bgDiv.appendChild(img);
+                wall.appendChild(bgDiv);
+            }
+            
+            // Text box
+            const textBox = document.createElement('div');
+            textBox.className = 'typewriter-text';
+            const textContent = document.createElement('span');
+            textContent.id = 'typewriter-content';
+            const cursor = document.createElement('span');
+            cursor.className = 'typewriter-cursor';
+            textBox.appendChild(textContent);
+            textBox.appendChild(cursor);
+            wall.appendChild(textBox);
+            
+            // Type out text
+            const fullText = texts[0] || '';
+            let charIndex = 0;
+            
+            function typeChar() {
+                if (charIndex < fullText.length) {
+                    textContent.textContent += fullText[charIndex];
+                    charIndex++;
+                    setTimeout(typeChar, 30 + Math.random() * 40);
+                } else {
+                    // Done typing, show image
+                    cursor.style.display = 'none';
+                    setTimeout(() => {
+                        const bg = wall.querySelector('.typewriter-bg');
+                        if (bg) bg.classList.add('visible');
+                    }, 500);
+                }
+            }
+            
+            setTimeout(typeChar, 500);
+        }
+        
+        // ----- DEFAULT: Standard scattered layout -----
+        function generateDefaultLayout(wall, folder, images, texts) {
+            const isMobile = window.innerWidth < 700;
+            
+            const items = [];
+            texts.forEach(t => items.push({ type: 'text', content: t }));
+            images.forEach(img => items.push({ type: 'img', content: `${folder}/${img}` }));
+            
+            if (isMobile) {
+                items.forEach((item, i) => {
+                    const piece = document.createElement('div');
+                    piece.className = 'gallery-piece';
+                    
+                    if (item.type === 'img') {
+                        const img = document.createElement('img');
+                        img.src = item.content;
+                        img.alt = '';
+                        piece.appendChild(img);
+                        if (i === 0 || (i % 5 === 0)) {
+                            piece.classList.add('m-span-2');
+                        } else {
+                            piece.classList.add('m-span-1');
+                            if (i % 3 === 0) piece.classList.add('m-push-left');
+                            if (i % 3 === 1) piece.classList.add('m-push-right');
+                        }
+                    } else {
+                        piece.classList.add('text-frame');
+                        piece.textContent = item.content;
+                        piece.classList.add('m-span-2');
+                    }
+                    
+                    wall.appendChild(piece);
+                });
+            } else {
+                const totalItems = items.length;
+                const cols = Math.min(3, Math.ceil(Math.sqrt(totalItems)));
+                const rows = Math.ceil(totalItems / cols);
+                
+                items.forEach((item, i) => {
+                    const piece = document.createElement('div');
+                    piece.className = 'gallery-piece';
+                    
+                    if (item.type === 'img') {
+                        const img = document.createElement('img');
+                        img.src = item.content;
+                        img.alt = '';
+                        piece.appendChild(img);
+                    } else {
+                        piece.classList.add('text-frame');
+                        piece.textContent = item.content;
+                    }
+                    
+                    const col = i % cols;
+                    const row = Math.floor(i / cols);
+                    const baseX = 5 + (col * (90 / cols));
+                    const baseY = 5 + (row * (85 / rows));
+                    const randX = (Math.random() - 0.5) * 8;
+                    const randY = (Math.random() - 0.5) * 8;
+                    
+                    let w = item.type === 'text' ? 25 + Math.random() * 15 : 18 + Math.random() * 14;
+                    
+                    piece.style.left = Math.max(2, Math.min(95 - w, baseX + randX)) + '%';
+                    piece.style.top = Math.max(2, Math.min(85, baseY + randY)) + '%';
+                    piece.style.width = w + '%';
+                    
+                    wall.appendChild(piece);
+                });
+            }
+        }
+        
+        // ----- MOHAWK: Lines → black fill → content around it -----
+        function generateMohawkLayout(wall, folder, orderedItems, images, texts) {
+            wall.classList.add('layout-mohawk');
+            
+            // Two vertical lines
+            const lineLeft = document.createElement('div');
+            lineLeft.className = 'mohawk-line left';
+            wall.appendChild(lineLeft);
+            
+            const lineRight = document.createElement('div');
+            lineRight.className = 'mohawk-line right';
+            wall.appendChild(lineRight);
+            
+            // Black fill between lines
+            const fill = document.createElement('div');
+            fill.className = 'mohawk-fill';
+            wall.appendChild(fill);
+            
+            // Content container
+            const content = document.createElement('div');
+            content.className = 'mohawk-content';
+            
+            // Build items from ordered items or fallback
+            const items = [];
+            if (orderedItems && orderedItems.length > 0) {
+                orderedItems.forEach(item => {
+                    if (item.type === 'img') {
+                        items.push({ type: 'img', src: `${folder}/${item.file}` });
+                    } else if (item.type === 'text') {
+                        items.push({ type: 'text', content: item.content || '' });
+                    }
+                });
+            } else {
+                // Fallback to old structure
+                texts.forEach(t => items.push({ type: 'text', content: t }));
+                images.forEach(img => items.push({ type: 'img', src: `${folder}/${img}` }));
+            }
+            
+            items.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = 'mohawk-item';
+                el.classList.add(i % 2 === 0 ? 'side-left' : 'side-right');
+                el.dataset.index = i;
+                
+                if (item.type === 'img') {
+                    const imgEl = document.createElement('img');
+                    imgEl.src = item.src;
+                    el.appendChild(imgEl);
+                } else {
+                    el.classList.add('text-item');
+                    el.textContent = item.content;
+                }
+                
+                content.appendChild(el);
+            });
+            
+            wall.appendChild(content);
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'mohawk-hint';
+            hint.textContent = 'tap to reveal';
+            wall.appendChild(hint);
+            
+            // State machine: 0=nothing, 1=lines, 2=fill, 3+=content items
+            let step = 0;
+            const allItems = content.querySelectorAll('.mohawk-item');
+            
+            wall.onclick = (e) => {
+                if (e.target.classList.contains('gallery-close')) return;
+                
+                if (step === 0) {
+                    // Show lines
+                    lineLeft.classList.add('visible');
+                    lineRight.classList.add('visible');
+                    step++;
+                } else if (step === 1) {
+                    // Fill the mohawk
+                    fill.classList.add('visible');
+                    step++;
+                } else if (step <= items.length + 1) {
+                    // Show content items one by one
+                    const itemIndex = step - 2;
+                    if (itemIndex < allItems.length) {
+                        allItems[itemIndex].classList.add('visible');
+                    }
+                    step++;
+                    
+                    if (itemIndex >= allItems.length - 1) {
+                        hint.style.opacity = '0';
+                    }
+                }
+            };
+        }
+        
+        // ----- PRO: Layered reveal (back → front → text) -----
+        function generateProLayout(wall, folder, orderedItems, images, texts) {
+            wall.classList.add('layout-pro');
+            
+            const isMobile = window.innerWidth < 600;
+            
+            // Parse items by group
+            const backItems = [];
+            const front1Items = [];
+            const front2Items = [];
+            
+            if (orderedItems && orderedItems.length > 0) {
+                orderedItems.forEach(item => {
+                    if (item.group === 'back') backItems.push(item);
+                    else if (item.group === 'front1') front1Items.push(item);
+                    else if (item.group === 'front2') front2Items.push(item);
+                });
+            } else {
+                // Fallback: first 4 images as back
+                images.slice(0, 4).forEach(img => backItems.push({ type: 'img', file: img }));
+            }
+            
+            // Create scrollable content container
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'pro-content';
+            
+            // Section 1: Back images in a nice grid
+            const backSection = document.createElement('div');
+            backSection.className = 'pro-section pro-back-section';
+            
+            const backGrid = document.createElement('div');
+            backGrid.className = 'pro-back-grid';
+            
+            backItems.forEach((item, i) => {
+                if (item.type === 'img') {
+                    const el = document.createElement('div');
+                    el.className = 'pro-back-img';
+                    el.style.animationDelay = (i * 0.15) + 's';
+                    
+                    const imgEl = document.createElement('img');
+                    imgEl.src = `${folder}/${item.file}`;
+                    el.appendChild(imgEl);
+                    backGrid.appendChild(el);
+                }
+            });
+            backSection.appendChild(backGrid);
+            contentContainer.appendChild(backSection);
+            
+            // Section 2: Front1 (5.png + 5a.txt)
+            const front1Section = document.createElement('div');
+            front1Section.className = 'pro-section pro-front-section hidden';
+            front1Section.dataset.group = 'front1';
+            
+            front1Items.forEach(item => {
+                if (item.type === 'img') {
+                    const el = document.createElement('div');
+                    el.className = 'pro-front-img';
+                    const imgEl = document.createElement('img');
+                    imgEl.src = `${folder}/${item.file}`;
+                    el.appendChild(imgEl);
+                    front1Section.appendChild(el);
+                } else if (item.type === 'text') {
+                    const textEl = document.createElement('div');
+                    textEl.className = 'pro-text';
+                    textEl.textContent = item.content;
+                    front1Section.appendChild(textEl);
+                }
+            });
+            contentContainer.appendChild(front1Section);
+            
+            // Section 3: Front2 (6.gif + 6a.txt)
+            const front2Section = document.createElement('div');
+            front2Section.className = 'pro-section pro-front-section hidden';
+            front2Section.dataset.group = 'front2';
+            
+            front2Items.forEach(item => {
+                if (item.type === 'img') {
+                    const el = document.createElement('div');
+                    el.className = 'pro-front-img';
+                    const imgEl = document.createElement('img');
+                    imgEl.src = `${folder}/${item.file}`;
+                    el.appendChild(imgEl);
+                    front2Section.appendChild(el);
+                } else if (item.type === 'text') {
+                    const textEl = document.createElement('div');
+                    textEl.className = 'pro-text';
+                    textEl.textContent = item.content;
+                    front2Section.appendChild(textEl);
+                }
+            });
+            contentContainer.appendChild(front2Section);
+            
+            wall.appendChild(contentContainer);
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'pro-hint';
+            hint.textContent = 'tap to continue';
+            wall.appendChild(hint);
+            
+            let step = 0;
+            
+            wall.onclick = (e) => {
+                if (e.target.classList.contains('gallery-close')) return;
+                if (e.target.closest('.gallery-close')) return;
+                
+                step++;
+                if (step === 1) {
+                    // Show front1 section
+                    front1Section.classList.remove('hidden');
+                    front1Section.classList.add('visible');
+                    // Scroll to it
+                    setTimeout(() => {
+                        front1Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                } else if (step === 2) {
+                    // Show front2 section
+                    front2Section.classList.remove('hidden');
+                    front2Section.classList.add('visible');
+                    hint.style.opacity = '0';
+                    // Scroll to it
+                    setTimeout(() => {
+                        front2Section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            };
+        }
+        
+        // ----- MAP: Tenderloin hairdressers -----
+        function generateMapLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-map');
+            
+            // Map container
+            const mapDiv = document.createElement('div');
+            mapDiv.id = 'hairdresser-map';
+            mapDiv.className = 'map-container';
+            wall.appendChild(mapDiv);
+            
+            // Text overlay
+            if (texts[0]) {
+                const textEl = document.createElement('div');
+                textEl.className = 'map-text';
+                textEl.textContent = texts[0];
+                wall.appendChild(textEl);
+            }
+            
+            // Initialize map after a tiny delay for DOM
+            setTimeout(() => {
+                // Tenderloin, San Francisco coordinates
+                const tenderloinCenter = [37.7833, -122.4137];
+                
+                const map = L.map('hairdresser-map', {
+                    zoomControl: false
+                }).setView(tenderloinCenter, 16);
+                
+                // OpenStreetMap tiles
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: ''
+                }).addTo(map);
+                
+                // Red marker icon
+                const redIcon = L.divIcon({
+                    className: 'custom-pin',
+                    html: '<div style="background:#ff0000;width:12px;height:12px;border-radius:50%;border:2px solid #000;"></div>',
+                    iconSize: [12, 12],
+                    iconAnchor: [6, 6]
+                });
+                
+                // Hairdresser locations in Tenderloin (approximate)
+                const hairdressers = [
+                    [37.7847, -122.4140], // Eddy & Taylor
+                    [37.7831, -122.4155], // Turk & Jones
+                    [37.7822, -122.4128], // Golden Gate & Leavenworth
+                    [37.7839, -122.4167], // O'Farrell & Hyde
+                    [37.7815, -122.4143], // McAllister & Jones
+                    [37.7854, -122.4125], // Ellis & Taylor
+                    [37.7828, -122.4180], // Turk & Hyde
+                ];
+                
+                hairdressers.forEach(coords => {
+                    L.marker(coords, { icon: redIcon }).addTo(map);
+                });
+                
+                // Store map reference for cleanup
+                wall.mapInstance = map;
+            }, 100);
+        }
+        
+        // ----- DESERT: Simple image + text overlay -----
+        function generateDesertLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-desert');
+            
+            // Background image (if any)
+            if (images[0]) {
+                const bgDiv = document.createElement('div');
+                bgDiv.className = 'desert-bg';
+                const img = document.createElement('img');
+                img.src = `${folder}/${images[0]}`;
+                bgDiv.appendChild(img);
+                wall.appendChild(bgDiv);
+            }
+            
+            // Text overlay
+            if (texts[0]) {
+                const textEl = document.createElement('div');
+                textEl.className = 'desert-text';
+                textEl.textContent = texts[0];
+                wall.appendChild(textEl);
+            }
+        }
+        
+        // ----- MINARETS: Tower with content climbing up -----
+        function generateMinaretsLayout(wall, folder, images, texts) {
+            wall.classList.add('layout-minarets');
+            
+            // Tower image in background (1a.jpg)
+            const towerImg = images.find(img => img.includes('1a'));
+            if (towerImg) {
+                const tower = document.createElement('div');
+                tower.className = 'minaret-tower';
+                const img = document.createElement('img');
+                img.src = `${folder}/${towerImg}`;
+                tower.appendChild(img);
+                wall.appendChild(tower);
+            }
+            
+            // Content container
+            const content = document.createElement('div');
+            content.className = 'minaret-content';
+            
+            // Build items: other images and texts (excluding tower image)
+            const items = [];
+            texts.forEach(t => items.push({ type: 'text', content: t }));
+            images.filter(img => !img.includes('1a')).forEach(img => {
+                items.push({ type: 'img', content: `${folder}/${img}` });
+            });
+            
+            // Create items
+            items.forEach((item, i) => {
+                const el = document.createElement('div');
+                el.className = 'minaret-item';
+                el.dataset.index = i;
+                
+                if (item.type === 'img') {
+                    const imgEl = document.createElement('img');
+                    imgEl.src = item.content;
+                    el.appendChild(imgEl);
+                } else {
+                    el.classList.add('text-item');
+                    el.textContent = item.content;
+                }
+                
+                content.appendChild(el);
+            });
+            
+            wall.appendChild(content);
+            
+            // Hint
+            const hint = document.createElement('div');
+            hint.className = 'minaret-hint';
+            hint.textContent = 'tap to climb';
+            wall.appendChild(hint);
+            
+            let currentIndex = -1;
+            const allItems = content.querySelectorAll('.minaret-item');
+            
+            wall.onclick = (e) => {
+                if (e.target.classList.contains('gallery-close')) return;
+                
+                if (currentIndex < items.length - 1) {
+                    currentIndex++;
+                    allItems[currentIndex].classList.add('visible');
+                    
+                    // As we go, move earlier items towards the top
+                    if (currentIndex > 0) {
+                        allItems[currentIndex - 1].classList.add('at-top');
+                    }
+                    
+                    if (currentIndex === items.length - 1) {
+                        hint.style.opacity = '0';
+                    }
+                }
+            };
+        }
+        
+        function openStory(index) {
+            buttons[index].element.classList.add('revealed');
+            
+            // Remove any active sidequest trigger
+            if (activeSidequestTrigger) {
+                activeSidequestTrigger.remove();
+                activeSidequestTrigger = null;
+            }
+            
+            // All stories use the gallery view now
+            generateGallery(index);
+            document.getElementById('gallery-overlay').classList.add('active');
+        }
+        
+        function closeStory() {
+            document.getElementById('overlay').classList.remove('active');
+        }
+        
+        function closeGallery() {
+            const galleryOverlay = document.getElementById('gallery-overlay');
+            const wall = document.getElementById('gallery-wall');
+            
+            // Clean up any running animations (like loose bouncing)
+            if (wall.dataset.animId) {
+                cancelAnimationFrame(parseInt(wall.dataset.animId));
+            }
+            
+            // Remove scroll listeners
+            galleryOverlay.onscroll = null;
+            
+            // Clean up map if exists
+            if (wall.mapInstance) {
+                wall.mapInstance.remove();
+                wall.mapInstance = null;
+            }
+            
+            // Clean up typewriter intervals if any
+            if (window.typewriterInterval) {
+                clearInterval(window.typewriterInterval);
+                delete window.typewriterInterval;
+            }
+            
+            // Replace the wall element entirely to remove ALL event listeners
+            // This is the most reliable way to clean up addEventListener calls
+            const newWall = document.createElement('div');
+            newWall.id = 'gallery-wall';
+            newWall.className = 'gallery-wall';
+            wall.parentNode.replaceChild(newWall, wall);
+            
+            // Remove active class and reset scroll
+            galleryOverlay.classList.remove('active');
+            galleryOverlay.scrollTop = 0;
+            
+            // Check if this story has a sidequest and show trigger
+            const closedIndex = currentGalleryIndex;
+            currentGalleryIndex = -1;
+            
+            if (sidequestMap[closedIndex]) {
+                setTimeout(() => showSidequestTrigger(closedIndex), 300);
+            }
+        }
+        
+        // Create and show animated sidequest trigger
+        function showSidequestTrigger(storyIndex) {
+            // Remove any existing trigger
+            if (activeSidequestTrigger) {
+                activeSidequestTrigger.remove();
+                activeSidequestTrigger = null;
+            }
+            
+            const config = sidequestMap[storyIndex];
+            if (!config) return;
+            
+            const trigger = document.createElement('div');
+            trigger.className = `sidequest-trigger trigger-${config.shape} pulsing`;
+            
+            // Position near the hair on left or right
+            const hairX = segments[Math.floor(segments.length * 0.4)]?.x || width / 2;
+            const hairY = segments[Math.floor(segments.length * 0.4)]?.y || height * 0.4;
+            
+            if (config.position === 'left') {
+                trigger.style.left = (hairX - 80) + 'px';
+            } else {
+                trigger.style.left = (hairX + 50) + 'px';
+            }
+            trigger.style.top = (hairY - 20) + 'px';
+            
+            // Create canvas for the curl shape
+            const canvas = document.createElement('canvas');
+            canvas.width = 100;
+            canvas.height = 100;
+            const ctx2 = canvas.getContext('2d');
+            
+            // Draw the curl shape
+            drawCurlShape(ctx2, config.shape, 50, 50, 35);
+            
+            trigger.appendChild(canvas);
+            document.body.appendChild(trigger);
+            activeSidequestTrigger = trigger;
+            
+            // Animate the curl shape continuously
+            let animFrame = 0;
+            function animateTrigger() {
+                if (!activeSidequestTrigger) return;
+                
+                ctx2.clearRect(0, 0, 100, 100);
+                animFrame++;
+                drawCurlShape(ctx2, config.shape, 50, 50, 35, animFrame);
+                
+                requestAnimationFrame(animateTrigger);
+            }
+            animateTrigger();
+            
+            // Click handler to open sidequest
+            trigger.onclick = () => {
+                const story = storyContent[storyIndex];
+                if (story.sidequest) {
+                    trigger.remove();
+                    activeSidequestTrigger = null;
+                    generateGallery(storyIndex, true, story.sidequest);
+                    document.getElementById('gallery-overlay').classList.add('active');
+                }
+            };
+        }
+        
+        // Draw curl shape on canvas (matching the initial letter shapes)
+        function drawCurlShape(ctx2, shape, cx, cy, size, frame = 0) {
+            const points = [];
+            const numPoints = 60;
+            const animOffset = frame * 0.03;
+            
+            ctx2.beginPath();
+            ctx2.strokeStyle = '#000';
+            ctx2.lineWidth = 2.5;
+            ctx2.lineCap = 'round';
+            ctx2.lineJoin = 'round';
+            
+            for (let i = 0; i < numPoints; i++) {
+                const t = i / (numPoints - 1);
+                let x, y;
+                
+                switch(shape) {
+                    case 'c': // Tight inward spiral
+                        {
+                            const loops = 3;
+                            const angle = t * Math.PI * 2 * loops + animOffset;
+                            const r = size * (1 - t * 0.85);
+                            x = cx + Math.cos(angle) * r;
+                            y = cy + Math.sin(angle) * r;
+                        }
+                        break;
+                        
+                    case 'u': // Loose wave / S-curve
+                        {
+                            const waveX = Math.sin(t * Math.PI * 2.5 + animOffset) * size * 0.6;
+                            const waveY = (t - 0.5) * size * 1.8;
+                            x = cx + waveX;
+                            y = cy + waveY;
+                        }
+                        break;
+                        
+                    case 'r': // Figure-8 / infinity loop
+                        {
+                            const angle = t * Math.PI * 2 + animOffset;
+                            const r = size * 0.5;
+                            x = cx + Math.sin(angle) * r;
+                            y = cy + Math.sin(angle * 2) * r * 0.6;
+                        }
+                        break;
+                        
+                    case 'l': // Bouncy spring / coil
+                        {
+                            const loops = 2.5;
+                            const angle = t * Math.PI * 2 * loops + Math.PI + animOffset;
+                            const r = size * 0.4;
+                            const verticalOffset = (t - 0.5) * size * 1.2;
+                            x = cx + Math.cos(angle) * r;
+                            y = cy + verticalOffset + Math.sin(t * Math.PI) * r * 0.3;
+                        }
+                        break;
+                }
+                
+                if (i === 0) ctx2.moveTo(x, y);
+                else ctx2.lineTo(x, y);
+            }
+            
+            ctx2.stroke();
+        }
+        
+        function finale() {
+            // Keep background white, just a subtle celebration
+            // Could add particle effects or other visual feedback here
+        }
+        
+        // =====================
+        // MAIN ANIMATION LOOP
+        // =====================
+        
+        function animate() {
+            ctx.clearRect(0, 0, width, height);
+            time++;
+            
+            switch(phase) {
+                case 'curl':
+                    drawCurlLetters();
+                    if (allLettersUncurled()) {
+                        document.getElementById('snail').classList.add('visible');
+                    }
+                    break;
+                    
+                case 'transition':
+                    drawTransition();
+                    break;
+                    
+                case 'hair-fade':
+                    drawHairFade();
+                    break;
+                    
+                case 'hair':
+                    updateHairPhysics();
+                    drawHair(1);
+                    break;
+            }
+            
+            requestAnimationFrame(animate);
+        }
+        
+        // =====================
+        // EVENT HANDLERS
+        // =====================
+        
+        function findClickedLetter(x, y) {
+            const letterSpacing = scale * 1.05;
+            const startX = centerX - letterSpacing * 1.5;
+            
+            for (let i = 0; i < 4; i++) {
+                const lx = startX + letterSpacing * i;
+                const ly = centerY;
+                const dist = Math.sqrt((x - lx) ** 2 + (y - ly) ** 2);
+                if (dist < scale * 0.55) return i;
+            }
+            return -1;
+        }
+        
+        let hasInteracted = false;
+        
+        function handleCurlTouch(x, y) {
+            if (phase !== 'curl') return;
+            
+            if (!hasInteracted) {
+                hasInteracted = true;
+                document.getElementById('hint').classList.add('faded');
+            }
+            
+            const letterIndex = findClickedLetter(x, y);
+            if (letterIndex >= 0) {
+                letterTargets[letterIndex] = 0;
+            }
+        }
+        
+        function getEventPos(e) {
+            if (e.touches) return { x: e.touches[0].clientX, y: e.touches[0].clientY };
+            return { x: e.clientX, y: e.clientY };
+        }
+        
+        function findClosestSegment(pos) {
+            let closest = null;
+            let minDist = 80;
+            
+            for (let i = 1; i < segments.length; i++) {
+                const seg = segments[i];
+                const dist = Math.sqrt((seg.x - pos.x) ** 2 + (seg.y - pos.y) ** 2);
+                if (dist < minDist) {
+                    minDist = dist;
+                    closest = i;
+                }
+            }
+            return closest;
+        }
+        
+        function isNearHair(pos) {
+            for (let i = 0; i < segments.length; i++) {
+                const seg = segments[i];
+                const dist = Math.sqrt((seg.x - pos.x) ** 2 + (seg.y - pos.y) ** 2);
+                if (dist < 60) return true;
+            }
+            return false;
+        }
+        
+        // Mouse events
+        canvas.addEventListener('click', e => {
+            if (phase === 'curl') {
+                handleCurlTouch(e.clientX, e.clientY);
+            }
+        });
+        
+        canvas.addEventListener('mousedown', e => {
+            if (phase !== 'hair') return;
+            const pos = getEventPos(e);
+            dragSegment = findClosestSegment(pos);
+            if (dragSegment !== null) {
+                isDragging = true;
+                pullStart = { ...pos };
+                maxPull = 0;
+                canvas.style.cursor = 'grabbing';
+            }
+        });
+        
+        canvas.addEventListener('mousemove', e => {
+            if (phase === 'hair') {
+                const pos = getEventPos(e);
+                const nearHair = isNearHair(pos);
+                if (nearHair !== isHoveringHair) {
+                    isHoveringHair = nearHair;
+                    canvas.style.cursor = nearHair ? 'grab' : 'default';
+                }
+                
+                if (isDragging && dragSegment !== null) {
+                    const seg = segments[dragSegment];
+                    seg.x = pos.x;
+                    seg.y = pos.y;
+                    
+                    const pullDist = Math.sqrt(
+                        (pos.x - pullStart.x) ** 2 + 
+                        (pos.y - pullStart.y) ** 2
+                    );
+                    if (pullDist > maxPull) maxPull = pullDist;
+                }
+            }
+        });
+        
+        canvas.addEventListener('mouseup', () => {
+            if (phase === 'hair' && isDragging && dragSegment !== null && maxPull > 60) {
+                createCoil(dragSegment);
+            }
+            isDragging = false;
+            dragSegment = null;
+            pullStart = null;
+            maxPull = 0;
+            if (phase === 'hair') {
+                canvas.style.cursor = isHoveringHair ? 'grab' : 'default';
+            }
+        });
+        
+        // Touch events
+        canvas.addEventListener('touchstart', e => {
+            e.preventDefault();
+            if (phase === 'curl') {
+                const touch = e.touches[0];
+                handleCurlTouch(touch.clientX, touch.clientY);
+            } else if (phase === 'hair') {
+                const pos = getEventPos(e);
+                dragSegment = findClosestSegment(pos);
+                if (dragSegment !== null) {
+                    isDragging = true;
+                    pullStart = { ...pos };
+                    maxPull = 0;
+                }
+            }
+        }, { passive: false });
+        
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            if (phase === 'hair' && isDragging && dragSegment !== null) {
+                const pos = getEventPos(e);
+                const seg = segments[dragSegment];
+                seg.x = pos.x;
+                seg.y = pos.y;
+                
+                const pullDist = Math.sqrt(
+                    (pos.x - pullStart.x) ** 2 + 
+                    (pos.y - pullStart.y) ** 2
+                );
+                if (pullDist > maxPull) maxPull = pullDist;
+            }
+        }, { passive: false });
+        
+        canvas.addEventListener('touchend', e => {
+            if (phase === 'hair' && isDragging && dragSegment !== null && maxPull > 60) {
+                createCoil(dragSegment);
+            }
+            isDragging = false;
+            dragSegment = null;
+            pullStart = null;
+            maxPull = 0;
+        });
+        
+        // Snail arrow click
+        document.getElementById('snail').addEventListener('click', () => {
+            if (phase === 'curl' && allLettersUncurled()) {
+                phase = 'transition';
+                transitionStartTime = Date.now();
+                document.getElementById('snail').classList.remove('visible');
+                document.getElementById('hint').style.display = 'none';
+            }
+        });
+        
+        window.addEventListener('resize', resize);
+        resize();
+        animate();
+    </script>
+</body>
+</html>

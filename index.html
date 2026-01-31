@@ -148,6 +148,7 @@
       z-index: 200;
       font-family: Standard, sans-serif;
       font-size: 1.3rem;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
     }
 
     .site-header a {
@@ -159,12 +160,24 @@
       opacity: 0.7;
     }
 
+    .site-header.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
     /* Menu Toggle Button */
     .menu-toggle {
       position: fixed;
       top: 1.5rem;
       right: 4rem;
       z-index: 200;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .menu-toggle.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
       background: none;
       border: none;
       cursor: pointer;
@@ -332,6 +345,8 @@
     /* Work Item */
     .work-item {
       margin-bottom: 1rem;
+      display: flex;
+      flex-direction: column;
     }
 
     .work-title {
@@ -368,7 +383,8 @@
       width: 100%;
       height: auto;
       display: block;
-      margin-top: 0.75rem;
+      margin-top: auto;
+      padding-top: 0.75rem;
     }
 
     /* Featured Work Item (with image, like halimmadi.com) */
@@ -796,6 +812,21 @@
         if (menu.classList.contains('active')) {
           toggleMenu();
         }
+      }
+    });
+
+    // Hide header and menu toggle on scroll
+    let lastScrollY = window.scrollY;
+    const siteHeader = document.querySelector('.site-header');
+    const menuToggle = document.querySelector('.menu-toggle');
+
+    window.addEventListener('scroll', function() {
+      if (window.scrollY > 50) {
+        siteHeader.classList.add('hidden');
+        menuToggle.classList.add('hidden');
+      } else {
+        siteHeader.classList.remove('hidden');
+        menuToggle.classList.remove('hidden');
       }
     });
   </script>

@@ -107,6 +107,30 @@
         }
         
         /* Hair phase UI elements */
+        .hair-top-box {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffffff;
+            border: 1px solid #000000;
+            padding: 12px 25px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: 20;
+        }
+        
+        .hair-top-box.visible {
+            opacity: 1;
+        }
+        
+        .hair-top-box .title {
+            font-size: 22px;
+            letter-spacing: 0.15em;
+            color: #000;
+        }
+        
         .hair-bottom-box {
             position: fixed;
             bottom: 20px;
@@ -132,15 +156,23 @@
         
         .hair-labels {
             display: flex;
-            gap: 30px;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
             color: rgba(0, 0, 0, 0.5);
             font-size: 15px;
             font-style: italic;
             letter-spacing: 0.02em;
         }
         
-        .hair-labels span {
-            display: inline-block;
+        .hair-labels .main-labels {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .hair-labels .hint-text {
+            font-size: 13px;
+            color: rgba(0, 0, 0, 0.4);
         }
         
         .progress {
@@ -1574,12 +1606,22 @@
     </div>
     </div>
     
+    <!-- Hair phase top box with title -->
+    <div class="hair-top-box" id="hair-top-box">
+        <span class="title">curl</span>
+    </div>
+    
     <!-- Hair phase bottom box with labels and progress -->
     <div class="hair-bottom-box" id="hair-bottom-box">
         <div class="hair-labels">
-            <span>catch</span>
-            <span>pull</span>
-            <span>release</span>
+            <div class="main-labels">
+                <span>pull</span>
+                <span>·</span>
+                <span>catch</span>
+                <span>·</span>
+                <span>release</span>
+            </div>
+            <div class="hint-text">(or click on the dots below!)</div>
         </div>
         <div class="progress" id="progress"></div>
     </div>
@@ -2482,7 +2524,8 @@
             if (progress >= 1) {
                 phase = 'hair';
                 particles.length = 0;
-                // Show hair UI - just the bottom box
+                // Show hair UI - top and bottom boxes
+                document.getElementById('hair-top-box').classList.add('visible');
                 document.getElementById('hair-bottom-box').classList.add('visible');
             }
         }

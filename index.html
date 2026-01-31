@@ -265,11 +265,11 @@
     /* Hero */
     .hero {
       padding-top: 4rem;
-      padding-bottom: 2rem;
+      padding-bottom: 0.5rem;
     }
 
     .hero h1 {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
     }
 
     .hero-subtitle {
@@ -278,6 +278,7 @@
       color: rgba(0, 0, 0, 0.85);
       line-height: 1.4;
       max-width: 700px;
+      margin: 0;
     }
 
     /* Sections */
@@ -315,19 +316,19 @@
     }
 
     .work-title {
-      font-family: "Diatype Variable", sans-serif;
-      font-size: 1.3rem;
-      font-weight: 600;
+      font-family: "Diatype Mono Variable", monospace;
+      font-size: 1.1rem;
+      font-weight: 500;
       margin-bottom: 0.25rem;
     }
 
     .work-title a {
-      text-decoration: none;
+      text-decoration: underline;
       color: #000000;
     }
     
     .work-title a:hover {
-      text-decoration: underline;
+      opacity: 0.7;
     }
     
     .work-description {
@@ -365,14 +366,19 @@
 
     .work-featured-header .caption {
       font-family: "Diatype Mono Variable", monospace;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
       color: #000000;
+      font-weight: 400;
     }
 
     .work-featured-header .caption a {
       text-decoration: underline;
     }
-
+    
+    .work-featured-header .caption:first-child {
+      font-weight: 500;
+    }
+    
     .work-featured-body {
       display: grid;
       grid-template-columns: 2fr 1fr;
@@ -501,21 +507,63 @@
 
       <hr>
 
-      <!-- Curl - Featured Work -->
-      <section class="work-featured">
-        <div class="work-featured-header">
-          <span class="caption"><a href="curl/">curl</a></span>
-          <span class="caption">Jan'26</span>
-          <span class="caption">Ongoing</span>
+      <!-- Featured Works -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Featured Works</h2>
         </div>
-        <div class="work-featured-body">
-          <div class="work-featured-image">
-            <img src="Assets/curl-screenshot.png" alt="curl - interactive poetry piece">
+
+        <!-- curl -->
+        <div class="work-featured">
+          <div class="work-featured-header">
+            <span class="caption"><a href="curl/">curl</a></span>
+            <span class="caption">Jan'26</span>
+            <span class="caption">Ongoing</span>
           </div>
-          <div class="work-featured-description">
-            <em>curl</em> is an interactive visual poem exploring hair as archive, memory, and resistance. Through a scrolling journey down a single curling strand, the piece weaves together personal narratives, cultural histories, and the politics of Black and Brown hair. Pull, catch, release—each gesture reveals hidden stories embedded in texture, shape, and style.
+          <div class="work-featured-body">
+            <div class="work-featured-image">
+              <img src="Assets/curl-screenshot.png" alt="curl - interactive poetry piece">
+            </div>
+            <div class="work-featured-description">
+              <em>curl</em> is an interactive visual poem exploring hair as archive, memory, and resistance. Through a scrolling journey down a single curling strand, the piece weaves together personal narratives, cultural histories, and the politics of Black and Brown hair. Pull, catch, release—each gesture reveals hidden stories embedded in texture, shape, and style.
+            </div>
           </div>
         </div>
+
+        <!-- Deserve It -->
+        <div class="work-featured">
+          <div class="work-featured-header">
+            <span class="caption"><a href="https://deserve.vercel.app/" target="_blank">Deserve It ↗</a></span>
+            <span class="caption">2024</span>
+            <span class="caption">Gray Area Performance</span>
+          </div>
+          <div class="work-featured-body">
+            <div class="work-featured-image">
+              <img src="Assets/screenshots/deserve-it.png" alt="Deserve It - immigration performance piece">
+            </div>
+            <div class="work-featured-description">
+              <em>Deserve It</em> is an interactive performance that transforms the DS-160 immigration form into a poetic confrontation with bureaucratic violence. Through five movements—Deny, Reach, Erase, Wait, Identify—the piece renders visible the absurdity and trauma of naturalization. The interface becomes the border; the user becomes the applicant.
+            </div>
+          </div>
+        </div>
+
+        <!-- Case Against the Son -->
+        <div class="work-featured">
+          <div class="work-featured-header">
+            <span class="caption"><a href="case-against-the-son/judgement-day.html">Case Against the Son</a></span>
+            <span class="caption">Ongoing</span>
+            <span class="caption">Performance Series</span>
+          </div>
+          <div class="work-featured-body">
+            <div class="work-featured-image">
+              <img src="Assets/screenshots/case-against-son.png" alt="Case Against the Son - performance series">
+            </div>
+            <div class="work-featured-description">
+              <em>Case Against the Son</em> is an ongoing performance series where the son stands trial for crimes of existence. Family expectations become legal proceedings, motherhood becomes accounting, and apologies arrive too late or mean nothing at all. The work explores intergenerational trauma, cultural guilt, and the impossible debts between parent and child.
+            </div>
+          </div>
+        </div>
+
       </section>
 
       <hr>
@@ -680,148 +728,6 @@
         </div>
       </section>
 
-      <hr>
-
-      <!-- Case Against the Son -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">Case Against the Son</h2>
-          <p class="section-subtitle">Ongoing Performance Series</p>
-        </div>
-        <div class="grid">
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/judgement-day.html">Judgement Day</a></div>
-            <p class="work-description">The son stands trial for crimes of existence. Family expectations become legal proceedings.</p>
-            <p class="work-meta">Performance Documentation</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/impossible.html">Impossible Conversation</a></div>
-            <p class="work-description">Some dialogues can never happen. This piece stages the conversation that won't occur.</p>
-            <p class="work-meta">Dialogue Poem</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/childfree.html">Childfree</a></div>
-            <p class="work-description">A meditation on the choice not to reproduce. The line ends here—but does it have to be a tragedy?</p>
-            <p class="work-meta">Confessional Poetry</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/tally.html">Mother Tally</a></div>
-            <p class="work-description">A counting of debts, sacrifices, disappointments. The ledger of motherhood rendered visible.</p>
-            <p class="work-meta">Accounting Poetry</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/sorry.html">Sorry</a></div>
-            <p class="work-description">The word that never comes, or comes too late, or comes but means nothing.</p>
-            <p class="work-meta">Apology Poem</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="case-against-the-son/window-image.html">Judge</a></div>
-            <p class="work-description">Who sits in judgment? The parent? The self? The culture?</p>
-            <p class="work-meta">Visual Poetry</p>
-      </div>
-
-        </div>
-      </section>
-
-      <hr>
-
-      <!-- Weirding the Web -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">Weirding the Web</h2>
-          <p class="section-subtitle">Gray Area & Prophet Consulting Talks</p>
-        </div>
-        <div class="grid">
-
-          <div class="work-item">
-            <div class="work-title"><a href="Canvas/Cluster 1/page1.html">Cluster</a></div>
-            <p class="work-description">An interactive installation exploring borders, identity, and belonging through passport imagery and participatory mapping.</p>
-            <p class="work-meta">Installation</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="where-is-home-for-you/index.html">Where is Home for You?</a></div>
-            <p class="work-description">An interactive question that invites participants to locate belonging. Where does home live in your body?</p>
-            <p class="work-meta">Participatory Web Art</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="map-your-journey/public/index.html">Born on a Map</a></div>
-            <p class="work-description">We're all born somewhere on a map—but who drew those lines? An exploration of cartographic violence.</p>
-            <p class="work-meta">Interactive Cartography</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="chameleon-final/public/index.html">The Animal That Changes</a></div>
-            <p class="work-description">Migrants as chameleons: adapting, camouflaging, surviving. An interactive meditation on assimilation.</p>
-            <p class="work-meta">Metamorphosis Poetry</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="how-do-you-home/public/index.html">How Do You Home?</a></div>
-            <p class="work-description">Home as verb: the actions of making, keeping, losing, finding home.</p>
-            <p class="work-meta">Verb Poetry</p>
-        </div>
-
-        </div>
-      </section>
-
-      <hr>
-
-      <!-- Deserve It -->
-      <section class="section">
-        <div class="section-header">
-          <h2 class="section-title">Deserve It</h2>
-          <p class="section-subtitle">Gray Area Performance</p>
-        </div>
-        <div class="grid">
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-1-welcome.html">Welcome</a></div>
-            <p class="work-description">The performance begins with a greeting. But who is being welcomed, and into what?</p>
-            <p class="work-meta">Opening</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-2-deny.html">Deny</a></div>
-            <p class="work-description">The first movement of refusal. Before you can belong, you must perform denial.</p>
-            <p class="work-meta">Movement I</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-3-reach.html">Reach</a></div>
-            <p class="work-description">Extension toward acceptance. The body stretches toward belonging that remains just out of grasp.</p>
-            <p class="work-meta">Movement II</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-4-erase.html">Erase</a></div>
-            <p class="work-description">Self-erasure as survival strategy. What must disappear for the rest to remain?</p>
-            <p class="work-meta">Movement III</p>
-      </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-5-id.html">Get an ID</a></div>
-            <p class="work-description">Identity becomes document. The person reduced to paper, to number, to scannable code.</p>
-            <p class="work-meta">Movement IV</p>
-        </div>
-
-          <div class="work-item">
-            <div class="work-title"><a href="deserve-it-5-alt-candle.html">Light a Candle</a></div>
-            <p class="work-description">Alternative ending: ritual over bureaucracy. Perhaps belonging is kindled, not granted.</p>
-            <p class="work-meta">Alternative Ending</p>
-        </div>
-
-        </div>
-      </section>
-
-      <hr>
 
       <!-- Collaborations -->
       <section class="section">

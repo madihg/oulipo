@@ -32,51 +32,52 @@
             cursor: pointer;
         }
         
-        .hint {
+        /* Landing page bottom box with hint and arrow */
+        .landing-bottom-box {
             position: fixed;
-            bottom: 30px;
+            bottom: 20px;
             left: 50%;
             transform: translateX(-50%);
             background: #ffffff;
             border: 1px solid #000000;
-            padding: 12px 20px;
+            padding: 15px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            transition: opacity 0.5s ease;
+        }
+        
+        .landing-hint {
             color: rgba(0, 0, 0, 0.6);
-            font-size: 13px;
+            font-size: 14px;
             font-style: italic;
             letter-spacing: 0.02em;
-            pointer-events: none;
-            transition: opacity 0.8s;
-            z-index: 10;
         }
         
-        .hint.faded {
-            opacity: 0;
-        }
-        
-        /* Snail-shaped arrow */
-        .snail-arrow {
-            position: fixed;
-            bottom: 60px;
-            left: 50%;
-            transform: translateX(-50%);
+        .landing-arrow {
             cursor: pointer;
             opacity: 0;
-            transition: opacity 0.8s ease;
+            height: 0;
+            overflow: hidden;
+            transition: opacity 0.5s ease, height 0.5s ease;
             pointer-events: none;
         }
         
-        .snail-arrow.visible {
+        .landing-arrow.visible {
             opacity: 1;
+            height: 35px;
             pointer-events: all;
         }
         
-        .snail-arrow svg {
+        .landing-arrow svg {
             width: 80px;
             height: 35px;
             animation: curlyBounce 2s ease-in-out infinite;
         }
         
-        .snail-arrow .snail-line {
+        .landing-arrow .snail-line {
             fill: none;
             stroke: #000;
             stroke-width: 2.5;
@@ -89,7 +90,7 @@
             50% { transform: translateY(4px); }
         }
         
-        .snail-arrow:hover svg {
+        .landing-arrow:hover svg {
             animation: curlyWiggle 0.5s ease-in-out infinite;
         }
         
@@ -97,6 +98,11 @@
             0%, 100% { transform: translateX(0); }
             25% { transform: translateX(-3px); }
             75% { transform: translateX(3px); }
+        }
+        
+        .landing-bottom-box.hidden {
+            opacity: 0;
+            pointer-events: none;
         }
         
         /* Hair phase UI elements */
@@ -127,7 +133,7 @@
             display: flex;
             gap: 30px;
             color: rgba(0, 0, 0, 0.5);
-            font-size: 13px;
+            font-size: 15px;
             font-style: italic;
             letter-spacing: 0.02em;
         }
@@ -171,7 +177,7 @@
             border: 1px solid rgba(0, 0, 0, 0.4);
             color: rgba(0, 0, 0, 0.8);
             font-family: 'EB Garamond', Georgia, serif;
-            font-size: 12px;
+            font-size: 14px;
             cursor: pointer;
             transform: translate(-50%, -50%);
             transition: all 0.3s ease;
@@ -184,7 +190,7 @@
             .coil-button {
                 width: 32px;
                 height: 32px;
-                font-size: 13px;
+                font-size: 15px;
             }
         }
         
@@ -356,7 +362,7 @@
         
         .gallery-piece.text-frame {
             padding: 16px 20px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.75;
             color: #000;
         }
@@ -395,7 +401,7 @@
             }
             
             .gallery-piece.text-frame {
-                font-size: 13px;
+                font-size: 15px;
                 padding: 14px 16px;
                 line-height: 1.7;
             }
@@ -484,7 +490,7 @@
             display: block;
         }
         .conceal-item.text-item {
-            font-size: 13px;
+            font-size: 15px;
             line-height: 1.6;
             padding: 14px 18px;
             background: #fff;
@@ -498,7 +504,7 @@
             bottom: 50px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             color: rgba(0,0,0,0.35);
             letter-spacing: 0.02em;
             font-family: 'EB Garamond', Georgia, serif;
@@ -512,7 +518,7 @@
             position: fixed;
             top: 30px;
             right: 30px;
-            font-size: 13px;
+            font-size: 15px;
             color: rgba(0,0,0,0.3);
             font-family: 'EB Garamond', Georgia, serif;
             z-index: 100;
@@ -524,7 +530,7 @@
                 max-height: 200px;
             }
             .conceal-item.text-item {
-                font-size: 12px;
+                font-size: 14px;
                 max-width: 240px;
                 padding: 18px 22px;
             }
@@ -542,7 +548,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 13px;
+            font-size: 15px;
             line-height: 2;
             text-align: center;
             max-width: 400px;
@@ -590,7 +596,7 @@
         }
         .frizz-item.text-item {
             padding: 20px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             max-width: 350px;
         }
@@ -621,10 +627,10 @@
         /* Mobile: single column flow */
         @media (max-width: 600px) {
             .frizz-section {
-                flex-direction: column;
+            flex-direction: column;
                 align-items: center;
                 padding: 40px 15px;
-                gap: 15px;
+            gap: 15px;
             }
             .frizz-item {
                 width: 85vw !important;
@@ -633,7 +639,7 @@
             .frizz-item.text-item {
                 width: 90vw !important;
                 max-width: 90vw !important;
-                font-size: 13px;
+                font-size: 15px;
             }
             .frizz-item.first-image {
                 width: 90vw !important;
@@ -686,7 +692,7 @@
         }
         .rambo-item.text-item {
             padding: 20px 25px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             max-width: 400px;
         }
@@ -695,7 +701,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             color: rgba(0,0,0,0.2);
             letter-spacing: 0.02em;
             z-index: 10;
@@ -711,7 +717,7 @@
             }
             .rambo-item.text-item {
                 max-width: 90vw;
-                font-size: 13px;
+            font-size: 15px;
                 padding: 15px 18px;
             }
         }
@@ -729,7 +735,7 @@
             top: 30px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             color: rgba(0,0,0,0.2);
             letter-spacing: 0.02em;
         }
@@ -738,7 +744,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 13px;
+            font-size: 15px;
             color: rgba(0,0,0,0.2);
         }
         .stacked-card {
@@ -765,14 +771,14 @@
         }
         .stacked-card.text-card {
             padding: 20px 25px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             max-width: 320px;
         }
         @media (max-width: 600px) {
             .stacked-card.text-card {
                 padding: 15px 18px;
-                font-size: 13px;
+                font-size: 15px;
                 line-height: 1.7;
             }
         }
@@ -820,7 +826,7 @@
         }
         .skrillex-item.text-item {
             padding: 18px 22px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             max-width: 280px;
             cursor: pointer;
@@ -885,7 +891,7 @@
         @media (max-width: 600px) {
             .skrillex-item.text-item {
                 max-width: 220px;
-                font-size: 13px;
+                font-size: 15px;
                 padding: 14px 16px;
             }
         }
@@ -925,7 +931,7 @@
             border: 1px solid #000;
             padding: 25px 30px;
             max-width: 500px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.9;
             box-shadow: 3px 4px 15px rgba(0,0,0,0.1);
         }
@@ -968,7 +974,7 @@
             }
             .parallax-item.text-item {
                 max-width: 92vw;
-                font-size: 13px;
+                font-size: 15px;
                 padding: 18px;
             }
             .parallax-progress {
@@ -1009,7 +1015,7 @@
             align-items: center;
             justify-content: center;
             padding: 15px 18px;
-            font-size: 13px;
+            font-size: 15px;
             line-height: 1.7;
         }
         /* Desktop: varied widths for comic feel */
@@ -1035,7 +1041,7 @@
                 grid-column: span 2;
             }
             .comic-cell.text-cell {
-                font-size: 12px;
+                font-size: 14px;
                 padding: 12px 14px;
             }
         }
@@ -1123,7 +1129,7 @@
             .typewriter-text {
                 max-width: 90%;
                 padding: 20px 25px;
-                font-size: 12px;
+                font-size: 14px;
             }
         }
         
@@ -1191,7 +1197,7 @@
         }
         .mohawk-item.text-item {
             padding: 18px 22px;
-            font-size: 13px;
+            font-size: 15px;
             line-height: 1.8;
             max-width: 280px;
         }
@@ -1208,7 +1214,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             color: rgba(0,0,0,0.2);
             letter-spacing: 0.02em;
             z-index: 20;
@@ -1226,7 +1232,7 @@
                 margin-right: auto !important;
             }
             .mohawk-item img { max-width: 140px; }
-            .mohawk-item.text-item { max-width: 240px; font-size: 12px; }
+            .mohawk-item.text-item { max-width: 240px; font-size: 14px; }
         }
         
         /* ----- PRO: Scrollable layered reveal ----- */
@@ -1302,7 +1308,7 @@
             border: 1px solid #000;
             padding: 25px 30px;
             max-width: 500px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.9;
             text-align: center;
             box-shadow: 3px 4px 12px rgba(0,0,0,0.1);
@@ -1312,7 +1318,7 @@
             bottom: 60px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             font-family: 'EB Garamond', Georgia, serif;
             color: rgba(0,0,0,0.3);
             letter-spacing: 0.02em;
@@ -1342,7 +1348,7 @@
             }
             .pro-text {
                 max-width: 92vw;
-                font-size: 13px;
+                font-size: 15px;
                 padding: 18px 20px;
                 margin: 0 auto;
             }
@@ -1372,7 +1378,7 @@
             border: 1px solid #000;
             padding: 20px 25px;
             max-width: 400px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             text-align: center;
             z-index: 1000;
@@ -1380,7 +1386,7 @@
         @media (max-width: 600px) {
             .map-text {
                 max-width: 90%;
-                font-size: 13px;
+                font-size: 15px;
                 bottom: 70px;
             }
         }
@@ -1485,7 +1491,7 @@
             border: 1px solid #000;
             padding: 20px 25px;
             max-width: 350px;
-            font-size: 12px;
+            font-size: 14px;
             line-height: 1.8;
             box-shadow: 2px 3px 10px rgba(0,0,0,0.15);
         }
@@ -1494,7 +1500,7 @@
             bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 12px;
+            font-size: 14px;
             color: rgba(0,0,0,0.25);
             letter-spacing: 0.02em;
             z-index: 20;
@@ -1505,30 +1511,30 @@
             }
             .minaret-item.text-item {
                 max-width: 280px;
-                font-size: 13px;
+                font-size: 15px;
             }
         }
     </style>
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <div class="hint" id="hint">touch to uncurl</div>
     
-    <!-- Simple curly arrow -->
-    <div class="snail-arrow" id="snail">
-        <svg viewBox="0 0 120 50">
-            <!-- Curly line with loop and arrow -->
-            <path d="M5,35 
-                     Q25,35 35,30 
-                     Q50,20 45,8 
-                     Q40,-5 30,8 
-                     Q20,22 35,32 
-                     Q55,45 75,38 
-                     Q95,32 110,35" 
-                  class="snail-line" fill="none"/>
-            <!-- Arrow head -->
-            <path d="M102,30 L112,35 L102,40" class="snail-line" fill="none"/>
-        </svg>
+    <!-- Landing page bottom box with hint and arrow -->
+    <div class="landing-bottom-box" id="landing-box">
+        <div class="landing-hint">touch to uncurl</div>
+        <div class="landing-arrow" id="landing-arrow">
+            <svg viewBox="0 0 120 50">
+                <path d="M5,35 
+                         Q25,35 35,30 
+                         Q50,20 45,8 
+                         Q40,-5 30,8 
+                         Q20,22 35,32 
+                         Q55,45 75,38 
+                         Q95,32 110,35" 
+                      class="snail-line" fill="none"/>
+                <path d="M102,30 L112,35 L102,40" class="snail-line" fill="none"/>
+            </svg>
+    </div>
     </div>
     
     <!-- Hair phase bottom box with labels and progress -->
@@ -4144,7 +4150,7 @@
                 case 'curl':
                     drawCurlLetters();
                     if (allLettersUncurled()) {
-                        document.getElementById('snail').classList.add('visible');
+                        document.getElementById('landing-arrow').classList.add('visible');
                     }
                     break;
                     
@@ -4189,7 +4195,7 @@
             
             if (!hasInteracted) {
                 hasInteracted = true;
-                document.getElementById('hint').classList.add('faded');
+                // Hint stays visible, only arrow appears later
             }
             
             const letterIndex = findClickedLetter(x, y);
@@ -4326,12 +4332,11 @@
         });
         
         // Snail arrow click
-        document.getElementById('snail').addEventListener('click', () => {
+        document.getElementById('landing-arrow').addEventListener('click', () => {
             if (phase === 'curl' && allLettersUncurled()) {
                 phase = 'transition';
                 transitionStartTime = Date.now();
-                document.getElementById('snail').classList.remove('visible');
-                document.getElementById('hint').style.display = 'none';
+                document.getElementById('landing-box').classList.add('hidden');
             }
         });
         

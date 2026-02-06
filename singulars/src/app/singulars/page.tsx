@@ -176,6 +176,30 @@ export default async function SingularsPage() {
         </div>
       </section>
 
+      {/* Duel the Machine CTA */}
+      <section style={{ marginBottom: '3rem', textAlign: 'center' }}>
+        <a
+          href="https://halimmadi.com/contact-form"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-block',
+            padding: '0.85rem 2rem',
+            fontSize: '1.1rem',
+            fontWeight: 600,
+            color: '#fff',
+            backgroundColor: '#000',
+            border: '2px solid #000',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            cursor: 'pointer',
+            transition: 'background-color 0.2s ease, color 0.2s ease',
+          }}
+        >
+          Duel the Machine
+        </a>
+      </section>
+
       {/* About section */}
       <section style={{ marginTop: '3rem', borderTop: '1px solid #e0e0e0', paddingTop: '2rem' }}>
         <p style={{ fontSize: '1rem', color: '#333', lineHeight: '1.6', marginBottom: '1rem' }}>

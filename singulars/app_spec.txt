@@ -1,0 +1,395 @@
+<project_specification>
+  <project_name>Singulars</project_name>
+
+  <overview>
+    Singulars is an art project website at oulipo.xyz/singulars showcasing a series of human-vs-machine poetry performances. Visitors can vote on poems (training the machine for the currently live performance), browse past performances, and explore the project's philosophy. The site is a Next.js app deployed on Vercel with Supabase as the backend. Anonymous visitors interact with the site — no authentication required.
+  </overview>
+
+  <technology_stack>
+    <frontend>
+      <framework>Next.js (App Router) — integrated into existing oulipo.xyz app</framework>
+      <styling>CSS matching existing oulipo.xyz design system (CSS variables, existing typography and spacing)</styling>
+      <fingerprinting>@fingerprintjs/fingerprintjs for anonymous vote deduplication</fingerprinting>
+    </frontend>
+    <backend>
+      <runtime>Next.js API Routes (serverless on Vercel)</runtime>
+      <database>Supabase (PostgreSQL)</database>
+      <client>@supabase/supabase-js</client>
+    </backend>
+    <communication>
+      <api>REST via Next.js API routes</api>
+      <database_functions>Supabase RPC for atomic vote + increment operations</database_functions>
+    </communication>
+    <deployment>
+      <platform>Vercel</platform>
+      <domain>oulipo.xyz/singulars</domain>
+    </deployment>
+  </technology_stack>
+
+  <prerequisites>
+    <environment_setup>
+      - Node.js 18+
+      - Supabase project with connection credentials (NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, NEXT_PUBLIC_SUPABASE_ANON_KEY)
+      - Existing oulipo.xyz Next.js project structure
+      - npm install for dependencies
+    </environment_setup>
+  </prerequisites>
+
+  <feature_count>63</feature_count>
+
+  <security_and_access_control>
+    <user_roles>
+      <role name="anonymous_visitor">
+        <permissions>
+          - Can view all performances, poems, and vote results
+          - Can vote on poems for performances with status "training"
+          - Can view vote results for performances with status "trained"
+          - Cannot vote more than once per poem pair (fingerprint-based)
+          - Cannot modify or delete any data
+        </permissions>
+      </role>
+    </user_roles>
+    <authentication>
+      <method>none — all visitors are anonymous</method>
+      <session_timeout>none</session_timeout>
+      <fingerprinting>Browser fingerprint (cookie + localStorage) for vote deduplication</fingerprinting>
+    </authentication>
+    <sensitive_operations>
+      - Vote submission rate-limited to prevent abuse
+      - Fingerprint check prevents duplicate votes per poem pair
+      - Votes only written to DB for performances with status "training"
+      - Row-level security on Supabase: anonymous insert on votes, public read on poems
+    </sensitive_operations>
+  </security_and_access_control>
+
+  <core_features>
+    <infrastructure>
+      - Database connection to Supabase established
+      - Database schema applied correctly (performances, poems, votes tables)
+      - Data persists across server restart
+      - No mock data patterns in codebase
+      - Backend API queries real Supabase database
+    </infrastructure>
+
+    <landing_page>
+      - "Singulars" title displayed at top of /singulars
+      - Mini-voting experience component embedded below title
+      - Horizontally scrollable card row showing 5 performance cards (reverse.exe, hard.exe, reinforcement.exe, versus.exe, carnation.exe — latest to earliest)
+      - reverse.exe card shows "upcoming" state with date/location only (not clickable to performance page)
+      - Each non-upcoming card links to its performance page (/singulars/[slug])
+      - "Duel the Machine" button opens https://halimmadi.com/contact-form in new tab
+      - About section at bottom with short bio and link to www.halimmadi.com
+      - Link to "About Singulars" page (/singulars/about)
+    </landing_page>
+
+    <about_page>
+      - Page at /singulars/about
+      - In-depth description of the Singulars project
+      - 3-5 responsive cards with titles linking to Substack posts
+      - Cards in spread/staggered layout, responsive across breakpoints
+    </about_page>
+
+    <performance_page>
+      - Page at /singulars/[performance-slug]
+      - Shows performance name, location, date, and color
+      - Links to duelling model and HuggingFace training data
+      - Theme cards listed showing theme name
+      - Under each theme: both poems displayed (human + machine)
+      - Clicking a theme card opens full theme/voting page
+      - Poem text preserves line breaks and stanza formatting
+    </performance_page>
+
+    <mini_voting>
+      - Shows random theme from hard.exe with two poems side by side (stacked on mobile)
+      - Theme name displayed above poems
+      - Performance name and status ("training") shown
+      - Cursor changes to dot in performance's color on hover over poems (desktop)
+      - Clicking a poem registers vote in Supabase (insert vote, increment vote_count)
+      - Duplicate prevention via browser fingerprint (cookie + localStorage)
+      - After voting, navigates to post-vote page
+    </mini_voting>
+
+    <post_vote_page>
+      - Shows both poems from the pair just voted on
+      - Same theme and performance info as voting experience
+      - Total vote counts displayed for each poem
+      - Visual dots on each poem: one small dot per vote, colored in performance's color
+      - User's own vote visually distinguishable (slightly larger or highlighted)
+      - Mobile responsive
+    </post_vote_page>
+
+    <full_voting_page>
+      - Page at /singulars/[performance-slug]/[theme-slug]
+      - Theme name displayed prominently above
+      - Two poems displayed full page
+      - Cursor becomes dot in performance's color (desktop)
+      - If status "training": vote registers in Supabase
+      - If status "trained": visual vote only, shows results with "training is closed" message, no DB write
+      - If status "upcoming": shows "coming soon" state, no voting
+      - After voting, shows post-vote results inline (no navigation)
+    </full_voting_page>
+
+    <custom_cursor>
+      - Hovering over voteable poem areas changes cursor to filled circle
+      - Circle color matches current performance's hex color
+      - Cursor reverts to default outside voting areas
+      - Desktop only (mobile uses tap)
+    </custom_cursor>
+
+    <css_and_branding>
+      - Uses same CSS approach/variables as rest of oulipo.xyz
+      - Typography, spacing, and color usage consistent with existing site
+      - Performance colors are the only added palette items
+      - All pages match overall oulipo.xyz aesthetic
+    </css_and_branding>
+
+    <api_routes>
+      - POST /api/vote accepts { poem_id, fingerprint }
+      - Checks if fingerprint already voted on this poem pair (both poems in theme)
+      - If duplicate: returns current vote counts without registering
+      - If performance status not "training": returns vote counts without registering
+      - If valid: inserts vote, increments vote_count via Supabase RPC, returns updated counts
+      - Rate limiting to prevent abuse
+    </api_routes>
+
+    <data_import>
+      - Script reads JSON file with performances and poems
+      - Upserts performances and poems into Supabase
+      - Idempotent (can be re-run safely)
+      - Documents expected JSON format
+    </data_import>
+  </core_features>
+
+  <database_schema>
+    <tables>
+      <performances>
+        - id (uuid, primary key)
+        - name (text, e.g. "hard.exe")
+        - slug (text, unique, e.g. "hard-exe")
+        - color (text, hex color e.g. "#FF5733")
+        - location (text)
+        - date (date)
+        - num_poems (integer)
+        - num_poets (integer)
+        - model_link (text, nullable)
+        - huggingface_link (text, nullable)
+        - status (enum: 'upcoming', 'training', 'trained')
+        - poets (text array)
+        - created_at (timestamptz, default now())
+      </performances>
+
+      <poems>
+        - id (uuid, primary key)
+        - performance_id (uuid, FK → performances.id)
+        - theme (text, e.g. "loss")
+        - theme_slug (text, e.g. "loss")
+        - text (text, preserving newlines and stanza breaks)
+        - author_name (text)
+        - author_type (enum: 'human', 'machine')
+        - vote_count (integer, default 0)
+        - created_at (timestamptz, default now())
+      </poems>
+
+      <votes>
+        - id (uuid, primary key, default gen_random_uuid())
+        - poem_id (uuid, FK → poems.id)
+        - voter_fingerprint (text)
+        - created_at (timestamptz, default now())
+      </votes>
+    </tables>
+
+    <rls_policies>
+      - poems: SELECT allowed for anon role (public read)
+      - performances: SELECT allowed for anon role (public read)
+      - votes: INSERT allowed for anon role (anonymous voting)
+      - votes: SELECT allowed for anon role (for count queries)
+    </rls_policies>
+
+    <rpc_functions>
+      - cast_vote(p_poem_id uuid, p_fingerprint text): atomically inserts vote and increments poem vote_count, returns updated counts for the poem pair
+    </rpc_functions>
+
+    <indexes>
+      - votes(voter_fingerprint, poem_id) — unique constraint for deduplication
+      - poems(performance_id, theme_slug) — for querying poem pairs
+      - performances(slug) — unique, for URL routing
+    </indexes>
+  </database_schema>
+
+  <api_endpoints_summary>
+    <voting>
+      - POST /api/vote — submit a vote { poem_id, fingerprint }
+    </voting>
+    <data_reading>
+      - GET /api/performances — list all performances (or use Supabase client directly)
+      - GET /api/performances/[slug] — get single performance with poems
+      - GET /api/poems/[performance-slug]/[theme-slug] — get poem pair for a theme
+      - GET /api/vote-counts/[theme-slug] — get vote counts for a poem pair
+    </data_reading>
+    <health>
+      - GET /api/health — database connectivity check
+    </health>
+  </api_endpoints_summary>
+
+  <ui_layout>
+    <main_structure>
+      All pages under /singulars/* route within the existing oulipo.xyz Next.js app. Single-column layout with centered content. No sidebar or complex navigation — simple top-level links and breadcrumb-style navigation between pages.
+    </main_structure>
+
+    <pages>
+      <landing>/singulars — title, mini-vote, performance cards (horizontal scroll), duel button, about section</landing>
+      <about>/singulars/about — project description, Substack cards in staggered layout</about>
+      <performance>/singulars/[slug] — performance header with color, theme cards with poem previews</performance>
+      <theme_vote>/singulars/[slug]/[theme-slug] — full-page voting with two poems, inline results</theme_vote>
+    </pages>
+
+    <responsive_strategy>
+      - Mobile-first design
+      - Poems side-by-side on desktop, stacked on mobile
+      - Performance cards horizontally scrollable at all breakpoints
+      - Touch-friendly tap targets on mobile (no custom cursor)
+      - Cards and content reflow gracefully across breakpoints
+    </responsive_strategy>
+  </ui_layout>
+
+  <design_system>
+    <color_palette>
+      - Base: existing oulipo.xyz color system
+      - Performance colors: stored in DB, applied as CSS custom properties per page
+      - Each performance has a unique hex color used for cursors, vote dots, and accents
+    </color_palette>
+    <typography>
+      - Matches existing oulipo.xyz typography
+      - Poem text: monospace or serif for readability, preserving line breaks
+    </typography>
+    <vote_dots>
+      - Small filled circles, one per vote
+      - Colored in the performance's hex color
+      - User's own vote slightly larger or highlighted
+      - Dots scale with vote count (consider capping visual display at high counts)
+    </vote_dots>
+  </design_system>
+
+  <implementation_steps>
+    <step number="1">
+      <title>Database Setup</title>
+      <tasks>
+        - Create Supabase tables (performances, poems, votes)
+        - Set up RLS policies
+        - Create RPC function for atomic voting
+        - Create indexes
+        - Build and run data import script from JSON
+        - Seed all 5 performances and their poems
+      </tasks>
+    </step>
+
+    <step number="2">
+      <title>Core Pages and Routing</title>
+      <tasks>
+        - Set up /singulars route group in Next.js App Router
+        - Create landing page layout (/singulars)
+        - Create about page (/singulars/about)
+        - Create performance page (/singulars/[slug])
+        - Create theme/voting page (/singulars/[slug]/[theme-slug])
+        - Connect pages to Supabase for data fetching
+      </tasks>
+    </step>
+
+    <step number="3">
+      <title>Voting System</title>
+      <tasks>
+        - Implement POST /api/vote endpoint
+        - Integrate fingerprint.js for browser fingerprinting
+        - Implement duplicate vote prevention (per poem pair per fingerprint)
+        - Implement status-aware voting (training vs trained vs upcoming)
+        - Add rate limiting
+        - Build mini-voting component for landing page
+        - Build full-page voting experience
+      </tasks>
+    </step>
+
+    <step number="4">
+      <title>Post-Vote and Results</title>
+      <tasks>
+        - Build post-vote results display
+        - Implement dot-based vote visualization
+        - Highlight user's own vote
+        - Show vote counts
+        - Inline results on theme page after voting
+      </tasks>
+    </step>
+
+    <step number="5">
+      <title>Visual Polish</title>
+      <tasks>
+        - Implement custom cursor (colored dot on hover)
+        - Apply oulipo.xyz design system across all pages
+        - Performance color theming via CSS custom properties
+        - Horizontal scrolling performance cards
+        - Responsive layouts for all pages
+        - Poem text formatting (line breaks, stanzas)
+      </tasks>
+    </step>
+
+    <step number="6">
+      <title>Data Import and QA</title>
+      <tasks>
+        - Finalize JSON import script
+        - Document JSON format
+        - Test all 5 performances render correctly
+        - Test voting end-to-end for hard.exe
+        - Test trained/upcoming states
+        - Mobile testing across viewports
+        - npm run build passes
+      </tasks>
+    </step>
+  </implementation_steps>
+
+  <success_criteria>
+    <functionality>
+      - All 5 performance pages render with correct data from Supabase
+      - Voting works end-to-end for hard.exe (training status)
+      - Voting is view-only for trained performances (no DB write)
+      - Upcoming performances show "coming soon" state
+      - Duplicate vote prevention works via fingerprinting
+      - Data import script is idempotent and documented
+    </functionality>
+    <user_experience>
+      - Site is fully usable and visually polished on mobile
+      - Poem text is readable with preserved formatting
+      - Vote dot visualization is clear and intuitive
+      - Custom cursor provides visual feedback on desktop
+      - Navigation between pages is smooth and intuitive
+    </user_experience>
+    <technical_quality>
+      - npm run build passes with zero errors
+      - Supabase RLS policies enforce proper access control
+      - API rate limiting prevents abuse
+      - Atomic vote operations prevent race conditions
+    </technical_quality>
+    <design_polish>
+      - Visual consistency with existing oulipo.xyz site
+      - Performance colors correctly applied throughout
+      - Responsive at desktop, tablet, and mobile breakpoints
+      - Horizontal card scroll works across devices
+    </design_polish>
+  </success_criteria>
+
+  <performance_data>
+    <note>The following are the 5 performances. Exact hex colors, model links, HuggingFace links, dates, and poet lists to be provided via JSON seed data.</note>
+    <performance name="reverse.exe" status="upcoming" />
+    <performance name="hard.exe" status="training" />
+    <performance name="reinforcement.exe" status="trained" />
+    <performance name="versus.exe" status="trained" />
+    <performance name="carnation.exe" status="trained" />
+  </performance_data>
+
+  <open_questions>
+    - Exact hex colors for each performance
+    - Copy for the "About Singulars" page
+    - Substack URLs for the thought cards
+    - Model/HuggingFace links for each performance
+    - Date/location for reverse.exe
+    - Should dot visualization cap visually at a certain number or always show 1:1?
+  </open_questions>
+</project_specification>

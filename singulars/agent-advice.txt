@@ -1,0 +1,56 @@
+WHERE DO AGENTS, SKILLS, AND COMMANDS LIVE?
+=============================================
+
+Short answer: it depends on scope.
+
+GLOBAL (all your projects, every folder you open)
+-------------------------------------------------
+Location: ~/.claude/commands/
+Currently installed:
+  - oulipo-brand.md   → brand identity guardian
+  - oulipo-copy.md    → writing voice and copy style
+
+These work anywhere you run Claude Code, not just in the oulipo folder.
+If you rename your brand or want these in every project, this is the right place.
+
+PROJECT-SPECIFIC (only this project)
+------------------------------------
+Location: oulipo/.claude/commands/
+Currently installed:
+  - newevent.md       → add events to oulipo.xyz
+  - ralph-tui-prd.md  → PRD generator (also symlinked from .agents/)
+
+These only activate when you're working inside the oulipo folder.
+Good for commands that reference this project's structure, routes, or data.
+
+MULTI-AGENT / CROSS-EDITOR (Claude Code + Cursor + Codex etc.)
+--------------------------------------------------------------
+Location: oulipo/.agents/skills/
+Currently installed:
+  - ralph-tui-prd/    → PRD generator
+  - ui-ux-pro-max/    → mobile UX & responsive design (15K+ installs)
+
+Installed via `npx skills add`. These get symlinked into each editor's
+config folder (.claude/skills/, .cursor/skills/, etc.)
+
+DO THEY ALWAYS NEED TO BE IN THE PROJECT FOLDER?
+-------------------------------------------------
+No.
+
+- Global commands (~/.claude/commands/) work everywhere.
+- Project commands (project/.claude/commands/) only work in that project.
+- The .agents/ folder is a cross-editor convention. It lives in the project
+  because skills may be project-relevant, but the `--global` flag exists
+  for installing skills globally too:
+
+    npx skills add <repo> --skill <name> --global --yes
+
+  Global skills install to ~/.agents/skills/ and are available in all projects.
+
+RECOMMENDATION
+--------------
+- Keep brand/voice agents GLOBAL (done — they're in ~/.claude/commands/)
+- Keep project-specific commands in the PROJECT (newevent stays in oulipo/)
+- For skills you want everywhere, reinstall with --global
+- The .agents/ folder in your project is fine — it's dotfile hidden and
+  gitignored. Think of it like .vscode/ or .cursor/ — config, not content.

@@ -1,3 +1,39 @@
+## Session 21 (Agent - Features #39, #40, #41): 2026-02-06
+
+### Completed Features
+- Feature #39: Landing page responsive at mobile (375px) ✅
+  - Set viewport to 375px x 812px (iPhone)
+  - No horizontal overflow: docScrollWidth === viewWidth === 375
+  - Title "Singulars" readable and clear
+  - Performance cards horizontally scrollable (scrollWidth 1164 > clientWidth 311)
+  - Mini-voting poems stacked vertically (grid 280px single column)
+  - All content accessible: links, buttons, about section visible
+  - Zero console errors
+
+- Feature #40: Voting page responsive at mobile (375px) ✅
+  - Set viewport to 375px, navigated to /singulars/hard-exe/belonging
+  - Poems stacked vertically: poem1 top=256, poem2 top=582 (not side by side)
+  - Poems readable at 320px width, tappable (button role)
+  - Cast vote successfully via tap, vote dots rendered correctly (11 + 3 dots)
+  - No horizontal overflow: docScrollWidth === viewWidth === 375
+  - Zero console errors
+
+- Feature #41: Desktop layout shows poems side by side ✅
+  - Set viewport to 1920px x 1080px
+  - Navigated to /singulars/hard-exe/belonging
+  - Both poems at same top position (top=256), poem1 left=542, poem2 left=976
+  - Grid layout: grid-template-columns: 402px 402px
+  - Layout uses width effectively: 804px combined poem width
+  - Text readable: Georgia serif font >= 14px, proper line-height
+  - Zero console errors
+
+### Current Status
+- Features passing: 46/64 (71.9%)
+- Dev server on port 3001
+- All responsive layout features verified with screenshots
+
+---
+
 ## Session 20 (Agent - Features #37, #38): 2026-02-06
 
 ### Completed Features

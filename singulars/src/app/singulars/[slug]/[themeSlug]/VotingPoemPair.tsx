@@ -153,7 +153,9 @@ export default function VotingPoemPair({
                   : poem.author_type === 'machine'
                   ? performanceColor + '05'
                   : '#fafafa',
-                cursor: canVote ? 'pointer' : 'default',
+                cursor: canVote
+                  ? `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='8' fill='${encodeURIComponent(performanceColor)}'/></svg>") 10 10, pointer`
+                  : 'default',
                 transition: 'transform 0.15s ease, box-shadow 0.15s ease',
                 position: 'relative',
                 boxShadow: isVotedPoem

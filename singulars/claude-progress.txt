@@ -136,3 +136,39 @@
 - 10/64 features passing (15.6%)
 - Dev server on port 3001
 - All pages load without console errors
+
+---
+
+## Session 5 (Agent E): 2026-02-06
+
+### Completed Features
+- Feature #11: Landing page displays all 5 performance cards from database ✅
+  - Updated /singulars page to be a server component fetching from Supabase
+  - Displays 5 performance cards in horizontally scrollable flex row
+  - Cards ordered latest to earliest by date (reverse.exe → carnation.exe)
+  - Each card shows name (in performance color), status badge, location, date
+  - reverse.exe card is not clickable (upcoming); other cards link to /singulars/[slug]
+  - Data fetched via getServiceClient() from real Supabase
+  - Zero mock data patterns, zero console errors
+
+- Feature #42: Performance cards scroll horizontally ✅
+  - Verified overflowX: auto on flex container
+  - Desktop (1280px): scrollWidth 1164 > clientWidth 736 = scrollable
+  - Mobile (375px): scrollWidth 1164 > clientWidth 311 = scrollable
+  - Tablet (768px): also scrollable
+  - Partially visible cards at edges serve as scroll indicators
+  - scroll-snap-type: x mandatory for smooth snapping
+
+- Feature #36: Performance cards show correct default states by status ✅
+  - reverse.exe: "upcoming" badge (amber/yellow), not clickable
+  - hard.exe: "training" badge (performance color tinted), clickable
+  - reinforcement.exe/versus.exe/carnation.exe: "trained" badge (gray), clickable
+  - Each status has visually distinct badge styling
+
+### Files Modified
+- src/app/singulars/page.tsx (major rewrite: static → server component with DB fetch + card row)
+
+### Current Status
+- Features passing: 15/64 (23.4%)
+- Dev server on port 3001
+- Landing page now has real performance cards from Supabase

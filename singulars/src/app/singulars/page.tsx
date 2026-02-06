@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
+import MiniVoting from '@/components/MiniVoting';
 
 interface Performance {
   id: string;
@@ -52,6 +53,9 @@ export default async function SingularsPage() {
       <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '2rem' }}>
         Human vs Machine Poetry Performances
       </p>
+
+      {/* Mini-voting experience */}
+      <MiniVoting />
 
       {/* Performance Cards - Horizontally Scrollable */}
       <section

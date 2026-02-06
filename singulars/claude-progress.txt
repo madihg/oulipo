@@ -1,3 +1,46 @@
+## Session 13 (Agent M): 2026-02-06
+
+### Completed Features
+- Feature #18: Duplicate vote prevention via fingerprint ✅
+  - Same fingerprint cannot vote twice on the same poem pair
+  - API returns success:false, duplicate:true for repeat votes with current counts
+  - Voting on the OTHER poem in the same pair also blocked
+  - DB unique constraint on votes(voter_fingerprint, poem_id) enforced
+  - Only 1 vote record exists in Supabase after duplicate attempts
+  - UI detects existing votes on mount via checkExistingVotes() and shows post-vote state
+  - Zero console errors, zero mock data patterns
+
+- Feature #28: Vote state persists after page refresh ✅
+  - Voted on machine poem with fresh fingerprint
+  - Refreshed page — vote state correctly restored via fingerprint-based DB check
+  - "Your vote" label and "Thank you for voting!" shown after refresh
+  - Duplicate vote prevention still works after refresh (API returns duplicate:true)
+  - Zero console errors
+
+- Feature #33: Double-click on poem does not register two votes ✅
+  - Performed Playwright dblclick() on Poet B poem
+  - Only 1 vote recorded in Supabase (count:1) — confirmed via check-votes API
+  - isVoting state guard prevents second click from firing (set true before async call)
+  - UI shows correct single vote increment (8→9) and disables interaction after first vote
+  - Poems change from button to div after voting (no re-click possible)
+  - Zero console errors
+
+### Current Status
+- Features passing: ~28/64 (25 + 3 new)
+- Dev server on port 3001
+- Next.js dev server has persistent compilation race condition:
+  - First request after cache clear often returns 404 from pages router
+  - Browser-initiated requests compile correctly; curl after cache clear often fails
+  - Fix: retry request or navigate via browser first
+
+### Notes for Next Session
+- curl requests to API routes after server restart often 404 due to Next.js compilation race
+- Browser-initiated fetch() from rendered pages works reliably
+- Test fingerprints used: test_fp_feature18_verify, test_fp_feature28_persist, test_fp_feature33_clean, test_fp_feature33_dblclick
+- These have vote records in Supabase — clean up if needed
+
+---
+
 ## Session 12 (Agent L): 2026-02-06
 
 ### Completed Features

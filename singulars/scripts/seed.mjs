@@ -7,9 +7,66 @@
  *   NEXT_PUBLIC_SUPABASE_URL - Your Supabase project URL
  *   SUPABASE_SERVICE_ROLE_KEY - Service role key (bypasses RLS)
  *
- * Expected JSON format: see scripts/seed-data.json
- *
  * This script is idempotent - it uses upsert operations and can be re-run safely.
+ *
+ * ──────────────────────────────────────────────────
+ * EXPECTED JSON FORMAT (seed-data.json)
+ * ──────────────────────────────────────────────────
+ *
+ * The input file must be a JSON object with a top-level "performances" array.
+ * Each performance object contains its metadata and an optional "themes" array,
+ * where each theme holds a pair of poems (one human, one machine).
+ *
+ * {
+ *   "performances": [
+ *     {
+ *       // ── Required fields ──
+ *       "name": "hard.exe",                          // string - display name of the performance
+ *       "slug": "hard-exe",                          // string - unique URL slug (used in /singulars/[slug])
+ *       "color": "#EF4444",                          // string - hex color for theming (cursors, dots, accents)
+ *       "status": "training",                        // enum: "upcoming" | "training" | "trained"
+ *
+ *       // ── Optional fields ──
+ *       "location": "Beirut, Lebanon",               // string | null - where the performance took place
+ *       "date": "2024-11-15",                        // string (YYYY-MM-DD) | null - performance date
+ *       "num_poems": 6,                              // integer - total number of poems (default: 0)
+ *       "num_poets": 3,                              // integer - number of human poets (default: 0)
+ *       "model_link": "https://example.com/model",   // string | null - link to the duelling ML model
+ *       "huggingface_link": "https://huggingface.co/...", // string | null - link to HuggingFace training data
+ *       "poets": ["Halim Madi", "Poet A"],           // string[] - names of participating poets (default: [])
+ *
+ *       // ── Themes with poems (optional) ──
+ *       "themes": [
+ *         {
+ *           "theme": "Loss",                         // string - display name of the theme
+ *           "theme_slug": "loss",                    // string - URL-safe slug for the theme
+ *           "poems": [
+ *             {
+ *               // ── Required poem fields ──
+ *               "text": "Poem text here\nwith line breaks\npreserved.", // string - full poem text (\n for line breaks, \n\n for stanza breaks)
+ *               "author_name": "Halim Madi",         // string - name of the poem's author
+ *               "author_type": "human"               // enum: "human" | "machine"
+ *             },
+ *             {
+ *               "text": "Machine poem text...",
+ *               "author_name": "hard.exe",
+ *               "author_type": "machine"
+ *             }
+ *           ]
+ *         }
+ *       ]
+ *     }
+ *   ]
+ * }
+ *
+ * NOTES:
+ * - Each theme should contain exactly 2 poems: one "human" and one "machine".
+ * - The "slug" field must be unique across all performances.
+ * - Poems are matched for updates by (performance_id, theme_slug, author_type).
+ * - Performances with status "upcoming" typically have no themes/poems.
+ * - Performances with status "training" allow active voting.
+ * - Performances with status "trained" display results in read-only mode.
+ * - See scripts/seed-data.json for a complete working example.
  */
 
 import { createClient } from '@supabase/supabase-js';

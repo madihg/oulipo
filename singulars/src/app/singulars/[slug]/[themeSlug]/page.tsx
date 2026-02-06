@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
+import VotingPoemPair from './VotingPoemPair';
 
 export const dynamic = 'force-dynamic';
 
@@ -176,82 +177,12 @@ export default async function ThemeVotingPage({
         </p>
       )}
 
-      {/* Poems - side by side on desktop, stacked on mobile */}
-      <div
-        style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '2rem',
-        }}
-      >
-        {poems.map((poem) => (
-          <div
-            key={poem.id}
-            data-poem-id={poem.id}
-            data-author-type={poem.author_type}
-            style={{
-              padding: '2rem',
-              border: `2px solid ${
-                poem.author_type === 'machine' ? performance.color : '#e0e0e0'
-              }`,
-              borderRadius: '12px',
-              backgroundColor:
-                poem.author_type === 'machine'
-                  ? performance.color + '05'
-                  : '#fafafa',
-            }}
-          >
-            {/* Author info */}
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1.25rem',
-              }}
-            >
-              <span
-                style={{
-                  fontSize: '0.95rem',
-                  fontWeight: 600,
-                  color:
-                    poem.author_type === 'human' ? '#333' : performance.color,
-                }}
-              >
-                {poem.author_name}
-              </span>
-              <span
-                style={{
-                  fontSize: '0.75rem',
-                  padding: '0.2rem 0.6rem',
-                  borderRadius: '999px',
-                  backgroundColor:
-                    poem.author_type === 'human'
-                      ? '#e8e8e8'
-                      : performance.color + '20',
-                  color:
-                    poem.author_type === 'human' ? '#555' : performance.color,
-                }}
-              >
-                {poem.author_type}
-              </span>
-            </div>
-
-            {/* Poem text */}
-            <div
-              style={{
-                fontFamily: 'Georgia, "Times New Roman", serif',
-                fontSize: '1.05rem',
-                lineHeight: '1.8',
-                whiteSpace: 'pre-line',
-                color: '#333',
-              }}
-            >
-              {poem.text}
-            </div>
-          </div>
-        ))}
-      </div>
+      {/* Interactive voting poem pair */}
+      <VotingPoemPair
+        poems={poems}
+        performanceColor={performance.color}
+        performanceStatus={performance.status}
+      />
     </main>
   );
 }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase';
+import { getServiceClient, getSupabase } from '@/lib/supabase';
 
 // Simple in-memory rate limiter (per serverless invocation)
 const rateLimitMap: Record<string, { count: number; resetTime: number }> = {};
@@ -21,7 +21,7 @@ function isRateLimited(fingerprint: string): boolean {
 
 export async function POST(request: Request) {
   try {
-    const supabase = getSupabase();
+    const supabase = getServiceClient() || getSupabase();
     if (!supabase) {
       return NextResponse.json(
         { error: 'Supabase not configured' },

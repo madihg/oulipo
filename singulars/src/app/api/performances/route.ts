@@ -1,9 +1,10 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase';
+import { getServiceClient, getSupabase } from '@/lib/supabase';
 
 export async function GET() {
   try {
-    const supabase = getSupabase();
+    // Use service client for server-side API routes, falls back to anon client
+    const supabase = getServiceClient() || getSupabase();
     if (!supabase) {
       return NextResponse.json(
         { error: 'Supabase not configured' },

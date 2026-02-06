@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server';
-import { getSupabase } from '@/lib/supabase';
+import { getServiceClient, getSupabase } from '@/lib/supabase';
 
 export async function GET(
   request: Request,
   { params }: { params: { themeSlug: string } }
 ) {
   try {
-    const supabase = getSupabase();
+    const supabase = getServiceClient() || getSupabase();
     if (!supabase) {
       return NextResponse.json(
         { error: 'Supabase not configured' },

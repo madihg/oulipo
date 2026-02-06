@@ -1,3 +1,30 @@
+## Session 7 (Agent G): 2026-02-06
+
+### Completed Features
+- Feature #26: Performance color from DB applied as CSS custom property ✅
+  - Set --performance-color and --performance-color-light as CSS custom properties on <main>
+  - Refactored all accent elements (h1, badges, borders, machine labels) to use var(--performance-color)
+  - Added data-performance-color attribute for external access
+  - hard.exe: --performance-color=#EF4444 (red) verified via browser
+  - reinforcement.exe: --performance-color=#10B981 (green) verified — DIFFERENT color confirmed
+  - Zero mock data patterns in src/
+
+- Feature #24: Performance page fetches and renders all theme poems ✅
+  - hard.exe page shows all 3 themes from DB: Belonging, Loss, Memory
+  - Each theme has exactly 2 poems (human + machine)
+  - author_type correctly indicated with styled badges (human=grey, machine=performance-color)
+  - Poem text preserves line breaks via whiteSpace: pre-line
+  - Stanza breaks preserved (blank lines between stanzas)
+  - Data fetched from real Supabase via server component (getServiceClient)
+  - Zero console errors
+
+### Current Status
+- Features passing: ~19/64 (estimated, 17 + 2 new)
+- Dev server on port 3001
+- Next.js dev server has intermittent PageNotFoundError on first compile after cache clear — resolves on retry
+
+---
+
 ## Session: 2026-02-06
 
 ### Completed Features

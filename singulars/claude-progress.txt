@@ -1,3 +1,52 @@
+## Session 8 (Agent H): 2026-02-06
+
+### Completed Features
+- Feature #7: Landing page links to performance pages ✅
+  - All 5 performance cards displayed in horizontally scrollable row
+  - Non-upcoming cards (hard, reinforcement, versus, carnation) link to /singulars/[slug]
+  - reverse.exe (upcoming) card is NOT clickable (wrapped in div, not link)
+  - Verified via Playwright: click hard.exe → /singulars/hard-exe, reinforcement.exe → /singulars/reinforcement-exe
+  - Zero console errors, no mock data patterns
+
+- Feature #9: Performance page links to theme voting pages ✅
+  - Created /singulars/[slug]/[themeSlug]/page.tsx with Supabase data fetching
+  - Theme cards on performance page link to full voting page
+  - Verified: /singulars/hard-exe/belonging, /loss, /memory all load correctly
+  - Each theme page shows theme name, performance info, status badge, two poems
+  - Added force-dynamic export to prevent Next.js caching issues
+  - Zero console errors
+
+- Feature #14: End-to-end voting workflow on hard.exe (training) ✅
+  - Created VotingPoemPair client component with interactive voting
+  - Fingerprint-based vote deduplication via localStorage
+  - POST /api/vote integration with real Supabase database
+  - Updated check-votes API to support poem_ids filtering
+  - Post-vote results inline: vote counts, colored dots (performance color)
+  - User's own vote visually distinguishable: larger dot + "Your vote" label
+  - "Thank you for voting!" confirmation message
+  - Verified via Playwright: click poem → POST vote → see results
+  - Network confirmed: GET /api/check-votes → POST /api/vote both 200 OK
+
+### Files Created/Modified
+- src/app/singulars/[slug]/[themeSlug]/page.tsx (new - theme voting page)
+- src/app/singulars/[slug]/[themeSlug]/VotingPoemPair.tsx (new - interactive voting client component)
+- src/app/singulars/[slug]/page.tsx (added force-dynamic export)
+- src/app/api/check-votes/route.ts (updated to support poem_ids filtering)
+
+### Current Status
+- Features passing: ~22/64 (estimated)
+- Dev server on port 3001
+- Next.js 14 dev server has intermittent 404 on first-request compilation race condition — always works on retry
+- Clean .next cache + node_modules/.cache required after HMR corruption
+
+### Notes for Next Session
+- After code changes, always clear .next and node_modules/.cache before restart
+- Next.js 14.2.35 has webpack cache corruption issues during HMR — first request to new route may 404, second succeeds
+- Voting works end-to-end: fingerprint generation → check existing → POST vote → inline results
+- Vote dots capped at 50 visual dots, with "+N more" overflow indicator
+
+---
+
 ## Session 7 (Agent G): 2026-02-06
 
 ### Completed Features

@@ -97,8 +97,14 @@ export default async function PerformancePage({
 
   const themes = groupByTheme(performance.poems);
 
+  // Set the performance color as a CSS custom property for use throughout the page
+  const cssVars = {
+    '--performance-color': performance.color,
+    '--performance-color-light': performance.color + '20',
+  } as React.CSSProperties;
+
   return (
-    <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
+    <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem', ...cssVars }} data-performance-color={performance.color}>
       <nav style={{ marginBottom: '2rem' }}>
         <Link
           href="/singulars"
@@ -118,7 +124,7 @@ export default async function PerformancePage({
           style={{
             fontSize: '2.5rem',
             marginBottom: '0.5rem',
-            color: performance.color,
+            color: 'var(--performance-color)',
           }}
         >
           {performance.name}
@@ -140,13 +146,13 @@ export default async function PerformancePage({
             fontWeight: 500,
             backgroundColor:
               performance.status === 'training'
-                ? performance.color + '20'
+                ? 'var(--performance-color-light)'
                 : performance.status === 'trained'
                 ? '#e0e0e0'
                 : '#fef3c7',
             color:
               performance.status === 'training'
-                ? performance.color
+                ? 'var(--performance-color)'
                 : performance.status === 'trained'
                 ? '#666'
                 : '#92400e',
@@ -188,7 +194,7 @@ export default async function PerformancePage({
             key={themeGroup.theme_slug}
             style={{
               marginBottom: '2.5rem',
-              borderLeft: `3px solid ${performance.color}`,
+              borderLeft: '3px solid var(--performance-color)',
               paddingLeft: '1.5rem',
             }}
           >
@@ -242,7 +248,7 @@ export default async function PerformancePage({
                       style={{
                         fontSize: '0.85rem',
                         fontWeight: 600,
-                        color: poem.author_type === 'human' ? '#333' : performance.color,
+                        color: poem.author_type === 'human' ? '#333' : 'var(--performance-color)',
                       }}
                     >
                       {poem.author_name}
@@ -252,8 +258,8 @@ export default async function PerformancePage({
                         fontSize: '0.75rem',
                         padding: '0.15rem 0.5rem',
                         borderRadius: '999px',
-                        backgroundColor: poem.author_type === 'human' ? '#e8e8e8' : performance.color + '20',
-                        color: poem.author_type === 'human' ? '#555' : performance.color,
+                        backgroundColor: poem.author_type === 'human' ? '#e8e8e8' : 'var(--performance-color-light)',
+                        color: poem.author_type === 'human' ? '#555' : 'var(--performance-color)',
                       }}
                     >
                       {poem.author_type}

@@ -172,3 +172,47 @@
 - Features passing: 15/64 (23.4%)
 - Dev server on port 3001
 - Landing page now has real performance cards from Supabase
+
+---
+
+## Session 6 (Agent F): 2026-02-06
+
+### Completed Features
+- Feature #19: Vote API rejects votes for non-training performances ✅
+  - POST /api/vote with poem from reinforcement.exe (trained): returns success:false, status:"trained", no DB write
+  - POST /api/vote with poem from reverse.exe (upcoming): returns success:false, status:"upcoming", no DB write
+  - POST /api/vote with poem from hard.exe (training): returns success:true, vote written to DB
+  - Verified via curl, Node.js test script, and Playwright browser automation
+  - Created check-votes API for vote record verification
+
+- Feature #20: Vote API validates required fields ✅
+  - Missing poem_id → 400 "Missing required fields: poem_id and fingerprint"
+  - Missing fingerprint → 400 "Missing required fields: poem_id and fingerprint"
+  - Non-existent UUID poem_id → 404 "Poem not found"
+  - Empty string fingerprint → 400 "Missing required fields: poem_id and fingerprint"
+  - All 4 tests verified via curl and Playwright browser automation
+
+- Feature #63: Rate limiting on vote API prevents abuse ✅
+  - Sent 50 rapid requests via Node.js test script: 30 succeeded (200), 20 rate-limited (429)
+  - Rate limit threshold is 30 requests per minute per fingerprint
+  - Sent 40 rapid requests via Playwright browser: 30 succeeded, 10 rate-limited
+  - After server restart (rate limit window reset), same fingerprint gets 200 again
+  - Rate limiter is in-memory per serverless invocation
+
+### Files Created
+- src/app/api/check-votes/route.ts (vote verification endpoint for testing)
+- scripts/test-upcoming-vote.mjs (test script for upcoming vote rejection)
+- scripts/cleanup-test-votes.mjs (cleanup script for test vote records)
+- scripts/test-rate-limit.mjs (rate limit test script)
+
+### Current Status
+- Features passing: 18/64 (estimated, 15 + 3 new)
+- Dev server on port 3001
+- All Security & Access Control features in this batch verified
+- Zero mock data patterns in src/
+- Next.js dev server has intermittent 404 issue after heavy load (50+ rapid requests) - resolved by clearing .next cache and restarting
+
+### Notes for Next Session
+- Next.js dev server sometimes returns 404 for API routes after rapid-fire testing - clear .next cache and restart fixes it
+- check-votes API at /api/check-votes?fingerprint=X is useful for verifying vote records
+- Rate limiter uses in-memory Map (rateLimitMap) - resets on server restart

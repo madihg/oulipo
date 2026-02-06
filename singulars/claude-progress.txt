@@ -1,3 +1,46 @@
+## Session 24 (Agent - Features #43, #45, #46): 2026-02-06
+
+### Completed Features
+- Feature #43: Custom cursor appears on desktop when hovering voting areas ✅
+  - Verified SVG data URI cursor in VotingPoemPair.tsx (line 158-160) and MiniVoting.tsx (line 256-258)
+  - Server-rendered HTML contains cursor:url() with SVG circle colored #EF4444 (hard.exe red)
+  - When canVote=true: cursor set to colored filled circle SVG at 20x20px
+  - When canVote=false (voted/trained): cursor reverts to 'default'
+  - Outside voting area: parent elements use standard cursor ('auto')
+  - Tested SVG cursor CSS value via injected test div — works correctly
+  - Zero mock data patterns in src/
+
+- Feature #45: CSS consistency with oulipo.xyz design system ✅
+  - Updated globals.css with oulipo.xyz CSS variables:
+    --background: #ffffff, --foreground: rgba(0,0,0,0.85)
+    --text-primary, --text-secondary, --text-muted, --border-color, --link-color
+  - Set body font to "Standard" (oulipo.xyz body font) with Arial/Helvetica fallback
+  - Matched text color to rgba(0,0,0,0.85) per oulipo.xyz
+  - Added -webkit-font-smoothing: antialiased and -moz-osx-font-smoothing: grayscale
+  - Removed dark mode override (oulipo.xyz is light-only)
+  - Verified no conflicting CSS frameworks (no Bootstrap, Bulma, etc.)
+  - Tailwind used only for base utilities layer
+  - All pages render correctly with updated CSS
+
+- Feature #46: Poem text preserves line breaks and stanza formatting ✅
+  - All poem text elements use whiteSpace: pre-line for line break preservation
+  - 6 poems verified on hard.exe performance page with 5-6 newlines each
+  - Stanza breaks (double newlines \n\n) render as visible gaps in "Loss" poems
+  - Serif font Georgia, "Times New Roman", serif used for poem readability
+  - No text collapsed into single lines
+  - Verified on both performance page and theme voting page
+
+### Files Modified
+- src/app/globals.css (updated CSS variables, font, colors to match oulipo.xyz)
+
+### Current Status
+- Features passing: 57/64 (89.1%)
+- Dev server on port 3001
+- All pages load without console errors
+- CSS now consistent with oulipo.xyz parent site design system
+
+---
+
 ## Session 23 (Agent - Features #52, #53): 2026-02-06
 
 ### Completed Features

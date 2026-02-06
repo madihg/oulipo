@@ -1,3 +1,28 @@
+## Session 17 (Agent Q): 2026-02-06
+
+### Completed Features
+- Feature #34: Data import script is idempotent ✅
+  - Ran scripts/seed.mjs 3 times consecutively
+  - Counts before each run: 5 performances, 18 poems
+  - Counts after each run: 5 performances, 18 poems (identical)
+  - Zero errors on any run — all operations returned ✅
+  - Performances use upsert with onConflict: 'slug' (unique constraint)
+  - Poems use check-then-update pattern via (performance_id, theme_slug, author_type)
+  - Same UUIDs preserved across runs (no re-creation)
+  - App works correctly after multiple seed runs (verified via browser, zero console errors)
+  - Added scripts/check-counts.mjs helper for DB count verification
+  - Zero mock data patterns in src/
+
+### Files Created
+- scripts/check-counts.mjs (DB count verification helper)
+
+### Current Status
+- Features passing: 40/64 (62.5%)
+- Dev server on port 3000
+- All data from real Supabase
+
+---
+
 ## Session 16 (Agent P): 2026-02-06
 
 ### Completed Features

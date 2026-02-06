@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { getFingerprint } from '@/lib/fingerprint';
 
 interface Poem {
   id: string;
@@ -25,53 +26,6 @@ interface Performance {
 interface ThemeData {
   performance: Performance;
   poems: Poem[];
-}
-
-/**
- * Get or create a browser fingerprint for anonymous vote deduplication.
- * Uses @fingerprintjs/fingerprintjs with cookie + localStorage fallback.
- */
-async function getFingerprint(): Promise<string> {
-  // Check localStorage first for cached fingerprint
-  const STORAGE_KEY = 'singulars_fp';
-  try {
-    const cached = localStorage.getItem(STORAGE_KEY);
-    if (cached) return cached;
-  } catch {
-    // localStorage not available
-  }
-
-  try {
-    const FingerprintJS = await import('@fingerprintjs/fingerprintjs');
-    const fp = await FingerprintJS.load();
-    const result = await fp.get();
-    const visitorId = result.visitorId;
-
-    // Cache in localStorage
-    try {
-      localStorage.setItem(STORAGE_KEY, visitorId);
-    } catch {
-      // Ignore storage errors
-    }
-
-    // Also set a cookie as backup
-    try {
-      document.cookie = `${STORAGE_KEY}=${visitorId}; max-age=31536000; path=/; SameSite=Lax`;
-    } catch {
-      // Ignore cookie errors
-    }
-
-    return visitorId;
-  } catch {
-    // Fallback: generate a random ID
-    const fallbackId = 'fb_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-    try {
-      localStorage.setItem(STORAGE_KEY, fallbackId);
-    } catch {
-      // Ignore
-    }
-    return fallbackId;
-  }
 }
 
 export default function MiniVoting() {

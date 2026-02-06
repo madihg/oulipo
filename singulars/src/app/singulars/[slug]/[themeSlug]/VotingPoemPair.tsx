@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { getFingerprint } from '@/lib/fingerprint';
 
 interface Poem {
   id: string;
@@ -21,41 +22,6 @@ interface VoteResult {
   message: string;
   vote_counts: Record<string, number>;
   voted_poem_id: string | null;
-}
-
-function getFingerprint(): string {
-  // Check localStorage first
-  const stored = typeof window !== 'undefined' ? localStorage.getItem('singulars_fp') : null;
-  if (stored) return stored;
-
-  // Generate a simple fingerprint from browser properties
-  const nav = typeof navigator !== 'undefined' ? navigator : null;
-  const screen = typeof window !== 'undefined' ? window.screen : null;
-  const raw = [
-    nav?.userAgent || '',
-    nav?.language || '',
-    screen?.width || '',
-    screen?.height || '',
-    screen?.colorDepth || '',
-    new Date().getTimezoneOffset().toString(),
-    nav?.hardwareConcurrency?.toString() || '',
-  ].join('|');
-
-  // Simple hash
-  let hash = 0;
-  for (let i = 0; i < raw.length; i++) {
-    const char = raw.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash = hash & hash; // Convert to 32bit integer
-  }
-  const fp = 'fp_' + Math.abs(hash).toString(36) + '_' + Date.now().toString(36);
-
-  // Store in localStorage
-  if (typeof window !== 'undefined') {
-    localStorage.setItem('singulars_fp', fp);
-  }
-
-  return fp;
 }
 
 interface VotingPoemPairProps {
@@ -86,7 +52,7 @@ export default function VotingPoemPair({
   useEffect(() => {
     async function checkExistingVotes() {
       try {
-        const fp = getFingerprint();
+        const fp = await getFingerprint();
         const poemIds = poems.map(p => p.id).join(',');
         const res = await fetch(`/api/check-votes?fingerprint=${fp}&poem_ids=${poemIds}`);
         if (res.ok) {
@@ -115,7 +81,7 @@ export default function VotingPoemPair({
     setErrorMsg(null);
 
     try {
-      const fp = getFingerprint();
+      const fp = await getFingerprint();
       const res = await fetch('/api/vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

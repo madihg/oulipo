@@ -216,7 +216,11 @@ export default function VotingPoemPair({
 
               {/* Vote results shown after voting or for trained performances */}
               {showResults && (
-                <div style={{ marginTop: '1.5rem', borderTop: '1px solid #e0e0e0', paddingTop: '1rem' }}>
+                <div
+                  aria-live="polite"
+                  aria-label={`Vote results for poem by ${poem.author_name}: ${count} ${count === 1 ? 'vote' : 'votes'}${isVotedPoem ? ', your vote' : ''}`}
+                  style={{ marginTop: '1.5rem', borderTop: '1px solid #e0e0e0', paddingTop: '1rem' }}
+                >
                   {/* Vote count */}
                   <div style={{
                     display: 'flex',
@@ -238,13 +242,16 @@ export default function VotingPoemPair({
                     )}
                   </div>
 
-                  {/* Vote dots */}
-                  <div style={{
-                    display: 'flex',
-                    flexWrap: 'wrap',
-                    gap: '4px',
-                    alignItems: 'center',
-                  }}>
+                  {/* Vote dots (decorative visualization) */}
+                  <div
+                    aria-hidden="true"
+                    style={{
+                      display: 'flex',
+                      flexWrap: 'wrap',
+                      gap: '4px',
+                      alignItems: 'center',
+                    }}
+                  >
                     {Array.from({ length: Math.min(count, 50) }).map((_, i) => {
                       const isUserDot = isVotedPoem && i === count - 1;
                       return (
@@ -278,23 +285,31 @@ export default function VotingPoemPair({
 
       {/* Voting state messages */}
       {isVoting && (
-        <p style={{
-          textAlign: 'center',
-          color: '#666',
-          fontSize: '0.9rem',
-          marginTop: '1.5rem',
-        }}>
+        <p
+          aria-live="assertive"
+          role="status"
+          style={{
+            textAlign: 'center',
+            color: '#666',
+            fontSize: '0.9rem',
+            marginTop: '1.5rem',
+          }}
+        >
           Registering your vote...
         </p>
       )}
 
       {errorMsg && (
-        <p style={{
-          textAlign: 'center',
-          color: '#dc2626',
-          fontSize: '0.9rem',
-          marginTop: '1.5rem',
-        }}>
+        <p
+          aria-live="assertive"
+          role="alert"
+          style={{
+            textAlign: 'center',
+            color: '#dc2626',
+            fontSize: '0.9rem',
+            marginTop: '1.5rem',
+          }}
+        >
           {errorMsg}
         </p>
       )}
@@ -312,13 +327,17 @@ export default function VotingPoemPair({
       )}
 
       {hasVoted && performanceStatus === 'training' && (
-        <p style={{
-          textAlign: 'center',
-          color: performanceColor,
-          fontSize: '0.9rem',
-          marginTop: '1.5rem',
-          fontWeight: 500,
-        }}>
+        <p
+          aria-live="polite"
+          role="status"
+          style={{
+            textAlign: 'center',
+            color: performanceColor,
+            fontSize: '0.9rem',
+            marginTop: '1.5rem',
+            fontWeight: 500,
+          }}
+        >
           Thank you for voting!
         </p>
       )}

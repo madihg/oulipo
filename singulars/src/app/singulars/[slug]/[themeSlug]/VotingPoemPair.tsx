@@ -142,6 +142,7 @@ export default function VotingPoemPair({
   }, [hasVoted, isVoting, performanceStatus]);
 
   const canVote = performanceStatus === 'training' && !hasVoted && !isVoting;
+  const showResults = hasVoted || performanceStatus === 'trained';
 
   return (
     <div>
@@ -243,8 +244,8 @@ export default function VotingPoemPair({
                 {poem.text}
               </div>
 
-              {/* Vote results shown after voting */}
-              {hasVoted && (
+              {/* Vote results shown after voting or for trained performances */}
+              {showResults && (
                 <div style={{ marginTop: '1.5rem', borderTop: '1px solid #e0e0e0', paddingTop: '1rem' }}>
                   {/* Vote count */}
                   <div style={{
@@ -340,7 +341,7 @@ export default function VotingPoemPair({
         </p>
       )}
 
-      {hasVoted && (
+      {hasVoted && performanceStatus === 'training' && (
         <p style={{
           textAlign: 'center',
           color: performanceColor,

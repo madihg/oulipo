@@ -36,7 +36,17 @@ async function getPerformances(): Promise<Performance[]> {
 }
 
 function formatDate(dateStr: string): string {
-  const d = new Date(dateStr);
+  // Parse date parts manually to avoid timezone shifting.
+  // Date-only strings like "2024-11-15" are parsed as UTC midnight by JS,
+  // which can shift the displayed day in negative-offset timezones.
+  const [year, month, day] = dateStr.split('-').map(Number);
+  if (year && month && day) {
+    const months = ['January', 'February', 'March', 'April', 'May', 'June',
+      'July', 'August', 'September', 'October', 'November', 'December'];
+    return `${months[month - 1]} ${day}, ${year}`;
+  }
+  // Fallback for unexpected formats
+  const d = new Date(dateStr + 'T00:00:00');
   return d.toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',

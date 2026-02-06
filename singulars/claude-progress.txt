@@ -1,3 +1,35 @@
+## Session 18 (Agent R): 2026-02-06
+
+### Completed Features
+- Feature #30: Direct URL access to performance page works ✅
+  - Navigated directly to /singulars/hard-exe — loads with correct data (training, Beirut, 3 themes)
+  - Navigated directly to /singulars/versus-exe — loads with correct data (trained, London, 2 themes)
+  - Navigated directly to /singulars/carnation-exe — loads with correct data (trained, Dubai, 2 themes)
+  - Zero console errors on all pages
+
+- Feature #31: Direct URL access to theme voting page works ✅
+  - Navigated directly to /singulars/hard-exe/belonging — loads with theme name, poems, voting UI
+  - Theme name "Belonging" displayed as heading
+  - Two poems shown (human + machine) as clickable vote buttons
+  - "Click on a poem to cast your vote" prompt displayed
+  - Zero console errors
+
+- Feature #32: Malformed URL parameters handled gracefully ✅
+  - SQL injection /singulars/' OR 1=1-- → clean 404 "Performance not found"
+  - SQL injection /singulars/hard-exe/' DROP TABLE poems-- → clean 404 "Theme not found"
+  - XSS attempt /singulars/<script>alert(1)</script> → clean 404, no script executed
+  - Database intact after all attacks (all 5 performances still present)
+  - Supabase uses parameterized queries, so SQL injection is impossible
+  - React auto-escapes rendered content, preventing XSS
+  - Zero console errors across all malformed URL tests
+
+### Current Status
+- Features passing: ~40/64 (62.5%)
+- Dev server on port 3000
+- All URL & Direct Access features verified and passing
+
+---
+
 ## Session 17 (Agent Q): 2026-02-06
 
 ### Completed Features

@@ -1,3 +1,52 @@
+## Session 9 (Agent I): 2026-02-06
+
+### Completed Features
+- Feature #15: Mini-voting experience on landing page ✅
+  - Created MiniVoting client component (src/components/MiniVoting.tsx)
+  - Fetches random theme from hard.exe via /api/performances/hard-exe
+  - Groups poems by theme, picks random theme on each page load
+  - Shows theme name, performance name (hard.exe), and "training" status
+  - Two poems displayed side by side (desktop) or stacked (mobile, minmax 280px grid)
+  - Click registers vote via /api/vote with fingerprint from @fingerprintjs/fingerprintjs
+  - After voting, navigates to /singulars/hard-exe/[theme-slug]
+  - Custom cursor (dot in performance color) on hover
+  - Verified: Loss theme shown on first load, Memory on second (random works)
+  - Vote count incremented in Supabase (verified via /api/vote-counts)
+
+- Feature #27: Mini-voting fetches random theme from hard.exe ✅
+  - Loaded /singulars multiple times: saw "Loss" and "Memory" themes
+  - All 3 themes (Belonging, Loss, Memory) available via randomization
+  - Data from real Supabase (UUID performance_id, not hardcoded)
+  - No code changes needed (already implemented in #15)
+
+- Feature #16: Trained performance shows view-only results ✅
+  - Modified VotingPoemPair.tsx: added showResults = hasVoted || performanceStatus === 'trained'
+  - /singulars/reinforcement-exe/resistance shows "trained" status and "Training is closed" message
+  - Vote counts displayed immediately (0 votes each) without requiring a vote
+  - Clicking a poem makes NO POST /api/vote request (verified via network monitor)
+  - Zero console errors
+
+### Files Created
+- src/components/MiniVoting.tsx (mini-voting client component with fingerprint voting)
+
+### Files Modified
+- src/app/singulars/page.tsx (added MiniVoting import and component below title)
+- src/app/singulars/[slug]/[themeSlug]/VotingPoemPair.tsx (show results for trained performances)
+
+### Current Status
+- Features passing: ~20/64
+- Dev server on port 3001 (needs NODE_OPTIONS="--max-old-space-size=4096" for stable compilation)
+- Next.js 14.2.35 has transient vendor-chunks/tslib webpack cache corruption - resolves on retry
+- All data from real Supabase, zero mock data patterns
+
+### Notes for Next Session
+- Next.js dev server needs increased memory: NODE_OPTIONS="--max-old-space-size=4096"
+- The vendor-chunks/tslib.js error is a known Next.js 14.2 webpack issue - clearing .next and restarting fixes it
+- Theme pages may 404 on first compile but work after retry
+- The MiniVoting component uses dynamic import for fingerprintjs to avoid SSR issues
+
+---
+
 ## Session 8 (Agent H): 2026-02-06
 
 ### Completed Features

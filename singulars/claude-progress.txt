@@ -1,3 +1,48 @@
+## Session 15 (Agent O): 2026-02-06
+
+### Completed Features
+- Feature #21: 404 page for non-existent performance slug ✅
+  - Created custom not-found.tsx at src/app/singulars/[slug]/not-found.tsx
+  - Shows "404 - Performance not found" with back link to /singulars
+  - "Browse All Performances" button navigates to landing page
+  - Zero console errors, proper 404 HTTP status
+
+- Feature #22: 404 page for non-existent theme slug ✅
+  - Created custom not-found.tsx at src/app/singulars/[slug]/[themeSlug]/not-found.tsx
+  - Added layout.tsx wrapper to enable not-found scoping in Next.js 14
+  - Shows "404 - Theme not found" with back link and browse button
+  - Valid theme pages still work correctly (no regression)
+  - Zero console errors, proper 404 HTTP status
+
+- Feature #23: Vote API handles network/database errors gracefully ✅
+  - Updated all error paths in /api/vote to return user-friendly messages
+  - 500 errors now return "Something went wrong. Please try again later."
+  - 503 (service unavailable) returns "Service temporarily unavailable..."
+  - No sensitive error details (stack traces, DB URLs, error codes) leaked to client
+  - All errors logged server-side via console.error for debugging
+  - Tested: malformed JSON → 500 user-friendly, missing fields → 400, bad UUID → 404
+  - Verified via browser: hasStack=false, hasPath=false on all error responses
+
+### Files Created
+- src/app/singulars/[slug]/not-found.tsx (custom 404 for performance pages)
+- src/app/singulars/[slug]/[themeSlug]/not-found.tsx (custom 404 for theme pages)
+- src/app/singulars/[slug]/[themeSlug]/layout.tsx (layout wrapper for not-found scoping)
+
+### Files Modified
+- src/app/api/vote/route.ts (improved error messages + server-side-only logging)
+
+### Current Status
+- Features passing: ~36/64 (estimated, 33 + 3 new)
+- Dev server on port 3001
+- All three assigned features verified with browser automation
+
+### Notes for Next Session
+- Next.js 14 requires a layout.tsx at the same level as not-found.tsx for proper scoping
+- The dev server can hang/crash after heavy testing — restart with cache clear fixes it
+- All vote API error responses are now user-friendly and don't leak sensitive details
+
+---
+
 ## Session 14 (Agent N): 2026-02-06
 
 ### Completed Features

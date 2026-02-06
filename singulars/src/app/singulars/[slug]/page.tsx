@@ -105,6 +105,75 @@ export default async function PerformancePage({
     '--performance-color-light': performance.color + '20',
   } as React.CSSProperties;
 
+  // Show "coming soon" state for upcoming performances
+  if (performance.status === 'upcoming') {
+    return (
+      <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem', ...cssVars }} data-performance-color={performance.color} data-status="upcoming">
+        <nav style={{ marginBottom: '2rem' }}>
+          <Link
+            href="/singulars"
+            style={{
+              color: '#666',
+              textDecoration: 'none',
+              fontSize: '0.9rem',
+            }}
+          >
+            &larr; Back to Singulars
+          </Link>
+        </nav>
+
+        <div
+          style={{
+            textAlign: 'center',
+            padding: '4rem 2rem',
+            border: `2px solid ${performance.color}20`,
+            borderRadius: '16px',
+            backgroundColor: `${performance.color}08`,
+          }}
+        >
+          <h1
+            style={{
+              fontSize: '2.5rem',
+              marginBottom: '1rem',
+              color: performance.color,
+            }}
+          >
+            {performance.name}
+          </h1>
+
+          <p
+            style={{
+              fontSize: '1.5rem',
+              fontWeight: 500,
+              color: '#92400e',
+              backgroundColor: '#fef3c7',
+              display: 'inline-block',
+              padding: '0.5rem 1.5rem',
+              borderRadius: '999px',
+              marginBottom: '2rem',
+            }}
+          >
+            Coming Soon
+          </p>
+
+          {performance.location && (
+            <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '0.5rem' }}>
+              {performance.location}
+            </p>
+          )}
+
+          <p style={{ fontSize: '1rem', color: '#999', marginBottom: '2rem' }}>
+            {formatDate(performance.date)}
+          </p>
+
+          <p style={{ fontSize: '1rem', color: '#888', lineHeight: '1.6', maxWidth: '500px', margin: '0 auto' }}>
+            This performance has not taken place yet. Check back after the event for poems and voting.
+          </p>
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem', ...cssVars }} data-performance-color={performance.color}>
       <nav style={{ marginBottom: '2rem' }}>

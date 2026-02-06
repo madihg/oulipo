@@ -1,3 +1,35 @@
+## Session 20 (Agent - Features #37, #38): 2026-02-06
+
+### Completed Features
+- Feature #37: Vote submission shows loading/feedback state ✅
+  - Navigated to /singulars/hard-exe/belonging (training performance)
+  - Clicked machine poem to cast vote
+  - isVoting state sets to true immediately, showing "Registering your vote..." message
+  - cursor changes to default (non-clickable) during API call
+  - canVote becomes false during voting, preventing double-clicks
+  - POST /api/vote returns 200 OK, vote recorded in Supabase
+  - "Thank you for voting!" success message shown after vote completes
+  - Vote results displayed: "10 votes" (human), "3 votes" (machine) with dot visualization
+  - "Your vote" label shown on voted poem
+  - Zero console errors, zero mock data patterns
+
+- Feature #38: Duplicate vote shows appropriate feedback ✅
+  - Voted on "Belonging" theme, then navigated away to /singulars
+  - Returned to /singulars/hard-exe/belonging
+  - checkExistingVotes() detected prior vote via fingerprint + check-votes API
+  - Already-voted state displayed: vote results with counts, "Your vote" label, "Thank you for voting!"
+  - Poems become non-clickable divs (no longer buttons)
+  - Also verified on "Memory" theme — same behavior
+  - Network confirmed: GET /api/check-votes returns existing vote data on mount
+  - Zero console errors
+
+### Current Status
+- Features passing: 44/64 (68.8%)
+- Dev server on port 3001
+- Both assigned features verified and marked passing
+
+---
+
 ## Session 19 (Agent - Feature #35): 2026-02-06
 
 ### Completed Features

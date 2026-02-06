@@ -1,0 +1,6 @@
+[   12255ms] [WARNING] [JavaScript Warning: "The resource at “http://localhost:3001/_next/static/media/4473ecc91f70f139-s.p.woff” preloaded with link preload was not used within a few seconds. Make sure all attributes of the preload tag are set correctly." {file: "http://localhost:3001/singulars" line: 0}] @ http://localhost:3001/singulars:0
+[   12286ms] [WARNING] [JavaScript Warning: "The resource at “http://localhost:3001/_next/static/media/463dafcda517f24f-s.p.woff” preloaded with link preload was not used within a few seconds. Make sure all attributes of the preload tag are set correctly." {file: "http://localhost:3001/singulars" line: 0}] @ http://localhost:3001/singulars:0
+[   38602ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:3001/_next/static/chunks/_app-pages-browser_node_modules_fingerprintjs_fingerprintjs_dist_fp_esm_js.js”." {file: "http://localhost:3001/singulars" line: 1}] @ http://localhost:3001/singulars:1
+[   40424ms] uncaught exception: Object
+
+[   42131ms] [WARNING] [JavaScript Warning: "This page is in Quirks Mode. Page layout may be impacted. For Standards Mode use “<!DOCTYPE html>”." {file: "http://localhost:3001/singulars/hard-exe/loss" line: 0}] @ http://localhost:3001/singulars/hard-exe/loss:0

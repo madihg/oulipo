@@ -5,6 +5,38 @@ export const metadata = {
   description: 'Learn about the Singulars project — a series of live human-vs-machine poetry duels.',
 };
 
+const substackCards = [
+  {
+    title: 'Eat.exe',
+    subtitle: 'Drawing a Latent Future with Electric Lines of Desire',
+    url: 'https://secondvoice.substack.com/p/eatexe',
+  },
+  {
+    title: 'On Poetry and Machines',
+    subtitle: 'Exploring what happens when algorithms write verse.',
+    url: 'https://secondvoice.substack.com/p/the-lost-art-of-memory',
+  },
+  {
+    title: 'The Training Loop',
+    subtitle: 'How audience votes shape the next generation of machine poetry.',
+    url: 'https://secondvoice.substack.com/p/the-150hr-poet',
+  },
+  {
+    title: 'Behind the Performances',
+    subtitle: 'What it\u2019s like to compete against an AI on stage.',
+    url: 'https://secondvoice.substack.com/p/the-prestige-of-the-sentence',
+  },
+];
+
+/* Stagger offsets for the spread layout.
+   On mobile the cards collapse into a single column with no offsets. */
+const staggerOffsets = [
+  { rotate: '-1.2deg', translateY: '0px', translateX: '-8px' },
+  { rotate: '0.8deg', translateY: '12px', translateX: '14px' },
+  { rotate: '-0.6deg', translateY: '-6px', translateX: '-4px' },
+  { rotate: '1deg', translateY: '8px', translateX: '10px' },
+];
+
 export default function AboutPage() {
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '2rem' }}>
@@ -58,73 +90,67 @@ export default function AboutPage() {
       </section>
 
       <section>
-        <h2 style={{ fontSize: '1.5rem', marginBottom: '1.5rem' }}>Further Reading</h2>
+        <h2 style={{ fontSize: '1.5rem', marginBottom: '2rem' }}>Further Reading</h2>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1.5rem',
-        }}>
-          <a
-            href="https://substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'block',
-              padding: '1.5rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              color: 'inherit',
-              transition: 'border-color 0.2s',
-            }}
-          >
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>On Poetry and Machines</h3>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              Exploring what happens when algorithms write verse.
-            </p>
-          </a>
-
-          <a
-            href="https://substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'block',
-              padding: '1.5rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              color: 'inherit',
-              transition: 'border-color 0.2s',
-            }}
-          >
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>The Training Loop</h3>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              How audience votes shape the next generation of machine poetry.
-            </p>
-          </a>
-
-          <a
-            href="https://substack.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{
-              display: 'block',
-              padding: '1.5rem',
-              border: '1px solid #e0e0e0',
-              borderRadius: '8px',
-              textDecoration: 'none',
-              color: 'inherit',
-              transition: 'border-color 0.2s',
-            }}
-          >
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '0.5rem' }}>Behind the Performances</h3>
-            <p style={{ fontSize: '0.9rem', color: '#666' }}>
-              What it&apos;s like to compete against an AI on stage.
-            </p>
-          </a>
+        {/* Staggered card layout */}
+        <div
+          className="substack-cards"
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '1.2rem',
+            padding: '0.5rem 0',
+          }}
+        >
+          {substackCards.map((card, i) => {
+            const offset = staggerOffsets[i] || staggerOffsets[0];
+            return (
+              <a
+                key={card.url}
+                href={card.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="substack-card"
+                data-index={i}
+                style={{
+                  display: 'block',
+                  padding: '1.5rem 1.8rem',
+                  border: '1px solid #e0e0e0',
+                  borderRadius: '8px',
+                  textDecoration: 'none',
+                  color: 'inherit',
+                  transition: 'transform 0.25s ease, border-color 0.2s, box-shadow 0.25s ease',
+                  backgroundColor: '#fff',
+                  /* Stagger transforms – overridden on mobile via media query */
+                  transform: `rotate(${offset.rotate}) translateY(${offset.translateY}) translateX(${offset.translateX})`,
+                }}
+              >
+                <h3 style={{ fontSize: '1.1rem', marginBottom: '0.35rem' }}>{card.title}</h3>
+                <p style={{ fontSize: '0.9rem', color: '#666', margin: 0 }}>
+                  {card.subtitle}
+                </p>
+              </a>
+            );
+          })}
         </div>
+
+        {/* CSS for hover effects and responsive stagger removal */}
+        <style>{`
+          .substack-card:hover {
+            transform: rotate(0deg) translateY(-4px) translateX(0px) !important;
+            border-color: #999 !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+          }
+
+          @media (max-width: 600px) {
+            .substack-card {
+              transform: none !important;
+            }
+            .substack-card:hover {
+              transform: translateY(-2px) !important;
+            }
+          }
+        `}</style>
       </section>
     </main>
   );

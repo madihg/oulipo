@@ -23,8 +23,9 @@ export async function POST(request: Request) {
   try {
     const supabase = getServiceClient() || getSupabase();
     if (!supabase) {
+      console.error('Vote API: Database client not available');
       return NextResponse.json(
-        { error: 'Supabase not configured' },
+        { error: 'Service temporarily unavailable. Please try again later.' },
         { status: 503 }
       );
     }
@@ -83,8 +84,9 @@ export async function POST(request: Request) {
       .eq('theme_slug', poem.theme_slug);
 
     if (pairError || !poemPair) {
+      console.error('Error fetching poem pair:', pairError?.message);
       return NextResponse.json(
-        { error: 'Failed to fetch poem pair' },
+        { error: 'Something went wrong. Please try again later.' },
         { status: 500 }
       );
     }
@@ -98,9 +100,9 @@ export async function POST(request: Request) {
       .in('poem_id', poemIds);
 
     if (voteCheckError) {
-      console.error('Error checking existing votes:', voteCheckError);
+      console.error('Error checking existing votes:', voteCheckError.message);
       return NextResponse.json(
-        { error: 'Failed to check existing votes' },
+        { error: 'Something went wrong. Please try again later.' },
         { status: 500 }
       );
     }
@@ -145,9 +147,9 @@ export async function POST(request: Request) {
         });
       }
 
-      console.error('Error casting vote:', rpcError);
+      console.error('Error casting vote:', rpcError.message);
       return NextResponse.json(
-        { error: 'Failed to cast vote' },
+        { error: 'Something went wrong. Please try again later.' },
         { status: 500 }
       );
     }
@@ -160,8 +162,9 @@ export async function POST(request: Request) {
       .eq('theme_slug', poem.theme_slug);
 
     if (updatedError || !updatedPair) {
+      console.error('Error fetching updated counts:', updatedError?.message);
       return NextResponse.json(
-        { error: 'Vote recorded but failed to fetch updated counts' },
+        { error: 'Vote recorded but failed to fetch updated counts. Please refresh the page.' },
         { status: 500 }
       );
     }
@@ -179,10 +182,11 @@ export async function POST(request: Request) {
       vote_counts: voteCounts,
       voted_poem_id: poem_id,
     });
-  } catch (err) {
-    console.error('Unexpected error in vote API:', err);
+  } catch (err: unknown) {
+    // Log full error server-side only — never expose to client
+    console.error('Unexpected error in vote API:', err instanceof Error ? err.message : 'Unknown error');
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: 'Something went wrong. Please try again later.' },
       { status: 500 }
     );
   }

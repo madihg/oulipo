@@ -1,0 +1,138 @@
+## Session: 2026-02-06
+
+### Completed Features
+- Feature #4: No mock data patterns in codebase ✅
+  - Ran all 6 grep checks (globalThis, devStore, mockData, TODO, new Map/Set, mock libraries)
+  - All checks returned empty - zero mock data patterns in src/
+  - All API routes use real Supabase client (@supabase/supabase-js)
+
+- Feature #5: Backend API queries real Supabase database ✅
+  - All API routes use getServiceClient() || getSupabase() for real Supabase queries
+  - GET /api/performances returns 5 real performances with UUIDs from Supabase
+  - GET /api/performances/hard-exe returns hard.exe with 6 poems and real database IDs
+  - No hardcoded arrays or static returns in any API route file
+  - Verified via both curl and browser automation (Playwright)
+
+### Work Done
+- Set up Next.js 14 project structure with TypeScript and Tailwind
+- Created all API routes: health, performances, performances/[slug], poems, vote, vote-counts
+- Updated all API routes to use service client for proper database access
+- Seeded database with 5 performances and 18 poems via seed.mjs script
+- Removed duplicate next.config.mjs (kept next.config.ts)
+
+### Current Status
+- Features passing: #4, #5
+- Features in progress by other agents: #1, #2, #3
+- Dev server runs on port 3001 (port 3000 occupied by another project)
+- Database is connected and healthy with schema applied
+
+### Notes for Next Session
+- Port 3000 is used by another project (protos-inv). Use port 3001.
+- Supabase credentials are in .env.local (not committed to git)
+- The anon key returns empty arrays for RLS-protected tables; use service client for API routes
+- All 5 performances seeded: reverse.exe (upcoming), hard.exe (training), reinforcement.exe/versus.exe/carnation.exe (trained)
+
+---
+
+## Session 2 (Agent B): 2026-02-06
+
+### Completed Features
+- Feature #1: Database connection to Supabase established ✅
+  - Health endpoint at /api/health returns 200 with database: "connected"
+  - All 3 tables (performances, poems, votes) accessible
+  - Zero console errors
+
+- Feature #2: Database schema applied correctly ✅
+  - Created /api/schema-check endpoint for deep schema verification
+  - All 13 performances columns verified
+  - All 9 poems columns verified
+  - All 4 votes columns verified
+  - FK poems.performance_id→performances.id works (error 23503)
+  - FK votes.poem_id→poems.id works (error 23503)
+  - Unique index performances(slug) verified
+  - Unique index votes(voter_fingerprint, poem_id) verified
+  - cast_vote RPC function exists and works
+
+- Feature #3: Data persists across server restart ✅
+  - Posted vote with fingerprint "RESTART_TEST_12345" via /api/vote
+  - Started new server instance (port 3011) simulating restart
+  - Confirmed vote still exists on new server (duplicate detection worked)
+  - Cleaned up test data after verification
+
+### Files Created
+- src/app/api/schema-check/route.ts (schema verification endpoint)
+- scripts/apply-schema.mjs (automated schema deployment)
+- .env.local.example (env var template)
+
+### Current Status
+- Features passing: #1, #2, #3, #4, #5 (all 5 infrastructure features complete!)
+- 5/64 features passing (7.8%)
+- All infrastructure features verified with browser automation screenshots
+
+---
+
+## Session 3 (Agent C): 2026-02-06
+
+### Completed Features
+- Feature #57: Vote references valid poem_id (referential integrity) ✅
+  - POST /api/vote with non-existent UUID poem_id returns HTTP 404 "Poem not found"
+  - API validates poem existence before any vote insertion (route.ts lines 51-62)
+  - DB-level FK constraint confirmed via schema-check endpoint (error code 23503)
+  - No orphaned vote records can be created
+  - Verified via curl and browser (Playwright)
+
+- Feature #59: Import script JSON format is documented ✅
+  - Added 60-line documentation block to scripts/seed.mjs
+  - Documents required fields for performances: name, slug, color, status
+  - Documents optional fields: location, date, num_poems, num_poets, model_link, huggingface_link, poets
+  - Documents required fields for poems: text, author_name, author_type
+  - Documents theme structure: theme, theme_slug, poems array
+  - Includes complete inline JSON example with type annotations
+  - References scripts/seed-data.json as a working example
+  - Notes on idempotency, matching strategy, and status semantics
+
+### Current Status
+- Features passing: #1, #2, #3, #4, #5, #57, #59
+- Dev server runs on port 3001
+- Database healthy with all constraints verified
+
+### Notes for Next Session
+- curl commands require dangerouslyDisableSandbox=true to connect to localhost
+- Port 3001 dev server takes ~30s for first compilation
+- All FK constraints and unique indexes verified working at DB level
+
+---
+
+## Session 4 (Agent D): 2026-02-06
+
+### Completed Features
+- Feature #6: App loads at /singulars without errors ✅
+  - Page loads with 200 status, zero console errors
+  - "Singulars" title displayed at top
+  - Verified with Playwright browser automation
+
+- Feature #8: Landing page links to About page ✅
+  - Added "About Singulars →" link to landing page
+  - Created /singulars/about page with project description and Further Reading cards
+  - Click navigation verified: /singulars → /singulars/about
+  - Zero console errors on both pages
+
+- Feature #12: Performance page displays poems from database ✅
+  - Created /singulars/[slug]/page.tsx with server-side Supabase data fetching
+  - hard.exe shows: name in color, "Beirut, Lebanon", date, "training" status
+  - Links to Duelling Model and HuggingFace Training Data
+  - 3 themes displayed (Belonging, Loss, Memory) with human + machine poems
+  - Poem text preserves line breaks and stanza formatting (whiteSpace: pre-line)
+  - All data from real Supabase - zero mock patterns in src/
+  - Zero console errors
+
+### Files Created/Modified
+- src/app/singulars/page.tsx (updated with about link and about section)
+- src/app/singulars/about/page.tsx (new - full about page)
+- src/app/singulars/[slug]/page.tsx (new - performance detail page)
+
+### Current Status
+- Features passing: #1, #2, #3, #4, #5, #6, #8, #12, #57, #59
+- 10/64 features passing (15.6%)
+- Dev server on port 3001
+- All pages load without console errors

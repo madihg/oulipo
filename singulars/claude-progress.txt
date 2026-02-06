@@ -1,3 +1,26 @@
+## Session 25 (Agent - Feature #54): 2026-02-06
+
+### Completed Features
+- Feature #54: Performance dates display correctly (timezone-safe) ✅
+  - Verified formatDate() in both page.tsx files uses manual date string parsing
+  - Splits "YYYY-MM-DD" string and maps to month names, avoiding UTC timezone shift
+  - Fallback uses 'T00:00:00' suffix to force local time interpretation
+  - Verified all 5 performances show correct dates:
+    - reverse.exe: DB "2025-06-01" → UI "June 1, 2025" ✅
+    - hard.exe: DB "2024-11-15" → UI "November 15, 2024" ✅
+    - reinforcement.exe: DB "2024-06-20" → UI "June 20, 2024" ✅
+    - versus.exe: DB "2024-03-10" → UI "March 10, 2024" ✅
+    - carnation.exe: DB "2023-12-01" → UI "December 1, 2023" ✅
+  - Verified on both landing page (/singulars) and performance pages (/singulars/[slug])
+  - Zero console errors, zero mock data patterns in src/
+
+### Current Status
+- Features passing: 54/64 (84.4%)
+- Dev server on port 3000
+- Date formatting fix already committed in 6dd3767 by prior session
+
+---
+
 ## Session 24 (Agent - Features #43, #45, #46): 2026-02-06
 
 ### Completed Features

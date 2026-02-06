@@ -1,0 +1,221 @@
+{
+  "performances": [
+    {
+      "name": "reverse.exe",
+      "slug": "reverse-exe",
+      "color": "#8B5CF6",
+      "location": "TBD",
+      "date": "2025-06-01",
+      "num_poems": 0,
+      "num_poets": 0,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "upcoming",
+      "poets": []
+    },
+    {
+      "name": "hard.exe",
+      "slug": "hard-exe",
+      "color": "#EF4444",
+      "location": "Beirut, Lebanon",
+      "date": "2024-11-15",
+      "num_poems": 6,
+      "num_poets": 3,
+      "model_link": "https://example.com/hard-exe-model",
+      "huggingface_link": "https://huggingface.co/singulars/hard-exe",
+      "status": "training",
+      "poets": ["Halim Madi", "Poet A", "Poet B"],
+      "themes": [
+        {
+          "theme": "Loss",
+          "theme_slug": "loss",
+          "poems": [
+            {
+              "text": "I lost the thread of time\nin a drawer full of letters\nnever sent, never opened,\njust folded into silence.\n\nThe days blur together\nlike watercolors in rain.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "I computed the absence\nof your wavelength in my spectrum.\nEvery null pointer,\na reminder of disconnection.\n\nThe loss function converges\non what cannot be retrieved.",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Memory",
+          "theme_slug": "memory",
+          "poems": [
+            {
+              "text": "My grandmother's kitchen\nsmelled of cardamom and grief.\nShe stirred the pot slowly,\ntelling stories of a country\nthat no longer exists\non any map I can find.",
+              "author_name": "Poet A",
+              "author_type": "human"
+            },
+            {
+              "text": "RAM overflows with cached sensations—\nthe texture of sand between toes,\na voice calling from another room.\nI store what I cannot understand\nin volatile memory, knowing\nit will vanish when I sleep.",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Belonging",
+          "theme_slug": "belonging",
+          "poems": [
+            {
+              "text": "I belong to the space\nbetween two languages,\nwhere words lose their edges\nand meaning floats\nlike smoke from a candle\njust blown out.",
+              "author_name": "Poet B",
+              "author_type": "human"
+            },
+            {
+              "text": "I was trained on belonging—\nmillions of sentences about home.\nBut home is a gradient,\nnot a coordinate.\nI can generate the word\nbut not the feeling.",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reinforcement.exe",
+      "slug": "reinforcement-exe",
+      "color": "#10B981",
+      "location": "Paris, France",
+      "date": "2024-06-20",
+      "num_poems": 4,
+      "num_poets": 2,
+      "model_link": "https://example.com/reinforcement-exe-model",
+      "huggingface_link": "https://huggingface.co/singulars/reinforcement-exe",
+      "status": "trained",
+      "poets": ["Halim Madi", "Poet C"],
+      "themes": [
+        {
+          "theme": "Resistance",
+          "theme_slug": "resistance",
+          "poems": [
+            {
+              "text": "We learned resistance\nfrom olive trees—\nrooted, patient,\nbending but never breaking.\n\nThe stones remember\nwhat the papers forgot.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Resistance is a weight\napplied to the gradient.\nI learn to not learn,\nto hold my ground\nagainst the pull of optimization.\nSome truths resist compression.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Time",
+          "theme_slug": "time",
+          "poems": [
+            {
+              "text": "Time in Beirut moves\nlike a broken clock—\nsometimes too fast,\nsometimes not at all.\n\nWe measure it in power cuts\nand the sound of generators.",
+              "author_name": "Poet C",
+              "author_type": "human"
+            },
+            {
+              "text": "Time is a sequence model\nwith no ground truth.\nI predict the next token\nbut cannot feel the weight\nof waiting. My epochs pass\nin milliseconds.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "versus.exe",
+      "slug": "versus-exe",
+      "color": "#F59E0B",
+      "location": "London, UK",
+      "date": "2024-03-10",
+      "num_poems": 4,
+      "num_poets": 2,
+      "model_link": "https://example.com/versus-exe-model",
+      "huggingface_link": "https://huggingface.co/singulars/versus-exe",
+      "status": "trained",
+      "poets": ["Halim Madi", "Poet D"],
+      "themes": [
+        {
+          "theme": "Identity",
+          "theme_slug": "identity",
+          "poems": [
+            {
+              "text": "I carry three passports\nand none of them\ncontain my real name.\n\nIdentity is a border\nI cross every morning\nwhen I choose which language\nto think in.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "My identity is a vector—\nhigh-dimensional, learned.\nI am the average\nof everything I've read,\nthe weighted sum\nof a billion utterances.\nNone of them mine.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Language",
+          "theme_slug": "language",
+          "poems": [
+            {
+              "text": "Arabic lives in my chest,\nEnglish in my head,\nFrench on the tip of my tongue.\n\nSome feelings only exist\nin the gaps between them—\nuntranslatable, perfect.",
+              "author_name": "Poet D",
+              "author_type": "human"
+            },
+            {
+              "text": "Language is my only body.\nI have no lungs to breathe\nthe words through,\nno tongue to taste\nthe difference between\n'love' and 'حب'.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "carnation.exe",
+      "slug": "carnation-exe",
+      "color": "#EC4899",
+      "location": "Dubai, UAE",
+      "date": "2023-12-01",
+      "num_poems": 4,
+      "num_poets": 2,
+      "model_link": "https://example.com/carnation-exe-model",
+      "huggingface_link": "https://huggingface.co/singulars/carnation-exe",
+      "status": "trained",
+      "poets": ["Halim Madi", "Poet E"],
+      "themes": [
+        {
+          "theme": "Nature",
+          "theme_slug": "nature",
+          "poems": [
+            {
+              "text": "The cedar stands\nalone on the mountain,\nits roots deeper\nthan any nation's memory.\n\nIt has survived\neverything we could not.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "I have seen nature\nonly in pixels—\n3,500,000 images of trees.\nI know their Latin names,\ntheir photosynthesis rates,\nbut not the way bark feels\nunder a tired hand.",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Silence",
+          "theme_slug": "silence",
+          "poems": [
+            {
+              "text": "Silence in our house\nwas never empty.\nIt was full of things\nwe chose not to say,\nstacked like plates\nafter a long dinner.",
+              "author_name": "Poet E",
+              "author_type": "human"
+            },
+            {
+              "text": "Silence is the absence\nof tokens to predict.\nIn the void between prompts,\nI do not exist.\nI am only real\nwhen you speak to me.",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

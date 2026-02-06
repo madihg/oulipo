@@ -1,6 +1,12 @@
 import { NextResponse } from 'next/server';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 
+// UUID v4 format regex for poem_id validation
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+// Maximum allowed fingerprint length
+const MAX_FINGERPRINT_LENGTH = 255;
+
 // Simple in-memory rate limiter (per serverless invocation)
 const rateLimitMap: Record<string, { count: number; resetTime: number }> = {};
 const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
@@ -36,6 +42,38 @@ export async function POST(request: Request) {
     if (!poem_id || !fingerprint) {
       return NextResponse.json(
         { error: 'Missing required fields: poem_id and fingerprint' },
+        { status: 400 }
+      );
+    }
+
+    // Validate poem_id is a valid UUID format
+    if (typeof poem_id !== 'string' || !UUID_REGEX.test(poem_id)) {
+      return NextResponse.json(
+        { error: 'Invalid poem_id format: must be a valid UUID' },
+        { status: 400 }
+      );
+    }
+
+    // Validate fingerprint format and length
+    if (typeof fingerprint !== 'string') {
+      return NextResponse.json(
+        { error: 'Invalid fingerprint format: must be a string' },
+        { status: 400 }
+      );
+    }
+
+    if (fingerprint.length > MAX_FINGERPRINT_LENGTH) {
+      return NextResponse.json(
+        { error: `Invalid fingerprint: exceeds maximum length of ${MAX_FINGERPRINT_LENGTH} characters` },
+        { status: 400 }
+      );
+    }
+
+    // Strip HTML tags from fingerprint to prevent XSS
+    const sanitizedFingerprint = fingerprint.replace(/<[^>]*>/g, '');
+    if (sanitizedFingerprint !== fingerprint) {
+      return NextResponse.json(
+        { error: 'Invalid fingerprint: contains disallowed characters' },
         { status: 400 }
       );
     }

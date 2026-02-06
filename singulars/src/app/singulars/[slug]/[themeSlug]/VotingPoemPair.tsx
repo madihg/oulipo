@@ -129,8 +129,10 @@ export default function VotingPoemPair({
               key={poem.id}
               data-poem-id={poem.id}
               data-author-type={poem.author_type}
+              data-voteable={canVote ? 'true' : undefined}
               onClick={() => canVote && handleVote(poem.id)}
               role={canVote ? 'button' : undefined}
+              aria-label={canVote ? `Vote for poem by ${poem.author_name}` : `Poem by ${poem.author_name}`}
               tabIndex={canVote ? 0 : undefined}
               onKeyDown={(e) => {
                 if (canVote && (e.key === 'Enter' || e.key === ' ')) {
@@ -305,7 +307,7 @@ export default function VotingPoemPair({
           marginTop: '1.5rem',
           fontStyle: 'italic',
         }}>
-          Click on a poem to cast your vote
+          Click or press Enter on a poem to cast your vote
         </p>
       )}
 

@@ -1,0 +1,4 @@
+[     771ms] [WARNING] No default component was found for a parallel route rendered on this page. Falling back to nearest NotFound boundary.
+Learn more: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#defaultjs
+
+ @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15

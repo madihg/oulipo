@@ -81,7 +81,7 @@ export default async function ThemeVotingPage({
   const themeName = poems[0]?.theme || params.themeSlug;
 
   return (
-    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
+    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', '--performance-color': performance.color } as React.CSSProperties}>
       {/* Navigation */}
       <nav style={{ marginBottom: '2rem' }}>
         <Link

@@ -1,0 +1,17 @@
+[     803ms] [WARNING] No default component was found for a parallel route rendered on this page. Falling back to nearest NotFound boundary.
+Learn more: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#defaultjs
+
+ @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15
+[    8895ms] [WARNING] [Fast Refresh] performing full reload
+
+Fast Refresh will perform a full reload when you edit a file that's imported by modules outside of the React rendering tree.
+You might have a file which exports a React component but also exports a value that is imported by a non-React component file.
+Consider migrating the non-React component export to a separate file and importing it into both files.
+
+It is also possible the parent component of the component you edited is a class component, which disables Fast Refresh.
+Fast Refresh requires at least one parent function component in your React tree. @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/app/hot-reloader-client.js:112
+[    8895ms] [ERROR] Failed to fetch RSC payload for http://localhost:3001/singulars/non-existent-performance. Falling back to browser navigation. Error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[   10271ms] [WARNING] No default component was found for a parallel route rendered on this page. Falling back to nearest NotFound boundary.
+Learn more: https://nextjs.org/docs/app/building-your-application/routing/parallel-routes#defaultjs
+
+ @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/shared/lib/utils/warn-once.js:15

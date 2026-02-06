@@ -213,7 +213,7 @@ export default function MiniVoting() {
           fontStyle: 'italic',
         }}
       >
-        Click the poem you prefer to cast your vote
+        Click or press Enter on the poem you prefer to cast your vote
       </p>
 
       {/* Poems - side by side on desktop, stacked on mobile */}
@@ -230,10 +230,12 @@ export default function MiniVoting() {
             key={poem.id}
             data-testid={`mini-voting-poem-${poem.author_type}`}
             data-poem-id={poem.id}
+            data-voteable="true"
             onClick={() => handleVote(poem.id)}
             onMouseEnter={() => setHoveredPoem(poem.id)}
             onMouseLeave={() => setHoveredPoem(null)}
             role="button"
+            aria-label={`Vote for this poem`}
             tabIndex={0}
             onKeyDown={(e) => {
               if (e.key === 'Enter' || e.key === ' ') {

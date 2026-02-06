@@ -25,3 +25,15 @@ body {
     text-wrap: balance;
   }
 }
+
+/* Keyboard accessibility: visible focus rings on voteable poem cards */
+[data-voteable="true"]:focus-visible {
+  outline: 3px solid var(--performance-color, #333);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.1) !important;
+}
+
+[data-voteable="true"]:focus {
+  outline: 3px solid var(--performance-color, #333);
+  outline-offset: 2px;
+}

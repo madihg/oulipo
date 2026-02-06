@@ -1,3 +1,25 @@
+## Session 14 (Agent N): 2026-02-06
+
+### Completed Features
+- Feature #17: Upcoming performance shows coming soon state ✅
+  - Added "Coming Soon" view to /singulars/[slug]/page.tsx for performances with status "upcoming"
+  - When /singulars/reverse-exe is accessed directly: shows centered card with performance name in color, "Coming Soon" badge, location, date, and informational message
+  - No themes, poems, or voting UI shown for upcoming performances
+  - Landing page: reverse.exe card already non-clickable (plain div, not Link) — confirmed clicking does NOT navigate
+  - Landing page: card shows "upcoming" badge, "TBD" location, "May 31, 2025" date
+  - Non-upcoming performances (hard.exe etc.) still render normally — no regression
+  - Zero console errors, zero mock data patterns in src/
+
+### Files Modified
+- src/app/singulars/[slug]/page.tsx (added early return with Coming Soon UI when status === 'upcoming')
+
+### Current Status
+- Features passing: 33/64 (51.6%)
+- Dev server on port 3000
+- All pages load without console errors
+
+---
+
 ## Session 13 (Agent M): 2026-02-06
 
 ### Completed Features

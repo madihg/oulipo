@@ -1,0 +1,3 @@
+[     989ms] [ERROR] MiniVoting fetch error: Error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[     991ms] [ERROR] MiniVoting fetch error: Error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32
+[    7914ms] [ERROR] Failed to fetch RSC payload for http://localhost:3000/singulars. Falling back to browser navigation. Error @ webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:32

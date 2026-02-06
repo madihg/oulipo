@@ -1,0 +1,36 @@
+[   11584ms] Error: Cannot find module '../webpack-runtime.js'
+Require stack:
+- /Users/halim/Documents/oulipo/singulars/.next/server/pages/_document.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/require.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/load-components.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/build/utils.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/dev/hot-middleware.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/dev/hot-reloader-webpack.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/lib/router-utils/setup-dev-bundler.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/lib/router-server.js
+- /Users/halim/Documents/oulipo/singulars/node_modules/next/dist/server/lib/start-server.js
+    at getServerError (webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/internal/helpers/nodeStackFrames.js:38:15)
+    at hydrate/< (webpack-internal:///./node_modules/next/dist/client/index.js:625:27)
+    at setTimeout handler*hydrate (webpack-internal:///./node_modules/next/dist/client/index.js:613:27)
+    at async*pageBootrap (webpack-internal:///./node_modules/next/dist/client/page-bootstrap.js:27:26)
+    at  (webpack-internal:///./node_modules/next/dist/client/next-dev.js:25:43)
+    at promise callback* (webpack-internal:///./node_modules/next/dist/client/next-dev.js:23:4)
+    at ./node_modules/next/dist/client/next-dev.js (http://localhost:3000/_next/static/chunks/fallback/main.js:820:1)
+    at options.factory (http://localhost:3000/_next/static/chunks/fallback/webpack.js:647:31)
+    at __webpack_require__ (http://localhost:3000/_next/static/chunks/fallback/webpack.js:37:33)
+    at __webpack_exec__ (http://localhost:3000/_next/static/chunks/fallback/main.js:1975:61)
+    at  (http://localhost:3000/_next/static/chunks/fallback/main.js:1976:53)
+    at webpackJsonpCallback (http://localhost:3000/_next/static/chunks/fallback/webpack.js:1195:46)
+    at  (http://localhost:3000/_next/static/chunks/fallback/main.js:9:61)
+[   22973ms] [WARNING] [Fast Refresh] performing full reload because your application had an unrecoverable error @ webpack-internal:///./node_modules/next/dist/client/components/react-dev-overlay/pages/hot-reloader-client.js:349
+[   23065ms] TypeError: NetworkError when attempting to fetch resource.
+    at _promiseAwareJsonValueNoThrow/< (debugger eval code:327:30)
+    at async*_promiseAwareJsonValueNoThrow (debugger eval code:329:9)
+    at evaluate (debugger eval code:310:33)
+    at  (debugger eval code:1:44)
+    at evaluateFunction (chrome://juggler/content/content/Runtime.js:404:60)
+    at callFunction (chrome://juggler/content/content/Runtime.js:103:41)
+    at _onMessageInternal (chrome://juggler/content/SimpleChannel.js:237:37)
+    at _onMessage (chrome://juggler/content/SimpleChannel.js:194:12)
+    at bindToActor/actor.receiveMessage (chrome://juggler/content/SimpleChannel.js:39:44)
+[   23483ms] [WARNING] [JavaScript Warning: "This page is in Quirks Mode. Page layout may be impacted. For Standards Mode use “<!DOCTYPE html>”." {file: "http://localhost:3000/api/performances" line: 0}] @ http://localhost:3000/api/performances:0

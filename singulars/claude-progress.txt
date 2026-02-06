@@ -1,3 +1,28 @@
+## Session 12 (Agent L): 2026-02-06
+
+### Completed Features
+- Feature #10: Duel the Machine button opens external link ✅
+  - Added "Duel the Machine" CTA button to /singulars landing page
+  - Button is an <a> tag with href="https://halimmadi.com/contact-form"
+  - target="_blank" and rel="noopener noreferrer" verified via browser JS evaluation
+  - Centered black button with white text, positioned between performance cards and about section
+  - Zero console errors
+
+- Feature #62: About page renders project description ✅
+  - /singulars/about page loads with 200 status
+  - "About Singulars" h1 heading displayed
+  - Four in-depth paragraphs describing the project philosophy and mechanics
+  - Creator attribution with link to halimmadi.com
+  - Further Reading section with 4 Substack cards in staggered layout
+  - Page is not empty, no errors, zero console errors
+
+### Current Status
+- Features passing: ~30/64
+- Dev server on port 3001
+- Both assigned features verified and marked passing
+
+---
+
 ## Session 11 (Agent K): 2026-02-06
 
 ### Completed Features

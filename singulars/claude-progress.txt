@@ -1,3 +1,24 @@
+## Session 22 (Agent - Feature #51): 2026-02-06
+
+### Completed Features
+- Feature #51: Performance page shows model and HuggingFace links ✅
+  - Navigated to /singulars/hard-exe: "Duelling Model" and "Training Data (HuggingFace)" links displayed
+  - hard.exe model link: https://example.com/hard-exe-model (target="_blank", rel="noopener noreferrer")
+  - hard.exe HuggingFace link: https://huggingface.co/singulars/hard-exe (target="_blank", rel="noopener noreferrer")
+  - Navigated to /singulars/reinforcement-exe: same two links displayed
+  - reinforcement.exe model link: https://example.com/reinforcement-exe-model (target="_blank")
+  - reinforcement.exe HuggingFace link: https://huggingface.co/singulars/reinforcement-exe (target="_blank")
+  - Links conditionally rendered (only if model_link/huggingface_link not null in DB)
+  - Zero console errors, zero mock data patterns in src/
+  - No code changes needed — links were already implemented in performance page
+
+### Current Status
+- Features passing: 50/64 (78.1%)
+- Dev server on port 3001
+- Feature verified with browser automation screenshots
+
+---
+
 ## Session 21 (Agent - Features #39, #40, #41): 2026-02-06
 
 ### Completed Features

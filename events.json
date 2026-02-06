@@ -1,0 +1,114 @@
+[
+  {
+    "org": "Mozilla AI Residency",
+    "title": "Versus.exe",
+    "description": "Human vs Machine",
+    "type": "Performance",
+    "location": "SF",
+    "date": "2025-11-11",
+    "dateDisplay": "Nov 11",
+    "link": "https://luma.com/uye5k3ww"
+  },
+  {
+    "org": "Gray Area Education",
+    "title": "Weirding AI",
+    "description": "Fine-tuning for Artists and Poets",
+    "type": "Workshop",
+    "location": "",
+    "date": "2025-11-18",
+    "dateEnd": "2025-11-20",
+    "dateDisplay": "Nov 18–20",
+    "link": "https://grayarea.org/course/weirding-ai-fine-tuning-and-rag-for-poets-artists-online/"
+  },
+  {
+    "org": "Ethereum Scholar",
+    "title": "Reinforcement.exe",
+    "description": "Audience-powered Poetic RLHF",
+    "type": "",
+    "location": "Argentina",
+    "date": "2025-11-20",
+    "dateEnd": "2025-11-24",
+    "dateDisplay": "Nov 20›24",
+    "link": "https://blog.ethereum.org/2025/06/03/devconnect-arg-scholars"
+  },
+  {
+    "org": "Mozilla AI Residency",
+    "title": "Becoming",
+    "description": "Performing 10+ Generated Artists",
+    "type": "Performance",
+    "location": "SF",
+    "date": "2025-12-05",
+    "dateDisplay": "Dec 5",
+    "link": "https://luma.com/2mwbq2ro?tk=BsCPwr"
+  },
+  {
+    "org": "Tea ⌘ Tech",
+    "title": "Collaborative AIR",
+    "description": "Mixing Arab & Japanese Tea culture",
+    "type": "Performance",
+    "location": "Tokyo",
+    "date": "2025-12-20",
+    "dateDisplay": "Dec 20",
+    "link": ""
+  },
+  {
+    "org": "Berlin Uni",
+    "title": "Seeding Secrets",
+    "description": "Poetics of Migration and Machine",
+    "type": "Keynote",
+    "location": "Berlin",
+    "date": "2026-01-06",
+    "dateDisplay": "Jan 6",
+    "link": "https://www.berlin-international.de/en/"
+  },
+  {
+    "org": "UC Santa Cruz",
+    "title": "Weirding Machines",
+    "description": "Fine-tuning for Artists and Poets",
+    "type": "Workshop",
+    "location": "SC",
+    "date": "2026-02-27",
+    "dateDisplay": "Feb 27",
+    "link": "https://www.ucsc.edu/"
+  },
+  {
+    "org": "AWP",
+    "title": "AI is a Medium",
+    "description": "Reframing AI in Writing Pedagogy",
+    "type": "Panel",
+    "location": "Maryland",
+    "date": "2026-03-04",
+    "dateDisplay": "Mar 4",
+    "link": "https://awpwriter.org/AWP/AWP/AWP-Homepage.aspx"
+  },
+  {
+    "org": "Media Archeology Lab",
+    "title": "Residency",
+    "description": "Performing 10+ Generated Artists",
+    "type": "Performance",
+    "location": "Denver",
+    "date": "2026-03-09",
+    "dateDisplay": "Mar 9",
+    "link": "https://luma.com/2mwbq2ro?tk=BsCPwr"
+  },
+  {
+    "org": "Culture Hub LA",
+    "title": "Becoming everyone",
+    "description": "Performing 10+ Generated Artists",
+    "type": "Performance",
+    "location": "LA",
+    "date": "2026-04-06",
+    "dateDisplay": "Apr 6",
+    "link": "https://culturehub.org"
+  },
+  {
+    "org": "Maryland Uni",
+    "title": "Weirding Machines",
+    "description": "Fine-tuning for Artists and Poets",
+    "type": "Workshop",
+    "location": "Maryland",
+    "date": "2026-04-20",
+    "dateDisplay": "Apr 20",
+    "link": "https://umd.edu/"
+  }
+]

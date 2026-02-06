@@ -1,3 +1,35 @@
+## Session 10 (Agent J): 2026-02-06
+
+### Completed Features
+- Feature #50: About page renders Substack cards from content ✅
+  - Replaced 3 placeholder Substack cards with 4 real cards linking to secondvoice.substack.com
+  - Cards: "Eat.exe", "On Poetry and Machines", "The Training Loop", "Behind the Performances"
+  - Each card has title and subtitle, links to real Substack URLs
+  - Cards displayed in staggered/spread layout with CSS transforms (rotate + translateY/X)
+
+- Feature #64: About page Substack cards in staggered layout ✅
+  - Staggered layout with unique rotation and translation per card
+  - Hover effect straightens cards with elevation shadow
+  - Responsive: stagger transforms removed on mobile (<=600px) via CSS media query
+  - Verified at 1280px (desktop stagger), 768px (tablet stagger), 375px (mobile clean stack)
+
+- Feature #13: Vote counts reflect actual database values ✅
+  - Navigated to /singulars/hard-exe/belonging (training performance)
+  - DB BEFORE: human=4, machine=1 (via /api/vote-counts/belonging?performance=hard-exe)
+  - Cast vote on human poem with fingerprint "FEATURE13_E2E_TEST"
+  - UI AFTER: human=5 votes, machine=1 vote
+  - DB AFTER: human=vote_count:5, machine=vote_count:1 — exact match
+  - Vote record persists in votes table after server restart
+  - Vote counts increment by exactly 1 (4→5)
+  - All data from real Supabase (cast_vote RPC function)
+
+### Current Status
+- Features passing: ~22/64 (estimated)
+- Dev server on port 3001
+- All three assigned features complete
+
+---
+
 ## Session 9 (Agent I): 2026-02-06
 
 ### Completed Features

@@ -21,7 +21,7 @@ export default function ThemeNotFound() {
         <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '2rem' }}>
           Theme not found
         </p>
-        <p style={{ fontSize: '1rem', color: '#999', marginBottom: '2rem' }}>
+        <p style={{ fontSize: '1rem', color: '#737373', marginBottom: '2rem' }}>
           The theme you&apos;re looking for doesn&apos;t exist under this performance.
         </p>
         <Link

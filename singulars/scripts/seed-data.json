@@ -79,7 +79,7 @@
     {
       "name": "reinforcement.exe",
       "slug": "reinforcement-exe",
-      "color": "#10B981",
+      "color": "#059669",
       "location": "Paris, France",
       "date": "2024-06-20",
       "num_poems": 4,
@@ -126,7 +126,7 @@
     {
       "name": "versus.exe",
       "slug": "versus-exe",
-      "color": "#F59E0B",
+      "color": "#B45309",
       "location": "London, UK",
       "date": "2024-03-10",
       "num_poems": 4,

@@ -1,7 +1,9 @@
 /**
- * Seed script for Singulars database
+ * Data import script for Singulars database
  *
- * Usage: node scripts/seed.mjs
+ * Usage: node scripts/seed.mjs [path-to-json-file]
+ *
+ * If no JSON file path is provided, defaults to scripts/seed-data.json.
  *
  * Requires environment variables:
  *   NEXT_PUBLIC_SUPABASE_URL - Your Supabase project URL
@@ -108,9 +110,27 @@ if (!supabaseUrl || !supabaseServiceKey) {
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Load seed data
-const dataPath = resolve(__dirname, 'seed-data.json');
-const seedData = JSON.parse(readFileSync(dataPath, 'utf-8'));
+// Load seed data from CLI argument or default to seed-data.json
+const jsonArg = process.argv[2];
+const dataPath = jsonArg
+  ? resolve(process.cwd(), jsonArg)
+  : resolve(__dirname, 'seed-data.json');
+
+console.log(`📂 Loading data from: ${dataPath}`);
+
+let seedData;
+try {
+  seedData = JSON.parse(readFileSync(dataPath, 'utf-8'));
+} catch (err) {
+  console.error(`❌ Failed to read JSON file: ${dataPath}`);
+  console.error(`   ${err.message}`);
+  process.exit(1);
+}
+
+if (!seedData.performances || !Array.isArray(seedData.performances)) {
+  console.error('❌ Invalid JSON format: expected top-level "performances" array');
+  process.exit(1);
+}
 
 async function seed() {
   console.log('🌱 Starting seed process...\n');

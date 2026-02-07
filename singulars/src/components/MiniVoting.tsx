@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { getFingerprint } from '@/lib/fingerprint';
+import { accessibleTextColor } from '@/lib/color-utils';
 
 interface Poem {
   id: string;
@@ -115,7 +116,7 @@ export default function MiniVoting() {
         style={{
           padding: '2rem',
           textAlign: 'center',
-          color: '#999',
+          color: '#737373',
           fontSize: '0.9rem',
         }}
       >
@@ -131,7 +132,7 @@ export default function MiniVoting() {
         style={{
           padding: '2rem',
           textAlign: 'center',
-          color: '#999',
+          color: '#737373',
           fontSize: '0.9rem',
         }}
       >
@@ -142,6 +143,11 @@ export default function MiniVoting() {
 
   const { performance, poems } = themeData;
   const themeName = poems[0]?.theme || '';
+  // Accessible text color: darkened variant of performance color meeting 4.5:1 on white
+  const a11yColor = useMemo(
+    () => accessibleTextColor(performance.color),
+    [performance.color]
+  );
 
   return (
     <section
@@ -180,7 +186,7 @@ export default function MiniVoting() {
         <span
           data-testid="mini-voting-performance"
           style={{
-            color: performance.color,
+            color: a11yColor,
             fontWeight: 600,
             fontSize: '0.9rem',
           }}
@@ -196,7 +202,7 @@ export default function MiniVoting() {
             fontSize: '0.7rem',
             fontWeight: 500,
             backgroundColor: performance.color + '20',
-            color: performance.color,
+            color: a11yColor,
           }}
         >
           {performance.status}
@@ -207,7 +213,7 @@ export default function MiniVoting() {
       <p
         style={{
           textAlign: 'center',
-          color: '#999',
+          color: '#737373',
           fontSize: '0.85rem',
           marginBottom: '1.25rem',
           fontStyle: 'italic',
@@ -284,7 +290,7 @@ export default function MiniVoting() {
           style={{
             textAlign: 'center',
             marginTop: '1rem',
-            color: performance.color,
+            color: a11yColor,
             fontSize: '0.85rem',
             fontWeight: 500,
           }}

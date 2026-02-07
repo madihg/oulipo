@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
 import VotingPoemPair from './VotingPoemPair';
+import { accessibleTextColor } from '@/lib/color-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -79,9 +80,10 @@ export default async function ThemeVotingPage({
 
   const { performance, poems } = data;
   const themeName = poems[0]?.theme || params.themeSlug;
+  const a11yColor = accessibleTextColor(performance.color);
 
   return (
-    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', '--performance-color': performance.color } as React.CSSProperties}>
+    <main style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem', '--performance-color': performance.color, '--performance-color-a11y': a11yColor } as React.CSSProperties}>
       {/* Navigation */}
       <nav style={{ marginBottom: '2rem' }}>
         <Link
@@ -116,7 +118,7 @@ export default async function ThemeVotingPage({
           marginBottom: '0.5rem',
         }}
       >
-        <span style={{ color: performance.color, fontWeight: 600 }}>
+        <span style={{ color: a11yColor, fontWeight: 600 }}>
           {performance.name}
         </span>
       </p>
@@ -138,9 +140,9 @@ export default async function ThemeVotingPage({
                 : '#fef3c7',
             color:
               performance.status === 'training'
-                ? performance.color
+                ? a11yColor
                 : performance.status === 'trained'
-                ? '#666'
+                ? '#555'
                 : '#92400e',
           }}
         >
@@ -153,7 +155,7 @@ export default async function ThemeVotingPage({
         <p
           style={{
             textAlign: 'center',
-            color: '#999',
+            color: '#737373',
             fontSize: '0.9rem',
             marginBottom: '2rem',
             fontStyle: 'italic',

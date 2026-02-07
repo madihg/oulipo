@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
+import { accessibleTextColor } from '@/lib/color-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -109,10 +110,14 @@ export default async function PerformancePage({
 
   const themes = groupByTheme(performance.poems);
 
+  // Accessible text color: darkened variant meeting 4.5:1 on white for small text
+  const a11yColor = accessibleTextColor(performance.color);
+
   // Set the performance color as a CSS custom property for use throughout the page
   const cssVars = {
     '--performance-color': performance.color,
     '--performance-color-light': performance.color + '20',
+    '--performance-color-a11y': a11yColor,
   } as React.CSSProperties;
 
   // Show "coming soon" state for upcoming performances
@@ -172,11 +177,11 @@ export default async function PerformancePage({
             </p>
           )}
 
-          <p style={{ fontSize: '1rem', color: '#999', marginBottom: '2rem' }}>
+          <p style={{ fontSize: '1rem', color: '#737373', marginBottom: '2rem' }}>
             {formatDate(performance.date)}
           </p>
 
-          <p style={{ fontSize: '1rem', color: '#888', lineHeight: '1.6', maxWidth: '500px', margin: '0 auto' }}>
+          <p style={{ fontSize: '1rem', color: '#737373', lineHeight: '1.6', maxWidth: '500px', margin: '0 auto' }}>
             This performance has not taken place yet. Check back after the event for poems and voting.
           </p>
         </div>
@@ -213,7 +218,7 @@ export default async function PerformancePage({
         <p style={{ fontSize: '1.1rem', color: '#666', marginBottom: '0.25rem' }}>
           {performance.location}
         </p>
-        <p style={{ fontSize: '1rem', color: '#999', marginBottom: '1rem' }}>
+        <p style={{ fontSize: '1rem', color: '#737373', marginBottom: '1rem' }}>
           {formatDate(performance.date)}
         </p>
 
@@ -233,9 +238,9 @@ export default async function PerformancePage({
                 : '#fef3c7',
             color:
               performance.status === 'training'
-                ? 'var(--performance-color)'
+                ? 'var(--performance-color-a11y)'
                 : performance.status === 'trained'
-                ? '#666'
+                ? '#555'
                 : '#92400e',
           }}
         >
@@ -294,7 +299,7 @@ export default async function PerformancePage({
                 }}
               >
                 {themeGroup.theme}
-                <span style={{ fontSize: '0.8rem', color: '#999', marginLeft: '0.5rem' }}>
+                <span style={{ fontSize: '0.8rem', color: '#737373', marginLeft: '0.5rem' }}>
                   &rarr;
                 </span>
               </h3>
@@ -329,7 +334,7 @@ export default async function PerformancePage({
                       style={{
                         fontSize: '0.85rem',
                         fontWeight: 600,
-                        color: poem.author_type === 'human' ? '#333' : 'var(--performance-color)',
+                        color: poem.author_type === 'human' ? '#333' : 'var(--performance-color-a11y)',
                       }}
                     >
                       {poem.author_name}
@@ -340,7 +345,7 @@ export default async function PerformancePage({
                         padding: '0.15rem 0.5rem',
                         borderRadius: '999px',
                         backgroundColor: poem.author_type === 'human' ? '#e8e8e8' : 'var(--performance-color-light)',
-                        color: poem.author_type === 'human' ? '#555' : 'var(--performance-color)',
+                        color: poem.author_type === 'human' ? '#555' : 'var(--performance-color-a11y)',
                       }}
                     >
                       {poem.author_type}

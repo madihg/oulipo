@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import MiniVoting from '@/components/MiniVoting';
+import { accessibleTextColor } from '@/lib/color-utils';
 
 interface Performance {
   id: string;
@@ -133,7 +134,7 @@ export default async function SingularsPage() {
                       perf.status === 'training'
                         ? perf.color
                         : perf.status === 'trained'
-                        ? '#666'
+                        ? '#555'
                         : '#92400e',
                   }}
                 >
@@ -156,7 +157,7 @@ export default async function SingularsPage() {
                   <p
                     style={{
                       fontSize: '0.8rem',
-                      color: '#999',
+                      color: '#737373',
                     }}
                   >
                     {formatDate(perf.date)}

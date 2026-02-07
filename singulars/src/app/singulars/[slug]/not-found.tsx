@@ -21,7 +21,7 @@ export default function PerformanceNotFound() {
         <p style={{ fontSize: '1.2rem', color: '#666', marginBottom: '2rem' }}>
           Performance not found
         </p>
-        <p style={{ fontSize: '1rem', color: '#999', marginBottom: '2rem' }}>
+        <p style={{ fontSize: '1rem', color: '#737373', marginBottom: '2rem' }}>
           The performance you&apos;re looking for doesn&apos;t exist or may have been removed.
         </p>
         <Link

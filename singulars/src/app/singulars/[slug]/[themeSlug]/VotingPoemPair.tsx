@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { getFingerprint } from '@/lib/fingerprint';
+import { accessibleTextColor } from '@/lib/color-utils';
 
 interface Poem {
   id: string;
@@ -40,6 +41,12 @@ export default function VotingPoemPair({
   const [voteCounts, setVoteCounts] = useState<Record<string, number>>({});
   const [isVoting, setIsVoting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Accessible text color: darkened variant meeting 4.5:1 on white
+  const a11yColor = useMemo(
+    () => accessibleTextColor(performanceColor),
+    [performanceColor]
+  );
 
   // Initialize vote counts from props
   useEffect(() => {
@@ -179,7 +186,7 @@ export default function VotingPoemPair({
                     fontSize: '0.95rem',
                     fontWeight: 600,
                     color:
-                      poem.author_type === 'human' ? '#333' : performanceColor,
+                      poem.author_type === 'human' ? '#333' : a11yColor,
                   }}
                 >
                   {poem.author_name}
@@ -194,7 +201,7 @@ export default function VotingPoemPair({
                         ? '#e8e8e8'
                         : performanceColor + '20',
                     color:
-                      poem.author_type === 'human' ? '#555' : performanceColor,
+                      poem.author_type === 'human' ? '#555' : a11yColor,
                   }}
                 >
                   {poem.author_type}
@@ -234,7 +241,7 @@ export default function VotingPoemPair({
                     {isVotedPoem && (
                       <span style={{
                         fontSize: '0.75rem',
-                        color: performanceColor,
+                        color: a11yColor,
                         fontWeight: 600,
                       }}>
                         Your vote
@@ -262,7 +269,7 @@ export default function VotingPoemPair({
                             height: isUserDot ? '10px' : '7px',
                             borderRadius: '50%',
                             backgroundColor: performanceColor,
-                            opacity: isUserDot ? 1 : 0.6,
+                            opacity: isUserDot ? 1 : 0.85,
                             boxShadow: isUserDot
                               ? `0 0 0 2px ${performanceColor}40`
                               : 'none',
@@ -271,7 +278,7 @@ export default function VotingPoemPair({
                       );
                     })}
                     {count > 50 && (
-                      <span style={{ fontSize: '0.7rem', color: '#999', marginLeft: '4px' }}>
+                      <span style={{ fontSize: '0.7rem', color: '#737373', marginLeft: '4px' }}>
                         +{count - 50} more
                       </span>
                     )}
@@ -317,7 +324,7 @@ export default function VotingPoemPair({
       {canVote && !isVoting && (
         <p style={{
           textAlign: 'center',
-          color: '#999',
+          color: '#737373',
           fontSize: '0.85rem',
           marginTop: '1.5rem',
           fontStyle: 'italic',
@@ -332,7 +339,7 @@ export default function VotingPoemPair({
           role="status"
           style={{
             textAlign: 'center',
-            color: performanceColor,
+            color: a11yColor,
             fontSize: '0.9rem',
             marginTop: '1.5rem',
             fontWeight: 500,

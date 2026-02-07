@@ -8,7 +8,7 @@
   --foreground: rgba(0, 0, 0, 0.85);
   --text-primary: rgba(0, 0, 0, 0.85);
   --text-secondary: rgba(0, 0, 0, 0.55);
-  --text-muted: rgba(0, 0, 0, 0.4);
+  --text-muted: rgba(0, 0, 0, 0.55);
   --border-color: rgba(0, 0, 0, 0.12);
   --link-color: rgba(0, 0, 0, 0.85);
 }

@@ -37,6 +37,13 @@ export default function MiniVoting() {
   const [error, setError] = useState<string | null>(null);
   const [hoveredPoem, setHoveredPoem] = useState<string | null>(null);
 
+  // Accessible text color: darkened variant of performance color meeting 4.5:1 on white
+  // Must be called before any early returns to satisfy React hook rules
+  const a11yColor = useMemo(
+    () => themeData ? accessibleTextColor(themeData.performance.color) : '#333',
+    [themeData]
+  );
+
   // Fetch a random theme from hard.exe
   useEffect(() => {
     async function fetchRandomTheme() {
@@ -143,11 +150,6 @@ export default function MiniVoting() {
 
   const { performance, poems } = themeData;
   const themeName = poems[0]?.theme || '';
-  // Accessible text color: darkened variant of performance color meeting 4.5:1 on white
-  const a11yColor = useMemo(
-    () => accessibleTextColor(performance.color),
-    [performance.color]
-  );
 
   return (
     <section

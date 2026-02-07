@@ -86,6 +86,7 @@ export default async function SingularsPage() {
         >
           {performances.map((perf) => {
             const isUpcoming = perf.status === 'upcoming';
+            const perfA11yColor = accessibleTextColor(perf.color);
 
             const cardContent = (
               <div
@@ -132,7 +133,7 @@ export default async function SingularsPage() {
                         : '#fef3c7',
                     color:
                       perf.status === 'training'
-                        ? perf.color
+                        ? perfA11yColor
                         : perf.status === 'trained'
                         ? '#555'
                         : '#92400e',

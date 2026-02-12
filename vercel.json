@@ -1,0 +1,20 @@
+{
+  "rewrites": [
+    {
+      "source": "/singulars",
+      "destination": "https://oulipo-singulars.vercel.app/singulars"
+    },
+    {
+      "source": "/singulars/:path+",
+      "destination": "https://oulipo-singulars.vercel.app/singulars/:path+"
+    },
+    {
+      "source": "/becoming-borders",
+      "destination": "https://becoming-borders.vercel.app"
+    },
+    {
+      "source": "/becoming-borders/:path+",
+      "destination": "https://becoming-borders.vercel.app/:path+"
+    }
+  ]
+}

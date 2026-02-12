@@ -35,22 +35,47 @@ interface ScatteredImage {
 }
 
 function generateImagePositions(sectionIndex: number, count: number): ScatteredImage[] {
+  if (count === 0) return [];
+
   const rand = seededRandom(sectionIndex * 7 + 31);
   const positions: ScatteredImage[] = [];
 
+  // Adaptive sizing: fewer images = bigger, more images = smaller
+  let baseWidth: number;
+  let widthVariation: number;
+  if (count <= 2) {
+    baseWidth = 420;
+    widthVariation = 100;
+  } else if (count <= 4) {
+    baseWidth = 340;
+    widthVariation = 100;
+  } else if (count <= 6) {
+    baseWidth = 280;
+    widthVariation = 80;
+  } else {
+    baseWidth = 220;
+    widthVariation = 60;
+  }
+
+  // Zones spread across the viewport — cycle through them for any count
   const zones = [
-    { xMin: -5, xMax: 25, yMin: 5, yMax: 65 },
-    { xMin: 55, xMax: 85, yMin: 5, yMax: 65 },
-    { xMin: 10, xMax: 40, yMin: -5, yMax: 20 },
-    { xMin: 45, xMax: 80, yMin: 60, yMax: 85 },
-    { xMin: 60, xMax: 90, yMin: -5, yMax: 25 },
+    { xMin: -8, xMax: 22, yMin: 5, yMax: 55 },
+    { xMin: 58, xMax: 88, yMin: 5, yMax: 55 },
+    { xMin: 8, xMax: 38, yMin: -8, yMax: 18 },
+    { xMin: 48, xMax: 82, yMin: 62, yMax: 88 },
+    { xMin: 62, xMax: 92, yMin: -8, yMax: 22 },
+    { xMin: -5, xMax: 20, yMin: 58, yMax: 85 },
+    { xMin: 30, xMax: 55, yMin: -5, yMax: 15 },
+    { xMin: 65, xMax: 95, yMin: 40, yMax: 70 },
+    { xMin: 5, xMax: 30, yMin: 35, yMax: 60 },
+    { xMin: 45, xMax: 70, yMin: 10, yMax: 35 },
   ];
 
   for (let i = 0; i < count; i++) {
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = 320 + Math.floor(rand() * 120);
+    const w = baseWidth + Math.floor(rand() * widthVariation);
 
     positions.push({
       left: `${x.toFixed(1)}%`,

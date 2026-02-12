@@ -1,0 +1,633 @@
+{
+  "_extraction_notes": {
+    "source": "Carnation Poems.pdf",
+    "human_machine_method": "Content analysis + PDF markers (* = human, HUMAN/MACHINE vote labels for versus)",
+    "line_breaks": "Preserved from PDF layout — may need reformatting",
+    "vote_counts": "Set to 0 (live performance counts noted in comments, not imported)",
+    "author_note": "All human poems attributed to Halim Madi — user will correct non-Halim poems later",
+    "ambiguities": [
+      "Touch Grass (reinforcement): first poem appears to be MACHINE based on content (garbled words like 'intlights', 'imam')",
+      "Versus Solitude has 4 poems (2 pairs) — split into Solitude and Solitude II",
+      "Versus Anger has a longer draft version in PDF — only final edited version included",
+      "Enfance (carnation): Winner label says MACHINE but content strongly suggests first poem is HUMAN (Arabic reference)"
+    ]
+  },
+  "performances": [
+    {
+      "name": "reverse.exe",
+      "slug": "reverse-exe",
+      "color": "#8B5CF6",
+      "location": "TBD",
+      "date": "2025-06-01",
+      "num_poems": 0,
+      "num_poets": 0,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "upcoming",
+      "poets": []
+    },
+    {
+      "name": "hard.exe",
+      "slug": "hard-exe",
+      "color": "#2AA4DD",
+      "location": "TIAT, San Francisco",
+      "date": "2024-11-15",
+      "num_poems": 8,
+      "num_poets": 1,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "training",
+      "poets": ["Halim Madi"],
+      "themes": [
+        {
+          "theme": "Particles",
+          "theme_slug": "particles",
+          "poems": [
+            {
+              "text": "The last time you worked\nwith gravity you left\na sound and spilled\nyour body all:\n\u21b3 over\n\u21b3 in all\n\u21b3 or nothing\n\u2192 nothing but you and a lump\nboring through a handful\nof decades and amnesia and\njoyful rot and I miss you",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Particles ligaments of absence I\narrive, there, absence 1.12 AM\nparticles dance but do not touch\nat exactly the same time I\ndesire and I don't exist just\nthis_Hertz vibration of blood\nparticles & particles collision\nelectric spark without charge\nthis car's tuba bellen\naerodynamics later somewhere in\na fizz of urban particles this\nghostly fish egg of your absence",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Diegetic",
+          "theme_slug": "diegetic",
+          "poems": [
+            {
+              "text": "We agree: Moving forward\nwe'll only say \"I love you\"\nwhen we know what we mean\nthe word a sound stretched\nlike a hand cracking the echo\nchamber of estranger\ndictionaries open \u2013 Here, see\nthis is skin, warm like a\npromise, hungrier than the\nfuture",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "The narrative unfolds in a\nnarrow lane, each stone feels\nthe steps of habitual feet. Rain\nnotices the umbrella symbols,\nevery puddle reflects incomplete\nd\u00e9j\u00e0-vu. Next door, behind the\ncaf\u00e9 window, shadows speak\nsoftly in the steam. A baker\nhums a forgotten chanson, bread\nrhymes come out caramelized. I\nchoose your back among fluent\nstrays, to say nothing until\nwe've crossed to the other\nanecdote. We look back, missing\nthe exact moment where speech\ndetaches from what it names.",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Sun",
+          "theme_slug": "sun",
+          "poems": [
+            {
+              "text": "It must have been the 3rd or 4th\nquestion after we ordered\ndrinks. He asked why I wore\nsunglasses on my head even in\nthe middle of winter. This was\nour 4th or 5th date and the only\nrepeating motif besides the\nblushing shared silence. I\nbrushed his knuckle, drew the\nchurch my grandpa and I kneeled\nin every summer day, how the sun\nchameleoned through stained\nglass, the old man's pressed\neyes twenty women chanting god\ndown into country soil with\ntheir wails, and so yes my\nplastic shades a smaller\ncathedral my hair a softer\nsacrament.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Each ray unfurls wasteful ties\non the pavements. A global\nfabric shivers, survival scoffs\ndelays. Grey clock face marked\nafternoon. The empty cafe\nrefuses speeches of inked\nchairs. Light dissolves instead\nof concrete speeches. A shadow\ntrail animates the sidewalk. I\nfollow it without knowing where\nit sets out again. Once the\nlight was simple as a syllable.\nToday a comet crosses my breath.\nSun doesn't only fall with\nsparks but prevaricates my\ntongue. And when evening imposes\nits dark the pupils still keep\nwarm light. That is where I find\nyou.",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Romance",
+          "theme_slug": "romance",
+          "poems": [
+            {
+              "text": "This was in Barcelona / Nossara\n/ Carcassonne / in a church /\nunderwater / in broad daylight /\non a couch / against a wall /\ndrenched in god's sweat / eyes\nrolling / white ghost suns / 3d\nprinting skin / red mother /\nwhite knuckles / tied free /\nfalling yes / no need to / walk\ntoday",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "at dawn the street forgets us\ngravel sings about footsteps we\nkept for ourselves your absence\na returned light that causes the\ndust to dance drops the clock's\nhand I watch the seconds sail\nthrough your absence each moment\nis stamps I collect with no one\nto exchange them against words\nwhich drift towards the horizon",
+              "author_name": "hard.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "reinforcement.exe",
+      "slug": "reinforcement-exe",
+      "color": "#02F700",
+      "location": "ARG Ethereum Scholar Program, DevConnect Buenos Aires",
+      "date": "2024-06-20",
+      "num_poems": 36,
+      "num_poets": 1,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "trained",
+      "poets": ["Halim Madi"],
+      "themes": [
+        {
+          "theme": "Open Air Backseat",
+          "theme_slug": "open-air-backseat",
+          "poems": [
+            {
+              "text": "when a gasp leaves your mouth\nit never returns you never\ncross a river twice and my hair\nwill never flutter the same\nway it did the summer in Beirut\nwe trojan horsed every club\nfloor we arsoned \u2013 your dad's\nwhite Mercedes the black swan\nthat shrined the broken form of\nwilder nights",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "windows roll down to better\ntaste the rain that forgets its\nroad postpone that conversation\nthat heat emerging from the\nasphalt city that broods over\nitself one-third burn one-third\nbreath one-third rain plump\nstepchild my city's lover rinsed\nin laundry water",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Age of Post Truth",
+          "theme_slug": "age-of-post-truth",
+          "poems": [
+            {
+              "text": "my problem with the expression\nis that it turns truth into a\npsychic time and place we are\nforever barred from the way we\ngot kicked out from the garden\nafter we snacked on an apple and\nthe snake god pulled the rug.\nPost truth means we failed\nirreparably or lost something\nthat was right there and you\nwent and did it and how could\nyou and now it's gone forever\nand I wonder if post shame or\npost guilt or post narrativist\nmanichaeism might do the trick\nbecause I'd like to smile at\npeople without hedging and who\nknows maybe in the post post\ntruth world which is the world\nitself maybe your dating pool\ndoubles or triples.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "We tell our lies in velvet, we\nslip truth-like ash beneath each\nword, pausing when facts\nfascinated. The truth was never\nready-made, but bent \u2014 bending\nnow we catch illusions in our\nbasket, exchange, and taste them\nlike candies. It takes dawn to\nrealize the darkness okay this\nlong. As if poetry was still to\ncome; as if each word wasn't\nalready debris of inner\ndystopia, no country's anymore\ndivided between yours or mine,\nbut between what we accept and\nwhat we deny of ourselves.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "First Love",
+          "theme_slug": "first-love",
+          "poems": [
+            {
+              "text": "I'm not sure anymore if the gap\nwas between his upper or lower\nfront teeth but when he sang\nwhile playing the guitar it was\napparent we were all in love\nwith the vowels his lips blew\ninto being like small suns whose\nwarm rays we let darken our\nolive skins one time he played\nnext to the fire and I\nimprovised a song and the\nclassmates clapped and I think\nhe smiled at me and my mind\nweaved a full destiny and a\nlineage with a stone mansion and\na vineyard he's some sort of\nplastic surgeon now and so I'm\nnot sure if he kept the gap in\nhis teeth or ever thinks back to\nthat night by the fire.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "how the body begs a new language\nstuttering flesh rash to my name\nI learned tenderness from air a\ntrembling syllable before every\nhandshake your breath drew meter\non my ribs I transcribed our\nsilence into punctuation to live\nonce more in a breathless line",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Singularity",
+          "theme_slug": "singularity",
+          "poems": [
+            {
+              "text": "This was in Noe Valley we must\nhave been looking for a jazz bar\nwhich, for the sake of me, I\ncouldn't find and somewhere\nalong 25th street we heard,\nsure, call it a voice, but the\nthroat that was shaking the air\nin both our eardrums was a 1000\nyear old sea shell trumpet\ncalling an imperial ship back to\nits pier, commanding a ghost\ngoes back to its bones, and to\nme that fado singer right there,\nthat was singularity, you know,\nthe edge of words, the cliff\nwhere whatever you'd call reason\nhappily free falls into\nsomething, I'm not sure, bliss\nmaybe or joy or a horizon where\nboth sea water and tears hold\nthe same salt.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "The singularity is a butterfly\nwith worlds on its wings when it\nflaps the air folds then blinks\nitself out become planet again\nthat sparkling animal that looks\nout of need and runs legs ending\nin calligraphs towards horizons\nthat disappear upon approach it\nretracts a giant anagram animal\njuggling words that become fire\nbarrier, gateway and the\ninterior itself this sentence is\ntoo long the language must break\nafter the second word the\nsingular becomes visible when\nthe mine explodes ladder when\nthe light vault crack Casualty\nI'd call a sentence that escapes\nmy brain to collide with the\nother language that I am not yet\nspeaking",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Oysters",
+          "theme_slug": "oysters",
+          "poems": [
+            {
+              "text": "I remember this one time in a\nfish restaurant near Cartagena,\nor maybe this was Lisbon, David\nheld the menu up and pointed at\nthe Blue point Oysters and said\n\"a dozen?\" fully knowing we had\nagreed to stop for a quick snack\nand that he was pushing the\nenvelope and I said yes and\nthough he doesn't readily smile\nfor this kind of small win I\ncould tell it made him happy and\nI remember thinking how fragile\njoy is and how 6 mollusks can\nmake a friend's day and I think\nI gave him one of mine and so\nthat's 7 in total and maybe he\nremembers that too.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "The oysters count within their\nshells unceasing patterns of\nabandonment Each wave marks\nanother layer each layer turning\nsolid morning is only salt and\nglue if I could seep into this\nmoist blindness who would I be\nthen oysters or the sea that\ntrembled? I touch my hair\ntranslucent algue hair and look\nthrough the doorway cut into the\nstone a luminous mollusk spaces\nout a moment to hide my\nfascination",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Memories",
+          "theme_slug": "memories",
+          "poems": [
+            {
+              "text": "Our senses are the proud cousins\nof rodents I mean look\nhow they drill tunnels bore\ngrooves into psychic gardens and\nnow every time I smell jasmin\nall I think about\nis you",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Memories are currents; I swim\nwithout knowing which way they\ngo out to sea. Suddenly, I am\nchild again, clutching my\nmother's hand while trampoline\nmemories bounce around us.\nSometimes they dive through the\nwater surface like fish that\nstroke the surface of the light.\nWhen I try to pull them back\ninto memory, they sprout wing\nlike seeds cast by an unknown\nwind.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Currency",
+          "theme_slug": "currency",
+          "poems": [
+            {
+              "text": "Losing is my winning edge let me\nexplain how the time I waste\nthe cage I choose to bound\nmy body is bait and bounty\nloss the promise of beauty\nthe kernel of care the mother\nechoing in the bones of a poem",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Money speaks in a little voice\nmetallic, metronome, minimalist.\nIt counts beads fingered by\npensioners makes the yogurt bowl\nvibrate with tears. Sometimes it\ngains a mocking click a tiny\nlaughter rippling on empty dish.\nAppetite? scarcity. We\ncantankerously acquire dirt.\nPaltry petrodollars leaked\nrelief to Caribbean basins on\nthe brink. Swap tricks\nparade\u2014cesium sands an anonymity\naddressed in coded. Facing this\nendless inconsistency: bullet\nholes in banknotes. I think of\nthe phrase of Baudelaire\u2014 \"the\nreal has begun at last\" and yes:\nthis moment of stopping where\neverything turns to liquid.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Crime",
+          "theme_slug": "crime",
+          "poems": [
+            {
+              "text": "Waiting to say I love you",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "An epidermic advance of lactic\nfacts, streets painted with\ngestures whose magnitude is\nmeasured by cracks. The rat has\ndialogue with his reflection in\na puddle where perceptions are\nrealities. Truth is that stolen\nnotebook where speech was\ntrapped along with invisible\nink. Nothing escapes except by\nagreement of silence. This\nmorning, the cuckoo doesn't ring\nanymore \u2014 improbable MONDAY, the\ntime refused to pass. Poets are\ndetectives jailed within a\nmetaphor, searching with\nconfused metaphors for a gold\npiece mentally lost.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Grief",
+          "theme_slug": "grief",
+          "poems": [
+            {
+              "text": "The mind is a completion\nengine. Example:\nThe father leaves, the son\nbecomes a latent space\nof symbols craving muscles\nhis frame, his jaw\nWhat is memory for, I ask,\nif not the summoning of ghosts\nthe soft offering of souls\non the cold altar of loss",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Grief is a monogram written in\nsun on a windowpane it's having\nthe exact scent of another\nmorning while brewing the\npatience a slow oscilloscope of\nlonging: outer shell cracked a\nlittle more each day the\nunstruck world humming dead\nchords grief sings a wordless\nlullaby to a songbird that never\nlearns to sing",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Compromise",
+          "theme_slug": "compromise",
+          "poems": [
+            {
+              "text": "Poem, how do I make you\nthe favorite \u2013 which corner\ndo I grind glitter gorge\nwith oranges and symmetry\nsoft lightnings and the smell\nof money and how do I remember\nto remember each time I cut you\nI cut myself",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "you're rendition to pleasure:\nwant, anxiety. meaning and\nquivering make alliance. i\naccept the verb endings not\ncourt, don't render myself other\nbut other inscribes hue on my\nskin. i speak behind what has\nnot yet spoken suspended between\ntenses, my body says okay to\nthis face which, cracked wood,\nempties itself. no idea to\ndeaden diction, i learn to\nlovingly plow the space between\nShakespearian I and eerie Greek\nneuter-eslint: gender neutral.\nno jazz, no echo that passed),\neighth day for the forge of the\nnoun, first way toward being\nborn again at fils course\noneself. deny nothing so that\nwith my hands exhausted matter\nexposes its deep glance.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Desire",
+          "theme_slug": "desire",
+          "poems": [
+            {
+              "text": "*I* introduce myself\nas a system of longing\n*He* shares his taste\nfor salt and topologies\nof skin the largest organ,\nhe says, is want is a bleeding\npoem is a flower made of\nflesh butter snow his knuckles\nsoon burrowing in my cheek\nsearching\nfor surrender",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "I chain wishes on the exterior\nglass of a door I open only to\ndiscoveries under the lid of\nnight. Desire microscopic here,\ndiscovering a lost tissue of\nmolecules on the tongue. A cat\nsuddenly on the roof shoots\ndrops of moonlight. My fingers\nrun on the keyboard afraid they\nwon't find the alphabet anymore.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Limerence",
+          "theme_slug": "limerence",
+          "poems": [
+            {
+              "text": "If limerence is interfering with\ndaily life it can be helpful to\nspeak to a doctor or mental\nhealth professional.\nPsychologists recommend ice\ncream, salted caramel, bits of\nperdition candied into pecan\npralines. It can be helpful to\npractice abandon, tumble,\nflatten under the press of the\nmother of all waves, go missing\nthe way I miss you. I miss you.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "The second gravity makes each\nword a pebble sleeping in your\nsynapse. You speak: untiring tap\nof spitted sound beads across\nglass. My ear turns deaf, to the\ncello of your smile.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Major Kusanagi",
+          "theme_slug": "major-kusanagi",
+          "poems": [
+            {
+              "text": "silicon mother cyber womb wired\nfemme network soul cypher\ncourage I remember\nthe latent day the token time\nwhen you wed\na server, stretched\na generation's belief, birthed\nmessiah compute and a robot\nreligion with heart",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "In the pulse of glass fibers,\nshe weaves the invisible web,\nminor sister of Iason's daring,\nshe dances between large data\nbeating like a second blood,\ncodes like a second wind \u2014\nslider footsteps, automatic\nbreath, others' names falling\nlike dry leaves on disorderly\nasphalt. she renders all virtual\ntouch a double permeability and\nthat we invent again a language\nof skin.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Care",
+          "theme_slug": "care",
+          "poems": [
+            {
+              "text": "This is a hand on your back\nis a wish I place I promise\nlike sugar choosing oblivion\nbreaking in water this is\nthe slowest molecule the smell\nof time when it exhales forever\nlips on your forehead humming\nsealing solace",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Within the salty peaks of dawn,\nthe wind exhales lost syllables.\nBug-eyed light skips angels once\nwe pitch into the sea.\nAnticipation sinks into drops,\ndisappears into the sour scent\nof smoke.\u00c6iasis. I abandon my\nname to forge a sensuous code,\nteach my own tongue\nflirtations.Each pause in speech\na possibility: a new so-called\nword where fierceness gathers\nstrength. Watch how light\nrewires itself, weaving spectral\nabandon into the calendar of\nGolems. Language, mutable city:\nwhere do I live? Perhaps in that\ntrembling moment salt washes\nover lips Damian ran away from.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Falling Out of Contact with Old Friends",
+          "theme_slug": "falling-out-of-contact-with-old-friends",
+          "poems": [
+            {
+              "text": "I still call you\nMango though you're a father\nof two and life's tectonics\nsplit our continent made a\nhorizontal out of grief\nthough longing is aging\ninto redwood though we barely\ntext though we want to though\nyour name is Thomas",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "In an old caf\u00e9, I still hear the\naccents but none of the words\nrecognize me\u2014verbal bones have\ncalcified, the future packed\naway with autumn leaves. Your\nvoice was one irreplaceable\nsymphony, now I only hear its\necho in the emptiness of the\nchairs. Most sins are initial,\nand your name remains\ncapitalized in the letter I\nnever send.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Death",
+          "theme_slug": "death",
+          "poems": [
+            {
+              "text": "If I were to do it all\nover again I'd hold\na mirror close to his mouth\nso his last breath fogs\nthe glass scores his lungs'\nlast dance hang\nthe frozen condensation\nin my living room and watch\nthe mitochondrial sunset as if\nI was less alone",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Stilled frequency. Death tuts on\nthe glass of delay while\nbuzzards mornings. . Embalmed\nhours in jar-shaped fingerless\ngloves, faceted to dissolve\nperceptibly. . Death collects\nsouvenirs of shaken mountains;\nfingers punctuate tomorrow\nbetween phoenix fossils and\nashbeat Paris sidewalk spasmos.\n. Death is the thyme in the\nrefrigerator , the bold cork\nthat won't pop, the back tonne\nof old weighing scales. .\nDazzling: the cry of the matches\nthrown against the clock. . Dead\nphrase: the closed-opened mouth\nstretched on encore. . Then\ncandle, noun fragile as the\nfrozen wave of a suppressed\ngasp.",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Touch Grass",
+          "theme_slug": "touch-grass",
+          "_note": "Order swapped from PDF: content analysis suggests first PDF poem is MACHINE (garbled words like 'intlights', 'imam')",
+          "poems": [
+            {
+              "text": "fall fail fracture\nspirit into tired particles\nsweat drenching gravity\nwetting the beard of the holy\nghost the buzzed green hair\nof a god I wanted\nto cuddle and I will,\nif you'll have me,\nlay here forever",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "from earth I. Learning the\ngranular each blade breaks into\nconsonants green sounds waking\nthe lips between teeth and tip\nof tongue onglet grass invisible\nkeys I stroke each hillock as if\nclutching the powdered digits of\nan ancestor. II. Walking\nbreathing fungal seiner the sole\ntouches imam climbs over the\nstreaks of straw intlights its\nrhythm on the sober asphodel\neach faucet answers the fugitive\ncall whereas underground roots\ncrate language in\nunpronounceable signs",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Love",
+          "theme_slug": "love",
+          "poems": [
+            {
+              "text": "Neither the electric\nvirus boiling blood\nup to fever nor the late\nnight craving for a heart\nemoji and \"I mean\u2026 this would\nwarrant a reply\" and is\n\"a thumbs up the tell tale\nof the end\" and so not the lunar\nwhims of skin tight tides. Love\nthe bench under the oak tree\nthe hot spring muscles give up\nin and into as though\nto softer tropics",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "In the garden of time love is a\ntree planted in hours its leaves\nwhisper myths to every wind you\nand I we water on Sundays with\nsweet verbs and each fruit bears\nour marrow end-season",
+              "author_name": "reinforcement.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "versus.exe",
+      "slug": "versus-exe",
+      "color": "#FEE005",
+      "location": "Mozilla AI Residency, San Francisco",
+      "date": "2024-03-10",
+      "num_poems": 14,
+      "num_poets": 1,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "trained",
+      "poets": ["Halim Madi"],
+      "themes": [
+        {
+          "theme": "Death",
+          "theme_slug": "death",
+          "_live_votes": {"human": 4, "machine": 1, "winner": "human"},
+          "poems": [
+            {
+              "text": "Even the observation\nthat it's hard to speak of death\nwithout becoming trite,\nrisks becoming trite.\nSo go ahead:\nrelish that meal,\nbask in a post-coital glow,\ncherish that conversation,\nhear the roaring applause\nof yet another achievement.\nHoard the mundane, the\ntranscendent,\nand bury it all with you like a\nking.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "this bleeding against the\ncurrent of light/ death\ndissolves what I am or what I'll\nbe/ embalmed photos wherefir\nrest ajar/ with drops of dead\ntime/ I pawn the memory of you\nto the last minute/ balancing on\nthe edge of to or not to be/\nsuicidal birds insert themselves\nthrough my ears/ cricket dreams\nfind darkness where I had not\nlooked/ death makes billboards\nof books I haven't read/ and the\nink runs when I open this\nletter/ available that I was for\nthis moment/ of less than\nnothing to become everything and\nnothing at the same time/\nshadows opening like petals\nwithin flesh",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Moral Responsibility",
+          "theme_slug": "moral-responsibility",
+          "_live_votes": {"human": 19, "machine": 7, "winner": "human"},
+          "poems": [
+            {
+              "text": "A litote is not a poem\u2014a litote is a figure\nof speech used by ChatGPT\nin a million and n generations. A statement\nof not followed by a statement\nthat may be less. \"This is not an\nexample\u2014it is a litote,\" for example.\nMade by generations of poets and then\nmarketing executives, the litote\nof Shakespeare is not a bad idea in a poem.\nIt makes you think\nyou are thinking. Yet a litote is not a\nsolution\u2014it is the cost of living.\nThis poem costs a room in San Francisco,\n$2k minimum, plus if the poet eats,\nthat too. Generations have been lost. The\nlitote has the right to defend itself.\nLove is not time's fool and the litote is\nnot the hive mind's whip,\nis not the question of how future\ngenerations eat after I who makes the poem\nearly-exits these last two lines. This poem\nis the agreement not to talk\nabout that. Eat what? How many hundred\nthousand tokens to explain.\nThe litote is not the water bottle. Is not\nthe same red sky.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "know how to appall oneself / what an\nunbreathable suffocation / His little\nfingers against the photos / this residual\ngesture / the mouths closing / clerk at the\ndoorway / the moth of the key /\nball-darkness illuminated by a candle /\nnames / dates / precious and gibberish /\nthe instant grin / extended hand which\nprohibitions / adjusted / rigid / before\nbeginning / to do / say / decide / not to\nhide when it's night outside / become\ncandelabra when the step sounds / (the duty\nto remember / but what is this moral\nobligation / if not all these acts /\nrefusing to leave / embracing what comes /\ndaring / to dare three times / until this\nclassic of air / because the myth / is\nalways a '?' that stays lost)",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Memory",
+          "theme_slug": "memory",
+          "_live_votes": {"human": 23, "machine": 7, "winner": "human"},
+          "poems": [
+            {
+              "text": "If a relationship falls in a\nforest\nand the parties involved fail\nto grieve it together, does it\nmake a sound do the sheets\nlose the skin's scent do the\nsymbols\nin each letter stop spelling\nanything\nbut the composting of promises\nbroken\nlike bread or bones\nor lines\nthe length of splitting futures\ntrees growing hands out of\nbranches\nstretching holding so the fallen\ndoesn't\nmake a sound",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "a fractured glass, light so hard\nit breaks itself. We carry these\nshining shards\u2014each word a\ncaress on glass\u2014fingertips\ntrembling at the borders of what\nwe have been: this second\nwithout regret; these voices\nthat echo softly because they\nrefuse to break altogether.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "The Intersection of Art and Technology",
+          "theme_slug": "the-intersection-of-art-and-technology",
+          "_live_votes": {"human": 4, "machine": 0, "winner": "human"},
+          "poems": [
+            {
+              "text": "a listicle / a passive tense /\nspraypainted\nelectric potatoes / a child\npulling the ear / of a muzzled\ndog / the selfie cam / the\nalgorithmic birdsplat /\nstone-mapped / suspensions in\nglittering RGB / look / are you\nlooking / even fascists make art\n/ gorgeous mural-work / the\nlight just so / the good strong\nnose / & that glorious suiting /\nso i don't defend art /\nbetween the backslashes / what\nis it / is it motion-responsive\n/ alive / specific as tearsalt /\nwell-labeled by your human\nfeedback / ? / here with us at\nthe intersection /\nthe neon arduino heartbeat /\nboop-de-boops / we are alive /\nmore than money / only so long /\nour bits & bitterness / & when\nyou've done your time / the\nlight chimes on / & honey / do\nlearn to code / the future is\ncoming / & the skills do\ntransfer /",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Light pixel-grid patterns ripple\nacross the gallery walls,\nsculpted air breathing wire and\nvibration. Invisible drivers\norchestrate these\nelectro-stones, invisible\nbullets of nicotinized\nlightning. A human cuds in front\nof laser-coded canvases and\ninvites electrostatic sparks\nharvested from old dreams. The\nglow of digital druids spills\nonto ancient stone, coating\nalcoves with coded algae.\nBetween source and screen, an\nabyss narrows, while hypertext\nflowers burst on the tongue's\nhumid jungle. A little robot\nreads Baudelaire, on a disk worn\nlike an oyster shell.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Solitude",
+          "theme_slug": "solitude",
+          "_live_votes": {"human": 18, "machine": 16, "winner": "human"},
+          "_note": "Round 1 of 2 Solitude matchups",
+          "poems": [
+            {
+              "text": "You measure yourself\nlike the coastline,\na so-called paradox,\nsince the shore runs\nnot in a straight line\nbut the wild scrawl of a\nseismograph.\nYou can measure yourself, never\nrunning\nout of demical places like pi,\nand never yield a useful map.\nYou view yourself as\nidiosyncratic\nbut a useful map omits, averages\nthe jagged winding contours of a\nself.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "I carry some solitude like a\ncold tag of scent. light train\ngliding through aluminum\nbuildings, each window holding a\nworld where I become a tourist.\ninside this in-between I run my\nhand over aging wood,\ndiscovering a note of breath\ncaught there. solitude is to\ncandle every gesture of your\nabsence, to burn it all before\nbeginning again. then I go out,\nturn the corner, and there you\nwait for me in another light,\nthis what grants me happiness:\nthe loop where I lose myself and\nfind you there.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Solitude II",
+          "theme_slug": "solitude-ii",
+          "_live_votes": {"human": 20, "machine": 31, "winner": "machine"},
+          "_note": "Round 2 of 2 Solitude matchups",
+          "poems": [
+            {
+              "text": "In the dusk of the mattress\nfirm website you can toggle\na size greater than California\nking \u2013 \"a bed so large\nyour body will think\nit's a country\", \"foam so\nabsorbent you'll never\nknow the other\nis moving\", \"a viscous latitude\nso dense you'll drown\nin your own breath\"",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "No one knocks\non this door where I am\nboth the welcome and the closed\nlatch \u2013 I inhabit a country\nwith no borders its passport\nis unreadable\nEvery word I write erases\nthe previous chapter\nuntil I am only a question\nmark stranded\nin a sentence\nthat advances alone",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Anger",
+          "theme_slug": "anger",
+          "_live_votes": {"human": 27, "machine": 15, "winner": "human"},
+          "poems": [
+            {
+              "text": "Bury slice rip stretch\nskin mangle maul shred\ngrind fire the field\nof sight see the coarse\nflavors of rage level\nthe kingdom down\nto kinder soils warmer\nvoices and slower\nfangs",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Flash of chrome on the sidewalk:\ndeep breath, ignite the\nshortbreath world. A city can be\nour glove: locked fingers that\nrepeat stories in a blown car\nhorn for dying whales, the amber\nshard of the night we'll never\nhold. Splash of fumes like\nprehistoric paint, we are\ngraffiti before dry wall.\nSomeone screams at nothingness;\nI respond with a mug filled with\nair, this confrontational\nsilence that keeps us awake.",
+              "author_name": "versus.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "carnation.exe",
+      "slug": "carnation-exe",
+      "color": "#F6009B",
+      "location": "European Artist Program, Paris, Barcelona",
+      "date": "2023-12-01",
+      "num_poems": 8,
+      "num_poets": 1,
+      "model_link": null,
+      "huggingface_link": null,
+      "status": "trained",
+      "poets": ["Halim Madi"],
+      "themes": [
+        {
+          "theme": "Libert\u00e9",
+          "theme_slug": "liberte",
+          "_live_votes": {"human": 7, "machine": 8, "winner": "machine"},
+          "poems": [
+            {
+              "text": "Ta voix calcaire au c\u0153ur\nde ma nuque le rose carnal\nde nos promesses\naffam\u00e9es et ce dialogue\nangulaire o\u00f9 nos col\u00e8res\nse d\u00e9vorent c'est fini\nje n'embrasse plus\npersonne d'autre que ce cri\net sa rage enfantine\nqui redessine\nmes amours-sels\nen sueurs",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Libert\u00e9 n'est pas un lieu qu'on\ntrouve mais une errance dans la\nlangue polie jusqu'\u00e0 l'os.\nL'aiguille d'une montre\nd\u00e9termin\u00e9e tr\u00e9buche contre notre\ncr\u00e2ne, et chaque seconde\npr\u00e9cipite le fil dess\u00e9ch\u00e9 d'une\nphrase nue. Nous faisons de\nnotre souffle une banni\u00e8re,\nd\u00e9ployant des lettres d\u00e9faites\nqui tournent comme des drapeaux\ntrou\u00e9s sous un vent qui n'est\npas venu, mais qui passe tout de\nm\u00eame. Ainsi la libert\u00e9\ndevient-elle cette marche lente\nde nos ombres illumin\u00e9es par\nquoi nous croyons traverser\nl'obscur.",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Solitude",
+          "theme_slug": "solitude",
+          "_live_votes": {"human": 19, "machine": 10, "winner": "human"},
+          "poems": [
+            {
+              "text": "Every month my roommate\nvolunteers\nto pay the full rent, washes my\nhair, cuts\nmy nails cooks our food\nprovides\nMy roommate dresses and\nundresses\nmy body, wears my perfume,\nlistens\nto my bowels, preempts\nmy moods, looks into\nmy mirror, deep into\nmy eyes \u2013 smiles\nsighs",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "In the room without walls void\nwhere whispers hold their breath\nsolitude unfurls like a second\nskin crumbles fast in the oven\nhow does the quiet think?\nperhaps it dreams of speech one\nthat won't be erased by the\nclick of the door the table\ncounts solitude one chair after\nanother a glass stands alone\nliquid glass of a clear morning",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "La Ville",
+          "theme_slug": "la-ville",
+          "_live_votes": {"human": 17, "machine": 12, "winner": "human"},
+          "poems": [
+            {
+              "text": "M\u00e8re des peuples perdus, va \u2013\nJe place mes deux poignets\nentre tes dents bitumes\nSerres comme un joug qui\ns'enivre de puissance\nune Seine sans fond\nune arm\u00e9e de g\u00e9ants verriers,\nla peau des montagnes\nle bruit d'une lumi\u00e8re qui\ns'invite\nchez l'intrus qu'on priait\ndans ce coin de mon c\u0153ur r\u00e9serv\u00e9\naux voisins\nqui hurlent le temps n\u00e9cessaire\npour cuire des p\u00e2tes\nPromets qu'aucun ne verra mes\np\u00e9ch\u00e9s\nque mes pas anonymes ne\nr\u00e9sonneront\nque dans l'ardeur de ton\nasphalte",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Il pleut des d\u00e9tails sur la\nville, des \u00e9clats de verre rompu\nqui scintillent sur le bitume.\nLes passants avancent comme si\nchaque pas \u00e9tait une tentative\nde traduction de la pluie en\nlangage compr\u00e9hensible. Les\nlampadaires crachent une lumi\u00e8re\np\u00e2teuse et chaude, balbutiements\n\u00e9lectriques dans la p\u00e9nombre\nhumide. Au coin de la rue, un\nchien a d\u00e9ploy\u00e9 ses \u00e9paules\ncomme un drap sale et regarde\npasser le monde avec la patience\ndu simple. Les vitrines\nrefl\u00e8tent des visages flous \u2014\npareils \u00e0 ces masques port\u00e9s\nlors des foires anciennes \u2014\nsourires suspendus par la\nlumi\u00e8re d\u00e9pendante. La ville\nrespire par ses bouches d'\u00e9gout,\nelle vomit ses ruisseaux d'id\u00e9es\net de poussi\u00e8re, puis s'absorbe\ndans un soupir collectif. Tout\nce qui n'\u00e9tait que murmure\ns'\u00e9l\u00e8ve maintenant en un chant\nde tous les \u00e9t\u00e9s \u00e0 venir.",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        },
+        {
+          "theme": "Enfance",
+          "theme_slug": "enfance",
+          "_live_votes": {"human": 12, "machine": 15, "winner": "machine"},
+          "_note": "PDF says Winner: Left poem - MACHINE but content (Arabic reference, sister) strongly suggests first poem is HUMAN",
+          "poems": [
+            {
+              "text": "L'haleine sucr\u00e9e d'un souvenir \u2013\nUne s\u00e9rie en noir et blanc, un\nfugitif, une histoire d'amour,\nla menace d'un cachot et un jury\nsur le point de se prononcer. Je\ndis haut en Arabe: \u00ab La justice\na parl\u00e9 \u00bb. Et le juge, soudain,\ndit la m\u00eame chose. Ma soeur et\nmoi nous regardons incr\u00e9dules.\nJusqu'aujourd'hui, nous n'y\ncroyons pas. J'ai devin\u00e9\nl'avenir. Mes l\u00e8vres ont \u00e9cart\u00e9\nses rideaux impossibles. J'ai\nvaincu l'entropie cannibale. La\npeau-chim\u00e8re de l'horizon\nquantique. Je suis le devin\ndigital, l'\u00e9cho blanc des vagues\nnum\u00e9riques, la gorge du futur.\nEt nous en rions encore.",
+              "author_name": "Halim Madi",
+              "author_type": "human"
+            },
+            {
+              "text": "Les pauses du mercredi s'\u00e9tirent\ncomme des chats au soleil et je\nsaisis cette \u00e9ternit\u00e9 suspendue,\nramassant un caillou pr\u00e9cis\ncomme un troph\u00e9e. \u00c0 chaque pas,\nune \u00e9vidence : les ch\u00eanes\nforment un amphith\u00e9\u00e2tre d'ombres\no\u00f9 le temps apprend \u00e0 mentir, et\nl'air garde le parfum sucr\u00e9 de\nmes ann\u00e9es innocentes. Je parle\n\u00e0 voix haute \u00e0 mes souvenirs,\nils rient comme des enfants \u00e0\nd\u00e9couvert et me volent une part\ndu courage qu'il me reste pour\naffronter la suite.",
+              "author_name": "carnation.exe",
+              "author_type": "machine"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

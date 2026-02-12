@@ -306,6 +306,48 @@ oulipo/
 
 ---
 
+## Screenshots
+
+### IMPORTANT: Screenshot Border Requirements
+
+**All screenshots on oulipo.xyz MUST have a thin 1px black border.**
+
+When adding or updating screenshots:
+
+1. **Take the screenshot** of the work/page
+2. **Add a 1px black border** around the entire image
+3. **Save to** `Assets/screenshots/` with a descriptive name (e.g., `project-name.png`)
+
+### Adding Borders with Python (Pillow)
+
+```python
+from PIL import Image
+
+def add_border(image_path, output_path=None, border_width=1, border_color=(0, 0, 0)):
+    """Add a thin black border to a screenshot"""
+    if output_path is None:
+        output_path = image_path
+    
+    img = Image.open(image_path)
+    new_width = img.width + 2 * border_width
+    new_height = img.height + 2 * border_width
+    
+    bordered_img = Image.new('RGB', (new_width, new_height), border_color)
+    bordered_img.paste(img, (border_width, border_width))
+    bordered_img.save(output_path, quality=95)
+
+# Usage
+add_border("Assets/screenshots/my-project.png")
+```
+
+### Screenshot Naming Convention
+
+- Use lowercase with hyphens: `project-name.png`
+- Match the work title where possible
+- Store in `Assets/screenshots/`
+
+---
+
 ## Brand Voice
 
 Oulipo.xyz is described as:

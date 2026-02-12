@@ -41,27 +41,21 @@ function generateImagePositions(sectionIndex: number, count: number): ScatteredI
   const rand = seededRandom(sectionIndex * 7 + 31);
   const positions: ScatteredImage[] = [];
 
-  // Define zones that avoid the center rectangle area.
-  // The center overlay is roughly max-width 420px centered,
-  // so we scatter images in left/right margins and top/bottom edges.
+  // Zones spread across the viewport — images are large and can overlap
+  // with the center text rectangle, sitting behind it (lower z-index).
   const zones = [
-    // left column
-    { xMin: 3, xMax: 18, yMin: 10, yMax: 75 },
-    // right column
-    { xMin: 76, xMax: 92, yMin: 10, yMax: 75 },
-    // top-left
-    { xMin: 5, xMax: 28, yMin: 3, yMax: 20 },
-    // bottom-right
-    { xMin: 68, xMax: 90, yMin: 72, yMax: 90 },
-    // top-right
-    { xMin: 72, xMax: 92, yMin: 3, yMax: 22 },
+    { xMin: -5, xMax: 25, yMin: 5, yMax: 65 },
+    { xMin: 55, xMax: 85, yMin: 5, yMax: 65 },
+    { xMin: 10, xMax: 40, yMin: -5, yMax: 20 },
+    { xMin: 45, xMax: 80, yMin: 60, yMax: 85 },
+    { xMin: 60, xMax: 90, yMin: -5, yMax: 25 },
   ];
 
   for (let i = 0; i < count; i++) {
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = 200 + Math.floor(rand() * 80); // 200-280
+    const w = 320 + Math.floor(rand() * 120); // 320-440
 
     positions.push({
       left: `${x.toFixed(1)}%`,
@@ -240,7 +234,7 @@ export function ContentOverlay({
           style={{
             fontFamily: "'EB Garamond', Georgia, serif",
             fontSize: 17,
-            lineHeight: 1.9,
+            lineHeight: 1.6,
             whiteSpace: "pre-line",
             color: "#000000",
           }}
@@ -297,7 +291,7 @@ export function ContentOverlay({
                     color: "#000000",
                   }}
                 >
-                  download and see others&rsquo; crossings
+                  See others&rsquo; crossings
                 </span>
               </div>
             )}

@@ -8,57 +8,48 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-    const key = rawKey.trim();
+    // Use env var with trim, fallback to hardcoded for debugging
+    const envKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+    const hardcodedKey = "REMOVED_SECRET";
+    const key = envKey || hardcodedKey;
 
-    // Create client fresh inside handler
     const supabase = createClient(supabaseUrl, key);
 
-    const { data, error } = await supabase.storage
+    // Try listing with different parameters
+    const { data: data1, error: error1 } = await supabase.storage
       .from(CROSSINGS_BUCKET)
-      .list("", {
-        limit: 100,
-        sortBy: { column: "created_at", order: "desc" },
-      });
+      .list("", { limit: 100, sortBy: { column: "created_at", order: "desc" } });
 
-    console.log("Crossings debug:", JSON.stringify({
-      rawLen: rawKey.length,
-      trimmedLen: key.length,
-      keyPrefix: key.substring(0, 12),
-      keySuffix: key.substring(key.length - 5),
-      error: error?.message || null,
-      fileCount: data?.length ?? null,
-      fileNames: data?.map(f => f.name) ?? null,
-    }));
+    const { data: data2, error: error2 } = await supabase.storage
+      .from(CROSSINGS_BUCKET)
+      .list();
 
-    if (error) {
-      return NextResponse.json({
-        urls: [],
-        debug: { error: error.message, rawLen: rawKey.length, trimmedLen: key.length },
+    // Also try a direct fetch to Supabase storage API
+    let directResult = null;
+    try {
+      const resp = await fetch(`${supabaseUrl}/storage/v1/object/list/${CROSSINGS_BUCKET}`, {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${key}`,
+          "apikey": key,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prefix: "", limit: 100 }),
       });
+      const text = await resp.text();
+      directResult = { status: resp.status, body: text.substring(0, 500) };
+    } catch (e) {
+      directResult = { error: String(e) };
     }
 
-    if (!data || data.length === 0) {
-      return NextResponse.json({
-        urls: [],
-        debug: { empty: true, rawLen: rawKey.length, trimmedLen: key.length, keyPrefix: key.substring(0, 12), keySuffix: key.substring(key.length - 5) },
-      });
-    }
-
-    const urls = data
-      .filter((file) => file.name.endsWith(".png"))
-      .map((file) => {
-        const { data: urlData } = supabase.storage
-          .from(CROSSINGS_BUCKET)
-          .getPublicUrl(file.name);
-        return urlData.publicUrl;
-      });
-
-    return NextResponse.json({ urls });
-  } catch (err) {
     return NextResponse.json({
-      urls: [],
-      debug: { caught: String(err) },
+      sdkWithSort: { count: data1?.length ?? null, error: error1?.message ?? null, names: data1?.map(f => f.name) ?? null },
+      sdkNoSort: { count: data2?.length ?? null, error: error2?.message ?? null, names: data2?.map(f => f.name) ?? null },
+      direct: directResult,
+      keyUsed: key === envKey ? "env" : "hardcoded",
+      keyLen: key.length,
     });
+  } catch (err) {
+    return NextResponse.json({ error: String(err) });
   }
 }

@@ -14,6 +14,8 @@ export default function Home() {
   const [activeSection, setActiveSection] = useState<number | null>(null);
   const [openedSections, setOpenedSections] = useState<Set<number>>(new Set());
   const [dotToStory] = useState<Map<number, number>>(() => new Map());
+  const [storiesRead, setStoriesRead] = useState(0);
+  const storiesReadRef = useRef(0);
   const [hasDownloaded, setHasDownloaded] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -37,13 +39,24 @@ export default function Home() {
         return;
       }
       // Assign the next sequential story
-      const storyIndex = dotToStory.size;
+      const storyIndex = storiesReadRef.current;
+      if (storyIndex >= 7) return;
       dotToStory.set(dotIndex, storyIndex);
+      storiesReadRef.current = storyIndex + 1;
+      setStoriesRead(storyIndex + 1);
       setActiveSection(storyIndex);
       setOpenedSections((prev) => new Set(prev).add(dotIndex));
     },
     [dotToStory]
   );
+
+  const handleCounterClick = useCallback(() => {
+    const storyIndex = storiesReadRef.current;
+    if (storyIndex >= 7) return;
+    storiesReadRef.current = storyIndex + 1;
+    setStoriesRead(storyIndex + 1);
+    setActiveSection(storyIndex);
+  }, []);
 
   const handleCloseSection = useCallback(() => {
     setActiveSection(null);
@@ -58,6 +71,8 @@ export default function Home() {
     setActiveSection(null);
   }, []);
 
+  const hasStarted = segments.length > 1;
+
   return (
     <div className="relative w-screen h-screen overflow-hidden">
       <Canvas
@@ -70,6 +85,22 @@ export default function Home() {
         disabled={activeSection !== null}
         canvasRef={canvasRef}
       />
+
+      {/* Title — visible on landing, fades out on first click */}
+      <div
+        className="fixed left-1/2 -translate-x-1/2 pointer-events-none select-none"
+        style={{
+          top: "calc(50% + 28px)",
+          fontFamily: "'EB Garamond', Georgia, serif",
+          fontSize: 15,
+          letterSpacing: "0.12em",
+          color: "rgba(0, 0, 0, 0.3)",
+          opacity: hasStarted ? 0 : 1,
+          transition: "opacity 0.6s ease",
+        }}
+      >
+        Becoming Borders
+      </div>
 
       {activeSection !== null && (
         <ContentOverlay
@@ -88,7 +119,11 @@ export default function Home() {
         <Gallery onClose={() => setShowGallery(false)} />
       )}
 
-      <Counter current={intersections.length} total={7} />
+      <Counter
+        storiesRead={storiesRead}
+        total={7}
+        onCounterClick={handleCounterClick}
+      />
 
       <About
         open={showAbout}

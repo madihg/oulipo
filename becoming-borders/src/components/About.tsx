@@ -26,12 +26,45 @@ export function About({ open, onToggle, onShowGallery, hasDownloaded }: AboutPro
 
   return (
     <>
-      {/* About label */}
+      {/* Circle button */}
       <button
         onClick={onToggle}
-        className="fixed bottom-6 left-6 font-serif text-[13px] text-gray-50 tracking-open cursor-pointer bg-transparent border-none p-0 hover:text-black transition-colors duration-300 z-10"
+        className="fixed z-10"
+        style={{
+          bottom: 24,
+          left: 24,
+          width: 32,
+          height: 32,
+          borderRadius: "50%",
+          border: "1px solid rgba(0, 0, 0, 0.3)",
+          background: "none",
+          cursor: "pointer",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: 0,
+          transition: "border-color 0.3s ease",
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.8)";
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.3)";
+        }}
+        aria-label="About"
       >
-        about
+        <span
+          style={{
+            fontFamily: "'EB Garamond', Georgia, serif",
+            fontSize: 14,
+            fontStyle: "italic",
+            color: "rgba(0, 0, 0, 0.5)",
+            lineHeight: 1,
+            marginTop: 1,
+          }}
+        >
+          i
+        </span>
       </button>
 
       {/* Overlay panel */}
@@ -65,9 +98,54 @@ export function About({ open, onToggle, onShowGallery, hasDownloaded }: AboutPro
               creates crossings &mdash; each crossing opens a passage.
             </p>
 
-            <p className="font-serif text-[13px] text-gray-50 mt-6 tracking-open">
-              By Halim Madi.
+            <p
+              className="font-serif text-[14px] text-gray-60 mt-6"
+              style={{ lineHeight: 1.8 }}
+            >
+              By{" "}
+              <a
+                href="https://www.halimmadi.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  color: "inherit",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                }}
+              >
+                Halim Madi
+              </a>
             </p>
+
+            <div
+              className="flex gap-4 mt-3"
+              style={{ fontSize: 13 }}
+            >
+              <a
+                href="https://www.halimmadi.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-serif text-gray-50 hover:text-black transition-colors duration-300"
+                style={{
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                }}
+              >
+                halimmadi.com
+              </a>
+              <a
+                href="https://www.instagram.com/yalla_halim"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-serif text-gray-50 hover:text-black transition-colors duration-300"
+                style={{
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                }}
+              >
+                @yalla_halim
+              </a>
+            </div>
 
             {hasDownloaded && (
               <button

@@ -61,7 +61,7 @@ function generateImagePositions(sectionIndex: number, count: number): ScatteredI
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = 110 + Math.floor(rand() * 50); // 110-160
+    const w = 200 + Math.floor(rand() * 80); // 200-280
 
     positions.push({
       left: `${x.toFixed(1)}%`,

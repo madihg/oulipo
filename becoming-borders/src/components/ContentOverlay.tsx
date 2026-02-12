@@ -1,0 +1,252 @@
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { sections } from "@/lib/content";
+
+interface ContentOverlayProps {
+  sectionIndex: number;
+  onClose: () => void;
+  onDownload: () => void;
+  onShowGallery: () => void;
+  hasDownloaded: boolean;
+  canvasRef: React.RefObject<HTMLCanvasElement>;
+}
+
+/**
+ * Seeded pseudo-random number generator (mulberry32).
+ * Returns a function that produces deterministic values in [0, 1).
+ */
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s |= 0;
+    s = (s + 0x6d2b79f5) | 0;
+    let t = Math.imul(s ^ (s >>> 15), 1 | s);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+interface PlaceholderImage {
+  top: string;
+  left: string;
+  width: number;
+  height: number;
+}
+
+function generateImagePositions(sectionIndex: number): PlaceholderImage[] {
+  const rand = seededRandom(sectionIndex * 7 + 31);
+  const count = sectionIndex % 2 === 0 ? 3 : 2;
+  const positions: PlaceholderImage[] = [];
+
+  // Define zones that avoid the center rectangle area.
+  // The center overlay is roughly max-width 420px centered,
+  // so we scatter images in left/right margins and top/bottom edges.
+  const zones = [
+    // left column
+    { xMin: 3, xMax: 20, yMin: 10, yMax: 80 },
+    // right column
+    { xMin: 75, xMax: 92, yMin: 10, yMax: 80 },
+    // top-left
+    { xMin: 5, xMax: 30, yMin: 3, yMax: 20 },
+    // bottom-right
+    { xMin: 65, xMax: 90, yMin: 75, yMax: 92 },
+    // top-right
+    { xMin: 70, xMax: 92, yMin: 3, yMax: 22 },
+  ];
+
+  for (let i = 0; i < count; i++) {
+    const zone = zones[(sectionIndex + i) % zones.length];
+    const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
+    const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
+    const w = 100 + Math.floor(rand() * 40); // 100-140
+    const h = 70 + Math.floor(rand() * 30); // 70-100
+
+    positions.push({
+      left: `${x.toFixed(1)}%`,
+      top: `${y.toFixed(1)}%`,
+      width: w,
+      height: h,
+    });
+  }
+
+  return positions;
+}
+
+export function ContentOverlay({
+  sectionIndex,
+  onClose,
+  onDownload,
+  onShowGallery,
+  hasDownloaded,
+  canvasRef,
+}: ContentOverlayProps) {
+  const [visible, setVisible] = useState(false);
+  const section = sections[sectionIndex];
+  const isNoticeSection = sectionIndex === 6;
+  const imagePositions = generateImagePositions(sectionIndex);
+
+  // Trigger fade-in after mount
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setVisible(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  const handleDownload = useCallback(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const dataUrl = canvas.toDataURL("image/png");
+    const link = document.createElement("a");
+    link.download = `crossing-${Date.now()}.png`;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    onDownload();
+  }, [canvasRef, onDownload]);
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center"
+      style={{
+        opacity: visible ? 1 : 0,
+        transition: "opacity 0.5s ease",
+      }}
+    >
+      {/* Backdrop */}
+      <div
+        className="absolute inset-0"
+        style={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}
+        onClick={onClose}
+      />
+
+      {/* Scattered placeholder images outside the rectangle */}
+      {imagePositions.map((pos, i) => (
+        <div
+          key={i}
+          className="absolute"
+          style={{
+            top: pos.top,
+            left: pos.left,
+            width: pos.width,
+            height: pos.height,
+            backgroundColor: "#e8e8e8",
+            boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
+            opacity: visible ? 1 : 0,
+            transition: `opacity 0.5s ease ${0.1 + i * 0.08}s`,
+            zIndex: 51,
+          }}
+        />
+      ))}
+
+      {/* Content rectangle */}
+      <div
+        className="relative"
+        style={{
+          maxWidth: 420,
+          width: "90vw",
+          backgroundColor: "#ffffff",
+          border: "1px solid #000000",
+          padding: "45px",
+          zIndex: 52,
+          opacity: visible ? 1 : 0,
+          transition: "opacity 0.5s ease 0.05s",
+        }}
+      >
+        {/* Close button */}
+        <button
+          onClick={onClose}
+          className="absolute"
+          style={{
+            top: 14,
+            right: 18,
+            fontSize: 18,
+            lineHeight: 1,
+            cursor: "pointer",
+            background: "none",
+            border: "none",
+            fontFamily: "'EB Garamond', Georgia, serif",
+            color: "#000000",
+            padding: "4px",
+          }}
+          aria-label="Close"
+        >
+          &times;
+        </button>
+
+        {/* Section text */}
+        <div
+          style={{
+            fontFamily: "'EB Garamond', Georgia, serif",
+            fontSize: 17,
+            lineHeight: 1.9,
+            whiteSpace: "pre-line",
+            color: "#000000",
+          }}
+        >
+          {section.text}
+        </div>
+
+        {/* Section 7 (index 6) — download button */}
+        {isNoticeSection && (
+          <div style={{ marginTop: 28 }}>
+            <button
+              onClick={handleDownload}
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 15,
+                lineHeight: 1.6,
+                padding: "12px 20px",
+                border: "1px solid #000000",
+                backgroundColor: "transparent",
+                cursor: "pointer",
+                transition: "box-shadow 0.25s ease",
+                color: "#000000",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                  "0 2px 8px rgba(0, 0, 0, 0.15)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+              }}
+            >
+              Save a screenshot of my quilt of crossings
+            </button>
+
+            {/* Post-download gallery link */}
+            {hasDownloaded && (
+              <div
+                style={{
+                  marginTop: 20,
+                  opacity: visible ? 1 : 0,
+                  transition: "opacity 0.5s ease",
+                  animation: "fadeIn 0.5s ease forwards",
+                }}
+              >
+                <span
+                  onClick={onShowGallery}
+                  style={{
+                    fontFamily: "'EB Garamond', Georgia, serif",
+                    fontSize: 15,
+                    lineHeight: 1.6,
+                    cursor: "pointer",
+                    textDecoration: "underline",
+                    textUnderlineOffset: "3px",
+                    color: "#000000",
+                  }}
+                >
+                  download and see others&rsquo; crossings
+                </span>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

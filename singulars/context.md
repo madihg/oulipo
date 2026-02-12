@@ -6,12 +6,14 @@ Reference file for Claude Code sessions. This captures decisions, setup details,
 
 - **Project name:** singulars
 - **Dashboard:** https://supabase.com/dashboard (look for "singulars" project)
+- **Project URL:** `https://smytgqkgomsfyurskpcl.supabase.co`
 - **Credentials location:** `.env.local` (not committed to git)
 - **Required env vars:**
-  - `NEXT_PUBLIC_SUPABASE_URL` — Project URL from Settings > API
-  - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — anon/public key
-  - `SUPABASE_SERVICE_ROLE_KEY` — service_role secret key (for seed scripts, bypasses RLS)
-- **These same vars need to be added to Vercel** (Settings > Environment Variables) for the deployed site to work
+  - `NEXT_PUBLIC_SUPABASE_URL` — Project URL
+  - `NEXT_PUBLIC_SUPABASE_ANON_KEY` — publishable key
+  - `SUPABASE_SERVICE_ROLE_KEY` — secret key (for seed scripts, bypasses RLS)
+- **Vercel env vars:** All 3 set for production, preview, and development (Feb 2026)
+- **Status:** Connected and seeded with 66 real poems (Feb 2026)
 
 ## Database Schema
 
@@ -61,9 +63,9 @@ Total: 33 themes, 66 poems
 
 ## What Still Needs Doing
 
-- [ ] Add Supabase credentials to `.env.local` and Vercel env vars
-- [ ] Seed database with `poems-from-pdf.json`
-- [ ] Clean up old placeholder poems from DB (different theme_slugs)
+- [x] Add Supabase credentials to `.env.local` and Vercel env vars (done Feb 2026)
+- [x] Seed database with `poems-from-pdf.json` (done Feb 2026 — 66 poems)
+- [x] Clean up old placeholder poems from DB (done Feb 2026 — removed 18 placeholders)
 - [ ] Verify human/machine assignments — Halim to review
 - [ ] Identify non-Halim poets in versus.exe and update author_name
 - [ ] Update performance metadata (locations, dates, model_link, huggingface_link) if placeholders

@@ -1,17 +1,13 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/singulars",
-      "destination": "https://singulars.oulipo.xyz",
-      "permanent": true
+      "destination": "https://singulars-halims-projects.vercel.app/singulars"
     },
     {
       "source": "/singulars/:path+",
-      "destination": "https://singulars.oulipo.xyz/:path+",
-      "permanent": true
-    }
-  ],
-  "rewrites": [
+      "destination": "https://singulars-halims-projects.vercel.app/singulars/:path+"
+    },
     {
       "source": "/becoming-borders",
       "destination": "https://becoming-borders.vercel.app/becoming-borders"

@@ -46,7 +46,7 @@ export default function MiniVoting() {
   useEffect(() => {
     async function fetchRandomTheme() {
       try {
-        const res = await fetch('/api/performances/hard-exe');
+        const res = await fetch('/singulars/api/performances/hard-exe');
         if (!res.ok) {
           throw new Error('Failed to fetch performance data');
         }
@@ -98,7 +98,7 @@ export default function MiniVoting() {
     try {
       const fingerprint = await getFingerprint();
 
-      const res = await fetch('/api/vote', {
+      const res = await fetch('/singulars/api/vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ poem_id: selectedPoemId, fingerprint }),

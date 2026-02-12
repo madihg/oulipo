@@ -8,48 +8,37 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    // Use env var with trim, fallback to hardcoded for debugging
-    const envKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
-    const hardcodedKey = "REMOVED_SECRET";
-    const key = envKey || hardcodedKey;
-
+    const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
     const supabase = createClient(supabaseUrl, key);
 
-    // Try listing with different parameters
-    const { data: data1, error: error1 } = await supabase.storage
+    const { data, error } = await supabase.storage
       .from(CROSSINGS_BUCKET)
-      .list("", { limit: 100, sortBy: { column: "created_at", order: "desc" } });
+      .list("", { limit: 100 });
 
-    const { data: data2, error: error2 } = await supabase.storage
-      .from(CROSSINGS_BUCKET)
-      .list();
-
-    // Also try a direct fetch to Supabase storage API
-    let directResult = null;
-    try {
-      const resp = await fetch(`${supabaseUrl}/storage/v1/object/list/${CROSSINGS_BUCKET}`, {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${key}`,
-          "apikey": key,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ prefix: "", limit: 100 }),
-      });
-      const text = await resp.text();
-      directResult = { status: resp.status, body: text.substring(0, 500) };
-    } catch (e) {
-      directResult = { error: String(e) };
+    if (error) {
+      console.error("List crossings error:", error.message);
+      return NextResponse.json({ urls: [] });
     }
 
-    return NextResponse.json({
-      sdkWithSort: { count: data1?.length ?? null, error: error1?.message ?? null, names: data1?.map(f => f.name) ?? null },
-      sdkNoSort: { count: data2?.length ?? null, error: error2?.message ?? null, names: data2?.map(f => f.name) ?? null },
-      direct: directResult,
-      keyUsed: key === envKey ? "env" : "hardcoded",
-      keyLen: key.length,
+    if (!data || data.length === 0) {
+      return NextResponse.json({ urls: [] });
+    }
+
+    // Sort by name descending (filenames contain timestamps)
+    const pngFiles = data
+      .filter((file) => file.name.endsWith(".png"))
+      .sort((a, b) => b.name.localeCompare(a.name));
+
+    const urls = pngFiles.map((file) => {
+      const { data: urlData } = supabase.storage
+        .from(CROSSINGS_BUCKET)
+        .getPublicUrl(file.name);
+      return urlData.publicUrl;
     });
+
+    return NextResponse.json({ urls });
   } catch (err) {
-    return NextResponse.json({ error: String(err) });
+    console.error("Crossings handler error:", err);
+    return NextResponse.json({ urls: [] });
   }
 }

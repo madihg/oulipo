@@ -10,11 +10,11 @@
     },
     {
       "source": "/becoming-borders",
-      "destination": "https://becoming-borders.vercel.app"
+      "destination": "https://becoming-borders.vercel.app/becoming-borders"
     },
     {
       "source": "/becoming-borders/:path+",
-      "destination": "https://becoming-borders.vercel.app/:path+"
+      "destination": "https://becoming-borders.vercel.app/becoming-borders/:path+"
     }
   ]
 }

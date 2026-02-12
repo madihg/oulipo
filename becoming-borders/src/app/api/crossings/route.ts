@@ -8,11 +8,10 @@ export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const key = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-    const keyLen = key.length;
-    const keyPrefix = key.substring(0, 10);
+    const rawKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
+    const key = rawKey.trim();
 
-    // Create client fresh inside handler to ensure env var is captured
+    // Create client fresh inside handler
     const supabase = createClient(supabaseUrl, key);
 
     const { data, error } = await supabase.storage
@@ -23,8 +22,10 @@ export async function GET() {
       });
 
     console.log("Crossings debug:", JSON.stringify({
-      keyLen,
-      keyPrefix,
+      rawLen: rawKey.length,
+      trimmedLen: key.length,
+      keyPrefix: key.substring(0, 12),
+      keySuffix: key.substring(key.length - 5),
       error: error?.message || null,
       fileCount: data?.length ?? null,
       fileNames: data?.map(f => f.name) ?? null,
@@ -33,14 +34,14 @@ export async function GET() {
     if (error) {
       return NextResponse.json({
         urls: [],
-        debug: { error: error.message, keyLen, keyPrefix },
+        debug: { error: error.message, rawLen: rawKey.length, trimmedLen: key.length },
       });
     }
 
     if (!data || data.length === 0) {
       return NextResponse.json({
         urls: [],
-        debug: { empty: true, keyLen, keyPrefix },
+        debug: { empty: true, rawLen: rawKey.length, trimmedLen: key.length, keyPrefix: key.substring(0, 12), keySuffix: key.substring(key.length - 5) },
       });
     }
 

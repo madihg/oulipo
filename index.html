@@ -40,9 +40,16 @@
     @font-face {
       font-display: block;
       font-family: "Diatype Mono Variable";
-      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+      src: url("https://type.cargo.site/files/ABCDiatypeMono-Regular.woff2") format("woff2");
       font-style: normal;
-      font-weight: 200 700;
+      font-weight: 400;
+    }
+    @font-face {
+      font-display: block;
+      font-family: "Diatype Mono Variable";
+      src: url("https://type.cargo.site/files/ABCDiatypeMono-Medium.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 500;
     }
 
     /* Base styles matching Cargo */
@@ -110,7 +117,7 @@
       font-size: 1.2rem;
       font-weight: 400;
       color: #000000;
-      font-family: "Diatype Mono Variable", monospace;
+      font-family: "Diatype Variable", sans-serif;
       font-style: normal;
       line-height: 1.25;
       letter-spacing: 0em;
@@ -329,7 +336,7 @@
     }
 
     .section-subtitle {
-      font-family: "Diatype Mono Variable", monospace;
+      font-family: "Diatype Variable", sans-serif;
       font-size: 1.2rem;
       color: rgba(0, 0, 0, 0.6);
     }
@@ -349,9 +356,9 @@
     }
 
     .work-title {
-      font-family: "Diatype Mono Variable", monospace;
+      font-family: "Diatype Variable", sans-serif;
       font-size: 1.1rem;
-      font-weight: 500;
+      font-weight: 400;
       margin-bottom: 0.25rem;
     }
 
@@ -373,7 +380,7 @@
     }
 
     .work-meta {
-      font-family: "Diatype Mono Variable", monospace;
+      font-family: "Diatype Variable", sans-serif;
       font-size: 0.9rem;
       color: rgba(0, 0, 0, 0.5);
     }
@@ -396,12 +403,12 @@
     }
 
     .work-featured-header .caption {
-      display: block;
-      font-family: "Diatype Mono Variable", monospace;
+      display: inline;
+      font-family: "Diatype Variable", sans-serif;
       font-size: 1.1rem;
       color: #000000;
       font-weight: 400;
-      line-height: 1.4;
+      line-height: 1.6;
     }
 
     .work-featured-header .caption a {
@@ -410,6 +417,10 @@
     
     .work-featured-header .caption:first-child {
       font-weight: 500;
+    }
+    
+    .work-featured-header .caption:not(:last-child)::after {
+      content: "\00a0\00a0\00a0\00a0";
     }
     
     .work-featured-body {
@@ -551,6 +562,23 @@
           <h2 class="section-title">Featured Works</h2>
         </div>
 
+        <!-- becoming borders -->
+        <div class="work-featured">
+          <div class="work-featured-header">
+            <span class="caption"><a href="becoming-borders/">Becoming Borders</a></span>
+            <span class="caption">Feb'26</span>
+            <span class="caption">Interactive Narrative</span>
+        </div>
+          <div class="work-featured-body">
+            <div class="work-featured-image">
+              <img src="Assets/becoming-borders-screenshot.png" alt="Becoming Borders - interactive narrative piece">
+        </div>
+            <div class="work-featured-description">
+              <em>Becoming Borders</em> is an interactive piece about what crossing physical borders teaches us about navigating digital ones. You draw lines on a blank canvas. Where lines cross, stories open — about VPNs as power animals, passports held hostage, and the intentional otherness of being a stranger together. Seven crossings, then you keep the map.
+        </div>
+        </div>
+        </div>
+
         <!-- curl -->
         <div class="work-featured">
           <div class="work-featured-header">
@@ -583,6 +611,16 @@
               <em>Deserve It</em> is an interactive performance that transforms the DS-160 immigration form into a poetic confrontation with bureaucratic violence. Through five movements—Deny, Reach, Erase, Wait, Identify—the piece renders visible the absurdity and trauma of naturalization. The interface becomes the border; the user becomes the applicant.
         </div>
         </div>
+        </div>
+
+      </section>
+
+      <hr>
+
+      <!-- Selected Works -->
+      <section class="section">
+        <div class="section-header">
+          <h2 class="section-title">Selected Works</h2>
         </div>
 
         <!-- Case Against the Son -->

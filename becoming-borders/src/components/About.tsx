@@ -57,13 +57,12 @@ export function About({ open, onToggle, onShowGallery, hasDownloaded }: AboutPro
           style={{
             fontFamily: "'EB Garamond', Georgia, serif",
             fontSize: 14,
-            fontStyle: "italic",
             color: "rgba(0, 0, 0, 0.5)",
             lineHeight: 1,
             marginTop: 1,
           }}
         >
-          i
+          ?
         </span>
       </button>
 

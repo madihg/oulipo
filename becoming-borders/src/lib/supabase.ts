@@ -1,15 +1,7 @@
-import { createClient } from "@supabase/supabase-js";
-
-const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
-const supabaseAnonKey = "sb_publishable_KQpPKu0i_HmnZUyI5fXZoA_yNcbBvgj";
-
-export const supabase = createClient(supabaseUrl, supabaseAnonKey);
-
-export const CROSSINGS_BUCKET = "crossings";
+const BASE_PATH = "/becoming-borders";
 
 /**
  * Upload a canvas blob to the crossings bucket via the server-side API route.
- * This keeps the service role key on the server and bypasses RLS.
  * Returns the public URL of the uploaded image, or null on failure.
  */
 export async function uploadCrossing(blob: Blob): Promise<string | null> {
@@ -17,7 +9,7 @@ export async function uploadCrossing(blob: Blob): Promise<string | null> {
     const formData = new FormData();
     formData.append("file", blob, `crossing-${Date.now()}.png`);
 
-    const response = await fetch("/api/upload", {
+    const response = await fetch(`${BASE_PATH}/api/upload`, {
       method: "POST",
       body: formData,
     });
@@ -37,31 +29,18 @@ export async function uploadCrossing(blob: Blob): Promise<string | null> {
 }
 
 /**
- * Fetch all crossing image URLs from the bucket.
- * The bucket is public, so listing with the anon key works for reads.
+ * Fetch all crossing image URLs via the server-side API route.
+ * The anon key can't list files (RLS), so we go through the server.
  * Returns newest first.
  */
 export async function fetchCrossings(): Promise<string[]> {
-  const { data, error } = await supabase.storage
-    .from(CROSSINGS_BUCKET)
-    .list("", {
-      limit: 100,
-      sortBy: { column: "created_at", order: "desc" },
-    });
-
-  if (error) {
-    console.error("Failed to fetch crossings:", error.message);
+  try {
+    const response = await fetch(`${BASE_PATH}/api/crossings`);
+    if (!response.ok) return [];
+    const { urls } = await response.json();
+    return urls || [];
+  } catch (err) {
+    console.error("Fetch crossings error:", err);
     return [];
   }
-
-  if (!data || data.length === 0) return [];
-
-  return data
-    .filter((file) => file.name.endsWith(".png"))
-    .map((file) => {
-      const { data: urlData } = supabase.storage
-        .from(CROSSINGS_BUCKET)
-        .getPublicUrl(file.name);
-      return urlData.publicUrl;
-    });
 }

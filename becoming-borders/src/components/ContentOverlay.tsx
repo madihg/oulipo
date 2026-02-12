@@ -2,13 +2,11 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { sections } from "@/lib/content";
-import { uploadCrossing } from "@/lib/supabase";
 import type { Intersection } from "@/lib/types";
 
 interface ContentOverlayProps {
   sectionIndex: number;
   onClose: () => void;
-  onDownload: () => void;
   onShowGallery: () => void;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   intersections: Intersection[];
@@ -40,8 +38,6 @@ function generateImagePositions(sectionIndex: number, count: number): ScatteredI
   const rand = seededRandom(sectionIndex * 7 + 31);
   const positions: ScatteredImage[] = [];
 
-  // Zones spread across the viewport — images are large and can overlap
-  // with the center text rectangle, sitting behind it (lower z-index).
   const zones = [
     { xMin: -5, xMax: 25, yMin: 5, yMax: 65 },
     { xMin: 55, xMax: 85, yMin: 5, yMax: 65 },
@@ -54,7 +50,7 @@ function generateImagePositions(sectionIndex: number, count: number): ScatteredI
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = 320 + Math.floor(rand() * 120); // 320-440
+    const w = 320 + Math.floor(rand() * 120);
 
     positions.push({
       left: `${x.toFixed(1)}%`,
@@ -69,19 +65,16 @@ function generateImagePositions(sectionIndex: number, count: number): ScatteredI
 export function ContentOverlay({
   sectionIndex,
   onClose,
-  onDownload,
   onShowGallery,
   canvasRef,
   intersections,
   openedSections,
 }: ContentOverlayProps) {
   const [visible, setVisible] = useState(false);
-  const [uploaded, setUploaded] = useState(false);
   const section = sections[sectionIndex];
   const isNoticeSection = sectionIndex === 6;
   const imagePositions = generateImagePositions(sectionIndex, section.images.length);
 
-  // Trigger fade-in after mount
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
       setVisible(true);
@@ -89,27 +82,21 @@ export function ContentOverlay({
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  /** Draw dots onto the canvas, capture as blob, then restore canvas. */
-  const captureCanvas = useCallback(() => {
+  const handleDownload = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return null;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return null;
+    if (!ctx) return;
 
-    const displayWidth = canvas.clientWidth;
-    const displayHeight = canvas.clientHeight;
-    const dotRadius = 7;
+    const dw = canvas.clientWidth;
+    const dh = canvas.clientHeight;
 
-    // Draw intersection dots onto the canvas
+    // Draw dots onto canvas for the screenshot
     for (let i = 0; i < intersections.length; i++) {
-      const intersection = intersections[i];
-      const cx = intersection.point.nx * displayWidth;
-      const cy = intersection.point.ny * displayHeight;
+      const { nx, ny } = intersections[i].point;
       const isOpened = openedSections.has(i);
-
       ctx.beginPath();
-      ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
-
+      ctx.arc(nx * dw, ny * dh, 7, 0, Math.PI * 2);
       if (isOpened) {
         ctx.fillStyle = "transparent";
         ctx.strokeStyle = "rgba(0,0,0,0.3)";
@@ -122,45 +109,16 @@ export function ContentOverlay({
     }
 
     const dataUrl = canvas.toDataURL("image/png");
-
-    // Upload to gallery in the background
-    canvas.toBlob((blob) => {
-      if (blob) {
-        uploadCrossing(blob).catch((err) => {
-          console.error("Gallery upload failed:", err);
-        });
-      }
-    }, "image/png");
-
-    // Restore canvas to lines-only state
-    window.dispatchEvent(new Event("resize"));
-
-    return dataUrl;
-  }, [canvasRef, intersections, openedSections]);
-
-  // Auto-upload when section 7 opens
-  useEffect(() => {
-    if (!isNoticeSection || uploaded) return;
-    // Small delay to ensure canvas is ready
-    const timer = setTimeout(() => {
-      captureCanvas();
-      setUploaded(true);
-      onDownload();
-    }, 300);
-    return () => clearTimeout(timer);
-  }, [isNoticeSection, uploaded, captureCanvas, onDownload]);
-
-  const handleDownload = useCallback(() => {
-    const dataUrl = captureCanvas();
-    if (!dataUrl) return;
-
     const link = document.createElement("a");
     link.download = `crossing-${Date.now()}.png`;
     link.href = dataUrl;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-  }, [captureCanvas]);
+
+    // Restore canvas
+    window.dispatchEvent(new Event("resize"));
+  }, [canvasRef, intersections, openedSections]);
 
   return (
     <div
@@ -177,11 +135,12 @@ export function ContentOverlay({
         onClick={onClose}
       />
 
-      {/* Scattered images outside the rectangle */}
+      {/* Scattered images */}
       {imagePositions.map((pos, i) => {
         const imageSrc = section.images[i];
         if (!imageSrc) return null;
         return (
+          // eslint-disable-next-line @next/next/no-img-element
           <img
             key={i}
             src={imageSrc}

@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import { Canvas } from "@/components/Canvas";
 import { ContentOverlay } from "@/components/ContentOverlay";
 import { Counter } from "@/components/Counter";
 import { About } from "@/components/About";
 import { Gallery } from "@/components/Gallery";
+import { uploadCrossing } from "@/lib/supabase";
 import type { Intersection, Segment } from "@/lib/types";
 
 export default function Home() {
@@ -19,6 +20,7 @@ export default function Home() {
   const [showGallery, setShowGallery] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const hasUploadedRef = useRef(false);
 
   const handleIntersectionFound = useCallback(
     (intersection: Intersection) => {
@@ -30,14 +32,54 @@ export default function Home() {
     []
   );
 
+  // Auto-upload canvas screenshot when 7th dot appears
+  useEffect(() => {
+    if (intersections.length < 7 || hasUploadedRef.current) return;
+    hasUploadedRef.current = true;
+
+    // Small delay so the 7th dot renders on canvas first
+    const timer = setTimeout(() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      // Canvas already has lines drawn by the Canvas component.
+      // The dots are DOM overlays, so we need to draw them onto
+      // the canvas pixel data for the screenshot.
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+
+      const dw = canvas.clientWidth;
+      const dh = canvas.clientHeight;
+
+      for (let i = 0; i < intersections.length; i++) {
+        const { nx, ny } = intersections[i].point;
+        ctx.beginPath();
+        ctx.arc(nx * dw, ny * dh, 7, 0, Math.PI * 2);
+        ctx.fillStyle = "#000000";
+        ctx.fill();
+      }
+
+      canvas.toBlob((blob) => {
+        if (blob) {
+          uploadCrossing(blob).catch((err) => {
+            console.error("Gallery upload failed:", err);
+          });
+        }
+      }, "image/png");
+
+      // Restore canvas (remove the dots we just drew)
+      window.dispatchEvent(new Event("resize"));
+    }, 500);
+
+    return () => clearTimeout(timer);
+  }, [intersections]);
+
   const handleDotClick = useCallback(
     (dotIndex: number) => {
-      // If this dot was already clicked, reopen its assigned story
       if (dotToStory.has(dotIndex)) {
         setActiveSection(dotToStory.get(dotIndex)!);
         return;
       }
-      // Assign the next sequential story
       const storyIndex = storiesReadRef.current;
       if (storyIndex >= 7) return;
       dotToStory.set(dotIndex, storyIndex);
@@ -59,10 +101,6 @@ export default function Home() {
 
   const handleCloseSection = useCallback(() => {
     setActiveSection(null);
-  }, []);
-
-  const handleDownload = useCallback(() => {
-    // Called when section 7 auto-uploads the crossing
   }, []);
 
   const handleShowGallery = useCallback(() => {
@@ -105,7 +143,6 @@ export default function Home() {
         <ContentOverlay
           sectionIndex={activeSection}
           onClose={handleCloseSection}
-          onDownload={handleDownload}
           onShowGallery={handleShowGallery}
           canvasRef={canvasRef}
           intersections={intersections}

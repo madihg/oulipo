@@ -1,4 +1,3 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextResponse } from "next/server";
 
 const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
@@ -9,32 +8,36 @@ export const dynamic = "force-dynamic";
 export async function GET() {
   try {
     const key = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
-    const supabase = createClient(supabaseUrl, key);
 
-    const { data, error } = await supabase.storage
-      .from(CROSSINGS_BUCKET)
-      .list("", { limit: 100 });
+    // Use raw fetch instead of Supabase SDK — the SDK's .list() returns
+    // partial results on Vercel's Node.js 24 runtime.
+    const resp = await fetch(
+      `${supabaseUrl}/storage/v1/object/list/${CROSSINGS_BUCKET}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${key}`,
+          apikey: key,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ prefix: "", limit: 200, offset: 0 }),
+      }
+    );
 
-    if (error) {
-      console.error("List crossings error:", error.message);
+    if (!resp.ok) {
+      console.error("List crossings error:", resp.status, await resp.text());
       return NextResponse.json({ urls: [] });
     }
 
-    if (!data || data.length === 0) {
-      return NextResponse.json({ urls: [] });
-    }
+    const files: { name: string }[] = await resp.json();
 
-    // Sort by name descending (filenames contain timestamps)
-    const pngFiles = data
-      .filter((file) => file.name.endsWith(".png"))
-      .sort((a, b) => b.name.localeCompare(a.name));
-
-    const urls = pngFiles.map((file) => {
-      const { data: urlData } = supabase.storage
-        .from(CROSSINGS_BUCKET)
-        .getPublicUrl(file.name);
-      return urlData.publicUrl;
-    });
+    const urls = files
+      .filter((f) => f.name.endsWith(".png"))
+      .sort((a, b) => b.name.localeCompare(a.name))
+      .map(
+        (f) =>
+          `${supabaseUrl}/storage/v1/object/public/${CROSSINGS_BUCKET}/${f.name}`
+      );
 
     return NextResponse.json({ urls });
   } catch (err) {

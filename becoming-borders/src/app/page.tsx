@@ -37,20 +37,17 @@ export default function Home() {
     if (intersections.length < 7 || hasUploadedRef.current) return;
     hasUploadedRef.current = true;
 
-    // Small delay so the 7th dot renders on canvas first
+    // Delay so the Canvas component's draw effect renders the 7th dot
     const timer = setTimeout(() => {
       const canvas = canvasRef.current;
       if (!canvas) return;
-
-      // Canvas already has lines drawn by the Canvas component.
-      // The dots are DOM overlays, so we need to draw them onto
-      // the canvas pixel data for the screenshot.
       const ctx = canvas.getContext("2d");
       if (!ctx) return;
 
       const dw = canvas.clientWidth;
       const dh = canvas.clientHeight;
 
+      // Draw intersection dots onto canvas for the screenshot
       for (let i = 0; i < intersections.length; i++) {
         const { nx, ny } = intersections[i].point;
         ctx.beginPath();
@@ -59,19 +56,25 @@ export default function Home() {
         ctx.fill();
       }
 
+      // IMPORTANT: toBlob is async — restore canvas INSIDE the callback,
+      // after the bitmap has been captured, not before.
       canvas.toBlob((blob) => {
+        // Restore canvas to lines-only (remove drawn dots)
+        window.dispatchEvent(new Event("resize"));
+
         if (blob) {
           uploadCrossing(blob).catch((err) => {
             console.error("Gallery upload failed:", err);
           });
         }
       }, "image/png");
-
-      // Restore canvas (remove the dots we just drew)
-      window.dispatchEvent(new Event("resize"));
     }, 500);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      // Allow retry if effect was cleaned up before timeout fired
+      hasUploadedRef.current = false;
+    };
   }, [intersections]);
 
   const handleDotClick = useCallback(

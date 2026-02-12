@@ -6,10 +6,9 @@ interface AboutProps {
   open: boolean;
   onToggle: () => void;
   onShowGallery: () => void;
-  hasDownloaded: boolean;
 }
 
-export function About({ open, onToggle, onShowGallery, hasDownloaded }: AboutProps) {
+export function About({ open, onToggle, onShowGallery }: AboutProps) {
   const [visible, setVisible] = useState(false);
   const [animating, setAnimating] = useState(false);
 
@@ -146,14 +145,12 @@ export function About({ open, onToggle, onShowGallery, hasDownloaded }: AboutPro
               </a>
             </div>
 
-            {hasDownloaded && (
-              <button
-                onClick={onShowGallery}
-                className="mt-8 font-serif text-[13px] text-gray-50 tracking-open underline underline-offset-4 bg-transparent border-none cursor-pointer p-0 hover:text-black transition-colors duration-300"
-              >
-                View crossing gallery
-              </button>
-            )}
+            <button
+              onClick={onShowGallery}
+              className="mt-8 font-serif text-[13px] text-gray-50 tracking-open underline underline-offset-4 bg-transparent border-none cursor-pointer p-0 hover:text-black transition-colors duration-300"
+            >
+              View crossing gallery
+            </button>
           </div>
         </div>
       )}

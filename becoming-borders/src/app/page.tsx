@@ -16,7 +16,6 @@ export default function Home() {
   const [dotToStory] = useState<Map<number, number>>(() => new Map());
   const [storiesRead, setStoriesRead] = useState(0);
   const storiesReadRef = useRef(0);
-  const [hasDownloaded, setHasDownloaded] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -63,7 +62,7 @@ export default function Home() {
   }, []);
 
   const handleDownload = useCallback(() => {
-    setHasDownloaded(true);
+    // Called when section 7 auto-uploads the crossing
   }, []);
 
   const handleShowGallery = useCallback(() => {
@@ -108,7 +107,6 @@ export default function Home() {
           onClose={handleCloseSection}
           onDownload={handleDownload}
           onShowGallery={handleShowGallery}
-          hasDownloaded={hasDownloaded}
           canvasRef={canvasRef}
           intersections={intersections}
           openedSections={openedSections}
@@ -132,7 +130,6 @@ export default function Home() {
           setShowAbout(false);
           setShowGallery(true);
         }}
-        hasDownloaded={hasDownloaded}
       />
     </div>
   );

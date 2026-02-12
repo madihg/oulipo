@@ -10,7 +10,6 @@ interface ContentOverlayProps {
   onClose: () => void;
   onDownload: () => void;
   onShowGallery: () => void;
-  hasDownloaded: boolean;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   intersections: Intersection[];
   openedSections: Set<number>;
@@ -72,12 +71,12 @@ export function ContentOverlay({
   onClose,
   onDownload,
   onShowGallery,
-  hasDownloaded,
   canvasRef,
   intersections,
   openedSections,
 }: ContentOverlayProps) {
   const [visible, setVisible] = useState(false);
+  const [uploaded, setUploaded] = useState(false);
   const section = sections[sectionIndex];
   const isNoticeSection = sectionIndex === 6;
   const imagePositions = generateImagePositions(sectionIndex, section.images.length);
@@ -90,19 +89,16 @@ export function ContentOverlay({
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  const handleDownload = useCallback(() => {
+  /** Draw dots onto the canvas, capture as blob, then restore canvas. */
+  const captureCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return null;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return null;
 
-    // The canvas uses devicePixelRatio scaling: canvas.width/height are
-    // multiplied by dpr, but the context has a dpr transform applied via
-    // setTransform(dpr, 0, 0, dpr, 0, 0). So we draw at display coordinates
-    // (the transform handles scaling to physical pixels).
     const displayWidth = canvas.clientWidth;
     const displayHeight = canvas.clientHeight;
-    const dotRadius = 7; // 14px diameter / 2
+    const dotRadius = 7;
 
     // Draw intersection dots onto the canvas
     for (let i = 0; i < intersections.length; i++) {
@@ -115,28 +111,19 @@ export function ContentOverlay({
       ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
 
       if (isOpened) {
-        // Hollow ring: 1.5px stroke, rgba(0,0,0,0.3)
         ctx.fillStyle = "transparent";
         ctx.strokeStyle = "rgba(0,0,0,0.3)";
         ctx.lineWidth = 1.5;
         ctx.stroke();
       } else {
-        // Filled black circle
         ctx.fillStyle = "#000000";
         ctx.fill();
       }
     }
 
-    // Capture the image with dots included
     const dataUrl = canvas.toDataURL("image/png");
-    const link = document.createElement("a");
-    link.download = `crossing-${Date.now()}.png`;
-    link.href = dataUrl;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
 
-    // Upload to Supabase gallery in the background (non-blocking)
+    // Upload to gallery in the background
     canvas.toBlob((blob) => {
       if (blob) {
         uploadCrossing(blob).catch((err) => {
@@ -145,14 +132,35 @@ export function ContentOverlay({
       }
     }, "image/png");
 
-    // Restore canvas to lines-only state so the DOM overlay dots
-    // don't double up with the dots we just drew. Dispatching a resize
-    // event causes the Canvas component to re-run its draw effect,
-    // which clears the canvas and redraws only the line segments.
+    // Restore canvas to lines-only state
     window.dispatchEvent(new Event("resize"));
 
-    onDownload();
-  }, [canvasRef, onDownload, intersections, openedSections]);
+    return dataUrl;
+  }, [canvasRef, intersections, openedSections]);
+
+  // Auto-upload when section 7 opens
+  useEffect(() => {
+    if (!isNoticeSection || uploaded) return;
+    // Small delay to ensure canvas is ready
+    const timer = setTimeout(() => {
+      captureCanvas();
+      setUploaded(true);
+      onDownload();
+    }, 300);
+    return () => clearTimeout(timer);
+  }, [isNoticeSection, uploaded, captureCanvas, onDownload]);
+
+  const handleDownload = useCallback(() => {
+    const dataUrl = captureCanvas();
+    if (!dataUrl) return;
+
+    const link = document.createElement("a");
+    link.download = `crossing-${Date.now()}.png`;
+    link.href = dataUrl;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }, [captureCanvas]);
 
   return (
     <div
@@ -242,7 +250,7 @@ export function ContentOverlay({
           {section.text}
         </div>
 
-        {/* Section 7 (index 6) — download button */}
+        {/* Section 7 (index 6) — download + gallery */}
         {isNoticeSection && (
           <div style={{ marginTop: 28 }}>
             <button
@@ -269,32 +277,28 @@ export function ContentOverlay({
               Save a screenshot of my quilt of crossings
             </button>
 
-            {/* Post-download gallery link */}
-            {hasDownloaded && (
-              <div
+            <div
+              style={{
+                marginTop: 20,
+                opacity: 0,
+                animation: "fadeIn 0.5s ease 0.5s forwards",
+              }}
+            >
+              <span
+                onClick={onShowGallery}
                 style={{
-                  marginTop: 20,
-                  opacity: visible ? 1 : 0,
-                  transition: "opacity 0.5s ease",
-                  animation: "fadeIn 0.5s ease forwards",
+                  fontFamily: "'EB Garamond', Georgia, serif",
+                  fontSize: 15,
+                  lineHeight: 1.6,
+                  cursor: "pointer",
+                  textDecoration: "underline",
+                  textUnderlineOffset: "3px",
+                  color: "#000000",
                 }}
               >
-                <span
-                  onClick={onShowGallery}
-                  style={{
-                    fontFamily: "'EB Garamond', Georgia, serif",
-                    fontSize: 15,
-                    lineHeight: 1.6,
-                    cursor: "pointer",
-                    textDecoration: "underline",
-                    textUnderlineOffset: "3px",
-                    color: "#000000",
-                  }}
-                >
-                  See others&rsquo; crossings
-                </span>
-              </div>
-            )}
+                See others&rsquo; crossings
+              </span>
+            </div>
           </div>
         )}
       </div>

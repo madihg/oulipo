@@ -25,7 +25,8 @@ Reference these guidelines when:
 |------|-------|--------|--------|
 | **Standard** | Body text, navigation, hero subtitle | Book (400), Bold (700) | Cargo CDN |
 | **Terminal Grotesque** | Main h1 headings only | Regular (400) | Cargo CDN |
-| **Diatype Variable** | h2 headings, captions, work titles, metadata | 200-1000 (variable) | Cargo CDN |
+| **Diatype Variable** | h2 headings | 200-1000 (variable) | Cargo CDN |
+| **Diatype Mono Variable** | Captions, work titles, metadata (with `'MONO' 1`) | 200-1000 (variable) | Cargo CDN |
 
 ### Font Face Declarations
 
@@ -55,7 +56,7 @@ Reference these guidelines when:
   font-weight: normal;
 }
 
-/* Diatype Variable - Headings, Captions, Metadata */
+/* Diatype Variable - h2 Headings (proportional) */
 @font-face {
   font-display: block;
   font-family: "Diatype Variable";
@@ -63,6 +64,27 @@ Reference these guidelines when:
   font-style: normal;
   font-weight: 200 1000;
 }
+
+/* Diatype Mono Variable - Captions, Work Titles, Metadata (monospace) */
+@font-face {
+  font-display: block;
+  font-family: "Diatype Mono Variable";
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 1000;
+}
+```
+
+### Font Variation Settings
+
+The Diatype Plus Variable font supports axis switching between proportional and monospace:
+
+```css
+/* Proportional (Diatype Variable) */
+font-variation-settings: 'slnt' 0, 'MONO' 0;
+
+/* Monospace (Diatype Mono Variable) - USE THIS FOR CAPTIONS */
+font-variation-settings: 'slnt' 0, 'MONO' 1;
 ```
 
 ### Typography Specifications

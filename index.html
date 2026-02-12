@@ -40,16 +40,9 @@
     @font-face {
       font-display: block;
       font-family: "Diatype Mono Variable";
-      src: url("https://type.cargo.site/files/ABCDiatypeMono-Regular.woff2") format("woff2");
+      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
       font-style: normal;
-      font-weight: 400;
-    }
-    @font-face {
-      font-display: block;
-      font-family: "Diatype Mono Variable";
-      src: url("https://type.cargo.site/files/ABCDiatypeMono-Medium.woff2") format("woff2");
-      font-style: normal;
-      font-weight: 500;
+      font-weight: 200 1000;
     }
 
     /* Base styles matching Cargo */
@@ -117,10 +110,11 @@
       font-size: 1.2rem;
       font-weight: 400;
       color: #000000;
-      font-family: "Diatype Variable", sans-serif;
+      font-family: "Diatype Mono Variable", monospace;
       font-style: normal;
       line-height: 1.25;
       letter-spacing: 0em;
+      font-variation-settings: 'slnt' 0, 'MONO' 1;
     }
 
     .caption a {
@@ -336,9 +330,10 @@
     }
 
     .section-subtitle {
-      font-family: "Diatype Variable", sans-serif;
+      font-family: "Diatype Mono Variable", monospace;
       font-size: 1.2rem;
       color: rgba(0, 0, 0, 0.6);
+      font-variation-settings: 'slnt' 0, 'MONO' 1;
     }
 
     /* Grid */
@@ -356,10 +351,11 @@
     }
 
     .work-title {
-      font-family: "Diatype Variable", sans-serif;
+      font-family: "Diatype Mono Variable", monospace;
       font-size: 1.1rem;
       font-weight: 400;
       margin-bottom: 0.25rem;
+      font-variation-settings: 'slnt' 0, 'MONO' 1;
     }
 
     .work-title a {
@@ -380,9 +376,10 @@
     }
 
     .work-meta {
-      font-family: "Diatype Variable", sans-serif;
+      font-family: "Diatype Mono Variable", monospace;
       font-size: 0.9rem;
       color: rgba(0, 0, 0, 0.5);
+      font-variation-settings: 'slnt' 0, 'MONO' 1;
     }
 
     .work-image {
@@ -404,11 +401,12 @@
 
     .work-featured-header .caption {
       display: inline;
-      font-family: "Diatype Variable", sans-serif;
+      font-family: "Diatype Mono Variable", monospace;
       font-size: 1.1rem;
       color: #000000;
       font-weight: 400;
       line-height: 1.6;
+      font-variation-settings: 'slnt' 0, 'MONO' 1;
     }
 
     .work-featured-header .caption a {

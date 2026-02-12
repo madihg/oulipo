@@ -16,5 +16,4 @@ export interface Segment {
 
 export interface Intersection {
   point: NormalizedPoint;
-  sectionIndex: number;
 }

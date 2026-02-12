@@ -1,0 +1,8 @@
+singulars
+oulipo-dashboard
+.git
+.claude
+.cursor
+.agents
+node_modules
+.env*

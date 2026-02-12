@@ -16,8 +16,8 @@
     {
       "name": "hard.exe",
       "slug": "hard-exe",
-      "color": "#EF4444",
-      "location": "Beirut, Lebanon",
+      "color": "#2AA4DD",
+      "location": "TIAT, San Francisco",
       "date": "2024-11-15",
       "num_poems": 6,
       "num_poets": 3,
@@ -79,8 +79,8 @@
     {
       "name": "reinforcement.exe",
       "slug": "reinforcement-exe",
-      "color": "#059669",
-      "location": "Paris, France",
+      "color": "#02F700",
+      "location": "ARG Ethereum Scholar Program, DevConnect Buenos Aires",
       "date": "2024-06-20",
       "num_poems": 4,
       "num_poets": 2,
@@ -126,8 +126,8 @@
     {
       "name": "versus.exe",
       "slug": "versus-exe",
-      "color": "#B45309",
-      "location": "London, UK",
+      "color": "#FEE005",
+      "location": "Mozilla AI Residency, San Francisco",
       "date": "2024-03-10",
       "num_poems": 4,
       "num_poets": 2,
@@ -173,8 +173,8 @@
     {
       "name": "carnation.exe",
       "slug": "carnation-exe",
-      "color": "#EC4899",
-      "location": "Dubai, UAE",
+      "color": "#F6009B",
+      "location": "European Artist Program, Paris, Barcelona",
       "date": "2023-12-01",
       "num_poems": 4,
       "num_poets": 2,

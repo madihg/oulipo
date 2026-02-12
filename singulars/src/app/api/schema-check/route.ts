@@ -10,7 +10,7 @@ export async function GET() {
   const results: Record<string, unknown> = {};
 
   // Check performances table columns
-  const { data: perfData, error: perfError } = await client
+  const { error: perfError } = await client
     .from('performances')
     .select('id, name, slug, color, location, date, num_poems, num_poets, model_link, huggingface_link, status, poets, created_at')
     .limit(0);
@@ -25,7 +25,7 @@ export async function GET() {
   };
 
   // Check poems table columns
-  const { data: poemsData, error: poemsError } = await client
+  const { error: poemsError } = await client
     .from('poems')
     .select('id, performance_id, theme, theme_slug, text, author_name, author_type, vote_count, created_at')
     .limit(0);
@@ -39,7 +39,7 @@ export async function GET() {
   };
 
   // Check votes table columns
-  const { data: votesData, error: votesError } = await client
+  const { error: votesError } = await client
     .from('votes')
     .select('id, poem_id, voter_fingerprint, created_at')
     .limit(0);
@@ -84,7 +84,7 @@ export async function GET() {
   // Test unique constraint on performances.slug
   // Insert a performance, try to insert another with same slug
   const testSlug = `schema-test-${Date.now()}`;
-  const { data: insertedPerf, error: insertPerfErr } = await client
+  const { data: insertedPerf } = await client
     .from('performances')
     .insert({
       name: 'Schema Test',
@@ -183,9 +183,9 @@ export async function GET() {
   };
 
   // Overall assessment
-  const allTablesExist = results.performances && (results.performances as any).exists &&
-    results.poems && (results.poems as any).exists &&
-    results.votes && (results.votes as any).exists;
+  const allTablesExist = results.performances && (results.performances as Record<string, unknown>).exists &&
+    results.poems && (results.poems as Record<string, unknown>).exists &&
+    results.votes && (results.votes as Record<string, unknown>).exists;
 
   return NextResponse.json({
     schema_valid: allTablesExist,

@@ -137,15 +137,10 @@ export function Canvas({
       lastEndpointRef.current = clickPoint;
 
       // Report intersections (up to 7 total)
-      // Use a running counter so multiple hits from one click get unique indices
       let runningCount = intersections.length;
       for (const point of hits) {
         if (runningCount >= 7) break;
-
-        onIntersectionFound({
-          point,
-          sectionIndex: runningCount,
-        });
+        onIntersectionFound({ point });
         runningCount++;
       }
     },
@@ -165,14 +160,15 @@ export function Canvas({
       const h = rect.height;
       const hitRadius = 20; // 40px diameter hit area
 
-      for (const intersection of intersections) {
+      for (let i = 0; i < intersections.length; i++) {
+        const intersection = intersections[i];
         const px = intersection.point.nx * w + rect.left;
         const py = intersection.point.ny * h + rect.top;
         const dx = clientX - px;
         const dy = clientY - py;
 
         if (dx * dx + dy * dy <= hitRadius * hitRadius) {
-          onDotClick(intersection.sectionIndex);
+          onDotClick(i);
           return true;
         }
       }
@@ -233,14 +229,14 @@ export function Canvas({
       />
 
       {/* Intersection dots overlaid as absolutely-positioned divs */}
-      {intersections.map((intersection) => {
-        const isOpened = openedSections.has(intersection.sectionIndex);
+      {intersections.map((intersection, i) => {
+        const isOpened = openedSections.has(i);
         const px = intersection.point.nx * size.w;
         const py = intersection.point.ny * size.h;
 
         return (
           <div
-            key={intersection.sectionIndex}
+            key={i}
             className="absolute pointer-events-none"
             style={{
               left: px,
@@ -261,20 +257,20 @@ export function Canvas({
               }}
               role="button"
               tabIndex={0}
-              aria-label={`Open section ${intersection.sectionIndex + 1}`}
+              aria-label={`Open story`}
               onClick={(e) => {
                 e.stopPropagation();
-                onDotClick(intersection.sectionIndex);
+                onDotClick(i);
               }}
               onTouchEnd={(e) => {
                 e.stopPropagation();
                 e.preventDefault();
-                onDotClick(intersection.sectionIndex);
+                onDotClick(i);
               }}
               onKeyDown={(e) => {
                 if (e.key === "Enter" || e.key === " ") {
                   e.preventDefault();
-                  onDotClick(intersection.sectionIndex);
+                  onDotClick(i);
                 }
               }}
             />
@@ -294,7 +290,7 @@ export function Canvas({
                   "background-color 0.4s ease, border-color 0.4s ease",
                 animation: isOpened
                   ? "none"
-                  : `pulse 2s ease-in-out ${intersection.sectionIndex * 0.35}s infinite`,
+                  : `pulse 2s ease-in-out ${i * 0.35}s infinite`,
               }}
             />
           </div>

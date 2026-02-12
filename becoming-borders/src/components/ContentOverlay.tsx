@@ -111,10 +111,11 @@ export function ContentOverlay({
     const dotRadius = 7; // 14px diameter / 2
 
     // Draw intersection dots onto the canvas
-    for (const intersection of intersections) {
+    for (let i = 0; i < intersections.length; i++) {
+      const intersection = intersections[i];
       const cx = intersection.point.nx * displayWidth;
       const cy = intersection.point.ny * displayHeight;
-      const isOpened = openedSections.has(intersection.sectionIndex);
+      const isOpened = openedSections.has(i);
 
       ctx.beginPath();
       ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);

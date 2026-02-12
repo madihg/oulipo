@@ -67,7 +67,7 @@ export async function GET(request: Request) {
     }
 
     return NextResponse.json({ fingerprint, count: votes?.length || 0, votes: votes || [] });
-  } catch (err) {
+  } catch {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

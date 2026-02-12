@@ -13,6 +13,7 @@ export default function Home() {
   const [intersections, setIntersections] = useState<Intersection[]>([]);
   const [activeSection, setActiveSection] = useState<number | null>(null);
   const [openedSections, setOpenedSections] = useState<Set<number>>(new Set());
+  const [dotToStory] = useState<Map<number, number>>(() => new Map());
   const [hasDownloaded, setHasDownloaded] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
   const [showAbout, setShowAbout] = useState(false);
@@ -29,11 +30,19 @@ export default function Home() {
   );
 
   const handleDotClick = useCallback(
-    (index: number) => {
-      setActiveSection(index);
-      setOpenedSections((prev) => new Set(prev).add(index));
+    (dotIndex: number) => {
+      // If this dot was already clicked, reopen its assigned story
+      if (dotToStory.has(dotIndex)) {
+        setActiveSection(dotToStory.get(dotIndex)!);
+        return;
+      }
+      // Assign the next sequential story
+      const storyIndex = dotToStory.size;
+      dotToStory.set(dotIndex, storyIndex);
+      setActiveSection(storyIndex);
+      setOpenedSections((prev) => new Set(prev).add(dotIndex));
     },
-    []
+    [dotToStory]
   );
 
   const handleCloseSection = useCallback(() => {

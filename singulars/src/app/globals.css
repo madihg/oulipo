@@ -1,53 +1,96 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Cargo Fonts — matching oulipo.xyz */
+@font-face {
+  font-display: block;
+  font-family: "Standard";
+  src: url("https://type.cargo.site/files/Standard-Book.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-display: block;
+  font-family: "Standard";
+  src: url("https://type.cargo.site/files/Standard-Bold.woff") format("woff");
+  font-style: normal;
+  font-weight: bold;
+}
+@font-face {
+  font-display: block;
+  font-family: "Terminal Grotesque";
+  src: url("https://type.cargo.site/files/TerminalGrotesque.woff") format("woff");
+  font-style: normal;
+  font-weight: normal;
+}
+@font-face {
+  font-display: block;
+  font-family: "Diatype Variable";
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 1000;
+}
+@font-face {
+  font-display: block;
+  font-family: "Diatype Mono Variable";
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  font-style: normal;
+  font-weight: 200 700;
+}
 
-/* CSS variables matching oulipo.xyz design system */
+/* Oulipo brand CSS variables */
 :root {
   --background: #ffffff;
-  --foreground: rgba(0, 0, 0, 0.85);
   --text-primary: rgba(0, 0, 0, 0.85);
-  --text-secondary: rgba(0, 0, 0, 0.55);
-  --text-muted: rgba(0, 0, 0, 0.55);
-  --border-color: rgba(0, 0, 0, 0.12);
-  --link-color: rgba(0, 0, 0, 0.85);
+  --text-hover: rgba(0, 0, 0, 0.7);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-tertiary: rgba(0, 0, 0, 0.5);
+  --text-hint: rgba(0, 0, 0, 0.4);
+  --border: rgba(0, 0, 0, 0.75);
+  --border-light: rgba(0, 0, 0, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: "Standard", Arial, Helvetica, sans-serif;
-  font-size: 1rem;
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   margin: 0;
   padding: 0;
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: "Standard", sans-serif;
+  font-size: 1.3rem;
+  line-height: 1.2;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
-  color: var(--link-color);
-  text-decoration: underline;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: opacity 0.3s ease;
 }
 
 a:hover {
   opacity: 0.7;
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+hr {
+  height: 1px;
+  background: var(--border);
+  border: none;
+  margin: 2rem 0;
 }
 
-/* Keyboard accessibility: visible focus rings on voteable poem cards */
+/* Keyboard accessibility: visible focus rings on interactive elements */
 [data-voteable="true"]:focus-visible {
-  outline: 3px solid var(--performance-color, #333);
+  outline: 3px solid var(--performance-color, rgba(0, 0, 0, 0.85));
   outline-offset: 2px;
-  box-shadow: 0 0 0 6px rgba(0, 0, 0, 0.1) !important;
 }
 
 [data-voteable="true"]:focus {
-  outline: 3px solid var(--performance-color, #333);
+  outline: 3px solid var(--performance-color, rgba(0, 0, 0, 0.85));
   outline-offset: 2px;
 }

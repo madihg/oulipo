@@ -1,6 +1,4 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  // Configuration for the Singulars app
-};
+const nextConfig = {};
 
 export default nextConfig;

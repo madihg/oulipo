@@ -35,12 +35,10 @@ export default function MiniVoting() {
   const [loading, setLoading] = useState(true);
   const [voting, setVoting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [hoveredPoem, setHoveredPoem] = useState<string | null>(null);
+  const [selectedPoemId, setSelectedPoemId] = useState<string | null>(null);
 
-  // Accessible text color: darkened variant of performance color meeting 4.5:1 on white
-  // Must be called before any early returns to satisfy React hook rules
   const a11yColor = useMemo(
-    () => themeData ? accessibleTextColor(themeData.performance.color) : '#333',
+    () => themeData ? accessibleTextColor(themeData.performance.color) : 'rgba(0,0,0,0.85)',
     [themeData]
   );
 
@@ -48,7 +46,6 @@ export default function MiniVoting() {
   useEffect(() => {
     async function fetchRandomTheme() {
       try {
-        // Fetch hard.exe performance with all poems
         const res = await fetch('/api/performances/hard-exe');
         if (!res.ok) {
           throw new Error('Failed to fetch performance data');
@@ -89,8 +86,13 @@ export default function MiniVoting() {
     fetchRandomTheme();
   }, []);
 
-  const handleVote = useCallback(async (poemId: string) => {
-    if (voting || !themeData) return;
+  const handleSelect = useCallback((poemId: string) => {
+    if (voting) return;
+    setSelectedPoemId(prev => prev === poemId ? null : poemId);
+  }, [voting]);
+
+  const handleSubmit = useCallback(async () => {
+    if (voting || !themeData || !selectedPoemId) return;
     setVoting(true);
 
     try {
@@ -99,7 +101,7 @@ export default function MiniVoting() {
       const res = await fetch('/api/vote', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ poem_id: poemId, fingerprint }),
+        body: JSON.stringify({ poem_id: selectedPoemId, fingerprint }),
       });
 
       if (!res.ok && res.status !== 429) {
@@ -108,22 +110,22 @@ export default function MiniVoting() {
 
       // Navigate to the post-vote / theme page
       const themeSlug = themeData.poems[0]?.theme_slug;
-      router.push(`/singulars/${themeData.performance.slug}/${themeSlug}`);
+      router.push(`/${themeData.performance.slug}/${themeSlug}`);
     } catch (err) {
       console.error('Vote error:', err);
       setError('Failed to register vote. Please try again.');
       setVoting(false);
     }
-  }, [voting, themeData, router]);
+  }, [voting, themeData, selectedPoemId, router]);
 
   if (loading) {
     return (
       <div
         data-testid="mini-voting"
         style={{
-          padding: '2rem',
+          padding: '2rem 0',
           textAlign: 'center',
-          color: '#737373',
+          color: 'rgba(0,0,0,0.5)',
           fontSize: '0.9rem',
         }}
       >
@@ -137,9 +139,9 @@ export default function MiniVoting() {
       <div
         data-testid="mini-voting"
         style={{
-          padding: '2rem',
+          padding: '2rem 0',
           textAlign: 'center',
-          color: '#737373',
+          color: 'rgba(0,0,0,0.5)',
           fontSize: '0.9rem',
         }}
       >
@@ -155,21 +157,21 @@ export default function MiniVoting() {
     <section
       data-testid="mini-voting"
       style={{
-        marginBottom: '2.5rem',
-        padding: '1.5rem',
-        border: `2px solid ${performance.color}20`,
-        borderRadius: '16px',
-        backgroundColor: `${performance.color}05`,
+        marginBottom: '3rem',
+        padding: '2rem 0',
+        borderTop: `2px solid ${performance.color}`,
       }}
     >
       {/* Theme name */}
       <h2
         data-testid="mini-voting-theme"
         style={{
-          fontSize: '1.5rem',
+          fontFamily: '"Diatype Variable", sans-serif',
+          fontSize: '2rem',
           textAlign: 'center',
           marginBottom: '0.5rem',
-          fontWeight: 600,
+          fontWeight: 700,
+          lineHeight: 1.2,
         }}
       >
         {themeName}
@@ -181,7 +183,7 @@ export default function MiniVoting() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          gap: '0.5rem',
+          gap: '0.75rem',
           marginBottom: '1.5rem',
         }}
       >
@@ -199,12 +201,12 @@ export default function MiniVoting() {
           data-testid="mini-voting-status"
           style={{
             display: 'inline-block',
+            fontFamily: '"Diatype Mono Variable", monospace',
+            fontSize: '0.65rem',
+            letterSpacing: '0.03em',
             padding: '0.15rem 0.5rem',
-            borderRadius: '999px',
-            fontSize: '0.7rem',
-            fontWeight: 500,
-            backgroundColor: performance.color + '20',
-            color: a11yColor,
+            border: `1px solid ${performance.status === 'training' ? performance.color : 'rgba(0,0,0,0.25)'}`,
+            color: performance.status === 'training' ? a11yColor : 'rgba(0,0,0,0.5)',
           }}
         >
           {performance.status}
@@ -215,77 +217,95 @@ export default function MiniVoting() {
       <p
         style={{
           textAlign: 'center',
-          color: '#737373',
+          color: 'rgba(0,0,0,0.5)',
           fontSize: '0.85rem',
-          marginBottom: '1.25rem',
-          fontStyle: 'italic',
+          marginBottom: '1.5rem',
         }}
       >
-        Click or press Enter on the poem you prefer to cast your vote
+        Click on the poem you prefer to cast your vote
       </p>
 
-      {/* Poems - side by side on desktop, stacked on mobile */}
+      {/* Poems */}
       <div
         data-testid="mini-voting-poems"
         style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-          gap: '1rem',
+          gap: '2rem',
         }}
       >
-        {poems.map((poem) => (
-          <div
-            key={poem.id}
-            data-testid={`mini-voting-poem-${poem.author_type}`}
-            data-poem-id={poem.id}
-            data-voteable="true"
-            onClick={() => handleVote(poem.id)}
-            onMouseEnter={() => setHoveredPoem(poem.id)}
-            onMouseLeave={() => setHoveredPoem(null)}
-            role="button"
-            aria-label={`Vote for this poem`}
-            tabIndex={0}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                handleVote(poem.id);
-              }
-            }}
-            style={{
-              padding: '1.25rem',
-              border: `2px solid ${
-                hoveredPoem === poem.id ? performance.color : '#e0e0e0'
-              }`,
-              borderRadius: '12px',
-              backgroundColor:
-                hoveredPoem === poem.id
-                  ? `${performance.color}10`
-                  : '#fafafa',
-              cursor: voting
-                ? 'wait'
-                : `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='8' fill='${encodeURIComponent(performance.color)}'/></svg>") 10 10, pointer`,
-              transition: 'border-color 0.2s ease, background-color 0.2s ease, transform 0.15s ease',
-              transform: hoveredPoem === poem.id ? 'translateY(-2px)' : 'none',
-              opacity: voting ? 0.7 : 1,
-              userSelect: 'none',
-            }}
-          >
-            {/* Poem text - no author labels to maintain blind voting */}
+        {poems.map((poem) => {
+          const isSelected = selectedPoemId === poem.id;
+          return (
             <div
+              key={poem.id}
+              data-testid={`mini-voting-poem-${poem.author_type}`}
+              data-poem-id={poem.id}
+              data-voteable="true"
+              onClick={() => handleSelect(poem.id)}
+              role="button"
+              aria-label={`Vote for this poem`}
+              aria-pressed={isSelected}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  handleSelect(poem.id);
+                }
+              }}
               style={{
-                fontFamily: 'Georgia, "Times New Roman", serif',
-                fontSize: '0.9rem',
-                lineHeight: '1.7',
-                whiteSpace: 'pre-line',
-                color: '#333',
-                minHeight: '100px',
+                padding: '1.5rem 0',
+                borderTop: isSelected
+                  ? `2px solid ${performance.color}`
+                  : '2px solid rgba(0,0,0,0.12)',
+                cursor: voting
+                  ? 'wait'
+                  : `url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20'><circle cx='10' cy='10' r='8' fill='${encodeURIComponent(performance.color)}'/></svg>") 10 10, pointer`,
+                transition: 'opacity 0.3s ease, border-color 0.3s ease',
+                opacity: voting ? 0.7 : (selectedPoemId && !isSelected ? 0.5 : 1),
+                userSelect: 'none',
               }}
             >
-              {poem.text}
+              {/* Poem text - no author labels to maintain blind voting */}
+              <div
+                style={{
+                  fontSize: '0.95rem',
+                  lineHeight: 1.7,
+                  whiteSpace: 'pre-line',
+                  color: 'rgba(0,0,0,0.85)',
+                  minHeight: '100px',
+                }}
+              >
+                {poem.text}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
+
+      {/* Submit button — only shown when a poem is selected */}
+      {selectedPoemId && !voting && (
+        <div style={{ textAlign: 'center', marginTop: '1.5rem' }}>
+          <button
+            onClick={handleSubmit}
+            style={{
+              padding: '0.75rem 2rem',
+              fontSize: '1rem',
+              fontWeight: 700,
+              fontFamily: '"Standard", sans-serif',
+              color: '#fff',
+              backgroundColor: performance.color,
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'opacity 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.opacity = '0.7'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.opacity = '1'; }}
+          >
+            Submit my vote
+          </button>
+        </div>
+      )}
 
       {voting && (
         <p

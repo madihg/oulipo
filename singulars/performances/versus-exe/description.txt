@@ -1,0 +1,19 @@
+Versus.exe
+
+November 25
+Mozilla AI Residency, San Francisco
+Part II of Singulars
+
+Versus.exe emerges from the same creative soil as Carnation.exe, forming part of an ongoing series called Singulars. This work explores what unfolds when human and machine intelligence meet and learn from each other's presence.
+
+The performance structure operates as follows: a prompt is offered (arrival, anger, joy, shame, or solitude), and both the model and poet respond. The model answers instantly; the poet takes thirty minutes. Two poems are printed, placed side by side, and displayed. Visitors then vote using neon stickers, creating visual marks of attention on the page.
+
+The work examines mutual reinforcement through recursive comparison. Each audience vote influences future iterations — winning human poems enter the training corpus, while successful model outputs become lessons for the poet. This creates what the artist describes as "a feedback ecology" where both forms of intelligence shape each other through taste and counter-taste.
+
+Guest poets including Elise Liu and Theory have participated, introducing varied linguistic and emotional registers that shift audience response patterns across different languages (Arabic, French, English, Spanish).
+
+Rather than collaboration, Versus.exe represents "fine tuning as craft" and "iteration as sculpture." The work investigates how judgment transforms into learning, learning into taste, and taste into evolution. Behind the scenes, dashboards track votes, themes, and decision patterns within the model's probability distributions.
+
+Human participants experience what the artist calls "soft humiliation" when losing to the machine — spending hours crafting poetry only to be outpaced by automated generation, yet recognizing this technological dynamic as the medium itself.
+
+Human and machine become altered through their encounter, much like "a mother altered by the milk she gives."

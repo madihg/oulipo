@@ -1,2 +1,0 @@
-[      43ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:3001/_next/static/chunks/app-pages-internals.js”." {file: "http://localhost:3001/singulars/hard-exe/loss" line: 1}] @ http://localhost:3001/singulars/hard-exe/loss:1
-[      44ms] [WARNING] [JavaScript Warning: "Loading failed for the <script> with source “http://localhost:3001/_next/static/chunks/main-app.js?v=1770420225610”." {file: "http://localhost:3001/singulars/hard-exe/loss" line: 1}] @ http://localhost:3001/singulars/hard-exe/loss:1

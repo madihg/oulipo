@@ -70,6 +70,8 @@ export default function Home() {
           onShowGallery={handleShowGallery}
           hasDownloaded={hasDownloaded}
           canvasRef={canvasRef}
+          intersections={intersections}
+          openedSections={openedSections}
         />
       )}
 

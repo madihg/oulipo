@@ -2,7 +2,7 @@ export interface Section {
   id: string;
   title: string;
   text: string;
-  images: string[]; // placeholder paths for now
+  images: string[];
 }
 
 export const sections: Section[] = [
@@ -14,13 +14,21 @@ like my funny uncle's sunday jabs
 Because I have a Lebanese passport,
 I've needed a visa to get into each and every country
 I visited over the last few years.`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/border-feeling/1.jpg",
+      "/becoming-borders/stories/border-feeling/2.jpg",
+      "/becoming-borders/stories/border-feeling/3.jpg",
+    ],
   },
   {
     id: "become-border",
     title: "Become-Border",
     text: `At the British border once, when asked whether I was intending on working while in the country, I shared I might fiddle on my computer and, while holding the other end of my passport, open to the tourist visa page, was told I'd be denied entry that day, saw a year dissolve as the agent's hands let go of the other end.`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/become-border/1.jpg",
+      "/becoming-borders/stories/become-border/2.jpg",
+      "/becoming-borders/stories/become-border/3.jpg",
+    ],
   },
   {
     id: "eel-power",
@@ -31,7 +39,11 @@ walls of algorithmic triaging
 into higher price brackets due to the country I live in,
 I am embracing the eel
 as a power animal`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/eel-power/1.jpg",
+      "/becoming-borders/stories/eel-power/2.jpg",
+      "/becoming-borders/stories/eel-power/3.jpg",
+    ],
   },
   {
     id: "morph-other",
@@ -41,19 +53,31 @@ as a power animal`,
 They chameleon into
 alternatives, become illegible
 to themselves`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/morph-other/1.jpg",
+      "/becoming-borders/stories/morph-other/2.jpg",
+      "/becoming-borders/stories/morph-other/3.jpg",
+    ],
   },
   {
     id: "screen-skin",
     title: "Screen-Skin",
     text: `The screen came later.`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/screen-skin/1.jpg",
+      "/becoming-borders/stories/screen-skin/2.jpg",
+      "/becoming-borders/stories/screen-skin/3.jpg",
+    ],
   },
   {
     id: "ana-mendieta",
     title: "Ana-Mendieta",
     text: `In a retrospective of Ana Mendieta's work: "This exhibition points not necessarily to the injustice or incapacity of a society that has not been willing to include us, but more towards a personal will to continue being 'other.'" — that it may be intentional, that we want this, the way we want a vacation or a hobby. The deepening chasm between my mother's TV congregation and my polycule's public Instagram account even though we hold hands for a week in Paris. Not either or. We're strangers together and my other-ness doesn't negate as much as folds each of my air-borne roots.`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/ana-mendieta/1.jpg",
+      "/becoming-borders/stories/ana-mendieta/2.jpg",
+      "/becoming-borders/stories/ana-mendieta/3.jpg",
+    ],
   },
   {
     id: "notice",
@@ -63,6 +87,10 @@ and crossing lines by yourself
 See. A landscape of crossings
 a quilt of personal trespassings
 All yours now`,
-    images: [],
+    images: [
+      "/becoming-borders/stories/notice/1.jpg",
+      "/becoming-borders/stories/notice/2.jpg",
+      "/becoming-borders/stories/notice/3.jpg",
+    ],
   },
 ];

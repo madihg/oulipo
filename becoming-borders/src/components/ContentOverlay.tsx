@@ -2,6 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { sections } from "@/lib/content";
+import { uploadCrossing } from "@/lib/supabase";
+import type { Intersection } from "@/lib/types";
 
 interface ContentOverlayProps {
   sectionIndex: number;
@@ -10,6 +12,8 @@ interface ContentOverlayProps {
   onShowGallery: () => void;
   hasDownloaded: boolean;
   canvasRef: React.RefObject<HTMLCanvasElement>;
+  intersections: Intersection[];
+  openedSections: Set<number>;
 }
 
 /**
@@ -27,46 +31,42 @@ function seededRandom(seed: number) {
   };
 }
 
-interface PlaceholderImage {
+interface ScatteredImage {
   top: string;
   left: string;
   width: number;
-  height: number;
 }
 
-function generateImagePositions(sectionIndex: number): PlaceholderImage[] {
+function generateImagePositions(sectionIndex: number, count: number): ScatteredImage[] {
   const rand = seededRandom(sectionIndex * 7 + 31);
-  const count = sectionIndex % 2 === 0 ? 3 : 2;
-  const positions: PlaceholderImage[] = [];
+  const positions: ScatteredImage[] = [];
 
   // Define zones that avoid the center rectangle area.
   // The center overlay is roughly max-width 420px centered,
   // so we scatter images in left/right margins and top/bottom edges.
   const zones = [
     // left column
-    { xMin: 3, xMax: 20, yMin: 10, yMax: 80 },
+    { xMin: 3, xMax: 18, yMin: 10, yMax: 75 },
     // right column
-    { xMin: 75, xMax: 92, yMin: 10, yMax: 80 },
+    { xMin: 76, xMax: 92, yMin: 10, yMax: 75 },
     // top-left
-    { xMin: 5, xMax: 30, yMin: 3, yMax: 20 },
+    { xMin: 5, xMax: 28, yMin: 3, yMax: 20 },
     // bottom-right
-    { xMin: 65, xMax: 90, yMin: 75, yMax: 92 },
+    { xMin: 68, xMax: 90, yMin: 72, yMax: 90 },
     // top-right
-    { xMin: 70, xMax: 92, yMin: 3, yMax: 22 },
+    { xMin: 72, xMax: 92, yMin: 3, yMax: 22 },
   ];
 
   for (let i = 0; i < count; i++) {
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = 100 + Math.floor(rand() * 40); // 100-140
-    const h = 70 + Math.floor(rand() * 30); // 70-100
+    const w = 110 + Math.floor(rand() * 50); // 110-160
 
     positions.push({
       left: `${x.toFixed(1)}%`,
       top: `${y.toFixed(1)}%`,
       width: w,
-      height: h,
     });
   }
 
@@ -80,11 +80,13 @@ export function ContentOverlay({
   onShowGallery,
   hasDownloaded,
   canvasRef,
+  intersections,
+  openedSections,
 }: ContentOverlayProps) {
   const [visible, setVisible] = useState(false);
   const section = sections[sectionIndex];
   const isNoticeSection = sectionIndex === 6;
-  const imagePositions = generateImagePositions(sectionIndex);
+  const imagePositions = generateImagePositions(sectionIndex, section.images.length);
 
   // Trigger fade-in after mount
   useEffect(() => {
@@ -97,7 +99,40 @@ export function ContentOverlay({
   const handleDownload = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
+    // The canvas uses devicePixelRatio scaling: canvas.width/height are
+    // multiplied by dpr, but the context has a dpr transform applied via
+    // setTransform(dpr, 0, 0, dpr, 0, 0). So we draw at display coordinates
+    // (the transform handles scaling to physical pixels).
+    const displayWidth = canvas.clientWidth;
+    const displayHeight = canvas.clientHeight;
+    const dotRadius = 7; // 14px diameter / 2
+
+    // Draw intersection dots onto the canvas
+    for (const intersection of intersections) {
+      const cx = intersection.point.nx * displayWidth;
+      const cy = intersection.point.ny * displayHeight;
+      const isOpened = openedSections.has(intersection.sectionIndex);
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, dotRadius, 0, Math.PI * 2);
+
+      if (isOpened) {
+        // Hollow ring: 1.5px stroke, rgba(0,0,0,0.3)
+        ctx.fillStyle = "transparent";
+        ctx.strokeStyle = "rgba(0,0,0,0.3)";
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+      } else {
+        // Filled black circle
+        ctx.fillStyle = "#000000";
+        ctx.fill();
+      }
+    }
+
+    // Capture the image with dots included
     const dataUrl = canvas.toDataURL("image/png");
     const link = document.createElement("a");
     link.download = `crossing-${Date.now()}.png`;
@@ -106,8 +141,23 @@ export function ContentOverlay({
     link.click();
     document.body.removeChild(link);
 
+    // Upload to Supabase gallery in the background (non-blocking)
+    canvas.toBlob((blob) => {
+      if (blob) {
+        uploadCrossing(blob).catch((err) => {
+          console.error("Gallery upload failed:", err);
+        });
+      }
+    }, "image/png");
+
+    // Restore canvas to lines-only state so the DOM overlay dots
+    // don't double up with the dots we just drew. Dispatching a resize
+    // event causes the Canvas component to re-run its draw effect,
+    // which clears the canvas and redraws only the line segments.
+    window.dispatchEvent(new Event("resize"));
+
     onDownload();
-  }, [canvasRef, onDownload]);
+  }, [canvasRef, onDownload, intersections, openedSections]);
 
   return (
     <div
@@ -124,24 +174,30 @@ export function ContentOverlay({
         onClick={onClose}
       />
 
-      {/* Scattered placeholder images outside the rectangle */}
-      {imagePositions.map((pos, i) => (
-        <div
-          key={i}
-          className="absolute"
-          style={{
-            top: pos.top,
-            left: pos.left,
-            width: pos.width,
-            height: pos.height,
-            backgroundColor: "#e8e8e8",
-            boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
-            opacity: visible ? 1 : 0,
-            transition: `opacity 0.5s ease ${0.1 + i * 0.08}s`,
-            zIndex: 51,
-          }}
-        />
-      ))}
+      {/* Scattered images outside the rectangle */}
+      {imagePositions.map((pos, i) => {
+        const imageSrc = section.images[i];
+        if (!imageSrc) return null;
+        return (
+          <img
+            key={i}
+            src={imageSrc}
+            alt=""
+            className="absolute pointer-events-none"
+            style={{
+              top: pos.top,
+              left: pos.left,
+              width: pos.width,
+              height: "auto",
+              objectFit: "cover",
+              boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
+              opacity: visible ? 1 : 0,
+              transition: `opacity 0.5s ease ${0.15 + i * 0.1}s`,
+              zIndex: 51,
+            }}
+          />
+        );
+      })}
 
       {/* Content rectangle */}
       <div

@@ -2,11 +2,11 @@
   "rewrites": [
     {
       "source": "/singulars",
-      "destination": "https://singulars-halims-projects.vercel.app/singulars"
+      "destination": "https://singulars.vercel.app/singulars"
     },
     {
       "source": "/singulars/:path+",
-      "destination": "https://singulars-halims-projects.vercel.app/singulars/:path+"
+      "destination": "https://singulars.vercel.app/singulars/:path+"
     },
     {
       "source": "/becoming-borders",

@@ -214,29 +214,6 @@ export default async function SingularsPage() {
         `}</style>
       </section>
 
-      {/* Duel the Machine CTA */}
-      <section style={{ marginBottom: '3rem', textAlign: 'center' }}>
-        <a
-          href="https://halimmadi.com/contact-form"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            display: 'inline-block',
-            padding: '0.75rem 2rem',
-            fontSize: '1rem',
-            fontWeight: 700,
-            color: '#fff',
-            backgroundColor: 'rgba(0,0,0,0.85)',
-            border: '1px solid rgba(0,0,0,0.85)',
-            textDecoration: 'none',
-            cursor: 'pointer',
-            transition: 'opacity 0.3s ease',
-          }}
-        >
-          Duel the Machine
-        </a>
-      </section>
-
       <hr />
 
       {/* About section */}
@@ -244,21 +221,22 @@ export default async function SingularsPage() {
         <p style={{ fontSize: '1rem', color: 'rgba(0,0,0,0.85)', lineHeight: 1.4, marginBottom: '1rem' }}>
           Singulars is a series of live poetry duels between a human poet and a machine.
           The audience votes to decide the winner — and their votes train the machine for
-          the next performance.
+          the next performance.{' '}
+          <Link href="/about" style={{ color: 'rgba(0,0,0,0.85)', textDecoration: 'underline' }}>
+            Learn more about it.
+          </Link>
         </p>
         <p style={{ marginBottom: '1rem', fontSize: '1rem' }}>
-          Created by{' '}
+          by{' '}
           <a
             href="https://www.halimmadi.com"
             target="_blank"
             rel="noopener noreferrer"
+            style={{ color: 'rgba(0,0,0,0.85)', textDecoration: 'underline' }}
           >
             Halim Madi
           </a>
         </p>
-        <Link href="/about">
-          About Singulars &rarr;
-        </Link>
       </section>
     </main>
   );

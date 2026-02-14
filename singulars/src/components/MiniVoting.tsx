@@ -274,6 +274,7 @@ export default function MiniVoting() {
                   whiteSpace: 'pre-line',
                   color: 'rgba(0,0,0,0.85)',
                   minHeight: '100px',
+                  textAlign: 'left',
                 }}
               >
                 {poem.text}

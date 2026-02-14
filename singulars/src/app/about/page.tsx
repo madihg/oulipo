@@ -71,8 +71,9 @@ export default function AboutPage() {
 
         <p style={{ marginBottom: '1.5rem' }}>
           Each performance uses a different AI model, trained or fine-tuned on poetry. The audience
-          votes are collected and used to further train the machine for the next round, creating a
-          feedback loop between human taste and machine output.
+          votes are collected and used to further train the machine for the next round—a form of
+          artisanal RLHF (reinforcement learning from human feedback)—creating a feedback loop
+          between human taste and machine output.
         </p>
 
         <p style={{ marginBottom: '2rem' }}>

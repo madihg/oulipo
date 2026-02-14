@@ -2,7 +2,8 @@ import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
 import { accessibleTextColor } from '@/lib/color-utils';
-import { hasDescription } from '@/lib/performance-descriptions';
+import { hasDescription, getPerformanceDescription } from '@/lib/performance-descriptions';
+import PerformanceContentBlocks from '@/components/PerformanceContentBlocks';
 
 export const dynamic = 'force-dynamic';
 
@@ -242,6 +243,25 @@ export default async function PerformancePage({
           {performance.status}
         </span>
 
+        {/* Stats */}
+        {themes.length > 0 && (
+          <div
+            style={{
+              display: 'flex',
+              gap: '1.5rem',
+              fontFamily: '"Diatype Mono Variable", monospace',
+              fontSize: '0.85rem',
+              color: 'rgba(0,0,0,0.5)',
+              marginBottom: '1rem',
+            }}
+          >
+            <span>{performance.poems.length} poems (training data)</span>
+            <span>
+              {themes.reduce((sum, t) => sum + t.poems.reduce((s, p) => s + (p.vote_count ?? 0), 0), 0)} total votes
+            </span>
+          </div>
+        )}
+
         {/* Links */}
         {(performance.model_link || performance.huggingface_link) && (
           <div style={{ display: 'flex', gap: '1.5rem' }}>
@@ -281,6 +301,18 @@ export default async function PerformancePage({
       </header>
 
       <hr />
+
+      {/* Scraped content (images, paragraphs, galleries) */}
+      {hasDescription(performance.slug) && (() => {
+        const desc = getPerformanceDescription(performance.slug);
+        return desc ? (
+          <section style={{ marginBottom: '3rem' }}>
+            <PerformanceContentBlocks content={desc.content} />
+          </section>
+        ) : null;
+      })()}
+
+      {hasDescription(performance.slug) && <hr />}
 
       {/* Theme cards with poems */}
       <section>
@@ -351,6 +383,18 @@ export default async function PerformancePage({
                   >
                     {poem.text}
                   </div>
+                  {poem.vote_count !== undefined && (
+                    <div
+                      style={{
+                        fontFamily: '"Diatype Mono Variable", monospace',
+                        fontSize: '0.8rem',
+                        color: 'rgba(0,0,0,0.5)',
+                        marginTop: '0.5rem',
+                      }}
+                    >
+                      {poem.vote_count} {poem.vote_count === 1 ? 'vote' : 'votes'}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

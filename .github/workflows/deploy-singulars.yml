@@ -1,0 +1,51 @@
+# Deploy singulars to Vercel production when singulars/ changes on main.
+# This ensures deploys happen even if Vercel Git integration is misconfigured.
+#
+# Required GitHub secrets:
+#   VERCEL_TOKEN      - Vercel API token (Account Settings → Tokens)
+#   VERCEL_ORG_ID     - team_9h3UVrcMfPTPWYdvGpnKezrd (from singulars/.vercel/project.json)
+#   VERCEL_PROJECT_ID - prj_wAF6Dx0ddTLn2WhNlIMAWapI0cp3 (from singulars/.vercel/project.json)
+#
+name: Deploy Singulars
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'singulars/**'
+      - '.github/workflows/deploy-singulars.yml'
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: singulars
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+          cache-dependency-path: singulars/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to production
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

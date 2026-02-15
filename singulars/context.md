@@ -46,11 +46,14 @@ Total: 33 themes, 66 poems
 
 ## Deployment
 
-- **Vercel project:** singulars (prj_veTzLqLcD5tqMJKXH13Y6rKUDwDF)
+- **Vercel project:** singulars (prj_wAF6Dx0ddTLn2WhNlIMAWapI0cp3)
 - **Team:** team_9h3UVrcMfPTPWYdvGpnKezrd
 - **Domains:** singulars.vercel.app, also accessible via oulipo.xyz/singulars (rewrite from parent project)
 - **Framework:** Next.js 14 (App Router)
 - **Node:** 22.x
+- **Git repo:** madihg/oulipo (Root Directory: singulars)
+- **Auto-deploy:** GitHub Action `.github/workflows/deploy-singulars.yml` on push to main when singulars/ changes
+- **Fix guide:** See `singulars/docs/DEPLOYMENT.md` if pushes don't trigger deploys
 
 ## Key Decisions Made
 

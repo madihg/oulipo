@@ -24,6 +24,22 @@ function cargoImg(hash: string, filename: string, width = 1500): string {
 
 export { cargoImg };
 
+/** Hero images for landing (below Singulars) and performance pages. Same aspect ratio for alignment. */
+export const HERO_IMAGES = {
+  /** Landing page: reinforcement's first image (open cube) */
+  landing: { hash: 'Z2682094116426327375476450218851', filename: '_MG_5037.jpg', alt: 'The open cube installation where the poet writes during Reinforcement.exe' },
+  /** Performance page heroes: slug -> image. Reinforcement uses different from landing; others use landing image. */
+  performance: {
+    'reinforcement-exe': { hash: 'U2682094274422690366798759809891', filename: '_MG_5036.jpg', alt: 'Printed poems with red and blue voting stickers from audience' },
+    'versus-exe': { hash: 'L2651923156110863383776773624675', filename: 'IMG_9920.JPG', alt: 'Versus.exe performance at Mozilla AI Residency, San Francisco' },
+    'carnation-exe': { hash: 'K2586476299518304130969389847395', filename: 'IMG_8458.JPG', alt: 'Carnation.exe performance installation with printed poems displayed side by side' },
+  } as Record<string, { hash: string; filename: string; alt: string }>,
+};
+
+export function getPerformanceHeroImage(slug: string): { hash: string; filename: string; alt: string } | null {
+  return HERO_IMAGES.performance[slug] ?? null;
+}
+
 const descriptions: Record<string, PerformanceDescription> = {
   'carnation-exe': {
     title: 'Carnation.exe',

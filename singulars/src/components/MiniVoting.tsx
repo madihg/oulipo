@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { getFingerprint } from '@/lib/fingerprint';
-import { accessibleTextColor } from '@/lib/color-utils';
+import { accessibleTextColor, getStatusPillStyle } from '@/lib/color-utils';
 
 interface Poem {
   id: string;
@@ -205,8 +205,8 @@ export default function MiniVoting() {
             fontSize: '0.65rem',
             letterSpacing: '0.03em',
             padding: '0.15rem 0.5rem',
-            border: `1px solid ${performance.status === 'training' ? performance.color : 'rgba(0,0,0,0.25)'}`,
-            color: performance.status === 'training' ? a11yColor : 'rgba(0,0,0,0.5)',
+            border: `1px solid ${getStatusPillStyle(performance.status, performance.color).border}`,
+            color: getStatusPillStyle(performance.status, performance.color).color,
           }}
         >
           {performance.status}

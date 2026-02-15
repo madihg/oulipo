@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { createClient } from '@supabase/supabase-js';
 import { notFound } from 'next/navigation';
 import VotingPoemPair from './VotingPoemPair';
-import { accessibleTextColor } from '@/lib/color-utils';
+import { accessibleTextColor, getStatusPillStyle } from '@/lib/color-utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -131,8 +131,8 @@ export default async function ThemeVotingPage({
             fontSize: '0.7rem',
             letterSpacing: '0.03em',
             padding: '0.2rem 0.6rem',
-            border: `1px solid ${performance.status === 'training' ? performance.color : 'rgba(0,0,0,0.25)'}`,
-            color: performance.status === 'training' ? a11yColor : 'rgba(0,0,0,0.5)',
+            border: `1px solid ${getStatusPillStyle(performance.status, performance.color).border}`,
+            color: getStatusPillStyle(performance.status, performance.color).color,
           }}
         >
           {performance.status}

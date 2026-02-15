@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import { notFound } from 'next/navigation';
-import { accessibleTextColor } from '@/lib/color-utils';
-import { hasDescription, getPerformanceDescription } from '@/lib/performance-descriptions';
+import { accessibleTextColor, getStatusPillStyle } from '@/lib/color-utils';
+import { hasDescription, getPerformanceDescription, cargoImg, HERO_IMAGES, getPerformanceHeroImage } from '@/lib/performance-descriptions';
 import PerformanceContentBlocks from '@/components/PerformanceContentBlocks';
 
 export const dynamic = 'force-dynamic';
@@ -185,6 +185,8 @@ export default async function PerformancePage({
     );
   }
 
+  const heroImg = getPerformanceHeroImage(performance.slug) ?? HERO_IMAGES.landing;
+
   return (
     <main style={{ maxWidth: '800px', margin: '0 auto', padding: '4rem 2rem', ...cssVars }} data-performance-color={performance.color}>
       <nav style={{ marginBottom: '2rem' }}>
@@ -198,6 +200,28 @@ export default async function PerformancePage({
           &larr; Back to Singulars
         </Link>
       </nav>
+
+      {/* Hero image — same aspect ratio as landing for alignment */}
+      <div
+        style={{
+          width: '100%',
+          aspectRatio: '16/9',
+          marginBottom: '2rem',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        <img
+          src={cargoImg(heroImg.hash, heroImg.filename, 1600)}
+          alt={heroImg.alt}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      </div>
 
       {/* Performance header */}
       <header style={{ marginBottom: '3rem' }}>
@@ -228,20 +252,25 @@ export default async function PerformancePage({
         </p>
 
         {/* Status pill */}
-        <span
-          style={{
-            display: 'inline-block',
-            fontFamily: '"Diatype Mono Variable", monospace',
-            fontSize: '0.7rem',
-            letterSpacing: '0.03em',
-            padding: '0.2rem 0.6rem',
-            border: `1px solid ${performance.status === 'training' ? performance.color : 'rgba(0,0,0,0.25)'}`,
-            color: performance.status === 'training' ? a11yColor : 'rgba(0,0,0,0.5)',
-            marginBottom: '1rem',
-          }}
-        >
-          {performance.status}
-        </span>
+        {(() => {
+          const pill = getStatusPillStyle(performance.status, performance.color);
+          return (
+            <span
+              style={{
+                display: 'inline-block',
+                fontFamily: '"Diatype Mono Variable", monospace',
+                fontSize: '0.7rem',
+                letterSpacing: '0.03em',
+                padding: '0.2rem 0.6rem',
+                border: `1px solid ${pill.border}`,
+                color: pill.color,
+                marginBottom: '1rem',
+              }}
+            >
+              {performance.status}
+            </span>
+          );
+        })()}
 
         {/* Stats */}
         {themes.length > 0 && (
@@ -383,18 +412,16 @@ export default async function PerformancePage({
                   >
                     {poem.text}
                   </div>
-                  {poem.vote_count !== undefined && (
-                    <div
-                      style={{
-                        fontFamily: '"Diatype Mono Variable", monospace',
-                        fontSize: '0.8rem',
-                        color: 'rgba(0,0,0,0.5)',
-                        marginTop: '0.5rem',
-                      }}
-                    >
-                      {poem.vote_count} {poem.vote_count === 1 ? 'vote' : 'votes'}
-                    </div>
-                  )}
+                  <div
+                    style={{
+                      fontFamily: '"Diatype Mono Variable", monospace',
+                      fontSize: '0.8rem',
+                      color: 'rgba(0,0,0,0.5)',
+                      marginTop: '0.5rem',
+                    }}
+                  >
+                    {(poem.vote_count ?? 0)} {(poem.vote_count ?? 0) === 1 ? 'vote' : 'votes'}
+                  </div>
                 </div>
               ))}
             </div>

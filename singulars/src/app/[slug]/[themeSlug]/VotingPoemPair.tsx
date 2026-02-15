@@ -179,27 +179,26 @@ export default function VotingPoemPair({
                 {poem.text}
               </div>
 
-              {/* Vote results */}
-              {showResults && (
-                <div
-                  aria-live="polite"
-                  aria-label={`Vote results: ${count} ${count === 1 ? 'vote' : 'votes'}${isVotedPoem ? ', your vote' : ''}`}
-                  style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.12)', paddingTop: '1rem' }}
-                >
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginBottom: '0.5rem',
+              {/* Vote results — always show count; "Your vote" and dots when voted/trained */}
+              <div
+                aria-live="polite"
+                aria-label={`Vote results: ${count} ${count === 1 ? 'vote' : 'votes'}${isVotedPoem ? ', your vote' : ''}`}
+                style={{ marginTop: '1.5rem', borderTop: '1px solid rgba(0,0,0,0.12)', paddingTop: '1rem' }}
+              >
+                <div style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '0.5rem',
+                }}>
+                  <span style={{
+                    fontFamily: '"Diatype Mono Variable", monospace',
+                    fontSize: '0.85rem',
+                    color: 'rgba(0,0,0,0.6)',
                   }}>
-                    <span style={{
-                      fontFamily: '"Diatype Mono Variable", monospace',
-                      fontSize: '0.85rem',
-                      color: 'rgba(0,0,0,0.6)',
-                    }}>
-                      {count} {count === 1 ? 'vote' : 'votes'}
-                    </span>
-                    {isVotedPoem && (
+                    {count} {count === 1 ? 'vote' : 'votes'}
+                  </span>
+                  {showResults && isVotedPoem && (
                       <span style={{
                         fontFamily: '"Diatype Mono Variable", monospace',
                         fontSize: '0.75rem',
@@ -211,7 +210,8 @@ export default function VotingPoemPair({
                     )}
                   </div>
 
-                  {/* Vote dots */}
+                {/* Vote dots — show when voted or trained */}
+                {showResults && (
                   <div
                     aria-hidden="true"
                     style={{
@@ -247,8 +247,8 @@ export default function VotingPoemPair({
                       </span>
                     )}
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           );
         })}

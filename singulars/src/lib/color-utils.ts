@@ -107,3 +107,36 @@ export function accessibleUIColor(
 ): string {
   return ensureContrast(performanceColor, background, 3.0);
 }
+
+/**
+ * Status pill colors (ux-ui-pro-max: Exaggerated Minimalism).
+ * Distinctive, accessible, on-brand with #171717 primary and minimal palette.
+ */
+export const STATUS_PILL_COLORS = {
+  upcoming: {
+    border: '#9ca3af',
+    text: '#6b7280',
+  },
+  training: {
+    border: '#059669',
+    text: '#047857',
+  },
+  trained: {
+    border: '#171717',
+    text: '#171717',
+  },
+} as const;
+
+export function getStatusPillStyle(
+  status: 'upcoming' | 'training' | 'trained',
+  performanceColor?: string
+): { border: string; color: string } {
+  const base = STATUS_PILL_COLORS[status];
+  if (status === 'training' && performanceColor) {
+    return {
+      border: performanceColor,
+      color: ensureContrast(performanceColor, '#FFFFFF', 4.5),
+    };
+  }
+  return { border: base.border, color: base.text };
+}

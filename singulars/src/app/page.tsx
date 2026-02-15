@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import MiniVoting from '@/components/MiniVoting';
-import { accessibleTextColor } from '@/lib/color-utils';
+import { accessibleTextColor, getStatusPillStyle } from '@/lib/color-utils';
+import { cargoImg, HERO_IMAGES } from '@/lib/performance-descriptions';
 
 interface Performance {
   id: string;
@@ -73,17 +74,39 @@ export default async function SingularsPage() {
           fontFamily: '"Diatype Mono Variable", monospace',
           fontSize: '1rem',
           color: 'rgba(0,0,0,0.6)',
-          marginBottom: '3rem',
+          marginBottom: '1.5rem',
           lineHeight: 1.4,
         }}
       >
         Human vs Machine Poetry Performances
       </p>
 
+      {/* Hero image — from reinforcement.exe, above blue line */}
+      <div
+        style={{
+          width: '100%',
+          aspectRatio: '16/9',
+          marginBottom: '2rem',
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+      >
+        <img
+          src={cargoImg(HERO_IMAGES.landing.hash, HERO_IMAGES.landing.filename, 1600)}
+          alt={HERO_IMAGES.landing.alt}
+          style={{
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            display: 'block',
+          }}
+        />
+      </div>
+
       {/* Mini-voting experience */}
       <MiniVoting />
 
-      <hr />
+      <hr style={{ border: 'none', borderTop: '2px solid #2563eb', margin: '3rem 0' }} />
 
       {/* Performances */}
       <section style={{ marginBottom: '3rem' }}>
@@ -135,20 +158,25 @@ export default async function SingularsPage() {
                 </h3>
 
                 {/* Status pill */}
-                <span
-                  style={{
-                    display: 'inline-block',
-                    fontFamily: '"Diatype Mono Variable", monospace',
-                    fontSize: '0.7rem',
-                    letterSpacing: '0.03em',
-                    padding: '0.2rem 0.6rem',
-                    border: `1px solid ${perf.status === 'training' ? perf.color : 'rgba(0,0,0,0.25)'}`,
-                    color: perf.status === 'training' ? perfA11yColor : 'rgba(0,0,0,0.5)',
-                    marginBottom: '0.75rem',
-                  }}
-                >
-                  {perf.status}
-                </span>
+                {(() => {
+                  const pill = getStatusPillStyle(perf.status, perf.color);
+                  return (
+                    <span
+                      style={{
+                        display: 'inline-block',
+                        fontFamily: '"Diatype Mono Variable", monospace',
+                        fontSize: '0.7rem',
+                        letterSpacing: '0.03em',
+                        padding: '0.2rem 0.6rem',
+                        border: `1px solid ${pill.border}`,
+                        color: pill.color,
+                        marginBottom: '0.75rem',
+                      }}
+                    >
+                      {perf.status}
+                    </span>
+                  );
+                })()}
 
                 {perf.location && (
                   <p

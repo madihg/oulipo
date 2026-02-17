@@ -1,2 +1,5 @@
 .vercel
 .env*.local
+
+# autoforge (local cache/state)
+.autoforge/

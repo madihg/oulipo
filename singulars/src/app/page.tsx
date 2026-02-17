@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { getServiceClient, getSupabase } from '@/lib/supabase';
 import MiniVoting from '@/components/MiniVoting';
 import { accessibleTextColor, getStatusPillStyle } from '@/lib/color-utils';
-import { cargoImg, HERO_IMAGES } from '@/lib/performance-descriptions';
+import { cargoImg, HERO_IMAGES, getPerformanceHeroImage } from '@/lib/performance-descriptions';
 
 interface Performance {
   id: string;
@@ -133,18 +133,39 @@ export default async function SingularsPage() {
             const isUpcoming = perf.status === 'upcoming';
             const perfA11yColor = accessibleTextColor(perf.color);
 
+            const heroImg = getPerformanceHeroImage(perf.slug) ?? HERO_IMAGES.landing;
             const cardContent = (
               <div
                 key={perf.id}
                 data-testid="performance-card"
                 data-performance-name={perf.name}
                 style={{
-                  padding: '1.5rem 0',
                   borderTop: `2px solid ${perf.color}`,
                   cursor: isUpcoming ? 'default' : 'pointer',
                   transition: 'opacity 0.3s ease',
                 }}
               >
+                {/* Image above each performance — ui-ux-pro-max: black & white, minimal */}
+                <div
+                  style={{
+                    width: '100%',
+                    aspectRatio: '16/9',
+                    marginBottom: '1rem',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={cargoImg(heroImg.hash, heroImg.filename, 800)}
+                    alt={heroImg.alt}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                      filter: 'grayscale(100%)',
+                    }}
+                  />
+                </div>
                 <h3
                   style={{
                     fontSize: '1.1rem',

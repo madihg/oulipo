@@ -1,615 +1,544 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CV — oulipo.xyz</title>
-  <meta name="description" content="Events, performances, workshops, and keynotes by Halim Madi.">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CV — oulipo.xyz</title>
+    <meta
+      name="description"
+      content="Events, performances, workshops, and keynotes by Halim Madi."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+    />
 
-  <style>
-    /* Cargo Fonts */
-    @font-face {
-      font-display: block;
-      font-family: "Standard";
-      src: url("https://type.cargo.site/files/Standard-Book.woff") format("woff");
-      font-style: normal;
-      font-weight: normal;
-    }
-    @font-face {
-      font-display: block;
-      font-family: "Standard";
-      src: url("https://type.cargo.site/files/Standard-Bold.woff") format("woff");
-      font-style: normal;
-      font-weight: bold;
-    }
-    @font-face {
-      font-display: block;
-      font-family: "Diatype Variable";
-      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
-      font-style: normal;
-      font-weight: 200 1000;
-    }
-    @font-face {
-      font-display: block;
-      font-family: "Diatype Mono Variable";
-      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
-      font-style: normal;
-      font-weight: 200 700;
-    }
-
-    html {
-      font-size: 16px;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: #ffffff;
-      color: rgba(0, 0, 0, 0.85);
-      font-family: Standard, sans-serif;
-      font-size: 1.3rem;
-      line-height: 1.2;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    a {
-      color: rgba(0, 0, 0, 0.85);
-      text-decoration: underline;
-    }
-
-    a:hover {
-      opacity: 0.7;
-    }
-
-    /* Page layout - centered column */
-    .page {
-      display: flex;
-      justify-content: center;
-      min-height: 100vh;
-    }
-
-    .page-layout {
-      padding: 2.2rem;
-      padding-top: 5rem;
-      max-width: 40%;
-      align-items: flex-start;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-    }
-
-    .page-content {
-      align-items: flex-start;
-      text-align: left;
-      padding: 1rem;
-      background-color: #ffffff;
-      width: 100%;
-    }
-
-    /* Typography */
-    .caption {
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: #000000;
-      font-family: "Diatype Mono Variable", monospace;
-      font-style: normal;
-      line-height: 1.25;
-      letter-spacing: 0em;
-    }
-
-    .caption a {
-      color: #000000;
-      text-decoration: underline;
-    }
-
-    hr {
-      background: rgba(0, 0, 0, 0.75);
-      border: 0;
-      height: 1px;
-      display: block;
-      margin: 0.75rem 0;
-      width: 100%;
-    }
-
-    b {
-      font-weight: bold;
-    }
-
-    /* Title area */
-    .page-title {
-      text-align: center;
-      margin-bottom: 0.5rem;
-      font-size: 1.3rem;
-      font-weight: bold;
-    }
-
-    /* Year heading */
-    .year-heading {
-      font-family: "Diatype Variable", sans-serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      margin: 1.5rem 0 0.5rem 0;
-      color: rgba(0, 0, 0, 0.85);
-    }
-
-    .year-heading:first-of-type {
-      margin-top: 0.5rem;
-    }
-
-    /* Event entry */
-    .event {
-      margin: 0;
-    }
-
-    .event-meta {
-      font-family: "Diatype Mono Variable", monospace;
-      font-size: 0.95rem;
-      color: rgba(0, 0, 0, 0.5);
-      margin-top: 0.15rem;
-    }
-
-    /* Site Header */
-    body.menu-open {
-      overflow: hidden;
-    }
-
-    .site-header {
-      position: fixed;
-      top: 1.5rem;
-      left: 4rem;
-      z-index: 200;
-      font-family: Standard, sans-serif;
-      font-size: 1.3rem;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .site-header a {
-      text-decoration: none;
-      color: rgba(0, 0, 0, 0.85);
-    }
-
-    .site-header a:hover {
-      opacity: 0.7;
-    }
-
-    .site-header.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    /* Menu Toggle Button */
-    .menu-toggle {
-      position: fixed;
-      top: 1.5rem;
-      right: 4rem;
-      z-index: 200;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      width: 24px;
-      height: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      gap: 5px;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .menu-toggle.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .menu-toggle span {
-      display: block;
-      width: 100%;
-      height: 2px;
-      background-color: rgba(0, 0, 0, 0.85);
-      transition: transform 0.3s, opacity 0.3s;
-    }
-
-    .menu-toggle:hover {
-      opacity: 0.7;
-    }
-
-    /* Side Menu Overlay */
-    .menu-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0, 0, 0, 0.25);
-      z-index: 998;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 0.3s ease, visibility 0.3s ease;
-    }
-
-    .menu-overlay.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* Side Menu Drawer */
-    .side-menu {
-      position: fixed;
-      top: 0;
-      right: 0;
-      width: 420px;
-      height: 100%;
-      background-color: #ffffff;
-      z-index: 999;
-      padding: 2rem 4rem;
-      transform: translateX(100%);
-      transition: transform 0.3s ease;
-      overflow-y: auto;
-    }
-
-    .side-menu.active {
-      transform: translateX(0);
-    }
-
-    .menu-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding-bottom: 0.75rem;
-      margin-bottom: 0.75rem;
-      border-bottom: 1px solid rgba(0, 0, 0, 0.85);
-    }
-
-    .menu-home {
-      font-family: Standard, sans-serif;
-      font-size: 1.3rem;
-      text-decoration: none;
-      color: rgba(0, 0, 0, 0.85);
-    }
-
-    .menu-close {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0;
-      font-size: 1.5rem;
-      line-height: 1;
-      color: rgba(0, 0, 0, 0.85);
-    }
-
-    .menu-close:hover {
-      opacity: 0.7;
-    }
-
-    .menu-section {
-      margin-bottom: 0;
-    }
-
-    .menu-section a {
-      display: block;
-      font-family: Standard, sans-serif;
-      font-size: 1.3rem;
-      text-decoration: none;
-      color: rgba(0, 0, 0, 0.85);
-      line-height: 1.15;
-    }
-
-    .menu-section a:hover {
-      opacity: 0.7;
-    }
-
-    .menu-divider {
-      border: 0;
-      height: 1px;
-      background: rgba(0, 0, 0, 0.85);
-      margin: 0.75rem 0;
-    }
-
-    /* Responsive */
-    @media (max-width: 1200px) {
-      .page-layout {
-        max-width: 55%;
+    <style>
+      /* Cargo Fonts */
+      @font-face {
+        font-display: block;
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-style: normal;
+        font-weight: normal;
       }
-    }
-
-    @media (max-width: 900px) {
-      .page-layout {
-        max-width: 70%;
+      @font-face {
+        font-display: block;
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-style: normal;
+        font-weight: bold;
       }
-    }
+      @font-face {
+        font-display: block;
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2-variations");
+        font-style: normal;
+        font-weight: 200 1000;
+      }
+      @font-face {
+        font-display: block;
+        font-family: "Diatype Mono Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2-variations");
+        font-style: normal;
+        font-weight: 200 700;
+      }
 
-    @media (max-width: 768px) {
-      .side-menu {
+      html {
+        font-size: 16px;
+      }
+
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #ffffff;
+        color: rgba(0, 0, 0, 0.85);
+        font-family: Standard, sans-serif;
+        font-size: 1.3rem;
+        line-height: 1.2;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      a {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: underline;
+      }
+
+      a:hover {
+        opacity: 0.7;
+      }
+
+      /* Page layout - centered column */
+      .page {
+        display: flex;
+        justify-content: center;
+        min-height: 100vh;
+      }
+
+      .page-layout {
+        padding: 2.2rem;
+        padding-top: 5rem;
+        max-width: 40%;
+        align-items: flex-start;
+        display: flex;
+        flex-direction: column;
         width: 100%;
-        padding: 2rem;
       }
 
-      .menu-toggle {
-        right: 2rem;
+      .page-content {
+        align-items: flex-start;
+        text-align: left;
+        padding: 1rem;
+        background-color: #ffffff;
+        width: 100%;
       }
-    }
 
-    @media (max-width: 600px) {
-      .page-layout {
-        max-width: 95%;
-        padding: 1.2rem;
+      /* Typography */
+      .caption {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: #000000;
+        font-family: "Diatype Mono Variable", monospace;
+        font-style: normal;
+        line-height: 1.25;
+        letter-spacing: 0em;
+      }
+
+      .caption a {
+        color: #000000;
+        text-decoration: underline;
+      }
+
+      hr {
+        background: rgba(0, 0, 0, 0.75);
+        border: 0;
+        height: 1px;
+        display: block;
+        margin: 0.75rem 0;
+        width: 100%;
+      }
+
+      b {
+        font-weight: bold;
+      }
+
+      /* Title area */
+      .page-title {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        font-size: 1.3rem;
+        font-weight: bold;
+      }
+
+      /* Year heading */
+      .year-heading {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: 1.5rem 0 0.5rem 0;
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      .year-heading:first-of-type {
+        margin-top: 0.5rem;
+      }
+
+      /* Event entry */
+      .event {
+        margin: 0;
+      }
+
+      .event-meta {
+        font-family: "Diatype Mono Variable", monospace;
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin-top: 0.15rem;
+      }
+
+      /* Site Header */
+      body.menu-open {
+        overflow: hidden;
       }
 
       .site-header {
-        left: 1.5rem;
-        top: 1rem;
+        position: fixed;
+        top: 1.5rem;
+        left: 4rem;
+        z-index: 200;
+        font-family: Standard, sans-serif;
+        font-size: 1.3rem;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
       }
 
+      .site-header a {
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      .site-header a:hover {
+        opacity: 0.7;
+      }
+
+      .site-header.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* Menu Toggle Button */
       .menu-toggle {
-        top: 1rem;
-        right: 1.5rem;
+        position: fixed;
+        top: 1.5rem;
+        right: 4rem;
+        z-index: 200;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        width: 24px;
+        height: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
       }
-    }
-  </style>
-</head>
-<body>
 
-  <!-- Site Header -->
-  <div class="site-header">
-    <a href="https://halimmadi.com">Halim Madi</a>
-  </div>
+      .menu-toggle.hidden {
+        opacity: 0;
+        visibility: hidden;
+      }
 
-  <!-- Menu Toggle Button -->
-  <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-    <span></span>
-    <span></span>
-    <span></span>
-  </button>
+      .menu-toggle span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: rgba(0, 0, 0, 0.85);
+        transition:
+          transform 0.3s,
+          opacity 0.3s;
+      }
 
-  <!-- Menu Overlay -->
-  <div class="menu-overlay" onclick="toggleMenu()"></div>
+      .menu-toggle:hover {
+        opacity: 0.7;
+      }
 
-  <!-- Side Menu Drawer -->
-  <nav class="side-menu">
-    <div class="menu-header">
-      <a href="https://halimmadi.com/landing-1#hero-1" class="menu-home">Home</a>
-      <button class="menu-close" onclick="toggleMenu()" aria-label="Close menu">×</button>
-    </div>
+      /* Side Menu Overlay */
+      .menu-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.25);
+        z-index: 998;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity 0.3s ease,
+          visibility 0.3s ease;
+      }
 
-    <div class="menu-section">
-      <a href="https://halimmadi.com/works-1">Works</a>
-      <a href="https://halimmadi.com/keynotes">Keynotes</a>
-      <a href="https://halimmadi.com/workshops-1">Workshops</a>
-      <a href="https://halimmadi.com/books-overview">Books</a>
-    </div>
+      .menu-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
 
-    <hr class="menu-divider">
+      /* Side Menu Drawer */
+      .side-menu {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 420px;
+        height: 100%;
+        background-color: #ffffff;
+        z-index: 999;
+        padding: 2rem 4rem;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+        overflow-y: auto;
+      }
 
-    <div class="menu-section">
-      <a href="https://halimmadi.com/about">About</a>
-      <a href="https://halimmadi.com/upcoming">Upcoming</a>
-      <a href="https://halimmadi.com/contact-form">Contact</a>
-      <a href="https://halimmadi.substack.com/" target="_blank">Newsletter ↗</a>
-      <a href="https://www.instagram.com/yalla_halim" target="_blank">Instagram ↗</a>
-    </div>
-  </nav>
+      .side-menu.active {
+        transform: translateX(0);
+      }
 
-  <div class="page">
-    <div class="page-layout">
-      <div class="page-content">
+      .menu-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 0.75rem;
+        margin-bottom: 0.75rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.85);
+      }
 
-        <div class="page-title">CV — Events</div>
+      .menu-home {
+        font-family: Standard, sans-serif;
+        font-size: 1.3rem;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+      }
 
-        <div id="cv-container"></div>
+      .menu-close {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 0;
+        font-size: 1.5rem;
+        line-height: 1;
+        color: rgba(0, 0, 0, 0.85);
+      }
 
-      </div>
-    </div>
-  </div>
+      .menu-close:hover {
+        opacity: 0.7;
+      }
 
-  <script>
-    function toggleMenu() {
-      const menu = document.querySelector('.side-menu');
-      const overlay = document.querySelector('.menu-overlay');
-      const body = document.body;
+      .menu-section {
+        margin-bottom: 0;
+      }
 
-      menu.classList.toggle('active');
-      overlay.classList.toggle('active');
-      body.classList.toggle('menu-open');
-    }
+      .menu-section a {
+        display: block;
+        font-family: Standard, sans-serif;
+        font-size: 1.3rem;
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+        line-height: 1.15;
+      }
 
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        const menu = document.querySelector('.side-menu');
-        if (menu.classList.contains('active')) {
-          toggleMenu();
+      .menu-section a:hover {
+        opacity: 0.7;
+      }
+
+      .menu-divider {
+        border: 0;
+        height: 1px;
+        background: rgba(0, 0, 0, 0.85);
+        margin: 0.75rem 0;
+      }
+
+      /* Responsive */
+      @media (max-width: 1200px) {
+        .page-layout {
+          max-width: 55%;
         }
       }
-    });
 
-    let lastScrollY = window.scrollY;
-    const siteHeader = document.querySelector('.site-header');
-    const menuToggle = document.querySelector('.menu-toggle');
-
-    window.addEventListener('scroll', function() {
-      if (window.scrollY > 50) {
-        siteHeader.classList.add('hidden');
-        menuToggle.classList.add('hidden');
-      } else {
-        siteHeader.classList.remove('hidden');
-        menuToggle.classList.remove('hidden');
+      @media (max-width: 900px) {
+        .page-layout {
+          max-width: 70%;
+        }
       }
-    });
 
-    // Event data embedded inline (source of truth: /events.json)
-    const EVENTS = [
-    {
-        "org": "Mozilla AI Residency",
-        "title": "Versus.exe",
-        "description": "Human vs Machine",
-        "type": "Performance",
-        "location": "SF",
-        "date": "2025-11-11",
-        "dateDisplay": "Nov 11",
-        "link": "https://luma.com/uye5k3ww"
-    },
-    {
-        "org": "Gray Area Education",
-        "title": "Weirding AI",
-        "description": "Fine-tuning for Artists and Poets",
-        "type": "Workshop",
-        "location": "",
-        "date": "2025-11-18",
-        "dateEnd": "2025-11-20",
-        "dateDisplay": "Nov 18–20",
-        "link": "https://grayarea.org/course/weirding-ai-fine-tuning-and-rag-for-poets-artists-online/"
-    },
-    {
-        "org": "Ethereum Scholar",
-        "title": "Reinforcement.exe",
-        "description": "Audience-powered Poetic RLHF",
-        "type": "",
-        "location": "Argentina",
-        "date": "2025-11-20",
-        "dateEnd": "2025-11-24",
-        "dateDisplay": "Nov 20›24",
-        "link": "https://blog.ethereum.org/2025/06/03/devconnect-arg-scholars"
-    },
-    {
-        "org": "Mozilla AI Residency",
-        "title": "Becoming",
-        "description": "Performing 10+ Generated Artists",
-        "type": "Performance",
-        "location": "SF",
-        "date": "2025-12-05",
-        "dateDisplay": "Dec 5",
-        "link": "https://luma.com/2mwbq2ro?tk=BsCPwr"
-    },
-    {
-        "org": "Tea ⌘ Tech",
-        "title": "Collaborative AIR",
-        "description": "Mixing Arab & Japanese Tea culture",
-        "type": "Performance",
-        "location": "Tokyo",
-        "date": "2025-12-20",
-        "dateDisplay": "Dec 20",
-        "link": ""
-    },
-    {
-        "org": "Berlin Uni",
-        "title": "Seeding Secrets",
-        "description": "Poetics of Migration and Machine",
-        "type": "Keynote",
-        "location": "Berlin",
-        "date": "2026-01-06",
-        "dateDisplay": "Jan 6",
-        "link": "https://www.berlin-international.de/en/"
-    },
-    {
-        "org": "UC Santa Cruz",
-        "title": "Weirding Machines",
-        "description": "Fine-tuning for Artists and Poets",
-        "type": "Workshop",
-        "location": "SC",
-        "date": "2026-02-27",
-        "dateDisplay": "Feb 27",
-        "link": "https://www.ucsc.edu/"
-    },
-    {
-        "org": "AWP",
-        "title": "AI is a Medium",
-        "description": "Reframing AI in Writing Pedagogy",
-        "type": "Panel",
-        "location": "Maryland",
-        "date": "2026-03-04",
-        "dateDisplay": "Mar 4",
-        "link": "https://awpwriter.org/AWP/AWP/AWP-Homepage.aspx"
-    },
-    {
-        "org": "Media Archeology Lab",
-        "title": "Residency",
-        "description": "Performing 10+ Generated Artists",
-        "type": "Performance",
-        "location": "Denver",
-        "date": "2026-03-09",
-        "dateDisplay": "Mar 9",
-        "link": "https://luma.com/2mwbq2ro?tk=BsCPwr"
-    },
-    {
-        "org": "Culture Hub LA",
-        "title": "Becoming everyone",
-        "description": "Performing 10+ Generated Artists",
-        "type": "Performance",
-        "location": "LA",
-        "date": "2026-04-06",
-        "dateDisplay": "Apr 6",
-        "link": "https://culturehub.org"
-    },
-    {
-        "org": "Maryland Uni",
-        "title": "Weirding Machines",
-        "description": "Fine-tuning for Artists and Poets",
-        "type": "Workshop",
-        "location": "Maryland",
-        "date": "2026-04-20",
-        "dateDisplay": "Apr 20",
-        "link": "https://umd.edu/"
-    },
-    {
-        "org": "Test Org",
-        "title": "Test Event",
-        "description": "Regression test",
-        "type": "Test",
-        "location": "Test",
-        "date": "2099-01-01",
-        "dateDisplay": "Jan 1",
-        "link": ""
-    }
-];
+      @media (max-width: 768px) {
+        .side-menu {
+          width: 100%;
+          padding: 2rem;
+        }
 
-    function renderCvEvent(event) {
-      const linkHtml = event.link
-        ? ` <a href="${event.link}" target="_blank">Link</a>\u2197`
-        : '';
-      const typePart = event.type ? event.type : '';
-      const locationPart = event.location ? event.location : '';
-      const metaParts = [typePart, locationPart, event.dateDisplay].filter(Boolean).join(' \u00b7 ');
+        .menu-toggle {
+          right: 2rem;
+        }
+      }
 
-      return `<div class="event">
+      @media (max-width: 600px) {
+        .page-layout {
+          max-width: 95%;
+          padding: 1.2rem;
+        }
+
+        .site-header {
+          left: 1.5rem;
+          top: 1rem;
+        }
+
+        .menu-toggle {
+          top: 1rem;
+          right: 1.5rem;
+        }
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  </head>
+  <body>
+    <!-- Site Header -->
+    <div class="site-header">
+      <a href="https://halimmadi.com">Halim Madi</a>
+    </div>
+
+    <!-- Menu Toggle Button -->
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <!-- Menu Overlay -->
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <!-- Side Menu Drawer -->
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="https://halimmadi.com/landing-1#hero-1" class="menu-home"
+          >Home</a
+        >
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          ×
+        </button>
+      </div>
+
+      <div class="menu-section">
+        <a href="https://halimmadi.com/works-1">Works</a>
+        <a href="https://halimmadi.com/keynotes">Keynotes</a>
+        <a href="https://halimmadi.com/workshops-1">Workshops</a>
+        <a href="https://halimmadi.com/books-overview">Books</a>
+      </div>
+
+      <hr class="menu-divider" />
+
+      <div class="menu-section">
+        <a href="https://halimmadi.com/about">About</a>
+        <a href="https://halimmadi.com/upcoming">Upcoming</a>
+        <a href="https://halimmadi.com/contact-form">Contact</a>
+        <a href="https://halimmadi.substack.com/" target="_blank"
+          >Newsletter ↗</a
+        >
+        <a href="https://www.instagram.com/yalla_halim" target="_blank"
+          >Instagram ↗</a
+        >
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="page-layout">
+        <div class="page-content">
+          <div class="page-title">CV — Events</div>
+
+          <div id="cv-container"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function toggleMenu() {
+        const menu = document.querySelector(".side-menu");
+        const overlay = document.querySelector(".menu-overlay");
+        const body = document.body;
+
+        menu.classList.toggle("active");
+        overlay.classList.toggle("active");
+        body.classList.toggle("menu-open");
+      }
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          const menu = document.querySelector(".side-menu");
+          if (menu.classList.contains("active")) {
+            toggleMenu();
+          }
+        }
+      });
+
+      let lastScrollY = window.scrollY;
+      const siteHeader = document.querySelector(".site-header");
+      const menuToggle = document.querySelector(".menu-toggle");
+
+      window.addEventListener("scroll", function () {
+        if (window.scrollY > 50) {
+          siteHeader.classList.add("hidden");
+          menuToggle.classList.add("hidden");
+        } else {
+          siteHeader.classList.remove("hidden");
+          menuToggle.classList.remove("hidden");
+        }
+      });
+
+      // ── Supabase Config ──
+      const SUPABASE_URL = "https://vknopcdmkhpfqhzmwysj.supabase.co";
+      const SUPABASE_ANON_KEY =
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbm9wY2Rta2hwZnFoem13eXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjI2MzIsImV4cCI6MjA4NjQ5ODYzMn0.nDFC9amm_PRNXPyDZNE6LkKSO1d7xMqJBXoiAHqR7bQ";
+      const _supabase = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_ANON_KEY,
+      );
+
+      function formatKind(kind) {
+        if (!kind) return "";
+        return kind
+          .split("_")
+          .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(" ");
+      }
+
+      function renderCvEvent(event) {
+        const linkHtml = event.link
+          ? ` <a href="${event.link}" target="_blank">Link</a>\u2197`
+          : "";
+        const typePart = formatKind(event.kind);
+        const locationPart = event.location ? event.location : "";
+        const metaParts = [typePart, locationPart, event.date_display]
+          .filter(Boolean)
+          .join(" \u00b7 ");
+        const descPart = event.description
+          ? `<span class="caption">${event.description}</span><br>`
+          : "";
+
+        return `<div class="event">
           <b>${event.org} \u2192</b> ${event.title}<br>
-          <span class="caption">${event.description}</span><br>
-          <span class="event-meta">${metaParts}${linkHtml}</span>
+          ${descPart}<span class="event-meta">${metaParts}${linkHtml}</span>
         </div>`;
-    }
+      }
 
-    (function renderCV() {
-      const events = [...EVENTS];
-      // Sort newest first
-      events.sort((a, b) => new Date(b.date) - new Date(a.date));
+      (async function renderCV() {
+        const container = document.getElementById("cv-container");
+        container.innerHTML = '<p class="caption">Loading events...</p>';
 
-      // Group by year
-      const grouped = {};
-      events.forEach(e => {
-        const year = new Date(e.date).getFullYear();
-        if (!grouped[year]) grouped[year] = [];
-        grouped[year].push(e);
-      });
+        const { data, error } = await _supabase
+          .from("events")
+          .select("*")
+          .order("date", { ascending: false });
 
-      const container = document.getElementById('cv-container');
-      const years = Object.keys(grouped).sort((a, b) => b - a);
+        if (error) {
+          console.error("Supabase error:", error);
+          container.innerHTML = '<p class="caption">Could not load events.</p>';
+          return;
+        }
 
-      let html = '';
-      years.forEach(year => {
-        html += `<div class="year-heading">${year}</div>`;
-        html += '<hr>';
-        html += grouped[year]
-          .map(e => renderCvEvent(e))
-          .join('\n<hr>\n');
-      });
+        // Group by year
+        const grouped = {};
+        data.forEach((e) => {
+          const year = new Date(e.date).getFullYear();
+          if (!grouped[year]) grouped[year] = [];
+          grouped[year].push(e);
+        });
 
-      container.innerHTML = html;
-    })();
-  </script>
+        const years = Object.keys(grouped).sort((a, b) => b - a);
 
-</body>
+        let html = "";
+        years.forEach((year) => {
+          html += `<div class="year-heading">${year}</div>`;
+          html += "<hr>";
+          html += grouped[year].map((e) => renderCvEvent(e)).join("\n<hr>\n");
+        });
+
+        container.innerHTML = html;
+      })();
+    </script>
+  </body>
 </html>

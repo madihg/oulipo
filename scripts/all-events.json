@@ -1,0 +1,712 @@
+[
+  {
+    "title": "Versus.exe",
+    "org": "Mozilla AI Residency",
+    "description": "Human vs Machine",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-11-11",
+    "date_end": null,
+    "date_display": "Nov 11"
+  },
+  {
+    "title": "Weirding AI",
+    "org": "Gray Area Education",
+    "description": "Fine-tuning for Artists and Poets",
+    "kind": "workshop",
+    "location": null,
+    "date": "2025-11-18",
+    "date_end": "2025-11-20",
+    "date_display": "Nov 18–20"
+  },
+  {
+    "title": "Reinforcement.exe",
+    "org": "Ethereum Scholar",
+    "description": "Audience-powered Poetic RLHF",
+    "kind": null,
+    "location": "Argentina",
+    "date": "2025-11-20",
+    "date_end": "2025-11-24",
+    "date_display": "Nov 20–24"
+  },
+  {
+    "title": "Becoming",
+    "org": "Mozilla AI Residency",
+    "description": "Performing 10+ Generated Artists",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-12-05",
+    "date_end": null,
+    "date_display": "Dec 5"
+  },
+  {
+    "title": "Collaborative AIR",
+    "org": "Tea ⌘ Tech",
+    "description": "Mixing Arab & Japanese Tea culture",
+    "kind": "performance",
+    "location": "Tokyo",
+    "date": "2025-12-20",
+    "date_end": null,
+    "date_display": "Dec 20"
+  },
+  {
+    "title": "Seeding Secrets",
+    "org": "Berlin Uni",
+    "description": "Poetics of Migration and Machine",
+    "kind": "keynote",
+    "location": "Berlin",
+    "date": "2026-01-06",
+    "date_end": null,
+    "date_display": "Jan 6"
+  },
+  {
+    "title": "Weirding Machines",
+    "org": "UC Santa Cruz",
+    "description": "Fine-tuning for Artists and Poets",
+    "kind": "workshop",
+    "location": "SC",
+    "date": "2026-02-27",
+    "date_end": null,
+    "date_display": "Feb 27"
+  },
+  {
+    "title": "AI is a Medium",
+    "org": "AWP",
+    "description": "Reframing AI in Writing Pedagogy",
+    "kind": "panel",
+    "location": "Maryland",
+    "date": "2026-03-04",
+    "date_end": null,
+    "date_display": "Mar 4"
+  },
+  {
+    "title": "Residency",
+    "org": "Media Archeology Lab",
+    "description": "Performing 10+ Generated Artists",
+    "kind": "performance",
+    "location": "Denver",
+    "date": "2026-03-09",
+    "date_end": null,
+    "date_display": "Mar 9"
+  },
+  {
+    "title": "Becoming everyone",
+    "org": "Culture Hub LA",
+    "description": "Performing 10+ Generated Artists",
+    "kind": "performance",
+    "location": "LA",
+    "date": "2026-04-06",
+    "date_end": null,
+    "date_display": "Apr 6"
+  },
+  {
+    "title": "Weirding Machines",
+    "org": "Maryland Uni",
+    "description": "Fine-tuning for Artists and Poets",
+    "kind": "workshop",
+    "location": "Maryland",
+    "date": "2026-04-20",
+    "date_end": null,
+    "date_display": "Apr 20"
+  },
+  {
+    "title": "Building the Strange Choir",
+    "org": "Mozilla Foundation",
+    "description": "Workshop during AI Residency",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2025-10-02",
+    "date_end": null,
+    "date_display": "Oct 2"
+  },
+  {
+    "title": "Hard.exe",
+    "org": "Mozilla Foundation",
+    "description": "Singulars Act IV, poetry meets ML",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-10-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Podcast with Larissa Conte",
+    "org": "Electric Communion",
+    "description": "Memory, Complicity and Leverage",
+    "kind": "keynote",
+    "location": "Online",
+    "date": "2025-11-06",
+    "date_end": null,
+    "date_display": "Nov 6"
+  },
+  {
+    "title": "AI Artist Residency",
+    "org": "Mozilla Foundation",
+    "description": "Creative Futures Counterstructures",
+    "kind": "residency",
+    "location": "SF",
+    "date": "2025-10-01",
+    "date_end": "2025-12-15",
+    "date_display": "Oct–Dec"
+  },
+  {
+    "title": "AI Agent Workshop",
+    "org": "Independent",
+    "description": "Build AI Agents, no code needed",
+    "kind": "workshop",
+    "location": "Online",
+    "date": "2025-07-23",
+    "date_end": null,
+    "date_display": "Jul 23"
+  },
+  {
+    "title": "We Called Us Poetry",
+    "org": "ELO 2025",
+    "description": "Electronic Literature Organization",
+    "kind": "performance",
+    "location": "Toronto",
+    "date": "2025-07-12",
+    "date_end": null,
+    "date_display": "Jul 12"
+  },
+  {
+    "title": "Carnation.exe",
+    "org": "Yellow Cube Gallery",
+    "description": "Human vs Machine Poetry Duel",
+    "kind": "performance",
+    "location": "Paris",
+    "date": "2025-06-25",
+    "date_end": null,
+    "date_display": "Jun 25"
+  },
+  {
+    "title": "AI Agents for PMs",
+    "org": "Independent",
+    "description": "Workshop for PMs & Designers",
+    "kind": "workshop",
+    "location": "Online",
+    "date": "2025-06-23",
+    "date_end": null,
+    "date_display": "Jun 23"
+  },
+  {
+    "title": "Residency",
+    "org": "EAP / Casa Raro",
+    "description": "European Artist Programme",
+    "kind": "residency",
+    "location": "Barcelona",
+    "date": "2025-06-11",
+    "date_end": "2025-06-24",
+    "date_display": "Jun 11–24"
+  },
+  {
+    "title": "AI & Poetry",
+    "org": "Meta",
+    "description": "Invited artist talk on AI and literature",
+    "kind": "keynote",
+    "location": "SF",
+    "date": "2025-05-20",
+    "date_end": null,
+    "date_display": "May 20"
+  },
+  {
+    "title": "RAG AI for PMs",
+    "org": "Independent",
+    "description": "Workshop for PMs & Designers",
+    "kind": "workshop",
+    "location": "Online",
+    "date": "2025-05-14",
+    "date_end": null,
+    "date_display": "May 14"
+  },
+  {
+    "title": "Fine-Tuning AI for PMs",
+    "org": "Independent",
+    "description": "Workshop for PMs & Designers",
+    "kind": "workshop",
+    "location": "Online",
+    "date": "2025-05-07",
+    "date_end": null,
+    "date_display": "May 7"
+  },
+  {
+    "title": "Applied Poetics and AI",
+    "org": "APE Korea",
+    "description": "APE CAMP 2025, 2nd Place",
+    "kind": "keynote",
+    "location": "Seoul",
+    "date": "2025-05-01",
+    "date_end": null,
+    "date_display": "May"
+  },
+  {
+    "title": "Talk",
+    "org": "NWMP",
+    "description": "New Media Writing Prize",
+    "kind": "keynote",
+    "location": "Online",
+    "date": "2025-05-01",
+    "date_end": null,
+    "date_display": "May"
+  },
+  {
+    "title": "Majlis",
+    "org": "Google",
+    "description": "Poetry & Tea in the Atrium",
+    "kind": "keynote",
+    "location": "SF",
+    "date": "2025-04-30",
+    "date_end": null,
+    "date_display": "Apr 30"
+  },
+  {
+    "title": "Designing with AI",
+    "org": "XDesign Summit",
+    "description": "UX & Experience Design Summit",
+    "kind": "keynote",
+    "location": "Virtual",
+    "date": "2025-04-23",
+    "date_end": "2025-04-24",
+    "date_display": "Apr 23–24"
+  },
+  {
+    "title": "Unintended Outcomes",
+    "org": "SF Art Fair + Gray Area",
+    "description": "AI in the Artist's Studio",
+    "kind": "panel",
+    "location": "SF",
+    "date": "2025-04-20",
+    "date_end": null,
+    "date_display": "Apr 20"
+  },
+  {
+    "title": "DPMG",
+    "org": "Gray Area",
+    "description": "Digital Poetics Maker Gathering",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2025-04-16",
+    "date_end": null,
+    "date_display": "Apr 16"
+  },
+  {
+    "title": "Weirding AI",
+    "org": "Gray Area",
+    "description": "Fine-Tuning & RAG for Poets & Artists",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2025-03-29",
+    "date_end": "2025-03-30",
+    "date_display": "Mar 29–30"
+  },
+  {
+    "title": "Missed Us Yet?",
+    "org": "Counterpulse",
+    "description": "Borderline Viewing",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-03-26",
+    "date_end": null,
+    "date_display": "Mar 26"
+  },
+  {
+    "title": "Weird the Web",
+    "org": "Johns Hopkins University",
+    "description": "Weirding the Web",
+    "kind": "workshop",
+    "location": "Zoom",
+    "date": "2025-03-21",
+    "date_end": null,
+    "date_display": "Mar 21"
+  },
+  {
+    "title": "Digital Poetics #1",
+    "org": "Empowa",
+    "description": "Digital Poetics Gathering",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2025-03-11",
+    "date_end": null,
+    "date_display": "Mar 11"
+  },
+  {
+    "title": "I Live Here",
+    "org": "Counterpulse",
+    "description": "Show at Counterpulse Gala",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-03-06",
+    "date_end": null,
+    "date_display": "Mar 6"
+  },
+  {
+    "title": "Hands-on AI for PMs",
+    "org": "PM Summit",
+    "description": "Weirding AI for Product Managers",
+    "kind": "workshop",
+    "location": "Zoom",
+    "date": "2025-03-05",
+    "date_end": null,
+    "date_display": "Mar 5"
+  },
+  {
+    "title": "Weird the Web",
+    "org": "Gray Area",
+    "description": "Sleeping with Machines",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2025-03-05",
+    "date_end": null,
+    "date_display": "Mar 5"
+  },
+  {
+    "title": "Square, Powder, Claw",
+    "org": "TIAT + Empowa",
+    "description": "Triptych on Boyhood",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2025-02-23",
+    "date_end": null,
+    "date_display": "Feb 23"
+  },
+  {
+    "title": "Talk",
+    "org": "Stanford d.school",
+    "description": "Creative Tech, AI as Medium",
+    "kind": "keynote",
+    "location": "Stanford",
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Talk",
+    "org": "UC Berkeley",
+    "description": "Memory & Migrant Consciousness",
+    "kind": "keynote",
+    "location": "Berkeley",
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Product Lead, Le Chat",
+    "org": "Mistral AI",
+    "description": "Led conversational AI product",
+    "kind": "professional_experience",
+    "location": "Paris",
+    "date": "2025-07-01",
+    "date_end": null,
+    "date_display": "Jul 2025"
+  },
+  {
+    "title": "Border/Line عالحد",
+    "org": "Counterpulse",
+    "description": "6 shows, 8 characters, 12+ poetic websites",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2024-12-05",
+    "date_end": "2024-12-14",
+    "date_display": "Dec 5–14"
+  },
+  {
+    "title": "Diasporic Arts Residency",
+    "org": "Counterpulse",
+    "description": "Artist in Residence",
+    "kind": "residency",
+    "location": "SF",
+    "date": "2024-06-01",
+    "date_end": "2024-12-14",
+    "date_display": "2024"
+  },
+  {
+    "title": "Performance",
+    "org": "Happy Endings Show",
+    "description": "Make Out Room",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2024-09-10",
+    "date_end": null,
+    "date_display": "Sep 10"
+  },
+  {
+    "title": "Deserve It",
+    "org": "Gray Area",
+    "description": "Immigration Office Installation",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Algorithm's Embrace",
+    "org": "Gray Area",
+    "description": "Performance",
+    "kind": "performance",
+    "location": "SF",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "We Called Us Poetry",
+    "org": "Bergen University CDN",
+    "description": "More than Meets AI exhibition",
+    "kind": "performance",
+    "location": "Bergen",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Algorithm's Embrace",
+    "org": "Prophet Consulting",
+    "description": "Queerness & AI talk",
+    "kind": "keynote",
+    "location": "SF",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Co/n/founding Queer Webs",
+    "org": "Sandbox",
+    "description": "Queer Web Workshop",
+    "kind": "workshop",
+    "location": "Barcelona",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Co/n/founding Queer Webs",
+    "org": "Sandbox",
+    "description": "Queer Web Workshop",
+    "kind": "workshop",
+    "location": "London",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Co/n/founding Queer Webs",
+    "org": "Sandbox",
+    "description": "Queer Web Workshop",
+    "kind": "workshop",
+    "location": "Paris",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Co/n/founding Queer Webs",
+    "org": "Prophet Consulting",
+    "description": "Queer Web Workshop",
+    "kind": "workshop",
+    "location": "SF",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Round Table",
+    "org": "SF Standard",
+    "description": "AI, Literature and Poetry",
+    "kind": "panel",
+    "location": "SF",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Fun Hackathon",
+    "org": "Kiron",
+    "description": "Creative Tech for Educators",
+    "kind": "workshop",
+    "location": "Paris",
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Robert Coover Award",
+    "org": "ELO",
+    "description": "Best Work of E-Literature (Borderline)",
+    "kind": null,
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Artist in Residence",
+    "org": "Gray Area",
+    "description": "2-year residency",
+    "kind": "residency",
+    "location": "SF",
+    "date": "2023-01-01",
+    "date_end": "2024-12-31",
+    "date_display": "2023–2024"
+  },
+  {
+    "title": "Borrow + Never Give Back",
+    "org": "Silo Gallery",
+    "description": "Exhibition",
+    "kind": "performance",
+    "location": "Santa Barbara",
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": "2022"
+  },
+  {
+    "title": "Invasions",
+    "org": "Silo Gallery",
+    "description": "Exhibition, performed at multiple venues",
+    "kind": "performance",
+    "location": "Santa Barbara",
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": "2022"
+  },
+  {
+    "title": "America Metabolizes Me",
+    "org": "Silo Gallery",
+    "description": "Exhibition",
+    "kind": "performance",
+    "location": "Santa Barbara",
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": "2021"
+  },
+  {
+    "title": "Re/declarations",
+    "org": "Silo Gallery",
+    "description": "Exhibition",
+    "kind": "performance",
+    "location": "Santa Barbara",
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": "2021"
+  },
+  {
+    "title": "Hacking Happy",
+    "org": "TEDxHackney",
+    "description": "TEDx Talk",
+    "kind": "keynote",
+    "location": "London",
+    "date": "2014-01-01",
+    "date_end": null,
+    "date_display": "2014"
+  },
+  {
+    "title": "Biohacking",
+    "org": "TEDxBordeaux",
+    "description": "une vie augmentée",
+    "kind": "keynote",
+    "location": "Bordeaux",
+    "date": "2013-01-01",
+    "date_end": null,
+    "date_display": "2013"
+  },
+  {
+    "title": "Facebook Likes",
+    "org": "TEDTalentSearch",
+    "description": "What's wrong with Facebook likes?",
+    "kind": "keynote",
+    "location": null,
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "Advice to the President",
+    "org": "TEDxBeirut",
+    "description": "A piece of advice to the president of the world",
+    "kind": "keynote",
+    "location": "Beirut",
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "Nano-économie",
+    "org": "TEDxOujda",
+    "description": "Comment créer votre propre armée",
+    "kind": "keynote",
+    "location": "Oujda",
+    "date": "2011-01-01",
+    "date_end": null,
+    "date_display": "2011"
+  },
+  {
+    "title": "Nanoeconomics",
+    "org": "TEDx Paris Universités",
+    "description": "Why you are worth more than you think",
+    "kind": "keynote",
+    "location": "Paris",
+    "date": "2011-01-01",
+    "date_end": null,
+    "date_display": "2011"
+  },
+  {
+    "title": "Design Systems & Dashboard Lead",
+    "org": "Stripe",
+    "description": "Led Design Systems and Dashboard teams",
+    "kind": "professional_experience",
+    "location": "SF",
+    "date": "2021-01-01",
+    "date_end": "2024-12-31",
+    "date_display": "2021–2024"
+  },
+  {
+    "title": "Avatars, Profiles, Oculus",
+    "org": "Meta",
+    "description": "Launched Avatars, redesigned Facebook Profiles, revamped 3D Oculus navigation",
+    "kind": "professional_experience",
+    "location": "SF",
+    "date": "2016-01-01",
+    "date_end": "2021-12-31",
+    "date_display": "2016–2021"
+  },
+  {
+    "title": "Co-founder",
+    "org": "Invisible",
+    "description": "OAAS specialized in RLHF",
+    "kind": "professional_experience",
+    "location": "SF",
+    "date": "2016-01-01",
+    "date_end": null,
+    "date_display": "2016"
+  },
+  {
+    "title": "Co-founder",
+    "org": "Birdback",
+    "description": "Omnichannel Fintech API, acquired by Quidco",
+    "kind": "professional_experience",
+    "location": "London",
+    "date": "2014-01-01",
+    "date_end": "2016-12-31",
+    "date_display": "2014–2016"
+  },
+  {
+    "title": "Masters",
+    "org": "University of Toronto",
+    "description": "Data Mining, Machine Learning. Minor in Philosophy",
+    "kind": "education",
+    "location": "Toronto",
+    "date": "2013-01-01",
+    "date_end": "2014-12-31",
+    "date_display": "2013–2014"
+  },
+  {
+    "title": "Liberal Arts",
+    "org": "Sorbonne University",
+    "description": "Liberal Arts degree",
+    "kind": "education",
+    "location": "Paris",
+    "date": "2010-01-01",
+    "date_end": "2013-12-31",
+    "date_display": "2010–2013"
+  }
+]

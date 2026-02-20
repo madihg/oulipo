@@ -108,6 +108,9 @@
         color: #000000;
         font-family: "Diatype Mono Variable", monospace;
         font-style: normal;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
         line-height: 1.25;
         letter-spacing: 0em;
       }
@@ -483,7 +486,7 @@
 
       function renderEvent(event) {
         const linkHtml = event.link
-          ? ` <a href="${event.link}" target="_blank">Link</a>\u2197`
+          ? ` <a href="${event.link}" target="_blank">Link \u2197</a>`
           : "";
         const kindDisplay = formatKind(event.kind);
         const typePart = kindDisplay ? `${kindDisplay}. ` : "";

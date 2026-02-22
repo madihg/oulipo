@@ -13,308 +13,8 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
 
+    <link rel="stylesheet" href="Assets/css/shared.css" />
     <style>
-      /* Cargo Fonts */
-      @font-face {
-        font-display: block;
-        font-family: "Standard";
-        src: url("https://type.cargo.site/files/Standard-Book.woff")
-          format("woff");
-        font-style: normal;
-        font-weight: normal;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Standard";
-        src: url("https://type.cargo.site/files/Standard-Bold.woff")
-          format("woff");
-        font-style: normal;
-        font-weight: bold;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Terminal Grotesque";
-        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
-          format("woff");
-        font-style: normal;
-        font-weight: normal;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Diatype Variable";
-        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
-          format("woff2-variations");
-        font-style: normal;
-        font-weight: 200 1000;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Diatype Mono Variable";
-        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
-          format("woff2-variations");
-        font-style: normal;
-        font-weight: 200 1000;
-      }
-
-      /* Base styles matching Cargo */
-      html {
-        font-size: 16px;
-      }
-
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #ffffff;
-        color: rgba(0, 0, 0, 0.85);
-        font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        line-height: 1.2;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
-      body.menu-open {
-        overflow: hidden;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      a {
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: underline;
-      }
-
-      a:hover {
-        opacity: 0.7;
-      }
-
-      a:active {
-        opacity: 0.7;
-      }
-
-      /* Typography */
-      h1 {
-        font-family: "Terminal Grotesque", sans-serif;
-        font-style: normal;
-        font-weight: 400;
-        margin: 0;
-        font-size: 7rem;
-        line-height: 0.9;
-        color: rgba(0, 0, 0, 0.85);
-        letter-spacing: 0;
-      }
-
-      h2 {
-        font-family: "Diatype Variable", sans-serif;
-        font-style: normal;
-        margin: 0;
-        color: #000000;
-        font-size: 2rem;
-        line-height: 1.2;
-        letter-spacing: 0;
-        font-weight: 700;
-      }
-
-      .caption {
-        font-size: 1.2rem;
-        font-weight: 400;
-        color: #000000;
-        font-family: "Diatype Mono Variable", monospace;
-        font-style: normal;
-        line-height: 1.25;
-        letter-spacing: 0em;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-      }
-
-      .caption a {
-        color: #000000;
-        text-decoration: underline;
-      }
-
-      hr {
-        background: rgba(0, 0, 0, 0.75);
-        border: 0;
-        height: 1px;
-        display: block;
-        margin: 2rem 0;
-      }
-
-      /* Layout */
-      .page {
-        padding: 4rem;
-        max-width: 100%;
-      }
-
-      .page-content {
-        max-width: 1200px;
-        margin: 0 auto;
-      }
-
-      /* Site Header */
-      .site-header {
-        position: fixed;
-        top: 1.5rem;
-        left: 4rem;
-        z-index: 200;
-        font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .site-header a {
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .site-header a:hover {
-        opacity: 0.7;
-      }
-
-      .site-header.hidden {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      /* Menu Toggle Button */
-      .menu-toggle {
-        position: fixed;
-        top: 1.5rem;
-        right: 4rem;
-        z-index: 200;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .menu-toggle.hidden {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      .menu-toggle span {
-        display: block;
-        width: 100%;
-        height: 2px;
-        background-color: rgba(0, 0, 0, 0.85);
-        transition:
-          transform 0.3s,
-          opacity 0.3s;
-      }
-
-      .menu-toggle:hover {
-        opacity: 0.7;
-      }
-
-      /* Side Menu Overlay */
-      .menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.25);
-        z-index: 998;
-        opacity: 0;
-        visibility: hidden;
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      /* Side Menu Drawer */
-      .side-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 420px;
-        height: 100%;
-        background-color: #ffffff;
-        z-index: 999;
-        padding: 2rem 4rem;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-      }
-
-      .side-menu.active {
-        transform: translateX(0);
-      }
-
-      .menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-home {
-        font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        font-size: 1.5rem;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-close:hover {
-        opacity: 0.7;
-      }
-
-      .menu-section {
-        margin-bottom: 0;
-      }
-
-      .menu-section a {
-        display: block;
-        font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-        line-height: 1.15;
-      }
-
-      .menu-section a:hover {
-        opacity: 0.7;
-      }
-
-      .menu-divider {
-        border: 0;
-        height: 1px;
-        background: rgba(0, 0, 0, 0.85);
-        margin: 0.75rem 0;
-      }
-
       /* Hero */
       .hero {
         padding-top: 4rem;
@@ -417,7 +117,7 @@
         padding-top: 0.75rem;
       }
 
-      /* Featured Work Item (with image, like halimmadi.com) */
+      /* Featured Work Item */
       .work-featured {
         margin-bottom: 3rem;
       }
@@ -481,23 +181,9 @@
         .work-featured-body {
           grid-template-columns: 1fr;
         }
-      }
 
-      /* Mobile Styles */
-      @media (max-width: 900px) {
         .grid {
           grid-template-columns: repeat(2, 1fr);
-        }
-      }
-
-      @media (max-width: 768px) {
-        .side-menu {
-          width: 100%;
-          padding: 2rem;
-        }
-
-        .menu-toggle {
-          right: 2rem;
         }
       }
 
@@ -505,31 +191,13 @@
         .grid {
           grid-template-columns: 1fr;
         }
-
-        .page {
-          padding: 2rem;
-        }
-
-        h1 {
-          font-size: 4.5rem;
-        }
-
-        .site-header {
-          left: 1.5rem;
-          top: 1rem;
-        }
-
-        .menu-toggle {
-          top: 1rem;
-          right: 1.5rem;
-        }
       }
     </style>
   </head>
   <body>
     <!-- Site Header -->
     <div class="site-header">
-      <a href="https://halimmadi.com">Halim Madi</a>
+      <a href="/home/">Halim Madi</a>
     </div>
 
     <!-- Menu Toggle Button -->
@@ -545,9 +213,7 @@
     <!-- Side Menu Drawer -->
     <nav class="side-menu">
       <div class="menu-header">
-        <a href="https://halimmadi.com/landing-1#hero-1" class="menu-home"
-          >Home</a
-        >
+        <a href="/home/" class="menu-home">Home</a>
         <button
           class="menu-close"
           onclick="toggleMenu()"
@@ -558,18 +224,18 @@
       </div>
 
       <div class="menu-section">
-        <a href="https://halimmadi.com/works-1">Works</a>
-        <a href="https://halimmadi.com/keynotes">Keynotes</a>
-        <a href="https://halimmadi.com/workshops-1">Workshops</a>
-        <a href="https://halimmadi.com/books-overview">Books</a>
+        <a href="/works/">Works</a>
+        <a href="/keynotes/">Keynotes</a>
+        <a href="/workshops/">Workshops</a>
+        <a href="/books/">Books</a>
       </div>
 
       <hr class="menu-divider" />
 
       <div class="menu-section">
-        <a href="https://halimmadi.com/about">About</a>
-        <a href="https://halimmadi.com/upcoming">Upcoming</a>
-        <a href="https://halimmadi.com/contact-form">Contact</a>
+        <a href="/about/">About</a>
+        <a href="/upcoming/">Upcoming</a>
+        <a href="/contact/">Contact</a>
         <a href="https://halimmadi.substack.com/" target="_blank"
           >Newsletter ↗</a
         >

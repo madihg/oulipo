@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About — Halim Madi</title>
+    <meta
+      name="description"
+      content="About Halim Madi — artist, performer, and creative technologist working at the intersection of code, memory, and storytelling."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+    />
+    <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <style>
+      .about-layout {
+        display: grid;
+        grid-template-columns: 4fr 5fr 3fr;
+        gap: 2rem;
+        align-items: start;
+      }
+      .about-portrait img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+      .about-bio p {
+        margin: 0 0 1.5rem;
+        line-height: 1.5;
+      }
+      .about-bio h2 {
+        margin: 2.5rem 0 1rem;
+      }
+      .about-links-col b {
+        display: block;
+        margin-bottom: 0.5rem;
+      }
+      .about-links-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+      .about-links-list li {
+        margin-bottom: 0.25rem;
+      }
+      .about-links-list a {
+        color: rgba(0, 0, 0, 0.85);
+        transition: opacity 0.3s ease;
+      }
+      @media (max-width: 900px) {
+        .about-layout {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-header"><a href="/home/">Halim Madi</a></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/home/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/keynotes/">Keynotes</a>
+        <a href="/workshops/">Workshops</a>
+        <a href="/books/">Books</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/upcoming/">Upcoming</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://halimmadi.substack.com/" target="_blank"
+          >Newsletter &#8599;</a
+        >
+        <a href="https://www.instagram.com/yalla_halim" target="_blank"
+          >Instagram &#8599;</a
+        >
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="page-content about-layout">
+        <div class="about-portrait">
+          <img
+            src="../Assets/images/portrait/halim-portrait.jpg"
+            alt="Halim Madi"
+          />
+        </div>
+        <div class="about-bio">
+          <p>
+            I'm a Lebanese-born artist, performer, and creative technologist
+            working at the intersection of code, memory, and storytelling. My
+            practice blends poetic systems, interactive theater, and AI tools to
+            explore how language remembers, especially in the aftermath of
+            displacement.
+          </p>
+          <p>
+            I led product and design teams at Meta (launching Avatars,
+            redesigning Facebook profiles), at Stripe where I rebuilt developer
+            documentation, and at Mistral AI where I launched deep research and
+            memory projects. In 2025, I became the Poet-in-Residence at
+            Devconnect, exploring blockchain as a medium for poetic ritual.
+          </p>
+          <h2>Recognition</h2>
+          <p>
+            Robert Coover Award for Electronic Literature, Mozilla Creative
+            Futures, CultureHub, Media Archaeology Lab, European Artistic
+            Program.
+          </p>
+          <h2>Teaching</h2>
+          <p>
+            Stanford, Google, Gray Area, Electronic Literature Organization.
+          </p>
+        </div>
+        <div class="about-links-col">
+          <b>Links</b>
+          <ul class="about-links-list">
+            <li>
+              <a href="https://github.com/madihg" target="_blank"
+                >GitHub &#8599;</a
+              >
+            </li>
+            <li>
+              <a href="https://www.instagram.com/yalla_halim" target="_blank"
+                >Instagram &#8599;</a
+              >
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/in/madihalim" target="_blank"
+                >LinkedIn &#8599;</a
+              >
+            </li>
+            <li>
+              <a href="https://www.youtube.com/@yalla_halim" target="_blank"
+                >YouTube &#8599;</a
+              >
+            </li>
+            <li>
+              <a href="https://halimmadi.substack.com/" target="_blank"
+                >Newsletter &#8599;</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <script src="../Assets/js/menu.js"></script>
+  </body>
+</html>

@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Works — Halim Madi</title>
+    <meta
+      name="description"
+      content="Poems, performances, and systems by Halim Madi — exploring what language remembers."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+    />
+    <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <style>
+      .works-intro {
+        max-width: 800px;
+        margin-bottom: 3rem;
+      }
+
+      .works-intro p {
+        line-height: 1.5;
+      }
+
+      .work-entry {
+        margin-bottom: 4rem;
+        padding-bottom: 4rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      }
+
+      .work-entry:last-child {
+        border-bottom: none;
+      }
+
+      .work-entry-header {
+        margin-bottom: 1rem;
+      }
+
+      .work-entry-header h2 {
+        margin-bottom: 0.25rem;
+      }
+
+      .work-entry-meta {
+        font-family: "Diatype Mono Variable", monospace;
+        font-size: 1rem;
+        color: rgba(0, 0, 0, 0.5);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+      }
+
+      .work-entry-body {
+        display: grid;
+        grid-template-columns: 3fr 8fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .work-entry-body p {
+        line-height: 1.5;
+        margin: 0 0 1rem;
+      }
+
+      .work-entry-body a.work-link {
+        display: inline-block;
+        font-family: "Diatype Mono Variable", monospace;
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.85);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+      }
+
+      .work-entry-images {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+
+      .work-entry-images img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .work-entry-images.single img {
+        grid-column: 1 / -1;
+      }
+
+      @media (max-width: 900px) {
+        .work-entry-body {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-header"><a href="/home/">Halim Madi</a></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/home/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/keynotes/">Keynotes</a>
+        <a href="/workshops/">Workshops</a>
+        <a href="/books/">Books</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/upcoming/">Upcoming</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://halimmadi.substack.com/" target="_blank"
+          >Newsletter &#8599;</a
+        >
+        <a href="https://www.instagram.com/yalla_halim" target="_blank"
+          >Instagram &#8599;</a
+        >
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="page-content">
+        <div class="works-intro">
+          <p>
+            I explore what language remembers. I build poems, performances, and
+            systems that rewire our ways of relating — to machines, to each
+            other, to the past. The work lives between code and care, protocol
+            and prayer. It listens. It glitches. Sometimes, it grows teeth!
+          </p>
+        </div>
+
+        <!-- We Called Us Poetry -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>We Called Us Poetry</h2>
+            <div class="work-entry-meta">
+              Jun '25 &mdash; ELO Conference, Toronto / UC Berkeley / University
+              of Bergen / TIAT, SF
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                An interactive performance and computational poem exploring
+                humanity's relationship with AI. The piece imagines futures
+                where humanity doesn't scale up but scales down, proposing
+                poetic metamorphosis through symbiosis rather than technological
+                transcendence. Participants complete open-ended prompts while
+                the performer responds live, leaving traces and mutations in the
+                poem's digital body. HTML becomes sacred, dropdown menus hold
+                grief, and tabs unfold confessionals.
+              </p>
+              <a
+                class="work-link"
+                href="https://elo-2025.vercel.app"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images single">
+              <img
+                src="../Assets/images/works/we-called-us.png"
+                alt="We Called Us Poetry"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Carnation.exe -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Carnation.exe</h2>
+            <div class="work-entry-meta">
+              May '25 &mdash; European Artist Program, Paris, Barcelona
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                Part I of the "Singulars" series. Stages a daily poetic duel
+                between a human poet and a language model trained exclusively on
+                poetry. Inspired by AlphaGo vs. Lee Sedol, creativity emerges
+                through confrontation rather than isolation. Participants place
+                pink carnation dots beneath preferred poems, with votes
+                determining subsequent learning cycles. Pink carnations
+                traditionally symbolize remembrance.
+              </p>
+              <a
+                class="work-link"
+                href="https://carnation-eng.vercel.app/"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images">
+              <img
+                src="../Assets/images/works/carnation-1.jpg"
+                alt="Carnation.exe — performance"
+              />
+              <img
+                src="../Assets/images/works/carnation-2.jpg"
+                alt="Carnation.exe — voting"
+              />
+              <img
+                src="../Assets/images/works/carnation-3.jpg"
+                alt="Carnation.exe — installation"
+              />
+              <img
+                src="../Assets/images/works/carnation-4.jpg"
+                alt="Carnation.exe — detail"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Borderline -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Borderline</h2>
+            <div class="work-entry-meta">
+              Dec '24 &ndash; Jan '25 &mdash; CounterPulse, San Francisco
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                A speculative narrative set in fictional "New Beirut" where a
+                red line appears mysteriously. Unfolds through a layered score
+                combining HTML poetry, news broadcasts, family stories, and
+                border interrogations. Weaves movement, memory, and testimony
+                exploring how migration reshapes body and language. Features an
+                Arabic zajal refrain returning across timelines. Culminates in a
+                collective digital memory atlas where audience shares personal
+                "red lines" — locations of home and belonging.
+              </p>
+              <a
+                class="work-link"
+                href="https://borderline-swart.vercel.app/"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images">
+              <img
+                src="../Assets/images/works/borderline-1.jpg"
+                alt="Borderline — performance"
+              />
+              <img
+                src="../Assets/images/works/borderline-2.jpg"
+                alt="Borderline — stage"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- I Live Here -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>I Live Here</h2>
+            <div class="work-entry-meta">
+              Apr '25 &mdash; CounterPulse AIR, San Francisco
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                A ritual descent (katabasis) woven between Beirut and San
+                Francisco's Tenderloin. Explores belonging to places "built on
+                bones" — BO18 nightclub constructed atop the Karantina massacre
+                site; The Hamilton hotel overlooking pandemic-era urban
+                collapse. Performance interrogates how hope curdles into
+                fatalism, fatalism into myth. Concludes with an audience
+                invitation "downstairs, for tea, for testimony, for shared
+                ground."
+              </p>
+              <a
+                class="work-link"
+                href="https://i-live-here.vercel.app/"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images single">
+              <img
+                src="../Assets/images/works/i-live-here.jpg"
+                alt="I Live Here"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Feed It -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Feed It</h2>
+            <div class="work-entry-meta">
+              May '25 &mdash; APE (Artist x Producer x Engineer), Seoul, South
+              Korea
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                Six artists surrender flesh, sounds, and thoughts to train a
+                model functioning as collaborative director rather than
+                assistant. Participants' faces, voices, and writings become
+                dataset; the fine-tuned model speaks, choreographs, and guides
+                performers through live instructions. Performers become puppets
+                of their collective digital ghost. Theater becomes ritual of
+                distributed agency and surrender.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Weirder Webs -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Weirder Webs</h2>
+            <div class="work-entry-meta">
+              Nov '24 &ndash; Jan '25 &mdash; San Francisco, Barcelona, Paris,
+              London
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                A traveling ritual inviting participants to reclaim digital
+                agency through "queering functionality." Opening ritual rooted
+                in queer migration mythology precedes collaborative
+                site-building using Glitch.com and ChatGPT. Participants create
+                websites that flirt, refuse proper loading, and ask questions
+                rather than answer. Results form a shared "digital village" —
+                interconnected queer poetic web galaxy.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Deserve It -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Deserve It</h2>
+            <div class="work-entry-meta">
+              Dec '23 &ndash; Nov '24 &mdash; Gray Area AIR, Gallery-O-Rama, San
+              Francisco
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                Participants sit at a terminal and complete a fictional
+                immigration interface asking "Do you deserve to stay?" Responses
+                scramble while the artist behind the desk performs choices
+                silently, ritualistically — acting simultaneously as mechanical
+                Turk and oracle. The system never says yes, only "try again."
+                Unfolds as reverse Turing test and digital confession booth
+                refusing algorithmic neutrality.
+              </p>
+              <a
+                class="work-link"
+                href="https://deserve.vercel.app/"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Borderline.exe -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Borderline.exe</h2>
+            <div class="work-entry-meta">
+              Dec '24 &mdash; Robert Coover Award for Electronic Literature
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                Opens with the accusatory prompt: "Are you carrying weapons?"
+                Checkboxes evade the cursor; each interaction mimics the
+                psychological toll of border scrutiny. A green success screen
+                burns emotionally, declaring "299 days" for document arrival.
+                Distills the border-crossing experience into digital form,
+                weaponizing interface design against user agency.
+              </p>
+              <a
+                class="work-link"
+                href="https://www.oulipo.xyz/borderline-deny.html"
+                target="_blank"
+                >Live site &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images single">
+              <img
+                src="../Assets/images/works/borderline-exe.png"
+                alt="Borderline.exe"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Oulipo.xyz -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Oulipo.xyz</h2>
+            <div class="work-entry-meta">Evergreen</div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                A computational poetry laboratory exploring "non-human poets"
+                and experimental language interfaces.
+              </p>
+              <a class="work-link" href="https://oulipo.xyz" target="_blank"
+                >Visit oulipo.xyz &#8599;</a
+              >
+            </div>
+            <div class="work-entry-images">
+              <img
+                src="../Assets/images/works/oulipo-1.png"
+                alt="Oulipo.xyz — screenshot 1"
+              />
+              <img
+                src="../Assets/images/works/oulipo-2.png"
+                alt="Oulipo.xyz — screenshot 2"
+              />
+              <img
+                src="../Assets/images/works/oulipo-3.png"
+                alt="Oulipo.xyz — screenshot 3"
+              />
+              <img
+                src="../Assets/images/works/oulipo-4.png"
+                alt="Oulipo.xyz — screenshot 4"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Versus.exe -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Versus.exe</h2>
+            <div class="work-entry-meta">
+              Nov '25 &mdash; Mozilla AI Residency, San Francisco
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                A structured poetic confrontation between human and machine with
+                daily voting cycles and mutual reinforcement.
+              </p>
+            </div>
+            <div class="work-entry-images">
+              <img
+                src="../Assets/images/works/versus-1.jpg"
+                alt="Versus.exe — performance"
+              />
+              <img
+                src="../Assets/images/works/versus-2.jpg"
+                alt="Versus.exe — detail"
+              />
+              <img
+                src="../Assets/images/works/versus-3.jpg"
+                alt="Versus.exe — audience"
+              />
+              <img
+                src="../Assets/images/works/versus-4.jpg"
+                alt="Versus.exe — screen"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- Reinforcement.exe -->
+        <div class="work-entry">
+          <div class="work-entry-header">
+            <h2>Reinforcement.exe</h2>
+            <div class="work-entry-meta">
+              Nov '25 &mdash; Ethereum Scholar Program, DevConnect Buenos Aires
+            </div>
+          </div>
+          <div class="work-entry-body">
+            <div>
+              <p>
+                Third installment in the "Singulars" series featuring
+                poet-machine duels with audience voting determining system
+                updates.
+              </p>
+            </div>
+            <div class="work-entry-images single">
+              <img
+                src="../Assets/images/works/reinforcement-1.jpg"
+                alt="Reinforcement.exe"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../Assets/js/menu.js"></script>
+  </body>
+</html>

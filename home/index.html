@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Halim Madi — Creative Technologist & Computational Poet</title>
+    <meta
+      name="description"
+      content="Talks, performances, and systems at the intersection of language, code, and care. Keynotes and art that reimagine AI, creativity, and cultural memory."
+    />
+    <meta
+      name="keywords"
+      content="creative technologist, computational poet, AI and poetry, language models and art, poetic AI, generative poetry, digital storytelling, AI performance, electronic literature, algorithmic language, AI art, LLM art, HTML poetry, interactive web poetry, borderless identity, migration and AI, machine learning and creativity, AI keynote speaker, AI ethics and aesthetics, experimental interfaces, queer technology, digital poetics, glitch poetics, computational literature"
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+    />
+    <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <style>
+      /* Hero */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        background-image: url("../Assets/images/home/hero-bg.jpg");
+        background-size: cover;
+        background-position: center;
+        padding: 4rem;
+        margin: -4rem -4rem 0;
+      }
+
+      .hero h1 {
+        color: #ffffff;
+        font-size: 10rem;
+        margin-bottom: 1rem;
+      }
+
+      .hero-subtitle {
+        font-family: Standard, sans-serif;
+        font-size: 1.3rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.4;
+      }
+
+      /* Sections */
+      .section {
+        margin-bottom: 4rem;
+      }
+
+      .section h2 {
+        margin-bottom: 1rem;
+      }
+
+      .section p {
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+      }
+
+      .section-body {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2rem;
+        align-items: start;
+      }
+
+      .section-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .section-caption {
+        margin-top: 0.5rem;
+      }
+
+      @media (max-width: 900px) {
+        .section-body {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .hero {
+          min-height: 70vh;
+          padding: 2rem;
+          margin: -2rem -2rem 0;
+        }
+
+        .hero h1 {
+          font-size: 5rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="site-header"><a href="/home/">Halim Madi</a></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/home/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/keynotes/">Keynotes</a>
+        <a href="/workshops/">Workshops</a>
+        <a href="/books/">Books</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/upcoming/">Upcoming</a>
+        <a href="/contact/">Contact</a>
+        <a href="https://halimmadi.substack.com/" target="_blank"
+          >Newsletter &#8599;</a
+        >
+        <a href="https://www.instagram.com/yalla_halim" target="_blank"
+          >Instagram &#8599;</a
+        >
+      </div>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero">
+      <h1>future v.</h1>
+      <p class="hero-subtitle">
+        "future" is also a verb; to "future" is to build, to feel, to choose.
+      </p>
+    </div>
+
+    <div class="page">
+      <div class="page-content">
+        <!-- Intro -->
+        <section class="section">
+          <h2>future v.</h2>
+          <div class="section-body">
+            <div>
+              <p>
+                Hi! My name's &#x62D;&#x644;&#x64A;&#x645; Halim [ha-LIM]. I'm a
+                technologist, artist and researcher. As a technologist, I helped
+                shape the future of AI, digital expression and developer
+                experience. I helped launch <strong>Meta</strong> Avatars and
+                Quest VR, reimagining digital presence across billions of lives,
+                equipped <strong>Mistral</strong>'s LLM chatbot with memory and
+                improved <strong>Stripe</strong>'s documentation.
+              </p>
+              <p>
+                As a poet, performer and artist, I now explore the intersection
+                of <strong>code, language, and the body</strong>. If screens are
+                the modern bonfire, I'm telling stories nearby, rekindling
+                meaning, agency and connection within human-machine
+                interactions.
+              </p>
+              <a href="/contact/" class="button-8">Contact Halim</a>
+            </div>
+            <div class="section-image">
+              <img
+                src="../Assets/images/home/technologist-poet-poster.png"
+                alt="Technologist Poet Poster"
+              />
+            </div>
+          </div>
+        </section>
+
+        <hr />
+
+        <!-- Works -->
+        <section class="section">
+          <h2>Works</h2>
+          <div class="section-body">
+            <div>
+              <p>
+                As an artist and researcher, I explore what language remembers.
+                I build poems, performances, and systems that rewire our ways of
+                relating, to machines, to each other, to the past. The work
+                lives between code and care, protocol and prayer. It listens. It
+                glitches. Sometimes, it grows teeth!
+              </p>
+              <a href="/works/" class="button-8">Project Highlights</a>
+            </div>
+            <div class="section-image">
+              <img
+                src="../Assets/images/works/we-called-us.png"
+                alt="We Called Us Poetry — ELO Conference, Toronto"
+              />
+              <p class="caption section-caption">
+                We Called Us Poetry &mdash; Jun '25, Electronic Literature
+                Conference, Toronto
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <hr />
+
+        <!-- Keynotes -->
+        <section class="section">
+          <h2>Keynotes</h2>
+          <div class="section-body">
+            <div>
+              <p>
+                I work at the intersection of language, memory, and machine
+                logic. My talks explore how AI systems encode values, mirror
+                culture, and reshape how we think and relate. These aren't
+                lectures. They're provocations designed to challenge defaults,
+                expand perspective, and open space for new kinds of leadership.
+              </p>
+              <a href="/keynotes/" class="button-8">Explore Keynotes</a>
+            </div>
+            <div class="section-image">
+              <img
+                src="../Assets/images/keynotes/ai-artist-studio.jpg"
+                alt="AI in the Artist Studio — San Francisco Art Fair"
+              />
+              <p class="caption section-caption">
+                AI in the Artist Studio &mdash; Oct '25, San Francisco Art Fair
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <hr />
+
+        <!-- Workshops -->
+        <section class="section">
+          <h2>Workshops</h2>
+          <div class="section-body">
+            <div>
+              <p>
+                These sessions are hands-on environments for leaders and teams
+                on one hand, and artists and poets on the other, to engage
+                directly with emerging AI tools and ways of thinking. We explore
+                creative strategy, ethical design, and how to build with
+                attention. The goal is literacy, alignment, and a renewed sense
+                of agency in a shifting technological landscape.
+              </p>
+              <a href="/workshops/" class="button-8">Hands-On Sessions</a>
+            </div>
+            <div class="section-image">
+              <img
+                src="../Assets/images/workshops/time-capsule.jpg"
+                alt="Time Capsule in 3 Acts — Stanford D School"
+              />
+              <p class="caption section-caption">
+                Time Capsule in 3 Acts &mdash; May '25, Stanford D School
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="site-footer-icons">
+          <a href="https://www.instagram.com/yalla_halim" target="_blank"
+            >Instagram &#8599;</a
+          >
+          <a href="https://www.linkedin.com/in/madihalim" target="_blank"
+            >LinkedIn &#8599;</a
+          >
+          <a href="https://www.youtube.com/@yalla_halim" target="_blank"
+            >YouTube &#8599;</a
+          >
+        </footer>
+      </div>
+    </div>
+
+    <script src="../Assets/js/menu.js"></script>
+  </body>
+</html>

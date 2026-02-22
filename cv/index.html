@@ -52,14 +52,22 @@
         font-size: 16px;
       }
 
+      :root {
+        --type-size-nav: 1.08rem;
+        --type-size-base: 1.06rem;
+        --type-size-caption: 0.98rem;
+        --type-size-meta: 0.96rem;
+        --content-width: 30.5rem;
+      }
+
       body {
         margin: 0;
         padding: 0;
         background-color: #ffffff;
         color: rgba(0, 0, 0, 0.85);
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        line-height: 1.2;
+        font-size: var(--type-size-base);
+        line-height: 1.16;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
@@ -85,31 +93,34 @@
       }
 
       .page-layout {
-        padding: 2.2rem;
-        padding-top: 5rem;
-        max-width: 40%;
+        padding: 1.9rem 1.9rem 2rem;
+        margin-top: 2rem;
+        width: min(100%, var(--content-width));
+        max-width: var(--content-width);
         align-items: flex-start;
         display: flex;
         flex-direction: column;
-        width: 100%;
       }
 
       .page-content {
         align-items: flex-start;
         text-align: left;
-        padding: 1rem;
+        padding: 0;
         background-color: #ffffff;
         width: 100%;
       }
 
       /* Typography */
       .caption {
-        font-size: 1.2rem;
+        font-size: var(--type-size-caption);
         font-weight: 400;
         color: #000000;
         font-family: "Diatype Mono Variable", monospace;
         font-style: normal;
-        line-height: 1.25;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        line-height: 1.14;
         letter-spacing: 0em;
       }
 
@@ -123,7 +134,7 @@
         border: 0;
         height: 1px;
         display: block;
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         width: 100%;
       }
 
@@ -133,23 +144,24 @@
 
       /* Title area */
       .page-title {
-        text-align: center;
-        margin-bottom: 0.5rem;
-        font-size: 1.3rem;
+        text-align: left;
+        margin-bottom: 0.2rem;
+        font-size: var(--type-size-base);
         font-weight: bold;
+        line-height: 1.08;
       }
 
       /* Year heading */
       .year-heading {
-        font-family: "Diatype Variable", sans-serif;
-        font-size: 1.6rem;
+        font-family: Standard, sans-serif;
+        font-size: 1.12rem;
         font-weight: 700;
-        margin: 1.5rem 0 0.5rem 0;
+        margin: 1.15rem 0 0.35rem 0;
         color: rgba(0, 0, 0, 0.85);
       }
 
       .year-heading:first-of-type {
-        margin-top: 0.5rem;
+        margin-top: 0.4rem;
       }
 
       /* Event entry */
@@ -157,11 +169,39 @@
         margin: 0;
       }
 
+      .event-head {
+        font-size: var(--type-size-base);
+        line-height: 1.12;
+      }
+
+      .event-head b {
+        font-weight: 700;
+      }
+
+      .event-description,
       .event-meta {
+        display: block;
         font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
-        color: rgba(0, 0, 0, 0.5);
-        margin-top: 0.15rem;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        color: #000000;
+        line-height: 1.14;
+        letter-spacing: 0em;
+      }
+
+      .event-description {
+        font-size: var(--type-size-caption);
+      }
+
+      .event-meta {
+        font-size: var(--type-size-meta);
+      }
+
+      .event-meta a {
+        color: #000000;
+        text-decoration: underline;
+        text-underline-offset: 0.08em;
       }
 
       /* Site Header */
@@ -175,7 +215,7 @@
         left: 4rem;
         z-index: 200;
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         transition:
           opacity 0.3s ease,
           visibility 0.3s ease;
@@ -286,7 +326,7 @@
 
       .menu-home {
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         text-decoration: none;
         color: rgba(0, 0, 0, 0.85);
       }
@@ -312,7 +352,7 @@
       .menu-section a {
         display: block;
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         text-decoration: none;
         color: rgba(0, 0, 0, 0.85);
         line-height: 1.15;
@@ -330,15 +370,12 @@
       }
 
       /* Responsive */
-      @media (max-width: 1200px) {
-        .page-layout {
-          max-width: 55%;
-        }
-      }
-
       @media (max-width: 900px) {
         .page-layout {
-          max-width: 70%;
+          width: min(100%, 34rem);
+          max-width: 34rem;
+          margin-top: 1.4rem;
+          padding: 1.4rem 1.4rem 1.6rem;
         }
       }
 
@@ -354,9 +391,18 @@
       }
 
       @media (max-width: 600px) {
+        :root {
+          --type-size-nav: 1.05rem;
+          --type-size-base: 1.03rem;
+          --type-size-caption: 0.97rem;
+          --type-size-meta: 0.95rem;
+        }
+
         .page-layout {
-          max-width: 95%;
-          padding: 1.2rem;
+          width: 100%;
+          max-width: none;
+          margin-top: 1.2rem;
+          padding: 0.95rem 1rem 1.4rem;
         }
 
         .site-header {
@@ -416,11 +462,19 @@
         <a href="https://halimmadi.com/about">About</a>
         <a href="https://halimmadi.com/upcoming">Upcoming</a>
         <a href="https://halimmadi.com/contact-form">Contact</a>
-        <a href="https://halimmadi.substack.com/" target="_blank"
-          >Newsletter ↗</a
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <a href="https://www.instagram.com/yalla_halim" target="_blank"
-          >Instagram ↗</a
+          Newsletter ↗</a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram ↗</a
         >
       </div>
     </nav>
@@ -455,7 +509,6 @@
         }
       });
 
-      let lastScrollY = window.scrollY;
       const siteHeader = document.querySelector(".site-header");
       const menuToggle = document.querySelector(".menu-toggle");
 
@@ -486,22 +539,86 @@
           .join(" ");
       }
 
-      function renderCvEvent(event) {
-        const linkHtml = event.link
-          ? ` <a href="${event.link}" target="_blank">Link</a>\u2197`
-          : "";
-        const typePart = formatKind(event.kind);
-        const locationPart = event.location ? event.location : "";
-        const metaParts = [typePart, locationPart, event.date_display]
+      function escapeHtml(value) {
+        const str = String(value ?? "");
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function parseEventDate(value) {
+        if (!value) return null;
+        const dt = new Date(value);
+        return Number.isNaN(dt.getTime()) ? null : dt;
+      }
+
+      function parseYearFromDisplay(dateDisplay) {
+        const match = String(dateDisplay ?? "").match(/\b(19|20)\d{2}\b/);
+        return match ? Number(match[0]) : null;
+      }
+
+      function safeExternalUrl(value) {
+        if (!value) return null;
+        try {
+          const url = new URL(value, window.location.origin);
+          if (url.protocol !== "http:" && url.protocol !== "https:") {
+            return null;
+          }
+          return url.toString();
+        } catch {
+          return null;
+        }
+      }
+
+      function buildMetaLine(event) {
+        const kindDisplay = formatKind(event.kind);
+        const whereWhen = [event.location, event.date_display]
+          .map((v) => String(v || "").trim())
           .filter(Boolean)
-          .join(" \u00b7 ");
-        const descPart = event.description
-          ? `<span class="caption">${event.description}</span><br>`
+          .join(", ");
+        const parts = [];
+
+        if (kindDisplay) {
+          parts.push(`${kindDisplay}.`);
+        }
+        if (whereWhen) {
+          parts.push(whereWhen.endsWith(".") ? whereWhen : `${whereWhen}.`);
+        }
+
+        return parts.join(" ");
+      }
+
+      function renderCvEvent(event) {
+        const linkUrl = safeExternalUrl(event.link);
+        const org = escapeHtml(event.org);
+        const title = escapeHtml(event.title);
+        const description = event.description
+          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+          : "";
+        const metaText = escapeHtml(buildMetaLine(event));
+        const linkTag = linkUrl
+          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link\u2197</a>`
+          : "";
+        const metaParts = [];
+
+        if (metaText) {
+          metaParts.push(metaText);
+        }
+        if (linkTag) {
+          metaParts.push(linkTag);
+        }
+
+        const metaLine = metaParts.length
+          ? `<span class="event-meta">${metaParts.join(" ")}</span>`
           : "";
 
         return `<div class="event">
-          <b>${event.org} \u2192</b> ${event.title}<br>
-          ${descPart}<span class="event-meta">${metaParts}${linkHtml}</span>
+          <div class="event-head"><b>${org} \u2192</b>${title}</div>
+          ${description}
+          ${metaLine}
         </div>`;
       }
 
@@ -523,12 +640,27 @@
         // Group by year
         const grouped = {};
         data.forEach((e) => {
-          const year = new Date(e.date).getFullYear();
+          const parsedYear =
+            (
+              parseEventDate(e.date) || parseEventDate(e.date_end)
+            )?.getFullYear() ?? parseYearFromDisplay(e.date_display);
+          const year = Number.isFinite(parsedYear)
+            ? String(parsedYear)
+            : "Undated";
           if (!grouped[year]) grouped[year] = [];
           grouped[year].push(e);
         });
 
-        const years = Object.keys(grouped).sort((a, b) => b - a);
+        const years = Object.keys(grouped).sort((a, b) => {
+          const aNum = Number(a);
+          const bNum = Number(b);
+          const aIsNum = Number.isFinite(aNum);
+          const bIsNum = Number.isFinite(bNum);
+          if (aIsNum && bIsNum) return bNum - aNum;
+          if (aIsNum) return -1;
+          if (bIsNum) return 1;
+          return a.localeCompare(b);
+        });
 
         let html = "";
         years.forEach((year) => {

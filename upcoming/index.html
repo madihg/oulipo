@@ -52,14 +52,22 @@
         font-size: 16px;
       }
 
+      :root {
+        --type-size-nav: 1.08rem;
+        --type-size-base: 1.06rem;
+        --type-size-caption: 0.98rem;
+        --type-size-meta: 0.96rem;
+        --content-width: 30.5rem;
+      }
+
       body {
         margin: 0;
         padding: 0;
         background-color: #ffffff;
         color: rgba(0, 0, 0, 0.85);
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
-        line-height: 1.2;
+        font-size: var(--type-size-base);
+        line-height: 1.16;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
       }
@@ -77,7 +85,7 @@
         opacity: 0.7;
       }
 
-      /* Page layout - centered card */
+      /* Page layout - centered column */
       .page {
         display: flex;
         justify-content: center;
@@ -85,25 +93,37 @@
       }
 
       .page-layout {
-        padding: 2.2rem;
-        padding-top: 0;
-        margin-top: 4rem;
-        max-width: 40%;
+        padding: 1.9rem 1.9rem 2rem;
+        margin-top: 2rem;
+        width: min(100%, var(--content-width));
+        max-width: var(--content-width);
         align-items: flex-start;
         display: flex;
         flex-direction: column;
       }
 
       .page-content {
+        width: 100%;
         align-items: flex-start;
         text-align: left;
-        padding: 1rem;
+        padding: 0;
         background-color: #ffffff;
+      }
+
+      .hero-media {
+        width: 100%;
+        margin-bottom: 0.45rem;
+      }
+
+      .hero-media img {
+        display: block;
+        width: 100%;
+        height: auto;
       }
 
       /* Typography */
       .caption {
-        font-size: 1.2rem;
+        font-size: var(--type-size-caption);
         font-weight: 400;
         color: #000000;
         font-family: "Diatype Mono Variable", monospace;
@@ -111,7 +131,7 @@
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        line-height: 1.25;
+        line-height: 1.14;
         letter-spacing: 0em;
       }
 
@@ -125,7 +145,7 @@
         border: 0;
         height: 1px;
         display: block;
-        margin: 0.75rem 0;
+        margin: 0.5rem 0;
         width: 100%;
       }
 
@@ -135,10 +155,11 @@
 
       /* Title area */
       .page-title {
-        text-align: center;
-        margin-bottom: 0.5rem;
-        font-size: 1.3rem;
+        text-align: left;
+        margin-bottom: 0.2rem;
+        font-size: var(--type-size-base);
         font-weight: bold;
+        line-height: 1.08;
       }
 
       /* Event entry */
@@ -146,8 +167,39 @@
         margin: 0;
       }
 
-      .event-header b {
-        font-weight: bold;
+      .event-head {
+        font-size: var(--type-size-base);
+        line-height: 1.12;
+      }
+
+      .event-head b {
+        font-weight: 700;
+      }
+
+      .event-description,
+      .event-meta {
+        display: block;
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        color: #000000;
+        line-height: 1.14;
+        letter-spacing: 0em;
+      }
+
+      .event-description {
+        font-size: var(--type-size-caption);
+      }
+
+      .event-meta {
+        font-size: var(--type-size-meta);
+      }
+
+      .event-meta a {
+        color: #000000;
+        text-decoration: underline;
+        text-underline-offset: 0.08em;
       }
 
       /* Arrow/icon helpers removed — using inline Unicode characters directly */
@@ -163,7 +215,7 @@
         left: 4rem;
         z-index: 200;
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         transition:
           opacity 0.3s ease,
           visibility 0.3s ease;
@@ -274,7 +326,7 @@
 
       .menu-home {
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         text-decoration: none;
         color: rgba(0, 0, 0, 0.85);
       }
@@ -300,7 +352,7 @@
       .menu-section a {
         display: block;
         font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-size: var(--type-size-nav);
         text-decoration: none;
         color: rgba(0, 0, 0, 0.85);
         line-height: 1.15;
@@ -318,15 +370,12 @@
       }
 
       /* Responsive */
-      @media (max-width: 1200px) {
-        .page-layout {
-          max-width: 55%;
-        }
-      }
-
       @media (max-width: 900px) {
         .page-layout {
-          max-width: 70%;
+          width: min(100%, 34rem);
+          max-width: 34rem;
+          margin-top: 1.4rem;
+          padding: 1.4rem 1.4rem 1.6rem;
         }
       }
 
@@ -342,9 +391,18 @@
       }
 
       @media (max-width: 600px) {
+        :root {
+          --type-size-nav: 1.05rem;
+          --type-size-base: 1.03rem;
+          --type-size-caption: 0.97rem;
+          --type-size-meta: 0.95rem;
+        }
+
         .page-layout {
-          max-width: 95%;
-          padding: 1.2rem;
+          width: 100%;
+          max-width: none;
+          margin-top: 1.2rem;
+          padding: 0.95rem 1rem 1.4rem;
         }
 
         .site-header {
@@ -404,11 +462,19 @@
         <a href="https://halimmadi.com/about">About</a>
         <a href="https://halimmadi.com/upcoming">Upcoming</a>
         <a href="https://halimmadi.com/contact-form">Contact</a>
-        <a href="https://halimmadi.substack.com/" target="_blank"
-          >Newsletter ↗</a
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <a href="https://www.instagram.com/yalla_halim" target="_blank"
-          >Instagram ↗</a
+          Newsletter ↗</a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram ↗</a
         >
       </div>
     </nav>
@@ -416,14 +482,12 @@
     <div class="page">
       <div class="page-layout">
         <div class="page-content">
-          <div style="text-align: center">
+          <div class="hero-media">
             <img
               src="/upcoming/Fun-Smile-GIF-by-Stefano-Colferai.gif"
               alt="Upcoming"
-              style="max-width: 100%"
             />
           </div>
-          <br />
           <div class="page-title">Upcoming</div>
 
           <div id="events-container"></div>
@@ -453,7 +517,6 @@
       });
 
       // Hide header and menu toggle on scroll
-      let lastScrollY = window.scrollY;
       const siteHeader = document.querySelector(".site-header");
       const menuToggle = document.querySelector(".menu-toggle");
 
@@ -484,18 +547,81 @@
           .join(" ");
       }
 
-      function renderEvent(event) {
-        const linkHtml = event.link
-          ? ` <a href="${event.link}" target="_blank">Link \u2197</a>`
-          : "";
+      function escapeHtml(value) {
+        const str = String(value ?? "");
+        return str
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function parseEventDate(value) {
+        if (!value) return null;
+        const dt = new Date(value);
+        return Number.isNaN(dt.getTime()) ? null : dt;
+      }
+
+      function safeExternalUrl(value) {
+        if (!value) return null;
+        try {
+          const url = new URL(value, window.location.origin);
+          if (url.protocol !== "http:" && url.protocol !== "https:") {
+            return null;
+          }
+          return url.toString();
+        } catch {
+          return null;
+        }
+      }
+
+      function buildMetaLine(event) {
         const kindDisplay = formatKind(event.kind);
-        const typePart = kindDisplay ? `${kindDisplay}. ` : "";
-        const locationPart = event.location ? `${event.location}, ` : "";
-        const descPart = event.description ? `${event.description}<br>` : "";
+        const whereWhen = [event.location, event.date_display]
+          .map((v) => String(v || "").trim())
+          .filter(Boolean)
+          .join(", ");
+        const parts = [];
+
+        if (kindDisplay) {
+          parts.push(`${kindDisplay}.`);
+        }
+        if (whereWhen) {
+          parts.push(whereWhen.endsWith(".") ? whereWhen : `${whereWhen}.`);
+        }
+
+        return parts.join(" ");
+      }
+
+      function renderEvent(event) {
+        const linkUrl = safeExternalUrl(event.link);
+        const org = escapeHtml(event.org);
+        const title = escapeHtml(event.title);
+        const description = event.description
+          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+          : "";
+        const metaText = escapeHtml(buildMetaLine(event));
+        const linkTag = linkUrl
+          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link\u2197</a>`
+          : "";
+        const metaParts = [];
+
+        if (metaText) {
+          metaParts.push(metaText);
+        }
+        if (linkTag) {
+          metaParts.push(linkTag);
+        }
+
+        const metaLine = metaParts.length
+          ? `<span class="event-meta">${metaParts.join(" ")}</span>`
+          : "";
 
         return `<div class="event">
-          <b>${event.org} \u2192</b> ${event.title}<br>
-          <span class="caption">${descPart}${typePart}${locationPart}${event.date_display}.${linkHtml}</span>
+          <div class="event-head"><b>${org} \u2192</b>${title}</div>
+          ${description}
+          ${metaLine}
         </div>`;
       }
 
@@ -515,12 +641,14 @@
           return;
         }
 
-        const now = new Date();
+        const nowMs = Date.now();
         const bufferMs = 7 * 24 * 60 * 60 * 1000;
 
         const upcoming = data.filter((e) => {
-          const eventDate = new Date(e.date_end || e.date);
-          return eventDate.getTime() + bufferMs >= now.getTime();
+          const eventDate =
+            parseEventDate(e.date_end) || parseEventDate(e.date);
+          if (!eventDate) return true;
+          return eventDate.getTime() + bufferMs >= nowMs;
         });
 
         if (upcoming.length === 0) {

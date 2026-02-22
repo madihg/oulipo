@@ -22,15 +22,12 @@ export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hasUploadedRef = useRef(false);
 
-  const handleIntersectionFound = useCallback(
-    (intersection: Intersection) => {
-      setIntersections((prev) => {
-        if (prev.length >= 7) return prev;
-        return [...prev, intersection];
-      });
-    },
-    []
-  );
+  const handleIntersectionFound = useCallback((intersection: Intersection) => {
+    setIntersections((prev) => {
+      if (prev.length >= 7) return prev;
+      return [...prev, intersection];
+    });
+  }, []);
 
   // Auto-upload canvas screenshot when 7th dot appears
   useEffect(() => {
@@ -91,7 +88,7 @@ export default function Home() {
       setActiveSection(storyIndex);
       setOpenedSections((prev) => new Set(prev).add(dotIndex));
     },
-    [dotToStory]
+    [dotToStory],
   );
 
   const handleCounterClick = useCallback(() => {
@@ -153,9 +150,7 @@ export default function Home() {
         />
       )}
 
-      {showGallery && (
-        <Gallery onClose={() => setShowGallery(false)} />
-      )}
+      {showGallery && <Gallery onClose={() => setShowGallery(false)} />}
 
       <Counter
         storiesRead={storiesRead}

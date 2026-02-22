@@ -34,7 +34,10 @@ interface ScatteredImage {
   width: number;
 }
 
-function generateImagePositions(sectionIndex: number, count: number): ScatteredImage[] {
+function generateImagePositions(
+  sectionIndex: number,
+  count: number,
+): ScatteredImage[] {
   if (count === 0) return [];
 
   const rand = seededRandom(sectionIndex * 7 + 31);
@@ -98,7 +101,10 @@ export function ContentOverlay({
   const [visible, setVisible] = useState(false);
   const section = sections[sectionIndex];
   const isNoticeSection = sectionIndex === 6;
-  const imagePositions = generateImagePositions(sectionIndex, section.images.length);
+  const imagePositions = generateImagePositions(
+    sectionIndex,
+    section.images.length,
+  );
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {

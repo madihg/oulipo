@@ -6,7 +6,7 @@ import type { NormalizedPoint, Segment } from "./types";
  */
 export function segmentIntersection(
   a: Segment,
-  b: Segment
+  b: Segment,
 ): NormalizedPoint | null {
   const x1 = a.start.nx,
     y1 = a.start.ny;
@@ -42,7 +42,7 @@ export function segmentIntersection(
  */
 export function findIntersections(
   newSegment: Segment,
-  existingSegments: Segment[]
+  existingSegments: Segment[],
 ): NormalizedPoint[] {
   const points: NormalizedPoint[] = [];
 

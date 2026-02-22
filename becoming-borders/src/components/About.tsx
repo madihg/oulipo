@@ -73,10 +73,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
           }`}
         >
           {/* Backdrop */}
-          <div
-            className="absolute inset-0 bg-white/80"
-            onClick={onToggle}
-          />
+          <div className="absolute inset-0 bg-white/80" onClick={onToggle} />
 
           {/* Panel */}
           <div className="relative bg-white border border-black px-10 py-12 max-w-[480px] w-[calc(100%-48px)] z-10">
@@ -115,10 +112,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
               </a>
             </p>
 
-            <div
-              className="flex gap-4 mt-3"
-              style={{ fontSize: 13 }}
-            >
+            <div className="flex gap-4 mt-3" style={{ fontSize: 13 }}>
               <a
                 href="https://www.halimmadi.com"
                 target="_blank"

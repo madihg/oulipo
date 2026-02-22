@@ -29,9 +29,7 @@ lands immune to my country.`,
     id: "become-border",
     title: "Become-Border",
     text: `12 years ago, when asked at the British border what I intended to do during my visit, I shared I might use my laptop to get some work done. I was refused entry into the United Kingdom. That day, my life line diverged and a new timeline set in. I became the border I did not cross that day.`,
-    images: [
-      "/becoming-borders/stories/become-border/Fxt6x72XoAA-beZ.jpeg",
-    ],
+    images: ["/becoming-borders/stories/become-border/Fxt6x72XoAA-beZ.jpeg"],
   },
   {
     id: "eel-power",

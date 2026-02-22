@@ -30,5 +30,6 @@ For repos with multiple Vercel projects (e.g. singulars, becoming-borders):
 ## Verification
 
 After push:
+
 - Check Vercel Deployments for new deploy
 - Visit live URL and hard refresh (Cmd+Shift+R) if cached

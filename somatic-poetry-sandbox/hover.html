@@ -1,36 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
+  <head>
     <title>Hover</title>
     <style>
-        body, html {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #container {
-            text-align: center;
-            cursor: pointer;
-        }
-        .line {
-            position: relative;
-        }
-        .word {
-            display: inline-block;
-            margin-right: 0.2em;
-            transition: all 1s ease;
-        }
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      #container {
+        text-align: center;
+        cursor: pointer;
+      }
+      .line {
+        position: relative;
+      }
+      .word {
+        display: inline-block;
+        margin-right: 0.2em;
+        transition: all 1s ease;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div id="container">
-        <!-- Lines will be appended here -->
+      <!-- Lines will be appended here -->
     </div>
     <script>
-        const lines = `I’m 16
+      const lines = `I’m 16
         I wake up to the loudest noise I’ve heard in my life
         An Israeli bomber plane dropped an explosive
         20 miles away from home
@@ -42,47 +43,49 @@
         that we should go back to sleep
         I think we did
         go back
-        to bed that night`.split('\n');
-        
-        const container = document.getElementById('container');
+        to bed that night`.split("\n");
 
-        lines.forEach((lineText) => {
-            const lineElement = document.createElement('div');
-            lineElement.className = 'line';
-            lineText.split(/\s+/).forEach((word) => {
-                const element = document.createElement('span');
-                element.className = 'word';
-                element.textContent = word;
-                lineElement.appendChild(element);
-            });
-            container.appendChild(lineElement);
+      const container = document.getElementById("container");
+
+      lines.forEach((lineText) => {
+        const lineElement = document.createElement("div");
+        lineElement.className = "line";
+        lineText.split(/\s+/).forEach((word) => {
+          const element = document.createElement("span");
+          element.className = "word";
+          element.textContent = word;
+          lineElement.appendChild(element);
         });
+        container.appendChild(lineElement);
+      });
 
-        const disperseWords = () => {
-            document.querySelectorAll('.word').forEach((element) => {
-                const rect = element.getBoundingClientRect();
-                const x = rect.left + window.scrollX;
-                const y = rect.top + window.scrollY;
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
+      const disperseWords = () => {
+        document.querySelectorAll(".word").forEach((element) => {
+          const rect = element.getBoundingClientRect();
+          const x = rect.left + window.scrollX;
+          const y = rect.top + window.scrollY;
+          const centerX = window.innerWidth / 2;
+          const centerY = window.innerHeight / 2;
 
-                const moveX = x < centerX ? -Math.random() * 100 : Math.random() * 100;
-                const moveY = y < centerY ? -Math.random() * 100 : Math.random() * 100;
+          const moveX =
+            x < centerX ? -Math.random() * 100 : Math.random() * 100;
+          const moveY =
+            y < centerY ? -Math.random() * 100 : Math.random() * 100;
 
-                element.style.transform = `translate(${moveX}vw, ${moveY}vh)`;
-            });
-        };
+          element.style.transform = `translate(${moveX}vw, ${moveY}vh)`;
+        });
+      };
 
-        const resetWords = () => {
-            document.querySelectorAll('.word').forEach((element) => {
-                element.style.transform = 'translate(0, 0)';
-            });
-        };
+      const resetWords = () => {
+        document.querySelectorAll(".word").forEach((element) => {
+          element.style.transform = "translate(0, 0)";
+        });
+      };
 
-        container.addEventListener('mouseover', disperseWords);
-        container.addEventListener('mouseout', resetWords);
-        container.addEventListener('touchstart', disperseWords);
-        container.addEventListener('touchend', resetWords);
+      container.addEventListener("mouseover", disperseWords);
+      container.addEventListener("mouseout", resetWords);
+      container.addEventListener("touchstart", disperseWords);
+      container.addEventListener("touchend", resetWords);
     </script>
-</body>
+  </body>
 </html>

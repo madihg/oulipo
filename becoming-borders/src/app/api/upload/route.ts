@@ -30,10 +30,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error("Upload error:", error.message);
-      return NextResponse.json(
-        { error: "Failed to upload" },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: "Failed to upload" }, { status: 500 });
     }
 
     const { data } = supabaseAdmin.storage
@@ -45,7 +42,7 @@ export async function POST(request: NextRequest) {
     console.error("Upload handler error:", err);
     return NextResponse.json(
       { error: "Internal server error" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

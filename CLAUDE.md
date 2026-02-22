@@ -35,6 +35,7 @@ for f in os.listdir("Assets/screenshots"):
 ## Brand Guidelines
 
 See `.agents/skills/oulipo-brand/SKILL.md` for complete brand guidelines including:
+
 - Typography (Standard, Terminal Grotesque, Diatype Variable, Diatype Mono Variable)
 - Colors
 - Layout specifications
@@ -43,7 +44,7 @@ See `.agents/skills/oulipo-brand/SKILL.md` for complete brand guidelines includi
 ## Key Fonts
 
 - **Body text**: Standard
-- **h1 headings**: Terminal Grotesque  
+- **h1 headings**: Terminal Grotesque
 - **h2 headings**: Diatype Variable
 - **Captions/metadata**: Diatype Mono Variable with `font-variation-settings: 'slnt' 0, 'MONO' 1;`
 

@@ -1,120 +1,219 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Whomp</title>
     <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-image: url('https://st2.depositphotos.com/1141522/5301/v/450/depositphotos_53014093-stock-illustration-stack-of-white-papers-hand.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-        }
-        h1 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            margin: 10px;
-        }
-        #imageContainer {
-            position: relative;
-        }
-        .draggable {
-            cursor: grab;
-            position: absolute;
-            transition: transform 0.2s;
-            max-width: 400px;
-            min-width: 200px;
-        }
-        .draggableButton {
-            cursor: pointer;
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            background-color: #f0f0f0;
-            border: none;
-            border-radius: 5px;
-            transition: none;
-        }
-        .draggableButton:active, .draggableButton:focus {
-            transform: none;
-        }
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-image: url("https://st2.depositphotos.com/1141522/5301/v/450/depositphotos_53014093-stock-illustration-stack-of-white-papers-hand.jpg");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+      }
+      h1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        margin: 10px;
+      }
+      #imageContainer {
+        position: relative;
+      }
+      .draggable {
+        cursor: grab;
+        position: absolute;
+        transition: transform 0.2s;
+        max-width: 400px;
+        min-width: 200px;
+      }
+      .draggableButton {
+        cursor: pointer;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 10px 20px;
+        background-color: #f0f0f0;
+        border: none;
+        border-radius: 5px;
+        transition: none;
+      }
+      .draggableButton:active,
+      .draggableButton:focus {
+        transform: none;
+      }
     </style>
-</head>
+  </head>
 
-<body>
+  <body>
     <div id="imageContainer">
-        <img src="assets/slide8.png" class="draggable" alt="slide8" draggable="false">
-        <img src="assets/slide7.png" class="draggable" alt="slide7" draggable="false">
-        <img src="assets/slide6.png" class="draggable" alt="slide6" draggable="false">
-        <img src="assets/slide5.png" class="draggable" alt="slide5" draggable="false">
-        <img src="assets/slide4.png" class="draggable" alt="slide4" draggable="false">
-        <img src="assets/slide3.png" class="draggable" alt="slide3" draggable="false">
-        <img src="assets/slide2.png" class="draggable" alt="slide2" draggable="false">
-        <img src="assets/slide1.png" class="draggable" alt="slide1" draggable="false">
-        <button id="openPageBtn" class="draggableButton">Whomp sings</button>
-        <img src="assets/ocean-vuong.jpg" class="draggable" alt="ocean-vuong" draggable="false">
-        <img src="assets/audre-lorde.jpeg" class="draggable" alt="audre-lorde" draggable="false">
-        <img src="assets/gertrude-stein.jpeg" class="draggable" alt="gertrude-stein" draggable="false">
-        <img src="assets/adrienne-rich.jpeg" class="draggable" alt="adrienne-rich" draggable="false">
-        <img src="assets/walt_whitman.jpg" class="draggable" alt="walt-whitman" draggable="false">
-        <img src="assets/marble-block.jpg" class="draggable" alt="marble-block" draggable="false">
-        <img src="assets/invasions-kickstarter.png" class="draggable" alt="invasions-kickstarter" draggable="false">
-        <img src="assets/invasions_inside.jpg" class="draggable" alt="invasions inside" draggable="false">
-        <img src="assets/invasions-outside.jpg" class="draggable" alt="invasions outside" draggable="false">
-        <img src="assets/scam.png" class="draggable" alt="scam" draggable="false">
+      <img
+        src="assets/slide8.png"
+        class="draggable"
+        alt="slide8"
+        draggable="false"
+      />
+      <img
+        src="assets/slide7.png"
+        class="draggable"
+        alt="slide7"
+        draggable="false"
+      />
+      <img
+        src="assets/slide6.png"
+        class="draggable"
+        alt="slide6"
+        draggable="false"
+      />
+      <img
+        src="assets/slide5.png"
+        class="draggable"
+        alt="slide5"
+        draggable="false"
+      />
+      <img
+        src="assets/slide4.png"
+        class="draggable"
+        alt="slide4"
+        draggable="false"
+      />
+      <img
+        src="assets/slide3.png"
+        class="draggable"
+        alt="slide3"
+        draggable="false"
+      />
+      <img
+        src="assets/slide2.png"
+        class="draggable"
+        alt="slide2"
+        draggable="false"
+      />
+      <img
+        src="assets/slide1.png"
+        class="draggable"
+        alt="slide1"
+        draggable="false"
+      />
+      <button id="openPageBtn" class="draggableButton">Whomp sings</button>
+      <img
+        src="assets/ocean-vuong.jpg"
+        class="draggable"
+        alt="ocean-vuong"
+        draggable="false"
+      />
+      <img
+        src="assets/audre-lorde.jpeg"
+        class="draggable"
+        alt="audre-lorde"
+        draggable="false"
+      />
+      <img
+        src="assets/gertrude-stein.jpeg"
+        class="draggable"
+        alt="gertrude-stein"
+        draggable="false"
+      />
+      <img
+        src="assets/adrienne-rich.jpeg"
+        class="draggable"
+        alt="adrienne-rich"
+        draggable="false"
+      />
+      <img
+        src="assets/walt_whitman.jpg"
+        class="draggable"
+        alt="walt-whitman"
+        draggable="false"
+      />
+      <img
+        src="assets/marble-block.jpg"
+        class="draggable"
+        alt="marble-block"
+        draggable="false"
+      />
+      <img
+        src="assets/invasions-kickstarter.png"
+        class="draggable"
+        alt="invasions-kickstarter"
+        draggable="false"
+      />
+      <img
+        src="assets/invasions_inside.jpg"
+        class="draggable"
+        alt="invasions inside"
+        draggable="false"
+      />
+      <img
+        src="assets/invasions-outside.jpg"
+        class="draggable"
+        alt="invasions outside"
+        draggable="false"
+      />
+      <img
+        src="assets/scam.png"
+        class="draggable"
+        alt="scam"
+        draggable="false"
+      />
     </div>
 
     <script>
-        let zIndexCounter = 0;
+      let zIndexCounter = 0;
 
-        document.addEventListener('DOMContentLoaded', () => {
-            let selectedImage = null;
-            let startX = 0, startY = 0;
+      document.addEventListener("DOMContentLoaded", () => {
+        let selectedImage = null;
+        let startX = 0,
+          startY = 0;
 
-            const imageContainer = document.getElementById('imageContainer');
-            imageContainer.addEventListener('mousedown', function(e) {
-                if (e.target.classList.contains('draggable')) {
-                    selectedImage = e.target;
-                    const rect = selectedImage.getBoundingClientRect();
-                    startX = e.clientX - rect.left;
-                    startY = e.clientY - rect.top;
+        const imageContainer = document.getElementById("imageContainer");
+        imageContainer.addEventListener("mousedown", function (e) {
+          if (e.target.classList.contains("draggable")) {
+            selectedImage = e.target;
+            const rect = selectedImage.getBoundingClientRect();
+            startX = e.clientX - rect.left;
+            startY = e.clientY - rect.top;
 
-                    selectedImage.style.zIndex = 1000;
-                    selectedImage.style.cursor = 'grabbing';
-                }
-            });
-
-            document.addEventListener('mousemove', function(e) {
-                if (selectedImage) {
-                    e.preventDefault();
-                    selectedImage.style.left = (e.clientX - startX - imageContainer.offsetLeft) + 'px';
-                    selectedImage.style.top = (e.clientY - startY - imageContainer.offsetTop) + 'px';
-                }
-            });
-
-            document.addEventListener('mouseup', function() {
-                if (selectedImage) {
-                    selectedImage.style.cursor = 'grab';
-                    zIndexCounter++;
-                    selectedImage.style.zIndex = zIndexCounter;
-                    selectedImage = null;
-                }
-            });
+            selectedImage.style.zIndex = 1000;
+            selectedImage.style.cursor = "grabbing";
+          }
         });
 
-        document.getElementById('openPageBtn').addEventListener('click', function() {
-            window.open('https://s2s-ai-sample.vercel.app/', '_blank', 'width=600,height=800,right=100,top=200,toolbar=no,scrollbars=no,resizable=yes');
+        document.addEventListener("mousemove", function (e) {
+          if (selectedImage) {
+            e.preventDefault();
+            selectedImage.style.left =
+              e.clientX - startX - imageContainer.offsetLeft + "px";
+            selectedImage.style.top =
+              e.clientY - startY - imageContainer.offsetTop + "px";
+          }
+        });
+
+        document.addEventListener("mouseup", function () {
+          if (selectedImage) {
+            selectedImage.style.cursor = "grab";
+            zIndexCounter++;
+            selectedImage.style.zIndex = zIndexCounter;
+            selectedImage = null;
+          }
+        });
+      });
+
+      document
+        .getElementById("openPageBtn")
+        .addEventListener("click", function () {
+          window.open(
+            "https://s2s-ai-sample.vercel.app/",
+            "_blank",
+            "width=600,height=800,right=100,top=200,toolbar=no,scrollbars=no,resizable=yes",
+          );
         });
     </script>
-</body>
-
+  </body>
 </html>

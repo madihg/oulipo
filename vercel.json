@@ -1,13 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/singulars/:path*",
+      "destination": "https://singulars.oulipo.xyz/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
-    {
-      "source": "/singulars",
-      "destination": "https://singulars.vercel.app/singulars"
-    },
-    {
-      "source": "/singulars/:path+",
-      "destination": "https://singulars.vercel.app/singulars/:path+"
-    },
     {
       "source": "/becoming-borders",
       "destination": "https://becoming-borders.vercel.app/becoming-borders"

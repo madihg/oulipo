@@ -1,11 +1,13 @@
 # PRD: Migrant Consciousness — A Blueprint for Digital Pathfinders
 
 ## Overview
+
 An interactive narrative web piece exploring digital borders through the lens of migrant consciousness. The user lands on a page with a single line segment. By clicking, they draw a polyline across the canvas. Each time the line crosses itself, a pulsating dot appears at the intersection. Each dot opens a mini-story — a rectangle with text and images. After 7 crossings, the user can download their unique map of trespassings and discover a gallery of others' crossings.
 
 The piece argues that crossing physical borders teaches us something about navigating digital ones — through VPNs, identity morphing, algorithmic evasion, and intentional otherness.
 
 ## Goals
+
 - Create an immersive, contemplative interactive experience that unfolds through user-drawn line crossings
 - Present 7 narrative sections in a fixed sequence tied to intersection order
 - Allow users to download their unique crossing map as a personal artifact
@@ -16,18 +18,22 @@ The piece argues that crossing physical borders teaches us something about navig
 ## Quality Gates
 
 These commands must pass for every user story:
+
 - `next build` — Production build succeeds
 - `next lint` — Linting passes
 
 For UI stories, also include:
+
 - Visual verification in browser at desktop (1440px) and mobile (375px) viewports
 
 ## User Stories
 
 ### US-001: Project scaffolding and design tokens
+
 **Description:** As a developer, I want the Next.js project initialized with TypeScript, Tailwind, and curl-inspired design tokens so that all subsequent work builds on a consistent foundation.
 
 **Acceptance Criteria:**
+
 - [ ] Next.js 14 project with TypeScript and Tailwind CSS in `/Users/halim/Documents/becoming-borders`
 - [ ] EB Garamond loaded from Google Fonts (weights 400, 500, 600 + italic)
 - [ ] Tailwind config includes design tokens: colors (black `#000`, white `#fff`, grays via `rgba(0,0,0,x)`), font family (`'EB Garamond', Georgia, serif`), border (`1px solid #000`), shadow scale matching curl project
@@ -36,9 +42,11 @@ For UI stories, also include:
 - [ ] Git initialized with `.gitignore`
 
 ### US-002: Responsive viewport-bounded canvas
+
 **Description:** As a user, I want to see a full-viewport canvas that adapts to my screen size so the drawing experience fills my view.
 
 **Acceptance Criteria:**
+
 - [ ] HTML Canvas element spans maximum viewport area (accounting for any persistent UI like counter/about)
 - [ ] Canvas resizes on window resize while preserving drawn content (redraw on resize)
 - [ ] Canvas uses `devicePixelRatio` for crisp rendering on retina displays
@@ -46,9 +54,11 @@ For UI stories, also include:
 - [ ] Starting segment is black, stroke width ~2px, length proportional to viewport width (~30-40%)
 
 ### US-003: Polyline drawing via click/tap
+
 **Description:** As a user, I want to click (or tap) on the canvas to draw a continuous line so that I can create my own pattern of crossings.
 
 **Acceptance Criteria:**
+
 - [ ] First click extends a line from one end of the initial segment to the click position
 - [ ] Subsequent clicks extend from the last click position to the new one (polyline behavior)
 - [ ] Line renders immediately with black stroke (~2px), matching the initial segment style
@@ -56,9 +66,11 @@ For UI stories, also include:
 - [ ] Each new segment animates in (subtle draw effect, ~0.3s)
 
 ### US-004: Intersection detection and dot placement
+
 **Description:** As a user, I want dots to appear wherever my line crosses itself so that I discover the narrative content through my own drawing.
 
 **Acceptance Criteria:**
+
 - [ ] Line-segment intersection algorithm detects when a newly drawn segment crosses any previously drawn segment
 - [ ] A dot (circle, ~12-16px diameter) appears at the exact intersection point
 - [ ] Dots are black initially with a subtle pulse animation (scale 1→1.1→1, 2s loop, ease-in-out)
@@ -67,9 +79,11 @@ For UI stories, also include:
 - [ ] After the 7th intersection is detected, further intersections do not generate new story dots (but line drawing can continue)
 
 ### US-005: Dot interaction — open content rectangle
+
 **Description:** As a user, I want to click a dot to open a story rectangle so that I can read the narrative content tied to that crossing.
 
 **Acceptance Criteria:**
+
 - [ ] Clicking a black dot opens a content rectangle overlay
 - [ ] The dot turns grey (`rgba(0,0,0,0.4)`) after being clicked (pulse animation stops)
 - [ ] Dots are assigned to sections in fixed order: 1st intersection = BORDER-FEELING, 2nd = BECOME-BORDER, etc.
@@ -78,9 +92,11 @@ For UI stories, also include:
 - [ ] Canvas drawing is paused while a rectangle is open
 
 ### US-006: Content rectangle with text and images
+
 **Description:** As a user, I want each rectangle to show a text passage and scattered images so that I experience the narrative as a visual composition.
 
 **Acceptance Criteria:**
+
 - [ ] Rectangle appears centered or near-center with thin 1px black border on white background
 - [ ] Rectangle contains the section's text content in EB Garamond, 16-18px, generous line-height
 - [ ] 2-3 images per section are spread across the viewport outside the rectangle (not inside it), positioned pseudo-randomly but within visible bounds
@@ -91,9 +107,11 @@ For UI stories, also include:
 - [ ] Rectangle and images fade out on close
 
 ### US-007: Populate all 7 content sections
+
 **Description:** As a developer, I want all 7 narrative sections populated with their text content and placeholder images so the full experience is testable.
 
 **Acceptance Criteria:**
+
 - [ ] Section 1 (BORDER-FEELING): Full text as provided
 - [ ] Section 2 (BECOME-BORDER): Full text as provided
 - [ ] Section 3 (EEL-POWER): Full text as provided
@@ -104,9 +122,11 @@ For UI stories, also include:
 - [ ] Each section has 2-3 placeholder images (can be solid gray rectangles or sourced later)
 
 ### US-008: Progress counter
+
 **Description:** As a user, I want to see a counter showing how many crossings I've found so I know where I am in the journey.
 
 **Acceptance Criteria:**
+
 - [ ] Counter displayed at bottom center of viewport: "1 of 7", "2 of 7", etc.
 - [ ] Counter updates when a new intersection is detected (not when a dot is clicked)
 - [ ] Shows "0 of 7" initially before any intersections
@@ -115,9 +135,11 @@ For UI stories, also include:
 - [ ] Does not interfere with canvas interaction (pointer-events: none or positioned outside canvas)
 
 ### US-009: Download crossing map
+
 **Description:** As a user who has completed all 7 crossings, I want to download my unique map so I can keep it as a personal artifact.
 
 **Acceptance Criteria:**
+
 - [ ] The NOTICE section (7th rectangle) includes a "Save a screenshot of my quilt of crossings" button
 - [ ] Clicking the button captures the canvas (line drawing + dots) as a PNG
 - [ ] PNG is downloaded to the user's device with filename `crossing-[timestamp].png`
@@ -125,9 +147,11 @@ For UI stories, also include:
 - [ ] Button styled with 1px black border, EB Garamond, hover state with subtle shadow lift
 
 ### US-010: Upload crossing to Supabase gallery
+
 **Description:** As a user, I want my crossing map automatically saved to a shared gallery so others can see it after they complete their own journey.
 
 **Acceptance Criteria:**
+
 - [ ] On download, the canvas PNG is also uploaded to Supabase Storage (bucket: `crossings`)
 - [ ] A record is inserted into a `crossings` table with: `id`, `image_url`, `created_at`
 - [ ] Upload happens silently in the background — no loading spinner or blocking
@@ -135,9 +159,11 @@ For UI stories, also include:
 - [ ] Gallery stores up to ~100 most recent crossings (older entries can be pruned via Supabase policy or cron)
 
 ### US-011: Crossing gallery — revealed after download
+
 **Description:** As a user who just downloaded my crossing, I want to see others' crossings so the piece becomes communal.
 
 **Acceptance Criteria:**
+
 - [ ] After download, the NOTICE rectangle updates to show "download and see others' crossings"
 - [ ] Clicking "see others' crossings" reveals a gallery view
 - [ ] Gallery displays stored crossing images in a grid or masonry layout
@@ -147,9 +173,11 @@ For UI stories, also include:
 - [ ] Gallery is also accessible from the About section (see US-012)
 
 ### US-012: About section
+
 **Description:** As a user, I want to access an about section to understand the piece and find the gallery.
 
 **Acceptance Criteria:**
+
 - [ ] Small "about" label in lower-left corner of viewport
 - [ ] Styled in EB Garamond, ~13px, `rgba(0,0,0,0.5)`, letter-spacing 0.05em
 - [ ] Clicking opens an overlay/panel with explanation of the piece
@@ -158,9 +186,11 @@ For UI stories, also include:
 - [ ] About text content to be provided (placeholder for now)
 
 ### US-013: Mobile and touch optimization
+
 **Description:** As a mobile user, I want the full experience to work with touch so I can draw and interact on my phone.
 
 **Acceptance Criteria:**
+
 - [ ] Touch events (touchstart, touchmove, touchend) mapped to drawing interactions
 - [ ] Dot tap targets are at least 44px for accessibility
 - [ ] Content rectangles are sized appropriately for small screens (near full-width on mobile)
@@ -170,6 +200,7 @@ For UI stories, also include:
 - [ ] Canvas redraws correctly on orientation change
 
 ## Functional Requirements
+
 - FR-1: The system must render a single horizontal line segment on page load as the starting point
 - FR-2: Each user click/tap must extend a line from the last point (or initial segment end) to the click position
 - FR-3: The system must detect all intersection points between the new segment and all existing segments in real-time
@@ -182,6 +213,7 @@ For UI stories, also include:
 - FR-10: All interactions must work via both mouse (desktop) and touch (mobile)
 
 ## Non-Goals (Out of Scope)
+
 - Real-time collaborative drawing (multi-user canvas)
 - User accounts or authentication
 - CMS for editing narrative content
@@ -192,6 +224,7 @@ For UI stories, also include:
 - Analytics or tracking beyond the gallery
 
 ## Technical Considerations
+
 - **Canvas rendering:** Use HTML Canvas 2D API. Maintain an array of all segments for intersection detection. Redraw full state on resize.
 - **Intersection algorithm:** Line-segment intersection using parametric form (check if two segments cross using cross-product method). Must be efficient for potentially 20+ segments.
 - **Screenshot capture:** Use `canvas.toDataURL('image/png')` for clean capture since the drawing is on an HTML Canvas element. No need for html2canvas.
@@ -201,6 +234,7 @@ For UI stories, also include:
 - **Aesthetic:** Curl-inspired — EB Garamond (400/500/600), pure black/white, 1px solid black borders, no border-radius on rectangles, generous whitespace, subtle animations (0.3-0.5s ease), box-shadows using rgba(0,0,0,0.08-0.15).
 
 ## Success Metrics
+
 - All 7 narrative sections are accessible through the crossing interaction
 - Canvas drawing feels responsive and immediate (< 16ms per frame)
 - Intersection detection is accurate with no false positives or missed crossings
@@ -209,6 +243,7 @@ For UI stories, also include:
 - Works on Chrome, Safari, Firefox on desktop and iOS Safari / Chrome Android on mobile
 
 ## Open Questions
+
 - What images should accompany each section? (User will provide or source later)
 - Full text for SCREEN-SKIN section? (Placeholder for now)
 - About section text? (Placeholder for now)

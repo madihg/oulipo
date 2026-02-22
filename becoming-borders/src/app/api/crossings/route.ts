@@ -21,7 +21,7 @@ export async function GET() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ prefix: "", limit: 200, offset: 0 }),
-      }
+      },
     );
 
     if (!resp.ok) {
@@ -36,7 +36,7 @@ export async function GET() {
       .sort((a, b) => b.name.localeCompare(a.name))
       .map(
         (f) =>
-          `${supabaseUrl}/storage/v1/object/public/${CROSSINGS_BUCKET}/${f.name}`
+          `${supabaseUrl}/storage/v1/object/public/${CROSSINGS_BUCKET}/${f.name}`,
       );
 
     return NextResponse.json({ urls });

@@ -18,6 +18,7 @@ The full PRD is at `tasks/prd-migrant-consciousness.md`. All implementation work
 ## Aesthetic
 
 Curl-inspired minimalism:
+
 - **Font:** EB Garamond (400, 500, 600 + italic) from Google Fonts
 - **Colors:** Pure black (#000) and white (#fff) with gray hierarchy via rgba(0,0,0,x)
 - **Borders:** 1px solid black, no border-radius on rectangles, 50% on circles
@@ -39,6 +40,7 @@ Follow the skill's pre-delivery checklist before marking any UI story as complet
 ## Quality Gates
 
 Every story must pass:
+
 - `next build`
 - `next lint`
 - Visual verification at 1440px and 375px viewports

@@ -41,6 +41,6 @@ vercel --prod
 
 ## Project IDs (for reference)
 
-| Project | Org ID | Project ID |
-|---------|--------|------------|
+| Project   | Org ID                        | Project ID                       |
+| --------- | ----------------------------- | -------------------------------- |
 | singulars | team_9h3UVrcMfPTPWYdvGpnKezrd | prj_wAF6Dx0ddTLn2WhNlIMAWapI0cp3 |

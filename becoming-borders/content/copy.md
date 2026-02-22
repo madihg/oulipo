@@ -80,6 +80,7 @@ Becoming Borders is an interactive piece exploring digital borders through the l
 By Halim Madi
 
 Links:
+
 - https://www.halimmadi.com
 - https://www.instagram.com/yalla_halim
 

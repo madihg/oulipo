@@ -144,7 +144,14 @@ export function Canvas({
         runningCount++;
       }
     },
-    [disabled, segments, intersections.length, canvasRef, setSegments, onIntersectionFound]
+    [
+      disabled,
+      segments,
+      intersections.length,
+      canvasRef,
+      setSegments,
+      onIntersectionFound,
+    ],
   );
 
   // ---------------------------------------------------------------
@@ -175,7 +182,7 @@ export function Canvas({
 
       return false;
     },
-    [intersections, canvasRef, onDotClick]
+    [intersections, canvasRef, onDotClick],
   );
 
   // ---------------------------------------------------------------
@@ -191,7 +198,7 @@ export function Canvas({
         handleCanvasInteraction(e.clientX, e.clientY);
       }
     },
-    [handleDotInteraction, handleCanvasInteraction]
+    [handleDotInteraction, handleCanvasInteraction],
   );
 
   const handleContainerTouchEnd = useCallback(
@@ -209,7 +216,7 @@ export function Canvas({
         handleCanvasInteraction(touch.clientX, touch.clientY);
       }
     },
-    [handleDotInteraction, handleCanvasInteraction]
+    [handleDotInteraction, handleCanvasInteraction],
   );
 
   // ---------------------------------------------------------------

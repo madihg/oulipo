@@ -10,6 +10,7 @@ Design system and brand guidelines for oulipo.xyz — a laboratory of experiment
 ## When to Apply
 
 Reference these guidelines when:
+
 - Building new pages for oulipo.xyz
 - Modifying existing oulipo components
 - Creating related projects that should match the oulipo aesthetic
@@ -21,12 +22,12 @@ Reference these guidelines when:
 
 ### Font Stack
 
-| Font | Usage | Weight | Source |
-|------|-------|--------|--------|
-| **Standard** | Body text, navigation, hero subtitle | Book (400), Bold (700) | Cargo CDN |
-| **Terminal Grotesque** | Main h1 headings only | Regular (400) | Cargo CDN |
-| **Diatype Variable** | h2 headings | 200-1000 (variable) | Cargo CDN |
-| **Diatype Mono Variable** | Captions, work titles, metadata (with `'MONO' 1`) | 200-1000 (variable) | Cargo CDN |
+| Font                      | Usage                                             | Weight                 | Source    |
+| ------------------------- | ------------------------------------------------- | ---------------------- | --------- |
+| **Standard**              | Body text, navigation, hero subtitle              | Book (400), Bold (700) | Cargo CDN |
+| **Terminal Grotesque**    | Main h1 headings only                             | Regular (400)          | Cargo CDN |
+| **Diatype Variable**      | h2 headings                                       | 200-1000 (variable)    | Cargo CDN |
+| **Diatype Mono Variable** | Captions, work titles, metadata (with `'MONO' 1`) | 200-1000 (variable)    | Cargo CDN |
 
 ### Font Face Declarations
 
@@ -51,7 +52,8 @@ Reference these guidelines when:
 @font-face {
   font-display: block;
   font-family: "Terminal Grotesque";
-  src: url("https://type.cargo.site/files/TerminalGrotesque.woff") format("woff");
+  src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+    format("woff");
   font-style: normal;
   font-weight: normal;
 }
@@ -60,7 +62,8 @@ Reference these guidelines when:
 @font-face {
   font-display: block;
   font-family: "Diatype Variable";
-  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+    format("woff2-variations");
   font-style: normal;
   font-weight: 200 1000;
 }
@@ -69,7 +72,8 @@ Reference these guidelines when:
 @font-face {
   font-display: block;
   font-family: "Diatype Mono Variable";
-  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+  src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+    format("woff2-variations");
   font-style: normal;
   font-weight: 200 1000;
 }
@@ -81,23 +85,27 @@ The Diatype Plus Variable font supports axis switching between proportional and 
 
 ```css
 /* Proportional (Diatype Variable) */
-font-variation-settings: 'slnt' 0, 'MONO' 0;
+font-variation-settings:
+  "slnt" 0,
+  "MONO" 0;
 
 /* Monospace (Diatype Mono Variable) - USE THIS FOR CAPTIONS */
-font-variation-settings: 'slnt' 0, 'MONO' 1;
+font-variation-settings:
+  "slnt" 0,
+  "MONO" 1;
 ```
 
 ### Typography Specifications
 
-| Element | Font Family | Size | Weight | Line Height |
-|---------|-------------|------|--------|-------------|
-| `body` | Standard | 1.3rem | 400 | 1.2 |
-| `h1` | Terminal Grotesque | 7rem (desktop), 4.5rem (mobile) | 400 | 0.9 |
-| `h2` | Diatype Variable | 2rem | 700 | 1.2 |
-| `.caption` | Diatype Variable | 1.2rem | 400 | 1.25 |
-| `.work-title` | Diatype Variable | 1.1rem | 400 | — |
-| `.work-meta` | Diatype Variable | 0.9rem | 400 | — |
-| `.hero-subtitle` | Standard | 1rem | 400 | 1.4 |
+| Element          | Font Family        | Size                            | Weight | Line Height |
+| ---------------- | ------------------ | ------------------------------- | ------ | ----------- |
+| `body`           | Standard           | 1.3rem                          | 400    | 1.2         |
+| `h1`             | Terminal Grotesque | 7rem (desktop), 4.5rem (mobile) | 400    | 0.9         |
+| `h2`             | Diatype Variable   | 2rem                            | 700    | 1.2         |
+| `.caption`       | Diatype Variable   | 1.2rem                          | 400    | 1.25        |
+| `.work-title`    | Diatype Variable   | 1.1rem                          | 400    | —           |
+| `.work-meta`     | Diatype Variable   | 0.9rem                          | 400    | —           |
+| `.hero-subtitle` | Standard           | 1rem                            | 400    | 1.4         |
 
 ---
 
@@ -105,16 +113,16 @@ font-variation-settings: 'slnt' 0, 'MONO' 1;
 
 ### Core Palette
 
-| Name | Value | Usage |
-|------|-------|-------|
-| **Background** | `#ffffff` | Page background |
-| **Primary Text** | `rgba(0, 0, 0, 0.85)` | Body text, links |
-| **Black** | `#000000` | Headings, captions |
-| **Muted Text** | `rgba(0, 0, 0, 0.7)` | Descriptions |
-| **Subtle Text** | `rgba(0, 0, 0, 0.5)` | Metadata, dates |
-| **Subtle Text Alt** | `rgba(0, 0, 0, 0.6)` | Section subtitles |
-| **Border/Divider** | `rgba(0, 0, 0, 0.75)` | Horizontal rules |
-| **Overlay** | `rgba(0, 0, 0, 0.25)` | Menu overlay |
+| Name                | Value                 | Usage              |
+| ------------------- | --------------------- | ------------------ |
+| **Background**      | `#ffffff`             | Page background    |
+| **Primary Text**    | `rgba(0, 0, 0, 0.85)` | Body text, links   |
+| **Black**           | `#000000`             | Headings, captions |
+| **Muted Text**      | `rgba(0, 0, 0, 0.7)`  | Descriptions       |
+| **Subtle Text**     | `rgba(0, 0, 0, 0.5)`  | Metadata, dates    |
+| **Subtle Text Alt** | `rgba(0, 0, 0, 0.6)`  | Section subtitles  |
+| **Border/Divider**  | `rgba(0, 0, 0, 0.75)` | Horizontal rules   |
+| **Overlay**         | `rgba(0, 0, 0, 0.25)` | Menu overlay       |
 
 ### CSS Variables (Optional)
 
@@ -136,12 +144,12 @@ font-variation-settings: 'slnt' 0, 'MONO' 1;
 
 ### Spacing
 
-| Element | Value |
-|---------|-------|
-| Page padding | 4rem (desktop), 2rem (mobile) |
-| Max content width | 1200px |
-| Section margin | 3rem bottom |
-| Grid gap | 2rem |
+| Element           | Value                         |
+| ----------------- | ----------------------------- |
+| Page padding      | 4rem (desktop), 2rem (mobile) |
+| Max content width | 1200px                        |
+| Section margin    | 3rem bottom                   |
+| Grid gap          | 2rem                          |
 
 ### Grid System
 
@@ -264,21 +272,24 @@ oulipo/
 
 ```html
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page Title — oulipo.xyz</title>
   <style>
     @font-face {
       font-family: "Standard";
-      src: url("https://type.cargo.site/files/Standard-Book.woff") format("woff");
+      src: url("https://type.cargo.site/files/Standard-Book.woff")
+        format("woff");
     }
     @font-face {
       font-family: "Terminal Grotesque";
-      src: url("https://type.cargo.site/files/TerminalGrotesque.woff") format("woff");
+      src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+        format("woff");
     }
     @font-face {
       font-family: "Diatype Variable";
-      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2") format("woff2-variations");
+      src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+        format("woff2-variations");
       font-weight: 200 1000;
     }
     body {
@@ -327,11 +338,11 @@ def add_border(image_path, output_path=None, border_width=1, border_color=(0, 0,
     """Add a thin black border to a screenshot"""
     if output_path is None:
         output_path = image_path
-    
+
     img = Image.open(image_path)
     new_width = img.width + 2 * border_width
     new_height = img.height + 2 * border_width
-    
+
     bordered_img = Image.new('RGB', (new_width, new_height), border_color)
     bordered_img.paste(img, (border_width, border_width))
     bordered_img.save(output_path, quality=95)
@@ -351,9 +362,11 @@ add_border("Assets/screenshots/my-project.png")
 ## Brand Voice
 
 Oulipo.xyz is described as:
+
 > "A kitchen laboratory of experimental computational poetry. Non-human poets, anti-gravitational word interfaces, somatic semantics. This is where I break and mend things."
 
 Key themes:
+
 - Experimental and playful
 - Code meets poetry
 - Human-machine interaction

@@ -24,6 +24,7 @@ Ask the user for the following (they may have already provided some or all in th
 Read `/Users/halim/Documents/oulipo/events.json`, then:
 
 1. Create a new event object following this exact format:
+
 ```json
 {
   "org": "Organization Name",
@@ -70,6 +71,7 @@ The CV page also embeds events inline.
 ## Step 5: Confirm
 
 Tell the user what was added, showing the formatted event entry:
+
 ```
 Added: **Org → Title**
 Description

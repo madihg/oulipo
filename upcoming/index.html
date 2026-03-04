@@ -535,9 +535,9 @@
       });
 
       // ── Supabase Config ──
-      const SUPABASE_URL = "https://vknopcdmkhpfqhzmwysj.supabase.co";
+      const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
       const SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbm9wY2Rta2hwZnFoem13eXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjI2MzIsImV4cCI6MjA4NjQ5ODYzMn0.nDFC9amm_PRNXPyDZNE6LkKSO1d7xMqJBXoiAHqR7bQ";
+        "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
       const _supabase = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY,
@@ -623,7 +623,7 @@
           : "";
 
         return `<div class="event">
-          <div class="event-head"><b>${org} \u2192</b>${title}</div>
+          <div class="event-head"><b>${org} \u2192</b> ${title}</div>
           ${description}
           ${metaLine}
         </div>`;
@@ -634,6 +634,7 @@
         container.innerHTML = '<hr><p class="caption">Loading events...</p>';
 
         const { data, error } = await _supabase
+          .schema("oulipo_dashboard")
           .from("events")
           .select("*")
           .order("date", { ascending: true });

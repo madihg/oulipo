@@ -151,8 +151,8 @@
         line-height: 1.08;
       }
 
-      /* Year heading */
-      .year-heading {
+      /* Section heading */
+      .section-heading {
         font-family: Standard, sans-serif;
         font-size: 1.12rem;
         font-weight: 700;
@@ -160,8 +160,18 @@
         color: rgba(0, 0, 0, 0.85);
       }
 
-      .year-heading:first-of-type {
+      .section-heading:first-of-type {
         margin-top: 0.4rem;
+      }
+
+      /* Year prefix inline */
+      .event-year {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: rgba(0, 0, 0, 0.6);
       }
 
       /* Event entry */
@@ -523,9 +533,9 @@
       });
 
       // ── Supabase Config ──
-      const SUPABASE_URL = "https://vknopcdmkhpfqhzmwysj.supabase.co";
+      const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
       const SUPABASE_ANON_KEY =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZrbm9wY2Rta2hwZnFoem13eXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzA5MjI2MzIsImV4cCI6MjA4NjQ5ODYzMn0.nDFC9amm_PRNXPyDZNE6LkKSO1d7xMqJBXoiAHqR7bQ";
+        "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
       const _supabase = window.supabase.createClient(
         SUPABASE_URL,
         SUPABASE_ANON_KEY,
@@ -573,22 +583,37 @@
         }
       }
 
+      // Section definitions: label → array of kind values
+      const CV_SECTIONS = [
+        { label: "Awards", kinds: ["award"] },
+        { label: "Residencies", kinds: ["residency"] },
+        { label: "Fellowships", kinds: ["fellowship"] },
+        { label: "Exhibitions", kinds: ["exhibition"] },
+        { label: "Talks", kinds: ["keynote", "panel", "talk"] },
+        { label: "Performances", kinds: ["performance"] },
+        { label: "Workshops", kinds: ["workshop"] },
+        { label: "Press", kinds: ["press"] },
+        { label: "Books", kinds: ["book"] },
+        { label: "Publications", kinds: ["publication"] },
+        { label: "Art Writing", kinds: ["art_writing"] },
+        { label: "Professional", kinds: ["professional_experience"] },
+        { label: "Education", kinds: ["education"] },
+      ];
+
       function buildMetaLine(event) {
-        const kindDisplay = formatKind(event.kind);
+        // In section view, skip the kind (it's redundant with the heading)
         const whereWhen = [event.location, event.date_display]
           .map((v) => String(v || "").trim())
           .filter(Boolean)
           .join(", ");
-        const parts = [];
+        if (!whereWhen) return "";
+        return whereWhen.endsWith(".") ? whereWhen : `${whereWhen}.`;
+      }
 
-        if (kindDisplay) {
-          parts.push(`${kindDisplay}.`);
-        }
-        if (whereWhen) {
-          parts.push(whereWhen.endsWith(".") ? whereWhen : `${whereWhen}.`);
-        }
-
-        return parts.join(" ");
+      function getYear(event) {
+        const dt = parseEventDate(event.date) || parseEventDate(event.date_end);
+        if (dt) return dt.getFullYear();
+        return parseYearFromDisplay(event.date_display);
       }
 
       function renderCvEvent(event) {
@@ -615,8 +640,15 @@
           ? `<span class="event-meta">${metaParts.join(" ")}</span>`
           : "";
 
+        // Show year inline with date range for multi-year entries
+        const year = getYear(event);
+        const yearDisplay = event.date_display || (year ? String(year) : "");
+        const yearPrefix = yearDisplay
+          ? `<span class="event-year">${escapeHtml(yearDisplay)}</span> \u203A `
+          : "";
+
         return `<div class="event">
-          <div class="event-head"><b>${org} \u2192</b>${title}</div>
+          <div class="event-head">${yearPrefix}<b>${org} \u2192</b> ${title}</div>
           ${description}
           ${metaLine}
         </div>`;
@@ -627,6 +659,7 @@
         container.innerHTML = '<p class="caption">Loading events...</p>';
 
         const { data, error } = await _supabase
+          .schema("oulipo_dashboard")
           .from("events")
           .select("*")
           .order("date", { ascending: false });
@@ -637,37 +670,39 @@
           return;
         }
 
-        // Group by year
-        const grouped = {};
+        // Group by section (kind)
+        const kindMap = {};
         data.forEach((e) => {
-          const parsedYear =
-            (
-              parseEventDate(e.date) || parseEventDate(e.date_end)
-            )?.getFullYear() ?? parseYearFromDisplay(e.date_display);
-          const year = Number.isFinite(parsedYear)
-            ? String(parsedYear)
-            : "Undated";
-          if (!grouped[year]) grouped[year] = [];
-          grouped[year].push(e);
-        });
-
-        const years = Object.keys(grouped).sort((a, b) => {
-          const aNum = Number(a);
-          const bNum = Number(b);
-          const aIsNum = Number.isFinite(aNum);
-          const bIsNum = Number.isFinite(bNum);
-          if (aIsNum && bIsNum) return bNum - aNum;
-          if (aIsNum) return -1;
-          if (bIsNum) return 1;
-          return a.localeCompare(b);
+          const k = e.kind || "_uncategorized";
+          if (!kindMap[k]) kindMap[k] = [];
+          kindMap[k].push(e);
         });
 
         let html = "";
-        years.forEach((year) => {
-          html += `<div class="year-heading">${year}</div>`;
+        CV_SECTIONS.forEach((section) => {
+          // Collect all events for this section's kinds
+          const events = [];
+          section.kinds.forEach((k) => {
+            if (kindMap[k]) events.push(...kindMap[k]);
+          });
+          if (events.length === 0) return;
+
+          // Sort by date descending within section
+          events.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          html += `<div class="section-heading">${section.label}</div>`;
           html += "<hr>";
-          html += grouped[year].map((e) => renderCvEvent(e)).join("\n<hr>\n");
+          html += events.map((e) => renderCvEvent(e)).join("\n<hr>\n");
         });
+
+        // Uncategorized events (kind = null)
+        if (kindMap["_uncategorized"] && kindMap["_uncategorized"].length > 0) {
+          html += `<div class="section-heading">Other</div>`;
+          html += "<hr>";
+          html += kindMap["_uncategorized"]
+            .map((e) => renderCvEvent(e))
+            .join("\n<hr>\n");
+        }
 
         container.innerHTML = html;
       })();

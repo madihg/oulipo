@@ -80,6 +80,7 @@ console.log(`Found ${events.length} events to insert.`);
 if (clearFirst) {
   console.log("Clearing existing events...");
   const { error: delError } = await supabase
+    .schema("oulipo_dashboard")
     .from("events")
     .delete()
     .neq("id", "00000000-0000-0000-0000-000000000000"); // delete all rows
@@ -96,7 +97,11 @@ let inserted = 0;
 
 for (let i = 0; i < events.length; i += BATCH) {
   const batch = events.slice(i, i + BATCH);
-  const { data, error } = await supabase.from("events").insert(batch).select();
+  const { data, error } = await supabase
+    .schema("oulipo_dashboard")
+    .from("events")
+    .insert(batch)
+    .select();
 
   if (error) {
     console.error(`Insert error at batch ${i / BATCH + 1}:`, error.message);

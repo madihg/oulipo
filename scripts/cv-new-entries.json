@@ -1,0 +1,582 @@
+[
+  {
+    "title": "Visiting Artist",
+    "org": "Media Archeology Lab",
+    "description": null,
+    "kind": "residency",
+    "location": "Denver",
+    "date": "2026-01-01",
+    "date_end": null,
+    "date_display": "2026"
+  },
+  {
+    "title": "EDS Fellowship",
+    "org": "CultureHub LA",
+    "description": "Experiments in Digital Storytelling",
+    "kind": "fellowship",
+    "location": "LA",
+    "date": "2026-01-01",
+    "date_end": null,
+    "date_display": "2026"
+  },
+  {
+    "title": "Poet in Residence",
+    "org": "Devcon 0xPARC",
+    "description": null,
+    "kind": "residency",
+    "location": null,
+    "date": "2025-11-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Quick Grant",
+    "org": "CCI",
+    "description": null,
+    "kind": "award",
+    "location": null,
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Get the Word Out Grant",
+    "org": "Poets & Writers",
+    "description": null,
+    "kind": "award",
+    "location": null,
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Patent for Avatars",
+    "org": "Meta",
+    "description": null,
+    "kind": "award",
+    "location": null,
+    "date": "2018-01-01",
+    "date_end": null,
+    "date_display": "2018"
+  },
+  {
+    "title": "Philippe Jabre Scholarship",
+    "org": "Philippe Jabre Foundation",
+    "description": null,
+    "kind": "fellowship",
+    "location": null,
+    "date": "2006-01-01",
+    "date_end": "2014-12-31",
+    "date_display": "2006–2014"
+  },
+  {
+    "title": "TED Talent Search",
+    "org": "TED",
+    "description": "Selected",
+    "kind": "award",
+    "location": null,
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "Best TEDx Talk",
+    "org": "TEDx Paris Universit\u00e9s",
+    "description": "Awarded a trip and a spot at TED Active",
+    "kind": "award",
+    "location": "Paris",
+    "date": "2011-01-01",
+    "date_end": null,
+    "date_display": "2011"
+  },
+  {
+    "title": "Ricochets selected for publishing",
+    "org": "Librairie Orientale",
+    "description": null,
+    "kind": "award",
+    "location": "Beirut",
+    "date": "2006-01-01",
+    "date_end": null,
+    "date_display": "2006"
+  },
+  {
+    "title": "Best Lebanese Young Poet",
+    "org": "Prix Bechara Nehme",
+    "description": null,
+    "kind": "award",
+    "location": "Beirut",
+    "date": "2004-01-01",
+    "date_end": null,
+    "date_display": "2004"
+  },
+  {
+    "title": "Carlos Ghosn Scholarship",
+    "org": "Carlos Ghosn Foundation",
+    "description": null,
+    "kind": "fellowship",
+    "location": null,
+    "date": "2000-01-01",
+    "date_end": "2006-12-31",
+    "date_display": "2000–2006"
+  },
+  {
+    "title": "Reverse.exe",
+    "org": "Media Archeology Lab",
+    "description": null,
+    "kind": "exhibition",
+    "location": "Denver",
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Sleeping with Machines",
+    "org": "In the Name of Scandal Kickstarter",
+    "description": "Workshop for supporters",
+    "kind": "workshop",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": "2022"
+  },
+  {
+    "title": "History of the Heart",
+    "org": "Flight of the Jaguar Kickstarter",
+    "description": "Workshop for supporters",
+    "kind": "workshop",
+    "location": null,
+    "date": "2020-01-01",
+    "date_end": null,
+    "date_display": "2020"
+  },
+  {
+    "title": "Invasions performed in multiple venues",
+    "org": "Various",
+    "description": null,
+    "kind": "performance",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": "2024-12-31",
+    "date_display": "2022–2024"
+  },
+  {
+    "title": "So. Many. Spoken. Word. Performances.",
+    "org": "Various",
+    "description": null,
+    "kind": "performance",
+    "location": null,
+    "date": "2014-01-01",
+    "date_end": "2024-12-31",
+    "date_display": "2014–2024"
+  },
+  {
+    "title": "Interview",
+    "org": "Al-Tiba9 Contemporary Art Journal",
+    "description": "Upcoming",
+    "kind": "press",
+    "location": null,
+    "date": "2025-01-01",
+    "date_end": null,
+    "date_display": "2025"
+  },
+  {
+    "title": "Coverage of Litquake reading and panel",
+    "org": "Faingezicht",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "AI and literature coverage",
+    "org": "SF Standard",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Border Bodies coverage",
+    "org": "Counterpulse",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Deserve it coverage",
+    "org": "SFGate",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": "2024"
+  },
+  {
+    "title": "Redeclarations coverage",
+    "org": "Santa Barbara Independent",
+    "description": "Also covered by the Compulsive Reader",
+    "kind": "press",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": "2022"
+  },
+  {
+    "title": "Design Systems and Dashboard teams",
+    "org": "Stripe",
+    "description": "Accomplishments coverage",
+    "kind": "press",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": "2021"
+  },
+  {
+    "title": "Flight of the Jaguar review",
+    "org": "James Gaynor",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2020-01-01",
+    "date_end": null,
+    "date_display": "2020"
+  },
+  {
+    "title": "Avatars at Meta, Facebook Profiles, 3D Oculus",
+    "org": "Various",
+    "description": "Multiple press outlets",
+    "kind": "press",
+    "location": null,
+    "date": "2017-01-01",
+    "date_end": null,
+    "date_display": "2017"
+  },
+  {
+    "title": "Invisible coverage",
+    "org": "Forbes",
+    "description": null,
+    "kind": "press",
+    "location": null,
+    "date": "2017-01-01",
+    "date_end": null,
+    "date_display": "2017"
+  },
+  {
+    "title": "Birdback coverage",
+    "org": "TechCrunch",
+    "description": "Also covered by Startup Beat and FinSMEs",
+    "kind": "press",
+    "location": null,
+    "date": "2016-01-01",
+    "date_end": null,
+    "date_display": "2016"
+  },
+  {
+    "title": "Ricochets coverage",
+    "org": "School Journal",
+    "description": "First poetry book, written in French",
+    "kind": "press",
+    "location": null,
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "Invasions",
+    "org": "Kickstarter",
+    "description": "Book",
+    "kind": "book",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": "2023"
+  },
+  {
+    "title": "Deep & Fast",
+    "org": "Kickstarter",
+    "description": "Book",
+    "kind": "book",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": "2022"
+  },
+  {
+    "title": "In the Name of Scandal",
+    "org": "Kickstarter",
+    "description": "Book",
+    "kind": "book",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": "2021"
+  },
+  {
+    "title": "Flight of the Jaguar",
+    "org": "Kickstarter",
+    "description": "Book",
+    "kind": "book",
+    "location": null,
+    "date": "2020-01-01",
+    "date_end": null,
+    "date_display": "2020"
+  },
+  {
+    "title": "Regards sur un XXIe si\u00e8cle en mouvement",
+    "org": "Ellipses",
+    "description": "Published",
+    "kind": "book",
+    "location": null,
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "Reprises ou Re/crises?",
+    "org": "Respublica",
+    "description": "Co-authored with Thomas Porcher",
+    "kind": "book",
+    "location": null,
+    "date": "2009-01-01",
+    "date_end": null,
+    "date_display": "2009"
+  },
+  {
+    "title": "Ricochets",
+    "org": "Librairie Orientale",
+    "description": "Published",
+    "kind": "book",
+    "location": null,
+    "date": "2012-01-01",
+    "date_end": null,
+    "date_display": "2012"
+  },
+  {
+    "title": "We Called Us Poetry",
+    "org": "Voidspace Zine",
+    "description": null,
+    "kind": "publication",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Act 1, Scene 1",
+    "org": "Winged Penny Review",
+    "description": null,
+    "kind": "publication",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Prelude to Excitement",
+    "org": "The San Franciscan",
+    "description": "Also in Winged Penny Review",
+    "kind": "publication",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Letter to the Body in B-flat Minor",
+    "org": "Wordswell",
+    "description": null,
+    "kind": "publication",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Variations on Food and Grief",
+    "org": "Lunate",
+    "description": null,
+    "kind": "publication",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "What song do you listen to when you want to \u2026?",
+    "org": "Be About It",
+    "description": "Also in Rabid Oak",
+    "kind": "publication",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "As Home Becomes Metaphor",
+    "org": "The Racket",
+    "description": "Also in Colossus:Home and Quiet Lightning",
+    "kind": "publication",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "What would a poetry vying for attention look like?",
+    "org": "Poetry NYC",
+    "description": "In Clickbait issue",
+    "kind": "publication",
+    "location": null,
+    "date": "2020-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Dan Hoyle\u2019s \u2018Border People\u2019",
+    "org": "48hills",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Saturating the mundane with the sensual",
+    "org": "48hills",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2024-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Reflections on an explosion: the Beirut disaster three years on",
+    "org": "48hills",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Paper artist Pippa Dyrlaga bridges natural worlds in \u2018Biophilia\u2019",
+    "org": "48hills",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Mothering machines: Sasha Style\u2019s Technelegy",
+    "org": "Compulsive Reader",
+    "description": "AI poetry book review",
+    "kind": "art_writing",
+    "location": null,
+    "date": "2023-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "A Pendulum Swings: \u2018Paradise Revisited\u2019",
+    "org": "Santa Barbara\u2019s Thomas Reynolds Gallery",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Resuscitating flowers",
+    "org": "Ojai Valley News",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "The Poetics of Omission: Alex Gardner\u2019s \u201cWe All Exist Right Now\u201d",
+    "org": "Art and Cake LA",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Rekindling the figurative, Larry Vigon at Silo gallery",
+    "org": "Santa Barbara Independent",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2022-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "What is America?",
+    "org": "Santa Barbara Independent",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Hybrid Bodies: Moore, Picasso and Hepworth",
+    "org": "Ojai Valley News",
+    "description": "Canvas and Paper\u2019s curation",
+    "kind": "art_writing",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "What survives in transition",
+    "org": "Santa Barbara Independent",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Visual Artists Bring a Gentle Rewiring to Santa Barbara",
+    "org": "Santa Barbara Independent",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2021-01-01",
+    "date_end": null,
+    "date_display": ""
+  },
+  {
+    "title": "Rosha Yaghmai: \u2018Drifters\u2019 at MCASB",
+    "org": "Santa Barbara Independent",
+    "description": null,
+    "kind": "art_writing",
+    "location": null,
+    "date": "2020-01-01",
+    "date_end": null,
+    "date_display": ""
+  }
+]

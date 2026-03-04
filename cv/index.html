@@ -57,7 +57,7 @@
         --type-size-base: 1.06rem;
         --type-size-caption: 0.98rem;
         --type-size-meta: 0.96rem;
-        --content-width: 30.5rem;
+        --content-width: 54rem;
       }
 
       body {
@@ -145,9 +145,10 @@
       /* Title area */
       .page-title {
         text-align: left;
-        margin-bottom: 0.2rem;
-        font-size: var(--type-size-base);
-        font-weight: bold;
+        margin-bottom: 0.6rem;
+        font-family: Standard, sans-serif;
+        font-size: 1.8rem;
+        font-weight: 700;
         line-height: 1.08;
       }
 
@@ -379,13 +380,41 @@
         margin: 0.75rem 0;
       }
 
+      /* Two-column layout for CV sections on wide screens */
+      #cv-container {
+        columns: 2;
+        column-gap: 2rem;
+      }
+
+      #cv-container .section-heading,
+      #cv-container hr {
+        break-after: avoid;
+      }
+
+      #cv-container .section-heading {
+        break-inside: avoid;
+      }
+
+      .cv-section {
+        break-inside: avoid;
+        margin-bottom: 0.5rem;
+      }
+
       /* Responsive */
       @media (max-width: 900px) {
+        :root {
+          --content-width: 100%;
+        }
+
         .page-layout {
           width: min(100%, 34rem);
           max-width: 34rem;
           margin-top: 1.4rem;
           padding: 1.4rem 1.4rem 1.6rem;
+        }
+
+        #cv-container {
+          columns: 1;
         }
       }
 
@@ -413,6 +442,10 @@
           max-width: none;
           margin-top: 1.2rem;
           padding: 0.95rem 1rem 1.4rem;
+        }
+
+        .page-title {
+          font-size: 1.4rem;
         }
 
         .site-header {
@@ -477,14 +510,14 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Newsletter ↗</a
+          Newsletter &#x2197;</a
         >
         <a
           href="https://www.instagram.com/yalla_halim"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Instagram ↗</a
+          Instagram &#x2197;</a
         >
       </div>
     </nav>
@@ -492,7 +525,7 @@
     <div class="page">
       <div class="page-layout">
         <div class="page-content">
-          <div class="page-title">CV — Events</div>
+          <h1 class="page-title">CV — Events</h1>
 
           <div id="cv-container"></div>
         </div>
@@ -585,10 +618,10 @@
 
       // Section definitions: label → array of kind values
       const CV_SECTIONS = [
-        { label: "Awards", kinds: ["award"] },
+        { label: "Exhibitions", kinds: ["exhibition"] },
         { label: "Residencies", kinds: ["residency"] },
         { label: "Fellowships", kinds: ["fellowship"] },
-        { label: "Exhibitions", kinds: ["exhibition"] },
+        { label: "Awards", kinds: ["award"] },
         { label: "Talks", kinds: ["keynote", "panel", "talk"] },
         { label: "Performances", kinds: ["performance"] },
         { label: "Workshops", kinds: ["workshop"] },
@@ -625,7 +658,7 @@
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const linkTag = linkUrl
-          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link\u2197</a>`
+          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link \u2197</a>`
           : "";
         const metaParts = [];
 
@@ -690,18 +723,22 @@
           // Sort by date descending within section
           events.sort((a, b) => new Date(b.date) - new Date(a.date));
 
+          html += `<div class="cv-section">`;
           html += `<div class="section-heading">${section.label}</div>`;
           html += "<hr>";
           html += events.map((e) => renderCvEvent(e)).join("\n<hr>\n");
+          html += `</div>`;
         });
 
         // Uncategorized events (kind = null)
         if (kindMap["_uncategorized"] && kindMap["_uncategorized"].length > 0) {
+          html += `<div class="cv-section">`;
           html += `<div class="section-heading">Other</div>`;
           html += "<hr>";
           html += kindMap["_uncategorized"]
             .map((e) => renderCvEvent(e))
             .join("\n<hr>\n");
+          html += `</div>`;
         }
 
         container.innerHTML = html;

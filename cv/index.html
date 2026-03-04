@@ -85,19 +85,15 @@
         opacity: 0.7;
       }
 
-      /* Page layout - centered column */
+      /* Page layout - left-aligned to match header */
       .page {
-        display: flex;
-        justify-content: center;
         min-height: 100vh;
       }
 
       .page-layout {
-        padding: 1.9rem 1.9rem 2rem;
-        margin-top: 2rem;
-        width: min(100%, var(--content-width));
+        padding: 0 4rem 2rem;
+        margin-top: 3.5rem;
         max-width: var(--content-width);
-        align-items: flex-start;
         display: flex;
         flex-direction: column;
       }
@@ -380,19 +376,10 @@
         margin: 0.75rem 0;
       }
 
-      /* Two-column layout for CV sections on wide screens */
+      /* Multi-column layout for CV sections */
       #cv-container {
         columns: 2;
         column-gap: 2rem;
-      }
-
-      #cv-container .section-heading,
-      #cv-container hr {
-        break-after: avoid;
-      }
-
-      #cv-container .section-heading {
-        break-inside: avoid;
       }
 
       .cv-section {
@@ -400,12 +387,30 @@
         margin-bottom: 0.5rem;
       }
 
-      /* Responsive */
-      @media (max-width: 900px) {
+      /* 3 columns on wider screens */
+      @media (min-width: 1200px) {
         :root {
-          --content-width: 100%;
+          --content-width: 72rem;
         }
 
+        #cv-container {
+          columns: 3;
+        }
+      }
+
+      /* 4 columns on very wide screens */
+      @media (min-width: 1600px) {
+        :root {
+          --content-width: 92rem;
+        }
+
+        #cv-container {
+          columns: 4;
+        }
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
         .page-layout {
           width: min(100%, 34rem);
           max-width: 34rem;
@@ -440,8 +445,8 @@
         .page-layout {
           width: 100%;
           max-width: none;
-          margin-top: 1.2rem;
-          padding: 0.95rem 1rem 1.4rem;
+          margin-top: 2.5rem;
+          padding: 0.95rem 1.5rem 1.4rem;
         }
 
         .page-title {
@@ -510,14 +515,32 @@
           target="_blank"
           rel="noopener noreferrer"
         >
-          Newsletter &#x2197;</a
+          Newsletter
+          <span
+            style="
+              font-family: &quot;Diatype Mono Variable&quot;, monospace;
+              font-variation-settings:
+                &quot;slnt&quot; 0,
+                &quot;MONO&quot; 1;
+            "
+            >&#x2197;</span
+          ></a
         >
         <a
           href="https://www.instagram.com/yalla_halim"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Instagram &#x2197;</a
+          Instagram
+          <span
+            style="
+              font-family: &quot;Diatype Mono Variable&quot;, monospace;
+              font-variation-settings:
+                &quot;slnt&quot; 0,
+                &quot;MONO&quot; 1;
+            "
+            >&#x2197;</span
+          ></a
         >
       </div>
     </nav>
@@ -525,7 +548,7 @@
     <div class="page">
       <div class="page-layout">
         <div class="page-content">
-          <h1 class="page-title">CV — Events</h1>
+          <h1 class="page-title">CV</h1>
 
           <div id="cv-container"></div>
         </div>

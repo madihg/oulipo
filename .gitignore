@@ -3,3 +3,6 @@
 
 # autoforge (local cache/state)
 .autoforge/
+
+# private files (CV, personal data)
+.private/

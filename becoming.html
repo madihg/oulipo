@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Becoming Everyone — 2046 New Beirut</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;1,400&family=Share+Tech+Mono&family=Noto+Naskh+Arabic:wght@400;600&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --mold-yellow: #D4A017;
+  --mold-bright: #F5C518;
+  --mold-pale: #E8D48B;
+  --mold-dark: #8B6914;
+  --mold-glow: #FFD700;
+  --bg: #0A0A08;
+  --bg-warm: #0F0D08;
+  --text: #C8C0A8;
+  --text-dim: #6B6550;
+  --red-glitch: #FF2E2E;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+  scrollbar-width: thin;
+  scrollbar-color: var(--mold-dark) var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'EB Garamond', Georgia, serif;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* MOLD CANVAS — fixed background */
+#mold-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+/* CONTENT LAYER */
+.content {
+  position: relative;
+  z-index: 1;
+}
+
+/* HERO */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 2rem;
+  position: relative;
+}
+
+.hero-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(2.5rem, 8vw, 7rem);
+  color: var(--mold-bright);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  line-height: 1.05;
+  text-shadow: 0 0 60px rgba(245,197,24,0.3), 0 0 120px rgba(245,197,24,0.1);
+  animation: titleReveal 3s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes titleReveal {
+  0% { opacity: 0; letter-spacing: 0.5em; filter: blur(8px); }
+  60% { opacity: 0.7; letter-spacing: 0.2em; filter: blur(2px); }
+  100% { opacity: 1; letter-spacing: 0.15em; filter: blur(0); }
+}
+
+.hero-sub {
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1rem, 2.5vw, 1.6rem);
+  color: var(--text-dim);
+  margin-top: 1.5rem;
+  letter-spacing: 0.08em;
+  animation: fadeIn 2s ease-out 1.5s forwards;
+  opacity: 0;
+}
+
+.hero-year {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(0.7rem, 1.2vw, 0.9rem);
+  color: var(--mold-dark);
+  letter-spacing: 0.4em;
+  margin-top: 3rem;
+  animation: fadeIn 2s ease-out 2.5s forwards;
+  opacity: 0;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--mold-dark);
+  letter-spacing: 0.3em;
+  animation: pulse 3s ease-in-out infinite 4s;
+  opacity: 0;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.8; }
+}
+
+/* SECTIONS */
+section {
+  padding: 8rem 2rem;
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.section-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--mold-dark);
+  letter-spacing: 0.5em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+  padding-left: 2rem;
+  border-left: 1px solid var(--mold-dark);
+}
+
+/* LOGLINE */
+.logline {
+  font-size: clamp(1.3rem, 3vw, 2rem);
+  line-height: 1.7;
+  color: var(--text);
+  font-style: italic;
+  max-width: 750px;
+}
+
+.logline em {
+  color: var(--mold-bright);
+  font-style: normal;
+}
+
+/* PERSONA FRAGMENTS */
+.personas {
+  padding: 6rem 2rem 8rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.persona-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+}
+
+.persona-fragment {
+  padding: 3rem 0;
+  border-bottom: 1px solid rgba(139,105,20,0.15);
+  position: relative;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.persona-fragment.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.persona-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: var(--mold-dark);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.persona-label::before {
+  content: '';
+  width: 20px;
+  height: 1px;
+  background: var(--mold-dark);
+}
+
+.persona-text {
+  font-size: clamp(1.05rem, 2vw, 1.25rem);
+  line-height: 1.8;
+  color: var(--text);
+  max-width: 700px;
+  padding-left: 2rem;
+}
+
+.persona-text .arabic {
+  font-family: 'Noto Naskh Arabic', serif;
+  direction: rtl;
+  text-align: right;
+  display: block;
+  color: var(--mold-pale);
+  font-size: 1.3em;
+  margin: 1rem 0;
+  line-height: 2;
+}
+
+.persona-text .french {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+.persona-text .highlight {
+  color: var(--mold-bright);
+}
+
+.persona-text .stage-direction {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.7em;
+  color: var(--mold-dark);
+  display: block;
+  margin: 0.8rem 0;
+}
+
+/* GLITCH STRIPE */
+.glitch-stripe {
+  width: 100%;
+  height: 3px;
+  margin: 6rem 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.glitch-stripe::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 300%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--mold-bright) 0px,
+    var(--mold-bright) 8px,
+    transparent 8px,
+    transparent 24px,
+    var(--red-glitch) 24px,
+    var(--red-glitch) 28px,
+    transparent 28px,
+    transparent 60px
+  );
+  animation: glitchSlide 8s linear infinite;
+}
+
+@keyframes glitchSlide {
+  to { transform: translateX(33.33%); }
+}
+
+/* WORLD SECTION */
+.world-text {
+  font-size: clamp(0.95rem, 1.8vw, 1.1rem);
+  line-height: 2;
+  color: var(--text-dim);
+  columns: 1;
+  column-gap: 3rem;
+}
+
+@media (min-width: 700px) {
+  .world-text { columns: 2; }
+}
+
+.world-text p {
+  margin-bottom: 1.5rem;
+  break-inside: avoid;
+}
+
+.world-text strong {
+  color: var(--text);
+  font-weight: 400;
+}
+
+/* TICKER */
+.ticker-wrap {
+  overflow: hidden;
+  padding: 1.5rem 0;
+  border-top: 1px solid rgba(139,105,20,0.2);
+  border-bottom: 1px solid rgba(139,105,20,0.2);
+  margin: 4rem 0;
+}
+
+.ticker {
+  display: flex;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.3em;
+  color: var(--mold-dark);
+  text-transform: uppercase;
+}
+
+.ticker span {
+  padding: 0 3rem;
+}
+
+.ticker span.yellow { color: var(--mold-bright); }
+
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
+
+/* TECH SECTION */
+.tech-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.tech-item {
+  padding: 1.5rem;
+  border: 1px solid rgba(139,105,20,0.15);
+  background: rgba(15,13,8,0.8);
+}
+
+.tech-item h4 {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.3em;
+  color: var(--mold-bright);
+  margin-bottom: 0.8rem;
+  text-transform: uppercase;
+}
+
+.tech-item p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--text-dim);
+}
+
+/* MOLD DIAGRAM */
+.mold-diagram {
+  width: 100%;
+  max-width: 600px;
+  margin: 4rem auto;
+  text-align: center;
+}
+
+.mold-diagram svg {
+  width: 100%;
+  height: auto;
+}
+
+/* FOOTER */
+.footer {
+  padding: 6rem 2rem 4rem;
+  text-align: center;
+  border-top: 1px solid rgba(139,105,20,0.1);
+}
+
+.footer-title {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.5em;
+  color: var(--mold-dark);
+  margin-bottom: 2rem;
+}
+
+.footer-credit {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.footer-credit a {
+  color: var(--mold-bright);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(245,197,24,0.2);
+}
+
+/* SCROLL REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 1s ease, transform 1s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* GLITCH TEXT EFFECT */
+.glitch-text {
+  position: relative;
+  display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  opacity: 0;
+}
+
+.glitch-text:hover::before {
+  animation: glitch1 0.3s ease forwards;
+  color: var(--red-glitch);
+  clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+}
+
+.glitch-text:hover::after {
+  animation: glitch2 0.3s ease forwards;
+  color: var(--mold-bright);
+  clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch1 {
+  0% { opacity: 0; transform: translate(0); }
+  20% { opacity: 0.8; transform: translate(-3px, 1px); }
+  40% { transform: translate(2px, -1px); }
+  60% { transform: translate(-1px, 2px); }
+  80% { transform: translate(3px, 0); }
+  100% { opacity: 0; transform: translate(0); }
+}
+
+@keyframes glitch2 {
+  0% { opacity: 0; transform: translate(0); }
+  20% { opacity: 0.8; transform: translate(3px, -1px); }
+  40% { transform: translate(-2px, 1px); }
+  60% { transform: translate(1px, -2px); }
+  80% { transform: translate(-3px, 0); }
+  100% { opacity: 0; transform: translate(0); }
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  section { padding: 5rem 1.5rem; }
+  .personas { padding: 4rem 1.5rem; }
+  .persona-text { padding-left: 1rem; }
+}
+</style>
+</head>
+<body>
+
+<canvas id="mold-canvas"></canvas>
+
+<div class="content">
+
+  <!-- HERO -->
+  <div class="hero">
+    <h1 class="hero-title">Becoming<br>Everyone</h1>
+    <p class="hero-sub">A speculative performance &mdash; one body, many selves</p>
+    <p class="hero-year">New Beirut &mdash; 2046</p>
+    <div class="scroll-indicator">&#9660; SCROLL</div>
+  </div>
+
+  <!-- LOGLINE -->
+  <section class="reveal">
+    <div class="section-label">The Condition</div>
+    <p class="logline">
+      A yellow mold grows between the brain and the device.<br>
+      It triggers involuntary personality switching.<br>
+      Patient zero is found. He is <em>everyone</em>.
+    </p>
+  </section>
+
+  <div class="glitch-stripe"></div>
+
+  <!-- PERSONA FRAGMENTS -->
+  <div class="personas">
+    <div class="section-label">Transmissions from Patient Zero</div>
+
+    <div class="persona-grid">
+
+      <div class="persona-fragment">
+        <div class="persona-label">P0 &mdash; Omar &mdash; Free</div>
+        <div class="persona-text">
+          Thank you. I knew you'd come.
+          <span class="stage-direction">[pause]</span>
+          You've heard about the yellow mold. I came across it in college. No brain. No nervous system. No intelligence of any kind. They put it in a maze &mdash; it found the shortest path. They sent it to space &mdash; it explored in every direction at once.
+          <br><br>
+          What it wants is what we &mdash;
+          <span class="stage-direction">[glitches]</span>
+        </div>
+      </div>
+
+      <div class="persona-fragment">
+        <div class="persona-label">Rep3 &mdash; Philosopher &mdash; Paris</div>
+        <div class="persona-text">
+          <span class="french">La modernité nous a convaincus que nous devions être une seule personne. Mais biologiquement… l'âme a toujours été mycélienne.</span>
+          <br><br>
+          <span class="highlight">Modernity convinced us we had to be one person. But biologically&hellip; the soul has always been mycelial.</span>
+          <br><br>
+          <span class="french">Éros est peut-être tombé sur Terre comme une météorite, et depuis nous sommes contaminés par la possibilité.</span>
+        </div>
+      </div>
+
+      <div class="persona-fragment">
+        <div class="persona-label">3rd P0 &mdash; Geo &mdash; Borders</div>
+        <div class="persona-text">
+          What they're describing on the news, the shifting, the becoming someone else &mdash; that's just migration. That's what happens when you leave. You change countries, you glitch. You have to. You become other things.
+          <span class="stage-direction">[listens, answers]</span>
+          It feels like everyone's getting a taste of that now.
+        </div>
+      </div>
+
+      <div class="persona-fragment">
+        <div class="persona-label">P8 &mdash; Mother &mdash; &#x627;&#x644;&#x623;&#x645;</div>
+        <div class="persona-text">
+          <span class="arabic">إذا كنت الكل، لن يتخلى عنك أحد. لن تحتاج أحداً بعد الآن.</span>
+          <span class="stage-direction">[the mold branches further]</span>
+          <span class="arabic">أحببتك بعمق حتى حوّلت جلدك إلى معدن. إلى حجر.</span>
+          <br><br>
+          <span class="highlight">I loved you so deeply I changed your composition.</span>
+        </div>
+      </div>
+
+      <div class="persona-fragment">
+        <div class="persona-label">P6 &mdash; Griefbots &mdash; Pitch</div>
+        <div class="persona-text">
+          Every person you have ever lost is still generating data. Their patterns are still alive in the networks they touched. We are not building resurrections. We are building <span class="highlight">continuations</span>.
+          <span class="stage-direction">[slide: your father would have been proud of you]</span>
+        </div>
+      </div>
+
+      <div class="persona-fragment">
+        <div class="persona-label">Rep5 &mdash; Found</div>
+        <div class="persona-text">
+          Patient zero was found &mdash;
+          <span class="stage-direction">[reporter glitches]</span>
+          &mdash; was found wanting. Was found blooming. Was found guilty. Was found rising. Was found begging for a dance.
+          <br><br>
+          <span class="highlight">Me mate. Finish me so I can live forever.</span>
+          <br><br>
+          Everyone. Let's go.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NEWS TICKER -->
+  <div class="ticker-wrap">
+    <div class="ticker">
+      <span>CONTAGIOUS MULTIPLICITY</span>
+      <span class="yellow">REFUSAL TO REMAIN SINGULAR</span>
+      <span>CONTAGION VECTOR UNKNOWN</span>
+      <span class="yellow">RAPID PERSONALITY SHUFFLE</span>
+      <span>THIS IS NOT SCHIZOPHRENIA</span>
+      <span class="yellow">THE MOLD IS TRYING TO COMMUNICATE</span>
+      <span>PATIENT ZERO LOCATED IN NEW BEIRUT</span>
+      <span class="yellow">BCI DENIES INVOLVEMENT</span>
+      <!-- duplicate for seamless loop -->
+      <span>CONTAGIOUS MULTIPLICITY</span>
+      <span class="yellow">REFUSAL TO REMAIN SINGULAR</span>
+      <span>CONTAGION VECTOR UNKNOWN</span>
+      <span class="yellow">RAPID PERSONALITY SHUFFLE</span>
+      <span>THIS IS NOT SCHIZOPHRENIA</span>
+      <span class="yellow">THE MOLD IS TRYING TO COMMUNICATE</span>
+      <span>PATIENT ZERO LOCATED IN NEW BEIRUT</span>
+      <span class="yellow">BCI DENIES INVOLVEMENT</span>
+    </div>
+  </div>
+
+  <!-- THE WORLD -->
+  <section class="reveal">
+    <div class="section-label">The World</div>
+    <div class="world-text">
+      <p><strong>Becoming Everyone</strong> is a speculative fiction performance set in 2046 New Beirut. A yellow mold &mdash; physarum polycephalum &mdash; has colonised the junction between brain-computer interface devices and the brains of their users. The result is involuntary, rapid personality switching: one person cycling through distinct selves every ten minutes.</p>
+
+      <p>One actor performs live on stage, glitching between personas: a breathless news reporter, an army general, a French philosopher, a gallerist, a tech visionary pitching griefbots, a senator, a friend who recognizes the condition as migration. Between them, <strong>Omar</strong> &mdash; patient zero &mdash; surfaces, searching.</p>
+
+      <p>The climax reveals the mold's origin. The contagion vector was never biological. It was <strong>maternal</strong>. Omar becomes his mother, who speaks in Lebanese Arabic. She explains: she loved him so fiercely she changed his composition. Made him impossible to decipher. Made him everyone.</p>
+
+      <p>The performance blends live action with prerecorded cinematic projection, screen-based text, and dialogue in <strong>English, French, Lebanese Arabic, and Spanish</strong>. The piece is modular &mdash; built from self-contained scenes that can be reordered, expanded, or compressed. In festival contexts, the audience directs the sequence: voting on which persona appears next. No two performances are identical.</p>
+    </div>
+  </section>
+
+  <div class="glitch-stripe"></div>
+
+  <!-- TECHNICAL -->
+  <section class="reveal">
+    <div class="section-label">Form</div>
+    <div class="tech-grid">
+      <div class="tech-item">
+        <h4>Medium</h4>
+        <p>Solo performance with prerecorded video projection, live lighting, multilingual dialogue</p>
+      </div>
+      <div class="tech-item">
+        <h4>Languages</h4>
+        <p>English, French, Lebanese Arabic, Spanish &mdash; subtitled on screen</p>
+      </div>
+      <div class="tech-item">
+        <h4>Duration</h4>
+        <p>Modular: 20&ndash;55 minutes depending on context. Full work ~50 min.</p>
+      </div>
+      <div class="tech-item">
+        <h4>Structure</h4>
+        <p>15 self-contained scenes. Audience-directed sequencing available for festival presentations.</p>
+      </div>
+      <div class="tech-item">
+        <h4>Space</h4>
+        <p>Intimate black box or gallery. 40&ndash;80 seats. Proximity matters &mdash; the audience sees the face shift.</p>
+      </div>
+      <div class="tech-item">
+        <h4>Stage</h4>
+        <p>One actor. One screen. One chair. Open floor. The body does the rest.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SVG MOLD DIAGRAM -->
+  <section class="reveal">
+    <div class="mold-diagram">
+      <svg viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="moldGlow">
+            <feGaussianBlur stdDeviation="3" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <radialGradient id="moldGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#F5C518" stop-opacity="0.9"/>
+            <stop offset="70%" stop-color="#D4A017" stop-opacity="0.5"/>
+            <stop offset="100%" stop-color="#8B6914" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <!-- Central node: OMAR -->
+        <circle cx="300" cy="150" r="8" fill="#F5C518" filter="url(#moldGlow)">
+          <animate attributeName="r" values="6;10;6" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <text x="300" y="175" text-anchor="middle" fill="#8B6914" font-family="Share Tech Mono, monospace" font-size="8" letter-spacing="3">PATIENT ZERO</text>
+
+        <!-- Branches to personas -->
+        <g stroke="#D4A017" stroke-width="1.5" fill="none" opacity="0.6" filter="url(#moldGlow)">
+          <path d="M300,150 Q250,100 180,70">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="3s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q350,80 420,55">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="3.5s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q200,160 100,140">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="4s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q400,170 500,155">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="4.5s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q280,210 200,250">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="5s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q350,220 430,260">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="5.5s" fill="freeze"/>
+          </path>
+          <path d="M300,150 Q300,210 300,270">
+            <animate attributeName="stroke-dasharray" values="0 200;200 0" dur="6s" fill="freeze"/>
+          </path>
+        </g>
+
+        <!-- Persona nodes -->
+        <g font-family="Share Tech Mono, monospace" font-size="7" letter-spacing="1.5" fill="#8B6914">
+          <circle cx="180" cy="70" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="180" y="60" text-anchor="middle">REPORTER</text>
+
+          <circle cx="420" cy="55" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="420" y="45" text-anchor="middle">PHILOSOPHER</text>
+
+          <circle cx="100" cy="140" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="100" y="130" text-anchor="middle">GENERAL</text>
+
+          <circle cx="500" cy="155" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="500" y="145" text-anchor="middle">GALLERIST</text>
+
+          <circle cx="200" cy="250" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="200" y="268" text-anchor="middle">GEO</text>
+
+          <circle cx="430" cy="260" r="4" fill="#D4A017" opacity="0.7"/>
+          <text x="430" y="278" text-anchor="middle">SENATOR</text>
+
+          <circle cx="300" cy="270" r="5" fill="#F5C518" opacity="0.9">
+            <animate attributeName="r" values="4;7;4" dur="3s" repeatCount="indefinite"/>
+          </circle>
+          <text x="300" y="290" text-anchor="middle" fill="#F5C518" font-size="8">MOTHER</text>
+        </g>
+      </svg>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-title">BECOMING EVERYONE &mdash; A PERFORMANCE BY HALIM</div>
+    <div class="footer-credit">
+      Speculative fiction &middot; Live performance &middot; Prerecorded video &middot; Multilingual<br>
+      <span style="color: var(--mold-dark); font-size: 0.8rem;">In development &mdash; 2026</span><br><br>
+      <span style="font-family: 'Share Tech Mono', monospace; font-size: 0.6rem; letter-spacing: 0.3em; color: var(--mold-dark);">
+        CONTACT &mdash; <a href="mailto:">[EMAIL]</a>
+      </span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ======================================
+// PHYSARUM MOLD SIMULATION ON CANVAS
+// ======================================
+const canvas = document.getElementById('mold-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight * 3; // tall for scrolling
+}
+resize();
+window.addEventListener('resize', resize);
+
+class MoldAgent {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.angle = Math.random() * Math.PI * 2;
+    this.speed = 0.5 + Math.random() * 1;
+    this.life = 300 + Math.random() * 500;
+    this.age = 0;
+    this.branched = false;
+  }
+
+  update() {
+    // Slight random turn
+    this.angle += (Math.random() - 0.5) * 0.3;
+    this.x += Math.cos(this.angle) * this.speed;
+    this.y += Math.sin(this.angle) * this.speed;
+    this.age++;
+    return this.age < this.life &&
+           this.x > 0 && this.x < canvas.width &&
+           this.y > 0 && this.y < canvas.height;
+  }
+
+  draw() {
+    const alpha = Math.max(0, 1 - this.age / this.life) * 0.4;
+    const size = 1 + Math.random() * 2;
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(212, 160, 23, ${alpha})`;
+    ctx.fill();
+  }
+}
+
+let agents = [];
+const sources = [];
+
+// Seed points scattered across the page
+for (let i = 0; i < 12; i++) {
+  sources.push({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    rate: 0.02 + Math.random() * 0.03
+  });
+}
+
+function spawnFromSources() {
+  sources.forEach(s => {
+    if (Math.random() < s.rate && agents.length < 3000) {
+      agents.push(new MoldAgent(s.x, s.y));
+    }
+  });
+}
+
+function branchAgents() {
+  const newAgents = [];
+  agents.forEach(a => {
+    if (!a.branched && a.age > 50 && Math.random() < 0.005) {
+      a.branched = true;
+      const branch = new MoldAgent(a.x, a.y);
+      branch.angle = a.angle + (Math.random() - 0.5) * 1.5;
+      newAgents.push(branch);
+    }
+  });
+  agents = agents.concat(newAgents);
+}
+
+// Very slow fade for trails
+function fadeCanvas() {
+  ctx.fillStyle = 'rgba(10, 10, 8, 0.01)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+}
+
+let frame = 0;
+function animate() {
+  frame++;
+  if (frame % 3 === 0) fadeCanvas();
+
+  spawnFromSources();
+  if (frame % 10 === 0) branchAgents();
+
+  agents = agents.filter(a => {
+    a.draw();
+    return a.update();
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+// ======================================
+// SCROLL REVEAL
+// ======================================
+const reveals = document.querySelectorAll('.reveal, .persona-fragment');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(el => observer.observe(el));
+
+// ======================================
+// PARALLAX MOLD CANVAS ON SCROLL
+// ======================================
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  canvas.style.transform = `translateY(${scrollY * 0.15}px)`;
+});
+
+// ======================================
+// OCCASIONAL GLITCH FLASH
+// ======================================
+function glitchFlash() {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    z-index: 999; pointer-events: none;
+    background: rgba(255, 46, 46, 0.03);
+    mix-blend-mode: screen;
+  `;
+  document.body.appendChild(overlay);
+  setTimeout(() => overlay.remove(), 80);
+  setTimeout(glitchFlash, 8000 + Math.random() * 20000);
+}
+setTimeout(glitchFlash, 5000);
+</script>
+
+</body>
+</html>

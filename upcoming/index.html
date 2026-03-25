@@ -226,6 +226,15 @@
         opacity: 0.7;
       }
 
+      .event-head a {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: none;
+      }
+
+      .event-head a:hover {
+        opacity: 0.7;
+      }
+
       /* Arrow/icon helpers removed — using inline Unicode characters directly */
 
       /* Site Header */
@@ -540,8 +549,11 @@
               >Subscribe to the newsletter &#x2197;</a
             >
           </div>
-          <div class="page-title">Upcoming</div>
 
+          <div class="page-title">Latest Writing</div>
+          <div id="writing-container"></div>
+
+          <div class="page-title" style="margin-top: 1.2rem">Upcoming</div>
           <div id="events-container"></div>
         </div>
       </div>
@@ -581,6 +593,49 @@
           menuToggle.classList.remove("hidden");
         }
       });
+
+      // ── Substack Latest Writing ──
+      (async function renderWriting() {
+        const container = document.getElementById("writing-container");
+        container.innerHTML = '<hr><p class="caption">Loading...</p>';
+        try {
+          const res = await fetch("https://halimmadi.substack.com/feed");
+          const text = await res.text();
+          const doc = new DOMParser().parseFromString(text, "text/xml");
+          const items = Array.from(doc.querySelectorAll("item")).slice(0, 3);
+
+          if (items.length === 0) {
+            container.innerHTML = "";
+            return;
+          }
+
+          container.innerHTML = items
+            .map((item) => {
+              const title = item.querySelector("title")?.textContent || "";
+              const link = item.querySelector("link")?.textContent || "#";
+              const pubDate = item.querySelector("pubDate")?.textContent;
+              let dateStr = "";
+              if (pubDate) {
+                const d = new Date(pubDate);
+                if (!Number.isNaN(d.getTime())) {
+                  dateStr = d.toLocaleDateString("en-US", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  });
+                }
+              }
+              return `<hr><div class="event">
+                <div class="event-head"><a href="${link}" target="_blank" rel="noopener noreferrer"><b>${title}</b></a></div>
+                ${dateStr ? `<span class="event-meta">${dateStr}</span>` : ""}
+              </div>`;
+            })
+            .join("");
+        } catch (err) {
+          console.error("Substack feed error:", err);
+          container.innerHTML = "";
+        }
+      })();
 
       // ── Supabase Config ──
       const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";

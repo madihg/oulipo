@@ -204,28 +204,6 @@
         text-underline-offset: 0.08em;
       }
 
-      .substack-link {
-        margin-bottom: 0.7rem;
-        font-family: "Diatype Mono Variable", monospace;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        line-height: 1.14;
-        letter-spacing: 0em;
-      }
-
-      .substack-link a {
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: underline;
-        text-underline-offset: 0.08em;
-        transition: opacity 0.3s ease;
-      }
-
-      .substack-link a:hover {
-        opacity: 0.7;
-      }
-
       .event-head a {
         color: rgba(0, 0, 0, 0.85);
         text-decoration: none;
@@ -541,15 +519,6 @@
               alt="Upcoming"
             />
           </div>
-          <div class="substack-link">
-            <a
-              href="https://halimmadi.substack.com/"
-              target="_blank"
-              rel="noopener noreferrer"
-              >Subscribe to the newsletter &#x2197;</a
-            >
-          </div>
-
           <div class="page-title">Latest Writing</div>
           <div id="writing-container"></div>
 
@@ -599,34 +568,35 @@
         const container = document.getElementById("writing-container");
         container.innerHTML = '<hr><p class="caption">Loading...</p>';
         try {
-          const res = await fetch("https://halimmadi.substack.com/feed");
-          const text = await res.text();
-          const doc = new DOMParser().parseFromString(text, "text/xml");
-          const items = Array.from(doc.querySelectorAll("item")).slice(0, 3);
+          const res = await fetch(
+            "https://halimmadi.substack.com/api/v1/posts?limit=3",
+          );
+          const posts = await res.json();
 
-          if (items.length === 0) {
+          if (!posts.length) {
             container.innerHTML = "";
             return;
           }
 
-          container.innerHTML = items
-            .map((item) => {
-              const title = item.querySelector("title")?.textContent || "";
-              const link = item.querySelector("link")?.textContent || "#";
-              const pubDate = item.querySelector("pubDate")?.textContent;
-              let dateStr = "";
-              if (pubDate) {
-                const d = new Date(pubDate);
-                if (!Number.isNaN(d.getTime())) {
-                  dateStr = d.toLocaleDateString("en-US", {
+          container.innerHTML = posts
+            .map((post) => {
+              const title = escapeHtml(post.title);
+              const url = escapeHtml(
+                post.canonical_url ||
+                  `https://halimmadi.substack.com/p/${post.slug}`,
+              );
+              const subtitle = post.subtitle ? escapeHtml(post.subtitle) : "";
+              const d = new Date(post.post_date);
+              const dateStr = !Number.isNaN(d.getTime())
+                ? d.toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "short",
                     day: "numeric",
-                  });
-                }
-              }
+                  })
+                : "";
               return `<hr><div class="event">
-                <div class="event-head"><a href="${link}" target="_blank" rel="noopener noreferrer"><b>${title}</b></a></div>
+                <div class="event-head"><a href="${url}" target="_blank" rel="noopener noreferrer"><b>${title}</b></a></div>
+                ${subtitle ? `<span class="event-description">${subtitle}</span>` : ""}
                 ${dateStr ? `<span class="event-meta">${dateStr}</span>` : ""}
               </div>`;
             })

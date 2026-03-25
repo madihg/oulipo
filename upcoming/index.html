@@ -204,6 +204,28 @@
         text-underline-offset: 0.08em;
       }
 
+      .substack-link {
+        margin-bottom: 0.7rem;
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        line-height: 1.14;
+        letter-spacing: 0em;
+      }
+
+      .substack-link a {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: underline;
+        text-underline-offset: 0.08em;
+        transition: opacity 0.3s ease;
+      }
+
+      .substack-link a:hover {
+        opacity: 0.7;
+      }
+
       /* Arrow/icon helpers removed — using inline Unicode characters directly */
 
       /* Site Header */
@@ -509,6 +531,14 @@
               src="/upcoming/Fun-Smile-GIF-by-Stefano-Colferai.gif"
               alt="Upcoming"
             />
+          </div>
+          <div class="substack-link">
+            <a
+              href="https://halimmadi.substack.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Subscribe to the newsletter &#x2197;</a
+            >
           </div>
           <div class="page-title">Upcoming</div>
 

@@ -520,7 +520,52 @@
             />
           </div>
           <div class="page-title">Latest Writing</div>
-          <div id="writing-container"></div>
+          <hr />
+          <div class="event">
+            <div class="event-head">
+              <a
+                href="https://halimmadi.substack.com/p/vibe-thinking"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><b>Vibe Thinking</b></a
+              >
+            </div>
+            <span class="event-description"
+              >Part 1 - The Twitch-ification of Thought</span
+            >
+            <span class="event-meta">Mar 24, 2026</span>
+          </div>
+          <hr />
+          <div class="event">
+            <div class="event-head">
+              <a
+                href="https://halimmadi.substack.com/p/where-the-hydra-splits"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><b>Where the Hydra Splits</b></a
+              >
+            </div>
+            <span class="event-description"
+              >A branching web piece on migrant longing, forking desire</span
+            >
+            <span class="event-meta">Feb 25, 2026</span>
+          </div>
+          <hr />
+          <div class="event">
+            <div class="event-head">
+              <a
+                href="https://halimmadi.substack.com/p/becoming-border"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><b>Becoming Border</b></a
+              >
+            </div>
+            <span class="event-description"
+              >New Net Art Work On Enclosures, Migration, and the Lines We
+              Draw</span
+            >
+            <span class="event-meta">Feb 12, 2026</span>
+          </div>
 
           <div class="page-title" style="margin-top: 1.2rem">Upcoming</div>
           <div id="events-container"></div>
@@ -562,50 +607,6 @@
           menuToggle.classList.remove("hidden");
         }
       });
-
-      // ── Substack Latest Writing ──
-      (async function renderWriting() {
-        const container = document.getElementById("writing-container");
-        container.innerHTML = '<hr><p class="caption">Loading...</p>';
-        try {
-          const res = await fetch(
-            "https://halimmadi.substack.com/api/v1/posts?limit=3",
-          );
-          const posts = await res.json();
-
-          if (!posts.length) {
-            container.innerHTML = "";
-            return;
-          }
-
-          container.innerHTML = posts
-            .map((post) => {
-              const title = escapeHtml(post.title);
-              const url = escapeHtml(
-                post.canonical_url ||
-                  `https://halimmadi.substack.com/p/${post.slug}`,
-              );
-              const subtitle = post.subtitle ? escapeHtml(post.subtitle) : "";
-              const d = new Date(post.post_date);
-              const dateStr = !Number.isNaN(d.getTime())
-                ? d.toLocaleDateString("en-US", {
-                    year: "numeric",
-                    month: "short",
-                    day: "numeric",
-                  })
-                : "";
-              return `<hr><div class="event">
-                <div class="event-head"><a href="${url}" target="_blank" rel="noopener noreferrer"><b>${title}</b></a></div>
-                ${subtitle ? `<span class="event-description">${subtitle}</span>` : ""}
-                ${dateStr ? `<span class="event-meta">${dateStr}</span>` : ""}
-              </div>`;
-            })
-            .join("");
-        } catch (err) {
-          console.error("Substack feed error:", err);
-          container.innerHTML = "";
-        }
-      })();
 
       // ── Supabase Config ──
       const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";

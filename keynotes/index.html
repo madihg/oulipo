@@ -83,6 +83,40 @@
           "slnt" 0,
           "MONO" 1;
       }
+
+      .keynote-image {
+        margin: 1.5rem 0;
+      }
+      .keynote-image img {
+        width: 100%;
+        max-width: 600px;
+        height: auto;
+        display: block;
+      }
+      .talk-entry {
+        margin-bottom: 3rem;
+      }
+      .talk-video {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin: 1rem 0 1.5rem;
+        max-width: 700px;
+      }
+      .talk-video iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .talk-description {
+        max-width: 700px;
+        line-height: 1.5;
+        margin-bottom: 1rem;
+      }
     </style>
   </head>
   <body>
@@ -143,7 +177,7 @@
         <div class="keynote-section">
           <h2>Keynotes that Make Room</h2>
           <p>
-            I speak to rooms where creativity has gone quiet — not from lack of
+            I speak to rooms where creativity has gone quiet - not from lack of
             talent, but from too much noise.
           </p>
         </div>
@@ -171,43 +205,243 @@
         <div class="keynote-section">
           <h2>Rewiring the System</h2>
           <p>Selected talks:</p>
-          <ul class="talk-list">
-            <li>
-              <span class="talk-year">2024</span>
-              <span class="talk-title">Weirding AI</span>
-              <span class="talk-venue">Gray Area, San Francisco</span>
-            </li>
-            <li>
-              <span class="talk-year">2016</span>
-              <span class="talk-title">The Death of Stars</span>
-              <span class="talk-venue">TED, Amsterdam</span>
-            </li>
-            <li>
-              <span class="talk-year">2014</span>
-              <span class="talk-title">Joy is a System</span>
-              <span class="talk-venue">TEDx Hackney, London</span>
-            </li>
-            <li>
-              <span class="talk-year">2013</span>
-              <span class="talk-title">Inventing Viral Gods</span>
-              <span class="talk-venue">TEDx Beirut, Lebanon</span>
-            </li>
-            <li>
-              <span class="talk-year">2013</span>
-              <span class="talk-title">How to Hack a Body</span>
-              <span class="talk-venue">TEDx Bordeaux, France</span>
-            </li>
-            <li>
-              <span class="talk-year">2011</span>
-              <span class="talk-title">The Army with No Flag</span>
-              <span class="talk-venue">TEDx Oujda, Morocco</span>
-            </li>
-            <li>
-              <span class="talk-year">2011</span>
-              <span class="talk-title">You Are the Black Box</span>
-              <span class="talk-venue">TEDxParis, France</span>
-            </li>
-          </ul>
+
+          <!-- Weirding AI -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2024</span>
+                <span class="talk-title">Weirding AI</span>
+                <span class="talk-venue">Gray Area, San Francisco</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/RTmyFg4l5yc"
+                title="Weirding AI"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              This performance-talk explores migration, memory, and machine
+              intelligence through interactive poetry. Halim invites audiences
+              to map displacement, deny border questions, and kneel before a
+              printer god. Blending HTML, myth, and bureaucracy, the piece
+              reimagines home as a drag performer: not a destination, but a
+              longing, a glitch, a ritual.
+            </p>
+          </div>
+
+          <!-- The Death of Stars -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2016</span>
+                <span class="talk-title">The Death of Stars</span>
+                <span class="talk-venue">TED, Amsterdam</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/NUH9c76gt68"
+                title="The Death of Stars"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              What happens when feedback flattens? Comparing Amazon stars and
+              Facebook likes, Halim shows how binary signals silence dissent and
+              erode trust. As feedback becomes popularity theater, we lose
+              collective insight. This talk asks: what kind of digital democracy
+              are we building when silence, not criticism, becomes the dominant
+              voice?
+            </p>
+          </div>
+
+          <!-- Joy is a System -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2014</span>
+                <span class="talk-title">Joy is a System</span>
+                <span class="talk-venue">TEDx Hackney, London</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/hCwKWmRaBMA"
+                title="Joy is a System"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              Can peeing be a portal to joy? Halim hacks attention, hormones,
+              and habit formation to rewire happiness. From neuroscience to
+              stoicism to oxytocin rituals, he maps a practice of presence built
+              on awe, repetition, and ridiculousness. Happiness isn't the goal,
+              it's a side effect of marveling at your own mundane magic.
+            </p>
+          </div>
+
+          <!-- Inventing Viral Gods -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2013</span>
+                <span class="talk-title">Inventing Viral Gods</span>
+                <span class="talk-venue">TEDx Beirut, Lebanon</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/-6iQUtJRUh8"
+                title="Inventing Viral Gods"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              From joke to church: Halim traces how a doodle became a god. This
+              talk unpacks the anatomy of viral belief, arguing that leaderless
+              movements thrive on shared purpose, interaction, and principles.
+              Web 3.0 isn't about tech, it's about self-organizing systems
+              remaking reality, from pirate parties to couchsurfing gods of
+              noodles.
+            </p>
+          </div>
+
+          <!-- How to Hack a Body -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2013</span>
+                <span class="talk-title">How to Hack a Body</span>
+                <span class="talk-venue">TEDx Bordeaux, France</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/OPrnQqlND_o"
+                title="How to Hack a Body"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              Gutenberg hacked a wine press. You can hack your hormones. Halim
+              traces a life of radical experimentation, from Bulletproof coffee
+              to 5-day fasts, revealing how feedback, data, and embodied trials
+              can reprogram our systems. A manifesto for reclaiming evolution as
+              a personal project, this talk reimagines the body as both lab and
+              protest.
+            </p>
+          </div>
+
+          <!-- The Army with No Flag -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2011</span>
+                <span class="talk-title">The Army with No Flag</span>
+                <span class="talk-venue">TEDx Oujda, Morocco</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/4YOElE7zKTQ"
+                title="The Army with No Flag"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              What if armies didn't need weapons, leaders, or even faces? In
+              this talk, Halim explores Anonymous, Tahrir Square,
+              self-organizing termites, and the future of collective action.
+              From web forums to biohackers, he charts how inspiration, not
+              hierarchy, builds the most powerful movements. The question isn't
+              how to lead. It's how to ignite.
+            </p>
+          </div>
+
+          <!-- You Are the Black Box -->
+          <div class="talk-entry">
+            <ul class="talk-list">
+              <li>
+                <span class="talk-year">2011</span>
+                <span class="talk-title">You Are the Black Box</span>
+                <span class="talk-venue">TEDxParis, France</span>
+              </li>
+            </ul>
+            <div class="talk-video">
+              <iframe
+                src="https://www.youtube.com/embed/ELehUZgGU0k"
+                title="You Are the Black Box"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+              ></iframe>
+            </div>
+            <p class="talk-description">
+              Economists treat humans as black boxes. Halim opens that box,
+              revealing butterflies, Hitler cats, and mammoths - symbols of
+              emotional, networked individuals with outsized impact. He
+              introduces "nano-economics," a human-scale science powered by
+              public data and collective action, reclaiming the economy from
+              abstraction and returning it to its rightful scale: us.
+            </p>
+          </div>
         </div>
       </div>
     </div>

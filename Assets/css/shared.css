@@ -405,3 +405,118 @@ hr {
     right: 1.5rem;
   }
 }
+
+/* Detail page shared styles */
+.back-link {
+  display: inline-block;
+  font-family: "Diatype Mono Variable", monospace;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  margin-bottom: 2rem;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  transition: opacity 0.3s ease;
+}
+
+.back-link:hover {
+  opacity: 0.7;
+}
+
+.detail-header {
+  margin-bottom: 2rem;
+}
+
+.detail-header h1 {
+  margin-bottom: 0.5rem;
+}
+
+.detail-meta {
+  font-family: "Diatype Mono Variable", monospace;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.5);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+}
+
+.detail-gallery {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detail-gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-gallery.single-col {
+  grid-template-columns: 1fr;
+}
+
+.detail-gallery.three-col {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.detail-body {
+  max-width: 800px;
+  margin-bottom: 2rem;
+}
+
+.detail-body p {
+  line-height: 1.5;
+  margin: 0 0 1.5rem;
+}
+
+.detail-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.detail-links a {
+  font-family: "Diatype Mono Variable", monospace;
+  font-size: 0.95rem;
+  color: rgba(0, 0, 0, 0.85);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .detail-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-gallery.three-col {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .detail-gallery.three-col {
+    grid-template-columns: 1fr;
+  }
+}

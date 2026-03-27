@@ -34,27 +34,34 @@
       }
 
       .work-entry-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 2rem;
         margin-bottom: 1rem;
+        flex-wrap: wrap;
       }
 
       .work-entry-header h2 {
-        margin-bottom: 0.25rem;
+        text-decoration: underline;
+        margin-bottom: 0;
       }
 
       .work-entry-meta {
-        font-family: "Diatype Mono Variable", monospace;
+        font-family: Standard, sans-serif;
         font-size: 1rem;
-        color: rgba(0, 0, 0, 0.5);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
+        color: rgba(0, 0, 0, 0.85);
       }
 
       .work-entry-body {
         display: grid;
-        grid-template-columns: 3fr 8fr;
+        grid-template-columns: 7fr 5fr;
         gap: 2rem;
         align-items: start;
+      }
+
+      .work-entry-images {
+        order: -1;
       }
 
       .work-entry-body p {
@@ -64,18 +71,16 @@
 
       .work-entry-body a.work-link {
         display: inline-block;
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
+        font-family: Standard, sans-serif;
+        font-size: 1rem;
         color: rgba(0, 0, 0, 0.85);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
+        text-decoration: underline;
       }
 
       .work-entry-images {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 1rem;
+        gap: 0.5rem;
       }
 
       .work-entry-images img {
@@ -84,13 +89,17 @@
         display: block;
       }
 
-      .work-entry-images.single img {
-        grid-column: 1 / -1;
+      .work-entry-images.single {
+        grid-template-columns: 1fr;
       }
 
       @media (max-width: 900px) {
         .work-entry-body {
           grid-template-columns: 1fr;
+        }
+
+        .work-entry-images {
+          order: 0;
         }
       }
     </style>
@@ -128,11 +137,19 @@
         <a href="/about/">About</a>
         <a href="/upcoming/">Upcoming</a>
         <a href="/contact/">Contact</a>
-        <a href="https://halimmadi.substack.com/" target="_blank"
-          >Newsletter &#8599;</a
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <a href="https://www.instagram.com/yalla_halim" target="_blank"
-          >Instagram &#8599;</a
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
         >
       </div>
     </nav>
@@ -151,9 +168,7 @@
         <!-- We Called Us Poetry -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/we-called-us/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/we-called-us/" style="color: inherit"
               ><h2>We Called Us Poetry</h2></a
             >
             <div class="work-entry-meta">
@@ -192,9 +207,7 @@
         <!-- Carnation.exe -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/carnation-exe/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/carnation-exe/" style="color: inherit"
               ><h2>Carnation.exe</h2></a
             >
             <div class="work-entry-meta">
@@ -243,9 +256,7 @@
         <!-- Borderline -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/borderline/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/borderline/" style="color: inherit"
               ><h2>Borderline</h2></a
             >
             <div class="work-entry-meta">
@@ -287,9 +298,7 @@
         <!-- I Live Here -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/i-live-here/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/i-live-here/" style="color: inherit"
               ><h2>I Live Here</h2></a
             >
             <div class="work-entry-meta">
@@ -327,9 +336,7 @@
         <!-- Feed It -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/feed-it/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/feed-it/" style="color: inherit"
               ><h2>Feed It</h2></a
             >
             <div class="work-entry-meta">
@@ -355,9 +362,7 @@
         <!-- Weirder Webs -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/weirder-webs/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/weirder-webs/" style="color: inherit"
               ><h2>Weirder Webs</h2></a
             >
             <div class="work-entry-meta">
@@ -383,9 +388,7 @@
         <!-- Deserve It -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/deserve-it/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/deserve-it/" style="color: inherit"
               ><h2>Deserve It</h2></a
             >
             <div class="work-entry-meta">
@@ -416,9 +419,7 @@
         <!-- Borderline.exe -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/borderline-exe/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/borderline-exe/" style="color: inherit"
               ><h2>Borderline.exe</h2></a
             >
             <div class="work-entry-meta">
@@ -454,9 +455,7 @@
         <!-- Oulipo.xyz -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="https://oulipo.xyz"
-              style="text-decoration: none; color: inherit"
+            <a href="https://oulipo.xyz" style="color: inherit"
               ><h2>Oulipo.xyz</h2></a
             >
             <div class="work-entry-meta">Evergreen</div>
@@ -495,9 +494,7 @@
         <!-- Versus.exe -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/versus-exe/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/versus-exe/" style="color: inherit"
               ><h2>Versus.exe</h2></a
             >
             <div class="work-entry-meta">
@@ -535,9 +532,7 @@
         <!-- Reinforcement.exe -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/reinforcement-exe/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/reinforcement-exe/" style="color: inherit"
               ><h2>Reinforcement.exe</h2></a
             >
             <div class="work-entry-meta">
@@ -564,9 +559,7 @@
         <!-- def(hug) -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/def-hug/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/def-hug/" style="color: inherit"
               ><h2>def(hug)</h2></a
             >
             <div class="work-entry-meta">
@@ -594,9 +587,7 @@
         <!-- Invasions (Performance) -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/invasions-performance/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/invasions-performance/" style="color: inherit"
               ><h2>Invasions (Performance)</h2></a
             >
             <div class="work-entry-meta">
@@ -625,11 +616,7 @@
         <!-- Whomp -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/whomp/"
-              style="text-decoration: none; color: inherit"
-              ><h2>Whomp</h2></a
-            >
+            <a href="/works/whomp/" style="color: inherit"><h2>Whomp</h2></a>
             <div class="work-entry-meta">Jun '22 &mdash; Online</div>
           </div>
           <div class="work-entry-body">
@@ -650,9 +637,7 @@
         <!-- Borrow & Never Give Back -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/borrow-never-give-back/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/borrow-never-give-back/" style="color: inherit"
               ><h2>Borrow &amp; Never Give Back</h2></a
             >
             <div class="work-entry-meta">
@@ -682,9 +667,7 @@
         <!-- Re/declarations -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/re-declarations/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/re-declarations/" style="color: inherit"
               ><h2>Re/declarations</h2></a
             >
             <div class="work-entry-meta">
@@ -714,9 +697,7 @@
         <!-- American Metabolisis -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/american-metabolisis/"
-              style="text-decoration: none; color: inherit"
+            <a href="/works/american-metabolisis/" style="color: inherit"
               ><h2>American Metabolisis</h2></a
             >
             <div class="work-entry-meta">
@@ -745,11 +726,7 @@
         <!-- Avenir -->
         <div class="work-entry">
           <div class="work-entry-header">
-            <a
-              href="/works/avenir/"
-              style="text-decoration: none; color: inherit"
-              ><h2>Avenir</h2></a
-            >
+            <a href="/works/avenir/" style="color: inherit"><h2>Avenir</h2></a>
             <div class="work-entry-meta">
               Mar '15 &ndash; Sep '17 &mdash; Paris, Sao Paulo
             </div>

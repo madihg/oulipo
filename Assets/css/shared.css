@@ -47,14 +47,21 @@ html {
   font-size: 16px;
 }
 
+:root {
+  --type-size-nav: 1.08rem;
+  --type-size-base: 1.06rem;
+  --type-size-caption: 0.98rem;
+  --type-size-meta: 0.96rem;
+}
+
 body {
   margin: 0;
   padding: 0;
   background-color: #ffffff;
   color: rgba(0, 0, 0, 0.85);
   font-family: Standard, sans-serif;
-  font-size: 1.3rem;
-  line-height: 1.2;
+  font-size: var(--type-size-base);
+  line-height: 1.16;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -104,12 +111,12 @@ h2 {
 }
 
 .caption {
-  font-size: 1.2rem;
+  font-size: var(--type-size-caption);
   font-weight: 400;
   color: #000000;
   font-family: "Diatype Mono Variable", monospace;
   font-style: normal;
-  line-height: 1.25;
+  line-height: 1.14;
   letter-spacing: 0em;
   font-variation-settings:
     "slnt" 0,
@@ -126,7 +133,7 @@ hr {
   border: 0;
   height: 1px;
   display: block;
-  margin: 2rem 0;
+  margin: 0.5rem 0;
 }
 
 /* Layout */
@@ -143,7 +150,7 @@ hr {
 .button-8 {
   display: inline-block;
   font-family: Standard, sans-serif;
-  font-size: 1.3rem;
+  font-size: var(--type-size-base);
   font-weight: 400;
   color: rgba(0, 0, 0, 0.85);
   background: transparent;
@@ -211,7 +218,7 @@ hr {
   left: 4rem;
   z-index: 200;
   font-family: Standard, sans-serif;
-  font-size: 1.3rem;
+  font-size: var(--type-size-nav);
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
@@ -322,7 +329,7 @@ hr {
 
 .menu-home {
   font-family: Standard, sans-serif;
-  font-size: 1.3rem;
+  font-size: var(--type-size-nav);
   text-decoration: none;
   color: rgba(0, 0, 0, 0.85);
 }
@@ -348,7 +355,7 @@ hr {
 .menu-section a {
   display: block;
   font-family: Standard, sans-serif;
-  font-size: 1.3rem;
+  font-size: var(--type-size-nav);
   text-decoration: none;
   color: rgba(0, 0, 0, 0.85);
   line-height: 1.15;
@@ -363,6 +370,13 @@ hr {
   height: 1px;
   background: rgba(0, 0, 0, 0.85);
   margin: 0.75rem 0;
+}
+
+.external-arrow {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
 }
 
 /* Responsive grid collapse */
@@ -387,6 +401,13 @@ hr {
 }
 
 @media (max-width: 600px) {
+  :root {
+    --type-size-nav: 1.05rem;
+    --type-size-base: 1.03rem;
+    --type-size-caption: 0.97rem;
+    --type-size-meta: 0.95rem;
+  }
+
   .page {
     padding: 2rem;
   }
@@ -408,43 +429,50 @@ hr {
 
 /* Detail page shared styles */
 .back-link {
-  display: inline-block;
-  font-family: "Diatype Mono Variable", monospace;
-  font-size: 0.95rem;
-  color: rgba(0, 0, 0, 0.6);
-  text-decoration: none;
-  margin-bottom: 2rem;
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
-  transition: opacity 0.3s ease;
-}
-
-.back-link:hover {
-  opacity: 0.7;
+  display: none;
 }
 
 .detail-header {
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .detail-header h1 {
-  margin-bottom: 0.5rem;
+  font-family: "Diatype Variable", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
 }
 
 .detail-meta {
-  font-family: "Diatype Mono Variable", monospace;
+  font-family: Standard, sans-serif;
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.5);
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
+  color: rgba(0, 0, 0, 0.85);
+  line-height: 1.6;
+}
+
+.detail-links {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
+}
+
+.detail-links a {
+  font-family: Standard, sans-serif;
+  font-size: 1rem;
+  color: rgba(0, 0, 0, 0.85);
+  text-decoration: underline;
+  transition: opacity 0.3s ease;
+}
+
+.detail-links a:hover {
+  opacity: 0.7;
 }
 
 .detail-gallery {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
   margin-bottom: 2rem;
 }
 
@@ -454,8 +482,8 @@ hr {
   display: block;
 }
 
-.detail-gallery.single-col {
-  grid-template-columns: 1fr;
+.detail-gallery.two-col {
+  grid-template-columns: 1fr 1fr;
 }
 
 .detail-gallery.three-col {
@@ -470,22 +498,6 @@ hr {
 .detail-body p {
   line-height: 1.5;
   margin: 0 0 1.5rem;
-}
-
-.detail-links {
-  display: flex;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-  margin-bottom: 2rem;
-}
-
-.detail-links a {
-  font-family: "Diatype Mono Variable", monospace;
-  font-size: 0.95rem;
-  color: rgba(0, 0, 0, 0.85);
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
 }
 
 .video-container {
@@ -506,7 +518,7 @@ hr {
 }
 
 @media (max-width: 900px) {
-  .detail-gallery {
+  .detail-gallery.two-col {
     grid-template-columns: 1fr;
   }
 

@@ -34,27 +34,34 @@
       }
 
       .book-entry-header {
+        display: flex;
+        align-items: baseline;
+        justify-content: flex-start;
+        gap: 2rem;
         margin-bottom: 1rem;
+        flex-wrap: wrap;
       }
 
       .book-entry-header h2 {
-        margin-bottom: 0.25rem;
+        text-decoration: underline;
+        margin-bottom: 0;
       }
 
       .book-meta {
-        font-family: "Diatype Mono Variable", monospace;
+        font-family: Standard, sans-serif;
         font-size: 1rem;
-        color: rgba(0, 0, 0, 0.5);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
+        color: rgba(0, 0, 0, 0.85);
       }
 
       .book-entry-body {
         display: grid;
-        grid-template-columns: 8fr 4fr;
+        grid-template-columns: 7fr 5fr;
         gap: 2rem;
         align-items: start;
+      }
+
+      .book-images {
+        order: -1;
       }
 
       .book-entry-body p {
@@ -69,30 +76,16 @@
       }
 
       .book-links a {
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
+        font-family: Standard, sans-serif;
+        font-size: 1rem;
         color: rgba(0, 0, 0, 0.85);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-      }
-
-      .book-images {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0.5rem;
+        text-decoration: underline;
       }
 
       .book-images img {
         width: 100%;
         height: auto;
         display: block;
-        max-width: 60%;
-        margin: 0 auto;
-      }
-
-      .book-images.single img {
-        grid-column: 1 / -1;
       }
 
       @media (max-width: 900px) {
@@ -135,11 +128,19 @@
         <a href="/about/">About</a>
         <a href="/upcoming/">Upcoming</a>
         <a href="/contact/">Contact</a>
-        <a href="https://halimmadi.substack.com/" target="_blank"
-          >Newsletter &#8599;</a
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <a href="https://www.instagram.com/yalla_halim" target="_blank"
-          >Instagram &#8599;</a
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
         >
       </div>
     </nav>
@@ -157,7 +158,9 @@
         <!-- Invasions -->
         <div class="book-entry">
           <div class="book-entry-header">
-            <a href="/books/invasions/" style="text-decoration:none;color:inherit"><h2>Invasions</h2></a>
+            <a href="/books/invasions/" style="color: inherit"
+              ><h2>Invasions</h2></a
+            >
             <div class="book-meta">
               Jun '22 &ndash; Apr '24 &mdash; San Francisco, Los Angeles, CDMX,
               Santa Barbara, Ojai
@@ -210,7 +213,9 @@
         <!-- Flight of the Jaguar -->
         <div class="book-entry">
           <div class="book-entry-header">
-            <a href="/books/flight-of-the-jaguar/" style="text-decoration:none;color:inherit"><h2>Flight of the Jaguar</h2></a>
+            <a href="/books/flight-of-the-jaguar/" style="color: inherit"
+              ><h2>Flight of the Jaguar</h2></a
+            >
             <div class="book-meta">Apr '18 &mdash; San Francisco</div>
           </div>
           <div class="book-entry-body">
@@ -258,7 +263,9 @@
         <!-- In the Name of Scandal -->
         <div class="book-entry">
           <div class="book-entry-header">
-            <a href="/books/in-the-name-of-scandal/" style="text-decoration:none;color:inherit"><h2>In the Name of Scandal</h2></a>
+            <a href="/books/in-the-name-of-scandal/" style="color: inherit"
+              ><h2>In the Name of Scandal</h2></a
+            >
             <div class="book-meta">Apr '20</div>
           </div>
           <div class="book-entry-body">
@@ -310,7 +317,9 @@
         <!-- Deep & Fast -->
         <div class="book-entry">
           <div class="book-entry-header">
-            <a href="/books/deep-fast/" style="text-decoration:none;color:inherit"><h2>Deep &amp; Fast</h2></a>
+            <a href="/books/deep-fast/" style="color: inherit"
+              ><h2>Deep &amp; Fast</h2></a
+            >
             <div class="book-meta">Jul '21</div>
           </div>
           <div class="book-entry-body">

@@ -35,22 +35,25 @@
 
       .book-entry-header {
         display: flex;
-        align-items: baseline;
-        justify-content: flex-start;
-        gap: 2rem;
+        flex-direction: column;
+        gap: 0.25rem;
         margin-bottom: 1rem;
-        flex-wrap: wrap;
       }
 
       .book-entry-header h2 {
+        font-size: 1.3rem;
         text-decoration: underline;
         margin-bottom: 0;
       }
 
       .book-meta {
-        font-family: Standard, sans-serif;
-        font-size: 1rem;
-        color: rgba(0, 0, 0, 0.85);
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-caption);
+        color: #000000;
+        line-height: 1.14;
       }
 
       .book-entry-body {
@@ -126,8 +129,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/upcoming/">Upcoming</a>
-        <a href="/contact/">Contact</a>
+        <a href="/now/">Now</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -147,6 +149,7 @@
 
     <div class="page">
       <div class="page-content">
+        <h1 style="font-size: 4rem; margin-bottom: 1.5rem">Books</h1>
         <div class="books-intro">
           <p>
             I write books the way some people keep journals, or cast spells.

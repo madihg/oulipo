@@ -18,12 +18,25 @@
     />
     <link rel="stylesheet" href="../Assets/css/shared.css" />
     <style>
+      /* White header bar for visibility on dark hero */
+      .header-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3.5rem;
+        background: #ffffff;
+        z-index: 150;
+      }
+
       /* Hero */
       .hero {
         min-height: 100vh;
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
+        text-align: center;
         position: relative;
         background-image: url("../Assets/images/home/hero-bg.jpg");
         background-size: cover;
@@ -32,17 +45,33 @@
         margin: -4rem -4rem 0;
       }
 
+      .hero::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        z-index: 1;
+      }
+
       .hero h1 {
         color: #ffffff;
         font-size: 10rem;
         margin-bottom: 1rem;
+        position: relative;
+        z-index: 2;
       }
 
       .hero-subtitle {
-        font-family: Standard, sans-serif;
-        font-size: 1.3rem;
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-caption);
         color: rgba(255, 255, 255, 0.9);
         line-height: 1.4;
+        position: relative;
+        z-index: 2;
+        max-width: 500px;
       }
 
       /* Sections */
@@ -83,6 +112,10 @@
       }
 
       @media (max-width: 600px) {
+        .header-bar {
+          height: 2.8rem;
+        }
+
         .hero {
           min-height: 70vh;
           padding: 2rem;
@@ -96,6 +129,7 @@
     </style>
   </head>
   <body>
+    <div class="header-bar"></div>
     <div class="site-header"><a href="/home/">Halim Madi</a></div>
 
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
@@ -126,8 +160,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/upcoming/">Upcoming</a>
-        <a href="/contact/">Contact</a>
+        <a href="/now/">Now</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -176,7 +209,7 @@
                 meaning, agency and connection within human-machine
                 interactions.
               </p>
-              <a href="/contact/" class="button-8">Contact Halim</a>
+              <a href="/now/" class="button-8">Contact Halim</a>
             </div>
             <div class="section-image">
               <img
@@ -275,14 +308,23 @@
 
         <!-- Footer -->
         <footer class="site-footer-icons">
-          <a href="https://www.instagram.com/yalla_halim" target="_blank"
-            >Instagram &#8599;</a
+          <a
+            href="https://www.instagram.com/yalla_halim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Instagram <span class="external-arrow">&#x2197;</span></a
           >
-          <a href="https://www.linkedin.com/in/madihalim" target="_blank"
-            >LinkedIn &#8599;</a
+          <a
+            href="https://www.linkedin.com/in/madihalim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn <span class="external-arrow">&#x2197;</span></a
           >
-          <a href="https://www.youtube.com/@yalla_halim" target="_blank"
-            >YouTube &#8599;</a
+          <a
+            href="https://www.youtube.com/@yalla_halim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >YouTube <span class="external-arrow">&#x2197;</span></a
           >
         </footer>
       </div>

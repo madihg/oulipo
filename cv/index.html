@@ -12,82 +12,18 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
+    <link rel="stylesheet" href="../Assets/css/shared.css" />
 
     <style>
-      /* Cargo Fonts */
-      @font-face {
-        font-display: block;
-        font-family: "Standard";
-        src: url("https://type.cargo.site/files/Standard-Book.woff")
-          format("woff");
-        font-style: normal;
-        font-weight: normal;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Standard";
-        src: url("https://type.cargo.site/files/Standard-Bold.woff")
-          format("woff");
-        font-style: normal;
-        font-weight: bold;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Diatype Variable";
-        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
-          format("woff2-variations");
-        font-style: normal;
-        font-weight: 200 1000;
-      }
-      @font-face {
-        font-display: block;
-        font-family: "Diatype Mono Variable";
-        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
-          format("woff2-variations");
-        font-style: normal;
-        font-weight: 200 700;
-      }
-
-      html {
-        font-size: 16px;
-      }
+      /* CV page-specific styles */
 
       :root {
-        --type-size-nav: 1.08rem;
-        --type-size-base: 1.06rem;
-        --type-size-caption: 0.98rem;
-        --type-size-meta: 0.96rem;
         --content-width: 54rem;
       }
 
-      body {
-        margin: 0;
-        padding: 0;
-        background-color: #ffffff;
-        color: rgba(0, 0, 0, 0.85);
-        font-family: Standard, sans-serif;
-        font-size: var(--type-size-base);
-        line-height: 1.16;
-        -webkit-font-smoothing: antialiased;
-        -moz-osx-font-smoothing: grayscale;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      a {
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: underline;
-      }
-
-      a:hover {
-        opacity: 0.7;
-      }
-
-      /* Page layout - left-aligned to match header */
       .page {
         min-height: 100vh;
+        padding: 0;
       }
 
       .page-layout {
@@ -106,38 +42,6 @@
         width: 100%;
       }
 
-      /* Typography */
-      .caption {
-        font-size: var(--type-size-caption);
-        font-weight: 400;
-        color: #000000;
-        font-family: "Diatype Mono Variable", monospace;
-        font-style: normal;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        line-height: 1.14;
-        letter-spacing: 0em;
-      }
-
-      .caption a {
-        color: #000000;
-        text-decoration: underline;
-      }
-
-      hr {
-        background: rgba(0, 0, 0, 0.75);
-        border: 0;
-        height: 1px;
-        display: block;
-        margin: 0.5rem 0;
-        width: 100%;
-      }
-
-      b {
-        font-weight: bold;
-      }
-
       /* Title area */
       .page-title {
         text-align: left;
@@ -148,9 +52,9 @@
         line-height: 1.08;
       }
 
-      /* Section heading */
+      /* Section heading - Diatype Variable per brand guidelines */
       .section-heading {
-        font-family: Standard, sans-serif;
+        font-family: "Diatype Variable", sans-serif;
         font-size: 1.12rem;
         font-weight: 700;
         margin: 1.15rem 0 0.35rem 0;
@@ -211,178 +115,6 @@
         text-underline-offset: 0.08em;
       }
 
-      /* Site Header */
-      body.menu-open {
-        overflow: hidden;
-      }
-
-      .site-header {
-        position: fixed;
-        top: 1.5rem;
-        left: 4rem;
-        z-index: 200;
-        font-family: Standard, sans-serif;
-        font-size: var(--type-size-nav);
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .site-header a {
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .site-header a:hover {
-        opacity: 0.7;
-      }
-
-      .site-header.hidden {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      /* Menu Toggle Button */
-      .menu-toggle {
-        position: fixed;
-        top: 1.5rem;
-        right: 4rem;
-        z-index: 200;
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        width: 24px;
-        height: 24px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .menu-toggle.hidden {
-        opacity: 0;
-        visibility: hidden;
-      }
-
-      .menu-toggle span {
-        display: block;
-        width: 100%;
-        height: 2px;
-        background-color: rgba(0, 0, 0, 0.85);
-        transition:
-          transform 0.3s,
-          opacity 0.3s;
-      }
-
-      .menu-toggle:hover {
-        opacity: 0.7;
-      }
-
-      /* Side Menu Overlay */
-      .menu-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: rgba(0, 0, 0, 0.25);
-        z-index: 998;
-        opacity: 0;
-        visibility: hidden;
-        transition:
-          opacity 0.3s ease,
-          visibility 0.3s ease;
-      }
-
-      .menu-overlay.active {
-        opacity: 1;
-        visibility: visible;
-      }
-
-      /* Side Menu Drawer */
-      .side-menu {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 420px;
-        height: 100%;
-        background-color: #ffffff;
-        z-index: 999;
-        padding: 2rem 4rem;
-        transform: translateX(100%);
-        transition: transform 0.3s ease;
-        overflow-y: auto;
-      }
-
-      .side-menu.active {
-        transform: translateX(0);
-      }
-
-      .menu-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding-bottom: 0.75rem;
-        margin-bottom: 0.75rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-home {
-        font-family: Standard, sans-serif;
-        font-size: var(--type-size-nav);
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        padding: 0;
-        font-size: 1.5rem;
-        line-height: 1;
-        color: rgba(0, 0, 0, 0.85);
-      }
-
-      .menu-close:hover {
-        opacity: 0.7;
-      }
-
-      .menu-section {
-        margin-bottom: 0;
-      }
-
-      .menu-section a {
-        display: block;
-        font-family: Standard, sans-serif;
-        font-size: var(--type-size-nav);
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-        line-height: 1.15;
-      }
-
-      .menu-section a:hover {
-        opacity: 0.7;
-      }
-
-      .menu-divider {
-        border: 0;
-        height: 1px;
-        background: rgba(0, 0, 0, 0.85);
-        margin: 0.75rem 0;
-      }
-
-      .external-arrow {
-        font-family: "Diatype Mono Variable", monospace;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-      }
-
       /* Multi-column layout for CV sections */
       #cv-container {
         columns: 2;
@@ -430,25 +162,7 @@
         }
       }
 
-      @media (max-width: 768px) {
-        .side-menu {
-          width: 100%;
-          padding: 2rem;
-        }
-
-        .menu-toggle {
-          right: 2rem;
-        }
-      }
-
       @media (max-width: 600px) {
-        :root {
-          --type-size-nav: 1.05rem;
-          --type-size-base: 1.03rem;
-          --type-size-caption: 0.97rem;
-          --type-size-meta: 0.95rem;
-        }
-
         .page-layout {
           width: 100%;
           max-width: none;
@@ -458,16 +172,6 @@
 
         .page-title {
           font-size: 1.4rem;
-        }
-
-        .site-header {
-          left: 1.5rem;
-          top: 1rem;
-        }
-
-        .menu-toggle {
-          top: 1rem;
-          right: 1.5rem;
         }
       }
     </style>
@@ -498,7 +202,7 @@
           onclick="toggleMenu()"
           aria-label="Close menu"
         >
-          ×
+          &times;
         </button>
       </div>
 
@@ -513,7 +217,7 @@
 
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/now/">Now</a>
+        <a href="/connect/">Connect</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -541,39 +245,8 @@
       </div>
     </div>
 
+    <script src="../Assets/js/menu.js"></script>
     <script>
-      function toggleMenu() {
-        const menu = document.querySelector(".side-menu");
-        const overlay = document.querySelector(".menu-overlay");
-        const body = document.body;
-
-        menu.classList.toggle("active");
-        overlay.classList.toggle("active");
-        body.classList.toggle("menu-open");
-      }
-
-      document.addEventListener("keydown", function (e) {
-        if (e.key === "Escape") {
-          const menu = document.querySelector(".side-menu");
-          if (menu.classList.contains("active")) {
-            toggleMenu();
-          }
-        }
-      });
-
-      const siteHeader = document.querySelector(".site-header");
-      const menuToggle = document.querySelector(".menu-toggle");
-
-      window.addEventListener("scroll", function () {
-        if (window.scrollY > 50) {
-          siteHeader.classList.add("hidden");
-          menuToggle.classList.add("hidden");
-        } else {
-          siteHeader.classList.remove("hidden");
-          menuToggle.classList.remove("hidden");
-        }
-      });
-
       // ── Supabase Config ──
       const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
       const SUPABASE_ANON_KEY =
@@ -667,7 +340,7 @@
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const linkTag = linkUrl
-          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link \u2197</a>`
+          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link <span class="external-arrow">&#x2197;</span></a>`
           : "";
         const metaParts = [];
 

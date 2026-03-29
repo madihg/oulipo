@@ -14,37 +14,103 @@
     />
     <link rel="stylesheet" href="../Assets/css/shared.css" />
     <style>
-      .workshops-intro {
-        border: 0.1rem solid rgba(0, 0, 0, 0.4);
-        padding: 3rem;
-        max-width: 66%;
-        margin: 0 auto;
+      /* Hero area */
+      .workshops-hero {
         margin-bottom: 3rem;
       }
 
-      .workshops-intro p {
-        line-height: 1.5;
+      .workshops-hero h1 {
+        text-align: center;
+        margin-bottom: 2rem;
       }
 
-      .workshop-category {
-        margin-bottom: 3rem;
+      .workshops-tagline {
+        display: flex;
+        justify-content: center;
+        gap: 6rem;
+        margin-bottom: 2.5rem;
       }
 
-      .workshop-category h2 {
-        margin-bottom: 0.25rem;
-      }
-
-      .category-label {
+      .workshops-tagline span {
         font-family: "Diatype Mono Variable", monospace;
-        font-size: 1rem;
-        color: rgba(0, 0, 0, 0.5);
+        font-size: 0.95rem;
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        margin-bottom: 2rem;
-        display: block;
+        color: rgba(0, 0, 0, 0.85);
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
       }
 
+      /* Intro paragraph */
+      .workshops-intro {
+        max-width: 720px;
+        margin: 0 auto 3rem;
+        line-height: 1.6;
+      }
+
+      .workshops-intro p {
+        margin: 0 0 1rem;
+        line-height: 1.6;
+      }
+
+      .workshops-intro p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* Hero image placeholder */
+      .workshops-hero-image {
+        width: 100%;
+        margin-bottom: 4rem;
+      }
+
+      /* Category sections */
+      .workshop-category {
+        margin-bottom: 4rem;
+      }
+
+      .workshop-category h2 {
+        margin-bottom: 0.75rem;
+      }
+
+      .category-description {
+        line-height: 1.6;
+        margin-bottom: 2rem;
+        max-width: 720px;
+      }
+
+      .category-description a {
+        color: rgba(0, 0, 0, 0.85);
+        background: rgba(144, 238, 144, 0.4);
+        text-decoration: none;
+        padding: 0 0.15em;
+      }
+
+      /* Bordered intro for Corporations */
+      .category-bordered-intro {
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        padding: 2rem;
+        margin-bottom: 2rem;
+      }
+
+      .category-bordered-intro p {
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      .category-bordered-intro a {
+        color: rgba(0, 0, 0, 0.85);
+        background: rgba(144, 238, 144, 0.4);
+        text-decoration: none;
+        padding: 0 0.15em;
+      }
+
+      .category-image {
+        width: 100%;
+        margin-bottom: 2.5rem;
+      }
+
+      /* Workshop entry */
       .workshop-entry {
         margin-bottom: 2.5rem;
         padding-bottom: 2.5rem;
@@ -56,37 +122,88 @@
         padding-bottom: 0;
       }
 
-      .workshop-entry h3 {
-        font-family: "Diatype Variable", sans-serif;
-        font-size: 1.4rem;
-        font-weight: 700;
-        margin: 0 0 0.25rem;
-      }
-
-      .workshop-meta {
+      /* Metadata row: title / date / venue */
+      .workshop-meta-row {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        gap: 2rem;
+        align-items: baseline;
+        margin-bottom: 1.25rem;
         font-family: "Diatype Mono Variable", monospace;
         font-size: 0.95rem;
-        color: rgba(0, 0, 0, 0.5);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        margin-bottom: 0.75rem;
+        color: rgba(0, 0, 0, 0.85);
       }
 
-      .workshop-entry p {
-        line-height: 1.5;
+      .workshop-meta-title {
+        text-align: left;
+      }
+
+      .workshop-meta-date {
+        text-align: center;
+      }
+
+      .workshop-meta-venue {
+        text-align: right;
+      }
+
+      /* Logo + description layout */
+      .workshop-body {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 1.5rem;
+        align-items: start;
+      }
+
+      .workshop-body p {
+        line-height: 1.6;
         margin: 0;
       }
 
-      .workshop-entry a.workshop-link {
-        display: inline-block;
-        margin-top: 0.5rem;
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
-        color: rgba(0, 0, 0, 0.85);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
+      .placeholder-logo {
+        width: 80px;
+        height: 80px;
+      }
+
+      .placeholder-image {
+        width: 100%;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .workshops-tagline {
+          gap: 3rem;
+        }
+
+        .workshop-meta-row {
+          grid-template-columns: 1fr;
+          gap: 0.25rem;
+        }
+
+        .workshop-meta-title,
+        .workshop-meta-date,
+        .workshop-meta-venue {
+          text-align: left;
+        }
+
+        .workshop-body {
+          grid-template-columns: 1fr;
+        }
+
+        .placeholder-logo {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .workshops-tagline {
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: center;
+        }
       }
     </style>
   </head>
@@ -121,7 +238,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/now/">Now</a>
+        <a href="/connect/">Connect</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -141,148 +258,355 @@
 
     <div class="page">
       <div class="page-content">
-        <div class="workshops-intro">
-          <p>
-            These sessions are hands-on environments for leaders and teams on
-            one hand, and artists and poets on the other, to engage directly
-            with emerging AI tools and ways of thinking. We explore creative
-            strategy, ethical design, and how to build with attention. The goal
-            is literacy, alignment, and a renewed sense of agency in a shifting
-            technological landscape.
-          </p>
+        <!-- Hero -->
+        <div class="workshops-hero">
+          <h1>Workshops</h1>
+
+          <div class="workshops-tagline">
+            <span>Rewriting Our Tools</span>
+            <span>Rethinking Our Roles</span>
+          </div>
+
+          <div class="workshops-intro">
+            <p>
+              I teach workshops across three worlds: corporations, classrooms,
+              and creative communities.
+            </p>
+            <p>
+              <strong>For executives, product teams, and designers,</strong> I
+              lead hands-on sessions focused on AI fluency, agent design, and
+              system thinking, tailored to real workflows. We've fine-tuned
+              model tone at Meta, built poetic interfaces at Google, and
+              explored predictive logic at Prophet.
+            </p>
+            <p>
+              <strong>For artists, poets, and technologists,</strong> I guide
+              experimental practices in glitch, memory, and machine
+              collaboration. We've built strange choirs at Mozilla, staged
+              algorithmic rituals at Gray Area, and queered prompt chains at the
+              San Francisco Art Fair.
+            </p>
+            <p>
+              <strong>For students and educators,</strong> I teach AI as a form
+              of attention and authorship - treating language models as both
+              text and tool. From Stanford's d.school to UC Berkeley and Johns
+              Hopkins, we reimagine what it means to learn, build, and speak
+              with machines.
+            </p>
+          </div>
+
+          <!-- Hero photo -->
+          <div
+            class="placeholder-image workshops-hero-image"
+            data-placeholder="true"
+            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
+          ></div>
         </div>
 
-        <!-- CLASSROOMS -->
-        <div class="workshop-category">
-          <h2>Classrooms</h2>
-          <span class="category-label">Schools</span>
-
-          <div class="workshop-entry">
-            <h3>Weirding AI</h3>
-            <div class="workshop-meta">
-              Oct '25 &mdash; Johns Hopkins University, Baltimore
-            </div>
-            <p>
-              Invites writers and technologists to collaborate unconventionally
-              with machines. The session trained tiny language models on
-              personal archives, explored prompt manipulation, and examined
-              "plagiarism as ars poetica," blending uncreative writing
-              approaches with AI's predictive capabilities.
-            </p>
-          </div>
-
-          <div class="workshop-entry">
-            <h3>Memory Poetics</h3>
-            <div class="workshop-meta">
-              Sep '25 &mdash; UC Berkeley, Berkeley, CA
-            </div>
-            <p>
-              Wove together philosophy and code, examining how memory gets
-              encoded in tools. Participants explored poetic interface design
-              and artistic resistance to algorithmic encoding, hosted as a guest
-              lecture within Berkeley's digital narrative class.
-            </p>
-          </div>
-
-          <div class="workshop-entry">
-            <h3>Time Capsule in 3 Acts</h3>
-            <div class="workshop-meta">May '25 &mdash; Stanford D School</div>
-            <p>
-              A workshop-performance unfolding in three movements: voice,
-              practice, and service. Participants responded to poetic prompts
-              from Artaud, Warhol, and Rimbaud, uploading fragments into a
-              digital "time capsule." Asked: "what does your attention
-              remember?"
-            </p>
-          </div>
-        </div>
-
-        <!-- CREATIVE COMMUNITIES -->
+        <!-- ─── CREATIVE COMMUNITIES ─── -->
         <div class="workshop-category">
           <h2>Creative Communities</h2>
-          <span class="category-label">Artists</span>
+          <p class="category-description">
+            Workshops and talks as invitations to glitch, to gather, to write
+            beside the machine. I build poetic systems with artists, performers,
+            and writers,
+            <a href="#">tools that listen, interrupt, and remember</a>. We train
+            tiny models, queer the interface, and treat language as ritual.
+          </p>
 
+          <!-- Section photo -->
+          <div
+            class="placeholder-image category-image"
+            data-placeholder="true"
+            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
+          ></div>
+
+          <!-- Strange Choirs -->
           <div class="workshop-entry">
-            <h3>Strange Choirs</h3>
-            <div class="workshop-meta">
-              Oct '25 &mdash; Mozilla, tiat.place, San Francisco
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Strange Choirs</span>
+              <span class="workshop-meta-date">Oct '25</span>
+              <span class="workshop-meta-venue"
+                >Mozilla, tiat.place, San Francisco</span
+              >
             </div>
-            <p>
-              Artists and technologists co-composed with machines by training
-              tiny language models on personal archives, queering prompt chains,
-              and creating "a strange digital choir, a ritual of poetic
-              misbehavior, collective voice, and glitch as structure."
-            </p>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                This session invited artists and technologists to co-compose
+                with the machine. We trained tiny language models on personal
+                archives, queered prompt chains, and turned AI into chorus. The
+                result was a strange digital choir, a ritual of poetic
+                misbehavior, collective voice, and glitch as structure.
+              </p>
+            </div>
           </div>
 
+          <!-- AI x Artist Studio -->
           <div class="workshop-entry">
-            <h3>AI x Artist Studio</h3>
-            <div class="workshop-meta">
-              Apr '25 &mdash; San Francisco Art Fair
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">AI x Artist Studio</span>
+              <span class="workshop-meta-date">Apr '25</span>
+              <span class="workshop-meta-venue">San Francisco Art Fair</span>
             </div>
-            <p>
-              Panel exploring how AI reshapes creative process. Shared
-              perspective that AI "doesn't just assist: It distorts, surprises,
-              and co-authors," examining the studio as staging ground for
-              unintended collaboration.
-            </p>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                Panel exploring how AI reshapes creative process. Shared
+                perspective that AI "doesn't just assist: It distorts,
+                surprises, and co-authors," examining the studio as staging
+                ground for unintended collaboration.
+              </p>
+            </div>
           </div>
 
+          <!-- Algorithm Embrace -->
           <div class="workshop-entry">
-            <h3>Algorithm Embrace</h3>
-            <div class="workshop-meta">
-              Sep '24 &mdash; Gray Area, San Francisco
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Algorithm Embrace</span>
+              <span class="workshop-meta-date">Sep '24</span>
+              <span class="workshop-meta-venue">Gray Area, San Francisco</span>
             </div>
-            <p>
-              Performance-workshop on submission aesthetics in AI. Explored the
-              concept of machines consuming us lovingly until distinction
-              between prompt and poem vanishes, asking: "when the machine loves
-              us back, what do we become?"
-            </p>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                Performance-workshop on submission aesthetics in AI. Explored
+                the concept of machines consuming us lovingly until distinction
+                between prompt and poem vanishes, asking: "when the machine
+                loves us back, what do we become?"
+              </p>
+            </div>
           </div>
         </div>
 
-        <!-- CORPORATIONS -->
+        <!-- ─── CLASSROOMS ─── -->
+        <div class="workshop-category">
+          <h2>Classrooms</h2>
+          <p class="category-description">
+            In universities and graduate programs, I teach AI as a practice of
+            attention - not automation. These sessions blend philosophy, code,
+            and creative writing, asking students to build tools that remember,
+            resist, and reimagine.
+          </p>
+
+          <!-- Section photo -->
+          <div
+            class="placeholder-image category-image"
+            data-placeholder="true"
+            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
+          ></div>
+
+          <!-- Weirding AI -->
+          <div class="workshop-entry">
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Weirding AI</span>
+              <span class="workshop-meta-date">Oct '25</span>
+              <span class="workshop-meta-venue"
+                >Johns Hopkins University, Baltimore</span
+              >
+            </div>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                Weirding AI invites writers and technologists to misbehave with
+                the machine. We trained tiny language models on personal
+                archives, queered prompt chains, and explored "plagiarism as ars
+                poetica." The session blends Kenneth Goldsmith's uncreative
+                writing with AI's predictive logic, offering new tools for those
+                building art from language, repetition, and rupture.
+              </p>
+            </div>
+          </div>
+
+          <!-- Memory Poetics -->
+          <div class="workshop-entry">
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Memory Poetics</span>
+              <span class="workshop-meta-date">Sep '25</span>
+              <span class="workshop-meta-venue"
+                >UC Berkeley, Berkeley, CA, USA</span
+              >
+            </div>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                At the edge of philosophy and code, this session wove together
+                Bernard Stiegler, machine learning, and poetic interface design.
+                We examined how memory gets encoded in tools, and how artists
+                might resist, or reconfigure, that encoding. Hosted as a guest
+                lecture within Berkeley's digital narrative class.
+              </p>
+            </div>
+          </div>
+
+          <!-- Time Capsule in 3 Acts -->
+          <div class="workshop-entry">
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Time Capsule</span>
+              <span class="workshop-meta-date">May '26</span>
+              <span class="workshop-meta-venue">Stanford D School</span>
+            </div>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                This workshop-performance unfolded in three movements: voice,
+                practice, and service. Participants responded to poetic prompts
+                drawn from Artaud, Warhol, and Rimbaud, then uploaded fragments
+                into a digital "time capsule." Asked: "what does your attention
+                remember?"
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- ─── CORPORATIONS ─── -->
         <div class="workshop-category">
           <h2>Corporations</h2>
-          <span class="category-label">Teams</span>
 
-          <div class="workshop-entry">
-            <h3>Predictive Bodies</h3>
-            <div class="workshop-meta">
-              May '25 &mdash; Meta, Seattle, Menlo Park
-            </div>
+          <div class="category-bordered-intro">
             <p>
-              Invited artist talk exploring how poetic training data shifts tone
-              and model fine-tuning for strangeness. Included live
-              demonstrations of model behavior and "language as choreography."
+              These sessions help teams rethink how they speak to machines, and
+              how machines speak back. From prototyping AI agents to fine-tuning
+              model tone, we explore new ways of working with language.
+              <a href="#">Each workshop is a system intervention</a>: practical,
+              strange, and tuned to your workflow.
             </p>
           </div>
 
+          <!-- Section photo -->
+          <div
+            class="placeholder-image category-image"
+            data-placeholder="true"
+            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
+          ></div>
+
+          <!-- Predictive Bodies -->
           <div class="workshop-entry">
-            <h3>Weirding AI</h3>
-            <div class="workshop-meta">
-              Sep '25 &mdash; Google, Mountain View
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Predictive Bodies</span>
+              <span class="workshop-meta-date">May '25</span>
+              <span class="workshop-meta-venue">Meta, Seattle, Menlo Park</span>
             </div>
-            <p>
-              Hands-on workshop building poetic interaction design, creating
-              small systems blurring prompt-and-prayer boundaries using
-              browser-based embeddings while discussing ritual, randomness, and
-              relevance in AI.
-            </p>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                Invited artist talk and workshop on AI and literature. We
+                explored how poetic training data shifts tone, how to fine-tune
+                models for strangeness, and what it means to write with a ghost.
+                The session included live demos of model behavior and language
+                as choreography.
+              </p>
+            </div>
           </div>
 
+          <!-- Weirding AI -->
           <div class="workshop-entry">
-            <h3>Plagiarism Poetica</h3>
-            <div class="workshop-meta">
-              Sep '24 &mdash; Prophet, San Francisco
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Weirding AI</span>
+              <span class="workshop-meta-date">Sep '25</span>
+              <span class="workshop-meta-venue">Google, Mountain View</span>
             </div>
-            <p>
-              Systems workshop for creative technologists exploring generative
-              recombination and remix as revelation, drawing from Kenneth
-              Goldsmith and language models, questioning whether "plagiarism is
-              the point."
-            </p>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                Hands-on workshop looking at poetic interaction design, building
+                small systems that blur the line between prompt and prayer.
+                Participants built interactive poems using browser-based
+                embeddings and discussed the tension between ritual, randomness,
+                and relevance in AI.
+              </p>
+            </div>
+          </div>
+
+          <!-- Plagiarism Poetica -->
+          <div class="workshop-entry">
+            <div class="workshop-meta-row">
+              <span class="workshop-meta-title">Plagiarism Poetica</span>
+              <span class="workshop-meta-date">Sep '24</span>
+              <span class="workshop-meta-venue">Prophet, San Francisco</span>
+            </div>
+            <div class="workshop-body">
+              <div
+                class="placeholder-logo"
+                data-placeholder="true"
+                style="
+                  background: rgba(0, 0, 0, 0.08);
+                  width: 80px;
+                  height: 80px;
+                "
+              ></div>
+              <p>
+                A poetic systems workshop for creative technologists and
+                strategists. We explored generative recombination, remix as
+                revelation, and the aesthetics of stolen language. Drawing from
+                Kenneth Goldsmith and large language models, we asked: what if
+                plagiarism is the point?
+              </p>
+            </div>
           </div>
         </div>
       </div>

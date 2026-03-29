@@ -33,20 +33,12 @@
         border-bottom: none;
       }
 
-      .book-entry-header {
+      /* Metadata row: title, date, location spread on one line */
+      .book-entry-meta-row {
         display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        align-items: baseline;
+        gap: 2rem;
         margin-bottom: 1rem;
-      }
-
-      .book-entry-header h2 {
-        font-size: 1.3rem;
-        text-decoration: underline;
-        margin-bottom: 0;
-      }
-
-      .book-meta {
         font-family: "Diatype Mono Variable", monospace;
         font-variation-settings:
           "slnt" 0,
@@ -54,6 +46,26 @@
         font-size: var(--type-size-caption);
         color: #000000;
         line-height: 1.14;
+      }
+
+      .book-entry-meta-row .book-title {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-caption);
+        color: #000000;
+        text-decoration: underline;
+        white-space: nowrap;
+      }
+
+      .book-entry-meta-row .book-date {
+        white-space: nowrap;
+      }
+
+      .book-entry-meta-row .book-location {
+        margin-left: auto;
+        text-align: right;
       }
 
       .book-entry-body {
@@ -95,6 +107,16 @@
         .book-entry-body {
           grid-template-columns: 1fr;
         }
+
+        .book-entry-meta-row {
+          flex-wrap: wrap;
+          gap: 0.5rem 2rem;
+        }
+
+        .book-entry-meta-row .book-location {
+          margin-left: 0;
+          text-align: left;
+        }
       }
     </style>
   </head>
@@ -129,7 +151,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/now/">Now</a>
+        <a href="/connect/">Connect</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -154,20 +176,19 @@
           <p>
             I write books the way some people keep journals, or cast spells.
             Each one begins with a question: What's worth answering, what
-            haunts, what refuses to be googled.
+            haunts, what refuses to be googled. These books live between the
+            inbox and the search bar, between the bruises of migration and the
+            blush of desire. They're field guides and love letters, gospel and
+            glitch. Read them like instructions, or misread them entirely.
           </p>
         </div>
 
         <!-- Invasions -->
         <div class="book-entry">
-          <div class="book-entry-header">
-            <a href="/books/invasions/" style="color: inherit"
-              ><h2>Invasions</h2></a
-            >
-            <div class="book-meta">
-              Jun '22 &ndash; Apr '24 &mdash; San Francisco, Los Angeles, CDMX,
-              Santa Barbara, Ojai
-            </div>
+          <div class="book-entry-meta-row">
+            <a href="/books/invasions/" class="book-title">Invasions (Book)</a>
+            <span class="book-date">Jun '22</span>
+            <span class="book-location">San Francisco</span>
           </div>
           <div class="book-entry-body">
             <div class="book-images">
@@ -175,38 +196,27 @@
                 src="../Assets/images/books/invasions-cover.jpg"
                 alt="Invasions — cover"
               />
-              <img
-                src="../Assets/images/books/invasions-1.jpg"
-                alt="Invasions — inside"
-              />
-              <img
-                src="../Assets/images/books/invasions-2.jpg"
-                alt="Invasions — kickstarter"
-              />
-              <img
-                src="../Assets/images/books/invasions-3.jpg"
-                alt="Invasions — outside"
-              />
             </div>
             <div>
               <p>
-                "Invasions: The Book" emerged as poetry responses to scam texts,
-                evolving into meditation on identity and poetic resistance.
-                Written during pandemic anxieties, these verses reclaim
-                manipulative language as lyric, transforming intrusion into
-                ritual. The collection treats spam as spell, exploring what
-                occurs when language aims to extract rather than connect.
+                Invasions: The Book is a poetry collection born from replying to
+                spam texts. Each poem is an act of infiltration - cutting
+                through the language of scams, power, and performance with
+                humor, intimacy, and resistance. Written during the pandemic,
+                the book explores identity, digital erosion, and poetic
+                survival. These aren't just poems. They're artifacts of a world
+                trying to make itself heard.
               </p>
               <div class="book-links">
                 <a
                   href="https://www.kickstarter.com/projects/theheeledpoet/invasions-poetry-to-strike-back-at-robotexts"
                   target="_blank"
-                  >Kickstarter &#8599;</a
+                  >Kickstarter <span class="external-arrow">&#x2197;</span></a
                 >
                 <a
                   href="https://www.amazon.com/Invasions-Poetry-Strike-Robotexts-Halims/dp/B0C644BZRZ"
                   target="_blank"
-                  >Amazon &#8599;</a
+                  >Amazon <span class="external-arrow">&#x2197;</span></a
                 >
               </div>
             </div>
@@ -215,25 +225,18 @@
 
         <!-- Flight of the Jaguar -->
         <div class="book-entry">
-          <div class="book-entry-header">
-            <a href="/books/flight-of-the-jaguar/" style="color: inherit"
-              ><h2>Flight of the Jaguar</h2></a
+          <div class="book-entry-meta-row">
+            <a href="/books/flight-of-the-jaguar/" class="book-title"
+              >Flight of the Jaguar</a
             >
-            <div class="book-meta">Apr '18 &mdash; San Francisco</div>
+            <span class="book-date">Apr '18</span>
+            <span class="book-location">San Francisco</span>
           </div>
           <div class="book-entry-body">
             <div class="book-images">
               <img
                 src="../Assets/images/books/flight-cover.jpg"
                 alt="Flight of the Jaguar — cover"
-              />
-              <img
-                src="../Assets/images/books/flight-1.jpg"
-                alt="Flight of the Jaguar — pages"
-              />
-              <img
-                src="../Assets/images/books/flight-2.jpg"
-                alt="Flight of the Jaguar — detail"
               />
             </div>
             <div>
@@ -251,12 +254,12 @@
                 <a
                   href="https://www.kickstarter.com/projects/theheeledpoet/flight-of-the-jaguar/description"
                   target="_blank"
-                  >Kickstarter &#8599;</a
+                  >Kickstarter <span class="external-arrow">&#x2197;</span></a
                 >
                 <a
                   href="https://www.amazon.com/Flight-jaguar-Halim-Madi/dp/B086B2DFQ6"
                   target="_blank"
-                  >Amazon &#8599;</a
+                  >Amazon <span class="external-arrow">&#x2197;</span></a
                 >
               </div>
             </div>
@@ -265,29 +268,17 @@
 
         <!-- In the Name of Scandal -->
         <div class="book-entry">
-          <div class="book-entry-header">
-            <a href="/books/in-the-name-of-scandal/" style="color: inherit"
-              ><h2>In the Name of Scandal</h2></a
+          <div class="book-entry-meta-row">
+            <a href="/books/in-the-name-of-scandal/" class="book-title"
+              >In the Name of Scandal</a
             >
-            <div class="book-meta">Apr '20</div>
+            <span class="book-date">Apr '20</span>
           </div>
           <div class="book-entry-body">
             <div class="book-images">
               <img
                 src="../Assets/images/books/scandal-cover.jpg"
                 alt="In the Name of Scandal — cover"
-              />
-              <img
-                src="../Assets/images/books/scandal-1.jpg"
-                alt="In the Name of Scandal — page 1"
-              />
-              <img
-                src="../Assets/images/books/scandal-2.jpg"
-                alt="In the Name of Scandal — page 2"
-              />
-              <img
-                src="../Assets/images/books/scandal-3.jpg"
-                alt="In the Name of Scandal — page 3"
               />
             </div>
             <div>
@@ -305,12 +296,12 @@
                 <a
                   href="https://www.kickstarter.com/projects/theheeledpoet/in-the-name-of-scandal"
                   target="_blank"
-                  >Kickstarter &#8599;</a
+                  >Kickstarter <span class="external-arrow">&#x2197;</span></a
                 >
                 <a
                   href="https://www.amazon.com/Name-Scandal-collection-immigrant-queerness/dp/B087L4R3T1"
                   target="_blank"
-                  >Amazon &#8599;</a
+                  >Amazon <span class="external-arrow">&#x2197;</span></a
                 >
               </div>
             </div>
@@ -319,33 +310,15 @@
 
         <!-- Deep & Fast -->
         <div class="book-entry">
-          <div class="book-entry-header">
-            <a href="/books/deep-fast/" style="color: inherit"
-              ><h2>Deep &amp; Fast</h2></a
-            >
-            <div class="book-meta">Jul '21</div>
+          <div class="book-entry-meta-row">
+            <a href="/books/deep-fast/" class="book-title">Deep &amp; Fast</a>
+            <span class="book-date">Jul '21</span>
           </div>
           <div class="book-entry-body">
             <div class="book-images">
               <img
                 src="../Assets/images/books/deep-fast-cover.jpg"
                 alt="Deep &amp; Fast — cover"
-              />
-              <img
-                src="../Assets/images/books/deep-fast-1.jpg"
-                alt="Deep &amp; Fast — page 1"
-              />
-              <img
-                src="../Assets/images/books/deep-fast-2.jpg"
-                alt="Deep &amp; Fast — page 2"
-              />
-              <img
-                src="../Assets/images/books/deep-fast-3.jpg"
-                alt="Deep &amp; Fast — page 3"
-              />
-              <img
-                src="../Assets/images/books/deep-fast-4.jpg"
-                alt="Deep &amp; Fast — page 4"
               />
             </div>
             <div>
@@ -363,12 +336,12 @@
                 <a
                   href="https://www.kickstarter.com/projects/theheeledpoet/deep-and-fast"
                   target="_blank"
-                  >Kickstarter &#8599;</a
+                  >Kickstarter <span class="external-arrow">&#x2197;</span></a
                 >
                 <a
                   href="https://www.amazon.com/Deep-Fast-remember-testament-connection-ebook/dp/B09955BL7L/"
                   target="_blank"
-                  >Amazon &#8599;</a
+                  >Amazon <span class="external-arrow">&#x2197;</span></a
                 >
               </div>
             </div>

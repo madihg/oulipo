@@ -33,20 +33,12 @@
         border-bottom: none;
       }
 
-      .work-entry-header {
+      /* Metadata row: title, date, venue spread on one line */
+      .work-entry-meta-row {
         display: flex;
-        flex-direction: column;
-        gap: 0.25rem;
+        align-items: baseline;
+        gap: 2rem;
         margin-bottom: 1rem;
-      }
-
-      .work-entry-header h2 {
-        font-size: 1.3rem;
-        text-decoration: underline;
-        margin-bottom: 0;
-      }
-
-      .work-entry-meta {
         font-family: "Diatype Mono Variable", monospace;
         font-variation-settings:
           "slnt" 0,
@@ -54,6 +46,26 @@
         font-size: var(--type-size-caption);
         color: #000000;
         line-height: 1.14;
+      }
+
+      .work-entry-meta-row .work-title {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-caption);
+        color: #000000;
+        text-decoration: underline;
+        white-space: nowrap;
+      }
+
+      .work-entry-meta-row .work-date {
+        white-space: nowrap;
+      }
+
+      .work-entry-meta-row .work-venue {
+        margin-left: auto;
+        text-align: right;
       }
 
       .work-entry-body {
@@ -96,6 +108,11 @@
         grid-template-columns: 1fr;
       }
 
+      /* Text-only entries (no images) use full width */
+      .work-entry-body.text-only {
+        grid-template-columns: 1fr;
+      }
+
       @media (max-width: 900px) {
         .work-entry-body {
           grid-template-columns: 1fr;
@@ -103,6 +120,16 @@
 
         .work-entry-images {
           order: 0;
+        }
+
+        .work-entry-meta-row {
+          flex-wrap: wrap;
+          gap: 0.5rem 2rem;
+        }
+
+        .work-entry-meta-row .work-venue {
+          margin-left: 0;
+          text-align: left;
         }
       }
     </style>
@@ -138,7 +165,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/now/">Now</a>
+        <a href="/connect/">Connect</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -161,23 +188,24 @@
         <h1 style="font-size: 4rem; margin-bottom: 1.5rem">Works</h1>
         <div class="works-intro">
           <p>
-            I explore what language remembers. I build poems, performances, and
-            systems that rewire our ways of relating - to machines, to each
-            other, to the past. The work lives between code and care, protocol
-            and prayer. It listens. It glitches. Sometimes, it grows teeth!
+            I'm an artist and researcher exploring what language remembers. I
+            build poems, performances, and systems that rewire our ways of
+            relating, to machines, to each other, to the past. The work lives
+            between code and care. It glitches. Sometimes, it shows its teeth.
           </p>
         </div>
 
         <!-- We Called Us Poetry -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/we-called-us/" style="color: inherit"
-              ><h2>We Called Us Poetry</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/we-called-us/" class="work-title"
+              >We Called Us Poetry</a
             >
-            <div class="work-entry-meta">
-              Jun '25 &mdash; ELO Conference, Toronto / UC Berkeley / University
-              of Bergen / TIAT, SF
-            </div>
+            <span class="work-date">Jun '25</span>
+            <span class="work-venue"
+              >ELO Conference, Toronto / UC Berkeley / University of Bergen /
+              TIAT, SF</span
+            >
           </div>
           <div class="work-entry-body">
             <div>
@@ -195,7 +223,7 @@
                 class="work-link"
                 href="https://elo-2025.vercel.app"
                 target="_blank"
-                >Live site &#8599;</a
+                >Live site <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images single">
@@ -209,13 +237,12 @@
 
         <!-- Carnation.exe -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/carnation-exe/" style="color: inherit"
-              ><h2>Carnation.exe</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/carnation-exe/" class="work-title">Carnation.exe</a>
+            <span class="work-date">May '25</span>
+            <span class="work-venue"
+              >European Artist Program, Paris, Barcelona</span
             >
-            <div class="work-entry-meta">
-              May '25 &mdash; European Artist Program, Paris, Barcelona
-            </div>
           </div>
           <div class="work-entry-body">
             <div>
@@ -232,7 +259,7 @@
                 class="work-link"
                 href="https://carnation-eng.vercel.app/"
                 target="_blank"
-                >Live site &#8599;</a
+                >Live site <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images">
@@ -258,13 +285,10 @@
 
         <!-- Borderline -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/borderline/" style="color: inherit"
-              ><h2>Borderline</h2></a
-            >
-            <div class="work-entry-meta">
-              Dec '24 &ndash; Jan '25 &mdash; CounterPulse, San Francisco
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/borderline/" class="work-title">Borderline</a>
+            <span class="work-date">Dec '24 - Jan '25</span>
+            <span class="work-venue">CounterPulse, San Francisco</span>
           </div>
           <div class="work-entry-body">
             <div>
@@ -282,7 +306,7 @@
                 class="work-link"
                 href="https://borderline-swart.vercel.app/"
                 target="_blank"
-                >Live site &#8599;</a
+                >Live site <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images">
@@ -300,13 +324,10 @@
 
         <!-- I Live Here -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/i-live-here/" style="color: inherit"
-              ><h2>I Live Here</h2></a
-            >
-            <div class="work-entry-meta">
-              Apr '25 &mdash; CounterPulse AIR, San Francisco
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/i-live-here/" class="work-title">I Live Here</a>
+            <span class="work-date">Apr '25</span>
+            <span class="work-venue">CounterPulse AIR, San Francisco</span>
           </div>
           <div class="work-entry-body">
             <div>
@@ -324,7 +345,7 @@
                 class="work-link"
                 href="https://i-live-here.vercel.app/"
                 target="_blank"
-                >Live site &#8599;</a
+                >Live site <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images single">
@@ -338,16 +359,14 @@
 
         <!-- Feed It -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/feed-it/" style="color: inherit"
-              ><h2>Feed It</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/feed-it/" class="work-title">Feed It</a>
+            <span class="work-date">May '25</span>
+            <span class="work-venue"
+              >APE (Artist x Producer x Engineer), Seoul, South Korea</span
             >
-            <div class="work-entry-meta">
-              May '25 &mdash; APE (Artist x Producer x Engineer), Seoul, South
-              Korea
-            </div>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Six artists surrender flesh, sounds, and thoughts to train a
@@ -364,16 +383,14 @@
 
         <!-- Weirder Webs -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/weirder-webs/" style="color: inherit"
-              ><h2>Weirder Webs</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/weirder-webs/" class="work-title">Weirder Webs</a>
+            <span class="work-date">Nov '24 - Jan '25</span>
+            <span class="work-venue"
+              >San Francisco, Barcelona, Paris, London</span
             >
-            <div class="work-entry-meta">
-              Nov '24 &ndash; Jan '25 &mdash; San Francisco, Barcelona, Paris,
-              London
-            </div>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 A traveling ritual inviting participants to reclaim digital
@@ -390,15 +407,12 @@
 
         <!-- Deserve It -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/deserve-it/" style="color: inherit"
-              ><h2>Deserve It</h2></a
-            >
-            <div class="work-entry-meta">
-              Dec '23 &ndash; Nov '24 &mdash; Gray Area AIR, San Francisco
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/deserve-it/" class="work-title">Deserve It</a>
+            <span class="work-date">Dec '23 - Nov '24</span>
+            <span class="work-venue">Gray Area AIR, San Francisco</span>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Deserve It is an immersive performance where viewers confront a
@@ -413,7 +427,7 @@
                 class="work-link"
                 href="https://deserve.vercel.app/"
                 target="_blank"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -421,13 +435,14 @@
 
         <!-- Borderline.exe -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/borderline-exe/" style="color: inherit"
-              ><h2>Borderline.exe</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/borderline-exe/" class="work-title"
+              >Borderline.exe</a
             >
-            <div class="work-entry-meta">
-              Dec '24 &mdash; Robert Coover Award for Electronic Literature
-            </div>
+            <span class="work-date">Dec '24</span>
+            <span class="work-venue"
+              >Robert Coover Award for Electronic Literature</span
+            >
           </div>
           <div class="work-entry-body">
             <div>
@@ -443,7 +458,7 @@
                 class="work-link"
                 href="https://www.oulipo.xyz/borderline-deny.html"
                 target="_blank"
-                >Live site &#8599;</a
+                >Live site <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images single">
@@ -457,11 +472,9 @@
 
         <!-- Oulipo.xyz -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="https://oulipo.xyz" style="color: inherit"
-              ><h2>Oulipo.xyz</h2></a
-            >
-            <div class="work-entry-meta">Evergreen</div>
+          <div class="work-entry-meta-row">
+            <a href="https://oulipo.xyz" class="work-title">Oulipo.xyz</a>
+            <span class="work-date">Evergreen</span>
           </div>
           <div class="work-entry-body">
             <div>
@@ -470,7 +483,8 @@
                 and experimental language interfaces.
               </p>
               <a class="work-link" href="https://oulipo.xyz" target="_blank"
-                >Visit oulipo.xyz &#8599;</a
+                >Visit oulipo.xyz
+                <span class="external-arrow">&#x2197;</span></a
               >
             </div>
             <div class="work-entry-images">
@@ -496,13 +510,10 @@
 
         <!-- Versus.exe -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/versus-exe/" style="color: inherit"
-              ><h2>Versus.exe</h2></a
-            >
-            <div class="work-entry-meta">
-              Nov '25 &mdash; Mozilla AI Residency, San Francisco
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/versus-exe/" class="work-title">Versus.exe</a>
+            <span class="work-date">Nov '25</span>
+            <span class="work-venue">Mozilla AI Residency, San Francisco</span>
           </div>
           <div class="work-entry-body">
             <div>
@@ -534,13 +545,14 @@
 
         <!-- Reinforcement.exe -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/reinforcement-exe/" style="color: inherit"
-              ><h2>Reinforcement.exe</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/reinforcement-exe/" class="work-title"
+              >Reinforcement.exe</a
             >
-            <div class="work-entry-meta">
-              Nov '25 &mdash; Ethereum Scholar Program, DevConnect Buenos Aires
-            </div>
+            <span class="work-date">Nov '25</span>
+            <span class="work-venue"
+              >Ethereum Scholar Program, DevConnect Buenos Aires</span
+            >
           </div>
           <div class="work-entry-body">
             <div>
@@ -561,15 +573,12 @@
 
         <!-- def(hug) -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/def-hug/" style="color: inherit"
-              ><h2>def(hug)</h2></a
-            >
-            <div class="work-entry-meta">
-              Jun '24 &mdash; Gray Area AIR, San Francisco
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/def-hug/" class="work-title">def(hug)</a>
+            <span class="work-date">Jun '24</span>
+            <span class="work-venue">Gray Area AIR, San Francisco</span>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 def(hug): Algorithm's Embrace is a poetic lecture-performance
@@ -581,7 +590,7 @@
                 diasporically, by a machine that reflects and reconfigures us?
               </p>
               <a class="work-link" href="/works/def-hug/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -589,16 +598,16 @@
 
         <!-- Invasions (Performance) -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/invasions-performance/" style="color: inherit"
-              ><h2>Invasions (Performance)</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/invasions-performance/" class="work-title"
+              >Invasions (Performance)</a
             >
-            <div class="work-entry-meta">
-              Jun '22 &ndash; Apr '24 &mdash; San Francisco, Los Angeles, CDMX,
-              Santa Barbara, Ojai
-            </div>
+            <span class="work-date">Jun '22 - Apr '24</span>
+            <span class="work-venue"
+              >San Francisco, Los Angeles, CDMX, Santa Barbara, Ojai</span
+            >
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Invasions is a poetry performance built from scam texts,
@@ -610,7 +619,7 @@
                 our ghosts?
               </p>
               <a class="work-link" href="/works/invasions-performance/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -618,11 +627,12 @@
 
         <!-- Whomp -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/whomp/" style="color: inherit"><h2>Whomp</h2></a>
-            <div class="work-entry-meta">Jun '22 &mdash; Online</div>
+          <div class="work-entry-meta-row">
+            <a href="/works/whomp/" class="work-title">Whomp</a>
+            <span class="work-date">Jun '22</span>
+            <span class="work-venue">Online</span>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Whomp is a poetic AI simulacrum fine-tuned on Halim Madi's voice
@@ -632,23 +642,25 @@
                 outlasts the body. It's poetry as virus, poet as occupier, an
                 eternal alter ego speaking to audiences not yet born.
               </p>
-              <a class="work-link" href="/works/whomp/">View details &#8599;</a>
+              <a class="work-link" href="/works/whomp/"
+                >View details <span class="external-arrow">&#x2197;</span></a
+              >
             </div>
           </div>
         </div>
 
         <!-- Borrow & Never Give Back -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/borrow-never-give-back/" style="color: inherit"
-              ><h2>Borrow &amp; Never Give Back</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/borrow-never-give-back/" class="work-title"
+              >Borrow &amp; Never Give Back</a
             >
-            <div class="work-entry-meta">
-              Jun '22 &ndash; Sep '23 &mdash; San Francisco, Silo Gallery, Santa
-              Barbara
-            </div>
+            <span class="work-date">Jun '22 - Sep '23</span>
+            <span class="work-venue"
+              >San Francisco, Silo Gallery, Santa Barbara</span
+            >
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Borrow &amp; Never Give Back is a cut/paste poetics project
@@ -661,7 +673,7 @@
                 empire's debris.
               </p>
               <a class="work-link" href="/works/borrow-never-give-back/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -669,16 +681,16 @@
 
         <!-- Re/declarations -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/re-declarations/" style="color: inherit"
-              ><h2>Re/declarations</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/re-declarations/" class="work-title"
+              >Re/declarations</a
             >
-            <div class="work-entry-meta">
-              Jun '21 &ndash; Dec '21 &mdash; San Francisco, Silo Gallery, Santa
-              Barbara
-            </div>
+            <span class="work-date">Jun '21 - Dec '21</span>
+            <span class="work-venue"
+              >San Francisco, Silo Gallery, Santa Barbara</span
+            >
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Re/declarations is a poetic remix of the U.S. Declaration of
@@ -691,7 +703,7 @@
                 website, and a physical installation.
               </p>
               <a class="work-link" href="/works/re-declarations/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -699,16 +711,16 @@
 
         <!-- American Metabolisis -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/american-metabolisis/" style="color: inherit"
-              ><h2>American Metabolisis</h2></a
+          <div class="work-entry-meta-row">
+            <a href="/works/american-metabolisis/" class="work-title"
+              >American Metabolisis</a
             >
-            <div class="work-entry-meta">
-              Jun '21 &ndash; Dec '21 &mdash; San Francisco, Silo Gallery, Santa
-              Barbara
-            </div>
+            <span class="work-date">Jun '21 - Dec '21</span>
+            <span class="work-venue"
+              >San Francisco, Silo Gallery, Santa Barbara</span
+            >
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 American Metabolisis explores assimilation as digestion, how
@@ -720,7 +732,7 @@
                 how identity dissolves and reforms inside another body.
               </p>
               <a class="work-link" href="/works/american-metabolisis/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>
@@ -728,13 +740,12 @@
 
         <!-- Avenir -->
         <div class="work-entry">
-          <div class="work-entry-header">
-            <a href="/works/avenir/" style="color: inherit"><h2>Avenir</h2></a>
-            <div class="work-entry-meta">
-              Mar '15 &ndash; Sep '17 &mdash; Paris, Sao Paulo
-            </div>
+          <div class="work-entry-meta-row">
+            <a href="/works/avenir/" class="work-title">Avenir</a>
+            <span class="work-date">Mar '15 - Sep '17</span>
+            <span class="work-venue">Paris, Sao Paulo</span>
           </div>
-          <div class="work-entry-body">
+          <div class="work-entry-body text-only">
             <div>
               <p>
                 Avenir was an ephemeral art and political theory project that
@@ -747,7 +758,7 @@
                 momentarily untitle the world.
               </p>
               <a class="work-link" href="/works/avenir/"
-                >View details &#8599;</a
+                >View details <span class="external-arrow">&#x2197;</span></a
               >
             </div>
           </div>

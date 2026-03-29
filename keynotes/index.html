@@ -14,96 +14,160 @@
     />
     <link rel="stylesheet" href="../Assets/css/shared.css" />
     <style>
-      .keynotes-intro {
+      /* Hero */
+      .keynotes-hero {
+        position: relative;
+        width: 100vw;
+        margin-left: calc(-4rem);
+        margin-top: calc(-4rem);
         margin-bottom: 3rem;
+        overflow: hidden;
+      }
+
+      .keynotes-hero-img {
+        width: 100%;
+        height: auto;
+        display: block;
+        min-height: 400px;
+        object-fit: cover;
+      }
+
+      .keynotes-hero-placeholder {
+        width: 100%;
+        min-height: 480px;
+        background: #2a2a2a;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .keynotes-hero-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #ffffff;
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 400;
+        line-height: 1.1;
+        text-align: center;
+        white-space: nowrap;
+      }
+
+      /* Intro */
+      .keynotes-intro {
+        margin-bottom: 2rem;
       }
 
       .keynotes-intro p {
         line-height: 1.5;
-        margin-bottom: 1.5rem;
+        max-width: 100%;
       }
 
-      .keynote-section {
-        margin-bottom: 3rem;
-        padding-bottom: 3rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+      /* Theme sections */
+      .theme-section {
+        padding: 2.5rem 0;
       }
 
-      .keynote-section:last-child {
-        border-bottom: none;
+      .theme-section h2 {
+        margin-bottom: 1rem;
       }
 
-      .keynote-section h2 {
-        margin-bottom: 0.75rem;
+      .theme-layout {
+        display: grid;
+        grid-template-columns: 1fr 40%;
+        gap: 2.5rem;
+        align-items: start;
       }
 
-      .keynote-section p {
+      .theme-text p {
         line-height: 1.5;
         margin-bottom: 1rem;
-        max-width: 800px;
       }
 
-      .talk-list {
-        list-style: none;
-        padding: 0;
-        margin: 2rem 0 0;
+      .theme-image {
+        width: 100%;
       }
 
-      .talk-list li {
-        padding: 0.5rem 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      .theme-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      .theme-image-placeholder {
+        width: 100%;
+        min-height: 280px;
+        background: #e0e0e0;
+      }
+
+      /* Rewiring the System */
+      .rewiring-intro {
+        line-height: 1.5;
+        margin-bottom: 1rem;
+      }
+
+      .selected-talks-label {
+        margin-bottom: 2rem;
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      /* Talk entries */
+      .talk-entry {
+        margin-bottom: 3rem;
+      }
+
+      .talk-meta-row {
         display: flex;
-        gap: 1rem;
+        gap: 2rem;
         align-items: baseline;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
       }
 
-      .talk-list li:last-child {
-        border-bottom: none;
+      .talk-title {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-weight: 700;
+        font-size: 0.95rem;
       }
 
       .talk-year {
         font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
-        color: rgba(0, 0, 0, 0.5);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        min-width: 4rem;
-      }
-
-      .talk-title {
-        font-weight: bold;
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.5);
       }
 
       .talk-venue {
         font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.95rem;
-        color: rgba(0, 0, 0, 0.5);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin-left: auto;
       }
 
-      .keynote-image {
-        margin: 1.5rem 0;
+      .talk-content {
+        display: grid;
+        grid-template-columns: 45% 1fr;
+        gap: 2rem;
+        align-items: start;
       }
-      .keynote-image img {
-        width: 100%;
-        max-width: 600px;
-        height: auto;
-        display: block;
-      }
-      .talk-entry {
-        margin-bottom: 3rem;
-      }
+
       .talk-video {
         position: relative;
         padding-bottom: 56.25%;
         height: 0;
         overflow: hidden;
-        margin: 1rem 0 1.5rem;
-        max-width: 700px;
       }
+
       .talk-video iframe {
         position: absolute;
         top: 0;
@@ -112,10 +176,57 @@
         height: 100%;
         border: 0;
       }
+
       .talk-description {
-        max-width: 700px;
         line-height: 1.5;
-        margin-bottom: 1rem;
+        font-size: var(--type-size-base);
+      }
+
+      /* Footer */
+      .keynotes-footer {
+        margin-top: 3rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .theme-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .theme-image {
+          order: -1;
+        }
+
+        .talk-content {
+          grid-template-columns: 1fr;
+        }
+
+        .talk-venue {
+          margin-left: 0;
+        }
+
+        .keynotes-hero-text {
+          font-size: 2.5rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .keynotes-hero {
+          margin-left: calc(-2rem);
+          margin-top: calc(-2rem);
+        }
+
+        .keynotes-hero-text {
+          font-size: 1.8rem;
+        }
+
+        .keynotes-hero-placeholder {
+          min-height: 300px;
+        }
+
+        .talk-meta-row {
+          gap: 1rem;
+        }
       }
     </style>
   </head>
@@ -150,7 +261,7 @@
       <hr class="menu-divider" />
       <div class="menu-section">
         <a href="/about/">About</a>
-        <a href="/now/">Now</a>
+        <a href="/connect/">Connect</a>
         <a
           href="https://halimmadi.substack.com/"
           target="_blank"
@@ -170,6 +281,15 @@
 
     <div class="page">
       <div class="page-content">
+        <!-- Hero -->
+        <div class="keynotes-hero">
+          <div class="keynotes-hero-placeholder" data-placeholder="true"></div>
+          <div class="keynotes-hero-text">
+            Creative thinking<br />for complex times
+          </div>
+        </div>
+
+        <!-- Intro -->
         <div class="keynotes-intro">
           <p>
             I work at the intersection of language, memory, and machine logic.
@@ -180,276 +300,356 @@
           </p>
         </div>
 
+        <hr />
+
         <!-- Keynotes that Make Room -->
-        <div class="keynote-section">
-          <h2>Keynotes that Make Room</h2>
-          <p>
-            I speak to rooms where creativity has gone quiet - not from lack of
-            talent, but from too much noise.
-          </p>
+        <div class="theme-section">
+          <div class="theme-layout">
+            <div class="theme-text">
+              <h2>Keynotes that Make Room</h2>
+              <p>
+                I speak to rooms where creativity has gone quiet - not from lack
+                of talent, but from too much noise. In my keynotes, I clear that
+                noise. To make space for remembering what creativity feels like
+                when it's alive, not optimized.
+              </p>
+              <p>
+                I talk about AI, but not the way the headlines do. I trace how
+                systems shape stories, how tools reflect our fears, and how
+                reclaiming technology is often a way of reclaiming the self.
+                These talks are invitations to slow down, to imagine otherwise,
+                to build in ways that feel more human.
+              </p>
+            </div>
+            <div class="theme-image">
+              <div
+                class="theme-image-placeholder"
+                data-placeholder="true"
+              ></div>
+            </div>
+          </div>
         </div>
+
+        <hr />
 
         <!-- Creativity as Infrastructure -->
-        <div class="keynote-section">
-          <h2>Creativity as Infrastructure</h2>
-          <p>
-            Patterns and rituals for creative practice rather than inspiration
-            alone. Making creative acts feel possible through systematic
-            approaches.
-          </p>
+        <div class="theme-section">
+          <div class="theme-layout">
+            <div class="theme-text">
+              <h2>Creativity as Infrastructure</h2>
+              <p>
+                We don't need more inspiration. We need architecture for
+                creativity. Patterns, rituals, and tools that make the act of
+                making feel possible again. My talks reframe creative practice
+                as a form of infrastructure: something you build, maintain, and
+                share - not something you wait for.
+              </p>
+            </div>
+            <div class="theme-image">
+              <div
+                class="theme-image-placeholder"
+                data-placeholder="true"
+              ></div>
+            </div>
+          </div>
         </div>
+
+        <hr />
 
         <!-- Artist as Hacker -->
-        <div class="keynote-section">
-          <h2>Artist as Hacker</h2>
-          <p>
-            A hacker breaks things. A poet rearranges the parts. Curiosity over
-            control, intuition over optimization in team environments.
-          </p>
+        <div class="theme-section">
+          <div class="theme-layout">
+            <div class="theme-text">
+              <h2>Artist as Hacker</h2>
+              <p>
+                A hacker breaks things. A poet rearranges the parts. Curiosity
+                over control, intuition over optimization in team environments.
+              </p>
+            </div>
+            <div class="theme-image">
+              <div
+                class="theme-image-placeholder"
+                data-placeholder="true"
+              ></div>
+            </div>
+          </div>
         </div>
 
+        <hr />
+
         <!-- Rewiring the System -->
-        <div class="keynote-section">
+        <div class="theme-section">
           <h2>Rewiring the System</h2>
-          <p>Selected talks:</p>
+          <p class="rewiring-intro">
+            Keynotes that shift not just mindsets, but methods. Each of these
+            talks marked a live moment of transformation where creativity, code,
+            and identity came into new alignment. From feedback loops to
+            collective action, from the logic of joy to the architecture of
+            trust, these stories help teams see systems differently, and build
+            more courageously within them.
+          </p>
+          <p class="selected-talks-label">Selected talks:</p>
 
           <!-- Weirding AI -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2024</span>
-                <span class="talk-title">Weirding AI</span>
-                <span class="talk-venue">Gray Area, San Francisco</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/RTmyFg4l5yc"
-                title="Weirding AI"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">Weirding AI</span>
+              <span class="talk-year">2024</span>
+              <span class="talk-venue">Gray Area, San Francisco</span>
             </div>
-            <p class="talk-description">
-              This performance-talk explores migration, memory, and machine
-              intelligence through interactive poetry. Halim invites audiences
-              to map displacement, deny border questions, and kneel before a
-              printer god. Blending HTML, myth, and bureaucracy, the piece
-              reimagines home as a drag performer: not a destination, but a
-              longing, a glitch, a ritual.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/RTmyFg4l5yc"
+                  title="Weirding AI"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                This performance-talk explores migration, memory, and machine
+                intelligence through interactive poetry. Halim invites audiences
+                to map displacement, deny border questions, and kneel before a
+                printer god. Blending HTML, myth, and bureaucracy, the piece
+                reimagines home as a drag performer: not a destination, but a
+                longing, a glitch, a ritual.
+              </p>
+            </div>
           </div>
 
           <!-- The Death of Stars -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2016</span>
-                <span class="talk-title">The Death of Stars</span>
-                <span class="talk-venue">TED, Amsterdam</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/NUH9c76gt68"
-                title="The Death of Stars"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">The Death of Stars</span>
+              <span class="talk-year">2016</span>
+              <span class="talk-venue">TED, Amsterdam, Netherlands</span>
             </div>
-            <p class="talk-description">
-              What happens when feedback flattens? Comparing Amazon stars and
-              Facebook likes, Halim shows how binary signals silence dissent and
-              erode trust. As feedback becomes popularity theater, we lose
-              collective insight. This talk asks: what kind of digital democracy
-              are we building when silence, not criticism, becomes the dominant
-              voice?
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/NUH9c76gt68"
+                  title="The Death of Stars"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                What happens when feedback flattens? Comparing Amazon stars and
+                Facebook likes, Halim shows how binary signals silence dissent
+                and erode trust. As feedback becomes popularity theater, we lose
+                collective insight. This talk asks: what kind of digital
+                democracy are we building when silence, not criticism, becomes
+                the dominant voice?
+              </p>
+            </div>
           </div>
 
           <!-- Joy is a System -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2014</span>
-                <span class="talk-title">Joy is a System</span>
-                <span class="talk-venue">TEDx Hackney, London</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/hCwKWmRaBMA"
-                title="Joy is a System"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">Joy is a System</span>
+              <span class="talk-year">2014</span>
+              <span class="talk-venue">TEDx Hackney, London</span>
             </div>
-            <p class="talk-description">
-              Can peeing be a portal to joy? Halim hacks attention, hormones,
-              and habit formation to rewire happiness. From neuroscience to
-              stoicism to oxytocin rituals, he maps a practice of presence built
-              on awe, repetition, and ridiculousness. Happiness isn't the goal,
-              it's a side effect of marveling at your own mundane magic.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/hCwKWmRaBMA"
+                  title="Joy is a System"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                Can peeing be a portal to joy? Halim hacks attention, hormones,
+                and habit formation to rewire happiness. From neuroscience to
+                stoicism to oxytocin rituals, he maps a practice of presence
+                built on awe, repetition, and ridiculousness. Happiness isn't
+                the goal, it's a side effect of marveling at your own mundane
+                magic.
+              </p>
+            </div>
           </div>
 
           <!-- Inventing Viral Gods -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2013</span>
-                <span class="talk-title">Inventing Viral Gods</span>
-                <span class="talk-venue">TEDx Beirut, Lebanon</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/-6iQUtJRUh8"
-                title="Inventing Viral Gods"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">Inventing Viral Gods</span>
+              <span class="talk-year">2013</span>
+              <span class="talk-venue">TEDx Beirut, Lebanon</span>
             </div>
-            <p class="talk-description">
-              From joke to church: Halim traces how a doodle became a god. This
-              talk unpacks the anatomy of viral belief, arguing that leaderless
-              movements thrive on shared purpose, interaction, and principles.
-              Web 3.0 isn't about tech, it's about self-organizing systems
-              remaking reality, from pirate parties to couchsurfing gods of
-              noodles.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/-6iQUtJRUh8"
+                  title="Inventing Viral Gods"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                From joke to church: Halim traces how a doodle became a god.
+                This talk unpacks the anatomy of viral belief, arguing that
+                leaderless movements thrive on shared purpose, interaction, and
+                principles. Web 3.0 isn't about tech, it's about self-organizing
+                systems remaking reality, from pirate parties to couchsurfing
+                gods of noodles.
+              </p>
+            </div>
           </div>
 
           <!-- How to Hack a Body -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2013</span>
-                <span class="talk-title">How to Hack a Body</span>
-                <span class="talk-venue">TEDx Bordeaux, France</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/OPrnQqlND_o"
-                title="How to Hack a Body"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">How to Hack a Body</span>
+              <span class="talk-year">2013</span>
+              <span class="talk-venue">TEDx Bordeaux, France</span>
             </div>
-            <p class="talk-description">
-              Gutenberg hacked a wine press. You can hack your hormones. Halim
-              traces a life of radical experimentation, from Bulletproof coffee
-              to 5-day fasts, revealing how feedback, data, and embodied trials
-              can reprogram our systems. A manifesto for reclaiming evolution as
-              a personal project, this talk reimagines the body as both lab and
-              protest.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/OPrnQqlND_o"
+                  title="How to Hack a Body"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                Gutenberg hacked a wine press. You can hack your hormones. Halim
+                traces a life of radical experimentation, from Bulletproof
+                coffee to 5-day fasts, revealing how feedback, data, and
+                embodied trials can reprogram our systems. A manifesto for
+                reclaiming evolution as a personal project, this talk reimagines
+                the body as both lab and protest.
+              </p>
+            </div>
           </div>
 
           <!-- The Army with No Flag -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2011</span>
-                <span class="talk-title">The Army with No Flag</span>
-                <span class="talk-venue">TEDx Oujda, Morocco</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/4YOElE7zKTQ"
-                title="The Army with No Flag"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">The Army with No Flag</span>
+              <span class="talk-year">2011</span>
+              <span class="talk-venue">TEDx Oujda, Morocco</span>
             </div>
-            <p class="talk-description">
-              What if armies didn't need weapons, leaders, or even faces? In
-              this talk, Halim explores Anonymous, Tahrir Square,
-              self-organizing termites, and the future of collective action.
-              From web forums to biohackers, he charts how inspiration, not
-              hierarchy, builds the most powerful movements. The question isn't
-              how to lead. It's how to ignite.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/4YOElE7zKTQ"
+                  title="The Army with No Flag"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                What if armies didn't need weapons, leaders, or even faces? In
+                this talk, Halim explores Anonymous, Tahrir Square,
+                self-organizing termites, and the future of collective action.
+                From web forums to biohackers, he charts how inspiration, not
+                hierarchy, builds the most powerful movements. The question
+                isn't how to lead. It's how to ignite.
+              </p>
+            </div>
           </div>
 
           <!-- You Are the Black Box -->
           <div class="talk-entry">
-            <ul class="talk-list">
-              <li>
-                <span class="talk-year">2011</span>
-                <span class="talk-title">You Are the Black Box</span>
-                <span class="talk-venue">TEDxParis, France</span>
-              </li>
-            </ul>
-            <div class="talk-video">
-              <iframe
-                src="https://www.youtube.com/embed/ELehUZgGU0k"
-                title="You Are the Black Box"
-                allow="
-                  accelerometer;
-                  autoplay;
-                  clipboard-write;
-                  encrypted-media;
-                  gyroscope;
-                  picture-in-picture;
-                "
-                allowfullscreen
-              ></iframe>
+            <div class="talk-meta-row">
+              <span class="talk-title">You Are the Black Box</span>
+              <span class="talk-year">2011</span>
+              <span class="talk-venue">TEDxParis, France</span>
             </div>
-            <p class="talk-description">
-              Economists treat humans as black boxes. Halim opens that box,
-              revealing butterflies, Hitler cats, and mammoths - symbols of
-              emotional, networked individuals with outsized impact. He
-              introduces "nano-economics," a human-scale science powered by
-              public data and collective action, reclaiming the economy from
-              abstraction and returning it to its rightful scale: us.
-            </p>
+            <div class="talk-content">
+              <div class="talk-video">
+                <iframe
+                  src="https://www.youtube.com/embed/ELehUZgGU0k"
+                  title="You Are the Black Box"
+                  allow="
+                    accelerometer;
+                    autoplay;
+                    clipboard-write;
+                    encrypted-media;
+                    gyroscope;
+                    picture-in-picture;
+                  "
+                  allowfullscreen
+                ></iframe>
+              </div>
+              <p class="talk-description">
+                Economists treat humans as black boxes. Halim opens that box,
+                revealing butterflies, Hitler cats, and mammoths - symbols of
+                emotional, networked individuals with outsized impact. He
+                introduces "nano-economics," a human-scale science powered by
+                public data and collective action, reclaiming the economy from
+                abstraction and returning it to its rightful scale: us.
+              </p>
+            </div>
           </div>
         </div>
+
+        <!-- Footer -->
+        <footer class="site-footer-icons">
+          <a
+            href="https://www.instagram.com/yalla_halim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Instagram <span class="external-arrow">&#x2197;</span></a
+          >
+          <a
+            href="https://www.linkedin.com/in/madihalim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >LinkedIn <span class="external-arrow">&#x2197;</span></a
+          >
+          <a
+            href="https://www.youtube.com/@yalla_halim"
+            target="_blank"
+            rel="noopener noreferrer"
+            >YouTube <span class="external-arrow">&#x2197;</span></a
+          >
+        </footer>
       </div>
     </div>
 

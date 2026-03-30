@@ -1,0 +1,604 @@
+<!-- VARIATION: Minimal list view - Title, date, and type on each line with no visible images. Click/hover expands to show image and description. Ultra-clean. -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Works + Books - Variation 04: Minimal List</title>
+    <style>
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Terminal Grotesque";
+        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+          format("woff");
+      }
+      @font-face {
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2");
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Standard", sans-serif;
+        color: rgba(0, 0, 0, 0.85);
+        background: #fff;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+      }
+
+      .page-subtitle {
+        font-family: "Diatype Variable", sans-serif;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.85);
+      }
+
+      .filter-btn {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.8rem;
+        border: none;
+        background: transparent;
+        color: rgba(0, 0, 0, 0.4);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: lowercase;
+      }
+
+      .filter-btn:hover {
+        opacity: 0.7;
+      }
+
+      .filter-btn.active {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      /* List Items */
+      .work-list {
+        list-style: none;
+      }
+
+      .work-item {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        transition: opacity 0.3s ease;
+      }
+
+      .work-item.hidden {
+        display: none;
+      }
+
+      .work-item-header {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 1rem 0;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .work-item-header:hover {
+        opacity: 0.7;
+      }
+
+      .work-item-title {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 600;
+        flex: 1;
+      }
+
+      .work-item-date {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.5);
+        white-space: nowrap;
+      }
+
+      .work-item-type {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(0, 0, 0, 0.4);
+        min-width: 7rem;
+        text-align: right;
+      }
+
+      .work-item-featured {
+        width: 6px;
+        height: 6px;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 50%;
+        flex-shrink: 0;
+        align-self: center;
+      }
+
+      .work-item-expand {
+        max-height: 0;
+        overflow: hidden;
+        transition:
+          max-height 0.4s ease,
+          padding 0.3s ease;
+      }
+
+      .work-item.open .work-item-expand {
+        max-height: 400px;
+        padding-bottom: 1.5rem;
+      }
+
+      .expand-content {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 2rem;
+        padding-top: 0.5rem;
+      }
+
+      .expand-content img {
+        width: 100%;
+        aspect-ratio: 4/3;
+        object-fit: cover;
+      }
+
+      .expand-text {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+
+      .expand-location {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .expand-desc {
+        font-size: 0.95rem;
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.6;
+      }
+
+      .expand-tags {
+        display: flex;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+
+      .expand-tag {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.6rem;
+        color: rgba(0, 0, 0, 0.4);
+        text-transform: lowercase;
+      }
+
+      .expand-tag::after {
+        content: " /";
+        color: rgba(0, 0, 0, 0.2);
+      }
+
+      .expand-tag:last-child::after {
+        content: "";
+      }
+
+      @media (max-width: 600px) {
+        h1 {
+          font-size: 1.8rem;
+        }
+        .work-item-header {
+          flex-wrap: wrap;
+          gap: 0.25rem;
+        }
+        .work-item-type {
+          min-width: auto;
+          text-align: left;
+        }
+        .expand-content {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Works + Books</h1>
+    <p class="page-subtitle">
+      Performance, installation, books, and digital works - 2019 to present
+    </p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">all</button>
+      <button class="filter-btn" data-filter="performance">performance</button>
+      <button class="filter-btn" data-filter="book">book</button>
+      <button class="filter-btn" data-filter="installation">
+        installation
+      </button>
+      <button class="filter-btn" data-filter="digital">digital</button>
+      <button class="filter-btn" data-filter="ai">ai</button>
+      <button class="filter-btn" data-filter="poetry">poetry</button>
+      <button class="filter-btn" data-filter="queer">queer</button>
+      <button class="filter-btn" data-filter="migration">migration</button>
+      <button class="filter-btn" data-filter="singulars">singulars</button>
+    </div>
+
+    <ul class="work-list" id="work-list">
+      <li class="work-item" data-tags="ai poetry performance singulars">
+        <div class="work-item-header">
+          <span class="work-item-featured"></span>
+          <span class="work-item-title">Carnation.exe</span>
+          <span class="work-item-date">May '25</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/carnation-exe/gallery-1.jpg"
+              alt="Carnation.exe"
+            />
+            <div class="expand-text">
+              <div class="expand-location">Paris, Barcelona</div>
+              <p class="expand-desc">
+                Part I of the Singulars series - a daily duel between a human
+                poet and a fine-tuned language model.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">ai</span>
+                <span class="expand-tag">poetry</span>
+                <span class="expand-tag">performance</span>
+                <span class="expand-tag">singulars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="ai poetry performance singulars">
+        <div class="work-item-header">
+          <span class="work-item-featured"></span>
+          <span class="work-item-title">Versus.exe</span>
+          <span class="work-item-date">Oct '25</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/versus-exe/IMG_9921.jpg"
+              alt="Versus.exe"
+            />
+            <div class="expand-text">
+              <div class="expand-location">San Francisco</div>
+              <p class="expand-desc">
+                Part II of the Singulars series - a 10-day human-machine poetry
+                confrontation at Mozilla.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">ai</span>
+                <span class="expand-tag">poetry</span>
+                <span class="expand-tag">performance</span>
+                <span class="expand-tag">singulars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="ai poetry installation singulars">
+        <div class="work-item-header">
+          <span class="work-item-featured"></span>
+          <span class="work-item-title">Reinforcement.exe</span>
+          <span class="work-item-date">Jan '26</span>
+          <span class="work-item-type">Installation</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg"
+              alt="Reinforcement.exe"
+            />
+            <div class="expand-text">
+              <div class="expand-location">Istanbul</div>
+              <p class="expand-desc">
+                Part III of the Singulars series - reinforcement learning meets
+                poetic confrontation at DevConnect.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">ai</span>
+                <span class="expand-tag">poetry</span>
+                <span class="expand-tag">installation</span>
+                <span class="expand-tag">singulars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="performance queer migration">
+        <div class="work-item-header">
+          <span class="work-item-featured"></span>
+          <span class="work-item-title">Borderline</span>
+          <span class="work-item-date">Feb '26</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg"
+              alt="Borderline"
+            />
+            <div class="expand-text">
+              <div class="expand-location">San Francisco</div>
+              <p class="expand-desc">
+                A full-body multimedia poem about borders, queerness, and the
+                architecture of belonging.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">performance</span>
+                <span class="expand-tag">queer</span>
+                <span class="expand-tag">migration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="ai poetry digital">
+        <div class="work-item-header">
+          <span class="work-item-title">We Called Us Poetry</span>
+          <span class="work-item-date">Jun '25</span>
+          <span class="work-item-type">Digital</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png"
+              alt="We Called Us Poetry"
+            />
+            <div class="expand-text">
+              <div class="expand-location">Toronto, Bergen, San Francisco</div>
+              <p class="expand-desc">
+                An interactive web poem exploring consciousness, Arabic
+                linguistics, and human-machine co-authorship.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">ai</span>
+                <span class="expand-tag">poetry</span>
+                <span class="expand-tag">digital</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="ai performance">
+        <div class="work-item-header">
+          <span class="work-item-title">Feed It</span>
+          <span class="work-item-date">Jun '25</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/feed-it/IMG_6388.jpg"
+              alt="Feed It"
+            />
+            <div class="expand-text">
+              <div class="expand-location">Seoul</div>
+              <p class="expand-desc">
+                A durational AI-body performance where audience answers shape a
+                real-time generative portrait.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">ai</span>
+                <span class="expand-tag">performance</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="performance migration queer">
+        <div class="work-item-header">
+          <span class="work-item-title">Deserve It</span>
+          <span class="work-item-date">Aug '24</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg"
+              alt="Deserve It"
+            />
+            <div class="expand-text">
+              <div class="expand-location">San Francisco</div>
+              <p class="expand-desc">
+                A durational immigration performance - a fictional visa form
+                that scrambles your answers into poetry.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">performance</span>
+                <span class="expand-tag">migration</span>
+                <span class="expand-tag">queer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="performance queer migration">
+        <div class="work-item-header">
+          <span class="work-item-title">I Live Here</span>
+          <span class="work-item-date">Mar '25</span>
+          <span class="work-item-type">Performance</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/i-live-here/We-Topia-Gala-2025-Photo-1.jpg"
+              alt="I Live Here"
+            />
+            <div class="expand-text">
+              <div class="expand-location">San Francisco</div>
+              <p class="expand-desc">
+                A walking poem through San Francisco's Tenderloin, mapping queer
+                nightlife from Beirut to the Bay.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">performance</span>
+                <span class="expand-tag">queer</span>
+                <span class="expand-tag">migration</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="book poetry digital">
+        <div class="work-item-header">
+          <span class="work-item-title">Invasions (Book)</span>
+          <span class="work-item-date">Jun '22</span>
+          <span class="work-item-type">Book</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/books/invasions-cover.jpg"
+              alt="Invasions"
+            />
+            <div class="expand-text">
+              <div class="expand-location">San Francisco</div>
+              <p class="expand-desc">
+                Poetry responses to scam texts - an act of infiltration
+                reclaiming manipulative language as lyric.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">book</span>
+                <span class="expand-tag">poetry</span>
+                <span class="expand-tag">digital</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <li class="work-item" data-tags="digital queer">
+        <div class="work-item-header">
+          <span class="work-item-title">Weirder Webs</span>
+          <span class="work-item-date">Nov '24</span>
+          <span class="work-item-type">Workshop</span>
+        </div>
+        <div class="work-item-expand">
+          <div class="expand-content">
+            <img
+              src="../../Assets/images/works/weirder-webs/Whitagram-Image-4.JPG"
+              alt="Weirder Webs"
+            />
+            <div class="expand-text">
+              <div class="expand-location">Barcelona, Paris, London, SF</div>
+              <p class="expand-desc">
+                A traveling workshop-performance inviting participants to build
+                weird, queer web dwellings.
+              </p>
+              <div class="expand-tags">
+                <span class="expand-tag">digital</span>
+                <span class="expand-tag">queer</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <script>
+      // Filter
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const items = document.querySelectorAll(".work-item");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+
+          items.forEach((item) => {
+            if (filter === "all") {
+              item.classList.remove("hidden");
+            } else {
+              const tags = item.dataset.tags.split(" ");
+              item.classList.toggle("hidden", !tags.includes(filter));
+            }
+          });
+        });
+      });
+
+      // Expand/collapse
+      const headers = document.querySelectorAll(".work-item-header");
+      headers.forEach((header) => {
+        header.addEventListener("click", () => {
+          const item = header.parentElement;
+          const wasOpen = item.classList.contains("open");
+
+          // Close all
+          items.forEach((i) => i.classList.remove("open"));
+
+          // Toggle current
+          if (!wasOpen) {
+            item.classList.add("open");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

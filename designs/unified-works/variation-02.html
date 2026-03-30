@@ -1,0 +1,434 @@
+<!-- VARIATION: Singulars-inspired 3-column grid with grayscale-to-color hover - Clean grid with desaturated images that come alive on hover -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Works + Books - Variation 02: Grayscale Grid</title>
+    <style>
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Terminal Grotesque";
+        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+          format("woff");
+      }
+      @font-face {
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2");
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Standard", sans-serif;
+        color: rgba(0, 0, 0, 0.85);
+        background: #fff;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+      }
+
+      .page-subtitle {
+        font-family: "Diatype Variable", sans-serif;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .filter-btn {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        padding: 0.35rem 0.9rem;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: transparent;
+        color: rgba(0, 0, 0, 0.5);
+        cursor: pointer;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .filter-btn:hover {
+        opacity: 0.7;
+      }
+
+      .filter-btn.active {
+        border-color: rgba(0, 0, 0, 0.85);
+        color: rgba(0, 0, 0, 0.85);
+      }
+
+      /* Grid */
+      .works-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .work-card {
+        position: relative;
+        overflow: hidden;
+        transition: opacity 0.3s ease;
+      }
+
+      .work-card.hidden {
+        display: none;
+      }
+
+      .work-card .image-wrap {
+        position: relative;
+        overflow: hidden;
+        aspect-ratio: 4/3;
+      }
+
+      .work-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(100%);
+        transition:
+          filter 0.5s ease,
+          transform 0.3s ease;
+      }
+
+      .work-card:hover img {
+        filter: grayscale(0%);
+        transform: scale(1.02);
+      }
+
+      .type-pill {
+        position: absolute;
+        top: 0.75rem;
+        left: 0.75rem;
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        padding: 0.2rem 0.5rem;
+        background: rgba(255, 255, 255, 0.9);
+        color: rgba(0, 0, 0, 0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 0.5rem;
+      }
+
+      .featured-dot {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        width: 8px;
+        height: 8px;
+        background: rgba(0, 0, 0, 0.85);
+        border-radius: 50%;
+      }
+
+      .work-info {
+        padding: 1rem 0 0 0;
+      }
+
+      .work-title {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.15rem;
+      }
+
+      .work-meta {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.5rem;
+      }
+
+      .work-desc {
+        font-size: 0.85rem;
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 900px) {
+        .works-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        .works-grid {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Works + Books</h1>
+    <p class="page-subtitle">
+      Performance, installation, books, and digital works - 2019 to present
+    </p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="performance">Performance</button>
+      <button class="filter-btn" data-filter="book">Book</button>
+      <button class="filter-btn" data-filter="installation">
+        Installation
+      </button>
+      <button class="filter-btn" data-filter="digital">Digital</button>
+      <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="poetry">Poetry</button>
+      <button class="filter-btn" data-filter="queer">Queer</button>
+      <button class="filter-btn" data-filter="migration">Migration</button>
+      <button class="filter-btn" data-filter="singulars">Singulars</button>
+    </div>
+
+    <div class="works-grid" id="grid">
+      <div class="work-card" data-tags="ai poetry performance singulars">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/carnation-exe/gallery-1.jpg"
+            alt="Carnation.exe"
+          />
+          <span class="type-pill">Performance</span>
+          <span class="featured-dot" title="Featured"></span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Carnation.exe</div>
+          <div class="work-meta">May '25 - Paris, Barcelona</div>
+          <p class="work-desc">
+            Part I of the Singulars series - a daily duel between a human poet
+            and a fine-tuned language model.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="ai poetry performance singulars">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/versus-exe/IMG_9921.jpg"
+            alt="Versus.exe"
+          />
+          <span class="type-pill">Performance</span>
+          <span class="featured-dot" title="Featured"></span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Versus.exe</div>
+          <div class="work-meta">Oct '25 - San Francisco</div>
+          <p class="work-desc">
+            Part II of the Singulars series - a 10-day human-machine poetry
+            confrontation at Mozilla.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="ai poetry installation singulars">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg"
+            alt="Reinforcement.exe"
+          />
+          <span class="type-pill">Installation</span>
+          <span class="featured-dot" title="Featured"></span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Reinforcement.exe</div>
+          <div class="work-meta">Jan '26 - Istanbul</div>
+          <p class="work-desc">
+            Part III of the Singulars series - reinforcement learning meets
+            poetic confrontation at DevConnect.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="performance queer migration">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg"
+            alt="Borderline"
+          />
+          <span class="type-pill">Performance</span>
+          <span class="featured-dot" title="Featured"></span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Borderline</div>
+          <div class="work-meta">Feb '26 - San Francisco</div>
+          <p class="work-desc">
+            A full-body multimedia poem about borders, queerness, and the
+            architecture of belonging.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="ai poetry digital">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png"
+            alt="We Called Us Poetry"
+          />
+          <span class="type-pill">Digital</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">We Called Us Poetry</div>
+          <div class="work-meta">Jun '25 - Toronto, Bergen, San Francisco</div>
+          <p class="work-desc">
+            An interactive web poem exploring consciousness, Arabic linguistics,
+            and human-machine co-authorship.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="ai performance">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/feed-it/IMG_6388.jpg"
+            alt="Feed It"
+          />
+          <span class="type-pill">Performance</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Feed It</div>
+          <div class="work-meta">Jun '25 - Seoul</div>
+          <p class="work-desc">
+            A durational AI-body performance where audience answers shape a
+            real-time generative portrait.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="performance migration queer">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg"
+            alt="Deserve It"
+          />
+          <span class="type-pill">Performance</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Deserve It</div>
+          <div class="work-meta">Aug '24 - San Francisco</div>
+          <p class="work-desc">
+            A durational immigration performance - a fictional visa form that
+            scrambles your answers into poetry.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="performance queer migration">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/i-live-here/We-Topia-Gala-2025-Photo-1.jpg"
+            alt="I Live Here"
+          />
+          <span class="type-pill">Performance</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">I Live Here</div>
+          <div class="work-meta">Mar '25 - San Francisco</div>
+          <p class="work-desc">
+            A walking poem through San Francisco's Tenderloin, mapping queer
+            nightlife from Beirut to the Bay.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="book poetry digital">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/books/invasions-cover.jpg"
+            alt="Invasions book"
+          />
+          <span class="type-pill">Book</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Invasions (Book)</div>
+          <div class="work-meta">Jun '22 - San Francisco</div>
+          <p class="work-desc">
+            Poetry responses to scam texts - an act of infiltration reclaiming
+            manipulative language as lyric.
+          </p>
+        </div>
+      </div>
+
+      <div class="work-card" data-tags="digital queer">
+        <div class="image-wrap">
+          <img
+            src="../../Assets/images/works/weirder-webs/Whitagram-Image-4.JPG"
+            alt="Weirder Webs"
+          />
+          <span class="type-pill">Workshop</span>
+        </div>
+        <div class="work-info">
+          <div class="work-title">Weirder Webs</div>
+          <div class="work-meta">Nov '24 - Barcelona, Paris, London, SF</div>
+          <p class="work-desc">
+            A traveling workshop-performance inviting participants to build
+            weird, queer web dwellings.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const cards = document.querySelectorAll(".work-card");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+
+          cards.forEach((card) => {
+            if (filter === "all") {
+              card.classList.remove("hidden");
+            } else {
+              const tags = card.dataset.tags.split(" ");
+              card.classList.toggle("hidden", !tags.includes(filter));
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

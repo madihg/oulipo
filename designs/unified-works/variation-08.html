@@ -1,0 +1,642 @@
+<!-- VARIATION: Two-panel (filters left sidebar, works right) - Fixed left sidebar with filter checkboxes, scrollable right panel with work cards -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Works + Books - Variation 08: Two-Panel</title>
+    <style>
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Terminal Grotesque";
+        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+          format("woff");
+      }
+      @font-face {
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2");
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Standard", sans-serif;
+        color: rgba(0, 0, 0, 0.85);
+        background: #fff;
+        line-height: 1.5;
+        height: 100vh;
+        overflow: hidden;
+      }
+
+      .layout {
+        display: grid;
+        grid-template-columns: 240px 1fr;
+        height: 100vh;
+      }
+
+      /* Left Sidebar */
+      .sidebar {
+        padding: 2rem;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+        overflow-y: auto;
+        position: sticky;
+        top: 0;
+        height: 100vh;
+      }
+
+      .sidebar h1 {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 1.6rem;
+        text-transform: uppercase;
+        margin-bottom: 0.25rem;
+        font-weight: 400;
+        line-height: 1.1;
+      }
+
+      .sidebar-subtitle {
+        font-family: "Diatype Variable", sans-serif;
+        color: rgba(0, 0, 0, 0.5);
+        font-size: 0.75rem;
+        margin-bottom: 2rem;
+        line-height: 1.4;
+      }
+
+      .filter-section-label {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 0.75rem;
+      }
+
+      .filter-list {
+        list-style: none;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+      }
+
+      .filter-item {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.4rem 0;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .filter-item:hover {
+        opacity: 0.7;
+      }
+
+      .filter-checkbox {
+        width: 14px;
+        height: 14px;
+        border: 1px solid rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        transition: all 0.3s ease;
+      }
+
+      .filter-checkbox.checked {
+        background: rgba(0, 0, 0, 0.85);
+        border-color: rgba(0, 0, 0, 0.85);
+      }
+
+      .filter-checkbox.checked::after {
+        content: "";
+        width: 6px;
+        height: 6px;
+        background: #fff;
+      }
+
+      .filter-label {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 0.85rem;
+        color: rgba(0, 0, 0, 0.7);
+      }
+
+      .filter-count {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        color: rgba(0, 0, 0, 0.3);
+        margin-left: auto;
+      }
+
+      .clear-filters {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.4);
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin-top: 1rem;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+        transition: opacity 0.3s ease;
+      }
+
+      .clear-filters:hover {
+        opacity: 0.7;
+      }
+
+      /* Right Panel */
+      .main-panel {
+        overflow-y: auto;
+        padding: 2rem;
+        height: 100vh;
+      }
+
+      .results-count {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 1.5rem;
+      }
+
+      .works-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .work-card {
+        transition: opacity 0.3s ease;
+      }
+
+      .work-card.hidden {
+        display: none;
+      }
+
+      .work-card-image {
+        overflow: hidden;
+        aspect-ratio: 4/3;
+        margin-bottom: 0.75rem;
+      }
+
+      .work-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .work-card:hover .work-card-image img {
+        transform: scale(1.02);
+      }
+
+      .work-card-type {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 0.15rem;
+      }
+
+      .work-card-title {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.15rem;
+      }
+
+      .work-card-meta {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.4rem;
+      }
+
+      .work-card-desc {
+        font-size: 0.85rem;
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.5;
+      }
+
+      .featured-indicator {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.55rem;
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+        padding: 0.1rem 0.4rem;
+        border-radius: 0.5rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        display: inline-block;
+        margin-left: 0.35rem;
+        vertical-align: middle;
+      }
+
+      @media (max-width: 900px) {
+        .layout {
+          grid-template-columns: 200px 1fr;
+        }
+        .works-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 600px) {
+        body {
+          overflow: auto;
+          height: auto;
+        }
+        .layout {
+          grid-template-columns: 1fr;
+          height: auto;
+        }
+        .sidebar {
+          position: relative;
+          height: auto;
+          border-right: none;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+        .main-panel {
+          height: auto;
+        }
+        .works-grid {
+          grid-template-columns: 1fr;
+        }
+        .sidebar h1 {
+          font-size: 1.4rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <div class="sidebar">
+        <h1>Works + Books</h1>
+        <p class="sidebar-subtitle">
+          Performance, installation, books, and digital works
+        </p>
+
+        <div class="filter-section-label">Filter by tag</div>
+        <ul class="filter-list" id="filter-list">
+          <li class="filter-item" data-filter="all">
+            <div class="filter-checkbox checked"></div>
+            <span class="filter-label">All</span>
+            <span class="filter-count">10</span>
+          </li>
+          <li class="filter-item" data-filter="performance">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Performance</span>
+            <span class="filter-count">7</span>
+          </li>
+          <li class="filter-item" data-filter="book">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Book</span>
+            <span class="filter-count">1</span>
+          </li>
+          <li class="filter-item" data-filter="installation">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Installation</span>
+            <span class="filter-count">1</span>
+          </li>
+          <li class="filter-item" data-filter="digital">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Digital</span>
+            <span class="filter-count">3</span>
+          </li>
+          <li class="filter-item" data-filter="ai">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">AI</span>
+            <span class="filter-count">6</span>
+          </li>
+          <li class="filter-item" data-filter="poetry">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Poetry</span>
+            <span class="filter-count">5</span>
+          </li>
+          <li class="filter-item" data-filter="queer">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Queer</span>
+            <span class="filter-count">5</span>
+          </li>
+          <li class="filter-item" data-filter="migration">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Migration</span>
+            <span class="filter-count">4</span>
+          </li>
+          <li class="filter-item" data-filter="singulars">
+            <div class="filter-checkbox"></div>
+            <span class="filter-label">Singulars</span>
+            <span class="filter-count">3</span>
+          </li>
+        </ul>
+        <button class="clear-filters" id="clear-btn">Clear filters</button>
+      </div>
+
+      <div class="main-panel">
+        <div class="results-count" id="results-count">Showing 10 works</div>
+
+        <div class="works-grid" id="grid">
+          <div class="work-card" data-tags="ai poetry performance singulars">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/carnation-exe/gallery-1.jpg"
+                alt="Carnation.exe"
+              />
+            </div>
+            <div class="work-card-type">
+              Performance<span class="featured-indicator">Featured</span>
+            </div>
+            <div class="work-card-title">Carnation.exe</div>
+            <div class="work-card-meta">May '25 - Paris, Barcelona</div>
+            <p class="work-card-desc">
+              Part I of the Singulars series - a daily duel between a human poet
+              and a fine-tuned language model.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="ai poetry performance singulars">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/versus-exe/IMG_9921.jpg"
+                alt="Versus.exe"
+              />
+            </div>
+            <div class="work-card-type">
+              Performance<span class="featured-indicator">Featured</span>
+            </div>
+            <div class="work-card-title">Versus.exe</div>
+            <div class="work-card-meta">Oct '25 - San Francisco</div>
+            <p class="work-card-desc">
+              Part II of the Singulars series - a 10-day human-machine poetry
+              confrontation at Mozilla.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="ai poetry installation singulars">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg"
+                alt="Reinforcement.exe"
+              />
+            </div>
+            <div class="work-card-type">
+              Installation<span class="featured-indicator">Featured</span>
+            </div>
+            <div class="work-card-title">Reinforcement.exe</div>
+            <div class="work-card-meta">Jan '26 - Istanbul</div>
+            <p class="work-card-desc">
+              Part III of the Singulars series - reinforcement learning meets
+              poetic confrontation at DevConnect.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="performance queer migration">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg"
+                alt="Borderline"
+              />
+            </div>
+            <div class="work-card-type">
+              Performance<span class="featured-indicator">Featured</span>
+            </div>
+            <div class="work-card-title">Borderline</div>
+            <div class="work-card-meta">Feb '26 - San Francisco</div>
+            <p class="work-card-desc">
+              A full-body multimedia poem about borders, queerness, and the
+              architecture of belonging.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="ai poetry digital">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png"
+                alt="We Called Us Poetry"
+              />
+            </div>
+            <div class="work-card-type">Digital</div>
+            <div class="work-card-title">We Called Us Poetry</div>
+            <div class="work-card-meta">Jun '25 - Toronto, Bergen, SF</div>
+            <p class="work-card-desc">
+              An interactive web poem exploring consciousness, Arabic
+              linguistics, and human-machine co-authorship.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="ai performance">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/feed-it/IMG_6388.jpg"
+                alt="Feed It"
+              />
+            </div>
+            <div class="work-card-type">Performance</div>
+            <div class="work-card-title">Feed It</div>
+            <div class="work-card-meta">Jun '25 - Seoul</div>
+            <p class="work-card-desc">
+              A durational AI-body performance where audience answers shape a
+              real-time generative portrait.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="performance migration queer">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg"
+                alt="Deserve It"
+              />
+            </div>
+            <div class="work-card-type">Performance</div>
+            <div class="work-card-title">Deserve It</div>
+            <div class="work-card-meta">Aug '24 - San Francisco</div>
+            <p class="work-card-desc">
+              A durational immigration performance - a fictional visa form that
+              scrambles your answers into poetry.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="performance queer migration">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/i-live-here/We-Topia-Gala-2025-Photo-1.jpg"
+                alt="I Live Here"
+              />
+            </div>
+            <div class="work-card-type">Performance</div>
+            <div class="work-card-title">I Live Here</div>
+            <div class="work-card-meta">Mar '25 - San Francisco</div>
+            <p class="work-card-desc">
+              A walking poem through San Francisco's Tenderloin, mapping queer
+              nightlife from Beirut to the Bay.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="book poetry digital">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/books/invasions-cover.jpg"
+                alt="Invasions book"
+              />
+            </div>
+            <div class="work-card-type">Book</div>
+            <div class="work-card-title">Invasions (Book)</div>
+            <div class="work-card-meta">Jun '22 - San Francisco</div>
+            <p class="work-card-desc">
+              Poetry responses to scam texts - an act of infiltration reclaiming
+              manipulative language as lyric.
+            </p>
+          </div>
+
+          <div class="work-card" data-tags="digital queer">
+            <div class="work-card-image">
+              <img
+                src="../../Assets/images/works/weirder-webs/Whitagram-Image-4.JPG"
+                alt="Weirder Webs"
+              />
+            </div>
+            <div class="work-card-type">Workshop</div>
+            <div class="work-card-title">Weirder Webs</div>
+            <div class="work-card-meta">
+              Nov '24 - Barcelona, Paris, London, SF
+            </div>
+            <p class="work-card-desc">
+              A traveling workshop-performance inviting participants to build
+              weird, queer web dwellings.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const filterItems = document.querySelectorAll(".filter-item");
+      const cards = document.querySelectorAll(".work-card");
+      const resultsCount = document.getElementById("results-count");
+      const clearBtn = document.getElementById("clear-btn");
+
+      function updateDisplay() {
+        const activeFilters = [];
+        filterItems.forEach((item) => {
+          if (
+            item.dataset.filter !== "all" &&
+            item.querySelector(".filter-checkbox").classList.contains("checked")
+          ) {
+            activeFilters.push(item.dataset.filter);
+          }
+        });
+
+        const allItem = document.querySelector('[data-filter="all"]');
+        const isAll =
+          allItem
+            .querySelector(".filter-checkbox")
+            .classList.contains("checked") || activeFilters.length === 0;
+
+        let visible = 0;
+        cards.forEach((card) => {
+          const tags = card.dataset.tags.split(" ");
+          if (isAll || activeFilters.some((f) => tags.includes(f))) {
+            card.classList.remove("hidden");
+            visible++;
+          } else {
+            card.classList.add("hidden");
+          }
+        });
+
+        resultsCount.textContent =
+          "Showing " + visible + " work" + (visible !== 1 ? "s" : "");
+      }
+
+      filterItems.forEach((item) => {
+        item.addEventListener("click", () => {
+          const checkbox = item.querySelector(".filter-checkbox");
+          const filter = item.dataset.filter;
+
+          if (filter === "all") {
+            // Select all, deselect others
+            filterItems.forEach((fi) => {
+              const cb = fi.querySelector(".filter-checkbox");
+              if (fi.dataset.filter === "all") {
+                cb.classList.add("checked");
+              } else {
+                cb.classList.remove("checked");
+              }
+            });
+          } else {
+            // Toggle this filter
+            checkbox.classList.toggle("checked");
+            // Uncheck "All"
+            const allCb = document.querySelector(
+              '[data-filter="all"] .filter-checkbox',
+            );
+            allCb.classList.remove("checked");
+
+            // If nothing checked, re-check All
+            const anyChecked = [...filterItems].some(
+              (fi) =>
+                fi.dataset.filter !== "all" &&
+                fi
+                  .querySelector(".filter-checkbox")
+                  .classList.contains("checked"),
+            );
+            if (!anyChecked) {
+              allCb.classList.add("checked");
+            }
+          }
+
+          updateDisplay();
+        });
+      });
+
+      clearBtn.addEventListener("click", () => {
+        filterItems.forEach((fi) => {
+          const cb = fi.querySelector(".filter-checkbox");
+          if (fi.dataset.filter === "all") {
+            cb.classList.add("checked");
+          } else {
+            cb.classList.remove("checked");
+          }
+        });
+        updateDisplay();
+      });
+    </script>
+  </body>
+</html>

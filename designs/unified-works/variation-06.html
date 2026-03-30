@@ -1,0 +1,439 @@
+<!-- VARIATION: Bento grid (mixed card sizes) - Featured works get 2x2 cells, regular works get 1x1 for visual hierarchy through size -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Works + Books - Variation 06: Bento Grid</title>
+    <style>
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Terminal Grotesque";
+        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+          format("woff");
+      }
+      @font-face {
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2");
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Standard", sans-serif;
+        color: rgba(0, 0, 0, 0.85);
+        background: #fff;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+      }
+
+      .page-subtitle {
+        font-family: "Diatype Variable", sans-serif;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-btn {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.85);
+        background: transparent;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        opacity: 0.7;
+      }
+      .filter-btn.active {
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+      }
+
+      /* Bento Grid */
+      .bento-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: 280px;
+        gap: 1rem;
+      }
+
+      .bento-card {
+        position: relative;
+        overflow: hidden;
+        transition: opacity 0.3s ease;
+        cursor: pointer;
+      }
+
+      .bento-card.hidden {
+        display: none;
+      }
+
+      .bento-card.large {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      .bento-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.3s ease;
+      }
+
+      .bento-card:hover img {
+        transform: scale(1.03);
+      }
+
+      .bento-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 1.5rem;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        color: #fff;
+        transform: translateY(0);
+        transition: transform 0.3s ease;
+      }
+
+      .bento-card:hover .bento-overlay {
+        transform: translateY(0);
+      }
+
+      .bento-type {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.8;
+        margin-bottom: 0.25rem;
+      }
+
+      .bento-title {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-bottom: 0.15rem;
+      }
+
+      .bento-card.large .bento-title {
+        font-size: 1.4rem;
+      }
+
+      .bento-meta {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        opacity: 0.7;
+      }
+
+      .bento-desc {
+        font-size: 0.8rem;
+        opacity: 0.9;
+        margin-top: 0.5rem;
+        line-height: 1.4;
+        display: none;
+      }
+
+      .bento-card.large .bento-desc {
+        display: block;
+      }
+
+      .bento-featured {
+        position: absolute;
+        top: 0.75rem;
+        right: 0.75rem;
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.6rem;
+        padding: 0.2rem 0.5rem;
+        background: rgba(255, 255, 255, 0.95);
+        color: rgba(0, 0, 0, 0.85);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        border-radius: 0.5rem;
+      }
+
+      .bento-tags {
+        display: flex;
+        gap: 0.3rem;
+        margin-top: 0.5rem;
+      }
+
+      .bento-tag {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.55rem;
+        padding: 0.1rem 0.4rem;
+        border: 1px solid rgba(255, 255, 255, 0.4);
+        border-radius: 0.5rem;
+        opacity: 0.7;
+      }
+
+      @media (max-width: 1200px) {
+        .bento-grid {
+          grid-template-columns: repeat(3, 1fr);
+          grid-auto-rows: 240px;
+        }
+      }
+
+      @media (max-width: 900px) {
+        .bento-grid {
+          grid-template-columns: repeat(2, 1fr);
+          grid-auto-rows: 220px;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .bento-grid {
+          grid-template-columns: 1fr;
+          grid-auto-rows: 250px;
+        }
+        .bento-card.large {
+          grid-column: span 1;
+          grid-row: span 1;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Works + Books</h1>
+    <p class="page-subtitle">
+      Performance, installation, books, and digital works - 2019 to present
+    </p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="performance">Performance</button>
+      <button class="filter-btn" data-filter="book">Book</button>
+      <button class="filter-btn" data-filter="installation">
+        Installation
+      </button>
+      <button class="filter-btn" data-filter="digital">Digital</button>
+      <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="poetry">Poetry</button>
+      <button class="filter-btn" data-filter="queer">Queer</button>
+      <button class="filter-btn" data-filter="migration">Migration</button>
+      <button class="filter-btn" data-filter="singulars">Singulars</button>
+    </div>
+
+    <div class="bento-grid" id="bento">
+      <div class="bento-card large" data-tags="ai poetry performance singulars">
+        <img
+          src="../../Assets/images/works/carnation-exe/gallery-1.jpg"
+          alt="Carnation.exe"
+        />
+        <span class="bento-featured">Featured</span>
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">Carnation.exe</div>
+          <div class="bento-meta">May '25 - Paris, Barcelona</div>
+          <p class="bento-desc">
+            Part I of the Singulars series - a daily duel between a human poet
+            and a fine-tuned language model.
+          </p>
+          <div class="bento-tags">
+            <span class="bento-tag">ai</span>
+            <span class="bento-tag">poetry</span>
+            <span class="bento-tag">singulars</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="ai poetry digital">
+        <img
+          src="../../Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png"
+          alt="We Called Us Poetry"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Digital</div>
+          <div class="bento-title">We Called Us Poetry</div>
+          <div class="bento-meta">Jun '25 - Toronto, Bergen, SF</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="ai performance">
+        <img
+          src="../../Assets/images/works/feed-it/IMG_6388.jpg"
+          alt="Feed It"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">Feed It</div>
+          <div class="bento-meta">Jun '25 - Seoul</div>
+        </div>
+      </div>
+
+      <div class="bento-card large" data-tags="performance queer migration">
+        <img
+          src="../../Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg"
+          alt="Borderline"
+        />
+        <span class="bento-featured">Featured</span>
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">Borderline</div>
+          <div class="bento-meta">Feb '26 - San Francisco</div>
+          <p class="bento-desc">
+            A full-body multimedia poem about borders, queerness, and the
+            architecture of belonging.
+          </p>
+          <div class="bento-tags">
+            <span class="bento-tag">performance</span>
+            <span class="bento-tag">queer</span>
+            <span class="bento-tag">migration</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="ai poetry performance singulars">
+        <img
+          src="../../Assets/images/works/versus-exe/IMG_9921.jpg"
+          alt="Versus.exe"
+        />
+        <span class="bento-featured">Featured</span>
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">Versus.exe</div>
+          <div class="bento-meta">Oct '25 - San Francisco</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="ai poetry installation singulars">
+        <img
+          src="../../Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg"
+          alt="Reinforcement.exe"
+        />
+        <span class="bento-featured">Featured</span>
+        <div class="bento-overlay">
+          <div class="bento-type">Installation</div>
+          <div class="bento-title">Reinforcement.exe</div>
+          <div class="bento-meta">Jan '26 - Istanbul</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="performance migration queer">
+        <img
+          src="../../Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg"
+          alt="Deserve It"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">Deserve It</div>
+          <div class="bento-meta">Aug '24 - San Francisco</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="performance queer migration">
+        <img
+          src="../../Assets/images/works/i-live-here/We-Topia-Gala-2025-Photo-1.jpg"
+          alt="I Live Here"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Performance</div>
+          <div class="bento-title">I Live Here</div>
+          <div class="bento-meta">Mar '25 - San Francisco</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="book poetry digital">
+        <img
+          src="../../Assets/images/books/invasions-cover.jpg"
+          alt="Invasions book"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Book</div>
+          <div class="bento-title">Invasions (Book)</div>
+          <div class="bento-meta">Jun '22 - San Francisco</div>
+        </div>
+      </div>
+
+      <div class="bento-card" data-tags="digital queer">
+        <img
+          src="../../Assets/images/works/weirder-webs/Whitagram-Image-4.JPG"
+          alt="Weirder Webs"
+        />
+        <div class="bento-overlay">
+          <div class="bento-type">Workshop</div>
+          <div class="bento-title">Weirder Webs</div>
+          <div class="bento-meta">Nov '24 - Barcelona, Paris, London, SF</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const cards = document.querySelectorAll(".bento-card");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+
+          cards.forEach((card) => {
+            if (filter === "all") {
+              card.classList.remove("hidden");
+            } else {
+              const tags = card.dataset.tags.split(" ");
+              card.classList.toggle("hidden", !tags.includes(filter));
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

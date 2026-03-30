@@ -1,0 +1,514 @@
+<!-- VARIATION: Magazine layout (featured hero + smaller grid) - Top large hero card for the most featured work, below a 3-col grid of smaller cards -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unified Works + Books - Variation 07: Magazine Layout</title>
+    <style>
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Book.woff")
+          format("woff");
+        font-weight: 400;
+      }
+      @font-face {
+        font-family: "Standard";
+        src: url("https://type.cargo.site/files/Standard-Bold.woff")
+          format("woff");
+        font-weight: 700;
+      }
+      @font-face {
+        font-family: "Terminal Grotesque";
+        src: url("https://type.cargo.site/files/TerminalGrotesque.woff")
+          format("woff");
+      }
+      @font-face {
+        font-family: "Diatype Variable";
+        src: url("https://type.cargo.site/files/Cargo-DiatypePlusVariable.woff2")
+          format("woff2");
+      }
+
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Standard", sans-serif;
+        color: rgba(0, 0, 0, 0.85);
+        background: #fff;
+        padding: 2rem;
+        line-height: 1.5;
+      }
+
+      h1 {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 2.5rem;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        font-weight: 400;
+      }
+
+      .page-subtitle {
+        font-family: "Diatype Variable", sans-serif;
+        color: rgba(0, 0, 0, 0.7);
+        font-size: 1rem;
+        margin-bottom: 2rem;
+      }
+
+      .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+      }
+
+      .filter-btn {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 0.8rem;
+        padding: 0.4rem 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.85);
+        background: transparent;
+        color: rgba(0, 0, 0, 0.85);
+        cursor: pointer;
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        opacity: 0.7;
+      }
+      .filter-btn.active {
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+      }
+
+      /* Hero Section */
+      .hero-card {
+        display: grid;
+        grid-template-columns: 3fr 2fr;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        transition: opacity 0.3s ease;
+      }
+
+      .hero-card.hidden {
+        display: none;
+      }
+
+      .hero-image {
+        overflow: hidden;
+        aspect-ratio: 16/10;
+      }
+
+      .hero-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+
+      .hero-card:hover .hero-image img {
+        transform: scale(1.02);
+      }
+
+      .hero-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .hero-label {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-title {
+        font-family: "Terminal Grotesque", sans-serif;
+        font-size: 2rem;
+        text-transform: uppercase;
+        font-weight: 400;
+      }
+
+      .hero-meta {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      .hero-desc {
+        font-size: 1.1rem;
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.6;
+      }
+
+      .hero-tags {
+        display: flex;
+        gap: 0.35rem;
+        flex-wrap: wrap;
+      }
+
+      .hero-tag {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        padding: 0.2rem 0.6rem;
+        border: 1px solid rgba(0, 0, 0, 0.25);
+        border-radius: 0.5rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+
+      /* Section heading */
+      .section-label {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 1.5rem;
+      }
+
+      /* Smaller Grid */
+      .works-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+
+      .grid-card {
+        transition: opacity 0.3s ease;
+      }
+
+      .grid-card.hidden {
+        display: none;
+      }
+
+      .grid-card-image {
+        overflow: hidden;
+        aspect-ratio: 4/3;
+        margin-bottom: 0.75rem;
+      }
+
+      .grid-card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition:
+          transform 0.3s ease,
+          opacity 0.3s ease;
+      }
+
+      .grid-card:hover .grid-card-image img {
+        transform: scale(1.02);
+        opacity: 0.85;
+      }
+
+      .grid-card-type {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 0.2rem;
+      }
+
+      .grid-card-title {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 600;
+        margin-bottom: 0.15rem;
+      }
+
+      .grid-card-meta {
+        font-family: "Diatype Variable", sans-serif;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin-bottom: 0.5rem;
+      }
+
+      .grid-card-desc {
+        font-size: 0.85rem;
+        color: rgba(0, 0, 0, 0.7);
+        line-height: 1.5;
+      }
+
+      @media (max-width: 900px) {
+        .hero-card {
+          grid-template-columns: 1fr;
+        }
+        .works-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .hero-title {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 600px) {
+        .works-grid {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 1.8rem;
+        }
+        .hero-title {
+          font-size: 1.3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Works + Books</h1>
+    <p class="page-subtitle">
+      Performance, installation, books, and digital works - 2019 to present
+    </p>
+
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="performance">Performance</button>
+      <button class="filter-btn" data-filter="book">Book</button>
+      <button class="filter-btn" data-filter="installation">
+        Installation
+      </button>
+      <button class="filter-btn" data-filter="digital">Digital</button>
+      <button class="filter-btn" data-filter="ai">AI</button>
+      <button class="filter-btn" data-filter="poetry">Poetry</button>
+      <button class="filter-btn" data-filter="queer">Queer</button>
+      <button class="filter-btn" data-filter="migration">Migration</button>
+      <button class="filter-btn" data-filter="singulars">Singulars</button>
+    </div>
+
+    <!-- Hero / Featured -->
+    <div
+      class="hero-card filterable"
+      data-tags="ai poetry performance singulars"
+    >
+      <div class="hero-image">
+        <img
+          src="../../Assets/images/works/carnation-exe/gallery-1.jpg"
+          alt="Carnation.exe"
+        />
+      </div>
+      <div class="hero-content">
+        <div class="hero-label">Featured / Performance</div>
+        <div class="hero-title">Carnation.exe</div>
+        <div class="hero-meta">May '25 - Paris, Barcelona</div>
+        <p class="hero-desc">
+          Part I of the Singulars series - a daily duel between a human poet and
+          a fine-tuned language model.
+        </p>
+        <div class="hero-tags">
+          <span class="hero-tag">ai</span>
+          <span class="hero-tag">poetry</span>
+          <span class="hero-tag">performance</span>
+          <span class="hero-tag">singulars</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-label">All Works</div>
+
+    <div class="works-grid" id="grid">
+      <div
+        class="grid-card filterable"
+        data-tags="ai poetry performance singulars"
+      >
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/versus-exe/IMG_9921.jpg"
+            alt="Versus.exe"
+          />
+        </div>
+        <div class="grid-card-type">Performance - Featured</div>
+        <div class="grid-card-title">Versus.exe</div>
+        <div class="grid-card-meta">Oct '25 - San Francisco</div>
+        <p class="grid-card-desc">
+          Part II of the Singulars series - a 10-day human-machine poetry
+          confrontation at Mozilla.
+        </p>
+      </div>
+
+      <div
+        class="grid-card filterable"
+        data-tags="ai poetry installation singulars"
+      >
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg"
+            alt="Reinforcement.exe"
+          />
+        </div>
+        <div class="grid-card-type">Installation - Featured</div>
+        <div class="grid-card-title">Reinforcement.exe</div>
+        <div class="grid-card-meta">Jan '26 - Istanbul</div>
+        <p class="grid-card-desc">
+          Part III of the Singulars series - reinforcement learning meets poetic
+          confrontation at DevConnect.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="performance queer migration">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg"
+            alt="Borderline"
+          />
+        </div>
+        <div class="grid-card-type">Performance - Featured</div>
+        <div class="grid-card-title">Borderline</div>
+        <div class="grid-card-meta">Feb '26 - San Francisco</div>
+        <p class="grid-card-desc">
+          A full-body multimedia poem about borders, queerness, and the
+          architecture of belonging.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="ai poetry digital">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png"
+            alt="We Called Us Poetry"
+          />
+        </div>
+        <div class="grid-card-type">Digital</div>
+        <div class="grid-card-title">We Called Us Poetry</div>
+        <div class="grid-card-meta">Jun '25 - Toronto, Bergen, SF</div>
+        <p class="grid-card-desc">
+          An interactive web poem exploring consciousness, Arabic linguistics,
+          and human-machine co-authorship.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="ai performance">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/feed-it/IMG_6388.jpg"
+            alt="Feed It"
+          />
+        </div>
+        <div class="grid-card-type">Performance</div>
+        <div class="grid-card-title">Feed It</div>
+        <div class="grid-card-meta">Jun '25 - Seoul</div>
+        <p class="grid-card-desc">
+          A durational AI-body performance where audience answers shape a
+          real-time generative portrait.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="performance migration queer">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg"
+            alt="Deserve It"
+          />
+        </div>
+        <div class="grid-card-type">Performance</div>
+        <div class="grid-card-title">Deserve It</div>
+        <div class="grid-card-meta">Aug '24 - San Francisco</div>
+        <p class="grid-card-desc">
+          A durational immigration performance - a fictional visa form that
+          scrambles your answers into poetry.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="performance queer migration">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/i-live-here/We-Topia-Gala-2025-Photo-1.jpg"
+            alt="I Live Here"
+          />
+        </div>
+        <div class="grid-card-type">Performance</div>
+        <div class="grid-card-title">I Live Here</div>
+        <div class="grid-card-meta">Mar '25 - San Francisco</div>
+        <p class="grid-card-desc">
+          A walking poem through San Francisco's Tenderloin, mapping queer
+          nightlife from Beirut to the Bay.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="book poetry digital">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/books/invasions-cover.jpg"
+            alt="Invasions book"
+          />
+        </div>
+        <div class="grid-card-type">Book</div>
+        <div class="grid-card-title">Invasions (Book)</div>
+        <div class="grid-card-meta">Jun '22 - San Francisco</div>
+        <p class="grid-card-desc">
+          Poetry responses to scam texts - an act of infiltration reclaiming
+          manipulative language as lyric.
+        </p>
+      </div>
+
+      <div class="grid-card filterable" data-tags="digital queer">
+        <div class="grid-card-image">
+          <img
+            src="../../Assets/images/works/weirder-webs/Whitagram-Image-4.JPG"
+            alt="Weirder Webs"
+          />
+        </div>
+        <div class="grid-card-type">Workshop</div>
+        <div class="grid-card-title">Weirder Webs</div>
+        <div class="grid-card-meta">Nov '24 - Barcelona, Paris, London, SF</div>
+        <p class="grid-card-desc">
+          A traveling workshop-performance inviting participants to build weird,
+          queer web dwellings.
+        </p>
+      </div>
+    </div>
+
+    <script>
+      const filterBtns = document.querySelectorAll(".filter-btn");
+      const cards = document.querySelectorAll(".filterable");
+
+      filterBtns.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          filterBtns.forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          const filter = btn.dataset.filter;
+
+          cards.forEach((card) => {
+            if (filter === "all") {
+              card.classList.remove("hidden");
+            } else {
+              const tags = card.dataset.tags.split(" ");
+              card.classList.toggle("hidden", !tags.includes(filter));
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

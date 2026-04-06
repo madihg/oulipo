@@ -1,28 +1,33 @@
 # Oulipo.xyz Context
 
-## Session State (Apr 5, 2026 - session 6)
+## Session State (Apr 5, 2026 - session 7)
 
-### Current Task: Site Fixes, Writing Page, and PRD
+### Current Task: Site Quality Fixes Round 2
 
-**Status: IN PROGRESS**
+**Status: COMPLETE** - All 7 issues addressed. 33 files modified.
 
-Completed so far:
+1. **Burger menu fix** (shared.css): Reduced from 44px visible to 22px visible lines with 4px gap, 1.5px line height. Added invisible `::before` pseudo-element for 44px touch target. Properly aligned with "Halim Madi" text.
+2. **Removed "Books" from nav** (31 HTML files): `<a href="/books/">Books</a>` removed from all site pages. Nav now: Works/Keynotes/Workshops/Writing.
+3. **Connect page overhaul** (connect/index.html): Switched from centered narrow column to full-width left-aligned layout using shared.css `.page` padding. Removed `.page-layout` wrapper. Section titles now monospace uppercase (Diatype Mono Variable). Merged "Latest Work" + "Latest Writing" into single "Latest" section with 3 items. Removed `<hr>` lines between events. Changed arrow to colon in event format (`org: title` instead of `org -> title`). Event titles use underline links instead of bold-no-decoration.
+4. **Books page fixes** (books/index.html): Reduced image max-width from 320px to 200px. Changed grid from 7fr/5fr to 5fr/2fr. Enriched all 4 book descriptions from 1 paragraph to 2 paragraphs each using scraped halimmadi.com text.
+5. **Writing page fix** (writing/index.html): Reduced book image max-width from 280px to 180px.
+6. **Workshops image cleanup** (workshops/index.html): Removed wrong keynote images from Classrooms (ai-artist-studio.jpg) and Corporations (tedx-bordeaux-2.jpg) sections.
+7. **Book detail page text enrichment** (4 files): Updated invasions, flight-of-the-jaguar, in-the-name-of-scandal, deep-fast detail pages from 1 paragraph to 3 paragraphs each using scraped halimmadi.com text.
+
+### Previous Session State (Apr 5, 2026 - session 6)
 
 1. **Added event to Supabase**: "Building the Strange Choir" workshop at ICCC'26, Coimbra, Portugal, Jun 29-30 (ID: 1af5dc36)
-2. **PRD written**: `tasks/prd-site-fixes-and-writing-section.md` - 10 user stories covering Connect page fixes, halimmadi.com parity, and Writing page
-3. **US-001 DONE**: Cleaned up Connect page - removed excessive `<hr>` tags, replaced with whitespace and subtle bottom borders on events
-4. **US-002 DONE**: Fixed event formatting - bolded event title is now the clickable link (no more separate "Link" element), removed space-before-arrow issue
-5. **US-003 DONE**: Fixed burger menu - removed double padding declaration, set explicit `width: 44px; height: 44px; padding: 12px; gap: 5px`
-6. **US-004 DONE**: Added `.header-bar` div to all 30 pages, moved CSS from home inline to shared.css
-7. **US-007 DONE**: Books page now uses 3D mockup images from subdirectories (already scraped Mar 29), max-width 320px constraint added
-8. **US-009 DONE**: Created `/writing/index.html` - books in 2-col card grid at top (Singulars-inspired), Substack RSS auto-fetch via rss2json.com below
-9. **US-010 DONE**: Added "Writing" nav link to all 31 pages (after Books in first menu section)
-
-### Still TODO from PRD:
-
-- US-005: Redistribute images on work detail pages (images interspersed with text, not stacked at top)
-- US-006: Add images to works overview page (def(hug) through Avenir)
-- US-008: Fix keynotes/workshops missing images (gray squares)
+2. **PRD written**: `tasks/prd-site-fixes-and-writing-section.md` - 10 user stories
+3. **US-001 DONE**: Connect page - removed excessive `<hr>` tags, added subtle bottom borders
+4. **US-002 DONE**: Event formatting - bolded title is clickable link, removed separate "Link" element
+5. **US-003 DONE**: Burger menu - explicit `width: 44px; height: 44px; padding: 12px; gap: 5px`
+6. **US-004 DONE**: Added `.header-bar` div to all 32 pages, CSS in shared.css
+7. **US-005 DONE**: Verified detail pages already match halimmadi.com (gallery block then text - no interspersing needed)
+8. **US-006 DONE**: Added images to 8 text-only work entries (Feed It, Weirder Webs, Deserve It, Whomp, Borrow & Never Give Back, Re/declarations, American Metabolisis, Avenir). def(hug) and Invasions stay text-only (no images available)
+9. **US-007 DONE**: Books page uses 3D mockup images, max-width 320px
+10. **US-008 DONE**: Replaced gray placeholders on keynotes (4 real images) and workshops (hero + 2 category images, removed logo placeholders)
+11. **US-009 DONE**: Created `/writing/index.html` - books in 2-col card grid + Substack RSS via rss2json.com
+12. **US-010 DONE**: Added "Writing" nav link to all pages
 
 ### Previous Session State (Mar 29, 2026 - session 5)
 

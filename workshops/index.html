@@ -151,10 +151,7 @@
 
       /* Logo + description layout */
       .workshop-body {
-        display: grid;
-        grid-template-columns: 100px 1fr;
-        gap: 1.5rem;
-        align-items: start;
+        max-width: 720px;
       }
 
       .workshop-body p {
@@ -208,6 +205,7 @@
     </style>
   </head>
   <body>
+    <div class="header-bar"></div>
     <div class="site-header"><a href="/home/">Halim Madi</a></div>
 
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
@@ -234,6 +232,7 @@
         <a href="/keynotes/">Keynotes</a>
         <a href="/workshops/">Workshops</a>
         <a href="/books/">Books</a>
+        <a href="/writing/">Writing</a>
       </div>
       <hr class="menu-divider" />
       <div class="menu-section">
@@ -296,11 +295,12 @@
           </div>
 
           <!-- Hero photo -->
-          <div
-            class="placeholder-image workshops-hero-image"
-            data-placeholder="true"
-            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
-          ></div>
+          <img
+            class="workshops-hero-image"
+            src="../Assets/images/workshops/dschool_CCSHalimMadi_DE_5-13-25_PatrickBeaudouin_PTB_1735.jpg"
+            alt="Halim Madi at Stanford D School workshop"
+            style="width: 100%; height: auto; display: block"
+          />
         </div>
 
         <!-- ─── CREATIVE COMMUNITIES ─── -->
@@ -315,11 +315,12 @@
           </p>
 
           <!-- Section photo -->
-          <div
-            class="placeholder-image category-image"
-            data-placeholder="true"
-            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
-          ></div>
+          <img
+            class="category-image"
+            src="../Assets/images/workshops/time-capsule.jpg"
+            alt="Creative community workshop"
+            style="width: 100%; height: auto; display: block"
+          />
 
           <!-- Strange Choirs -->
           <div class="workshop-entry">
@@ -331,15 +332,6 @@
               >
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 This session invited artists and technologists to co-compose
                 with the machine. We trained tiny language models on personal
@@ -358,15 +350,6 @@
               <span class="workshop-meta-venue">San Francisco Art Fair</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 Panel exploring how AI reshapes creative process. Shared
                 perspective that AI "doesn't just assist: It distorts,
@@ -384,15 +367,6 @@
               <span class="workshop-meta-venue">Gray Area, San Francisco</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 Performance-workshop on submission aesthetics in AI. Explored
                 the concept of machines consuming us lovingly until distinction
@@ -413,12 +387,13 @@
             resist, and reimagine.
           </p>
 
-          <!-- Section photo -->
-          <div
-            class="placeholder-image category-image"
-            data-placeholder="true"
-            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
-          ></div>
+          <!-- Section photo: drop image at Assets/images/workshops/classrooms.jpg -->
+          <img
+            class="category-image"
+            src="../Assets/images/keynotes/ai-artist-studio.jpg"
+            alt="Classroom workshop"
+            style="width: 100%; height: auto; display: block"
+          />
 
           <!-- Weirding AI -->
           <div class="workshop-entry">
@@ -430,15 +405,6 @@
               >
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 Weirding AI invites writers and technologists to misbehave with
                 the machine. We trained tiny language models on personal
@@ -460,15 +426,6 @@
               >
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 At the edge of philosophy and code, this session wove together
                 Bernard Stiegler, machine learning, and poetic interface design.
@@ -487,15 +444,6 @@
               <span class="workshop-meta-venue">Stanford D School</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 This workshop-performance unfolded in three movements: voice,
                 practice, and service. Participants responded to poetic prompts
@@ -521,12 +469,13 @@
             </p>
           </div>
 
-          <!-- Section photo -->
-          <div
-            class="placeholder-image category-image"
-            data-placeholder="true"
-            style="background: rgba(0, 0, 0, 0.08); aspect-ratio: 16/9"
-          ></div>
+          <!-- Section photo: drop image at Assets/images/workshops/corporations.jpg -->
+          <img
+            class="category-image"
+            src="../Assets/images/keynotes/tedx-bordeaux-2.jpg"
+            alt="Corporate workshop"
+            style="width: 100%; height: auto; display: block"
+          />
 
           <!-- Predictive Bodies -->
           <div class="workshop-entry">
@@ -536,15 +485,6 @@
               <span class="workshop-meta-venue">Meta, Seattle, Menlo Park</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 Invited artist talk and workshop on AI and literature. We
                 explored how poetic training data shifts tone, how to fine-tune
@@ -563,15 +503,6 @@
               <span class="workshop-meta-venue">Google, Mountain View</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 Hands-on workshop looking at poetic interaction design, building
                 small systems that blur the line between prompt and prayer.
@@ -590,15 +521,6 @@
               <span class="workshop-meta-venue">Prophet, San Francisco</span>
             </div>
             <div class="workshop-body">
-              <div
-                class="placeholder-logo"
-                data-placeholder="true"
-                style="
-                  background: rgba(0, 0, 0, 0.08);
-                  width: 80px;
-                  height: 80px;
-                "
-              ></div>
               <p>
                 A poetic systems workshop for creative technologists and
                 strategists. We explored generative recombination, remix as

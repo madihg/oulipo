@@ -1,8 +1,32 @@
 # Oulipo.xyz Context
 
-## Session State (Mar 29, 2026 - session 5)
+## Session State (Apr 5, 2026 - session 6)
 
-### Current Task: Update Work Detail Page Galleries with Scraped Images
+### Current Task: Site Fixes, Writing Page, and PRD
+
+**Status: IN PROGRESS**
+
+Completed so far:
+
+1. **Added event to Supabase**: "Building the Strange Choir" workshop at ICCC'26, Coimbra, Portugal, Jun 29-30 (ID: 1af5dc36)
+2. **PRD written**: `tasks/prd-site-fixes-and-writing-section.md` - 10 user stories covering Connect page fixes, halimmadi.com parity, and Writing page
+3. **US-001 DONE**: Cleaned up Connect page - removed excessive `<hr>` tags, replaced with whitespace and subtle bottom borders on events
+4. **US-002 DONE**: Fixed event formatting - bolded event title is now the clickable link (no more separate "Link" element), removed space-before-arrow issue
+5. **US-003 DONE**: Fixed burger menu - removed double padding declaration, set explicit `width: 44px; height: 44px; padding: 12px; gap: 5px`
+6. **US-004 DONE**: Added `.header-bar` div to all 30 pages, moved CSS from home inline to shared.css
+7. **US-007 DONE**: Books page now uses 3D mockup images from subdirectories (already scraped Mar 29), max-width 320px constraint added
+8. **US-009 DONE**: Created `/writing/index.html` - books in 2-col card grid at top (Singulars-inspired), Substack RSS auto-fetch via rss2json.com below
+9. **US-010 DONE**: Added "Writing" nav link to all 31 pages (after Books in first menu section)
+
+### Still TODO from PRD:
+
+- US-005: Redistribute images on work detail pages (images interspersed with text, not stacked at top)
+- US-006: Add images to works overview page (def(hug) through Avenir)
+- US-008: Fix keynotes/workshops missing images (gray squares)
+
+### Previous Session State (Mar 29, 2026 - session 5)
+
+### Previous Task: Update Work Detail Page Galleries with Scraped Images
 
 **Status: COMPLETE**
 

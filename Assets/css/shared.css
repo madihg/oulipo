@@ -211,6 +211,17 @@ hr {
   opacity: 0.7;
 }
 
+/* White Header Bar */
+.header-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3.5rem;
+  background: #ffffff;
+  z-index: 150;
+}
+
 /* Site Header */
 .site-header {
   position: fixed;
@@ -247,14 +258,13 @@ hr {
   background: none;
   border: none;
   cursor: pointer;
-  padding: 0;
-  width: 20px;
-  height: 20px;
+  width: 44px;
+  height: 44px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: 4px;
-  padding: 12px;
+  gap: 5px;
   transition:
     opacity 0.3s ease,
     visibility 0.3s ease;
@@ -415,6 +425,10 @@ hr {
 
   h1 {
     font-size: 4.5rem;
+  }
+
+  .header-bar {
+    height: 2.8rem;
   }
 
   .site-header {

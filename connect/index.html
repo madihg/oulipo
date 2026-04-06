@@ -66,6 +66,14 @@
       /* Event entries */
       .event {
         margin: 0;
+        padding-bottom: 0.45rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        margin-bottom: 0.45rem;
+      }
+
+      .event:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
       }
 
       .event-head {
@@ -136,6 +144,7 @@
   </head>
   <body>
     <!-- Site Header -->
+    <div class="header-bar"></div>
     <div class="site-header">
       <a href="/home/">Halim Madi</a>
     </div>
@@ -168,6 +177,7 @@
         <a href="/keynotes/">Keynotes</a>
         <a href="/workshops/">Workshops</a>
         <a href="/books/">Books</a>
+        <a href="/writing/">Writing</a>
       </div>
 
       <hr class="menu-divider" />
@@ -196,7 +206,6 @@
       <div class="page-layout">
         <div class="page-content">
           <div class="page-title">Connect</div>
-          <hr />
           <div class="connect-links">
             <a class="button-8" href="mailto:madihalim@gmail.com"
               >Send an Email <span class="external-arrow">&#x2197;</span></a
@@ -237,10 +246,8 @@
               >Book a Meeting <span class="external-arrow">&#x2197;</span></a
             >
           </div>
-          <hr />
 
-          <div class="page-title">Latest Work</div>
-          <hr />
+          <div class="page-title" style="margin-top: 1.2rem">Latest Work</div>
           <div class="event">
             <div class="event-head">
               <a
@@ -255,10 +262,10 @@
               break out of the linear carcass.</span
             >
           </div>
-          <hr />
 
-          <div class="page-title">Latest Writing</div>
-          <hr />
+          <div class="page-title" style="margin-top: 1.2rem">
+            Latest Writing
+          </div>
           <div class="event">
             <div class="event-head">
               <a
@@ -273,7 +280,6 @@
             >
             <span class="event-meta">Mar 24, 2026</span>
           </div>
-          <hr />
           <div class="event">
             <div class="event-head">
               <a
@@ -288,7 +294,6 @@
             >
             <span class="event-meta">Feb 25, 2026</span>
           </div>
-          <hr />
           <div class="event">
             <div class="event-head">
               <a
@@ -385,24 +390,17 @@
           ? `<span class="event-description">${escapeHtml(event.description)}</span>`
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
-        const linkTag = linkUrl
-          ? `<a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">Link <span class="external-arrow">&#x2197;</span></a>`
+        const metaLine = metaText
+          ? `<span class="event-meta">${metaText}</span>`
           : "";
-        const metaParts = [];
 
-        if (metaText) {
-          metaParts.push(metaText);
-        }
-        if (linkTag) {
-          metaParts.push(linkTag);
-        }
-
-        const metaLine = metaParts.length
-          ? `<span class="event-meta">${metaParts.join(" ")}</span>`
-          : "";
+        const headContent = `<b>${org} \u2192</b> ${title}`;
+        const headHtml = linkUrl
+          ? `<div class="event-head"><a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${headContent}</a></div>`
+          : `<div class="event-head">${headContent}</div>`;
 
         return `<div class="event">
-          <div class="event-head"><b>${org} \u2192</b> ${title}</div>
+          ${headHtml}
           ${description}
           ${metaLine}
         </div>`;

@@ -64,6 +64,28 @@ body {
   font-weight: 400;
 }
 
+/*
+ * System interactions - principle 05 (interactions are short, opacity-led)
+ * and the focus-state spec (3px solid, 2px offset, keyboard first).
+ *
+ * Becoming Crossings has no performance accent of its own (per principle
+ * 02 - color is identity, not chrome - the singulars accents stay in
+ * singulars). The focus ring uses --border instead.
+ */
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid var(--border);
+  outline-offset: 2px;
+  border-radius: 0;
+}
+
+a {
+  transition: opacity 0.3s ease;
+}
+a:hover {
+  opacity: 0.7;
+}
+
 * {
   margin: 0;
   padding: 0;

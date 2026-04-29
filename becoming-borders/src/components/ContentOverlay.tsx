@@ -249,22 +249,67 @@ export function ContentOverlay({
             background: "none",
             border: "none",
             fontFamily: "'EB Garamond', Georgia, serif",
-            color: "#000000",
+            color: "var(--text-primary)",
             padding: "4px",
+            transition: "opacity 0.3s ease",
           }}
-          aria-label="Close"
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = "0.7";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = "1";
+          }}
+          aria-label="close"
         >
           &times;
         </button>
 
-        {/* Section text */}
+        {/* Section header — system .sec-head pattern: [num] | [title] */}
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "2.5rem 1fr",
+            gap: "var(--s-3)",
+            alignItems: "baseline",
+            marginBottom: "var(--s-5)",
+            paddingBottom: "var(--s-3)",
+            borderBottom: "1px solid var(--border-light)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--type-size-meta)",
+              color: "var(--text-hint)",
+              letterSpacing: "0.05em",
+              fontVariantNumeric: "tabular-nums",
+            }}
+          >
+            {String(sectionIndex + 1).padStart(2, "0")}
+          </span>
+          <h2
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--type-size-meta)",
+              color: "var(--text-secondary)",
+              letterSpacing: "0.05em",
+              textTransform: "uppercase",
+              fontWeight: 400,
+              margin: 0,
+            }}
+          >
+            {section.title.toLowerCase()}
+          </h2>
+        </div>
+
+        {/* Section text — pre-line preserved (principle 06) */}
         <div
           style={{
             fontFamily: "'EB Garamond', Georgia, serif",
             fontSize: 17,
             lineHeight: 1.6,
             whiteSpace: "pre-line",
-            color: "#000000",
+            color: "var(--text-primary)",
           }}
         >
           {section.text}

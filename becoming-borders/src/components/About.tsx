@@ -25,23 +25,24 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
 
   return (
     <>
-      {/* Circle button — opacity-led hover per design system principle 05 */}
+      {/* About entrypoint — text label per principle "no clever icon set,
+          only ↗". Hairline rule, opacity-led hover. */}
       <button
         onClick={onToggle}
         className="fixed z-10"
         style={{
           bottom: 24,
           left: 24,
-          width: 32,
-          height: 32,
-          borderRadius: "50%",
+          padding: "0.4rem 0.7rem",
           border: "1px solid var(--text-hint)",
           background: "none",
           cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: 0,
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--type-size-meta)",
+          color: "var(--text-tertiary)",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          lineHeight: 1.2,
           transition: "opacity 0.3s ease",
         }}
         onMouseEnter={(e) => {
@@ -52,17 +53,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
         }}
         aria-label="about"
       >
-        <span
-          style={{
-            fontFamily: "'EB Garamond', Georgia, serif",
-            fontSize: 14,
-            color: "var(--text-tertiary)",
-            lineHeight: 1,
-            marginTop: 1,
-          }}
-        >
-          ?
-        </span>
+        about
       </button>
 
       {/* Overlay panel */}

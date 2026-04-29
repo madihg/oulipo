@@ -140,15 +140,19 @@ export default function Home() {
         canvasRef={canvasRef}
       />
 
-      {/* Title — visible on landing, fades out on first click */}
+      {/* Wordmark — top-right, italic serif (matches the as-the-hydra
+          "viewing memory" placement). Fades the moment the user starts
+          drawing. Sits above the QR pill, both right-aligned. */}
       <div
-        className="fixed left-1/2 -translate-x-1/2 pointer-events-none select-none"
+        className="fixed pointer-events-none select-none z-10"
         style={{
-          top: "calc(50% + 28px)",
-          fontFamily: "var(--font-body)",
-          fontSize: 15,
-          letterSpacing: "0.12em",
-          color: "rgba(0, 0, 0, 0.3)",
+          top: 22,
+          right: 24,
+          fontFamily: 'Georgia, "Times New Roman", serif',
+          fontStyle: "italic",
+          fontSize: 14,
+          color: "var(--text-tertiary)",
+          letterSpacing: "0.02em",
           opacity: hasStarted ? 0 : 1,
           transition: "opacity 0.6s ease",
         }}

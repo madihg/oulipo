@@ -29,29 +29,11 @@ export function Counter({
   onCounterClick,
   onCardClick,
 }: CounterProps) {
-  const allRead = storiesRead >= total;
   const hasActive = activeSection !== null;
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
-      {/* Wordmark reveal after all 7 crossings */}
-      <div
-        style={{
-          fontFamily: "var(--font-body)",
-          fontSize: 15,
-          letterSpacing: "0.12em",
-          color: "var(--text-tertiary)",
-          marginBottom: 12,
-          opacity: allRead ? 1 : 0,
-          transition: "opacity 0.8s ease",
-          pointerEvents: "none",
-          whiteSpace: "nowrap",
-        }}
-      >
-        becoming crossings
-      </div>
-
-      {/* Numbered crossings strip */}
+      {/* Numbered crossings strip — wordmark lives top-right (page.tsx) */}
       <div className="flex items-center" style={{ gap: 6 }}>
         {Array.from({ length: total }, (_, i) => {
           const isRead = i < storiesRead;

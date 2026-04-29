@@ -47,7 +47,7 @@ export function QrCode() {
         aria-label="show share qr code"
         className="fixed z-10"
         style={{
-          top: 24,
+          top: 56,
           right: 24,
           padding: "0.4rem 0.7rem",
           background: "var(--background)",

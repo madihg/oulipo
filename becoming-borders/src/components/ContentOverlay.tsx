@@ -302,12 +302,13 @@ export function ContentOverlay({
           </h2>
         </div>
 
-        {/* Section text — italic per blockquote spec (the poem is the
-            voice; chrome stays roman). pre-line preserved (principle 06).
-            Mirrors the as-the-hydra strip aesthetic. */}
+        {/* Section text — italic Georgia, matching the as-the-hydra
+            poem strip exactly. The chrome stays Space Grotesk (system
+            body); the poem voices itself in serif italic. pre-line
+            preserved per principle 06. */}
         <div
           style={{
-            fontFamily: "var(--font-body)",
+            fontFamily: 'Georgia, "Times New Roman", serif',
             fontStyle: "italic",
             fontSize: 18,
             lineHeight: 1.55,
@@ -363,7 +364,7 @@ export function ContentOverlay({
                   color: "#000000",
                 }}
               >
-                see others&rsquo; crossings
+                see other crossings
               </span>
             </div>
           </div>

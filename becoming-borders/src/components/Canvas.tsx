@@ -37,6 +37,9 @@ export function Canvas({
   const lastEndpointRef = useRef<NormalizedPoint | null>(null);
   const hasInitializedRef = useRef(false);
   const [size, setSize] = useState({ w: 0, h: 0 });
+  // Live cursor position - drives the dotted preview line from the last
+  // endpoint, mirroring the as-the-hydra "tentative edge" aesthetic.
+  const [cursor, setCursor] = useState<NormalizedPoint | null>(null);
 
   // ---------------------------------------------------------------
   // Initialization: create the initial segment once on mount
@@ -93,17 +96,36 @@ export function Canvas({
     if (w === 0 || h === 0) return;
 
     ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = "#000";
-    ctx.lineWidth = 2;
     ctx.lineCap = "round";
 
+    // Committed segments — solid black 2.5px (hydra "chosen-path" weight)
+    ctx.strokeStyle = "rgba(0, 0, 0, 0.85)";
+    ctx.lineWidth = 2.5;
+    ctx.setLineDash([]);
     for (const seg of segments) {
       ctx.beginPath();
       ctx.moveTo(seg.start.nx * w, seg.start.ny * h);
       ctx.lineTo(seg.end.nx * w, seg.end.ny * h);
       ctx.stroke();
     }
-  }, [segments, size, canvasRef]);
+
+    // Tentative preview — dotted [3, 5] grey at 1.5px from last endpoint
+    // to current cursor (hydra "exploratory edge" aesthetic). Suppressed
+    // when a modal is open or before the first endpoint is set.
+    if (!disabled && cursor && lastEndpointRef.current) {
+      ctx.strokeStyle = "rgba(0, 0, 0, 0.45)";
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([3, 5]);
+      ctx.beginPath();
+      ctx.moveTo(
+        lastEndpointRef.current.nx * w,
+        lastEndpointRef.current.ny * h,
+      );
+      ctx.lineTo(cursor.nx * w, cursor.ny * h);
+      ctx.stroke();
+      ctx.setLineDash([]);
+    }
+  }, [segments, size, canvasRef, cursor, disabled]);
 
   // ---------------------------------------------------------------
   // Click / touch handler: draw new line, detect intersections
@@ -220,6 +242,25 @@ export function Canvas({
   );
 
   // ---------------------------------------------------------------
+  // Cursor tracking — drives the dotted preview line
+  // ---------------------------------------------------------------
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (disabled) return;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      setCursor({
+        nx: (e.clientX - rect.left) / rect.width,
+        ny: (e.clientY - rect.top) / rect.height,
+      });
+    },
+    [disabled, canvasRef],
+  );
+
+  const handleMouseLeave = useCallback(() => setCursor(null), []);
+
+  // ---------------------------------------------------------------
   // Render
   // ---------------------------------------------------------------
   return (
@@ -227,6 +268,8 @@ export function Canvas({
       className="absolute inset-0 w-screen h-screen"
       onClick={handleContainerClick}
       onTouchEnd={handleContainerTouchEnd}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       {/* The canvas itself — click/touch handled by container */}
       <canvas

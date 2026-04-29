@@ -338,7 +338,7 @@ export function ContentOverlay({
                 (e.currentTarget as HTMLButtonElement).style.opacity = "1";
               }}
             >
-              save a screenshot of my quilt of crossings
+              save my quilt of crossings
             </button>
 
             <div

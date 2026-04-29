@@ -83,11 +83,7 @@ as a power animal`,
   {
     id: "notice",
     title: "Notice",
-    text: `Notice: You've been drawing
-and crossing lines by yourself.
-See. A landscape of self-invasions
-a quilt of personal trespassings
-All yours now.`,
+    text: `Notice. You've been drawing and crossing lines by yourself. See. A landscape of self-invasions. A quilt of personal trespassings. All yours now.`,
     images: [],
   },
 ];

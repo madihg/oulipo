@@ -38,19 +38,30 @@ export function QrCode() {
 
   return (
     <>
-      {/* Collapsed pill - top-right anchor */}
+      {/* Collapsed pill - horizontal, top-right anchor.
+          Small abstract QR glyph + "show qr" mono caption. The glyph is
+          a 4x4 dot pattern, not a literal QR - read as "scannable thing"
+          without being noisy at icon scale. */}
       <button
         onClick={() => setState("expanded")}
-        aria-label="open share qr code"
+        aria-label="show share qr code"
         className="fixed z-10"
         style={{
           top: 24,
           right: 24,
-          padding: 6,
+          padding: "0.4rem 0.7rem",
           background: "var(--background)",
           border: "1px solid var(--text-hint)",
           cursor: "pointer",
-          lineHeight: 0,
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--type-size-meta)",
+          color: "var(--text-tertiary)",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
+          lineHeight: 1.2,
+          display: "inline-flex",
+          alignItems: "center",
+          gap: "0.55rem",
           transition: "opacity 0.3s ease",
         }}
         onMouseEnter={(e) => {
@@ -60,14 +71,27 @@ export function QrCode() {
           e.currentTarget.style.opacity = "1";
         }}
       >
-        <QRCodeSVG
-          value={SHARE_URL}
-          size={44}
-          fgColor="rgba(0,0,0,0.85)"
-          bgColor="#ffffff"
-          level="M"
-          marginSize={0}
-        />
+        <svg
+          viewBox="0 0 16 16"
+          width="14"
+          height="14"
+          aria-hidden="true"
+          style={{ display: "block", flexShrink: 0 }}
+        >
+          {/* Sparse 4x4 grid that reads as "QR" without simulating a real one */}
+          <g fill="currentColor">
+            <rect x="0" y="0" width="3" height="3" />
+            <rect x="4" y="0" width="3" height="3" />
+            <rect x="13" y="0" width="3" height="3" />
+            <rect x="0" y="4" width="3" height="3" />
+            <rect x="9" y="4" width="3" height="3" />
+            <rect x="4" y="9" width="3" height="3" />
+            <rect x="13" y="9" width="3" height="3" />
+            <rect x="0" y="13" width="3" height="3" />
+            <rect x="9" y="13" width="3" height="3" />
+          </g>
+        </svg>
+        show qr
       </button>
 
       {/* Expanded / max modal */}

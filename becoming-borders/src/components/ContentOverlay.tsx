@@ -302,12 +302,15 @@ export function ContentOverlay({
           </h2>
         </div>
 
-        {/* Section text — pre-line preserved (principle 06) */}
+        {/* Section text — italic per blockquote spec (the poem is the
+            voice; chrome stays roman). pre-line preserved (principle 06).
+            Mirrors the as-the-hydra strip aesthetic. */}
         <div
           style={{
             fontFamily: "var(--font-body)",
-            fontSize: 17,
-            lineHeight: 1.6,
+            fontStyle: "italic",
+            fontSize: 18,
+            lineHeight: 1.55,
             whiteSpace: "pre-line",
             color: "var(--text-primary)",
           }}

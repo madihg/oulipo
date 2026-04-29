@@ -172,7 +172,9 @@ export default function Home() {
       <Counter
         storiesRead={storiesRead}
         total={7}
+        activeSection={activeSection}
         onCounterClick={handleCounterClick}
+        onCardClick={(i) => setActiveSection(i)}
       />
 
       <About

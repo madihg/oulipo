@@ -3,11 +3,34 @@
 interface CounterProps {
   storiesRead: number;
   total: number;
+  activeSection: number | null;
   onCounterClick: () => void;
+  onCardClick?: (sectionIndex: number) => void;
 }
 
-export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
+/**
+ * Bottom strip of numbered crossings - inspired by the as-the-hydra
+ * poem strip aesthetic. Each card represents one of seven crossings.
+ *
+ * States per card:
+ *   locked   - not yet drawn. Hairline-light border, hint color, hover
+ *              advances to the next unread story (preserving the old
+ *              counter-click skip affordance).
+ *   unlocked - already read. Full --border, --text-primary, clickable
+ *              to revisit.
+ *   active   - currently shown in the modal. Full opacity. Other cards
+ *              drop to 0.5 (system principle 04: selection by contrast
+ *              collapse).
+ */
+export function Counter({
+  storiesRead,
+  total,
+  activeSection,
+  onCounterClick,
+  onCardClick,
+}: CounterProps) {
   const allRead = storiesRead >= total;
+  const hasActive = activeSection !== null;
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
@@ -18,7 +41,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
           fontSize: 15,
           letterSpacing: "0.12em",
           color: "var(--text-tertiary)",
-          marginBottom: 10,
+          marginBottom: 12,
           opacity: allRead ? 1 : 0,
           transition: "opacity 0.8s ease",
           pointerEvents: "none",
@@ -28,57 +51,49 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
         becoming crossings
       </div>
 
-      {/* Dot indicators */}
-      <div className="flex items-center gap-3">
+      {/* Numbered crossings strip */}
+      <div className="flex items-center" style={{ gap: 6 }}>
         {Array.from({ length: total }, (_, i) => {
           const isRead = i < storiesRead;
+          const isActive = activeSection === i;
+          // contrast collapse: when a section is active, others fade
+          const muted = hasActive && !isActive;
+          const handleClick = isRead ? () => onCardClick?.(i) : onCounterClick;
+
           return (
             <button
               key={i}
-              onClick={isRead ? undefined : onCounterClick}
-              disabled={isRead}
+              onClick={handleClick}
               style={{
-                width: 18,
-                height: 18,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: "none",
-                background: "none",
-                padding: 0,
-                cursor: isRead ? "default" : "pointer",
-                fontFamily: "var(--font-body)",
-                fontSize: 14,
-                color: isRead ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)",
-                transition: "color 0.3s ease",
+                minWidth: 38,
+                padding: "0.4rem 0.55rem",
+                background: "var(--background)",
+                border: `1px solid ${
+                  isActive || isRead ? "var(--border)" : "var(--border-light)"
+                }`,
+                cursor: "pointer",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                color: isRead ? "var(--text-primary)" : "var(--text-hint)",
+                letterSpacing: "0.05em",
+                fontVariantNumeric: "tabular-nums",
+                lineHeight: 1.2,
+                opacity: muted ? 0.5 : 1,
+                transition:
+                  "opacity 0.3s ease, border-color 0.3s ease, color 0.3s ease",
               }}
-              aria-label={isRead ? `Story ${i + 1} read` : `Open next story`}
+              onMouseEnter={(e) => {
+                if (!muted) e.currentTarget.style.opacity = "0.7";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = muted ? "0.5" : "1";
+              }}
+              aria-label={
+                isRead ? `revisit crossing ${i + 1}` : `open next crossing`
+              }
+              aria-current={isActive ? "true" : undefined}
             >
-              {isRead ? (
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                >
-                  <line x1="1" y1="1" x2="9" y2="9" />
-                  <line x1="9" y1="1" x2="1" y2="9" />
-                </svg>
-              ) : (
-                <svg
-                  width="10"
-                  height="10"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.2"
-                >
-                  <circle cx="5" cy="5" r="4" />
-                </svg>
-              )}
+              {String(i + 1).padStart(2, "0")}
             </button>
           );
         })}

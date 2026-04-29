@@ -35,7 +35,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
           whiteSpace: "nowrap",
         }}
       >
-        <span>Becoming </span>
+        <span>becoming </span>
         <span style={{ position: "relative", display: "inline-block" }}>
           <span
             style={{
@@ -43,7 +43,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
               transition: "opacity 0.8s ease",
             }}
           >
-            Borders
+            borders
           </span>
           <span
             style={{
@@ -54,7 +54,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
               transition: "opacity 0.8s ease",
             }}
           >
-            Crossings
+            crossings
           </span>
         </span>
       </div>

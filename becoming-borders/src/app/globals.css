@@ -2,16 +2,66 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@300;400;500&display=swap");
+
+/*
+ * Tokens — adopted from the singulars/oulipo design system v1
+ * (~/Documents/oulipo/becoming-borders/design/hmart-design-system.html).
+ *
+ * Becoming Crossings is a work *inside* the oulipo chrome. It keeps its
+ * own bespoke EB Garamond editorial voice for poem text, but borrows
+ * the system's neutral palette, opacity ladder, spacing scale, and mono
+ * caption treatment so it reads as part of the same catalogue.
+ */
+:root {
+  --background: #ffffff;
+  --text-primary: rgba(0, 0, 0, 0.85);
+  --text-hover: rgba(0, 0, 0, 0.7);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-tertiary: rgba(0, 0, 0, 0.5);
+  --text-hint: rgba(0, 0, 0, 0.4);
+  --border: rgba(0, 0, 0, 0.75);
+  --border-light: rgba(0, 0, 0, 0.12);
+
+  --font-body: "EB Garamond", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --type-size-base: 1.06rem;
+  --type-size-caption: 0.98rem;
+  --type-size-meta: 0.85rem;
+
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.5rem;
+  --s-6: 2rem;
+  --s-7: 3rem;
+  --s-8: 4rem;
+}
 
 body {
-  color: #000000;
-  background: #ffffff;
-  font-family: "EB Garamond", Georgia, serif;
+  color: var(--text-primary);
+  background: var(--background);
+  font-family: var(--font-body);
   font-weight: 400;
   line-height: 1.8;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/*
+ * Mono caption utility - per system principle 03 (type carries the voice).
+ * Used on meta labels, loading text, dates, gallery subtitle - never on
+ * the poem body. Lowercase stays lowercase.
+ */
+.mono-caption {
+  font-family: var(--font-mono);
+  font-size: var(--type-size-meta);
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  font-weight: 400;
 }
 
 * {
@@ -21,7 +71,8 @@ body {
 }
 
 ::selection {
-  background: rgba(0, 0, 0, 0.15);
+  background: var(--text-primary);
+  color: #ffffff;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -56,7 +107,7 @@ body {
   overflow: hidden;
   border: 1px solid #000000;
   background: #ffffff;
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  /* hairline rule alone, no shadow - per system anti-pattern: no shadows */
 }
 
 .story-image-frame img {

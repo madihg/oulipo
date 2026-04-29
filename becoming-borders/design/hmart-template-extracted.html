@@ -1,0 +1,2489 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>singulars + oulipo.xyz - design system</title>
+
+    <!-- Google Font substitutes for the four Cargo faces.
+     Real brand fonts come from type.cargo.site; these stand in. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+    <style>
+      /* cyrillic-ext */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("443a4428-ab4a-4bb7-a770-9a6d79c75d85") format("woff2");
+        unicode-range:
+          U+0460-052F, U+1C80-1C8A, U+20B4, U+2DE0-2DFF, U+A640-A69F,
+          U+FE2E-FE2F;
+      }
+      /* cyrillic */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("5e67c9ce-5505-4778-ab21-b0536c787349") format("woff2");
+        unicode-range: U+0301, U+0400-045F, U+0490-0491, U+04B0-04B1, U+2116;
+      }
+      /* greek */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("0fcdbb38-43b2-48df-8d47-8dd52ff625fa") format("woff2");
+        unicode-range:
+          U+0370-0377, U+037A-037F, U+0384-038A, U+038C, U+038E-03A1,
+          U+03A3-03FF;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("00f4d03a-0931-4c06-b24f-ba47384ff61d") format("woff2");
+        unicode-range:
+          U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+          U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329,
+          U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("70fd932f-c18c-4d48-a59f-a5b9727bbdd6") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+          U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: "JetBrains Mono";
+        font-style: normal;
+        font-weight: 200 700;
+        font-display: block;
+        src: url("88d81610-3c63-4e0e-9c52-87998dbb9c4a") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: "Space Grotesk";
+        font-style: normal;
+        font-weight: 300 700;
+        font-display: block;
+        src: url("0951f2cc-db98-48fb-b774-637f374b523f") format("woff2");
+        unicode-range:
+          U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+          U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329,
+          U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: "Space Grotesk";
+        font-style: normal;
+        font-weight: 300 700;
+        font-display: block;
+        src: url("888bf013-6666-4bb9-936c-f5dd9db2da71") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+          U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: "Space Grotesk";
+        font-style: normal;
+        font-weight: 300 700;
+        font-display: block;
+        src: url("409f0fc6-9ada-4705-9fcd-97e881a935ec") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+      /* vietnamese */
+      @font-face {
+        font-family: "VT323";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("fc3b3f3f-4550-44f1-962a-34546fb7e394") format("woff2");
+        unicode-range:
+          U+0102-0103, U+0110-0111, U+0128-0129, U+0168-0169, U+01A0-01A1,
+          U+01AF-01B0, U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329,
+          U+1EA0-1EF9, U+20AB;
+      }
+      /* latin-ext */
+      @font-face {
+        font-family: "VT323";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("3a4772bf-80ee-481d-8e8e-d9bd983373c9") format("woff2");
+        unicode-range:
+          U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+          U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+          U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+      }
+      /* latin */
+      @font-face {
+        font-family: "VT323";
+        font-style: normal;
+        font-weight: 400;
+        font-display: block;
+        src: url("292a86ae-11e1-45c8-9430-5f5755ec01fd") format("woff2");
+        unicode-range:
+          U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+          U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+          U+2212, U+2215, U+FEFF, U+FFFD;
+      }
+    </style>
+
+    <style>
+      /* ---------- tokens ---------- */
+      :root {
+        /* neutrals */
+        --background: #ffffff;
+        --text-primary: rgba(0, 0, 0, 0.85);
+        --text-hover: rgba(0, 0, 0, 0.7);
+        --text-secondary: rgba(0, 0, 0, 0.6);
+        --text-tertiary: rgba(0, 0, 0, 0.5);
+        --text-hint: rgba(0, 0, 0, 0.4);
+        --border: rgba(0, 0, 0, 0.75);
+        --border-light: rgba(0, 0, 0, 0.12);
+
+        /* performance accents (singulars only) */
+        --reverse: #8b5cf6;
+        --hard: #2aa4dd;
+        --reinforcement: #02f700;
+        --versus: #fee005;
+        --carnation: #f6009b;
+
+        /* WCAG-AA-darkened versions for use as text on white (~4.5:1).
+       In the real codebase ensureContrast() / accessibleTextColor() does this
+       at runtime; these are pre-baked equivalents. */
+        --reverse-text: #6b3fe0;
+        --hard-text: #1e6e96;
+        --reinforcement-text: #0b7a0a;
+        --versus-text: #6b5c00;
+        --carnation-text: #b8006f;
+
+        /* type scale */
+        --type-size-nav: 1.08rem;
+        --type-size-base: 1.06rem;
+        --type-size-caption: 0.98rem;
+        --type-size-meta: 0.96rem;
+
+        /* type families - substitutes labeled in spec cards */
+        --font-display:
+          "VT323", ui-monospace, monospace; /* sub for Terminal Grotesque */
+        --font-body:
+          "Space Grotesk", system-ui, sans-serif; /* sub for Standard */
+        --font-title:
+          "Space Grotesk", system-ui, sans-serif; /* sub for Diatype Variable */
+        --font-mono:
+          "JetBrains Mono", ui-monospace, monospace; /* sub for Diatype Mono */
+
+        /* spacing scale */
+        --s-1: 0.25rem;
+        --s-2: 0.5rem;
+        --s-3: 0.75rem;
+        --s-4: 1rem;
+        --s-5: 1.5rem;
+        --s-6: 2rem;
+        --s-7: 3rem;
+        --s-8: 4rem;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        background: var(--background);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        font-size: var(--type-size-base);
+        line-height: 1.2;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: underline;
+        transition: opacity 0.3s ease;
+      }
+      a:hover {
+        opacity: 0.7;
+      }
+      a.external::after {
+        content: " \2197";
+        font-family: var(--font-mono);
+        font-size: 0.85em;
+      }
+
+      ::selection {
+        background: rgba(0, 0, 0, 0.85);
+        color: #fff;
+      }
+
+      /* ---------- page scaffold ---------- */
+      .page {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: var(--s-8) var(--s-6);
+      }
+      @media (max-width: 600px) {
+        .page {
+          padding: var(--s-6) var(--s-4);
+        }
+      }
+
+      /* document header */
+      .doc-head {
+        border-top: 4px solid var(--border);
+        padding-top: var(--s-5);
+        margin-bottom: var(--s-8);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--s-6);
+        align-items: end;
+      }
+      .doc-head .wordmark {
+        font-family: var(--font-display);
+        font-size: clamp(3rem, 10vw, 7rem);
+        line-height: 0.9;
+        letter-spacing: -0.01em;
+        margin: 0;
+      }
+      .doc-head .meta {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        text-align: right;
+        line-height: 1.6;
+      }
+      .doc-sub {
+        font-family: var(--font-mono);
+        font-size: var(--type-size-caption);
+        color: var(--text-secondary);
+        max-width: 60ch;
+        margin: var(--s-5) 0 0;
+        line-height: 1.5;
+      }
+
+      /* table of contents */
+      .toc {
+        margin: var(--s-7) 0 var(--s-8);
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+        padding: var(--s-5) 0;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--s-4) var(--s-6);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .toc a {
+        text-decoration: none;
+        color: var(--text-secondary);
+        display: flex;
+        gap: var(--s-3);
+        align-items: baseline;
+      }
+      .toc a .num {
+        color: var(--text-hint);
+        font-variant-numeric: tabular-nums;
+      }
+      @media (max-width: 768px) {
+        .toc {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      @media (max-width: 480px) {
+        .toc {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* sections */
+      section {
+        padding: var(--s-7) 0;
+        border-top: 1px solid var(--border-light);
+      }
+      section:first-of-type {
+        border-top: 0;
+        padding-top: 0;
+      }
+      .sec-head {
+        display: grid;
+        grid-template-columns: 4rem 1fr;
+        gap: var(--s-5);
+        align-items: baseline;
+        margin-bottom: var(--s-6);
+      }
+      .sec-head .num {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-hint);
+        letter-spacing: 0.05em;
+        font-variant-numeric: tabular-nums;
+        padding-top: 0.4rem;
+      }
+      .sec-head h2 {
+        font-family: var(--font-title);
+        font-size: 2rem;
+        font-weight: 700;
+        letter-spacing: -0.01em;
+        margin: 0 0 var(--s-3);
+        line-height: 1.05;
+      }
+      .sec-head p {
+        font-family: var(--font-body);
+        font-size: 1.06rem;
+        color: var(--text-secondary);
+        margin: 0;
+        max-width: 65ch;
+        line-height: 1.5;
+      }
+      h3 {
+        font-family: var(--font-title);
+        font-size: 1.6rem;
+        font-weight: 700;
+        margin: var(--s-7) 0 var(--s-4);
+        letter-spacing: -0.005em;
+      }
+      h4 {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-secondary);
+        font-weight: 400;
+        margin: var(--s-5) 0 var(--s-3);
+      }
+
+      p {
+        margin: 0 0 var(--s-4);
+        max-width: 70ch;
+        line-height: 1.55;
+      }
+      ul {
+        margin: 0 0 var(--s-4);
+        padding-left: 1.2em;
+        max-width: 70ch;
+        line-height: 1.55;
+      }
+      li {
+        margin-bottom: var(--s-2);
+      }
+
+      blockquote {
+        font-style: italic;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-secondary);
+        border-left: 2px solid var(--border-light);
+        padding-left: var(--s-5);
+        margin: var(--s-6) 0;
+        max-width: 60ch;
+      }
+
+      /* ---------- principle list ---------- */
+      .principles {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--s-6);
+      }
+      @media (max-width: 768px) {
+        .principles {
+          grid-template-columns: 1fr;
+        }
+      }
+      .principles dt {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-tertiary);
+        margin-bottom: var(--s-2);
+      }
+      .principles dd {
+        margin: 0 0 var(--s-2);
+        font-family: var(--font-title);
+        font-size: 1.4rem;
+        line-height: 1.15;
+        font-weight: 500;
+        letter-spacing: -0.01em;
+      }
+      .principles .why {
+        font-family: var(--font-body);
+        font-size: 0.96rem;
+        color: var(--text-secondary);
+        line-height: 1.5;
+        margin: 0;
+      }
+
+      /* ---------- swatches ---------- */
+      .swatch-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--s-4);
+        margin: var(--s-5) 0;
+      }
+      @media (max-width: 768px) {
+        .swatch-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+      .swatch {
+        border-top: 1px solid var(--border-light);
+        padding-top: var(--s-3);
+      }
+      .swatch .chip {
+        aspect-ratio: 1 / 1;
+        width: 100%;
+        margin-bottom: var(--s-3);
+        border: 1px solid var(--border-light);
+      }
+      .swatch .name {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-primary);
+        text-transform: lowercase;
+        margin-bottom: var(--s-1);
+      }
+      .swatch .val {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .swatch .role {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-secondary);
+        margin-top: var(--s-1);
+        line-height: 1.4;
+      }
+
+      /* opacity ladder (text on white) */
+      .opacity-ladder {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--s-3);
+        margin: var(--s-5) 0;
+        max-width: 720px;
+      }
+      .ladder-row {
+        display: grid;
+        grid-template-columns: 6rem 1fr 8rem;
+        gap: var(--s-4);
+        align-items: baseline;
+        border-top: 1px solid var(--border-light);
+        padding-top: var(--s-3);
+        font-family: var(--font-body);
+      }
+      .ladder-row .step {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .ladder-row .demo {
+        font-size: 1.06rem;
+      }
+      .ladder-row .role {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        text-align: right;
+      }
+
+      /* performance accent rows */
+      .perf-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: var(--s-5) 0;
+        font-family: var(--font-mono);
+        font-size: 0.92rem;
+      }
+      .perf-table th,
+      .perf-table td {
+        text-align: left;
+        padding: var(--s-3) var(--s-4) var(--s-3) 0;
+        border-top: 1px solid var(--border-light);
+        vertical-align: middle;
+      }
+      .perf-table th {
+        font-weight: 400;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-tertiary);
+        border-top: 0;
+        border-bottom: 1px solid var(--border);
+      }
+      .perf-table .chip-cell {
+        width: 4rem;
+      }
+      .perf-table .chip-inline {
+        display: block;
+        width: 2.5rem;
+        height: 2.5rem;
+        border: 1px solid var(--border-light);
+      }
+      .perf-table .name {
+        color: var(--text-primary);
+      }
+      .perf-table .accessible {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+      }
+
+      /* type spec cards */
+      .type-spec {
+        border-top: 1px solid var(--border-light);
+        padding: var(--s-5) 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--s-6);
+        align-items: start;
+      }
+      @media (max-width: 768px) {
+        .type-spec {
+          grid-template-columns: 1fr;
+        }
+      }
+      .type-spec .label {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-tertiary);
+        margin-bottom: var(--s-2);
+      }
+      .type-spec .role {
+        font-family: var(--font-title);
+        font-size: 1.4rem;
+        font-weight: 600;
+        margin: 0 0 var(--s-2);
+        letter-spacing: -0.005em;
+      }
+      .type-spec .sub {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        margin-bottom: var(--s-3);
+        line-height: 1.5;
+      }
+      .type-spec .specs {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--text-tertiary);
+        line-height: 1.7;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      .type-spec .specs span {
+        display: block;
+      }
+      .type-spec .specs b {
+        font-weight: 700;
+        color: var(--text-primary);
+      }
+      .type-spec .preview {
+        padding: var(--s-3) 0;
+        min-height: 8rem;
+      }
+
+      .preview-display {
+        font-family: var(--font-display);
+        font-size: clamp(2.5rem, 7vw, 5rem);
+        line-height: 0.9;
+        color: var(--text-primary);
+      }
+      .preview-body {
+        font-family: var(--font-body);
+        font-size: 1.06rem;
+        line-height: 1.2;
+        color: var(--text-primary);
+        max-width: 32ch;
+      }
+      .preview-body.bold {
+        font-weight: 700;
+      }
+      .preview-title {
+        font-family: var(--font-title);
+        font-size: 2rem;
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -0.01em;
+      }
+      .preview-mono {
+        font-family: var(--font-mono);
+        font-size: 0.92rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-primary);
+        line-height: 1.7;
+      }
+
+      /* spacing scale viz */
+      .spacing-scale {
+        display: grid;
+        grid-template-columns: 6rem 1fr 6rem;
+        gap: var(--s-4);
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+      }
+      .spacing-row {
+        display: contents;
+      }
+      .spacing-row .name {
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-size: 0.78rem;
+      }
+      .spacing-row .bar {
+        height: 8px;
+        background: var(--text-primary);
+      }
+      .spacing-row .val {
+        color: var(--text-tertiary);
+        text-align: right;
+        font-size: 0.78rem;
+      }
+
+      /* status pills */
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        font-family: var(--font-mono);
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 0.25rem 0.7rem;
+        border-radius: 2px;
+        border: 1px solid transparent;
+        line-height: 1.4;
+      }
+      .pill.upcoming {
+        background: #f3f4f6;
+        border-color: #d1d5db;
+        color: #4b5563;
+      }
+      .pill.training {
+        background: #ffffff;
+        border-color: #171717;
+        color: #171717;
+      }
+      .pill.trained {
+        background: #171717;
+        border-color: #171717;
+        color: #ffffff;
+      }
+
+      /* -------- COMPONENT GALLERY -------- */
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--s-6);
+        margin: var(--s-5) 0;
+      }
+      @media (max-width: 900px) {
+        .gallery {
+          grid-template-columns: 1fr;
+        }
+      }
+      .specimen {
+        border-top: 1px solid var(--border-light);
+        padding-top: var(--s-4);
+      }
+      .specimen .label {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-tertiary);
+        margin-bottom: var(--s-4);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--s-3);
+      }
+      .specimen .label .right {
+        color: var(--text-hint);
+      }
+
+      /* nav link */
+      .nav-link {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 6px;
+        color: var(--text-primary);
+        text-decoration: none;
+        transition:
+          border-color 0.2s ease,
+          opacity 0.3s ease;
+      }
+      .nav-link:hover {
+        opacity: 0.7;
+        border-color: rgba(0, 0, 0, 0.4);
+      }
+
+      /* submit button */
+      .submit-btn {
+        display: inline-block;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        font-weight: 700;
+        color: #fff;
+        background: var(--btn-color, var(--hard));
+        padding: 0.75rem 2rem;
+        border: 0;
+        border-radius: 0;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+      .submit-btn:hover {
+        opacity: 0.7;
+      }
+
+      /* performance card */
+      .perf-card {
+        --acc: var(--hard);
+        border-top: 4px solid var(--acc);
+        padding-top: var(--s-4);
+        cursor: var(--dot-cursor, pointer);
+      }
+      .perf-card .img {
+        aspect-ratio: 16 / 9;
+        background: var(--img-bg, #ddd);
+        background-size: cover;
+        background-position: center;
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+        margin-bottom: var(--s-4);
+      }
+      .perf-card:hover .img {
+        filter: grayscale(0%);
+      }
+      .perf-card .title {
+        font-family: var(--font-title);
+        font-size: 1.1rem;
+        font-weight: 500;
+        margin: 0 0 var(--s-2);
+        color: var(--text-primary);
+      }
+      .perf-card .meta {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        line-height: 1.6;
+      }
+
+      /* poem card / voteable */
+      .poem-set {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 0;
+      }
+      .poem {
+        --acc: var(--hard);
+        padding: var(--s-5) 0;
+        border-top: 2px solid var(--border-light);
+        cursor: var(--dot-cursor, pointer);
+        transition:
+          opacity 0.3s ease,
+          border-color 0.3s ease;
+        white-space: pre-line;
+        font-family: var(--font-body);
+        font-size: 0.95rem;
+        line-height: 1.7;
+        color: var(--text-primary);
+      }
+      .poem-set:hover .poem:not(:hover) {
+        opacity: 0.5;
+      }
+      .poem.selected {
+        border-top-color: var(--acc);
+      }
+      .poem-set.has-selected .poem:not(.selected) {
+        opacity: 0.5;
+      }
+
+      /* focus ring demo */
+      .focus-demo {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.92rem;
+        padding: 0.5rem 1rem;
+        border: 1px solid var(--border);
+        background: #fff;
+        color: var(--text-primary);
+        margin-right: var(--s-3);
+        margin-bottom: var(--s-3);
+        cursor: pointer;
+      }
+      .focus-demo:focus {
+        outline: 3px solid var(--focus-color, var(--hard));
+        outline-offset: 2px;
+      }
+
+      /* ---------- ANTI-PATTERNS ---------- */
+      .anti {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--s-5);
+        margin: var(--s-5) 0;
+      }
+      @media (max-width: 900px) {
+        .anti {
+          grid-template-columns: 1fr;
+        }
+      }
+      .anti .card {
+        padding: var(--s-4);
+        border-top: 1px solid var(--border-light);
+      }
+      .anti .label {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--text-tertiary);
+        margin-bottom: var(--s-3);
+      }
+      .anti .x {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        color: var(--text-primary);
+        margin-bottom: var(--s-2);
+      }
+      .anti .x::before {
+        content: "× ";
+        color: var(--text-primary);
+      }
+      .anti .ok::before {
+        content: "✓ ";
+      }
+
+      /* the bad demos use intentionally-wrong styles, scoped */
+      .bad-card {
+        background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        padding: 1.5rem;
+        color: #4b5563;
+      }
+      .bad-card .t {
+        font-family: var(--font-body);
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+      .bad-card .s {
+        font-size: 0.9rem;
+      }
+
+      /* ---------- footer ---------- */
+      footer {
+        border-top: 1px solid var(--border-light);
+        margin-top: var(--s-8);
+        padding-top: var(--s-5);
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-tertiary);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--s-5);
+      }
+
+      /* utility */
+      .hr-heavy {
+        border: 0;
+        border-top: 4px solid var(--border);
+        margin: var(--s-6) 0;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--s-6);
+      }
+      @media (max-width: 768px) {
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .callout {
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+        color: var(--text-secondary);
+        line-height: 1.6;
+        background: transparent;
+        border-top: 1px solid var(--border-light);
+        border-bottom: 1px solid var(--border-light);
+        padding: var(--s-4) 0;
+        margin: var(--s-5) 0;
+        max-width: 70ch;
+      }
+      .callout b {
+        color: var(--text-primary);
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <!-- ===================== HEAD ===================== -->
+      <header class="doc-head">
+        <h1 class="wordmark">singulars / oulipo</h1>
+        <div class="meta">
+          design system v1<br />
+          reference document<br />
+          april 2026
+        </div>
+      </header>
+
+      <p class="doc-sub">
+        a kitchen laboratory of experimental computational poetry. non-human
+        poets, anti-gravitational word interfaces, somatic semantics. this
+        document collects the rules that hold the chrome together so the work in
+        front of it can breathe.
+      </p>
+
+      <!-- toc -->
+      <nav class="toc" aria-label="Table of contents">
+        <a href="#principles"><span class="num">01</span> principles</a>
+        <a href="#voice"><span class="num">02</span> voice</a>
+        <a href="#color"><span class="num">03</span> color</a>
+        <a href="#type"><span class="num">04</span> typography</a>
+        <a href="#layout"><span class="num">05</span> layout</a>
+        <a href="#components"><span class="num">06</span> components</a>
+        <a href="#interactions"><span class="num">07</span> interactions</a>
+        <a href="#accessibility"><span class="num">08</span> accessibility</a>
+        <a href="#anti"><span class="num">09</span> anti-patterns</a>
+        <a href="#examples"><span class="num">10</span> examples</a>
+      </nav>
+
+      <!-- ===================== 01 PRINCIPLES ===================== -->
+      <section id="principles">
+        <div class="sec-head">
+          <div class="num">01</div>
+          <div>
+            <h2>principles</h2>
+            <p>
+              seven rules that distinguish this system from a generic editorial
+              site. if a design choice doesn't trace back to one of these, it
+              probably doesn't belong.
+            </p>
+          </div>
+        </div>
+
+        <dl class="principles">
+          <div>
+            <dt>01 / hierarchy through opacity</dt>
+            <dd>black on white, stepped down by opacity.</dd>
+            <p class="why">
+              no off-whites, no tinted grays, no shadows. five levels of
+              black-alpha do all the heavy lifting that color usually does.
+            </p>
+          </div>
+          <div>
+            <dt>02 / color is identity, not chrome</dt>
+            <dd>
+              accent color belongs to a performance. it never paints the page.
+            </dd>
+            <p class="why">
+              the five accents are functional moments - top border, status pill,
+              focus ring, button, cursor. white is the only background.
+            </p>
+          </div>
+          <div>
+            <dt>03 / type carries the voice</dt>
+            <dd>distressed display + swiss variable sans + mono captions.</dd>
+            <p class="why">
+              the contrast between a humanist face and a clean variable family
+              is the signature move. one display moment per page, used big.
+            </p>
+          </div>
+          <div>
+            <dt>04 / white space replaces ornament</dt>
+            <dd>negative space is the decoration.</dd>
+            <p class="why">
+              a tighter reading column, generous vertical rhythm, hairline
+              rules. nothing else needs to assert presence.
+            </p>
+          </div>
+          <div>
+            <dt>05 / interactions are short, opacity-led</dt>
+            <dd>hover drops to 0.7. selection drops siblings to 0.5.</dd>
+            <p class="why">
+              no bouncing, no sliding. the language is opacity and
+              grayscale-to-color, both 0.3 - 0.5s.
+            </p>
+          </div>
+          <div>
+            <dt>06 / poetry is the content the chrome serves</dt>
+            <dd>
+              poem text uses pre-line. line breaks and stanzas are sacred.
+            </dd>
+            <p class="why">
+              never reflow whitespace inside a poem. voting is blind during
+              training - no labels reveal author.
+            </p>
+          </div>
+          <div>
+            <dt>07 / a print catalogue, not a marketing site</dt>
+            <dd>
+              reads like a zine. lower-case wordmark, hyphens not em dashes, no
+              emoji.
+            </dd>
+            <p class="why">
+              declarative copy, comma-separated taxonomies, first-person where
+              it appears. visual ornament is replaced with white space.
+            </p>
+          </div>
+        </dl>
+      </section>
+
+      <!-- ===================== 02 VOICE ===================== -->
+      <section id="voice">
+        <div class="sec-head">
+          <div class="num">02</div>
+          <div>
+            <h2>voice</h2>
+            <p>
+              direct, image-led, anti-marketing. how copy reads matters as much
+              as how the chrome looks.
+            </p>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div>
+            <h4>do</h4>
+            <ul>
+              <li>
+                lower-case wordmarks (<i>singulars</i>, not <i>Singulars</i>)
+              </li>
+              <li>declarative sentences. short. image-led.</li>
+              <li>
+                comma-separated taxonomies (<i
+                  >non-human poets, anti-gravitational word interfaces, somatic
+                  semantics</i
+                >)
+              </li>
+              <li>first-person where it appears</li>
+              <li>hyphens with spaces ( - ) for parentheticals</li>
+              <li>"kitchen laboratory" framing - humble, tactile, hand-made</li>
+            </ul>
+          </div>
+          <div>
+            <h4>don't</h4>
+            <ul>
+              <li>no em dashes, ever</li>
+              <li>no emojis</li>
+              <li>
+                no marketing puffery ("revolutionary", "seamless", "delightful")
+              </li>
+              <li>
+                no clever icon set - the only glyph is
+                <span style="font-family: var(--font-mono)">↗</span>
+              </li>
+              <li>no title case in chrome</li>
+              <li>no exclamation points</li>
+            </ul>
+          </div>
+        </div>
+
+        <blockquote>
+          a kitchen laboratory of experimental computational poetry by halim
+          madi. non-human poets, anti-gravitational word interfaces, somatic
+          semantics. this is where i break and mend things.
+        </blockquote>
+      </section>
+
+      <!-- ===================== 03 COLOR ===================== -->
+      <section id="color">
+        <div class="sec-head">
+          <div class="num">03</div>
+          <div>
+            <h2>color</h2>
+            <p>
+              two layers. a neutral palette shared with oulipo.xyz. five
+              performance accents that singulars adds on top, used functionally
+              only.
+            </p>
+          </div>
+        </div>
+
+        <h3>neutral palette</h3>
+        <p>
+          the entire chrome runs on these. white background, black-alpha
+          hierarchy. nothing else.
+        </p>
+
+        <div class="swatch-grid">
+          <div class="swatch">
+            <div
+              class="chip"
+              style="background: #ffffff; border-color: var(--border-light)"
+            ></div>
+            <div class="name">background</div>
+            <div class="val">#ffffff</div>
+            <div class="role">page only</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.85)"></div>
+            <div class="name">text-primary</div>
+            <div class="val">rgba(0,0,0,.85)</div>
+            <div class="role">body copy</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.7)"></div>
+            <div class="name">text-hover</div>
+            <div class="val">rgba(0,0,0,.70)</div>
+            <div class="role">link hover, secondary</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.6)"></div>
+            <div class="name">text-secondary</div>
+            <div class="val">rgba(0,0,0,.60)</div>
+            <div class="role">subtitles, mono captions</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.5)"></div>
+            <div class="name">text-tertiary</div>
+            <div class="val">rgba(0,0,0,.50)</div>
+            <div class="role">meta, dates</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.4)"></div>
+            <div class="name">text-hint</div>
+            <div class="val">rgba(0,0,0,.40)</div>
+            <div class="role">faintest meta</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.75)"></div>
+            <div class="name">border</div>
+            <div class="val">rgba(0,0,0,.75)</div>
+            <div class="role">heavy rules</div>
+          </div>
+          <div class="swatch">
+            <div class="chip" style="background: rgba(0, 0, 0, 0.12)"></div>
+            <div class="name">border-light</div>
+            <div class="val">rgba(0,0,0,.12)</div>
+            <div class="role">hairlines, blockquote bars</div>
+          </div>
+        </div>
+
+        <h4>opacity ladder, in context</h4>
+        <div class="opacity-ladder">
+          <div class="ladder-row">
+            <div class="step">.85</div>
+            <div class="demo" style="color: rgba(0, 0, 0, 0.85)">
+              non-human poets, anti-gravitational word interfaces.
+            </div>
+            <div class="role">body</div>
+          </div>
+          <div class="ladder-row">
+            <div class="step">.70</div>
+            <div class="demo" style="color: rgba(0, 0, 0, 0.7)">
+              non-human poets, anti-gravitational word interfaces.
+            </div>
+            <div class="role">hover, secondary</div>
+          </div>
+          <div class="ladder-row">
+            <div class="step">.60</div>
+            <div class="demo" style="color: rgba(0, 0, 0, 0.6)">
+              non-human poets, anti-gravitational word interfaces.
+            </div>
+            <div class="role">subtitles</div>
+          </div>
+          <div class="ladder-row">
+            <div class="step">.50</div>
+            <div class="demo" style="color: rgba(0, 0, 0, 0.5)">
+              non-human poets, anti-gravitational word interfaces.
+            </div>
+            <div class="role">meta, dates</div>
+          </div>
+          <div class="ladder-row">
+            <div class="step">.40</div>
+            <div class="demo" style="color: rgba(0, 0, 0, 0.4)">
+              non-human poets, anti-gravitational word interfaces.
+            </div>
+            <div class="role">faintest</div>
+          </div>
+        </div>
+
+        <h3>performance accents</h3>
+        <p>
+          five colors, one per performance. they appear as: 4px top border on
+          performance cards, status pill fills, submit button background, focus
+          ring, custom dot cursor, selected-state border on poem cards.
+          <b>never</b> as page chrome, never as background washes.
+        </p>
+
+        <table class="perf-table">
+          <thead>
+            <tr>
+              <th>swatch</th>
+              <th>performance</th>
+              <th>raw hex</th>
+              <th>aa text on white</th>
+              <th>status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="chip-cell">
+                <span class="chip-inline" style="background: #8b5cf6"></span>
+              </td>
+              <td class="name">reverse.exe</td>
+              <td>#8B5CF6</td>
+              <td class="accessible" style="color: var(--reverse-text)">
+                → #6B3FE0
+              </td>
+              <td><span class="pill upcoming">upcoming</span></td>
+            </tr>
+            <tr>
+              <td class="chip-cell">
+                <span class="chip-inline" style="background: #2aa4dd"></span>
+              </td>
+              <td class="name">hard.exe</td>
+              <td>#2AA4DD</td>
+              <td class="accessible" style="color: var(--hard-text)">
+                → #1E6E96
+              </td>
+              <td><span class="pill training">training</span></td>
+            </tr>
+            <tr>
+              <td class="chip-cell">
+                <span class="chip-inline" style="background: #02f700"></span>
+              </td>
+              <td class="name">reinforcement.exe</td>
+              <td>#02F700</td>
+              <td class="accessible" style="color: var(--reinforcement-text)">
+                → #0B7A0A
+              </td>
+              <td><span class="pill trained">trained</span></td>
+            </tr>
+            <tr>
+              <td class="chip-cell">
+                <span class="chip-inline" style="background: #fee005"></span>
+              </td>
+              <td class="name">versus.exe</td>
+              <td>#FEE005</td>
+              <td class="accessible" style="color: var(--versus-text)">
+                → #6B5C00
+              </td>
+              <td><span class="pill trained">trained</span></td>
+            </tr>
+            <tr>
+              <td class="chip-cell">
+                <span class="chip-inline" style="background: #f6009b"></span>
+              </td>
+              <td class="name">carnation.exe</td>
+              <td>#F6009B</td>
+              <td class="accessible" style="color: var(--carnation-text)">
+                → #B8006F
+              </td>
+              <td><span class="pill trained">trained</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout">
+          <b>contrast rule.</b> any accent applied to text on white must be
+          darkened to meet WCAG AA 4.5:1. borders / non-text UI darkened to 3:1.
+          in the codebase this is
+          <code style="font-family: var(--font-mono)"
+            >accessibleTextColor()</code
+          >
+          /
+          <code style="font-family: var(--font-mono)">accessibleUIColor()</code>
+          - a binary search that walks the hue toward black. raw hex never lands
+          on a glyph.
+        </div>
+
+        <h4>status pills</h4>
+        <p style="margin-bottom: var(--s-3)">
+          the only place where chrome gets filled. three states, fixed colors -
+          no performance accent inside the pill.
+        </p>
+        <div
+          style="
+            display: flex;
+            gap: var(--s-3);
+            flex-wrap: wrap;
+            margin-bottom: var(--s-5);
+          "
+        >
+          <span class="pill upcoming">upcoming</span>
+          <span class="pill training">training</span>
+          <span class="pill trained">trained</span>
+        </div>
+
+        <pre
+          style="
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin: 0;
+          "
+        >
+upcoming  bg #f3f4f6   border #d1d5db   text #4b5563
+training  bg #ffffff   border #171717   text #171717
+trained   bg #171717   border #171717   text #ffffff</pre
+        >
+      </section>
+
+      <!-- ===================== 04 TYPOGRAPHY ===================== -->
+      <section id="type">
+        <div class="sec-head">
+          <div class="num">04</div>
+          <div>
+            <h2>typography</h2>
+            <p>
+              four faces from type.cargo.site. distressed display + swiss
+              variable sans + mono captions. the contrast between humanist and
+              neutral is the signature move.
+            </p>
+          </div>
+        </div>
+
+        <div class="callout">
+          <b>fonts in this document are substitutes.</b> the brand stack loads
+          from
+          <span style="font-family: var(--font-mono)">type.cargo.site</span> via
+          <span style="font-family: var(--font-mono)">@font-face</span> with
+          <span style="font-family: var(--font-mono)">font-display: block</span
+          >. this reference page substitutes
+          <span style="font-family: var(--font-mono)">VT323</span>,
+          <span style="font-family: var(--font-mono)">Space Grotesk</span> and
+          <span style="font-family: var(--font-mono)">JetBrains Mono</span>
+          so the rhythm and weight relationships read correctly without the
+          licensed faces. production output meant to represent the brand must
+          use the real cargo stack.
+        </div>
+
+        <div class="type-spec">
+          <div>
+            <div class="label">role · display</div>
+            <div class="role">terminal grotesque</div>
+            <div class="sub">
+              distressed, humanist. the signature voice. once per page, big.
+              drops to 4.5rem under 600px.
+            </div>
+            <div class="specs">
+              <span><b>weight</b> 400 only</span>
+              <span><b>size</b> 7rem desktop / 4.5rem mobile</span>
+              <span><b>line-height</b> 0.9</span>
+              <span><b>letter-spacing</b> -0.01em</span>
+              <span><b>substitute</b> VT323</span>
+            </div>
+          </div>
+          <div class="preview">
+            <div class="preview-display">singulars</div>
+          </div>
+        </div>
+
+        <div class="type-spec">
+          <div>
+            <div class="label">role · body</div>
+            <div class="role">standard (book / bold)</div>
+            <div class="sub">
+              body sans. paragraphs, voting copy, longer-form text. tight
+              line-height for editorial density.
+            </div>
+            <div class="specs">
+              <span><b>weights</b> 400, 700</span>
+              <span><b>size</b> 1.06 - 1.3rem</span>
+              <span><b>line-height</b> 1.16 - 1.2</span>
+              <span><b>substitute</b> Space Grotesk</span>
+            </div>
+          </div>
+          <div class="preview">
+            <p class="preview-body" style="margin: 0 0 var(--s-3)">
+              visitors vote on poems blind during a training phase, then results
+              are revealed once the model is trained.
+            </p>
+            <p class="preview-body bold" style="margin: 0">
+              this is where i break and mend things.
+            </p>
+          </div>
+        </div>
+
+        <div class="type-spec">
+          <div>
+            <div class="label">role · titles</div>
+            <div class="role">diatype variable</div>
+            <div class="sub">
+              section titles. clean swiss variable sans. negative tracking on
+              bigger sizes.
+            </div>
+            <div class="specs">
+              <span><b>axis</b> 200 - 1000</span>
+              <span><b>section</b> 2rem / 700</span>
+              <span><b>sub-section</b> 1.6rem / 700</span>
+              <span><b>line-height</b> 1.05 - 1.1</span>
+              <span><b>substitute</b> Space Grotesk (700)</span>
+            </div>
+          </div>
+          <div class="preview">
+            <div class="preview-title">
+              human-vs-machine poetry performances
+            </div>
+          </div>
+        </div>
+
+        <div class="type-spec">
+          <div>
+            <div class="label">role · captions / labels / nav</div>
+            <div class="role">diatype mono variable</div>
+            <div class="sub">
+              the "instrument panel" type. captions, labels, meta, status pills,
+              navigation. uppercase + tracked for chrome roles.
+            </div>
+            <div class="specs">
+              <span><b>axis</b> 200 - 700</span>
+              <span><b>size</b> 0.7 - 1rem</span>
+              <span><b>case</b> often uppercase</span>
+              <span><b>letter-spacing</b> 0.05em (tracked)</span>
+              <span><b>substitute</b> JetBrains Mono</span>
+            </div>
+          </div>
+          <div class="preview">
+            <div class="preview-mono">brooklyn 03 / 26 / 2026 · trained</div>
+            <div
+              class="preview-mono"
+              style="margin-top: var(--s-3); color: var(--text-tertiary)"
+            >
+              12 poems · 248 votes
+            </div>
+          </div>
+        </div>
+
+        <h3>type scale</h3>
+        <pre
+          style="
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0 0 var(--s-5);
+          "
+        >
+--type-size-nav      1.08rem
+--type-size-base     1.06rem
+--type-size-caption  0.98rem
+--type-size-meta     0.96rem
+--type-size-section  2.00rem  /* diatype variable, 700 */
+--type-size-sub      1.60rem  /* diatype variable, 700 */
+--type-size-display  7.00rem  /* terminal grotesque, 400, lh 0.9 */</pre
+        >
+
+        <h3>poetry rule</h3>
+        <p>
+          poem text uses
+          <code style="font-family: var(--font-mono)"
+            >white-space: pre-line</code
+          >. line breaks and stanzas are preserved. never reflow whitespace
+          inside a poem - it is the structure of the work.
+        </p>
+      </section>
+
+      <!-- ===================== 05 LAYOUT ===================== -->
+      <section id="layout">
+        <div class="sec-head">
+          <div class="num">05</div>
+          <div>
+            <h2>layout</h2>
+            <p>
+              two containers. one tight reading column for poetry, one
+              full-bleed asymmetric grid for the parent site.
+            </p>
+          </div>
+        </div>
+
+        <h3>containers</h3>
+        <div class="grid-2">
+          <div>
+            <h4>oulipo.xyz - full bleed</h4>
+            <p style="margin: 0">
+              <code style="font-family: var(--font-mono)"
+                >.page { padding: 4rem }</code
+              ><br />collapses to
+              <code style="font-family: var(--font-mono)">2rem</code> under
+              600px. no max-width on body. asymmetric cargo splits: 5/7, 3/8,
+              8/4, 2fr 1fr. off-balance rhythm is intentional.
+            </p>
+          </div>
+          <div>
+            <h4>singulars - reading column</h4>
+            <p style="margin: 0">
+              <code style="font-family: var(--font-mono)"
+                >max-width: 800px; margin: 0 auto; padding: 4rem 2rem;</code
+              ><br />narrow column is the reading column for poetry. don't widen
+              it.
+            </p>
+          </div>
+        </div>
+
+        <h3>grids</h3>
+        <ul>
+          <li>
+            landing performance cards:
+            <code style="font-family: var(--font-mono)">repeat(3, 1fr)</code>
+            with <code style="font-family: var(--font-mono)">2rem</code> gap → 2
+            cols @ 900px → 1 col @ 600px
+          </li>
+          <li>
+            mini-voting poems:
+            <code style="font-family: var(--font-mono)"
+              >repeat(auto-fit, minmax(280px, 1fr))</code
+            >
+            with <code style="font-family: var(--font-mono)">2rem</code> gap
+          </li>
+          <li>
+            content blocks gallery: 3 cols default, 4 cols dense (5+ items)
+          </li>
+        </ul>
+
+        <h3>spacing scale</h3>
+        <p>stick to this. eight steps, rem-based.</p>
+        <div class="spacing-scale">
+          <div class="spacing-row">
+            <div class="name">s-1</div>
+            <div><div class="bar" style="width: calc(0.25rem * 16)"></div></div>
+            <div class="val">0.25 rem · 4 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-2</div>
+            <div><div class="bar" style="width: calc(0.5rem * 16)"></div></div>
+            <div class="val">0.5 rem · 8 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-3</div>
+            <div><div class="bar" style="width: calc(0.75rem * 16)"></div></div>
+            <div class="val">0.75 rem · 12 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-4</div>
+            <div><div class="bar" style="width: calc(1rem * 16)"></div></div>
+            <div class="val">1 rem · 16 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-5</div>
+            <div><div class="bar" style="width: calc(1.5rem * 16)"></div></div>
+            <div class="val">1.5 rem · 24 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-6</div>
+            <div><div class="bar" style="width: calc(2rem * 16)"></div></div>
+            <div class="val">2 rem · 32 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-7</div>
+            <div><div class="bar" style="width: calc(3rem * 16)"></div></div>
+            <div class="val">3 rem · 48 px</div>
+          </div>
+          <div class="spacing-row">
+            <div class="name">s-8</div>
+            <div><div class="bar" style="width: calc(4rem * 16)"></div></div>
+            <div class="val">4 rem · 64 px</div>
+          </div>
+        </div>
+
+        <h3>breakpoints &amp; aspect ratios</h3>
+        <pre
+          style="
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+          "
+        >
+breakpoints   768  (chat sidebar collapse)
+              900  (3-col → 2-col grids)
+              600  (full mobile - hero shrinks, single column)
+
+aspect ratios 16/9  hero / performance card images
+              1/1   dense gallery items (object-fit: cover)</pre
+        >
+      </section>
+
+      <!-- ===================== 06 COMPONENTS ===================== -->
+      <section id="components">
+        <div class="sec-head">
+          <div class="num">06</div>
+          <div>
+            <h2>components</h2>
+            <p>
+              the working set. each one cited exactly as it appears in the
+              codebase. accent color is parameterized via
+              <code style="font-family: var(--font-mono)">--acc</code>.
+            </p>
+          </div>
+        </div>
+
+        <!-- nav links + buttons + pills -->
+        <h3>nav link · status pill · submit button</h3>
+        <div class="gallery">
+          <div class="specimen">
+            <div class="label">
+              <span>nav link</span
+              ><span class="right">diatype mono · 0.85rem · 6px radius</span>
+            </div>
+            <a href="#components" class="nav-link">about</a>
+            <a href="#components" class="nav-link">performances</a>
+            <a href="#components" class="nav-link external">cargo site</a>
+          </div>
+          <div class="specimen">
+            <div class="label">
+              <span>status pill</span
+              ><span class="right">diatype mono · 0.7rem · 2px radius</span>
+            </div>
+            <div style="display: flex; gap: var(--s-3); flex-wrap: wrap">
+              <span class="pill upcoming">upcoming</span>
+              <span class="pill training">training</span>
+              <span class="pill trained">trained</span>
+            </div>
+          </div>
+          <div class="specimen">
+            <div class="label">
+              <span>submit button (hard.exe)</span
+              ><span class="right">accent fill · standard 700 · no radius</span>
+            </div>
+            <button class="submit-btn" style="--btn-color: var(--hard)">
+              submit vote
+            </button>
+          </div>
+          <div class="specimen">
+            <div class="label">
+              <span>submit button (carnation.exe)</span
+              ><span class="right">accent fill</span>
+            </div>
+            <button class="submit-btn" style="--btn-color: var(--carnation)">
+              submit vote
+            </button>
+          </div>
+        </div>
+
+        <!-- performance card -->
+        <h3>performance card</h3>
+        <p>
+          top-border in performance accent. 16/9 image grayscaled by default,
+          color on hover. dot cursor in accent on hover. title 1.1rem / 500.
+          metadata mono in tertiary.
+        </p>
+        <div class="gallery" id="perf-cards">
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--reverse);
+              --img-bg: linear-gradient(135deg, #999, #222);
+            "
+          >
+            <div class="img" data-img="reverse"></div>
+            <div class="title">reverse.exe</div>
+            <div class="meta">
+              brooklyn · 05/14/2026<br /><span
+                class="pill upcoming"
+                style="margin-top: var(--s-2)"
+                >upcoming</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--hard);
+              --img-bg: linear-gradient(160deg, #bbb, #333);
+            "
+          >
+            <div class="img" data-img="hard"></div>
+            <div class="title">hard.exe</div>
+            <div class="meta">
+              los angeles · 03/26/2026<br /><span
+                class="pill training"
+                style="margin-top: var(--s-2)"
+                >training</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--carnation);
+              --img-bg: linear-gradient(120deg, #aaa, #444);
+            "
+          >
+            <div class="img" data-img="carnation"></div>
+            <div class="title">carnation.exe</div>
+            <div class="meta">
+              beirut · 11/02/2025<br /><span
+                class="pill trained"
+                style="margin-top: var(--s-2)"
+                >trained</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- poem set -->
+        <h3>poem card / voteable set</h3>
+        <p>
+          2px top border (light by default, accent when selected). cursor swaps
+          to dot in accent on hover. when one is selected, siblings drop to 0.5
+          opacity.
+          <code style="font-family: var(--font-mono)"
+            >white-space: pre-line</code
+          >. click a poem below to see the contrast collapse.
+        </p>
+
+        <div class="poem-set" id="poem-set" style="--acc: var(--hard)">
+          <div class="poem" tabindex="0" data-poem="a">
+            i am the salt that arrives without permission the tongue that
+            learned its name in a second language the suitcase that does not
+            close every border is a sentence i am still translating
+          </div>
+          <div class="poem" tabindex="0" data-poem="b">
+            in the kitchen my grandmother folds the dough into something that
+            will outlive both of us a small machine for memory that runs on heat
+            and waiting
+          </div>
+          <div class="poem" tabindex="0" data-poem="c">
+            the model dreams in nouns it has not yet seen recombines the verbs
+            of departure and produces, sometimes, a line that startles even the
+            silence between us
+          </div>
+        </div>
+
+        <!-- blockquote -->
+        <h3>blockquote</h3>
+        <blockquote>
+          the chrome should not call attention to itself. the work calls
+          attention to itself.
+        </blockquote>
+
+        <!-- focus rings -->
+        <h3>focus state · keyboard first</h3>
+        <p>3px solid in performance accent, 2px offset. tab through these:</p>
+        <div style="--focus-color: var(--hard)">
+          <button class="focus-demo">vote a</button>
+          <button class="focus-demo">vote b</button>
+          <button class="focus-demo">vote c</button>
+          <button class="focus-demo">submit</button>
+        </div>
+      </section>
+
+      <!-- ===================== 07 INTERACTIONS ===================== -->
+      <section id="interactions">
+        <div class="sec-head">
+          <div class="num">07</div>
+          <div>
+            <h2>interactions</h2>
+            <p>
+              the five moves that distinguish the system. reuse them. before
+              introducing a sixth, justify why the existing five aren't enough.
+            </p>
+          </div>
+        </div>
+
+        <!-- 1. dot cursor -->
+        <h3>01 — custom dot cursor</h3>
+        <p>
+          inline svg circle (8px radius, 20×20 viewbox), filled in performance
+          accent, encoded as data URI in
+          <code style="font-family: var(--font-mono)">cursor: url(...)</code>.
+          applied on hover over interactive surfaces. hover the swatches below.
+        </p>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: var(--s-4);
+            margin: var(--s-5) 0;
+          "
+        >
+          <div
+            class="cursor-zone"
+            data-color="#8B5CF6"
+            style="
+              aspect-ratio: 1;
+              background: #f6f6f6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+              >reverse</span
+            >
+          </div>
+          <div
+            class="cursor-zone"
+            data-color="#2AA4DD"
+            style="
+              aspect-ratio: 1;
+              background: #f6f6f6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+              >hard</span
+            >
+          </div>
+          <div
+            class="cursor-zone"
+            data-color="#02F700"
+            style="
+              aspect-ratio: 1;
+              background: #f6f6f6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+              >reinforcement</span
+            >
+          </div>
+          <div
+            class="cursor-zone"
+            data-color="#FEE005"
+            style="
+              aspect-ratio: 1;
+              background: #f6f6f6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+              >versus</span
+            >
+          </div>
+          <div
+            class="cursor-zone"
+            data-color="#F6009B"
+            style="
+              aspect-ratio: 1;
+              background: #f6f6f6;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          >
+            <span
+              style="
+                font-family: var(--font-mono);
+                font-size: 0.78rem;
+                color: var(--text-tertiary);
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+              "
+              >carnation</span
+            >
+          </div>
+        </div>
+
+        <!-- 2. grayscale to color -->
+        <h3>02 — grayscale-to-color reveal</h3>
+        <p>
+          images load as
+          <code style="font-family: var(--font-mono)"
+            >filter: grayscale(100%)</code
+          >. on hover, animate to
+          <code style="font-family: var(--font-mono)">grayscale(0%)</code> over
+          0.5s ease. <em>the hover is the color.</em> hover an image:
+        </p>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--s-5);
+            margin: var(--s-5) 0;
+          "
+        >
+          <div
+            class="grayscale-demo"
+            style="
+              aspect-ratio: 16/9;
+              background: linear-gradient(135deg, #8b5cf6 0%, #f6009b 100%);
+              filter: grayscale(100%);
+              transition: filter 0.5s ease;
+            "
+          ></div>
+          <div
+            class="grayscale-demo"
+            style="
+              aspect-ratio: 16/9;
+              background: linear-gradient(120deg, #2aa4dd 0%, #02f700 100%);
+              filter: grayscale(100%);
+              transition: filter 0.5s ease;
+            "
+          ></div>
+          <div
+            class="grayscale-demo"
+            style="
+              aspect-ratio: 16/9;
+              background: linear-gradient(160deg, #fee005 0%, #f6009b 100%);
+              filter: grayscale(100%);
+              transition: filter 0.5s ease;
+            "
+          ></div>
+        </div>
+
+        <!-- 3. opacity hover -->
+        <h3>03 — uniform opacity hover</h3>
+        <p>
+          links and many interactive elements drop to
+          <code style="font-family: var(--font-mono)">opacity: 0.7</code> on
+          hover, 0.3s ease. no color shift, no underline toggle. site-wide.
+        </p>
+        <div
+          style="
+            font-family: var(--font-body);
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin: var(--s-5) 0;
+          "
+        >
+          <p style="max-width: 60ch">
+            a kitchen laboratory of
+            <a href="#interactions">experimental computational poetry</a>.
+            non-human poets,
+            <a href="#interactions">anti-gravitational word interfaces</a>,
+            somatic semantics. this is where i
+            <a href="#interactions">break and mend things</a>.
+          </p>
+        </div>
+
+        <!-- 4. contrast collapse -->
+        <h3>04 — selection by contrast collapse</h3>
+        <p>
+          when one item in a group is selected, unselected siblings drop to
+          <code style="font-family: var(--font-mono)">opacity: 0.5</code> and
+          the selected item gains the accent border. the choice is shown by
+          <em>everything else stepping back</em>. click an option below:
+        </p>
+        <div
+          class="poem-set"
+          id="collapse-set"
+          style="
+            --acc: var(--carnation);
+            margin: var(--s-5) 0;
+            max-width: 720px;
+          "
+        >
+          <div class="poem" tabindex="0" data-poem="ca">
+            option a — let the light eat its own outline
+          </div>
+          <div class="poem" tabindex="0" data-poem="cb">
+            option b — fold the salt into the syllable
+          </div>
+          <div class="poem" tabindex="0" data-poem="cc">
+            option c — speak only the words the model has not yet heard
+          </div>
+          <div class="poem" tabindex="0" data-poem="cd">
+            option d — refuse the question and answer the silence
+          </div>
+        </div>
+
+        <!-- 5. focus rings -->
+        <h3>05 — visible focus rings</h3>
+        <p>
+          3px solid outline in performance accent, 2px offset. keyboard nav is
+          first-class. tab through:
+        </p>
+        <div style="--focus-color: var(--reverse)">
+          <button class="focus-demo">reverse.exe focus</button>
+        </div>
+        <div
+          style="--focus-color: var(--reinforcement); margin-top: var(--s-3)"
+        >
+          <button class="focus-demo">reinforcement.exe focus</button>
+        </div>
+        <div style="--focus-color: var(--versus); margin-top: var(--s-3)">
+          <button class="focus-demo">versus.exe focus</button>
+        </div>
+
+        <h3>timing</h3>
+        <pre
+          style="
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin: 0;
+          "
+        >
+opacity transitions    0.3s ease
+filter (grayscale)     0.5s ease
+border-color           0.3s ease
+nav border-color       0.2s ease
+
+no easing curves beyond ease.
+no slides, bounces, scales, or staggered choreography.</pre
+        >
+      </section>
+
+      <!-- ===================== 08 ACCESSIBILITY ===================== -->
+      <section id="accessibility">
+        <div class="sec-head">
+          <div class="num">08</div>
+          <div>
+            <h2>accessibility</h2>
+            <p>
+              built into the system, not bolted on. accent color is the place
+              where it gets enforced programmatically.
+            </p>
+          </div>
+        </div>
+
+        <ul>
+          <li>
+            <b>WCAG AA enforced on accent text</b> via
+            <code style="font-family: var(--font-mono)">ensureContrast()</code>
+            /
+            <code style="font-family: var(--font-mono)"
+              >accessibleTextColor()</code
+            >. binary search darkens the hue until 4.5:1 is met. raw hex never
+            lands on a glyph.
+          </li>
+          <li>
+            <b>UI accent on borders</b> darkened to 3:1 via
+            <code style="font-family: var(--font-mono)"
+              >accessibleUIColor()</code
+            >.
+          </li>
+          <li>
+            <b>Focus rings always visible.</b> 3px solid, 2px offset, in accent.
+            never
+            <code style="font-family: var(--font-mono)">outline: none</code>.
+          </li>
+          <li>
+            <b>Custom cursor is hover affordance only.</b> default
+            <code style="font-family: var(--font-mono)">pointer</code> is the
+            real interactivity signal.
+          </li>
+          <li>
+            <b>Poem structure preserved.</b>
+            <code style="font-family: var(--font-mono)"
+              >white-space: pre-line</code
+            >
+            keeps line breaks for screen readers.
+          </li>
+          <li>
+            <b>Voting is blind during training.</b> no human/machine labels on
+            cards. the model is judged on the work.
+          </li>
+        </ul>
+      </section>
+
+      <!-- ===================== 09 ANTI-PATTERNS ===================== -->
+      <section id="anti">
+        <div class="sec-head">
+          <div class="num">09</div>
+          <div>
+            <h2>anti-patterns</h2>
+            <p>
+              what this system is not. these are the design-by-default moves to
+              actively reject.
+            </p>
+          </div>
+        </div>
+
+        <div class="anti">
+          <div class="card">
+            <div class="label">don't</div>
+            <div class="bad-card">
+              <div class="t">card with shadow</div>
+              <div class="s">
+                rounded corners, drop shadow, gradient fill, padding chrome.
+              </div>
+            </div>
+            <div class="x" style="margin-top: var(--s-4)">
+              no shadows, no rounded corners, no gradient fills
+            </div>
+            <div class="x ok">use a hairline rule and white space</div>
+          </div>
+
+          <div class="card">
+            <div class="label">don't</div>
+            <div
+              style="
+                background: linear-gradient(135deg, #2aa4dd 0%, #f6009b 100%);
+                padding: 1.5rem;
+                color: white;
+              "
+            >
+              <div
+                style="
+                  font-family: var(--font-body);
+                  font-weight: 700;
+                  font-size: 1.1rem;
+                "
+              >
+                accent as page chrome
+              </div>
+              <div
+                style="
+                  font-family: var(--font-body);
+                  font-size: 0.9rem;
+                  margin-top: 0.5rem;
+                "
+              >
+                background washes, hero gradients, full-bleed accent panels.
+              </div>
+            </div>
+            <div class="x" style="margin-top: var(--s-4)">
+              accent as a wash, panel background, gradient
+            </div>
+            <div class="x ok">
+              accent as a 4px border, pill fill, button, focus ring
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="label">don't</div>
+            <div style="font-family: var(--font-body); font-size: 1.1rem">
+              <p style="margin: 0 0 0.5rem">
+                Welcome to Singulars! 🎉 The revolutionary ✨ poetry experience
+                that will <em>delight</em> you—seamlessly.
+              </p>
+            </div>
+            <div class="x" style="margin-top: var(--s-4)">
+              title case, em dashes, emojis, marketing puff
+            </div>
+            <div class="x ok">
+              lower-case, hyphen-with-spaces, declarative, image-led
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===================== 10 EXAMPLES ===================== -->
+      <section id="examples">
+        <div class="sec-head">
+          <div class="num">10</div>
+          <div>
+            <h2>examples in context</h2>
+            <p>
+              two compositions assembled from the system - a singulars
+              performance card grid, and a voting set in the reading column.
+            </p>
+          </div>
+        </div>
+
+        <h3>landing - performance grid</h3>
+        <div
+          style="
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--s-6);
+            margin: var(--s-5) 0;
+          "
+        >
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--reverse);
+              --img-bg: linear-gradient(135deg, #9a9a9a, #1a1a1a);
+            "
+          >
+            <div class="img" data-img="rev2"></div>
+            <div class="title">reverse.exe</div>
+            <div class="meta">
+              brooklyn · 05/14/2026<br /><span
+                class="pill upcoming"
+                style="margin-top: var(--s-2)"
+                >upcoming</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--hard);
+              --img-bg: linear-gradient(160deg, #b3b3b3, #2a2a2a);
+            "
+          >
+            <div class="img" data-img="hard2"></div>
+            <div class="title">hard.exe</div>
+            <div class="meta">
+              los angeles · 03/26/2026<br /><span
+                class="pill training"
+                style="margin-top: var(--s-2)"
+                >training</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--reinforcement);
+              --img-bg: linear-gradient(110deg, #a8a8a8, #202020);
+            "
+          >
+            <div class="img" data-img="rein2"></div>
+            <div class="title">reinforcement.exe</div>
+            <div class="meta">
+              mexico city · 01/18/2026<br /><span
+                class="pill trained"
+                style="margin-top: var(--s-2)"
+                >trained</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--versus);
+              --img-bg: linear-gradient(140deg, #a0a0a0, #252525);
+            "
+          >
+            <div class="img" data-img="ver2"></div>
+            <div class="title">versus.exe</div>
+            <div class="meta">
+              paris · 12/04/2025<br /><span
+                class="pill trained"
+                style="margin-top: var(--s-2)"
+                >trained</span
+              >
+            </div>
+          </div>
+          <div
+            class="perf-card"
+            style="
+              --acc: var(--carnation);
+              --img-bg: linear-gradient(120deg, #a5a5a5, #1f1f1f);
+            "
+          >
+            <div class="img" data-img="carn2"></div>
+            <div class="title">carnation.exe</div>
+            <div class="meta">
+              beirut · 11/02/2025<br /><span
+                class="pill trained"
+                style="margin-top: var(--s-2)"
+                >trained</span
+              >
+            </div>
+          </div>
+        </div>
+
+        <h3>singulars - reading column with voting</h3>
+        <div
+          style="
+            max-width: 560px;
+            margin: var(--s-5) 0;
+            padding: var(--s-6) 0;
+            border-top: 4px solid var(--hard);
+            border-bottom: 1px solid var(--border-light);
+          "
+        >
+          <div
+            style="
+              font-family: var(--font-mono);
+              font-size: 0.85rem;
+              color: var(--text-tertiary);
+              text-transform: uppercase;
+              letter-spacing: 0.05em;
+              margin-bottom: var(--s-3);
+            "
+          >
+            hard.exe · vote
+          </div>
+          <h4
+            style="
+              font-family: var(--font-title);
+              font-size: 1.6rem;
+              font-weight: 700;
+              color: var(--text-primary);
+              text-transform: none;
+              letter-spacing: -0.005em;
+              margin: 0 0 var(--s-3);
+            "
+          >
+            which line carries the salt
+          </h4>
+          <p
+            style="
+              font-family: var(--font-body);
+              font-size: 1.06rem;
+              line-height: 1.5;
+              color: var(--text-secondary);
+              margin: 0 0 var(--s-5);
+              max-width: 50ch;
+            "
+          >
+            three candidate lines for the second stanza of <i>hard.exe</i>. the
+            model has not been told which it wrote. neither have you.
+          </p>
+
+          <div class="poem-set" id="poem-set-2" style="--acc: var(--hard)">
+            <div class="poem" tabindex="0" data-poem="d">
+              i carry the word for salt in three languages none of them remember
+              me back
+            </div>
+            <div class="poem" tabindex="0" data-poem="e">
+              salt is the only inheritance that travels without a passport
+            </div>
+            <div class="poem" tabindex="0" data-poem="f">
+              in the mouth of the machine salt is a parameter in the mouth of
+              the body it is a wound that learned to taste
+            </div>
+          </div>
+
+          <button
+            class="submit-btn"
+            style="--btn-color: var(--hard); margin-top: var(--s-5)"
+          >
+            submit vote
+          </button>
+        </div>
+      </section>
+
+      <footer>
+        <div>
+          singulars / oulipo design system v1<br />
+          reference document - this page is a substitute for the brand fonts;
+          production output uses the cargo stack.
+        </div>
+        <div>apr 2026</div>
+      </footer>
+    </main>
+
+    <script>
+      // ---------- custom dot cursor (data URI) ----------
+      function dotCursor(hex) {
+        const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><circle cx="10" cy="10" r="8" fill="${hex}"/></svg>`;
+        return `url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}') 10 10, pointer`;
+      }
+
+      // apply the dot cursor to every cursor-zone box
+      document.querySelectorAll(".cursor-zone").forEach((el) => {
+        el.style.cursor = dotCursor(el.dataset.color);
+      });
+
+      // apply dot cursor to perf cards (color from --acc)
+      document.querySelectorAll(".perf-card").forEach((el) => {
+        const acc = getComputedStyle(el).getPropertyValue("--acc").trim();
+        el.style.cursor = dotCursor(acc);
+      });
+
+      // apply dot cursor to poems within each poem-set, taking accent from the set
+      document.querySelectorAll(".poem-set").forEach((set) => {
+        const acc = getComputedStyle(set).getPropertyValue("--acc").trim();
+        set
+          .querySelectorAll(".poem")
+          .forEach((p) => (p.style.cursor = dotCursor(acc)));
+      });
+
+      // ---------- selection by contrast collapse ----------
+      document.querySelectorAll(".poem-set").forEach((set) => {
+        set.addEventListener("click", (e) => {
+          const poem = e.target.closest(".poem");
+          if (!poem) return;
+          const wasSelected = poem.classList.contains("selected");
+          set
+            .querySelectorAll(".poem")
+            .forEach((p) => p.classList.remove("selected"));
+          if (!wasSelected) poem.classList.add("selected");
+          set.classList.toggle("has-selected", !wasSelected);
+        });
+        set.addEventListener("keydown", (e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            const poem = e.target.closest(".poem");
+            if (poem) {
+              e.preventDefault();
+              poem.click();
+            }
+          }
+        });
+      });
+
+      // ---------- grayscale-to-color reveal ----------
+      // (handled in CSS via :hover, but ensure touch devices still see the effect)
+      document.querySelectorAll(".grayscale-demo").forEach((el) => {
+        el.addEventListener(
+          "mouseenter",
+          () => (el.style.filter = "grayscale(0%)"),
+        );
+        el.addEventListener(
+          "mouseleave",
+          () => (el.style.filter = "grayscale(100%)"),
+        );
+      });
+      // perf-card image already CSS-driven via .perf-card:hover .img
+    </script>
+  </body>
+</html>

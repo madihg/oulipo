@@ -67,32 +67,32 @@ export function Gallery({ onClose }: GalleryProps) {
       <h1
         style={{
           fontFamily: "'EB Garamond', Georgia, serif",
-          fontSize: 22,
+          fontSize: 26,
           fontWeight: 400,
-          letterSpacing: "0.1em",
+          letterSpacing: "0.04em",
           textAlign: "center",
           marginTop: 64,
           marginBottom: 12,
-          color: "#000000",
+          color: "var(--text-primary)",
         }}
       >
-        Crossing Gallery
+        crossings
       </h1>
 
-      {/* Subtitle */}
+      {/* Subtitle - mono caption per design system */}
       <p
         style={{
-          fontFamily: "'EB Garamond', Georgia, serif",
-          fontSize: 14,
-          fontStyle: "italic",
-          letterSpacing: "0.02em",
+          fontFamily: "var(--font-mono)",
+          fontSize: "var(--type-size-meta)",
+          letterSpacing: "0.05em",
+          textTransform: "uppercase",
           textAlign: "center",
-          color: "rgba(0, 0, 0, 0.5)",
+          color: "var(--text-tertiary)",
           marginBottom: 48,
-          lineHeight: 1.8,
+          lineHeight: 1.6,
         }}
       >
-        A collective archive of crossings
+        a collective archive of crossings
       </p>
 
       {/* Content area */}
@@ -116,13 +116,14 @@ export function Gallery({ onClose }: GalleryProps) {
           >
             <p
               style={{
-                fontFamily: "'EB Garamond', Georgia, serif",
-                fontSize: 15,
-                color: "rgba(0, 0, 0, 0.4)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                color: "var(--text-hint)",
                 letterSpacing: "0.05em",
+                textTransform: "uppercase",
               }}
             >
-              Loading crossings&hellip;
+              loading crossings&hellip;
             </p>
           </div>
         ) : images.length === 0 ? (
@@ -136,13 +137,14 @@ export function Gallery({ onClose }: GalleryProps) {
           >
             <p
               style={{
-                fontFamily: "'EB Garamond', Georgia, serif",
-                fontSize: 15,
-                color: "rgba(0, 0, 0, 0.4)",
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                color: "var(--text-hint)",
                 letterSpacing: "0.05em",
+                textTransform: "uppercase",
               }}
             >
-              No crossings yet. Be the first to leave a trace.
+              no crossings yet. be the first to leave a trace.
             </p>
           </div>
         ) : (
@@ -158,24 +160,19 @@ export function Gallery({ onClose }: GalleryProps) {
                 key={url}
                 onClick={() => setSelectedImage(url)}
                 style={{
-                  border: "1px solid #000000",
-                  backgroundColor: "#ffffff",
-                  boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
+                  border: "1px solid var(--border)",
+                  backgroundColor: "var(--background)",
                   cursor: "pointer",
-                  transition: "box-shadow 0.3s ease, transform 0.3s ease",
+                  transition: "opacity 0.3s ease",
                   overflow: "hidden",
                   opacity: 0,
                   animation: `fadeIn 0.5s ease ${0.05 * Math.min(index, 20)}s forwards`,
                 }}
                 onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.boxShadow = "3px 4px 15px rgba(0, 0, 0, 0.15)";
-                  el.style.transform = "translateY(-2px)";
+                  (e.currentTarget as HTMLDivElement).style.opacity = "0.7";
                 }}
                 onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLDivElement;
-                  el.style.boxShadow = "0 1px 6px rgba(0, 0, 0, 0.08)";
-                  el.style.transform = "translateY(0)";
+                  (e.currentTarget as HTMLDivElement).style.opacity = "1";
                 }}
               >
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -240,9 +237,8 @@ export function Gallery({ onClose }: GalleryProps) {
             style={{
               maxWidth: "90vw",
               maxHeight: "85vh",
-              border: "1px solid #000000",
-              boxShadow: "3px 4px 15px rgba(0, 0, 0, 0.15)",
-              backgroundColor: "#ffffff",
+              border: "1px solid var(--border)",
+              backgroundColor: "var(--background)",
             }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Becoming Borders",
+  title: "becoming crossings",
   description:
-    "A blueprint for digital pathfinders — an interactive narrative exploring digital borders through migrant consciousness.",
+    "an interactive narrative on digital borders, migrant consciousness, and the lines we draw to cross them.",
 };
 
 export default function RootLayout({

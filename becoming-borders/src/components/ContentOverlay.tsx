@@ -294,7 +294,7 @@ export function ContentOverlay({
                 (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
               }}
             >
-              Save a screenshot of my quilt of crossings
+              save a screenshot of my quilt of crossings
             </button>
 
             <div
@@ -316,7 +316,7 @@ export function ContentOverlay({
                   color: "#000000",
                 }}
               >
-                See others&rsquo; crossings
+                see others&rsquo; crossings
               </span>
             </div>
           </div>

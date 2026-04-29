@@ -248,7 +248,7 @@ export function ContentOverlay({
             cursor: "pointer",
             background: "none",
             border: "none",
-            fontFamily: "'EB Garamond', Georgia, serif",
+            fontFamily: "var(--font-body)",
             color: "var(--text-primary)",
             padding: "4px",
             transition: "opacity 0.3s ease",
@@ -305,7 +305,7 @@ export function ContentOverlay({
         {/* Section text — pre-line preserved (principle 06) */}
         <div
           style={{
-            fontFamily: "'EB Garamond', Georgia, serif",
+            fontFamily: "var(--font-body)",
             fontSize: 17,
             lineHeight: 1.6,
             whiteSpace: "pre-line",
@@ -321,7 +321,7 @@ export function ContentOverlay({
             <button
               onClick={handleDownload}
               style={{
-                fontFamily: "'EB Garamond', Georgia, serif",
+                fontFamily: "var(--font-body)",
                 fontSize: 15,
                 lineHeight: 1.6,
                 padding: "12px 20px",
@@ -351,7 +351,7 @@ export function ContentOverlay({
               <span
                 onClick={onShowGallery}
                 style={{
-                  fontFamily: "'EB Garamond', Georgia, serif",
+                  fontFamily: "var(--font-body)",
                   fontSize: 15,
                   lineHeight: 1.6,
                   cursor: "pointer",

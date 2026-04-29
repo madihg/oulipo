@@ -46,7 +46,7 @@ export function Gallery({ onClose }: GalleryProps) {
           cursor: "pointer",
           background: "none",
           border: "none",
-          fontFamily: "'EB Garamond', Georgia, serif",
+          fontFamily: "var(--font-body)",
           color: "#000000",
           padding: "4px",
           zIndex: 10,
@@ -66,7 +66,7 @@ export function Gallery({ onClose }: GalleryProps) {
       {/* Title */}
       <h1
         style={{
-          fontFamily: "'EB Garamond', Georgia, serif",
+          fontFamily: "var(--font-body)",
           fontSize: 26,
           fontWeight: 400,
           letterSpacing: "0.04em",
@@ -223,7 +223,7 @@ export function Gallery({ onClose }: GalleryProps) {
               cursor: "pointer",
               background: "none",
               border: "none",
-              fontFamily: "'EB Garamond', Georgia, serif",
+              fontFamily: "var(--font-body)",
               color: "#000000",
               padding: "4px",
               zIndex: 61,

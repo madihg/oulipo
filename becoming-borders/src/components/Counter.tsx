@@ -14,7 +14,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
       {/* Wordmark reveal after all 7 crossings */}
       <div
         style={{
-          fontFamily: "'EB Garamond', Georgia, serif",
+          fontFamily: "var(--font-body)",
           fontSize: 15,
           letterSpacing: "0.12em",
           color: "var(--text-tertiary)",
@@ -47,7 +47,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
                 background: "none",
                 padding: 0,
                 cursor: isRead ? "default" : "pointer",
-                fontFamily: "'EB Garamond', Georgia, serif",
+                fontFamily: "var(--font-body)",
                 fontSize: 14,
                 color: isRead ? "rgba(0, 0, 0, 0.3)" : "rgba(0, 0, 0, 0.5)",
                 transition: "color 0.3s ease",

@@ -76,7 +76,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
               onClick={onToggle}
               className="absolute top-4 right-4 bg-transparent border-none cursor-pointer leading-none p-1"
               style={{
-                fontFamily: "'EB Garamond', Georgia, serif",
+                fontFamily: "var(--font-body)",
                 fontSize: 18,
                 color: "var(--text-tertiary)",
                 transition: "opacity 0.3s ease",
@@ -95,7 +95,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
             {/* Body — EB Garamond, lowercase, hyphen-with-spaces */}
             <p
               style={{
-                fontFamily: "'EB Garamond', Georgia, serif",
+                fontFamily: "var(--font-body)",
                 fontSize: 15,
                 lineHeight: 1.8,
                 color: "var(--text-primary)",

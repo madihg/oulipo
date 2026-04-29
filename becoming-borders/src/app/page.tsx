@@ -6,6 +6,7 @@ import { ContentOverlay } from "@/components/ContentOverlay";
 import { Counter } from "@/components/Counter";
 import { About } from "@/components/About";
 import { Gallery } from "@/components/Gallery";
+import { QrCode } from "@/components/QrCode";
 import { uploadCrossing } from "@/lib/supabase";
 import type { Intersection, Segment } from "@/lib/types";
 
@@ -144,7 +145,7 @@ export default function Home() {
         className="fixed left-1/2 -translate-x-1/2 pointer-events-none select-none"
         style={{
           top: "calc(50% + 28px)",
-          fontFamily: "'EB Garamond', Georgia, serif",
+          fontFamily: "var(--font-body)",
           fontSize: 15,
           letterSpacing: "0.12em",
           color: "rgba(0, 0, 0, 0.3)",
@@ -182,6 +183,8 @@ export default function Home() {
           setShowGallery(true);
         }}
       />
+
+      <QrCode />
     </div>
   );
 }

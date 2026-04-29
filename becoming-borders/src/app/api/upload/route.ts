@@ -1,12 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
-const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
+const supabaseUrl = "https://smytgqkgomsfyurskpcl.supabase.co";
 const supabaseServiceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
 
 const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
-const CROSSINGS_BUCKET = "crossings";
+const CROSSINGS_BUCKET = "becoming-border-crossings";
 
 export async function POST(request: NextRequest) {
   try {

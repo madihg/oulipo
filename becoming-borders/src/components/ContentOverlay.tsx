@@ -29,65 +29,90 @@ function seededRandom(seed: number) {
 }
 
 interface ScatteredImage {
-  top: string;
-  left: string;
+  left?: string;
+  right?: string;
+  top?: string;
+  bottom?: string;
+  transform?: string;
   width: number;
+  height: number;
+  isBackdrop?: boolean;
 }
 
+/**
+ * Generate non-overlapping scattered image positions.
+ *
+ * - count 1: a single backdrop image, centered behind the text rectangle.
+ *   Larger frame so the photo reads as the section's atmosphere.
+ * - count 2-6: each image gets its own zone (TL, TR, MR, BR, BL, ML).
+ *   Zones are rotated by sectionIndex so adjacent sections feel distinct
+ *   rather than identical. A small seeded jitter (±15px) on width/height
+ *   keeps the grid from looking mechanical.
+ *
+ * All sizes are in px. The CSS frame uses a 1px black border + B&W +
+ * film-grain (see globals.css `.story-image-frame`).
+ */
 function generateImagePositions(
   sectionIndex: number,
   count: number,
 ): ScatteredImage[] {
   if (count === 0) return [];
 
-  const rand = seededRandom(sectionIndex * 7 + 31);
-  const positions: ScatteredImage[] = [];
-
-  // Adaptive sizing: fewer images = bigger, more images = smaller
-  let baseWidth: number;
-  let widthVariation: number;
-  if (count <= 2) {
-    baseWidth = 420;
-    widthVariation = 100;
-  } else if (count <= 4) {
-    baseWidth = 340;
-    widthVariation = 100;
-  } else if (count <= 6) {
-    baseWidth = 280;
-    widthVariation = 80;
-  } else {
-    baseWidth = 220;
-    widthVariation = 60;
+  if (count === 1) {
+    return [
+      {
+        left: "50%",
+        top: "50%",
+        transform: "translate(-50%, -50%)",
+        width: 720,
+        height: 470,
+        isBackdrop: true,
+      },
+    ];
   }
 
-  // Zones spread across the viewport — cycle through them for any count
-  const zones = [
-    { xMin: -8, xMax: 22, yMin: 5, yMax: 55 },
-    { xMin: 58, xMax: 88, yMin: 5, yMax: 55 },
-    { xMin: 8, xMax: 38, yMin: -8, yMax: 18 },
-    { xMin: 48, xMax: 82, yMin: 62, yMax: 88 },
-    { xMin: 62, xMax: 92, yMin: -8, yMax: 22 },
-    { xMin: -5, xMax: 20, yMin: 58, yMax: 85 },
-    { xMin: 30, xMax: 55, yMin: -5, yMax: 15 },
-    { xMin: 65, xMax: 95, yMin: 40, yMax: 70 },
-    { xMin: 5, xMax: 30, yMin: 35, yMax: 60 },
-    { xMin: 45, xMax: 70, yMin: 10, yMax: 35 },
+  const rand = seededRandom(sectionIndex * 13 + 7);
+
+  // Six anchored zones around the viewport edges, well-separated from
+  // each other and clear of the centered text rectangle (~520x460 visual
+  // footprint at desktop). Anchors use left/right and top/bottom so
+  // images stay flush to corners regardless of viewport width.
+  const zones: Array<
+    Pick<ScatteredImage, "left" | "right" | "top" | "bottom">
+  > = [
+    { left: "2.5%", top: "5%" }, //  0 TL
+    { right: "2.5%", top: "5%" }, // 1 TR
+    { right: "1.5%", top: "44%" }, // 2 MR
+    { right: "2.5%", bottom: "6%" }, // 3 BR
+    { left: "2.5%", bottom: "6%" }, //  4 BL
+    { left: "1.5%", top: "44%" }, //   5 ML
   ];
 
-  for (let i = 0; i < count; i++) {
-    const zone = zones[(sectionIndex + i) % zones.length];
-    const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
-    const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = baseWidth + Math.floor(rand() * widthVariation);
+  // Size scales with count: fewer images = larger frames.
+  const dims =
+    count <= 2
+      ? { w: 380, h: 260 }
+      : count <= 3
+        ? { w: 340, h: 240 }
+        : count <= 4
+          ? { w: 320, h: 230 }
+          : count <= 5
+            ? { w: 290, h: 210 }
+            : { w: 260, h: 190 };
 
-    positions.push({
-      left: `${x.toFixed(1)}%`,
-      top: `${y.toFixed(1)}%`,
-      width: w,
-    });
-  }
+  // Rotate the zone order per section so each story has its own scatter
+  // pattern even when image counts match.
+  const offset = sectionIndex % zones.length;
+  const ordered = [...zones.slice(offset), ...zones.slice(0, offset)].slice(
+    0,
+    count,
+  );
 
-  return positions;
+  return ordered.map((z) => ({
+    ...z,
+    width: dims.w + Math.floor(rand() * 30) - 15,
+    height: dims.h + Math.floor(rand() * 20) - 10,
+  }));
 }
 
 export function ContentOverlay({
@@ -171,24 +196,29 @@ export function ContentOverlay({
         const imageSrc = section.images[i];
         if (!imageSrc) return null;
         return (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <div
             key={i}
-            src={imageSrc}
-            alt=""
-            className="absolute pointer-events-none"
+            className={`story-image-frame absolute pointer-events-none${pos.isBackdrop ? " is-backdrop" : ""}`}
             style={{
               top: pos.top,
               left: pos.left,
-              width: pos.width,
-              height: "auto",
-              objectFit: "cover",
-              boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
+              right: pos.right,
+              bottom: pos.bottom,
+              transform: pos.transform,
+              width: pos.isBackdrop
+                ? `min(${pos.width}px, 82vw)`
+                : `min(${pos.width}px, 42vw)`,
+              height: pos.isBackdrop
+                ? `min(${pos.height}px, 70vh)`
+                : `min(${pos.height}px, 32vh)`,
               opacity: visible ? 1 : 0,
               transition: `opacity 0.5s ease ${0.15 + i * 0.1}s`,
               zIndex: 51,
             }}
-          />
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imageSrc} alt="" />
+          </div>
         );
       })}
 

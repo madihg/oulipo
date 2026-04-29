@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
-const CROSSINGS_BUCKET = "crossings";
+const supabaseUrl = "https://smytgqkgomsfyurskpcl.supabase.co";
+const CROSSINGS_BUCKET = "becoming-border-crossings";
 
 export const dynamic = "force-dynamic";
 
@@ -32,7 +32,7 @@ export async function GET() {
     const files: { name: string }[] = await resp.json();
 
     const urls = files
-      .filter((f) => f.name.endsWith(".png"))
+      .filter((f) => f.name.endsWith(".png") && !f.name.startsWith("."))
       .sort((a, b) => b.name.localeCompare(a.name))
       .map(
         (f) =>

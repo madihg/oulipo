@@ -1,4 +1,4 @@
-const BASE_PATH = "/becoming-borders";
+const BASE_PATH = "/becoming-crossings";
 
 /**
  * Upload a canvas blob to the crossings bucket via the server-side API route.
@@ -35,7 +35,14 @@ export async function uploadCrossing(blob: Blob): Promise<string | null> {
  */
 export async function fetchCrossings(): Promise<string[]> {
   try {
-    const response = await fetch(`${BASE_PATH}/api/crossings`);
+    // cache: "no-store" + a fresh ts query param defeat both the
+    // browser HTTP cache and any intermediary proxies, so a brand-new
+    // crossing surfaces immediately the moment its uploader visits the
+    // gallery.
+    const response = await fetch(
+      `${BASE_PATH}/api/crossings?ts=${Date.now()}`,
+      { cache: "no-store" },
+    );
     if (!response.ok) return [];
     const { urls } = await response.json();
     return urls || [];

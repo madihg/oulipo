@@ -4,16 +4,26 @@
       "source": "/singulars/:path*",
       "destination": "https://singulars.oulipo.xyz/:path*",
       "permanent": true
+    },
+    {
+      "source": "/becoming-borders",
+      "destination": "/becoming-crossings",
+      "permanent": true
+    },
+    {
+      "source": "/becoming-borders/:path*",
+      "destination": "/becoming-crossings/:path*",
+      "permanent": true
     }
   ],
   "rewrites": [
     {
-      "source": "/becoming-borders",
-      "destination": "https://becoming-borders.vercel.app/becoming-borders"
+      "source": "/becoming-crossings",
+      "destination": "https://becoming-borders.vercel.app/becoming-crossings"
     },
     {
-      "source": "/becoming-borders/:path+",
-      "destination": "https://becoming-borders.vercel.app/becoming-borders/:path+"
+      "source": "/becoming-crossings/:path+",
+      "destination": "https://becoming-borders.vercel.app/becoming-crossings/:path+"
     }
   ]
 }

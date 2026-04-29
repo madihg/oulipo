@@ -21,6 +21,10 @@ export default function Home() {
   const [showAbout, setShowAbout] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const hasUploadedRef = useRef(false);
+  // Promise that resolves once the user's crossing screenshot has been
+  // POSTed to Supabase. The gallery uses this to wait before fetching
+  // so a freshly-saved crossing always appears in its own session.
+  const uploadPromiseRef = useRef<Promise<void> | null>(null);
 
   const handleIntersectionFound = useCallback((intersection: Intersection) => {
     setIntersections((prev) => {
@@ -55,16 +59,22 @@ export default function Home() {
 
       // IMPORTANT: toBlob is async — restore canvas INSIDE the callback,
       // after the bitmap has been captured, not before.
-      canvas.toBlob((blob) => {
-        // Restore canvas to lines-only (remove drawn dots)
-        window.dispatchEvent(new Event("resize"));
+      uploadPromiseRef.current = new Promise<void>((resolve) => {
+        canvas.toBlob((blob) => {
+          // Restore canvas to lines-only (remove drawn dots)
+          window.dispatchEvent(new Event("resize"));
 
-        if (blob) {
-          uploadCrossing(blob).catch((err) => {
-            console.error("Gallery upload failed:", err);
-          });
-        }
-      }, "image/png");
+          if (!blob) {
+            resolve();
+            return;
+          }
+          uploadCrossing(blob)
+            .catch((err) => {
+              console.error("Gallery upload failed:", err);
+            })
+            .finally(() => resolve());
+        }, "image/png");
+      });
     }, 500);
 
     return () => {
@@ -103,9 +113,15 @@ export default function Home() {
     setActiveSection(null);
   }, []);
 
-  const handleShowGallery = useCallback(() => {
-    setShowGallery(true);
+  const handleShowGallery = useCallback(async () => {
+    // Wait for the in-flight upload (if any) so the user sees their own
+    // crossing in the gallery they just opened. Pending upload finishes
+    // within ~1-2s after the 7th intersection.
     setActiveSection(null);
+    if (uploadPromiseRef.current) {
+      await uploadPromiseRef.current;
+    }
+    setShowGallery(true);
   }, []);
 
   const hasStarted = segments.length > 1;

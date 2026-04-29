@@ -64,8 +64,8 @@ function generateImagePositions(
         left: "50%",
         top: "50%",
         transform: "translate(-50%, -50%)",
-        width: 720,
-        height: 470,
+        width: 880,
+        height: 580,
         isBackdrop: true,
       },
     ];
@@ -91,14 +91,14 @@ function generateImagePositions(
   // Size scales with count: fewer images = larger frames.
   const dims =
     count <= 2
-      ? { w: 380, h: 260 }
+      ? { w: 480, h: 330 }
       : count <= 3
-        ? { w: 340, h: 240 }
+        ? { w: 430, h: 300 }
         : count <= 4
-          ? { w: 320, h: 230 }
+          ? { w: 400, h: 290 }
           : count <= 5
-            ? { w: 290, h: 210 }
-            : { w: 260, h: 190 };
+            ? { w: 360, h: 260 }
+            : { w: 320, h: 230 };
 
   // Rotate the zone order per section so each story has its own scatter
   // pattern even when image counts match.
@@ -206,11 +206,11 @@ export function ContentOverlay({
               bottom: pos.bottom,
               transform: pos.transform,
               width: pos.isBackdrop
-                ? `min(${pos.width}px, 82vw)`
-                : `min(${pos.width}px, 42vw)`,
+                ? `min(${pos.width}px, 86vw)`
+                : `min(${pos.width}px, 50vw)`,
               height: pos.isBackdrop
-                ? `min(${pos.height}px, 70vh)`
-                : `min(${pos.height}px, 32vh)`,
+                ? `min(${pos.height}px, 78vh)`
+                : `min(${pos.height}px, 40vh)`,
               opacity: visible ? 1 : 0,
               transition: `opacity 0.5s ease ${0.15 + i * 0.1}s`,
               zIndex: 51,

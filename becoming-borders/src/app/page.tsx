@@ -152,7 +152,7 @@ export default function Home() {
           transition: "opacity 0.6s ease",
         }}
       >
-        becoming borders
+        becoming crossings
       </div>
 
       {activeSection !== null && (

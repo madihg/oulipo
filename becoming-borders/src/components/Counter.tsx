@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 interface CounterProps {
   storiesRead: number;
   total: number;
@@ -10,24 +8,16 @@ interface CounterProps {
 
 export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
   const allRead = storiesRead >= total;
-  const [showCrossings, setShowCrossings] = useState(false);
-
-  // After "Becoming Borders" appears, morph "Borders" → "Crossings"
-  useEffect(() => {
-    if (!allRead) return;
-    const timer = setTimeout(() => setShowCrossings(true), 1800);
-    return () => clearTimeout(timer);
-  }, [allRead]);
 
   return (
     <div className="fixed bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
-      {/* Title reveal after all 7 crossings */}
+      {/* Wordmark reveal after all 7 crossings */}
       <div
         style={{
           fontFamily: "'EB Garamond', Georgia, serif",
           fontSize: 15,
           letterSpacing: "0.12em",
-          color: "rgba(0, 0, 0, 0.3)",
+          color: "var(--text-tertiary)",
           marginBottom: 10,
           opacity: allRead ? 1 : 0,
           transition: "opacity 0.8s ease",
@@ -35,28 +25,7 @@ export function Counter({ storiesRead, total, onCounterClick }: CounterProps) {
           whiteSpace: "nowrap",
         }}
       >
-        <span>becoming </span>
-        <span style={{ position: "relative", display: "inline-block" }}>
-          <span
-            style={{
-              opacity: showCrossings ? 0 : 1,
-              transition: "opacity 0.8s ease",
-            }}
-          >
-            borders
-          </span>
-          <span
-            style={{
-              position: "absolute",
-              left: 0,
-              top: 0,
-              opacity: showCrossings ? 1 : 0,
-              transition: "opacity 0.8s ease",
-            }}
-          >
-            crossings
-          </span>
-        </span>
+        becoming crossings
       </div>
 
       {/* Dot indicators */}

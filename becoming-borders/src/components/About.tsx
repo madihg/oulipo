@@ -25,7 +25,7 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
 
   return (
     <>
-      {/* Circle button */}
+      {/* Circle button — opacity-led hover per design system principle 05 */}
       <button
         onClick={onToggle}
         className="fixed z-10"
@@ -35,28 +35,28 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
           width: 32,
           height: 32,
           borderRadius: "50%",
-          border: "1px solid rgba(0, 0, 0, 0.3)",
+          border: "1px solid var(--text-hint)",
           background: "none",
           cursor: "pointer",
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
           padding: 0,
-          transition: "border-color 0.3s ease",
+          transition: "opacity 0.3s ease",
         }}
         onMouseEnter={(e) => {
-          e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.8)";
+          e.currentTarget.style.opacity = "0.7";
         }}
         onMouseLeave={(e) => {
-          e.currentTarget.style.borderColor = "rgba(0, 0, 0, 0.3)";
+          e.currentTarget.style.opacity = "1";
         }}
-        aria-label="About"
+        aria-label="about"
       >
         <span
           style={{
             fontFamily: "'EB Garamond', Georgia, serif",
             fontSize: 14,
-            color: "rgba(0, 0, 0, 0.5)",
+            color: "var(--text-tertiary)",
             lineHeight: 1,
             marginTop: 1,
           }}
@@ -75,29 +75,60 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
           {/* Backdrop */}
           <div className="absolute inset-0 bg-white/80" onClick={onToggle} />
 
-          {/* Panel */}
-          <div className="relative bg-white border border-black px-10 py-12 max-w-[480px] w-[calc(100%-48px)] z-10">
-            {/* Close button */}
+          {/* Panel — hairline rule, no shadow, no rounded corners */}
+          <div
+            className="relative bg-white px-10 py-12 max-w-[480px] w-[calc(100%-48px)] z-10"
+            style={{ border: "1px solid var(--border)" }}
+          >
+            {/* Close button — opacity hover only */}
             <button
               onClick={onToggle}
-              className="absolute top-4 right-4 font-serif text-[18px] text-gray-50 hover:text-black transition-colors duration-300 bg-transparent border-none cursor-pointer leading-none p-1"
-              aria-label="Close about panel"
+              className="absolute top-4 right-4 bg-transparent border-none cursor-pointer leading-none p-1"
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 18,
+                color: "var(--text-tertiary)",
+                transition: "opacity 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = "0.7";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = "1";
+              }}
+              aria-label="close"
             >
               &times;
             </button>
 
-            {/* Content */}
-            <p className="font-serif text-[15px] leading-[1.8] text-black tracking-open">
-              Becoming Borders is an interactive piece exploring digital borders
-              through the lens of migrant consciousness. Each line you draw
-              creates crossings &mdash; each crossing opens a passage.
+            {/* Body — EB Garamond, lowercase, hyphen-with-spaces */}
+            <p
+              style={{
+                fontFamily: "'EB Garamond', Georgia, serif",
+                fontSize: 15,
+                lineHeight: 1.8,
+                color: "var(--text-primary)",
+                letterSpacing: "0.02em",
+              }}
+            >
+              becoming crossings is an interactive piece exploring digital
+              borders through the lens of migrant consciousness. each line you
+              draw creates crossings - each crossing opens a passage.
             </p>
 
+            {/* Attribution + links — mono caption per principle 03 */}
             <p
-              className="font-serif text-[14px] text-gray-60 mt-6"
-              style={{ lineHeight: 1.8 }}
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                color: "var(--text-secondary)",
+                marginTop: 24,
+                lineHeight: 1.6,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
             >
-              By{" "}
+              by{" "}
               <a
                 href="https://www.halimmadi.com"
                 target="_blank"
@@ -106,21 +137,31 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
                   color: "inherit",
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
+                  transition: "opacity 0.3s ease",
                 }}
               >
-                Halim Madi
+                halim madi
               </a>
             </p>
 
-            <div className="flex gap-4 mt-3" style={{ fontSize: 13 }}>
+            <div
+              className="flex gap-4 mt-3"
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+              }}
+            >
               <a
                 href="https://www.halimmadi.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-serif text-gray-50 hover:text-black transition-colors duration-300"
                 style={{
+                  color: "var(--text-tertiary)",
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
+                  transition: "opacity 0.3s ease",
                 }}
               >
                 halimmadi.com
@@ -129,10 +170,11 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
                 href="https://www.instagram.com/yalla_halim"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-serif text-gray-50 hover:text-black transition-colors duration-300"
                 style={{
+                  color: "var(--text-tertiary)",
                   textDecoration: "underline",
                   textUnderlineOffset: "3px",
+                  transition: "opacity 0.3s ease",
                 }}
               >
                 @yalla_halim
@@ -141,9 +183,25 @@ export function About({ open, onToggle, onShowGallery }: AboutProps) {
 
             <button
               onClick={onShowGallery}
-              className="mt-8 font-serif text-[13px] text-gray-50 tracking-open underline underline-offset-4 bg-transparent border-none cursor-pointer p-0 hover:text-black transition-colors duration-300"
+              className="mt-8 bg-transparent border-none cursor-pointer p-0"
+              style={{
+                fontFamily: "var(--font-mono)",
+                fontSize: "var(--type-size-meta)",
+                color: "var(--text-tertiary)",
+                letterSpacing: "0.05em",
+                textTransform: "uppercase",
+                textDecoration: "underline",
+                textUnderlineOffset: "4px",
+                transition: "opacity 0.3s ease",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = "0.7";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = "1";
+              }}
             >
-              View crossing gallery
+              see all crossings
             </button>
           </div>
         </div>

@@ -280,18 +280,17 @@ export function ContentOverlay({
                 fontSize: 15,
                 lineHeight: 1.6,
                 padding: "12px 20px",
-                border: "1px solid #000000",
+                border: "1px solid var(--border)",
                 backgroundColor: "transparent",
                 cursor: "pointer",
-                transition: "box-shadow 0.25s ease",
-                color: "#000000",
+                transition: "opacity 0.3s ease",
+                color: "var(--text-primary)",
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                  "0 2px 8px rgba(0, 0, 0, 0.15)";
+                (e.currentTarget as HTMLButtonElement).style.opacity = "0.7";
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLButtonElement).style.boxShadow = "none";
+                (e.currentTarget as HTMLButtonElement).style.opacity = "1";
               }}
             >
               save a screenshot of my quilt of crossings

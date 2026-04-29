@@ -1,15 +1,24 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 
-const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
-const supabaseServiceKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim();
+const supabaseUrl = "https://smytgqkgomsfyurskpcl.supabase.co";
+const CROSSINGS_BUCKET = "becoming-border-crossings";
 
-const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
-
-const CROSSINGS_BUCKET = "crossings";
+export const dynamic = "force-dynamic";
 
 export async function POST(request: NextRequest) {
   try {
+    const supabaseServiceKey = (
+      process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+    ).trim();
+    if (!supabaseServiceKey) {
+      return NextResponse.json(
+        { error: "Server misconfigured: missing service key" },
+        { status: 500 },
+      );
+    }
+    const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
+
     const formData = await request.formData();
     const file = formData.get("file") as File | null;
 

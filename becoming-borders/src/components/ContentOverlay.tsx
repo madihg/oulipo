@@ -28,66 +28,144 @@ function seededRandom(seed: number) {
   };
 }
 
-interface ScatteredImage {
+type LayoutMode = "scatter" | "centered" | "grid";
+
+interface FramePosition {
   top: string;
   left: string;
-  width: number;
+  width: string;
+  height: string;
+  zIndex: number;
+  rotation: number;
 }
 
-function generateImagePositions(
+// become-border has a single image: place it centered, big, behind text.
+// ana-mendieta has 4 images: arrange as a 2x2 grid behind text.
+// All other sections: scattered around the text rectangle.
+function getLayoutForSection(sectionIndex: number): LayoutMode {
+  if (sectionIndex === 1) return "centered";
+  if (sectionIndex === 5) return "grid";
+  return "scatter";
+}
+
+function generateScatterPositions(
   sectionIndex: number,
   count: number,
-): ScatteredImage[] {
+): FramePosition[] {
   if (count === 0) return [];
 
   const rand = seededRandom(sectionIndex * 7 + 31);
-  const positions: ScatteredImage[] = [];
+  const positions: FramePosition[] = [];
 
-  // Adaptive sizing: fewer images = bigger, more images = smaller
-  let baseWidth: number;
-  let widthVariation: number;
-  if (count <= 2) {
-    baseWidth = 420;
-    widthVariation = 100;
-  } else if (count <= 4) {
-    baseWidth = 340;
-    widthVariation = 100;
-  } else if (count <= 6) {
-    baseWidth = 280;
-    widthVariation = 80;
-  } else {
-    baseWidth = 220;
-    widthVariation = 60;
-  }
+  // Bigger sizes since we have fewer images per section now.
+  // Mixed aspect ratios so frames feel organic, not uniform.
+  const aspectRatios = [3 / 4, 4 / 3, 1, 5 / 4, 4 / 5, 16 / 9];
 
-  // Zones spread across the viewport — cycle through them for any count
+  // Zones spread around the central text rectangle. Some intentionally
+  // overlap the rectangle's footprint so images peek behind it.
   const zones = [
-    { xMin: -8, xMax: 22, yMin: 5, yMax: 55 },
-    { xMin: 58, xMax: 88, yMin: 5, yMax: 55 },
-    { xMin: 8, xMax: 38, yMin: -8, yMax: 18 },
-    { xMin: 48, xMax: 82, yMin: 62, yMax: 88 },
-    { xMin: 62, xMax: 92, yMin: -8, yMax: 22 },
-    { xMin: -5, xMax: 20, yMin: 58, yMax: 85 },
-    { xMin: 30, xMax: 55, yMin: -5, yMax: 15 },
-    { xMin: 65, xMax: 95, yMin: 40, yMax: 70 },
-    { xMin: 5, xMax: 30, yMin: 35, yMax: 60 },
-    { xMin: 45, xMax: 70, yMin: 10, yMax: 35 },
+    { xMin: -6, xMax: 24, yMin: 4, yMax: 50 },
+    { xMin: 60, xMax: 92, yMin: 6, yMax: 52 },
+    { xMin: 8, xMax: 36, yMin: 56, yMax: 90 },
+    { xMin: 56, xMax: 88, yMin: 54, yMax: 88 },
+    { xMin: 30, xMax: 56, yMin: -4, yMax: 18 },
+    { xMin: 36, xMax: 64, yMin: 78, yMax: 96 },
+    { xMin: -4, xMax: 18, yMin: 38, yMax: 70 },
+    { xMin: 70, xMax: 96, yMin: 38, yMax: 70 },
   ];
+
+  // Sizing scales with count: fewer images = bigger.
+  let baseWidthVw: number;
+  let widthVarianceVw: number;
+  if (count <= 3) {
+    baseWidthVw = 28;
+    widthVarianceVw = 8;
+  } else if (count <= 5) {
+    baseWidthVw = 22;
+    widthVarianceVw = 7;
+  } else {
+    baseWidthVw = 18;
+    widthVarianceVw = 6;
+  }
 
   for (let i = 0; i < count; i++) {
     const zone = zones[(sectionIndex + i) % zones.length];
     const x = zone.xMin + rand() * (zone.xMax - zone.xMin);
     const y = zone.yMin + rand() * (zone.yMax - zone.yMin);
-    const w = baseWidth + Math.floor(rand() * widthVariation);
+    const widthVw = baseWidthVw + rand() * widthVarianceVw;
+    const ratio = aspectRatios[Math.floor(rand() * aspectRatios.length)];
+    const heightVw = widthVw / ratio;
+    const rotation = (rand() - 0.5) * 4; // -2deg to +2deg
 
     positions.push({
       left: `${x.toFixed(1)}%`,
       top: `${y.toFixed(1)}%`,
-      width: w,
+      width: `min(${widthVw.toFixed(1)}vw, ${(widthVw * 7).toFixed(0)}px)`,
+      height: `min(${heightVw.toFixed(1)}vw, ${(heightVw * 7).toFixed(0)}px)`,
+      zIndex: 50 + (i % 2),
+      rotation,
     });
   }
 
   return positions;
+}
+
+function generateCenteredPosition(): FramePosition[] {
+  // Single big image, centered, behind the text rectangle.
+  return [
+    {
+      top: "50%",
+      left: "50%",
+      width: "min(72vw, 760px)",
+      height: "min(54vw, 570px)",
+      zIndex: 49,
+      rotation: 0,
+    },
+  ];
+}
+
+function generateGridPositions(count: number): FramePosition[] {
+  // 2x2 grid (or 2 wide / N tall) behind the text rectangle.
+  const cols = 2;
+  const rows = Math.ceil(count / cols);
+
+  const cellWidthVw = 32;
+  const cellHeightVw = 24;
+  const gapVw = 1.5;
+
+  const totalWidthVw = cols * cellWidthVw + (cols - 1) * gapVw;
+  const totalHeightVw = rows * cellHeightVw + (rows - 1) * gapVw;
+
+  const positions: FramePosition[] = [];
+  for (let i = 0; i < count; i++) {
+    const row = Math.floor(i / cols);
+    const col = i % cols;
+
+    const xVw = -totalWidthVw / 2 + col * (cellWidthVw + gapVw);
+    const yVw = -totalHeightVw / 2 + row * (cellHeightVw + gapVw);
+
+    positions.push({
+      // Position cells around the centered text rectangle (50%, 50%).
+      // Use calc so the grid scales with viewport.
+      left: `calc(50% + ${xVw.toFixed(2)}vw)`,
+      top: `calc(50% + ${yVw.toFixed(2)}vw)`,
+      width: `min(${cellWidthVw}vw, 360px)`,
+      height: `min(${cellHeightVw}vw, 270px)`,
+      zIndex: 49,
+      rotation: 0,
+    });
+  }
+  return positions;
+}
+
+function generatePositions(
+  sectionIndex: number,
+  count: number,
+): FramePosition[] {
+  const layout = getLayoutForSection(sectionIndex);
+  if (layout === "centered") return generateCenteredPosition();
+  if (layout === "grid") return generateGridPositions(count);
+  return generateScatterPositions(sectionIndex, count);
 }
 
 export function ContentOverlay({
@@ -101,10 +179,8 @@ export function ContentOverlay({
   const [visible, setVisible] = useState(false);
   const section = sections[sectionIndex];
   const isNoticeSection = sectionIndex === 6;
-  const imagePositions = generateImagePositions(
-    sectionIndex,
-    section.images.length,
-  );
+  const layout = getLayoutForSection(sectionIndex);
+  const imagePositions = generatePositions(sectionIndex, section.images.length);
 
   useEffect(() => {
     const frame = requestAnimationFrame(() => {
@@ -151,6 +227,11 @@ export function ContentOverlay({
     window.dispatchEvent(new Event("resize"));
   }, [canvasRef, intersections, openedSections]);
 
+  // Slightly thinner backdrop for sections where imagery should breathe
+  // through more (single-image and grid layouts).
+  const backdropOpacity =
+    layout === "centered" ? 0.78 : layout === "grid" ? 0.8 : 0.85;
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -162,33 +243,37 @@ export function ContentOverlay({
       {/* Backdrop */}
       <div
         className="absolute inset-0"
-        style={{ backgroundColor: "rgba(255, 255, 255, 0.85)" }}
+        style={{ backgroundColor: `rgba(255, 255, 255, ${backdropOpacity})` }}
         onClick={onClose}
       />
 
-      {/* Scattered images */}
+      {/* Story images: B&W, grainy, thin black border. */}
       {imagePositions.map((pos, i) => {
         const imageSrc = section.images[i];
         if (!imageSrc) return null;
+
+        const useCenterTransform = layout === "centered" || layout === "grid";
+
         return (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
+          <div
             key={i}
-            src={imageSrc}
-            alt=""
-            className="absolute pointer-events-none"
+            className="bb-image-frame"
             style={{
               top: pos.top,
               left: pos.left,
               width: pos.width,
-              height: "auto",
-              objectFit: "cover",
-              boxShadow: "0 1px 6px rgba(0, 0, 0, 0.08)",
+              height: pos.height,
+              zIndex: pos.zIndex,
+              transform: useCenterTransform
+                ? `translate(-50%, -50%) rotate(${pos.rotation}deg)`
+                : `rotate(${pos.rotation}deg)`,
               opacity: visible ? 1 : 0,
-              transition: `opacity 0.5s ease ${0.15 + i * 0.1}s`,
-              zIndex: 51,
+              transition: `opacity 0.6s ease ${0.15 + i * 0.08}s`,
             }}
-          />
+          >
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={imageSrc} alt="" />
+          </div>
         );
       })}
 

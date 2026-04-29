@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 
-const supabaseUrl = "https://vknopcdmkhpfqhzmwysj.supabase.co";
-const CROSSINGS_BUCKET = "crossings";
+const supabaseUrl = "https://smytgqkgomsfyurskpcl.supabase.co";
+const CROSSINGS_BUCKET = "becoming-border-crossings";
 
 export const dynamic = "force-dynamic";
 

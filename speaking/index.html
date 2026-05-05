@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Speaking — Halim Madi</title>
+    <meta
+      name="description"
+      content="Keynotes and workshops by Halim Madi — on AI, language, creativity as infrastructure, and rewiring the systems we build with."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
+    />
+    <link rel="stylesheet" href="/Assets/css/shared.css" />
+    <style>
+      .speaking-page {
+        max-width: 1280px;
+      }
+
+      .speaking-eyebrow {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin-bottom: 0.75rem;
+      }
+
+      .speaking-page h1 {
+        font-size: clamp(3rem, 7vw, 5rem);
+        line-height: 0.95;
+        margin-bottom: 1.5rem;
+      }
+
+      .speaking-intro {
+        max-width: 60ch;
+        line-height: 1.5;
+        margin-bottom: 2.5rem;
+      }
+
+      /* B-split: keynotes (1.2fr) | workshops (0.8fr) */
+      .speaking-split {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 3rem;
+        align-items: start;
+      }
+      @media (max-width: 900px) {
+        .speaking-split {
+          grid-template-columns: 1fr;
+          gap: 2.5rem;
+        }
+      }
+
+      .speaking-side {
+        padding-left: 1.25rem;
+        border-left: 4px solid var(--side-color, var(--ink));
+      }
+      .speaking-side[data-side="machine"] {
+        --side-color: var(--section-machine);
+      }
+      .speaking-side[data-side="tools"] {
+        --side-color: var(--section-tools);
+      }
+
+      .speaking-side h2 {
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: 1.6rem;
+        margin: 0 0 0.75rem;
+        color: var(--ink-85);
+      }
+
+      .speaking-side__lede {
+        max-width: 40ch;
+        line-height: 1.5;
+        color: var(--ink-85);
+        margin: 0 0 1.25rem;
+      }
+
+      /* Topic / format list — monospace, · prefix */
+      .speaking-list {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1.5rem;
+      }
+      .speaking-list li {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.92rem;
+        line-height: 1.5;
+        color: var(--ink-85);
+        padding: 0.15rem 0 0.15rem 1.1rem;
+        position: relative;
+      }
+      .speaking-list li::before {
+        content: "·";
+        position: absolute;
+        left: 0;
+        color: var(--side-color, var(--ink-50));
+        font-weight: 700;
+      }
+      .speaking-list li b {
+        font-weight: 700;
+      }
+      .speaking-list li i {
+        font-style: italic;
+        color: var(--ink-70);
+      }
+
+      /* Pull quote — serif italic, 28ch max */
+      .speaking-quote {
+        font-family: serif;
+        font-style: italic;
+        font-size: 1.15rem;
+        line-height: 1.4;
+        max-width: 28ch;
+        color: var(--ink-85);
+        margin: 0 0 0.4rem;
+        padding-left: 0;
+        border-left: 0;
+      }
+      .speaking-quote-attr {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.85rem;
+        color: var(--ink-50);
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin: 0 0 1.5rem;
+      }
+
+      /* Side CTA */
+      .speaking-side .button-8 {
+        text-decoration: none;
+      }
+
+      /* Past hosts strip */
+      .speaking-hosts {
+        margin-top: 4rem;
+      }
+      .speaking-hosts__title {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin-bottom: 0.75rem;
+      }
+      .speaking-hosts__row {
+        display: flex;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+      .speaking-host-pill {
+        display: inline-block;
+        padding: 0.4rem 0.7rem;
+        border: 1.2px solid var(--ink);
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-85);
+        background: var(--paper);
+      }
+
+      /* Past videos — 2-up 16:9, B&W default + color on hover */
+      .speaking-videos {
+        margin-top: 3rem;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+      }
+      @media (max-width: 600px) {
+        .speaking-videos {
+          grid-template-columns: 1fr;
+        }
+      }
+      .speaking-video {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        background: var(--ink-08);
+        overflow: hidden;
+        text-decoration: none;
+        color: var(--ink-85);
+        display: block;
+      }
+      .speaking-video img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(100%);
+        transition: var(--t-bw-color);
+      }
+      .speaking-video:hover img {
+        filter: grayscale(0%);
+      }
+      .speaking-video__caption {
+        position: absolute;
+        left: 0.5rem;
+        bottom: 0.5rem;
+        background: var(--paper);
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0.15rem 0.45rem;
+      }
+      .speaking-video__placeholder {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-mono);
+        font-size: var(--type-size-caption);
+        color: var(--ink-40);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        height: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header-bar"></div>
+    <div class="site-header"><a href="/">Halim Madi</a></div>
+
+    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/speaking/">Speaking</a>
+        <a href="/writing/">Writing</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/connect/">Connect</a>
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
+        >
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="page-content speaking-page">
+        <div class="speaking-eyebrow">Speaking</div>
+        <h1>Keynotes &amp; Workshops</h1>
+        <div class="speaking-intro">
+          <p>
+            Provocations on AI, language, and creative infrastructure for teams
+            that want to build with care. Keynotes are 30–60 minutes; workshops
+            are hands-on, half-day to five-day formats.
+          </p>
+        </div>
+
+        <div class="speaking-split">
+          <!-- Keynotes (left, 1.2fr, machine-talk pink rail) -->
+          <section class="speaking-side" data-side="machine">
+            <h2>Keynotes</h2>
+            <p class="speaking-side__lede">
+              I speak about AI, language, and care. Not lectures — provocations
+              designed to clear the noise and reopen space for creative thinking
+              inside complex teams.
+            </p>
+
+            <ul class="speaking-list">
+              <li>
+                <b>Keynotes that Make Room</b> — clearing the noise so the work
+                can speak.
+              </li>
+              <li>
+                <b>Creativity as Infrastructure</b> — patterns, rituals, tools
+                you can keep.
+              </li>
+              <li>
+                <b>Artist as Hacker</b> — curiosity over control, intuition over
+                optimization.
+              </li>
+              <li>
+                <b>Rewiring the System</b> — selected case studies in feedback,
+                joy, trust.
+              </li>
+            </ul>
+
+            <p class="speaking-quote">
+              “Best closing keynote we've ever programmed.”
+            </p>
+            <p class="speaking-quote-attr">— CultureHub LA, 2025</p>
+
+            <a class="button-8" href="/connect/?intent=talk"
+              >Book a talk &rarr;</a
+            >
+          </section>
+
+          <!-- Workshops (right, 0.8fr, tools green rail) -->
+          <section class="speaking-side" data-side="tools">
+            <h2>Workshops</h2>
+            <p class="speaking-side__lede">
+              Hands-on, body-first. How to build with a model. How to break with
+              one. How to read what comes out and not look away.
+            </p>
+
+            <ul class="speaking-list">
+              <li>
+                <b>1-day intensive</b>
+                <i>— half manifesto, half lab. 12 ppl max.</i>
+              </li>
+              <li>
+                <b>3-day deep dive</b> <i>— a small piece ships. 8 ppl max.</i>
+              </li>
+              <li>
+                <b>5-day residency</b>
+                <i>— public showing on the last night. 6 ppl max.</i>
+              </li>
+            </ul>
+
+            <p class="speaking-quote">
+              “Students are still talking about it six months later.”
+            </p>
+            <p class="speaking-quote-attr">— SFPC, 2024</p>
+
+            <a class="button-8" href="/connect/?intent=workshop"
+              >Host a workshop &rarr;</a
+            >
+          </section>
+        </div>
+
+        <!-- Past hosts -->
+        <section class="speaking-hosts" aria-label="Past hosts">
+          <div class="speaking-hosts__title">Past hosts</div>
+          <div class="speaking-hosts__row">
+            <span class="speaking-host-pill">Google</span>
+            <span class="speaking-host-pill">Stanford</span>
+            <span class="speaking-host-pill">UMD</span>
+            <span class="speaking-host-pill">Mozilla</span>
+            <span class="speaking-host-pill">Gray Area</span>
+            <span class="speaking-host-pill">CultureHub</span>
+            <span class="speaking-host-pill">SXSW</span>
+            <span class="speaking-host-pill">SFPC</span>
+            <span class="speaking-host-pill">Rhizome</span>
+          </div>
+        </section>
+
+        <!-- Past videos: 2-up, B&W -> color on hover -->
+        <section class="speaking-videos" aria-label="Past talks (videos)">
+          <a
+            class="speaking-video"
+            href="https://halimmadi.substack.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Talk video — Gray Area"
+          >
+            <div class="speaking-video__placeholder">talk · 22 min</div>
+            <span class="speaking-video__caption">Gray Area</span>
+          </a>
+          <a
+            class="speaking-video"
+            href="https://halimmadi.substack.com/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Workshop video — SFPC"
+          >
+            <div class="speaking-video__placeholder">workshop · 4 min</div>
+            <span class="speaking-video__caption">SFPC</span>
+          </a>
+        </section>
+
+        <div class="page-cta">
+          <a class="button-8" href="/connect/?intent=hi">Get in touch &rarr;</a>
+        </div>
+      </div>
+    </div>
+
+    <script src="/Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js" defer></script>
+  </body>
+</html>

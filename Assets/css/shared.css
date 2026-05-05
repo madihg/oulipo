@@ -2,6 +2,15 @@
    shared.css — oulipo.xyz shared styles
    ═══════════════════════════════════════════ */
 
+/* Design tokens (single source of truth for colors / type / spacing / motion) */
+@import url("./tokens.css");
+
+/* Persistent UI chrome — top signup bar + corner chips */
+@import url("./chrome.css");
+
+/* Command palette overlay (MACHINE mode) */
+@import url("./palette.css");
+
 /* Cargo Fonts */
 @font-face {
   font-display: block;
@@ -554,5 +563,45 @@ hr {
 @media (max-width: 600px) {
   .detail-gallery.three-col {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ───────────────────────────────────────────
+   Utilities
+   ─────────────────────────────────────────── */
+
+/* Hide visually but keep available to assistive technology */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* When the persistent signup bar is on, the existing fixed-position
+   header bar / site-header / menu-toggle should slide down to clear it. */
+body.has-signup-bar .header-bar {
+  top: var(--signup-bar-h);
+}
+body.has-signup-bar .site-header {
+  top: calc(var(--signup-bar-h) + 1.5rem);
+}
+body.has-signup-bar .menu-toggle {
+  top: calc(var(--signup-bar-h) + 1.5rem);
+}
+@media (max-width: 600px) {
+  body.has-signup-bar .header-bar {
+    top: var(--signup-bar-h-mobile);
+  }
+  body.has-signup-bar .site-header {
+    top: calc(var(--signup-bar-h-mobile) + 1.5rem);
+  }
+  body.has-signup-bar .menu-toggle {
+    top: calc(var(--signup-bar-h-mobile) + 1.5rem);
   }
 }

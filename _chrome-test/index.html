@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chrome smoke test - oulipo</title>
+    <link rel="stylesheet" href="/Assets/css/shared.css" />
+    <style>
+      .testpad {
+        padding: 6rem 4rem 8rem;
+        max-width: 50rem;
+      }
+      .testpad h1 {
+        font-size: clamp(2.5rem, 6vw, 5rem);
+      }
+      .testpad code {
+        font-family: var(--font-mono);
+        background: var(--ink-08);
+        padding: 0.1rem 0.4rem;
+      }
+      .testpad ul {
+        line-height: 1.6;
+      }
+      .testpad li b {
+        font-family: var(--font-mono);
+        font-size: 0.95em;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 0.05rem 0.4rem;
+      }
+    </style>
+    <script src="/Assets/js/chrome.js" defer></script>
+  </head>
+  <body>
+    <main class="testpad">
+      <h1>chrome smoke test</h1>
+      <p>
+        This page exists only to verify the persistent UI chrome works
+        standalone before we integrate it into every site page. Nothing else.
+      </p>
+      <h2>What you should see</h2>
+      <ul>
+        <li>
+          Thin top signup bar with <em>halim madi</em> on the left, an email
+          field, and a <em>subscribe</em> button.
+        </li>
+        <li>Top-right: a small <code>connect [c]</code> chip.</li>
+        <li>
+          Bottom-right: <code>human [h]</code> / <code>machine [m]</code> pill
+          (HUMAN active by default).
+        </li>
+      </ul>
+      <h2>Keyboard shortcuts</h2>
+      <ul>
+        <li><b>c</b> goes to <code>/connect/</code>.</li>
+        <li><b>h</b> exits MACHINE mode (closes palette).</li>
+        <li><b>m</b> enters MACHINE mode (opens palette).</li>
+        <li><b>/</b> opens palette without changing mode.</li>
+        <li>
+          <b>⌘K</b> / <b>Ctrl+K</b> opens palette from anywhere (incl. inputs).
+        </li>
+        <li>
+          <b>↑ ↓</b> navigate palette suggestions; <b>Enter</b> fires;
+          <b>Esc</b> closes; <b>Tab</b> autocompletes.
+        </li>
+        <li>
+          When the palette is open, <code>/</code>+<code>⌘K</code> hint chips
+          appear above the bottom-right pill.
+        </li>
+      </ul>
+      <h2>Try the palette</h2>
+      <p>
+        Press <b>m</b>. You should see a dark overlay with a monospace site map
+        dimmed at low opacity, a list of slash commands above the input bar, and
+        a <code>›</code>-prompt input at the bottom. Type <code>works</code> or
+        <code>book</code> or <code>connect</code> and the list filters live.
+      </p>
+      <h2>Try the signup form</h2>
+      <p>
+        Type any email into the top bar and submit — you should see
+        <em>subscribing…</em> then either <em>subscribed ✓</em> (best-effort) or
+        a <em>try at substack.com ↗</em> fallback link. Real Substack wiring
+        lands in US-006.
+      </p>
+    </main>
+  </body>
+</html>

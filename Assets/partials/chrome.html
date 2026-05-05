@@ -1,0 +1,201 @@
+<!--
+  chrome.html — markup for the persistent UI chrome.
+  Injected into <body> on every page by Assets/js/chrome.js.
+  Do NOT include this file directly via <link> or <script>; chrome.js fetches it.
+-->
+
+<!-- ── top signup bar ─────────────────────────────────── -->
+<section class="signup-bar" aria-label="Newsletter signup">
+  <a href="/" class="signup-bar__name" aria-label="Halim Madi - home"
+    >halim madi</a
+  >
+  <form
+    class="signup-bar__form"
+    action="https://halimmadi.substack.com/api/v1/free?nojs=true"
+    method="post"
+    target="_blank"
+    data-substack
+  >
+    <span class="signup-bar__label" aria-hidden="true">email</span>
+    <label class="visually-hidden" for="signup-bar-email">Your email</label>
+    <input
+      class="signup-bar__input"
+      id="signup-bar-email"
+      type="email"
+      name="email"
+      placeholder=""
+      required
+      autocomplete="email"
+    />
+    <button class="signup-bar__submit" type="submit">subscribe</button>
+    <span
+      class="signup-bar__status"
+      data-signup-status
+      aria-live="polite"
+    ></span>
+  </form>
+</section>
+
+<!-- ── upper-right CONNECT chip ───────────────────────── -->
+<div class="corner-tr">
+  <a href="/connect/" class="chip" data-key="c">
+    connect <span class="chip__key">c</span>
+  </a>
+</div>
+
+<!-- ── bottom-right HUMAN/MACHINE pill ────────────────── -->
+<div class="corner-br">
+  <div class="corner-br__hint" aria-hidden="true">
+    <span class="chip chip--ghost">/</span>
+    <span class="chip chip--ghost">⌘K</span>
+  </div>
+  <div class="chip-group" role="group" aria-label="Site mode">
+    <button
+      type="button"
+      class="chip chip--active"
+      data-mode="human"
+      aria-pressed="true"
+    >
+      human <span class="chip__key">h</span>
+    </button>
+    <button type="button" class="chip" data-mode="machine" aria-pressed="false">
+      machine <span class="chip__key">m</span>
+    </button>
+  </div>
+</div>
+
+<!-- ── command palette overlay ────────────────────────── -->
+<div
+  class="palette"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="palette-input"
+  hidden
+>
+  <div class="palette__sitemap" aria-hidden="true">
+    <div class="palette__sitemap-section">
+      <div class="palette__sitemap-section-title">HALIM MADI</div>
+      <div>Works:</div>
+      <div>
+        &nbsp;<span class="palette__sitemap-link">[Hard.exe]</span
+        ><span class="palette__sitemap-url">(/works/hard-exe/)</span>
+      </div>
+      <div>
+        &nbsp;<span class="palette__sitemap-link">[Carnation Revival]</span
+        ><span class="palette__sitemap-url">(/works/carnation-revival/)</span>
+      </div>
+      <div>
+        &nbsp;<span class="palette__sitemap-link">[Vatican Pavilion]</span
+        ><span class="palette__sitemap-url">(/works/vatican-pavilion/)</span>
+      </div>
+      <div>
+        &nbsp;<span class="palette__sitemap-link">[Word Garden]</span
+        ><span class="palette__sitemap-url">(/works/word-garden/)</span>
+      </div>
+      <div>
+        &nbsp;<span class="palette__sitemap-link">[Curl]</span
+        ><span class="palette__sitemap-url">(/works/curl/)</span>
+      </div>
+    </div>
+    <div class="palette__sitemap-section">
+      <div class="palette__sitemap-section-title">SECTIONS</div>
+      <div>
+        <span class="palette__sitemap-link">[Machine talk]</span
+        ><span class="palette__sitemap-url"
+          >(/works/?section=machine-talk)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Algorithmic plays]</span
+        ><span class="palette__sitemap-url"
+          >(/works/?section=algorithmic-plays)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Somatic semantics]</span
+        ><span class="palette__sitemap-url"
+          >(/works/?section=somatic-semantics)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Tools]</span
+        ><span class="palette__sitemap-url">(/works/?section=tools)</span>
+      </div>
+    </div>
+    <div class="palette__sitemap-section">
+      <div class="palette__sitemap-section-title">PAGES</div>
+      <div>
+        <span class="palette__sitemap-link">[About]</span
+        ><span class="palette__sitemap-url">(/about/)</span>
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Speaking]</span
+        ><span class="palette__sitemap-url">(/speaking/)</span>
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Writing]</span
+        ><span class="palette__sitemap-url">(/writing/)</span>
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Connect]</span
+        ><span class="palette__sitemap-url">(/connect/)</span>
+      </div>
+    </div>
+    <div class="palette__sitemap-section">
+      <div class="palette__sitemap-section-title">EXTERNAL</div>
+      <div>
+        <span class="palette__sitemap-link">[Newsletter]</span
+        ><span class="palette__sitemap-url"
+          >(https://halimmadi.substack.com)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Instagram]</span
+        ><span class="palette__sitemap-url"
+          >(https://instagram.com/yalla_halim)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Singulars]</span
+        ><span class="palette__sitemap-url"
+          >(https://singulars.oulipo.xyz)</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="palette__results"
+    data-palette-results
+    role="listbox"
+    aria-label="Commands"
+  ></div>
+
+  <div class="palette__cli">
+    <span class="palette__cli-prompt">›_</span>
+    Press <em>m</em> to switch back to human mode.
+  </div>
+
+  <form class="palette__inputbar" data-palette-form>
+    <span class="palette__prompt" aria-hidden="true">›</span>
+    <label class="visually-hidden" for="palette-input">Command</label>
+    <input
+      type="text"
+      class="palette__input"
+      id="palette-input"
+      data-palette-input
+      placeholder="/search"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+    <span class="palette__keys" aria-hidden="true">
+      <span class="palette__key">tab</span>
+      <span class="palette__key">esc</span>
+    </span>
+    <button type="submit" class="visually-hidden" tabindex="-1">
+      Run command
+    </button>
+  </form>
+</div>

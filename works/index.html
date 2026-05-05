@@ -6,130 +6,317 @@
     <title>Works — Halim Madi</title>
     <meta
       name="description"
-      content="Poems, performances, and systems by Halim Madi — exploring what language remembers."
+      content="Poems, performances, software, and small interventions by Halim Madi — exploring what language remembers."
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
     <link rel="stylesheet" href="../Assets/css/shared.css" />
     <style>
-      .works-intro {
-        max-width: 800px;
-        margin-bottom: 3rem;
+      .works-page {
+        max-width: 1280px;
       }
-
+      .works-page > h1 {
+        font-size: clamp(3rem, 7vw, 6rem);
+      }
+      .works-intro {
+        max-width: 56ch;
+        margin-bottom: 2rem;
+      }
       .works-intro p {
         line-height: 1.5;
       }
 
-      .work-entry {
-        margin-bottom: 4rem;
-        padding-bottom: 4rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
-      }
-
-      .work-entry:last-child {
-        border-bottom: none;
-      }
-
-      /* Metadata row: title, date, venue spread on one line */
-      .work-entry-meta-row {
-        display: flex;
-        align-items: baseline;
-        gap: 2rem;
-        margin-bottom: 1rem;
-        font-family: "Diatype Mono Variable", monospace;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-caption);
-        color: #000000;
-        line-height: 1.14;
-      }
-
-      .work-entry-meta-row .work-title {
-        font-family: "Diatype Mono Variable", monospace;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-caption);
-        color: #000000;
-        text-decoration: underline;
-        white-space: nowrap;
-      }
-
-      .work-entry-meta-row .work-date {
-        white-space: nowrap;
-      }
-
-      .work-entry-meta-row .work-venue {
-        margin-left: auto;
-        text-align: right;
-      }
-
-      .work-entry-body {
+      /* Layout: works list (1fr) + filter rail (160px) on desktop */
+      .works-layout {
         display: grid;
-        grid-template-columns: 7fr 5fr;
+        grid-template-columns: 1fr 160px;
+        gap: 3rem;
+        align-items: start;
+      }
+      @media (max-width: 900px) {
+        .works-layout {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+      }
+
+      /* Filter rail (right column, desktop only) */
+      .works-filter-rail {
+        position: sticky;
+        top: calc(var(--signup-bar-h) + 1.5rem);
+        border-left: 1px solid var(--ink-15);
+        padding-left: 1rem;
+      }
+      .works-filter-rail__title {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-50);
+        margin-bottom: 0.6rem;
+      }
+      .works-filter-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.25rem 0;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-size: var(--type-size-caption);
+        color: var(--ink-85);
+        text-align: left;
+        width: 100%;
+      }
+      .works-filter-btn[aria-pressed="true"] {
+        font-weight: 700;
+      }
+      .works-filter-btn .swatch {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink-50));
+        flex-shrink: 0;
+      }
+      .works-filter-btn .check {
+        width: 0.6rem;
+        height: 0.6rem;
+        border: 1px solid var(--ink);
+        flex-shrink: 0;
+      }
+      .works-filter-btn[aria-pressed="true"] .check {
+        background: var(--ink);
+      }
+
+      /* Mobile filter chips strip (visible <=900px) */
+      .works-filter-chips {
+        display: none;
+        gap: 0.4rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.5rem;
+      }
+      @media (max-width: 900px) {
+        .works-filter-chips {
+          display: flex;
+        }
+        .works-filter-rail {
+          display: none;
+        }
+      }
+      .works-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.55rem;
+        border: 1.2px solid var(--section-color, var(--ink));
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+        text-transform: lowercase;
+        color: var(--ink-85);
+        background: transparent;
+        cursor: pointer;
+      }
+      .works-chip[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink);
+      }
+      .works-chip .swatch {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink));
+        flex-shrink: 0;
+      }
+      .works-chip[aria-pressed="true"] .swatch {
+        background: var(--paper);
+      }
+
+      /* Year group heading */
+      .works-year {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--ink-85);
+        margin: 3rem 0 1rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 4px solid var(--section-color, var(--ink));
+      }
+      .works-year:first-child {
+        margin-top: 0;
+      }
+      /* When a year group spans multiple sections, fall back to ink. */
+      .works-year[data-mixed="true"] {
+        --section-color: var(--ink);
+      }
+
+      /* Card */
+      .work-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        margin-bottom: 4rem;
+      }
+      .work-card:last-child {
+        margin-bottom: 0;
+      }
+      .work-card__split {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
         gap: 2rem;
         align-items: start;
       }
-
-      .work-entry-images {
-        order: -1;
+      @media (max-width: 900px) {
+        .work-card {
+          margin-bottom: 2.5rem;
+        }
+        .work-card__split {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        /* image first on mobile */
+        .work-card__image {
+          order: -1;
+        }
       }
 
-      .work-entry-body p {
-        line-height: 1.5;
+      .work-card__image {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--ink-08);
+      }
+      .work-card__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(100%);
+        transition: var(--t-bw-color);
+      }
+      .work-card:hover .work-card__image img {
+        filter: grayscale(0%);
+      }
+      .work-card__image.is-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink-40);
+        font-family: var(--font-mono);
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      .work-card__venue {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--section-color, var(--ink-85));
+        margin-bottom: 0.5rem;
+      }
+      .work-card__title {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.95;
+        color: var(--ink-85);
+        margin: 0 0 0.75rem;
+      }
+      .work-card:hover .work-card__title {
+        text-decoration: underline 2px var(--section-color, var(--ink-85));
+        text-underline-offset: 0.12em;
+      }
+      .work-card__meta {
+        font-family: var(--font-body);
+        font-size: var(--type-size-caption);
+        color: var(--ink-70);
+        margin-bottom: 0.75rem;
+      }
+      .work-card__meta .sep {
+        color: var(--ink-40);
+        margin: 0 0.4rem;
+      }
+      .work-card__desc {
+        font-family: var(--font-body);
+        font-size: var(--type-size-base);
+        line-height: 1.4;
+        color: var(--ink-85);
         margin: 0 0 1rem;
       }
-
-      .work-entry-body a.work-link {
-        display: inline-block;
-        font-family: Standard, sans-serif;
-        font-size: 1rem;
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: underline;
-      }
-
-      .work-entry-images {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+      .work-card__footer {
+        display: flex;
+        align-items: center;
         gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: var(--ink-50);
+      }
+      .work-card__dot {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink-50));
       }
 
-      .work-entry-images img {
-        width: 100%;
-        height: auto;
-        display: block;
+      /* Skeleton + empty + error states */
+      .works-state {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: var(--ink-50);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 1rem 0;
       }
-
-      .work-entry-images.single {
-        grid-template-columns: 1fr;
+      .works-skeleton {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2rem;
+        margin-bottom: 4rem;
       }
-
-      /* Text-only entries (no images) use full width */
-      .work-entry-body.text-only {
-        grid-template-columns: 1fr;
+      .works-skeleton__bar {
+        height: 1rem;
+        background: var(--ink-08);
+        margin: 0.4rem 0;
+        max-width: 80%;
       }
-
+      .works-skeleton__bar.short {
+        max-width: 40%;
+      }
+      .works-skeleton__bar.tall {
+        height: 2.4rem;
+        max-width: 60%;
+      }
+      .works-skeleton__image {
+        aspect-ratio: 16 / 9;
+        background: var(--ink-08);
+      }
       @media (max-width: 900px) {
-        .work-entry-body {
+        .works-skeleton {
           grid-template-columns: 1fr;
-        }
-
-        .work-entry-images {
-          order: 0;
-        }
-
-        .work-entry-meta-row {
-          flex-wrap: wrap;
-          gap: 0.5rem 2rem;
-        }
-
-        .work-entry-meta-row .work-venue {
-          margin-left: 0;
-          text-align: left;
         }
       }
     </style>
@@ -159,8 +346,7 @@
       </div>
       <div class="menu-section">
         <a href="/works/">Works</a>
-        <a href="/keynotes/">Keynotes</a>
-        <a href="/workshops/">Workshops</a>
+        <a href="/speaking/">Speaking</a>
         <a href="/writing/">Writing</a>
       </div>
       <hr class="menu-divider" />
@@ -185,636 +371,67 @@
     </nav>
 
     <div class="page">
-      <div class="page-content">
-        <h1 style="font-size: 4rem; margin-bottom: 1.5rem">Works</h1>
+      <div class="page-content works-page">
+        <h1>Works</h1>
         <div class="works-intro">
           <p>
-            I'm an artist and researcher exploring what language remembers. I
-            build poems, performances, and systems that rewire our ways of
-            relating, to machines, to each other, to the past. The work lives
-            between code and care. It glitches. Sometimes, it shows its teeth.
+            Poems, performances, software, and small interventions. The work
+            lives between code and care. It glitches. Sometimes, it shows its
+            teeth. Filter by tribe.
           </p>
         </div>
 
-        <!-- We Called Us Poetry -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/we-called-us/" class="work-title"
-              >We Called Us Poetry</a
-            >
-            <span class="work-date">Jun '25</span>
-            <span class="work-venue"
-              >ELO Conference, Toronto / UC Berkeley / University of Bergen /
-              TIAT, SF</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                An interactive performance and computational poem exploring
-                humanity's relationship with AI. The piece imagines futures
-                where humanity doesn't scale up but scales down, proposing
-                poetic metamorphosis through symbiosis rather than technological
-                transcendence. Participants complete open-ended prompts while
-                the performer responds live, leaving traces and mutations in the
-                poem's digital body. HTML becomes sacred, dropdown menus hold
-                grief, and tabs unfold confessionals.
-              </p>
-              <a
-                class="work-link"
-                href="https://elo-2025.vercel.app"
-                target="_blank"
-                >Live site <span class="external-arrow">&#x2197;</span></a
-              >
+        <!-- Mobile-only filter chips -->
+        <div
+          class="works-filter-chips"
+          role="tablist"
+          aria-label="Filter works by section"
+          data-works-filter-mobile
+        ></div>
+
+        <div class="works-layout">
+          <!-- Works list (hydrated by JS) -->
+          <div data-works-list>
+            <!-- Initial skeleton -->
+            <div class="works-skeleton" aria-hidden="true">
+              <div>
+                <div class="works-skeleton__bar short"></div>
+                <div class="works-skeleton__bar tall"></div>
+                <div class="works-skeleton__bar"></div>
+                <div class="works-skeleton__bar"></div>
+              </div>
+              <div class="works-skeleton__image"></div>
             </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/we-called-us.png"
-                alt="We Called Us Poetry"
-              />
+            <div class="works-skeleton" aria-hidden="true">
+              <div>
+                <div class="works-skeleton__bar short"></div>
+                <div class="works-skeleton__bar tall"></div>
+                <div class="works-skeleton__bar"></div>
+              </div>
+              <div class="works-skeleton__image"></div>
             </div>
+            <div class="works-state" data-works-status>Loading works…</div>
           </div>
+
+          <!-- Filter rail (desktop only) -->
+          <aside
+            class="works-filter-rail"
+            role="tablist"
+            aria-label="Filter works by section"
+            data-works-filter-rail
+          ></aside>
         </div>
 
-        <!-- Carnation.exe -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/carnation-exe/" class="work-title">Carnation.exe</a>
-            <span class="work-date">May '25</span>
-            <span class="work-venue"
-              >European Artist Program, Paris, Barcelona</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Part I of the "Singulars" series. Stages a daily poetic duel
-                between a human poet and a language model trained exclusively on
-                poetry. Inspired by AlphaGo vs. Lee Sedol, creativity emerges
-                through confrontation rather than isolation. Participants place
-                pink carnation dots beneath preferred poems, with votes
-                determining subsequent learning cycles. Pink carnations
-                traditionally symbolize remembrance.
-              </p>
-              <a
-                class="work-link"
-                href="https://carnation-eng.vercel.app/"
-                target="_blank"
-                >Live site <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images">
-              <img
-                src="../Assets/images/works/carnation-1.jpg"
-                alt="Carnation.exe — performance"
-              />
-              <img
-                src="../Assets/images/works/carnation-2.jpg"
-                alt="Carnation.exe — voting"
-              />
-              <img
-                src="../Assets/images/works/carnation-3.jpg"
-                alt="Carnation.exe — installation"
-              />
-              <img
-                src="../Assets/images/works/carnation-4.jpg"
-                alt="Carnation.exe — detail"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Borderline -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/borderline/" class="work-title">Borderline</a>
-            <span class="work-date">Dec '24 - Jan '25</span>
-            <span class="work-venue">CounterPulse, San Francisco</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                A speculative narrative set in fictional "New Beirut" where a
-                red line appears mysteriously. Unfolds through a layered score
-                combining HTML poetry, news broadcasts, family stories, and
-                border interrogations. Weaves movement, memory, and testimony
-                exploring how migration reshapes body and language. Features an
-                Arabic zajal refrain returning across timelines. Culminates in a
-                collective digital memory atlas where audience shares personal
-                "red lines" - locations of home and belonging.
-              </p>
-              <a
-                class="work-link"
-                href="https://borderline-swart.vercel.app/"
-                target="_blank"
-                >Live site <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images">
-              <img
-                src="../Assets/images/works/borderline-1.jpg"
-                alt="Borderline — performance"
-              />
-              <img
-                src="../Assets/images/works/borderline-2.jpg"
-                alt="Borderline — stage"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- I Live Here -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/i-live-here/" class="work-title">I Live Here</a>
-            <span class="work-date">Apr '25</span>
-            <span class="work-venue">CounterPulse AIR, San Francisco</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                A ritual descent (katabasis) woven between Beirut and San
-                Francisco's Tenderloin. Explores belonging to places "built on
-                bones" - BO18 nightclub constructed atop the Karantina massacre
-                site; The Hamilton hotel overlooking pandemic-era urban
-                collapse. Performance interrogates how hope curdles into
-                fatalism, fatalism into myth. Concludes with an audience
-                invitation "downstairs, for tea, for testimony, for shared
-                ground."
-              </p>
-              <a
-                class="work-link"
-                href="https://i-live-here.vercel.app/"
-                target="_blank"
-                >Live site <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/i-live-here.jpg"
-                alt="I Live Here"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Feed It -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/feed-it/" class="work-title">Feed It</a>
-            <span class="work-date">May '25</span>
-            <span class="work-venue"
-              >APE (Artist x Producer x Engineer), Seoul, South Korea</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Six artists surrender flesh, sounds, and thoughts to train a
-                model functioning as collaborative director rather than
-                assistant. Participants' faces, voices, and writings become
-                dataset; the fine-tuned model speaks, choreographs, and guides
-                performers through live instructions. Performers become puppets
-                of their collective digital ghost. Theater becomes ritual of
-                distributed agency and surrender.
-              </p>
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/feed-it/20250526_183554.jpg"
-                alt="Feed It - performers during the live AI-directed session"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Weirder Webs -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/weirder-webs/" class="work-title">Weirder Webs</a>
-            <span class="work-date">Nov '24 - Jan '25</span>
-            <span class="work-venue"
-              >San Francisco, Barcelona, Paris, London</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                A traveling ritual inviting participants to reclaim digital
-                agency through "queering functionality." Opening ritual rooted
-                in queer migration mythology precedes collaborative
-                site-building using Glitch.com and ChatGPT. Participants create
-                websites that flirt, refuse proper loading, and ask questions
-                rather than answer. Results form a shared "digital village" -
-                interconnected queer poetic web galaxy.
-              </p>
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/weirder-webs/Screenshot-2025-10-06-at-3.37.28PM.png"
-                alt="Weirder Webs - participant website creation"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Deserve It -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/deserve-it/" class="work-title">Deserve It</a>
-            <span class="work-date">Dec '23 - Nov '24</span>
-            <span class="work-venue">Gray Area AIR, San Francisco</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Deserve It is an immersive performance where viewers confront a
-                haunting simulation of the migrant experience. Sitting behind a
-                screen, they fill out shifting bureaucratic forms as the artist
-                enacts their choices in real time. It's part installation, part
-                slow ritual, unfolding over six hours, and asks: what does it
-                mean to perform worthiness? To surrender? To glitch inside a
-                system that keeps looping?
-              </p>
-              <a
-                class="work-link"
-                href="https://deserve.vercel.app/"
-                target="_blank"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/deserve-it/gray_area_summer_artist_2024-045.jpg"
-                alt="Deserve It - immersive performance at Gray Area"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Borderline.exe -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/borderline-exe/" class="work-title"
-              >Borderline.exe</a
-            >
-            <span class="work-date">Dec '24</span>
-            <span class="work-venue"
-              >Robert Coover Award for Electronic Literature</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Opens with the accusatory prompt: "Are you carrying weapons?"
-                Checkboxes evade the cursor; each interaction mimics the
-                psychological toll of border scrutiny. A green success screen
-                burns emotionally, declaring "299 days" for document arrival.
-                Distills the border-crossing experience into digital form,
-                weaponizing interface design against user agency.
-              </p>
-              <a
-                class="work-link"
-                href="https://www.oulipo.xyz/borderline-deny.html"
-                target="_blank"
-                >Live site <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/borderline-exe.png"
-                alt="Borderline.exe"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Oulipo.xyz -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="https://oulipo.xyz" class="work-title">Oulipo.xyz</a>
-            <span class="work-date">Evergreen</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                A computational poetry laboratory exploring "non-human poets"
-                and experimental language interfaces.
-              </p>
-              <a class="work-link" href="https://oulipo.xyz" target="_blank"
-                >Visit oulipo.xyz
-                <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images">
-              <img
-                src="../Assets/images/works/oulipo-1.png"
-                alt="Oulipo.xyz — screenshot 1"
-              />
-              <img
-                src="../Assets/images/works/oulipo-2.png"
-                alt="Oulipo.xyz — screenshot 2"
-              />
-              <img
-                src="../Assets/images/works/oulipo-3.png"
-                alt="Oulipo.xyz — screenshot 3"
-              />
-              <img
-                src="../Assets/images/works/oulipo-4.png"
-                alt="Oulipo.xyz — screenshot 4"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Versus.exe -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/versus-exe/" class="work-title">Versus.exe</a>
-            <span class="work-date">Nov '25</span>
-            <span class="work-venue">Mozilla AI Residency, San Francisco</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                A structured poetic confrontation between human and machine with
-                daily voting cycles and mutual reinforcement.
-              </p>
-            </div>
-            <div class="work-entry-images">
-              <img
-                src="../Assets/images/works/versus-1.jpg"
-                alt="Versus.exe — performance"
-              />
-              <img
-                src="../Assets/images/works/versus-2.jpg"
-                alt="Versus.exe — detail"
-              />
-              <img
-                src="../Assets/images/works/versus-3.jpg"
-                alt="Versus.exe — audience"
-              />
-              <img
-                src="../Assets/images/works/versus-4.jpg"
-                alt="Versus.exe — screen"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Reinforcement.exe -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/reinforcement-exe/" class="work-title"
-              >Reinforcement.exe</a
-            >
-            <span class="work-date">Nov '25</span>
-            <span class="work-venue"
-              >Ethereum Scholar Program, DevConnect Buenos Aires</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Third installment in the "Singulars" series featuring
-                poet-machine duels with audience voting determining system
-                updates.
-              </p>
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/reinforcement-1.jpg"
-                alt="Reinforcement.exe"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- def(hug) -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/def-hug/" class="work-title">def(hug)</a>
-            <span class="work-date">Jun '24</span>
-            <span class="work-venue">Gray Area AIR, San Francisco</span>
-          </div>
-          <div class="work-entry-body text-only">
-            <div>
-              <p>
-                def(hug): Algorithm's Embrace is a poetic lecture-performance
-                about AI, queerness, and digital belonging. Drawing from myth,
-                migration, and interactive code, it recasts home as a verb:
-                Indeterminate, shimmering, and alive. Part personal narrative,
-                part chameleonic ritual, the piece asks: how do we queer the
-                interface? What does it mean to be held, digitally,
-                diasporically, by a machine that reflects and reconfigures us?
-              </p>
-              <a class="work-link" href="/works/def-hug/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-          </div>
-        </div>
-
-        <!-- Invasions (Performance) -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/invasions-performance/" class="work-title"
-              >Invasions (Performance)</a
-            >
-            <span class="work-date">Jun '22 - Apr '24</span>
-            <span class="work-venue"
-              >San Francisco, Los Angeles, CDMX, Santa Barbara, Ojai</span
-            >
-          </div>
-          <div class="work-entry-body text-only">
-            <div>
-              <p>
-                Invasions is a poetry performance built from scam texts,
-                capitalist language, and machine hallucinations. On stage, the
-                poet reads and replies live to digital debris, transforming
-                scams into songs, interruptions into incantations. The piece is
-                part comedy, part ritual, part call-and-response. It invites us
-                to find tenderness inside the noise, and to ask: what do we owe
-                our ghosts?
-              </p>
-              <a class="work-link" href="/works/invasions-performance/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-          </div>
-        </div>
-
-        <!-- Whomp -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/whomp/" class="work-title">Whomp</a>
-            <span class="work-date">Jun '22</span>
-            <span class="work-venue">Online</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Whomp is a poetic AI simulacrum fine-tuned on Halim Madi's voice
-                and five queer poets. It turns scam texts into viral, uncanny
-                verse. A meditation on authorship, surveillance, and queer
-                futurity, Whomp explores how language multiplies, echoes, and
-                outlasts the body. It's poetry as virus, poet as occupier, an
-                eternal alter ego speaking to audiences not yet born.
-              </p>
-              <a class="work-link" href="/works/whomp/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/whomp/Screenshot-2025-10-06-at-4.39.43PM.png"
-                alt="Whomp - AI simulacrum interface"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Borrow & Never Give Back -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/borrow-never-give-back/" class="work-title"
-              >Borrow &amp; Never Give Back</a
-            >
-            <span class="work-date">Jun '22 - Sep '23</span>
-            <span class="work-venue"
-              >San Francisco, Silo Gallery, Santa Barbara</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Borrow &amp; Never Give Back is a cut/paste poetics project
-                grounded in appropriation and remix. Through collaged scam
-                messages, deformed motivational quotes, and repurposed job
-                listings, the work performs a politics of literary theft. The
-                title reclaims a slur against immigrants, those who 'steal and
-                never return', as an artistic strategy. The result:
-                computational poems and visual pieces that scavenge beauty from
-                empire's debris.
-              </p>
-              <a class="work-link" href="/works/borrow-never-give-back/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/borrow-never-give-back/IMG_5272.JPG"
-                alt="Borrow and Never Give Back - collage installation"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Re/declarations -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/re-declarations/" class="work-title"
-              >Re/declarations</a
-            >
-            <span class="work-date">Jun '21 - Dec '21</span>
-            <span class="work-venue"
-              >San Francisco, Silo Gallery, Santa Barbara</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Re/declarations is a poetic remix of the U.S. Declaration of
-                Independence. In collaboration with The Verse Verse and friends
-                Chase McCoy and Evan Stites-Clayton, the project reclaims the
-                founding text through erasure and computational recomposition.
-                Visitors mint new declarations, re-written by those left out of
-                the original 56 signatories, and collectively reimagine a more
-                inclusive nation. The project lives as NFTs, an interactive
-                website, and a physical installation.
-              </p>
-              <a class="work-link" href="/works/re-declarations/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/re-declarations/IMG_7128.JPG"
-                alt="Re/declarations - installation at Silo Gallery"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- American Metabolisis -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/american-metabolisis/" class="work-title"
-              >American Metabolisis</a
-            >
-            <span class="work-date">Jun '21 - Dec '21</span>
-            <span class="work-venue"
-              >San Francisco, Silo Gallery, Santa Barbara</span
-            >
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                American Metabolisis explores assimilation as digestion, how
-                migrants, queers, and artists are metabolized by empire and how
-                we metabolize it in return. Through archival receipts, misnaming
-                rituals, and poetic computation, the work transforms
-                bureaucratic residue into lyric form. Each misspelled coffee cup
-                becomes a data point in belonging's slow experiment, a study of
-                how identity dissolves and reforms inside another body.
-              </p>
-              <a class="work-link" href="/works/american-metabolisis/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/american-metabolisis/image.jpg"
-                alt="American Metabolisis - archival receipt installation"
-              />
-            </div>
-          </div>
-        </div>
-
-        <!-- Avenir -->
-        <div class="work-entry">
-          <div class="work-entry-meta-row">
-            <a href="/works/avenir/" class="work-title">Avenir</a>
-            <span class="work-date">Mar '15 - Sep '17</span>
-            <span class="work-venue">Paris, Sao Paulo</span>
-          </div>
-          <div class="work-entry-body">
-            <div>
-              <p>
-                Avenir was an ephemeral art and political theory project that
-                unfolded as a series of workshops and performances across Paris
-                and Sao Paulo. It critiqued Westphalian political structures and
-                offered art as a sovereign space beyond representation. From
-                museum interventions to participatory societal prototypes,
-                Avenir staged radical alternatives to the nation-state, inviting
-                participants to dwell in the unknown, live dangerous ideas, and
-                momentarily untitle the world.
-              </p>
-              <a class="work-link" href="/works/avenir/"
-                >View details <span class="external-arrow">&#x2197;</span></a
-              >
-            </div>
-            <div class="work-entry-images single">
-              <img
-                src="../Assets/images/works/avenir/FullSizeRender_1.jpg"
-                alt="Avenir - workshop activation in Sao Paulo"
-              />
-            </div>
-          </div>
+        <div class="page-cta">
+          <a class="button-8" href="/connect/?intent=commission"
+            >Commission a piece &rarr;</a
+          >
         </div>
       </div>
     </div>
 
     <script src="../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js" defer></script>
+    <script src="/Assets/js/works-page.js" defer></script>
   </body>
 </html>

@@ -567,6 +567,38 @@ hr {
 }
 
 /* ───────────────────────────────────────────
+   Page CTA — outlined Connect button used at the end of
+   About / Writing / individual work / Speaking pages.
+   Routes to /connect/?intent=<...>; chrome.js pre-selects
+   the matching door radio when the page renders.
+   ─────────────────────────────────────────── */
+
+.page-cta {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-cta .button-8 {
+  text-decoration: none;
+}
+
+.page-cta__hint {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ───────────────────────────────────────────
    Utilities
    ─────────────────────────────────────────── */
 

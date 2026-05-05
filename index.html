@@ -3,814 +3,570 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oulipo.xyz — Experimental Computational Poetry</title>
+    <title>Halim Madi — poet, performer, software-leaning</title>
     <meta
       name="description"
-      content="A laboratory of experimental computational poetry by Halim Madi."
+      content="Poems, performances, and small systems by Halim Madi — algorithmic plays, machine talk, somatic semantics, and tools."
     />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
-
-    <link rel="stylesheet" href="Assets/css/shared.css" />
+    <link rel="stylesheet" href="/Assets/css/shared.css" />
     <style>
-      /* Hero */
-      .hero {
-        padding-top: 4rem;
-        padding-bottom: 0.5rem;
-      }
-
-      .hero h1 {
-        margin-bottom: 1rem;
-      }
-
-      .hero-subtitle {
-        font-family: Standard, sans-serif;
-        font-size: 1rem;
-        color: rgba(0, 0, 0, 0.85);
-        line-height: 1.4;
-        max-width: 700px;
-        margin: 0;
-      }
-
-      /* Sections */
-      .section {
-        margin-bottom: 3rem;
-      }
-
-      .section-header {
-        margin-bottom: 1.5rem;
-      }
-
-      .section-title {
-        font-family: "Diatype Variable", sans-serif;
-        font-size: 2rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-      }
-
-      .section-subtitle {
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 1.2rem;
-        color: rgba(0, 0, 0, 0.6);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-      }
-
-      /* Grid */
-      .grid {
+      /* ── Halim card (collapsible intro) ───────────────────── */
+      .halim-card {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 2rem;
+        grid-template-columns: 2.5rem 1fr;
+        gap: 1rem;
+        align-items: start;
+        margin: 2rem 0 4rem;
+        max-width: 60ch;
+      }
+      @media (max-width: 600px) {
+        .halim-card {
+          margin: 1.5rem 0 3rem;
+          gap: 0.6rem;
+          grid-template-columns: 2rem 1fr;
+        }
       }
 
-      /* Work Item */
-      .work-item {
-        margin-bottom: 1rem;
-        display: flex;
-        flex-direction: column;
+      .halim-toggle {
+        width: 2rem;
+        height: 2rem;
+        border: 1.5px solid var(--ink);
+        background: transparent;
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 1.4rem;
+        line-height: 1;
+        font-weight: 400;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin-top: 0.25rem;
+        transition: var(--t-opacity);
       }
-
-      .work-title {
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 1.1rem;
-        font-weight: 300;
-        margin-bottom: 0.25rem;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-      }
-
-      .work-title a {
-        text-decoration: underline;
-        color: #000000;
-      }
-
-      .work-title a:hover {
+      .halim-toggle:hover {
         opacity: 0.7;
       }
-
-      .work-description {
-        font-family: Standard, sans-serif;
-        font-size: 1rem;
-        color: rgba(0, 0, 0, 0.7);
-        line-height: 1.4;
-        margin-bottom: 0.25rem;
+      .halim-toggle:focus-visible {
+        outline: 3px solid var(--ink);
+        outline-offset: 2px;
+      }
+      .halim-card[data-halim-card].is-collapsed .halim-body {
+        display: none;
       }
 
-      .work-meta {
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 0.9rem;
-        color: rgba(0, 0, 0, 0.5);
+      .halim-body {
+        font-family: var(--font-body);
+        font-size: 1.2rem;
+        line-height: 1.45;
+        color: var(--ink-85);
+        margin: 0;
+      }
+      @media (max-width: 600px) {
+        .halim-body {
+          font-size: 1.06rem;
+        }
+      }
+
+      /* ── Section pill (inline link inside the paragraph) ──── */
+      .section-pill {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.3rem;
+        padding: 0.05rem 0.55rem;
+        border: 1.2px solid var(--section-color, var(--ink));
+        border-radius: 999px;
+        font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+        text-transform: lowercase;
+        color: var(--ink-85);
+        background: var(--paper);
+        text-decoration: none;
+        white-space: nowrap;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease;
+      }
+      .section-pill:hover,
+      .section-pill:focus-visible {
+        background: var(--section-color, var(--ink));
+        color: var(--paper);
+      }
+      .section-pill:hover .section-pill__dot,
+      .section-pill:focus-visible .section-pill__dot {
+        background: var(--paper);
+      }
+      .section-pill:focus-visible {
+        outline: 3px solid var(--section-color, var(--ink));
+        outline-offset: 2px;
+      }
+      .section-pill__dot {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink));
+        flex-shrink: 0;
+        transform: translateY(-1px);
+        transition: background 0.2s ease;
       }
 
-      .work-image {
+      /* ── Landing page layout ── */
+      .landing-page {
+        max-width: 1280px;
+      }
+      .landing-divider {
+        border: 0;
+        border-top: 1px solid var(--ink-15);
+        margin: 0 0 2rem;
+      }
+      /* Reuse the works-page.* styles inline so chrome.js + works-page.js
+         can hydrate the same data-works-list element here. */
+      .works-layout {
+        display: grid;
+        grid-template-columns: 1fr 160px;
+        gap: 3rem;
+        align-items: start;
+      }
+      @media (max-width: 900px) {
+        .works-layout {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+      }
+      .works-filter-rail {
+        position: sticky;
+        top: calc(var(--signup-bar-h) + 1.5rem);
+        border-left: 1px solid var(--ink-15);
+        padding-left: 1rem;
+      }
+      .works-filter-rail__title {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--ink-50);
+        margin-bottom: 0.6rem;
+      }
+      .works-filter-btn {
+        display: flex;
+        align-items: center;
+        gap: 0.45rem;
+        padding: 0.25rem 0;
+        background: transparent;
+        border: 0;
+        cursor: pointer;
+        font-family: var(--font-body);
+        font-size: var(--type-size-caption);
+        color: var(--ink-85);
+        text-align: left;
         width: 100%;
-        height: auto;
-        display: block;
-        margin-top: auto;
-        padding-top: 0.75rem;
       }
-
-      /* Featured Work Item */
-      .work-featured {
-        margin-bottom: 3rem;
+      .works-filter-btn[aria-pressed="true"] {
+        font-weight: 700;
       }
-
-      .work-featured-header {
+      .works-filter-btn .swatch {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink-50));
+        flex-shrink: 0;
+      }
+      .works-filter-btn .check {
+        width: 0.6rem;
+        height: 0.6rem;
+        border: 1px solid var(--ink);
+        flex-shrink: 0;
+      }
+      .works-filter-btn[aria-pressed="true"] .check {
+        background: var(--ink);
+      }
+      .works-filter-chips {
+        display: none;
+        gap: 0.4rem;
+        flex-wrap: wrap;
         margin-bottom: 1.5rem;
       }
-
-      .work-featured-header .caption {
-        display: inline;
-        font-family: "Diatype Mono Variable", monospace;
-        font-size: 1.1rem;
-        color: #000000;
-        font-weight: 400;
-        line-height: 1.6;
+      @media (max-width: 900px) {
+        .works-filter-chips {
+          display: flex;
+        }
+        .works-filter-rail {
+          display: none;
+        }
+      }
+      .works-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        padding: 0.2rem 0.55rem;
+        border: 1.2px solid var(--section-color, var(--ink));
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        letter-spacing: 0.03em;
+        text-transform: lowercase;
+        color: var(--ink-85);
+        background: transparent;
+        cursor: pointer;
+      }
+      .works-chip[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink);
+      }
+      .works-chip .swatch {
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink));
+        flex-shrink: 0;
+      }
+      .works-chip[aria-pressed="true"] .swatch {
+        background: var(--paper);
+      }
+      .works-year {
+        font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-      }
-
-      .work-featured-header .caption a {
-        text-decoration: underline;
-      }
-
-      .work-featured-header .caption:first-child {
-        font-weight: 300;
-      }
-
-      .work-featured-header .caption:not(:last-child)::after {
-        content: "\00a0\00a0\00a0\00a0";
-      }
-
-      .work-featured-body {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 2rem;
-      }
-
-      .work-featured-image {
-        width: 100%;
-      }
-
-      .work-featured-image img {
-        width: 100%;
-        height: auto;
-        display: block;
-      }
-
-      .work-featured-description {
-        font-family: Standard, sans-serif;
         font-size: 1rem;
-        color: rgba(0, 0, 0, 0.85);
-        line-height: 1.4;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        color: var(--ink-85);
+        margin: 3rem 0 1rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 4px solid var(--section-color, var(--ink));
       }
-
-      .work-featured-description em {
-        font-style: italic;
+      .works-year:first-child {
+        margin-top: 0;
       }
-
+      .works-year[data-mixed="true"] {
+        --section-color: var(--ink);
+      }
+      .work-card {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        margin-bottom: 4rem;
+      }
+      .work-card:last-child {
+        margin-bottom: 0;
+      }
+      .work-card__split {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2rem;
+        align-items: start;
+      }
       @media (max-width: 900px) {
-        .work-featured-body {
-          grid-template-columns: 1fr;
+        .work-card {
+          margin-bottom: 2.5rem;
         }
-
-        .grid {
-          grid-template-columns: repeat(2, 1fr);
+        .work-card__split {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .work-card__image {
+          order: -1;
         }
       }
-
-      @media (max-width: 600px) {
-        .grid {
+      .work-card__image {
+        position: relative;
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        background: var(--ink-08);
+      }
+      .work-card__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(100%);
+        transition: var(--t-bw-color);
+      }
+      .work-card:hover .work-card__image img {
+        filter: grayscale(0%);
+      }
+      .work-card__image.is-empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--ink-40);
+        font-family: var(--font-mono);
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      .work-card__venue {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--section-color, var(--ink-85));
+        margin-bottom: 0.5rem;
+      }
+      .work-card__title {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(2rem, 4vw, 3rem);
+        line-height: 0.95;
+        color: var(--ink-85);
+        margin: 0 0 0.75rem;
+      }
+      .work-card:hover .work-card__title {
+        text-decoration: underline 2px var(--section-color, var(--ink-85));
+        text-underline-offset: 0.12em;
+      }
+      .work-card__meta {
+        font-family: var(--font-body);
+        font-size: var(--type-size-caption);
+        color: var(--ink-70);
+        margin-bottom: 0.75rem;
+      }
+      .work-card__meta .sep {
+        color: var(--ink-40);
+        margin: 0 0.4rem;
+      }
+      .work-card__desc {
+        font-family: var(--font-body);
+        font-size: var(--type-size-base);
+        line-height: 1.4;
+        color: var(--ink-85);
+        margin: 0 0 1rem;
+      }
+      .work-card__footer {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: var(--ink-50);
+      }
+      .work-card__dot {
+        display: inline-block;
+        width: 0.5rem;
+        height: 0.5rem;
+        border-radius: 50%;
+        background: var(--section-color, var(--ink-50));
+      }
+      .works-state {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: var(--ink-50);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 1rem 0;
+      }
+      .works-skeleton {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2rem;
+        margin-bottom: 4rem;
+      }
+      .works-skeleton__bar {
+        height: 1rem;
+        background: var(--ink-08);
+        margin: 0.4rem 0;
+        max-width: 80%;
+      }
+      .works-skeleton__bar.short {
+        max-width: 40%;
+      }
+      .works-skeleton__bar.tall {
+        height: 2.4rem;
+        max-width: 60%;
+      }
+      .works-skeleton__image {
+        aspect-ratio: 16 / 9;
+        background: var(--ink-08);
+      }
+      @media (max-width: 900px) {
+        .works-skeleton {
           grid-template-columns: 1fr;
         }
       }
     </style>
   </head>
-  <body>
-    <!-- Site Header -->
+  <body class="is-landing">
     <div class="header-bar"></div>
-    <div class="site-header">
-      <a href="/home/">Halim Madi</a>
-    </div>
+    <div class="site-header"><a href="/">Halim Madi</a></div>
 
-    <!-- Menu Toggle Button -->
     <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
       <span></span>
       <span></span>
       <span></span>
     </button>
 
-    <!-- Menu Overlay -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
-    <!-- Side Menu Drawer -->
     <nav class="side-menu">
       <div class="menu-header">
-        <a href="/home/" class="menu-home">Home</a>
+        <a href="/" class="menu-home">Home</a>
         <button
           class="menu-close"
           onclick="toggleMenu()"
           aria-label="Close menu"
         >
-          ×
+          &times;
         </button>
       </div>
-
       <div class="menu-section">
         <a href="/works/">Works</a>
-        <a href="/keynotes/">Keynotes</a>
-        <a href="/workshops/">Workshops</a>
+        <a href="/speaking/">Speaking</a>
         <a href="/writing/">Writing</a>
       </div>
-
       <hr class="menu-divider" />
-
       <div class="menu-section">
         <a href="/about/">About</a>
         <a href="/connect/">Connect</a>
-        <a href="https://halimmadi.substack.com/" target="_blank"
-          >Newsletter <span class="external-arrow">&#x2197;</span></a
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
         >
-        <a href="https://www.instagram.com/yalla_halim" target="_blank"
-          >Instagram <span class="external-arrow">&#x2197;</span></a
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
         >
       </div>
     </nav>
 
-    <!-- Main Content -->
     <div class="page">
-      <div class="page-content">
-        <!-- Hero -->
-        <header class="hero">
-          <h1>oulipo.xyz</h1>
-          <p class="hero-subtitle">
-            A kitchen laboratory of experimental computational poetry by
-            <a href="https://www.halimmadi.com" target="_blank">Halim Madi</a>.
-            Non-human poets, anti-gravitational word interfaces, somatic
-            semantics. This is where I break and mend things.
+      <div class="page-content landing-page">
+        <h1 class="visually-hidden">Halim Madi</h1>
+
+        <!--
+          Halim card — personal one-paragraph intro with the four
+          section names woven in as colored-pill links.
+          TODO(halim): copy below is a draft. Confirm or replace before
+          public cutover. ("from the heart, in this life I'm hoping to
+          pioneer …" — per the 2026-05-02 walkthrough.)
+        -->
+        <section
+          class="halim-card"
+          data-halim-card
+          aria-labelledby="halim-card-body"
+        >
+          <button
+            type="button"
+            class="halim-toggle"
+            data-halim-toggle
+            aria-controls="halim-card-body"
+            aria-expanded="true"
+            aria-label="Collapse intro (or press x)"
+          >
+            &times;
+          </button>
+          <p class="halim-body" id="halim-card-body">
+            In this life I'm hoping to pioneer
+            <a
+              class="section-pill"
+              data-section="plays"
+              href="/works/?section=algorithmic-plays"
+              ><span class="section-pill__dot" aria-hidden="true"></span
+              >algorithmic plays</a
+            >
+            — theater that improvises with you, not at you. To build
+            <a
+              class="section-pill"
+              data-section="machine"
+              href="/works/?section=machine-talk"
+              ><span class="section-pill__dot" aria-hidden="true"></span>machine
+              talk</a
+            >
+            that doesn't flatten the people it's trained on. To make
+            <a
+              class="section-pill"
+              data-section="semantics"
+              href="/works/?section=somatic-semantics"
+              ><span class="section-pill__dot" aria-hidden="true"></span>somatic
+              semantics</a
+            >
+            — net art the body can answer back to. And to leave behind
+            <a
+              class="section-pill"
+              data-section="tools"
+              href="/works/?section=tools"
+              ><span class="section-pill__dot" aria-hidden="true"></span
+              >tools</a
+            >
+            small enough to be borrowed.
           </p>
-        </header>
-
-        <hr />
-
-        <!-- Featured Works -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Featured Works</h2>
-          </div>
-
-          <!-- becoming borders -->
-          <div class="work-featured">
-            <div class="work-featured-header">
-              <span class="caption"
-                ><a href="/becoming-borders">Becoming Borders</a></span
-              >
-              <span class="caption">Feb'26</span>
-              <span class="caption">Interactive Narrative</span>
-            </div>
-            <div class="work-featured-body">
-              <div class="work-featured-image">
-                <img
-                  src="Assets/screenshots/becoming-borders.png"
-                  alt="Becoming Borders - interactive narrative piece"
-                />
-              </div>
-              <div class="work-featured-description">
-                Becoming Borders is an interactive piece about what crossing
-                physical borders teaches us about navigating digital ones. You
-                draw lines on a blank canvas. Where lines cross, stories open —
-                about VPNs as power animals, passports held hostage, and the
-                intentional otherness of being a stranger together. Seven
-                crossings, then you keep the map.
-              </div>
-            </div>
-          </div>
-
-          <!-- curl -->
-          <div class="work-featured">
-            <div class="work-featured-header">
-              <span class="caption"><a href="curl/">Curl</a></span>
-              <span class="caption">Jan'26</span>
-              <span class="caption">Ongoing</span>
-            </div>
-            <div class="work-featured-body">
-              <div class="work-featured-image">
-                <img
-                  src="Assets/screenshots/curl.png"
-                  alt="curl - interactive poetry piece"
-                />
-              </div>
-              <div class="work-featured-description">
-                Curl is an interactive visual poem exploring hair as archive,
-                memory, and resistance. Through a scrolling journey down a
-                single curling strand, the piece weaves together personal
-                narratives, cultural histories, and the politics of Black and
-                Brown hair. Pull, catch, release—each gesture reveals hidden
-                stories embedded in texture, shape, and style.
-              </div>
-            </div>
-          </div>
         </section>
 
-        <hr />
+        <hr class="landing-divider" />
 
-        <!-- Selected Works -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Selected Works</h2>
+        <!-- Mobile-only filter chips -->
+        <div
+          class="works-filter-chips"
+          role="tablist"
+          aria-label="Filter works by section"
+          data-works-filter-mobile
+        ></div>
+
+        <div class="works-layout">
+          <!-- Works list (hydrated by works-page.js) -->
+          <div data-works-list>
+            <div class="works-skeleton" aria-hidden="true">
+              <div>
+                <div class="works-skeleton__bar short"></div>
+                <div class="works-skeleton__bar tall"></div>
+                <div class="works-skeleton__bar"></div>
+                <div class="works-skeleton__bar"></div>
+              </div>
+              <div class="works-skeleton__image"></div>
+            </div>
+            <div class="works-skeleton" aria-hidden="true">
+              <div>
+                <div class="works-skeleton__bar short"></div>
+                <div class="works-skeleton__bar tall"></div>
+                <div class="works-skeleton__bar"></div>
+              </div>
+              <div class="works-skeleton__image"></div>
+            </div>
+            <div class="works-state" data-works-status>Loading works…</div>
           </div>
 
-          <!-- Deserve It -->
-          <div class="work-featured">
-            <div class="work-featured-header">
-              <span class="caption"
-                ><a href="https://deserve.vercel.app/" target="_blank"
-                  >Deserve It</a
-                ></span
-              >
-              <span class="caption">2024</span>
-              <span class="caption">Gray Area Performance</span>
-            </div>
-            <div class="work-featured-body">
-              <div class="work-featured-image">
-                <img
-                  src="Assets/screenshots/deserve-it.png"
-                  alt="Deserve It - immigration performance piece"
-                />
-              </div>
-              <div class="work-featured-description">
-                Deserve It is an interactive performance that transforms the
-                DS-160 immigration form into a poetic confrontation with
-                bureaucratic violence. Through five movements—Deny, Reach,
-                Erase, Wait, Identify—the piece renders visible the absurdity
-                and trauma of naturalization. The interface becomes the border;
-                the user becomes the applicant.
-              </div>
-            </div>
-          </div>
-
-          <!-- Case Against the Son -->
-          <div class="work-featured">
-            <div class="work-featured-header">
-              <span class="caption"
-                ><a href="case-against-the-son/judgement-day.html"
-                  >Case Against the Son</a
-                ></span
-              >
-              <span class="caption">Ongoing</span>
-              <span class="caption">Performance Series</span>
-            </div>
-            <div class="work-featured-body">
-              <div class="work-featured-image">
-                <img
-                  src="Assets/screenshots/judgement-day.png"
-                  alt="Case Against the Son - performance series"
-                />
-              </div>
-              <div class="work-featured-description">
-                Case Against the Son is an ongoing performance series where the
-                son stands trial for crimes of existence. Family expectations
-                become legal proceedings, motherhood becomes accounting, and
-                apologies arrive too late or mean nothing at all. The work
-                explores intergenerational trauma, cultural guilt, and the
-                impossible debts between parent and child.
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <hr />
-
-        <!-- Non Human Poets -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Non Human Poets</h2>
-          </div>
-          <div class="grid">
-            <div class="work-item">
-              <div class="work-title">
-                <a href="https://scam-ai-poet.vercel.app/" target="_blank"
-                  >Scam AI Poet</a
-                >
-              </div>
-              <p class="work-description">
-                Got scam? An AI trained on scam emails generates new poetic
-                frauds. The language of deception becomes absurdist verse.
-              </p>
-              <p class="work-meta">AI-Generated Poetry</p>
-              <img
-                src="Assets/screenshots/scam-ai-poet.png"
-                alt="Scam AI Poet screenshot"
-                class="work-image"
-              />
-            </div>
-          </div>
-        </section>
-
-        <hr />
-
-        <!-- Border/line Series -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Border/line</h2>
-            <p class="section-subtitle">Robert Coover Award Winner 2024</p>
-          </div>
-          <div class="grid">
-            <div class="work-item">
-              <div class="work-title">
-                <a href="borderline/borderline-deny.html">Deny</a>
-              </div>
-              <p class="work-description">
-                Hostile immigration questions float across the screen while "No"
-                checkboxes flee your cursor. The interface becomes the border.
-              </p>
-              <p class="work-meta">Step 1 of 4</p>
-              <img
-                src="Assets/screenshots/deny.png"
-                alt="Deny screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="borderline/borderline-erase.html">Erase</a>
-              </div>
-              <p class="work-description">
-                Identity fragments as the interface demands assimilation. What
-                parts of yourself must you delete to pass through?
-              </p>
-              <p class="work-meta">Step 2 of 4</p>
-              <img
-                src="Assets/screenshots/erase.png"
-                alt="Erase screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="borderline/borderline-reach.html">Reach</a>
-              </div>
-              <p class="work-description">
-                The body stretches toward belonging. Reaching across digital
-                space mirrors the migrant's perpetual extension toward
-                acceptance.
-              </p>
-              <p class="work-meta">Step 3 of 4</p>
-              <img
-                src="Assets/screenshots/reach.png"
-                alt="Reach screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="borderline/borderline-wait.html">Wait</a>
-              </div>
-              <p class="work-description">
-                A countdown: 299 days until your documents arrive. The
-                excruciating temporality of bureaucratic limbo rendered as
-                interface.
-              </p>
-              <p class="work-meta">Step 4 of 4</p>
-              <img
-                src="Assets/screenshots/wait.png"
-                alt="Wait screenshot"
-                class="work-image"
-              />
-            </div>
-          </div>
-        </section>
-
-        <hr />
-
-        <!-- Somatic Poetry Sandbox -->
-        <section class="section">
-          <div class="section-header">
-            <h2 class="section-title">Somatic Poetry Sandbox</h2>
-          </div>
-          <div class="grid">
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/we-called-us-poetry.html"
-                  >We Called Us Poetry</a
-                >
-              </div>
-              <p class="work-description">
-                A browser-based performance reimagining human-AI relations
-                through viral transformation. Dropdowns, tabs, and carousels
-                become poetic scaffolding.
-              </p>
-              <p class="work-meta">Interactive HTML Poem</p>
-              <img
-                src="Assets/screenshots/we-called-us-poetry.png"
-                alt="We Called Us Poetry screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/phenomenal.html"
-                  >Phenomenal Fields</a
-                >
-              </div>
-              <p class="work-description">
-                An interactive canvas where mouse movements trace semantic
-                connections. Each click draws threads between floating words.
-              </p>
-              <p class="work-meta">Generative Poetry</p>
-              <img
-                src="Assets/screenshots/phenomenal.png"
-                alt="Phenomenal Fields screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/hover.html">Hover</a>
-              </div>
-              <p class="work-description">
-                A war memory disperses on hover. Words scatter like shrapnel
-                when approached, then slowly reassemble.
-              </p>
-              <p class="work-meta">Kinetic Typography</p>
-              <img
-                src="Assets/screenshots/hover.png"
-                alt="Hover screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/trail.html">Red Trail</a>
-              </div>
-              <p class="work-description">
-                Your cursor leaves a trail of red dots across the Wikipedia
-                entry for Nakba. Reading becomes marking, marking becomes
-                witnessing.
-              </p>
-              <p class="work-meta">Interventionist Poetry</p>
-              <img
-                src="Assets/screenshots/trail.png"
-                alt="Red Trail screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/joycut.html">Fleeting Joy</a>
-              </div>
-              <p class="work-description">
-                Words flee from your cursor like startled animals. A meditation
-                on joy's elusiveness—the harder you chase, the further it
-                scatters.
-              </p>
-              <p class="work-meta">Responsive Typography</p>
-              <img
-                src="Assets/screenshots/joycut.png"
-                alt="Fleeting Joy screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/bend.html">Bend</a>
-              </div>
-              <p class="work-description">
-                A playful typographic exercise where letters literally bend on
-                command. Click and watch the word transform.
-              </p>
-              <p class="work-meta">Animated Typography</p>
-              <img
-                src="Assets/screenshots/bend.png"
-                alt="Bend screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/Blushing.html">Blushing</a>
-              </div>
-              <p class="work-description">
-                An unfolding click-through poem about observation, bodies, and
-                shame. Each interaction reveals the next line.
-              </p>
-              <p class="work-meta">Sequential Interactive Poem</p>
-              <img
-                src="Assets/screenshots/blushing.png"
-                alt="Blushing screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/brainstorm.html">Brainstorm</a>
-              </div>
-              <p class="work-description">
-                Click "storm" and watch "brain" orbit chaotically. Compound
-                words decomposed into kinetic metaphor.
-              </p>
-              <p class="work-meta">Kinetic Word Play</p>
-              <img
-                src="Assets/screenshots/brainstorm.png"
-                alt="Brainstorm screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/erasure.html">Erasure</a>
-              </div>
-              <p class="work-description">
-                An interactive erasure poem after Kate Baer's "Re: Holding
-                Police Accountable." Reveal hidden poetry by removing what's in
-                the way.
-              </p>
-              <p class="work-meta">Erasure Poetry</p>
-              <img
-                src="Assets/screenshots/erasure.png"
-                alt="Erasure screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/dontbe.html">Don't Be</a>
-              </div>
-              <p class="work-description">
-                An exploration of negation and identity. The interface refuses
-                what it also invites.
-              </p>
-              <p class="work-meta">Interactive Typography</p>
-              <img
-                src="Assets/screenshots/dontbe.png"
-                alt="Don't Be screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/allsortsofthings.html"
-                  >All Sorts of Things</a
-                >
-              </div>
-              <p class="work-description">
-                A cataloguing poem about the infinite variety of experience.
-                Lists as poetry, enumeration as meditation.
-              </p>
-              <p class="work-meta">List Poetry</p>
-              <img
-                src="Assets/screenshots/allsortsofthings.png"
-                alt="All Sorts of Things screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/akbar.html">Reel Bad</a>
-              </div>
-              <p class="work-description">
-                After Jack Shaheen's "Reel Bad Arabs." A meditation on
-                stereotypes, representation, and the violence of images.
-              </p>
-              <p class="work-meta">Critical Poetry</p>
-              <img
-                src="Assets/screenshots/akbar.png"
-                alt="Reel Bad screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/choose.html">Choose</a>
-              </div>
-              <p class="work-description">
-                A branching poem about decisions and their consequences. Every
-                choice closes one door and opens another.
-              </p>
-              <p class="work-meta">Choice-Based Narrative</p>
-              <img
-                src="Assets/screenshots/choose.png"
-                alt="Choose screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/defeatme.html">Defeat Me</a>
-              </div>
-              <p class="work-description">
-                An invitation to conflict, a dare. The poem asks to be
-                overcome—but can language ever truly lose?
-              </p>
-              <p class="work-meta">Confrontational Poetry</p>
-              <img
-                src="Assets/screenshots/defeatme.png"
-                alt="Defeat Me screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/hittheroad.html"
-                  >Hit the Road</a
-                >
-              </div>
-              <p class="work-description">
-                A kinetic poem about departure and movement. Letters scatter
-                across the screen like travelers leaving home.
-              </p>
-              <p class="work-meta">Migration Poetry</p>
-              <img
-                src="Assets/screenshots/hittheroad.png"
-                alt="Hit the Road screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/Typewriter.html"
-                  >In and Out of You</a
-                >
-              </div>
-              <p class="work-description">
-                A typewriter effect reveals text character by character—the
-                intimacy of watching words appear as if spoken directly to you.
-              </p>
-              <p class="work-meta">Typewriter Poetry</p>
-              <img
-                src="Assets/screenshots/typewriter.png"
-                alt="Typewriter screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="somatic-poetry-sandbox/theyfleefromme.html"
-                  >They Flee From Me</a
-                >
-              </div>
-              <p class="work-description">
-                A digital reimagining of Sir Thomas Wyatt's 16th-century poem,
-                where words scatter like the "they" who once sought the speaker.
-              </p>
-              <p class="work-meta">With Leonardo Flores • After Wyatt</p>
-              <img
-                src="Assets/screenshots/theyfleefromme.png"
-                alt="They Flee From Me screenshot"
-                class="work-image"
-              />
-            </div>
-
-            <div class="work-item">
-              <div class="work-title">
-                <a href="https://singulars.oulipo.xyz/" target="_blank"
-                  >Father Time</a
-                >
-              </div>
-              <p class="work-description">
-                An interactive countdown exploring the weight of waiting. Time
-                stretches and contracts as you navigate through moments of
-                anticipation and dread.
-              </p>
-              <p class="work-meta">Interactive Timer</p>
-              <img
-                src="Assets/screenshots/father-time.png"
-                alt="Father Time screenshot"
-                class="work-image"
-              />
-            </div>
-          </div>
-        </section>
+          <!-- Filter rail (desktop only) -->
+          <aside
+            class="works-filter-rail"
+            role="tablist"
+            aria-label="Filter works by section"
+            data-works-filter-rail
+          ></aside>
+        </div>
       </div>
     </div>
 
-    <script src="Assets/js/menu.js"></script>
+    <script src="/Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js" defer></script>
+    <script src="/Assets/js/works-page.js" defer></script>
   </body>
 </html>

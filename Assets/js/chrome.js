@@ -422,12 +422,33 @@
     if (!form) return;
     var status = form.querySelector("[data-signup-status]");
 
+    // Pre-fill the URL/referrer hidden inputs so they're current at submit
+    // time (and visible in dev tools for debugging). Mirrors what Substack's
+    // own embed form populates.
+    var hiddenURL = form.querySelector('input[name="first_url"]');
+    if (hiddenURL && !hiddenURL.value) hiddenURL.value = window.location.href;
+    var hiddenCurrentURL = form.querySelector('input[name="current_url"]');
+    if (hiddenCurrentURL && !hiddenCurrentURL.value)
+      hiddenCurrentURL.value = window.location.href;
+    var hiddenSessionURL = form.querySelector(
+      'input[name="first_session_url"]',
+    );
+    if (hiddenSessionURL && !hiddenSessionURL.value)
+      hiddenSessionURL.value = window.location.href;
+    var ref = document.referrer || "";
+    ["first_referrer", "current_referrer", "first_session_referrer"].forEach(
+      function (n) {
+        var el = form.querySelector('input[name="' + n + '"]');
+        if (el && !el.value) el.value = ref;
+      },
+    );
+
     form.addEventListener("submit", function (e) {
-      // Substack accepts the form via its public endpoint without CORS for
-      // direct same-origin POST. From a browser, our cross-origin POST will
-      // either succeed (Substack returns 200/302) or — more commonly — be
-      // blocked by CORS. We use a no-cors fetch as a best-effort, and fall back
-      // to opening Substack's hosted form in a new tab if it fails.
+      // Substack's /api/v1/free?nojs=true endpoint accepts form-urlencoded
+      // POSTs from any origin. Their CORS headers don't expose the response
+      // to JS, so we use mode:"no-cors" and treat a resolved fetch as
+      // best-effort success. If the network call fails outright, we fall back
+      // to opening Substack's hosted subscribe form pre-filled with the email.
       e.preventDefault();
       var input = form.querySelector(".signup-bar__input");
       var email = ((input && input.value) || "").trim();
@@ -440,10 +461,8 @@
         );
       }
 
-      var formData = new FormData();
-      formData.set("email", email);
-      formData.set("first_url", window.location.href);
-      formData.set("first_referrer", document.referrer || "");
+      // Use FormData(form) so all hidden inputs ride along automatically.
+      var formData = new FormData(form);
 
       fetch(form.action, {
         method: "POST",
@@ -452,7 +471,6 @@
         credentials: "omit",
       })
         .then(function () {
-          // no-cors: response is opaque, but if fetch resolves we treat it as best-effort success
           if (status) {
             status.textContent = "subscribed ✓";
             status.classList.add("signup-bar__status--success");

@@ -14,6 +14,7 @@
     action="https://halimmadi.substack.com/api/v1/free?nojs=true"
     method="post"
     target="_blank"
+    novalidate
     data-substack
   >
     <span class="signup-bar__label" aria-hidden="true">email</span>
@@ -27,6 +28,19 @@
       required
       autocomplete="email"
     />
+    <!-- Hidden fields mirror Substack's embed form so submissions look
+         identical to the official widget. chrome.js fills the *_url and
+         *_referrer values at submit time. -->
+    <input type="hidden" name="source" value="embed" />
+    <input type="hidden" name="first_url" value="" />
+    <input type="hidden" name="first_referrer" value="" />
+    <input type="hidden" name="current_url" value="" />
+    <input type="hidden" name="current_referrer" value="" />
+    <input type="hidden" name="first_session_url" value="" />
+    <input type="hidden" name="first_session_referrer" value="" />
+    <input type="hidden" name="referral_code" value="" />
+    <input type="hidden" name="referring_pub_id" value="" />
+    <input type="hidden" name="additional_referring_pub_ids" value="" />
     <button class="signup-bar__submit" type="submit">subscribe</button>
     <span
       class="signup-bar__status"

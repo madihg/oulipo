@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>halim madi — site wireframes v3 · locked</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Kalam:wght@300;400;700&family=VT323&family=Space+Grotesk:wght@300..700&family=JetBrains+Mono:wght@200..700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --ink: #1a1a1a;
+        --ink-2: rgba(0, 0, 0, 0.7);
+        --ink-3: rgba(0, 0, 0, 0.5);
+        --ink-4: rgba(0, 0, 0, 0.3);
+        --ink-5: rgba(0, 0, 0, 0.15);
+        --paper: #fafaf7;
+        --grid: rgba(0, 0, 0, 0.04);
+        --accent: #2aa4dd;
+        --carnation: #f6009b;
+        --reverse: #8b5cf6;
+        --reinforcement: #02f700;
+        --versus: #fee005;
+        --hand: "Kalam", "Caveat", cursive;
+        --hand-2: "Caveat", cursive;
+        --mono: "JetBrains Mono", ui-monospace, monospace;
+        --sans: "Space Grotesk", system-ui, sans-serif;
+        --term: "VT323", monospace;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      .wf {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--hand);
+        font-weight: 400;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        position: relative;
+        border: 1.5px solid var(--ink);
+        box-shadow: 2px 2px 0 var(--ink);
+      }
+      .wf-inner {
+        padding: 18px;
+        height: calc(100% - 32px);
+        overflow: auto;
+      }
+      .wf-mobile .wf-inner {
+        padding: 14px;
+      }
+
+      .h-line {
+        border: 0;
+        border-top: 1.5px solid var(--ink);
+        margin: 8px 0;
+      }
+      .h-line.thin {
+        border-top: 1px solid var(--ink-3);
+      }
+      .h-line.dashed {
+        border-top: 1.5px dashed var(--ink-3);
+      }
+
+      .name {
+        font-family: var(--mono);
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--ink-2);
+      }
+      .h-hand {
+        font-family: var(--hand);
+        font-weight: 700;
+        line-height: 1;
+      }
+      .h-big {
+        font-family: var(--hand);
+        font-weight: 700;
+        font-size: 28px;
+        line-height: 0.95;
+      }
+      .h-mid {
+        font-family: var(--hand);
+        font-weight: 700;
+        font-size: 18px;
+        line-height: 1;
+      }
+      .h-sm {
+        font-family: var(--hand);
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 1.15;
+        color: var(--ink-2);
+      }
+      .meta {
+        font-family: var(--mono);
+        font-size: 9px;
+        letter-spacing: 0.05em;
+        color: var(--ink-3);
+        text-transform: uppercase;
+      }
+      .label {
+        font-family: var(--hand);
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .desc {
+        font-family: var(--sans);
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 1.35;
+        color: var(--ink-2);
+      }
+      .tiny {
+        font-family: var(--sans);
+        font-weight: 400;
+        font-size: 11px;
+        color: var(--ink-3);
+      }
+
+      .ph {
+        position: relative;
+        background: repeating-linear-gradient(
+          135deg,
+          transparent 0 6px,
+          var(--ink-5) 6px 7px
+        );
+        border: 1.2px solid var(--ink);
+        overflow: hidden;
+      }
+      .ph::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          135deg,
+          transparent 49%,
+          var(--ink) 49% 51%,
+          transparent 51%
+        );
+        opacity: 0.55;
+      }
+      .ph .ph-cap {
+        position: absolute;
+        left: 6px;
+        bottom: 4px;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        background: var(--paper);
+        padding: 0 4px;
+        z-index: 2;
+      }
+      .ph.dark {
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+      .ph.dark::after {
+        background: linear-gradient(
+          135deg,
+          transparent 49%,
+          #fff 49% 51%,
+          transparent 51%
+        );
+        opacity: 0.4;
+      }
+      .ph.dark .ph-cap {
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .ph-square {
+        aspect-ratio: 1/1;
+      }
+      .ph-wide {
+        aspect-ratio: 16/9;
+      }
+      .ph-portrait {
+        aspect-ratio: 3/4;
+      }
+
+      .burger {
+        display: inline-block;
+        width: 22px;
+      }
+      .burger span {
+        display: block;
+        height: 2px;
+        background: var(--ink);
+        margin: 4px 0;
+      }
+
+      .u-hand {
+        display: inline-block;
+        position: relative;
+      }
+      .u-hand::after {
+        content: "";
+        position: absolute;
+        left: -2px;
+        right: -2px;
+        bottom: -3px;
+        height: 6px;
+        border-bottom: 1.5px solid var(--ink);
+        border-radius: 50%;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 4px 10px;
+        border: 1.5px solid var(--ink);
+        background: var(--paper);
+        font-family: var(--sans);
+        font-weight: 700;
+        font-size: 12px;
+        box-shadow: 2px 2px 0 var(--ink);
+        cursor: default;
+      }
+      .btn.solid {
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .btn.tiny {
+        padding: 2px 7px;
+        font-size: 11px;
+        box-shadow: 1px 1px 0 var(--ink);
+      }
+
+      .arrow-r::after {
+        content: " →";
+        font-family: var(--mono);
+      }
+
+      .row {
+        display: flex;
+        gap: 8px;
+      }
+      .col {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .stack-2 {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      .stack-1 {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+      }
+
+      .grid-3 {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+      }
+      .grid-4 {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .grid-2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .scribble {
+        display: block;
+        height: 6px;
+        background: linear-gradient(
+          to right,
+          var(--ink-3) 0 96%,
+          transparent 96%
+        );
+        background-size: 100% 1.5px;
+        background-repeat: no-repeat;
+        background-position: 0 50%;
+      }
+      .scribble.short {
+        width: 70%;
+      }
+      .scribble.shorter {
+        width: 50%;
+      }
+      .scribble.med {
+        width: 85%;
+      }
+
+      .credit {
+        position: fixed;
+        right: 12px;
+        bottom: 10px;
+        font-family: var(--mono);
+        font-size: 10px;
+        color: var(--ink-3);
+        z-index: 10;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+
+    <script
+      src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+      integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+      integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+      integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+      crossorigin="anonymous"
+    ></script>
+    <script type="text/babel" src="design-canvas.jsx?v=3"></script>
+    <script type="text/babel" src="wireframes-v3.jsx?v=3"></script>
+  </body>
+</html>

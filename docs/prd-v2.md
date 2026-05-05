@@ -12,7 +12,7 @@
 
 Merge the existing static halimmadi.com (portfolio) and oulipo.xyz (poetry/experiments hub) into a single site whose **landing page is the works browse page**. Add a persistent top email-signup bar (auto-subscribes to Substack) and a Parallel.ai-style command surface (HUMAN/MACHINE toggle, "/" + ⌘K palette, single-letter keyboard shortcuts) that lets visitors and developer-curious users navigate by typing.
 
-The current site is two disconnected static sites; this rebuild collapses them into a coherent IA with four section "tribes" (machine talk, computer theater, somatic semantics, tools), color-coded throughout, with per-section landing pages reachable via category-tag clicks or palette commands.
+The current site is two disconnected static sites; this rebuild collapses them into a coherent IA with four section "tribes" (machine talk, algorithmic plays, somatic semantics, tools), color-coded throughout, with per-section landing pages reachable via category-tag clicks or palette commands.
 
 ---
 
@@ -67,7 +67,7 @@ For UI stories, **manual visual verification is required** (not just automated t
 - [ ] 4-line intro paragraph (≤ 4 sentences, Diatype Variable, max-width 56ch)
 - [ ] 4 category fields rendered as a 2×2 grid (desktop) / 1-col stack (mobile)
 - [ ] Each category field shows: color dot + category name (h2 Diatype Variable bold) + 1-line explanation (Diatype Variable regular)
-- [ ] Category names: `Machine talk`, `Computer theater`, `Somatic semantics`, `Tools`
+- [ ] Category names: `Machine talk`, `Algorithmic plays`, `Somatic semantics`, `Tools`
 - [ ] Each category color-coded with its accent color (machine #F6009B, theater #2AA4DD, semantics #8B5CF6, tools #02F700)
 - [ ] Each category field is clickable, navigating to its category landing page
 
@@ -107,7 +107,7 @@ For UI stories, **manual visual verification is required** (not just automated t
 - [ ] Pressing `/` (when not focused in an input) or `⌘K`/`Ctrl+K` (always) opens the palette
 - [ ] Palette is a modal overlay: input at top, list of suggestions below
 - [ ] Suggestions show: command name, short description, and a `Page` / `Action` chip on the right
-- [ ] Default command set: `/works`, `/works machine-talk`, `/works computer-theater`, `/works somatic-semantics`, `/works tools`, `/connect`, `/writing`, `/about`, `/keynotes`, `/workshops`, `/newsletter` (focuses the top signup field)
+- [ ] Default command set: `/works`, `/works machine-talk`, `/works algorithmic-plays`, `/works somatic-semantics`, `/works tools`, `/connect`, `/writing`, `/about`, `/keynotes`, `/workshops`, `/newsletter` (focuses the top signup field)
 - [ ] Typing filters the list (case-insensitive substring match on command + description)
 - [ ] `↑` `↓` arrow keys move selection; `Enter` fires; `Esc` closes
 - [ ] Closes after navigation; restores focus to the prior element
@@ -147,7 +147,7 @@ For UI stories, **manual visual verification is required** (not just automated t
 
 **Acceptance Criteria:**
 
-- [ ] Routes: `/works/machine-talk`, `/works/computer-theater`, `/works/somatic-semantics`, `/works/tools`
+- [ ] Routes: `/works/machine-talk`, `/works/algorithmic-plays`, `/works/somatic-semantics`, `/works/tools`
 - [ ] Top: category name as h1 (Terminal Grotesque), color dot to its left
 - [ ] Description paragraph below (Diatype Variable, ~3 sentences)
 - [ ] Works list below (edge-to-edge cards, same component as `/works` view)
@@ -339,7 +339,7 @@ oulipo/
 ├── works/
 │   ├── index.html                      # /works (Categories | Works toggle)
 │   ├── machine-talk/index.html         # category landing
-│   ├── computer-theater/index.html
+│   ├── algorithmic-plays/index.html
 │   ├── somatic-semantics/index.html
 │   ├── tools/index.html
 │   └── <slug>/index.html               # individual work page

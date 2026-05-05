@@ -14,6 +14,46 @@
       "source": "/becoming-borders/:path*",
       "destination": "/becoming-crossings/:path*",
       "permanent": true
+    },
+    {
+      "source": "/works/computer-theater",
+      "destination": "/works/algorithmic-plays",
+      "permanent": true
+    },
+    {
+      "source": "/works/computer-theater/:path*",
+      "destination": "/works/algorithmic-plays/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/:path*",
+      "destination": "/speaking/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/workshops",
+      "destination": "/speaking",
+      "permanent": true
+    },
+    {
+      "source": "/workshops/:path*",
+      "destination": "/speaking/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home/:path*",
+      "destination": "/:path*",
+      "permanent": true
     }
   ],
   "rewrites": [

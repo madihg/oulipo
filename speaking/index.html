@@ -235,6 +235,235 @@
         letter-spacing: 0.04em;
         height: 100%;
       }
+
+      /* ── Theme blocks ingested from /keynotes/ ────────────── */
+      .speaking-themes {
+        margin-top: 5rem;
+      }
+      .speaking-themes__head {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin-bottom: 1.25rem;
+      }
+      .speaking-theme {
+        display: grid;
+        grid-template-columns: 7fr 5fr;
+        gap: 2.5rem;
+        align-items: start;
+        margin-bottom: 3.5rem;
+        padding-bottom: 3rem;
+        border-bottom: 1px solid var(--ink-15);
+      }
+      .speaking-theme:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+      .speaking-theme.is-flipped {
+        grid-template-columns: 5fr 7fr;
+      }
+      .speaking-theme.is-flipped .speaking-theme__media {
+        order: -1;
+      }
+      @media (max-width: 900px) {
+        .speaking-theme,
+        .speaking-theme.is-flipped {
+          grid-template-columns: 1fr;
+          gap: 1.5rem;
+        }
+        .speaking-theme.is-flipped .speaking-theme__media {
+          order: 0;
+        }
+      }
+      .speaking-theme__title {
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: 1.6rem;
+        margin: 0 0 0.75rem;
+        color: var(--ink-85);
+      }
+      .speaking-theme__body p {
+        line-height: 1.5;
+        margin: 0 0 1rem;
+        font-size: 1.06rem;
+      }
+      .speaking-theme__body p:last-child {
+        margin-bottom: 0;
+      }
+      .speaking-theme__media {
+        width: 100%;
+      }
+      .speaking-theme__media img {
+        width: 100%;
+        height: auto;
+        display: block;
+        filter: grayscale(100%);
+        transition: filter 0.5s ease;
+      }
+      .speaking-theme__media img:hover {
+        filter: grayscale(0%);
+      }
+
+      /* ── Selected talks (videos with iframes) ──────────────── */
+      .speaking-talks {
+        margin-top: 4rem;
+      }
+      .speaking-talks__head {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin-bottom: 0.5rem;
+      }
+      .speaking-talks__lede {
+        max-width: 60ch;
+        line-height: 1.5;
+        margin: 0 0 2rem;
+        color: var(--ink-85);
+      }
+      .speaking-talk {
+        margin-bottom: 3rem;
+      }
+      .speaking-talk:last-child {
+        margin-bottom: 0;
+      }
+      .speaking-talk__meta {
+        display: flex;
+        align-items: baseline;
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        letter-spacing: 0.04em;
+        color: var(--ink-70);
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+      }
+      .speaking-talk__title {
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: 1.2rem;
+        text-transform: none;
+        letter-spacing: 0;
+        color: var(--ink-85);
+      }
+      .speaking-talk__year {
+        color: var(--ink-50);
+      }
+      .speaking-talk__venue {
+        color: var(--ink-70);
+        text-transform: none;
+        letter-spacing: 0;
+        margin-left: auto;
+      }
+      .speaking-talk__video {
+        position: relative;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
+        margin-bottom: 1rem;
+      }
+      .speaking-talk__video iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+      .speaking-talk__desc {
+        line-height: 1.5;
+        max-width: 60ch;
+        margin: 0;
+        color: var(--ink-85);
+      }
+      @media (max-width: 600px) {
+        .speaking-talk__venue {
+          margin-left: 0;
+        }
+      }
+
+      /* ── Workshop categories (3 columns of expertise) ─────── */
+      .speaking-workshops {
+        margin-top: 4rem;
+      }
+      .speaking-workshops__head {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin-bottom: 0.5rem;
+      }
+      .speaking-workshops__lede {
+        max-width: 60ch;
+        line-height: 1.5;
+        margin: 0 0 2rem;
+        color: var(--ink-85);
+      }
+      .speaking-workshops__cats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+      }
+      @media (max-width: 900px) {
+        .speaking-workshops__cats {
+          grid-template-columns: 1fr;
+        }
+      }
+      .speaking-cat__title {
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: 1.2rem;
+        margin: 0 0 0.5rem;
+        color: var(--ink-85);
+        padding-bottom: 0.4rem;
+        border-bottom: 3px solid var(--section-tools);
+      }
+      .speaking-cat__lede {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin: 0 0 1rem;
+        color: var(--ink-85);
+      }
+      .speaking-cat__entries {
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .speaking-cat__entry-title {
+        font-family: var(--font-body);
+        font-weight: 700;
+        font-size: 0.98rem;
+        color: var(--ink-85);
+      }
+      .speaking-cat__entry-meta {
+        display: block;
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: 0.8rem;
+        color: var(--ink-50);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
     </style>
   </head>
   <body>
@@ -360,6 +589,301 @@
             >
           </section>
         </div>
+
+        <!-- ── Theme blocks (ingested from /keynotes/) ─────────── -->
+        <section class="speaking-themes" aria-label="Keynote themes">
+          <div class="speaking-themes__head">What I talk about</div>
+
+          <article class="speaking-theme">
+            <div class="speaking-theme__body">
+              <h2 class="speaking-theme__title">Keynotes that Make Room</h2>
+              <p>
+                I speak to rooms where creativity has gone quiet — not from lack
+                of talent, but from too much noise. In my keynotes, I clear that
+                noise. To make space for remembering what creativity feels like
+                when it's alive, not optimized.
+              </p>
+              <p>
+                I talk about AI, but not the way the headlines do. I trace how
+                systems shape stories, how tools reflect our fears, and how
+                reclaiming technology is often a way of reclaiming the self.
+                These talks are invitations to slow down, to imagine otherwise,
+                to build in ways that feel more human.
+              </p>
+            </div>
+            <div class="speaking-theme__media">
+              <img
+                src="/Assets/images/keynotes/IMG_9390.JPEG"
+                alt="Halim Madi keynote"
+                loading="lazy"
+              />
+            </div>
+          </article>
+
+          <article class="speaking-theme is-flipped">
+            <div class="speaking-theme__body">
+              <h2 class="speaking-theme__title">
+                Creativity as Infrastructure
+              </h2>
+              <p>
+                We don't need more inspiration. We need architecture for
+                creativity. Patterns, rituals, and tools that make the act of
+                making feel possible again. My talks reframe creative practice
+                as a form of infrastructure: something you build, maintain, and
+                share — not something you wait for.
+              </p>
+            </div>
+            <div class="speaking-theme__media">
+              <img
+                src="/Assets/images/keynotes/Image-from-Dropbox-1.jpeg"
+                alt="Creativity as Infrastructure"
+                loading="lazy"
+              />
+            </div>
+          </article>
+
+          <article class="speaking-theme">
+            <div class="speaking-theme__body">
+              <h2 class="speaking-theme__title">Artist as Hacker</h2>
+              <p>
+                A hacker breaks things. A poet rearranges the parts. Curiosity
+                over control, intuition over optimization in team environments.
+              </p>
+            </div>
+            <div class="speaking-theme__media">
+              <img
+                src="/Assets/images/keynotes/IMG_4013.JPEG"
+                alt="Artist as Hacker"
+                loading="lazy"
+              />
+            </div>
+          </article>
+        </section>
+
+        <!-- ── Selected talks (video embeds) ─────────────────── -->
+        <section class="speaking-talks" aria-label="Selected talks">
+          <div class="speaking-talks__head">
+            Rewiring the System — selected talks
+          </div>
+          <p class="speaking-talks__lede">
+            Each of these marked a live moment of transformation where
+            creativity, code, and identity came into new alignment. From
+            feedback loops to collective action, from the logic of joy to the
+            architecture of trust.
+          </p>
+
+          <div class="speaking-talk">
+            <div class="speaking-talk__meta">
+              <span class="speaking-talk__title">Weirding AI</span>
+              <span class="speaking-talk__year">2024</span>
+              <span class="speaking-talk__venue">Gray Area, San Francisco</span>
+            </div>
+            <div class="speaking-talk__video">
+              <iframe
+                src="https://www.youtube.com/embed/RTmyFg4l5yc"
+                title="Weirding AI"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+            <p class="speaking-talk__desc">
+              Performance-talk on migration, memory, and machine intelligence
+              through interactive poetry. Mapping displacement, denying border
+              questions, kneeling before a printer god. Reimagines home as a
+              drag performer: not a destination, but a longing, a glitch, a
+              ritual.
+            </p>
+          </div>
+
+          <div class="speaking-talk">
+            <div class="speaking-talk__meta">
+              <span class="speaking-talk__title">The Death of Stars</span>
+              <span class="speaking-talk__year">2016</span>
+              <span class="speaking-talk__venue">TED, Amsterdam</span>
+            </div>
+            <div class="speaking-talk__video">
+              <iframe
+                src="https://www.youtube.com/embed/NUH9c76gt68"
+                title="The Death of Stars"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+            <p class="speaking-talk__desc">
+              What happens when feedback flattens? Comparing Amazon stars and
+              Facebook likes, the talk asks what kind of digital democracy we're
+              building when silence — not criticism — becomes the dominant
+              voice.
+            </p>
+          </div>
+
+          <div class="speaking-talk">
+            <div class="speaking-talk__meta">
+              <span class="speaking-talk__title">Joy is a System</span>
+              <span class="speaking-talk__year">2014</span>
+              <span class="speaking-talk__venue">TEDx Hackney, London</span>
+            </div>
+            <div class="speaking-talk__video">
+              <iframe
+                src="https://www.youtube.com/embed/hCwKWmRaBMA"
+                title="Joy is a System"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+            <p class="speaking-talk__desc">
+              Hacks attention, hormones, and habit formation to rewire
+              happiness. From neuroscience to stoicism to oxytocin rituals — a
+              practice of presence built on awe, repetition, and ridiculousness.
+            </p>
+          </div>
+
+          <div class="speaking-talk">
+            <div class="speaking-talk__meta">
+              <span class="speaking-talk__title">Inventing Viral Gods</span>
+              <span class="speaking-talk__year">2013</span>
+              <span class="speaking-talk__venue">TEDx Beirut</span>
+            </div>
+            <div class="speaking-talk__video">
+              <iframe
+                src="https://www.youtube.com/embed/-6iQUtJRUh8"
+                title="Inventing Viral Gods"
+                allow="
+                  accelerometer;
+                  autoplay;
+                  clipboard-write;
+                  encrypted-media;
+                  gyroscope;
+                  picture-in-picture;
+                "
+                allowfullscreen
+                loading="lazy"
+              ></iframe>
+            </div>
+            <p class="speaking-talk__desc">
+              How a doodle became a god. The anatomy of viral belief, and the
+              argument that leaderless movements thrive on shared purpose,
+              interaction, and principles.
+            </p>
+          </div>
+        </section>
+
+        <!-- ── Workshop categories (ingested from /workshops/) ─── -->
+        <section class="speaking-workshops" aria-label="Workshop categories">
+          <div class="speaking-workshops__head">Where I teach</div>
+          <p class="speaking-workshops__lede">
+            Workshops across three worlds: corporations, classrooms, and
+            creative communities. I bring AI fluency, agent design, and system
+            thinking — tuned to the room.
+          </p>
+
+          <div class="speaking-workshops__cats">
+            <article>
+              <h3 class="speaking-cat__title">Creative communities</h3>
+              <p class="speaking-cat__lede">
+                Workshops as invitations to glitch, to gather, to write beside
+                the machine. Tiny models, queered prompt chains, language as
+                ritual.
+              </p>
+              <div class="speaking-cat__entries">
+                <div>
+                  <div class="speaking-cat__entry-title">Strange Choirs</div>
+                  <span class="speaking-cat__entry-meta"
+                    >Oct '25 · Mozilla, San Francisco</span
+                  >
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">Algorithm Embrace</div>
+                  <span class="speaking-cat__entry-meta"
+                    >Sep '24 · Gray Area, San Francisco</span
+                  >
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">
+                    AI × Artist Studio
+                  </div>
+                  <span class="speaking-cat__entry-meta"
+                    >Apr '25 · San Francisco Art Fair</span
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article>
+              <h3 class="speaking-cat__title">Classrooms</h3>
+              <p class="speaking-cat__lede">
+                AI as a practice of attention — not automation. Sessions blend
+                philosophy, code, and creative writing.
+              </p>
+              <div class="speaking-cat__entries">
+                <div>
+                  <div class="speaking-cat__entry-title">Time Capsule</div>
+                  <span class="speaking-cat__entry-meta"
+                    >May '26 · Stanford d.school</span
+                  >
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">Weirding AI</div>
+                  <span class="speaking-cat__entry-meta"
+                    >Oct '25 · Johns Hopkins</span
+                  >
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">Memory Poetics</div>
+                  <span class="speaking-cat__entry-meta"
+                    >Sep '25 · UC Berkeley</span
+                  >
+                </div>
+              </div>
+            </article>
+
+            <article>
+              <h3 class="speaking-cat__title">Corporations</h3>
+              <p class="speaking-cat__lede">
+                Helping teams rethink how they speak to machines, and how
+                machines speak back. Each workshop is a system intervention.
+              </p>
+              <div class="speaking-cat__entries">
+                <div>
+                  <div class="speaking-cat__entry-title">Predictive Bodies</div>
+                  <span class="speaking-cat__entry-meta">May '25 · Meta</span>
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">Poetic Interfaces</div>
+                  <span class="speaking-cat__entry-meta">Google</span>
+                </div>
+                <div>
+                  <div class="speaking-cat__entry-title">Predictive Logic</div>
+                  <span class="speaking-cat__entry-meta">Prophet</span>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
 
         <!-- Past hosts -->
         <section class="speaking-hosts" aria-label="Past hosts">

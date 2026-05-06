@@ -17,8 +17,16 @@
       .works-page {
         max-width: 1280px;
       }
-      .works-page > h1 {
-        font-size: clamp(3rem, 7vw, 6rem);
+      .works-eyebrow {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin: 0 0 0.75rem;
       }
       .works-intro {
         max-width: 56ch;
@@ -26,6 +34,11 @@
       }
       .works-intro p {
         line-height: 1.5;
+      }
+      .works-intro p:not(.works-eyebrow) {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        color: var(--ink-85);
       }
 
       /* Layout: works list (1fr) + filter rail (160px) on desktop */
@@ -363,8 +376,9 @@
 
     <div class="page">
       <div class="page-content works-page">
-        <h1>Works</h1>
+        <h1 class="visually-hidden">Works</h1>
         <div class="works-intro">
+          <p class="works-eyebrow">Works · 2018 — present</p>
           <p>
             Poems, performances, software, and small interventions. The work
             lives between code and care. It glitches. Sometimes, it shows its

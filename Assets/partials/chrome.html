@@ -4,11 +4,26 @@
   Do NOT include this file directly via <link> or <script>; chrome.js fetches it.
 -->
 
-<!-- ── top signup bar ─────────────────────────────────── -->
-<section class="signup-bar" aria-label="Newsletter signup">
-  <a href="/" class="signup-bar__name" aria-label="Halim Madi - home"
-    >halim madi</a
+<!-- ── top bar — single inline strip ─────────────────────
+     [× HALIM MADI]   email[___] subscribe       [CONNECT c] [≡]
+     - On landing (body.is-landing), the [×] chip toggles the Halim card.
+       The × glyph flips to + when the card is collapsed.
+     - On other pages, clicking the chip navigates home.
+     - The hamburger reuses the existing toggleMenu() / .side-menu pattern.
+-->
+<header class="signup-bar">
+  <button
+    type="button"
+    class="chip-name"
+    data-halim-toggle
+    aria-controls="halim-card-body"
+    aria-expanded="true"
+    aria-label="Halim Madi"
   >
+    <span class="chip-name__key" aria-hidden="true">&times;</span>
+    <span class="chip-name__label">Halim Madi</span>
+  </button>
+
   <form
     class="signup-bar__form"
     action="https://halimmadi.substack.com/api/v1/free?nojs=true"
@@ -28,9 +43,8 @@
       required
       autocomplete="email"
     />
-    <!-- Hidden fields mirror Substack's embed form so submissions look
-         identical to the official widget. chrome.js fills the *_url and
-         *_referrer values at submit time. -->
+    <!-- Hidden fields mirror Substack's embed form. chrome.js fills the
+         *_url and *_referrer values at submit time. -->
     <input type="hidden" name="source" value="embed" />
     <input type="hidden" name="first_url" value="" />
     <input type="hidden" name="first_referrer" value="" />
@@ -48,34 +62,50 @@
       aria-live="polite"
     ></span>
   </form>
-</section>
 
-<!-- ── upper-right CONNECT chip ───────────────────────── -->
-<div class="corner-tr">
-  <a href="/connect/" class="chip" data-key="c">
-    connect <span class="chip__key">c</span>
+  <a class="chip-name chip-name--link" href="/connect/" aria-label="Connect">
+    <span class="chip-name__label">Connect</span>
+    <span class="chip-name__key" aria-hidden="true">c</span>
   </a>
-</div>
 
-<!-- ── bottom-right HUMAN/MACHINE pill ────────────────── -->
-<div class="corner-br">
-  <div class="corner-br__hint" aria-hidden="true">
-    <span class="chip chip--ghost">/</span>
-    <span class="chip chip--ghost">⌘K</span>
-  </div>
-  <div class="chip-group" role="group" aria-label="Site mode">
-    <button
-      type="button"
-      class="chip chip--active"
-      data-mode="human"
-      aria-pressed="true"
-    >
-      human <span class="chip__key">h</span>
-    </button>
-    <button type="button" class="chip" data-mode="machine" aria-pressed="false">
-      machine <span class="chip__key">m</span>
-    </button>
-  </div>
+  <button
+    type="button"
+    class="signup-bar__menu"
+    aria-label="Open menu"
+    aria-controls="side-menu"
+    aria-expanded="false"
+    onclick="toggleMenu()"
+  >
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style) ────── -->
+<div class="mode-toggle" role="group" aria-label="Site mode">
+  <button
+    type="button"
+    class="mode-toggle__option is-active"
+    data-mode="human"
+    aria-pressed="true"
+  >
+    <span class="mode-toggle__radio" aria-hidden="true"></span>
+    <span class="mode-toggle__label">HUMAN</span>
+    <span class="mode-toggle__key" aria-hidden="true">H</span>
+  </button>
+  <button
+    type="button"
+    class="mode-toggle__option"
+    data-mode="machine"
+    aria-pressed="false"
+  >
+    <span class="mode-toggle__radio" aria-hidden="true"></span>
+    <span class="mode-toggle__label">MACHINE</span>
+    <span class="mode-toggle__key" aria-hidden="true">M</span>
+  </button>
+  <span class="mode-toggle__divider" aria-hidden="true"></span>
+  <span class="mode-toggle__hint" aria-hidden="true">/</span>
+  <span class="mode-toggle__hint">|</span>
+  <span class="mode-toggle__hint" aria-hidden="true">⌘K</span>
 </div>
 
 <!-- ── command palette overlay ────────────────────────── -->
@@ -91,20 +121,20 @@
       <div class="palette__sitemap-section-title">HALIM MADI</div>
       <div>Works:</div>
       <div>
-        &nbsp;<span class="palette__sitemap-link">[Hard.exe]</span
-        ><span class="palette__sitemap-url">(/works/hard-exe/)</span>
+        &nbsp;<span class="palette__sitemap-link">[Carnation.exe]</span
+        ><span class="palette__sitemap-url">(/works/carnation-exe/)</span>
       </div>
       <div>
-        &nbsp;<span class="palette__sitemap-link">[Carnation Revival]</span
-        ><span class="palette__sitemap-url">(/works/carnation-revival/)</span>
+        &nbsp;<span class="palette__sitemap-link">[Versus.exe]</span
+        ><span class="palette__sitemap-url">(/works/versus-exe/)</span>
       </div>
       <div>
-        &nbsp;<span class="palette__sitemap-link">[Vatican Pavilion]</span
-        ><span class="palette__sitemap-url">(/works/vatican-pavilion/)</span>
+        &nbsp;<span class="palette__sitemap-link">[Reinforcement.exe]</span
+        ><span class="palette__sitemap-url">(/works/reinforcement-exe/)</span>
       </div>
       <div>
-        &nbsp;<span class="palette__sitemap-link">[Word Garden]</span
-        ><span class="palette__sitemap-url">(/works/word-garden/)</span>
+        &nbsp;<span class="palette__sitemap-link">[Borderline]</span
+        ><span class="palette__sitemap-url">(/works/borderline/)</span>
       </div>
       <div>
         &nbsp;<span class="palette__sitemap-link">[Curl]</span
@@ -156,6 +186,35 @@
       </div>
     </div>
     <div class="palette__sitemap-section">
+      <div class="palette__sitemap-section-title">
+        CHAT WITH MY POETIC MODELS
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Whomp the scam-poet]</span
+        ><span class="palette__sitemap-url"
+          >(https://singulars.oulipo.xyz/chat?model=whomp)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Carnation.exe]</span
+        ><span class="palette__sitemap-url"
+          >(https://singulars.oulipo.xyz/chat?model=carnation-exe)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Versus.exe]</span
+        ><span class="palette__sitemap-url"
+          >(https://singulars.oulipo.xyz/chat?model=versus-exe)</span
+        >
+      </div>
+      <div>
+        <span class="palette__sitemap-link">[Reinforcement.exe]</span
+        ><span class="palette__sitemap-url"
+          >(https://singulars.oulipo.xyz/chat?model=reinforcement-exe)</span
+        >
+      </div>
+    </div>
+    <div class="palette__sitemap-section">
       <div class="palette__sitemap-section-title">EXTERNAL</div>
       <div>
         <span class="palette__sitemap-link">[Newsletter]</span
@@ -187,7 +246,8 @@
 
   <div class="palette__cli">
     <span class="palette__cli-prompt">›_</span>
-    Press <em>m</em> to switch back to human mode.
+    OULIPO-CLI. Type a slash command, or
+    <em>tab</em> to autocomplete the highlighted row.
   </div>
 
   <form class="palette__inputbar" data-palette-form>

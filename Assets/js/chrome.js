@@ -102,6 +102,32 @@
       kind: "tool",
       go: "https://singulars.oulipo.xyz",
     },
+    // ── chat with Halim's poetic models ────────────────────
+    // Routes to the Singulars chat surface, prefilled with the model.
+    {
+      cmd: "/chat whomp",
+      desc: "scam-poet — replies to anything with a poem",
+      kind: "agent",
+      go: "https://singulars.oulipo.xyz/chat?model=whomp",
+    },
+    {
+      cmd: "/chat carnation",
+      desc: "carnation revolution model — Singulars I",
+      kind: "agent",
+      go: "https://singulars.oulipo.xyz/chat?model=carnation-exe",
+    },
+    {
+      cmd: "/chat versus",
+      desc: "duel-trained model — Singulars II",
+      kind: "agent",
+      go: "https://singulars.oulipo.xyz/chat?model=versus-exe",
+    },
+    {
+      cmd: "/chat reinforcement",
+      desc: "RLHF poetry model — Singulars III",
+      kind: "agent",
+      go: "https://singulars.oulipo.xyz/chat?model=reinforcement-exe",
+    },
   ];
 
   var palette = null;
@@ -156,11 +182,11 @@
     var human = document.querySelector('[data-mode="human"]');
     var machine = document.querySelector('[data-mode="machine"]');
     if (human) {
-      human.classList.toggle("chip--active", !isMachine);
+      human.classList.toggle("is-active", !isMachine);
       human.setAttribute("aria-pressed", String(!isMachine));
     }
     if (machine) {
-      machine.classList.toggle("chip--active", isMachine);
+      machine.classList.toggle("is-active", isMachine);
       machine.setAttribute("aria-pressed", String(isMachine));
     }
     if (isMachine) {
@@ -274,6 +300,7 @@
   }
 
   // ── Halim card toggle (landing page only) ─────────────────
+  // Updates the [× HALIM MADI] chip's key glyph from × → + when collapsed.
   function toggleHalimCard() {
     if (!document.body.classList.contains("is-landing")) return;
     var card = document.querySelector("[data-halim-card]");
@@ -283,8 +310,13 @@
     if (btn) {
       var collapsed = card.classList.contains("is-collapsed");
       btn.setAttribute("aria-expanded", String(!collapsed));
-      btn.textContent = collapsed ? "+" : "×";
+      var key = btn.querySelector(".chip-name__key");
+      if (key) key.textContent = collapsed ? "+" : "×"; // × U+00D7
     }
+    document.body.classList.toggle(
+      "halim-card-collapsed",
+      card.classList.contains("is-collapsed"),
+    );
   }
 
   // ── keyboard shortcuts ────────────────────────────────────
@@ -495,12 +527,19 @@
     });
   }
 
-  // ── Halim card external toggle button (clicked, not keyed) ─
+  // ── [× HALIM MADI] chip click ──────────────────────────────
+  // On the landing page the chip toggles the Halim card.
+  // On every other page it navigates home.
   function bindHalimCardToggle() {
     var btn = document.querySelector("[data-halim-toggle]");
     if (!btn) return;
-    btn.addEventListener("click", function () {
-      toggleHalimCard();
+    btn.addEventListener("click", function (e) {
+      if (document.body.classList.contains("is-landing")) {
+        toggleHalimCard();
+      } else {
+        // Navigate home — click was not a toggle.
+        window.location.href = "/";
+      }
     });
   }
 

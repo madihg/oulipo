@@ -15,51 +15,21 @@
     <link rel="stylesheet" href="/Assets/css/shared.css" />
     <style>
       /* ── Halim card (collapsible intro) ───────────────────── */
+      /* The toggle now lives in the signup bar's [× HALIM MADI] chip
+         (per the 2026-05-05 walkthrough). The card itself is just
+         the paragraph body, hidden when collapsed. */
       .halim-card {
-        display: grid;
-        grid-template-columns: 2.5rem 1fr;
-        gap: 1rem;
-        align-items: start;
         margin: 2rem 0 4rem;
         max-width: 60ch;
       }
       @media (max-width: 600px) {
         .halim-card {
           margin: 1.5rem 0 3rem;
-          gap: 0.6rem;
-          grid-template-columns: 2rem 1fr;
         }
-      }
-
-      .halim-toggle {
-        width: 2rem;
-        height: 2rem;
-        border: 1.5px solid var(--ink);
-        background: transparent;
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 1.4rem;
-        line-height: 1;
-        font-weight: 400;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        margin-top: 0.25rem;
-        transition: var(--t-opacity);
-      }
-      .halim-toggle:hover {
-        opacity: 0.7;
-      }
-      .halim-toggle:focus-visible {
-        outline: 3px solid var(--ink);
-        outline-offset: 2px;
       }
       .halim-card[data-halim-card].is-collapsed .halim-body {
         display: none;
       }
-
       .halim-body {
         font-family: var(--font-body);
         font-size: 1.2rem;
@@ -410,15 +380,6 @@
     </style>
   </head>
   <body class="is-landing">
-    <div class="header-bar"></div>
-    <div class="site-header"><a href="/">Halim Madi</a></div>
-
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
     <nav class="side-menu">
@@ -474,16 +435,6 @@
           data-halim-card
           aria-labelledby="halim-card-body"
         >
-          <button
-            type="button"
-            class="halim-toggle"
-            data-halim-toggle
-            aria-controls="halim-card-body"
-            aria-expanded="true"
-            aria-label="Collapse intro (or press x)"
-          >
-            &times;
-          </button>
           <p class="halim-body" id="halim-card-body">
             In this life I'm hoping to pioneer
             <a
@@ -520,6 +471,8 @@
             small enough to be borrowed.
           </p>
         </section>
+        <!-- Note: the [×] toggle for this card lives in the signup bar's
+             [× HALIM MADI] chip; press the × there or the x key to collapse. -->
 
         <hr class="landing-divider" />
 

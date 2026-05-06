@@ -140,6 +140,12 @@ body.machine-mode .palette {
   border-color: rgba(255, 165, 0, 0.85);
   font-weight: 700;
 }
+.palette__row-badge--agent {
+  background: rgba(255, 255, 255, 0.92);
+  color: #1a1a1a;
+  border-color: rgba(255, 255, 255, 0.92);
+  font-weight: 700;
+}
 .palette__row-badge--action {
   color: rgba(255, 255, 255, 0.6);
 }

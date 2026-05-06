@@ -533,6 +533,169 @@ hr {
   margin: 0 0 1.5rem;
 }
 
+/* ─────────────────────────────────────────────
+   Individual work page — alternating text/image flow
+   (reinforcement.exe-style spread, per Halim's 2026-05-05 walkthrough).
+   The detail-flow container is wider than the body's reading column
+   so full-width images can carry their own weight while paragraphs
+   stay readable inside .detail-text.
+   ───────────────────────────────────────────── */
+
+.detail-page {
+  max-width: 1080px;
+  margin: 0 auto;
+}
+
+.detail-hero {
+  margin: 1.5rem 0 2rem;
+}
+.detail-hero img,
+.detail-image img,
+.detail-image-strip img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detail-text {
+  max-width: 56ch;
+  margin-left: 0;
+}
+.detail-text p {
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
+  font-size: 1.06rem;
+}
+.detail-text p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-image {
+  margin: 0;
+}
+.detail-image figcaption {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.detail-image-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .detail-image-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .detail-image-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Prev / next nav at the bottom of an individual work page. */
+.work-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 4rem 0 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.work-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  padding: 0.5rem;
+}
+.work-nav__link:hover {
+  opacity: 0.7;
+}
+.work-nav__link--prev {
+  justify-self: start;
+}
+.work-nav__link--next {
+  justify-self: end;
+  grid-column: 2;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.work-nav__thumb {
+  width: 4rem;
+  height: 3rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+.work-nav__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+.work-nav__link:hover .work-nav__thumb img {
+  filter: grayscale(0%);
+}
+.work-nav__arrow {
+  font-family: "Diatype Mono Variable", monospace;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.85);
+}
+.work-nav__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.work-nav__label {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+.work-nav__title {
+  font-family: Standard, sans-serif;
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 600px) {
+  .work-nav {
+    grid-template-columns: 1fr;
+  }
+  .work-nav__link--next {
+    grid-column: 1;
+    justify-self: start;
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%;

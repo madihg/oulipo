@@ -11,8 +11,14 @@
       "venue": "European Artist Program",
       "location": "Paris, Barcelona",
       "short_description": "Part I of the Singulars series - a daily duel between a human poet and a fine-tuned language model trained exclusively on poetry.",
-      "cover_image": "Assets/images/works/carnation-exe/gallery-1.jpg",
-      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
+      "cover_image": "Assets/images/works/carnation-exe/featured.jpg",
+      "tags": [
+        "ai",
+        "poetry",
+        "performance",
+        "singulars",
+        "computational"
+      ],
       "series": "singulars",
       "external_links": [
         {
@@ -40,8 +46,14 @@
       "venue": "Mozilla San Francisco",
       "location": "San Francisco",
       "short_description": "Part II of the Singulars series - a 10-day human-machine poetry confrontation exploring rivalry as intimacy.",
-      "cover_image": "Assets/images/works/versus-exe/IMG_9921.jpg",
-      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
+      "cover_image": "Assets/images/works/versus-exe/featured.jpg",
+      "tags": [
+        "ai",
+        "poetry",
+        "performance",
+        "singulars",
+        "computational"
+      ],
       "series": "singulars",
       "external_links": [
         {
@@ -69,8 +81,14 @@
       "venue": "IGAC Gallery",
       "location": "Istanbul",
       "short_description": "Part III of the Singulars series - reinforcement learning meets poetic confrontation at DevConnect Istanbul.",
-      "cover_image": "Assets/images/works/reinforcement-exe/IGAC-exhibition-photography-049.jpg",
-      "tags": ["ai", "poetry", "installation", "singulars", "computational"],
+      "cover_image": "Assets/images/works/reinforcement-exe/featured.jpg",
+      "tags": [
+        "ai",
+        "poetry",
+        "installation",
+        "singulars",
+        "computational"
+      ],
       "series": "singulars",
       "external_links": [
         {
@@ -98,8 +116,13 @@
       "venue": "Counterpulse",
       "location": "San Francisco",
       "short_description": "A full-body multimedia poem about borders, queerness, and the architecture of belonging. Features Arabic zajal, projected code, and live performance.",
-      "cover_image": "Assets/images/works/borderline/border--line---by-halim-madi_54209730387_o.jpg",
-      "tags": ["performance", "queer", "migration", "poetry"],
+      "cover_image": "Assets/images/works/borderline/featured.jpg",
+      "tags": [
+        "performance",
+        "queer",
+        "migration",
+        "poetry"
+      ],
       "external_links": [
         {
           "url": "https://borderline.oulipo.xyz",
@@ -122,8 +145,13 @@
       "venue": "ELO Conference / Bergen / TIAT",
       "location": "Toronto, Bergen, San Francisco",
       "short_description": "An interactive web poem exploring consciousness, Arabic linguistics, and human-machine co-authorship.",
-      "cover_image": "Assets/images/works/we-called-us/We-Called-Us-Poetry_Web_2024.png",
-      "tags": ["ai", "poetry", "digital", "computational"],
+      "cover_image": "Assets/images/works/we-called-us/featured.png",
+      "tags": [
+        "ai",
+        "poetry",
+        "digital",
+        "computational"
+      ],
       "external_links": [
         {
           "url": "https://elo-2025.vercel.app",
@@ -146,8 +174,11 @@
       "venue": "APE Camp Seoul",
       "location": "Seoul",
       "short_description": "A durational AI-body performance where audience answers shape a real-time generative portrait.",
-      "cover_image": "Assets/images/works/feed-it/IMG_6388.jpg",
-      "tags": ["ai", "performance"],
+      "cover_image": "Assets/images/works/feed-it/featured.jpg",
+      "tags": [
+        "ai",
+        "performance"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 6,
@@ -165,8 +196,13 @@
       "venue": "Gray Area",
       "location": "San Francisco",
       "short_description": "A durational immigration performance - a fictional visa form that scrambles your answers into poetry.",
-      "cover_image": "Assets/images/works/deserve-it/gray_area_summer_artist_2024-060.jpg",
-      "tags": ["performance", "migration", "queer", "digital"],
+      "cover_image": "Assets/images/works/deserve-it/featured.jpg",
+      "tags": [
+        "performance",
+        "migration",
+        "queer",
+        "digital"
+      ],
       "external_links": [
         {
           "url": "https://deserve.vercel.app/",
@@ -189,8 +225,12 @@
       "venue": "Counterpulse / We-Topia Gala",
       "location": "San Francisco",
       "short_description": "A walking poem through San Francisco's Tenderloin, mapping queer nightlife from Beirut to the Bay.",
-      "cover_image": "Assets/images/works/i-live-here/Innerspace-We-Topia-2025-1.jpg",
-      "tags": ["performance", "queer", "migration"],
+      "cover_image": "Assets/images/works/i-live-here/featured.jpg",
+      "tags": [
+        "performance",
+        "queer",
+        "migration"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 8,
@@ -208,8 +248,13 @@
       "venue": "Robert Coover Award",
       "location": "Online",
       "short_description": "An interactive HTML poem - a border that writes itself between two lovers.",
-      "cover_image": "Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.03.39PM.png",
-      "tags": ["digital", "poetry", "queer", "computational"],
+      "cover_image": "Assets/images/works/borderline-exe/featured.png",
+      "tags": [
+        "digital",
+        "poetry",
+        "queer",
+        "computational"
+      ],
       "external_links": [
         {
           "url": "https://borderline.oulipo.xyz/exe",
@@ -232,8 +277,12 @@
       "venue": "Multiple venues",
       "location": "Barcelona, Paris, London, San Francisco",
       "short_description": "A traveling workshop-performance inviting participants to build weird, queer web dwellings.",
-      "cover_image": "Assets/images/works/weirder-webs/Whitagram-Image-4.JPG",
-      "tags": ["digital", "queer", "computational"],
+      "cover_image": "Assets/images/works/weirder-webs/featured.jpg",
+      "tags": [
+        "digital",
+        "queer",
+        "computational"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 10,
@@ -251,8 +300,12 @@
       "venue": "Silo Gallery",
       "location": "San Francisco",
       "short_description": "A collage-poetry installation transforming spam text into sacred objects at a queer arts space.",
-      "cover_image": "Assets/images/works/borrow-never-give-back/IMG_5272.JPG",
-      "tags": ["installation", "poetry", "queer"],
+      "cover_image": "Assets/images/works/borrow-never-give-back/featured.jpg",
+      "tags": [
+        "installation",
+        "poetry",
+        "queer"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 11,
@@ -270,8 +323,13 @@
       "venue": "Online",
       "location": "San Francisco",
       "short_description": "A generative web piece that rewrites the Declaration of Independence using AI and immigrant voices.",
-      "cover_image": "Assets/images/works/re-declarations/Screenshot-2024-10-31-at-2.27.15PM.png",
-      "tags": ["digital", "ai", "migration", "computational"],
+      "cover_image": "Assets/images/works/re-declarations/featured.png",
+      "tags": [
+        "digital",
+        "ai",
+        "migration",
+        "computational"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 12,
@@ -289,8 +347,12 @@
       "venue": "Gray Area",
       "location": "San Francisco",
       "short_description": "An installation mapping the metabolization of immigrant identity through receipt-poems and data visualization.",
-      "cover_image": "Assets/images/works/american-metabolisis/IMG_7153.JPG",
-      "tags": ["installation", "migration", "poetry"],
+      "cover_image": "Assets/images/works/american-metabolisis/featured.jpg",
+      "tags": [
+        "installation",
+        "migration",
+        "poetry"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 13,
@@ -308,8 +370,11 @@
       "venue": "Multiple venues",
       "location": "Paris, Sao Paulo",
       "short_description": "A series of site-specific interventions exploring futures, migration, and the politics of public space.",
-      "cover_image": "Assets/images/works/avenir/FullSizeRender.jpg",
-      "tags": ["installation", "migration"],
+      "cover_image": "Assets/images/works/avenir/featured.jpg",
+      "tags": [
+        "installation",
+        "migration"
+      ],
       "external_links": [
         {
           "url": "https://medium.com/@builduntitled",
@@ -332,8 +397,12 @@
       "venue": "Online",
       "location": "San Francisco",
       "short_description": "A generative text interface that turns casual messaging into absurdist poetry.",
-      "cover_image": "Assets/images/works/whomp/Screenshot-2025-10-06-at-4.39.43PM.png",
-      "tags": ["digital", "poetry", "computational"],
+      "cover_image": "Assets/images/works/whomp/featured.png",
+      "tags": [
+        "digital",
+        "poetry",
+        "computational"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 15,
@@ -352,7 +421,11 @@
       "location": "San Francisco",
       "short_description": "A computational poetry performance exploring the syntax of intimacy and touch.",
       "cover_image": null,
-      "tags": ["performance", "poetry", "computational"],
+      "tags": [
+        "performance",
+        "poetry",
+        "computational"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 16,
@@ -371,7 +444,10 @@
       "location": "San Francisco, LA, CDMX, Santa Barbara, Ojai",
       "short_description": "Live readings from the Invasions poetry book - performing spam-text poems as ritual incantation.",
       "cover_image": null,
-      "tags": ["performance", "poetry"],
+      "tags": [
+        "performance",
+        "poetry"
+      ],
       "external_links": [],
       "featured": false,
       "sort_order": 17,

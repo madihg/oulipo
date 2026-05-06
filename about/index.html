@@ -13,6 +13,7 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
     <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
       .about-layout {
         display: grid;
@@ -52,6 +53,100 @@
         .about-layout {
           grid-template-columns: 1fr;
         }
+      }
+
+      /* ── CV section appended to about (P5) ──────────────────
+         Editorial timeline derived from oulipo_dashboard.events.
+         Two-column on desktop, collapses to one on mobile. */
+      .about-cv {
+        margin-top: 4rem;
+        padding-top: 2.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      .about-cv__head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      .about-cv__title {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .about-cv__full {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: underline;
+      }
+      .about-cv__full:hover {
+        opacity: 0.7;
+      }
+      #about-cv-container {
+        columns: 2;
+        column-gap: 2.5rem;
+      }
+      @media (max-width: 900px) {
+        #about-cv-container {
+          columns: 1;
+        }
+      }
+      #about-cv-container .cv-section {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      #about-cv-container .section-heading {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin: 0.5rem 0 0.4rem;
+        color: rgba(0, 0, 0, 0.85);
+      }
+      #about-cv-container .section-heading:first-of-type {
+        margin-top: 0;
+      }
+      #about-cv-container .event {
+        margin: 0;
+      }
+      #about-cv-container .event-head {
+        font-family: Standard, sans-serif;
+        font-size: 1rem;
+        line-height: 1.18;
+      }
+      #about-cv-container .event-year {
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: rgba(0, 0, 0, 0.55);
+      }
+      #about-cv-container .event-meta {
+        display: block;
+        font-family: "Diatype Mono Variable", monospace;
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: rgba(0, 0, 0, 0.55);
+        line-height: 1.2;
+      }
+      #about-cv-container hr {
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.08);
+        margin: 0.45rem 0;
       }
     </style>
   </head>
@@ -180,6 +275,17 @@
           </div>
         </div>
 
+        <!-- ── CV (loaded from oulipo_dashboard.events) ────────── -->
+        <section class="about-cv" aria-label="Curriculum vitae">
+          <div class="about-cv__head">
+            <span class="about-cv__title">CV</span>
+            <a class="about-cv__full" href="/cv/">Full CV &rarr;</a>
+          </div>
+          <div id="about-cv-container">
+            <p class="caption">Loading CV…</p>
+          </div>
+        </section>
+
         <div class="page-cta">
           <a class="button-8" href="/connect/?intent=hi">Connect &rarr;</a>
         </div>
@@ -188,5 +294,107 @@
 
     <script src="../Assets/js/menu.js"></script>
     <script src="/Assets/js/chrome.js" defer></script>
+    <script>
+      // ── CV loader (mirrors /cv/ page, condensed for /about/) ──
+      (async function loadAboutCV() {
+        const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
+        const SUPABASE_ANON_KEY =
+          "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
+        const _supabase = window.supabase.createClient(
+          SUPABASE_URL,
+          SUPABASE_ANON_KEY,
+        );
+        const container = document.getElementById("about-cv-container");
+
+        function escapeHtml(value) {
+          const str = String(value ?? "");
+          return str
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#39;");
+        }
+        function parseEventDate(value) {
+          if (!value) return null;
+          const dt = new Date(value);
+          return Number.isNaN(dt.getTime()) ? null : dt;
+        }
+        function parseYearFromDisplay(d) {
+          const m = String(d ?? "").match(/\b(19|20)\d{2}\b/);
+          return m ? Number(m[0]) : null;
+        }
+        function getYear(e) {
+          const dt = parseEventDate(e.date) || parseEventDate(e.date_end);
+          return dt ? dt.getFullYear() : parseYearFromDisplay(e.date_display);
+        }
+
+        // CV sections — mirrors /cv/ page; on /about/ we cap at 6 most-recent
+        // entries per section to keep the timeline scannable.
+        const CV_SECTIONS = [
+          { label: "Exhibitions", kinds: ["exhibition"] },
+          { label: "Residencies", kinds: ["residency"] },
+          { label: "Fellowships", kinds: ["fellowship"] },
+          { label: "Awards", kinds: ["award"] },
+          { label: "Talks", kinds: ["keynote", "panel", "talk"] },
+          { label: "Performances", kinds: ["performance"] },
+          { label: "Workshops", kinds: ["workshop"] },
+          { label: "Books", kinds: ["book"] },
+          { label: "Publications", kinds: ["publication"] },
+          { label: "Press", kinds: ["press"] },
+        ];
+        const PER_SECTION_CAP = 6;
+
+        const { data, error } = await _supabase
+          .schema("oulipo_dashboard")
+          .from("events")
+          .select("*")
+          .order("date", { ascending: false });
+        if (error) {
+          container.innerHTML = '<p class="caption">Could not load CV.</p>';
+          return;
+        }
+
+        const byKind = {};
+        for (const e of data) {
+          const k = e.kind || "_uncategorized";
+          (byKind[k] = byKind[k] || []).push(e);
+        }
+
+        function renderEvent(e) {
+          const org = escapeHtml(e.org);
+          const title = escapeHtml(e.title);
+          const yearDisplay =
+            e.date_display || (getYear(e) ? String(getYear(e)) : "");
+          const yearPrefix = yearDisplay
+            ? `<span class="event-year">${escapeHtml(yearDisplay)}</span> › `
+            : "";
+          const where = (e.location || "").trim();
+          const meta = where
+            ? `<span class="event-meta">${escapeHtml(where)}</span>`
+            : "";
+          return `<div class="event"><div class="event-head">${yearPrefix}<b>${org} →</b> ${title}</div>${meta}</div>`;
+        }
+
+        let html = "";
+        for (const section of CV_SECTIONS) {
+          const events = [];
+          for (const k of section.kinds) {
+            if (byKind[k]) events.push(...byKind[k]);
+          }
+          if (!events.length) continue;
+          events.sort((a, b) => new Date(b.date) - new Date(a.date));
+          const capped = events.slice(0, PER_SECTION_CAP);
+          html += `<div class="cv-section"><div class="section-heading">${section.label}</div><hr>${capped.map(renderEvent).join("\n<hr>\n")}`;
+          if (events.length > PER_SECTION_CAP) {
+            html += `\n<hr><div class="event"><div class="event-head"><a href="/cv/">${events.length - PER_SECTION_CAP} more in full CV ↗</a></div></div>`;
+          }
+          html += `</div>`;
+        }
+        container.innerHTML =
+          html ||
+          '<p class="caption">CV will appear here once events are added.</p>';
+      })();
+    </script>
   </body>
 </html>

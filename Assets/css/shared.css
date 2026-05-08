@@ -730,6 +730,67 @@ hr {
 }
 
 /* ───────────────────────────────────────────
+   Section pill — the only place section colors land in the
+   restrained palette (per Halim 2026-05-05): a small inline
+   tag with a colored dot and a colored 1.2px border. Used in
+   the Halim card paragraph, on each work card row, and on
+   the per-section landing pages.
+   Apply via: <a class="section-pill" data-section="machine">…</a>
+   (data-section gets --section-color from tokens.css)
+   ─────────────────────────────────────────── */
+.section-pill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3rem;
+  padding: 0.05rem 0.55rem;
+  border: 1.2px solid var(--section-color, var(--ink));
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.95rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--ink-85);
+  background: var(--paper);
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+.section-pill:hover,
+.section-pill:focus-visible {
+  background: var(--section-color, var(--ink));
+  color: var(--paper);
+}
+.section-pill:hover .section-pill__dot,
+.section-pill:focus-visible .section-pill__dot {
+  background: var(--paper);
+}
+.section-pill:focus-visible {
+  outline: 3px solid var(--section-color, var(--ink));
+  outline-offset: 2px;
+}
+.section-pill__dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--section-color, var(--ink));
+  flex-shrink: 0;
+  transform: translateY(-1px);
+  transition: background 0.2s ease;
+}
+/* Smaller variant for work-card rows */
+.section-pill--mini {
+  font-size: 0.78rem;
+  padding: 0 0.45rem;
+  letter-spacing: 0;
+}
+
+/* ───────────────────────────────────────────
    Page CTA — outlined Connect button used at the end of
    About / Writing / individual work / Speaking pages.
    Routes to /connect/?intent=<...>; chrome.js pre-selects

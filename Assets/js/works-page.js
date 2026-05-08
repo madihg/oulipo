@@ -151,9 +151,36 @@
           }),
         ])
       : el("div", { class: "work-card__image is-empty" }, ["no cover yet"]);
-    var venueEl = venue
-      ? el("div", { class: "work-card__venue" }, [venue])
-      : null;
+    // Venue row: [● section-pill] + venue text in mono gray.
+    // The pill is the only spot of color on the card — the rest of
+    // the card stays neutral (Halim 2026-05-05 walkthrough).
+    var pill = null;
+    if (dataKey) {
+      pill = el(
+        "a",
+        {
+          class: "section-pill section-pill--mini",
+          "data-section": dataKey,
+          href: "/works/?section=" + work.section,
+          // stop the wrapping anchor from stealing the click
+          onclick: function (e) {
+            e.stopPropagation();
+          },
+        },
+        [
+          el("span", { class: "section-pill__dot", "aria-hidden": "true" }),
+          sectionLabel(work.section),
+        ],
+      );
+    }
+    var venueEl =
+      pill || venue
+        ? el(
+            "div",
+            { class: "work-card__venue" },
+            [pill, venue ? el("span", {}, [venue]) : null].filter(Boolean),
+          )
+        : null;
     var descEl = work.short_description
       ? el("p", { class: "work-card__desc" }, [work.short_description])
       : null;

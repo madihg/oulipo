@@ -15,6 +15,17 @@ body.has-signup-bar {
     padding-top: var(--signup-bar-h-mobile);
   }
 }
+/* The static page wrappers add 4rem of padding-top by default. With
+   the persistent signup bar that's redundant — tighten it so content
+   sits closer to the bar. */
+body.has-signup-bar .page {
+  padding-top: 1.5rem;
+}
+@media (max-width: 600px) {
+  body.has-signup-bar .page {
+    padding-top: 1rem;
+  }
+}
 
 /* When chrome is on, hide the legacy floating site-header /
    menu-toggle / header-bar across all pages — chrome.html now
@@ -63,7 +74,9 @@ body.has-signup-bar > .menu-toggle {
 
 /* ── chip-name (shared by [× HALIM MADI] and [CONNECT c]) ──
    Mirrors parallel.ai's [CONTACT C] / [LOG IN P] pattern:
-   a thin outlined chip with a key-glyph block on one side. */
+   a thin outlined chip with a key-glyph block on one side.
+   Typography + key-glyph treatment is intentionally identical to
+   the bottom-right .mode-toggle so the two read as the same family. */
 .chip-name {
   display: inline-flex;
   align-items: center;
@@ -72,44 +85,45 @@ body.has-signup-bar > .menu-toggle {
   border: 1px solid var(--ink);
   background: var(--paper);
   color: var(--ink-85);
-  padding: 0.25rem 0.5rem 0.25rem 0.35rem;
+  padding: 0.25rem 0.55rem;
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
     "MONO" 1;
-  font-size: 0.7rem;
+  font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: var(--t-opacity);
+  transition: background 0.2s ease;
   line-height: 1;
 }
 .chip-name:hover {
-  opacity: 0.7;
+  background: var(--ink-08);
 }
 .chip-name__label {
   font-weight: 700;
 }
+/* Key glyph: matches .mode-toggle__key — ink-08 background with
+   ink-70 text. Bigger 1.05rem for the leading × so it reads as a
+   clear close affordance on the Halim Madi chip. */
 .chip-name__key {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 1rem;
-  height: 1rem;
+  min-width: 1.05rem;
+  height: 1.05rem;
   padding: 0 0.25rem;
-  background: var(--ink);
-  color: var(--paper);
+  background: var(--ink-08);
+  color: var(--ink-70);
+  border-radius: 0.2rem;
   font-weight: 700;
-  font-size: 0.78rem;
+  font-size: 0.62rem;
   line-height: 1;
 }
 /* Variant: link-style chip (used for CONNECT — key on the right). */
 .chip-name--link {
-  padding: 0.25rem 0.35rem 0.25rem 0.5rem;
-}
-.chip-name--link .chip-name__key {
-  font-size: 0.7rem;
+  padding: 0.25rem 0.55rem;
 }
 
 /* When the Halim card is collapsed (landing only), flip the × to + */
@@ -217,10 +231,10 @@ body.is-landing.halim-card-collapsed
   width: 1.1rem;
 }
 
-/* ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style) ──
-   Single rounded element. Each option is a button. The radio
-   indicator + label + key sit inline. Divider + slash + ⌘K hint
-   appear after MACHINE. */
+/* ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style, button-y) ──
+   Single rounded outer pill. Each option is a real button with its
+   own hover background + active inset look so the affordance is
+   clearly clickable (per Halim 2026-05-05). */
 .mode-toggle {
   position: fixed;
   right: var(--corner-pad);
@@ -231,7 +245,7 @@ body.is-landing.halim-card-collapsed
   background: var(--paper);
   border: 1px solid var(--ink);
   border-radius: 999px;
-  padding: 0.15rem 0.4rem;
+  padding: 0.18rem;
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
@@ -240,23 +254,31 @@ body.is-landing.halim-card-collapsed
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--ink-85);
-  box-shadow: 0 1px 0 var(--ink-08);
+  box-shadow:
+    0 1px 0 var(--ink-08),
+    0 0 0 1px transparent;
+  transition: box-shadow 0.2s ease;
+}
+.mode-toggle:hover {
+  box-shadow:
+    0 1px 0 var(--ink-15),
+    0 0 0 1px var(--ink-15);
 }
 @media (max-width: 600px) {
   .mode-toggle {
     right: 0.5rem;
     bottom: 0.5rem;
     font-size: 0.65rem;
-    padding: 0.1rem 0.3rem;
+    padding: 0.15rem;
   }
 }
 .mode-toggle__option {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.35rem;
   background: transparent;
   border: none;
-  padding: 0.25rem 0.55rem;
+  padding: 0.3rem 0.65rem;
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;
@@ -264,14 +286,18 @@ body.is-landing.halim-card-collapsed
   text-transform: inherit;
   color: var(--ink-50);
   border-radius: 999px;
-  transition: color 0.2s ease;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 .mode-toggle__option:hover {
   color: var(--ink-85);
+  background: var(--ink-08);
 }
 .mode-toggle__option.is-active {
   color: var(--ink-85);
   font-weight: 700;
+  background: var(--ink-08);
 }
 .mode-toggle__radio {
   width: 0.7rem;

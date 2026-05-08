@@ -15,20 +15,31 @@
     <link rel="stylesheet" href="/Assets/css/shared.css" />
     <style>
       /* ── Halim card (collapsible intro) ───────────────────── */
-      /* The toggle now lives in the signup bar's [× HALIM MADI] chip
-         (per the 2026-05-05 walkthrough). The card itself is just
-         the paragraph body, hidden when collapsed. */
+      /* The toggle lives in the signup bar's [× HALIM MADI] chip.
+         The card is just the paragraph body. When collapsed, both
+         the body and the surrounding margin go away so the works
+         grid sits flush under the divider. */
       .halim-card {
-        margin: 2rem 0 4rem;
+        margin: 0.75rem 0 1.5rem;
         max-width: 60ch;
       }
       @media (max-width: 600px) {
         .halim-card {
-          margin: 1.5rem 0 3rem;
+          margin: 0.5rem 0 1.25rem;
         }
+      }
+      .halim-card[data-halim-card].is-collapsed {
+        margin: 0;
       }
       .halim-card[data-halim-card].is-collapsed .halim-body {
         display: none;
+      }
+      /* Tighten the divider that sits between the card and the works grid */
+      .landing-divider {
+        margin: 0.5rem 0 1.25rem !important;
+      }
+      body.is-landing.halim-card-collapsed .landing-divider {
+        margin: 0 0 0.75rem !important;
       }
       .halim-body {
         font-family: var(--font-body);
@@ -212,19 +223,16 @@
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        font-size: 1rem;
+        font-size: 0.85rem;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        color: var(--ink-85);
-        margin: 3rem 0 1rem;
+        color: var(--ink-50);
+        margin: 2.5rem 0 0.75rem;
         padding-bottom: 0.4rem;
-        border-bottom: 4px solid var(--section-color, var(--ink));
+        border-bottom: 1px solid var(--ink-15);
       }
       .works-year:first-child {
         margin-top: 0;
-      }
-      .works-year[data-mixed="true"] {
-        --section-color: var(--ink);
       }
       .work-card {
         display: block;
@@ -280,7 +288,13 @@
         text-transform: uppercase;
         letter-spacing: 0.05em;
       }
+      /* Venue meta — neutral gray (was section-colored). The only
+         place the section color shows up on a card is the inline
+         section-pill tag in the venue/section row. */
       .work-card__venue {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
         font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
@@ -288,26 +302,29 @@
         font-size: var(--type-size-meta);
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--section-color, var(--ink-85));
+        color: var(--ink-50);
         margin-bottom: 0.5rem;
       }
+      /* Work-card title: half the previous size, neutral typography
+         (Diatype Variable, not Terminal Grotesque) — Halim asked for
+         this to be "at least half as big". */
       .work-card__title {
-        font-family: var(--font-display);
-        font-weight: 400;
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 0.95;
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+        line-height: 1.15;
         color: var(--ink-85);
-        margin: 0 0 0.75rem;
+        margin: 0 0 0.5rem;
       }
       .work-card:hover .work-card__title {
-        text-decoration: underline 2px var(--section-color, var(--ink-85));
+        text-decoration: underline 1px var(--ink-85);
         text-underline-offset: 0.12em;
       }
       .work-card__meta {
         font-family: var(--font-body);
         font-size: var(--type-size-caption);
         color: var(--ink-70);
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
       }
       .work-card__meta .sep {
         color: var(--ink-40);
@@ -315,10 +332,10 @@
       }
       .work-card__desc {
         font-family: var(--font-body);
-        font-size: var(--type-size-base);
+        font-size: 1rem;
         line-height: 1.4;
         color: var(--ink-85);
-        margin: 0 0 1rem;
+        margin: 0 0 0.75rem;
       }
       .work-card__footer {
         display: flex;
@@ -331,12 +348,9 @@
         font-size: var(--type-size-meta);
         color: var(--ink-50);
       }
+      /* No more section-colored dot in the footer — neutral ink. */
       .work-card__dot {
-        display: inline-block;
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background: var(--section-color, var(--ink-50));
+        display: none;
       }
       .works-state {
         font-family: var(--font-mono);
@@ -520,6 +534,6 @@
 
     <script src="/Assets/js/menu.js"></script>
     <script src="/Assets/js/chrome.js" defer></script>
-    <script src="/Assets/js/works-page.js" defer></script>
+    <script src="/Assets/js/works-page.js?v=2" defer></script>
   </body>
 </html>

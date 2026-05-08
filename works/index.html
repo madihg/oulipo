@@ -153,26 +153,22 @@
         background: var(--paper);
       }
 
-      /* Year group heading */
+      /* Year group heading — neutral hairline, no section color. */
       .works-year {
         font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        font-size: 1rem;
+        font-size: 0.85rem;
         letter-spacing: 0.05em;
         text-transform: uppercase;
-        color: var(--ink-85);
-        margin: 3rem 0 1rem;
+        color: var(--ink-50);
+        margin: 2.5rem 0 0.75rem;
         padding-bottom: 0.4rem;
-        border-bottom: 4px solid var(--section-color, var(--ink));
+        border-bottom: 1px solid var(--ink-15);
       }
       .works-year:first-child {
         margin-top: 0;
-      }
-      /* When a year group spans multiple sections, fall back to ink. */
-      .works-year[data-mixed="true"] {
-        --section-color: var(--ink);
       }
 
       /* Card */
@@ -234,6 +230,9 @@
       }
 
       .work-card__venue {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
         font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
@@ -241,26 +240,26 @@
         font-size: var(--type-size-meta);
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--section-color, var(--ink-85));
+        color: var(--ink-50);
         margin-bottom: 0.5rem;
       }
       .work-card__title {
-        font-family: var(--font-display);
-        font-weight: 400;
-        font-size: clamp(2rem, 4vw, 3rem);
-        line-height: 0.95;
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+        line-height: 1.15;
         color: var(--ink-85);
-        margin: 0 0 0.75rem;
+        margin: 0 0 0.5rem;
       }
       .work-card:hover .work-card__title {
-        text-decoration: underline 2px var(--section-color, var(--ink-85));
+        text-decoration: underline 1px var(--ink-85);
         text-underline-offset: 0.12em;
       }
       .work-card__meta {
         font-family: var(--font-body);
         font-size: var(--type-size-caption);
         color: var(--ink-70);
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
       }
       .work-card__meta .sep {
         color: var(--ink-40);
@@ -268,10 +267,10 @@
       }
       .work-card__desc {
         font-family: var(--font-body);
-        font-size: var(--type-size-base);
+        font-size: 1rem;
         line-height: 1.4;
         color: var(--ink-85);
-        margin: 0 0 1rem;
+        margin: 0 0 0.75rem;
       }
       .work-card__footer {
         display: flex;
@@ -285,11 +284,7 @@
         color: var(--ink-50);
       }
       .work-card__dot {
-        display: inline-block;
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background: var(--section-color, var(--ink-50));
+        display: none;
       }
 
       /* Skeleton + empty + error states */
@@ -437,6 +432,6 @@
 
     <script src="../Assets/js/menu.js"></script>
     <script src="/Assets/js/chrome.js" defer></script>
-    <script src="/Assets/js/works-page.js" defer></script>
+    <script src="/Assets/js/works-page.js?v=2" defer></script>
   </body>
 </html>

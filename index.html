@@ -6,392 +6,13 @@
     <title>Halim Madi — poet, performer, software-leaning</title>
     <meta
       name="description"
-      content="Poems, performances, and small systems by Halim Madi — algorithmic plays, machine talk, somatic semantics, and tools."
+      content="Halim Madi trains and performs with other than human intelligences — algorithmic plays, machine talk, somatic semantics, and tools."
     />
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
     <link rel="stylesheet" href="/Assets/css/shared.css?v=5" />
-    <style>
-      /* ── Halim card (collapsible intro) ───────────────────── */
-      /* The toggle lives in the signup bar's [× HALIM MADI] chip.
-         The card is just the paragraph body. When collapsed, both
-         the body and the surrounding margin go away so the works
-         grid sits flush under the divider. */
-      .halim-card {
-        margin: 0.75rem 0 1.5rem;
-        max-width: 60ch;
-      }
-      @media (max-width: 600px) {
-        .halim-card {
-          margin: 0.5rem 0 1.25rem;
-        }
-      }
-      .halim-card[data-halim-card].is-collapsed {
-        margin: 0;
-      }
-      .halim-card[data-halim-card].is-collapsed .halim-body {
-        display: none;
-      }
-      /* Tighten the divider that sits between the card and the works grid */
-      .landing-divider {
-        margin: 0.5rem 0 1.25rem !important;
-      }
-      body.is-landing.halim-card-collapsed .landing-divider {
-        margin: 0 0 0.75rem !important;
-      }
-      .halim-body {
-        font-family: var(--font-body);
-        font-size: 1.2rem;
-        line-height: 1.45;
-        color: var(--ink-85);
-        margin: 0;
-      }
-      @media (max-width: 600px) {
-        .halim-body {
-          font-size: 1.06rem;
-        }
-      }
-
-      /* ── Section pill (inline link inside the paragraph) ──── */
-      .section-pill {
-        display: inline-flex;
-        align-items: baseline;
-        gap: 0.3rem;
-        padding: 0.05rem 0.55rem;
-        border: 1.2px solid var(--section-color, var(--ink));
-        border-radius: 999px;
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: 0.95rem;
-        letter-spacing: 0.02em;
-        text-transform: lowercase;
-        color: var(--ink-85);
-        background: var(--paper);
-        text-decoration: none;
-        white-space: nowrap;
-        transition:
-          background 0.2s ease,
-          color 0.2s ease;
-      }
-      .section-pill:hover,
-      .section-pill:focus-visible {
-        background: var(--section-color, var(--ink));
-        color: var(--paper);
-      }
-      .section-pill:hover .section-pill__dot,
-      .section-pill:focus-visible .section-pill__dot {
-        background: var(--paper);
-      }
-      .section-pill:focus-visible {
-        outline: 3px solid var(--section-color, var(--ink));
-        outline-offset: 2px;
-      }
-      .section-pill__dot {
-        display: inline-block;
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background: var(--section-color, var(--ink));
-        flex-shrink: 0;
-        transform: translateY(-1px);
-        transition: background 0.2s ease;
-      }
-
-      /* ── Landing page layout ── */
-      .landing-page {
-        max-width: 1280px;
-      }
-      .landing-divider {
-        border: 0;
-        border-top: 1px solid var(--ink-15);
-        margin: 0 0 2rem;
-      }
-      /* Reuse the works-page.* styles inline so chrome.js + works-page.js
-         can hydrate the same data-works-list element here. */
-      .works-layout {
-        display: grid;
-        grid-template-columns: 1fr 160px;
-        gap: 3rem;
-        align-items: start;
-      }
-      @media (max-width: 900px) {
-        .works-layout {
-          grid-template-columns: 1fr;
-          gap: 1.5rem;
-        }
-      }
-      .works-filter-rail {
-        position: sticky;
-        top: calc(var(--signup-bar-h) + 1.5rem);
-        border-left: 1px solid var(--ink-15);
-        padding-left: 1rem;
-      }
-      .works-filter-rail__title {
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--ink-50);
-        margin-bottom: 0.6rem;
-      }
-      .works-filter-btn {
-        display: flex;
-        align-items: center;
-        gap: 0.45rem;
-        padding: 0.25rem 0;
-        background: transparent;
-        border: 0;
-        cursor: pointer;
-        font-family: var(--font-body);
-        font-size: var(--type-size-caption);
-        color: var(--ink-85);
-        text-align: left;
-        width: 100%;
-      }
-      .works-filter-btn[aria-pressed="true"] {
-        font-weight: 700;
-      }
-      .works-filter-btn .swatch {
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background: var(--section-color, var(--ink-50));
-        flex-shrink: 0;
-      }
-      .works-filter-btn .check {
-        width: 0.6rem;
-        height: 0.6rem;
-        border: 1px solid var(--ink);
-        flex-shrink: 0;
-      }
-      .works-filter-btn[aria-pressed="true"] .check {
-        background: var(--ink);
-      }
-      .works-filter-chips {
-        display: none;
-        gap: 0.4rem;
-        flex-wrap: wrap;
-        margin-bottom: 1.5rem;
-      }
-      @media (max-width: 900px) {
-        .works-filter-chips {
-          display: flex;
-        }
-        .works-filter-rail {
-          display: none;
-        }
-      }
-      .works-chip {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.3rem;
-        padding: 0.2rem 0.55rem;
-        border: 1.2px solid var(--section-color, var(--ink));
-        border-radius: 999px;
-        font-family: var(--font-mono);
-        font-size: 0.78rem;
-        letter-spacing: 0.03em;
-        text-transform: lowercase;
-        color: var(--ink-85);
-        background: transparent;
-        cursor: pointer;
-      }
-      .works-chip[aria-pressed="true"] {
-        background: var(--ink);
-        color: var(--paper);
-        border-color: var(--ink);
-      }
-      .works-chip .swatch {
-        width: 0.5rem;
-        height: 0.5rem;
-        border-radius: 50%;
-        background: var(--section-color, var(--ink));
-        flex-shrink: 0;
-      }
-      .works-chip[aria-pressed="true"] .swatch {
-        background: var(--paper);
-      }
-      .works-year {
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: 0.85rem;
-        letter-spacing: 0.05em;
-        text-transform: uppercase;
-        color: var(--ink-50);
-        margin: 2.5rem 0 0.75rem;
-        padding-bottom: 0.4rem;
-        border-bottom: 1px solid var(--ink-15);
-      }
-      .works-year:first-child {
-        margin-top: 0;
-      }
-      .work-card {
-        display: block;
-        text-decoration: none;
-        color: inherit;
-        margin-bottom: 4rem;
-      }
-      .work-card:last-child {
-        margin-bottom: 0;
-      }
-      .work-card__split {
-        display: grid;
-        grid-template-columns: 5fr 7fr;
-        gap: 2rem;
-        align-items: start;
-      }
-      @media (max-width: 900px) {
-        .work-card {
-          margin-bottom: 2.5rem;
-        }
-        .work-card__split {
-          grid-template-columns: 1fr;
-          gap: 1rem;
-        }
-        .work-card__image {
-          order: -1;
-        }
-      }
-      .work-card__image {
-        position: relative;
-        aspect-ratio: 16 / 9;
-        overflow: hidden;
-        background: var(--ink-08);
-      }
-      .work-card__image img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: grayscale(100%);
-        transition: var(--t-bw-color);
-      }
-      .work-card:hover .work-card__image img {
-        filter: grayscale(0%);
-      }
-      .work-card__image.is-empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--ink-40);
-        font-family: var(--font-mono);
-        font-size: var(--type-size-meta);
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-      /* Venue meta — neutral gray (was section-colored). The only
-         place the section color shows up on a card is the inline
-         section-pill tag in the venue/section row. */
-      .work-card__venue {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--ink-50);
-        margin-bottom: 0.5rem;
-      }
-      /* Work-card title: half the previous size, neutral typography
-         (Diatype Variable, not Terminal Grotesque) — Halim asked for
-         this to be "at least half as big". */
-      .work-card__title {
-        font-family: var(--font-h2);
-        font-weight: 700;
-        font-size: clamp(1.1rem, 1.6vw, 1.4rem);
-        line-height: 1.15;
-        color: var(--ink-85);
-        margin: 0 0 0.5rem;
-      }
-      .work-card:hover .work-card__title {
-        text-decoration: underline 1px var(--ink-85);
-        text-underline-offset: 0.12em;
-      }
-      .work-card__meta {
-        font-family: var(--font-body);
-        font-size: var(--type-size-caption);
-        color: var(--ink-70);
-        margin-bottom: 0.5rem;
-      }
-      .work-card__meta .sep {
-        color: var(--ink-40);
-        margin: 0 0.4rem;
-      }
-      .work-card__desc {
-        font-family: var(--font-body);
-        font-size: 1rem;
-        line-height: 1.4;
-        color: var(--ink-85);
-        margin: 0 0 0.75rem;
-      }
-      .work-card__footer {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        color: var(--ink-50);
-      }
-      /* No more section-colored dot in the footer — neutral ink. */
-      .work-card__dot {
-        display: none;
-      }
-      .works-state {
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        color: var(--ink-50);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        padding: 1rem 0;
-      }
-      .works-skeleton {
-        display: grid;
-        grid-template-columns: 5fr 7fr;
-        gap: 2rem;
-        margin-bottom: 4rem;
-      }
-      .works-skeleton__bar {
-        height: 1rem;
-        background: var(--ink-08);
-        margin: 0.4rem 0;
-        max-width: 80%;
-      }
-      .works-skeleton__bar.short {
-        max-width: 40%;
-      }
-      .works-skeleton__bar.tall {
-        height: 2.4rem;
-        max-width: 60%;
-      }
-      .works-skeleton__image {
-        aspect-ratio: 16 / 9;
-        background: var(--ink-08);
-      }
-      @media (max-width: 900px) {
-        .works-skeleton {
-          grid-template-columns: 1fr;
-        }
-      }
-    </style>
   </head>
   <body class="is-landing">
     <div class="menu-overlay" onclick="toggleMenu()"></div>
@@ -433,107 +54,53 @@
       </div>
     </nav>
 
-    <div class="page">
-      <div class="page-content landing-page">
-        <h1 class="visually-hidden">Halim Madi</h1>
-
-        <!--
-          Halim card — personal one-paragraph intro with the four
-          section names woven in as colored-pill links.
-          TODO(halim): copy below is a draft. Confirm or replace before
-          public cutover. ("from the heart, in this life I'm hoping to
-          pioneer …" — per the 2026-05-02 walkthrough.)
-        -->
-        <section
-          class="halim-card"
-          data-halim-card
-          aria-labelledby="halim-card-body"
+    <main class="page">
+      <h1 class="visually-hidden">Halim Madi</h1>
+      <!--
+        The home content lives in Assets/partials/home.html so the same
+        markup powers BOTH this page and the chrome.js H-key overlay.
+        A tiny inline loader fetches the partial and injects it here.
+      -->
+      <div data-home-mount>
+        <p
+          class="home-section__loading"
+          style="padding: 2rem var(--pad-page-desktop)"
         >
-          <p class="halim-body" id="halim-card-body">
-            In this life I'm hoping to pioneer
-            <a
-              class="section-pill"
-              data-section="plays"
-              href="/works/?section=algorithmic-plays"
-              ><span class="section-pill__dot" aria-hidden="true"></span
-              >algorithmic plays</a
-            >
-            — theater that improvises with you, not at you. To build
-            <a
-              class="section-pill"
-              data-section="machine"
-              href="/works/?section=machine-talk"
-              ><span class="section-pill__dot" aria-hidden="true"></span>machine
-              talk</a
-            >
-            that doesn't flatten the people it's trained on. To make
-            <a
-              class="section-pill"
-              data-section="semantics"
-              href="/works/?section=somatic-semantics"
-              ><span class="section-pill__dot" aria-hidden="true"></span>somatic
-              semantics</a
-            >
-            — net art the body can answer back to. And to leave behind
-            <a
-              class="section-pill"
-              data-section="tools"
-              href="/works/?section=tools"
-              ><span class="section-pill__dot" aria-hidden="true"></span
-              >tools</a
-            >
-            small enough to be borrowed.
-          </p>
-        </section>
-        <!-- Note: the [×] toggle for this card lives in the signup bar's
-             [× HALIM MADI] chip; press the × there or the x key to collapse. -->
-
-        <hr class="landing-divider" />
-
-        <!-- Mobile-only filter chips -->
-        <div
-          class="works-filter-chips"
-          role="tablist"
-          aria-label="Filter works by section"
-          data-works-filter-mobile
-        ></div>
-
-        <div class="works-layout">
-          <!-- Works list (hydrated by works-page.js) -->
-          <div data-works-list>
-            <div class="works-skeleton" aria-hidden="true">
-              <div>
-                <div class="works-skeleton__bar short"></div>
-                <div class="works-skeleton__bar tall"></div>
-                <div class="works-skeleton__bar"></div>
-                <div class="works-skeleton__bar"></div>
-              </div>
-              <div class="works-skeleton__image"></div>
-            </div>
-            <div class="works-skeleton" aria-hidden="true">
-              <div>
-                <div class="works-skeleton__bar short"></div>
-                <div class="works-skeleton__bar tall"></div>
-                <div class="works-skeleton__bar"></div>
-              </div>
-              <div class="works-skeleton__image"></div>
-            </div>
-            <div class="works-state" data-works-status>Loading works…</div>
-          </div>
-
-          <!-- Filter rail (desktop only) -->
-          <aside
-            class="works-filter-rail"
-            role="tablist"
-            aria-label="Filter works by section"
-            data-works-filter-rail
-          ></aside>
-        </div>
+          Loading home…
+        </p>
       </div>
-    </div>
+    </main>
+
+    <script>
+      // Fetch the home partial and inline it into [data-home-mount] on
+      // first paint. home.js (loaded right below) handles hydration of
+      // events + featured works once the partial is in place.
+      (function () {
+        var mount = document.querySelector("[data-home-mount]");
+        if (!mount) return;
+        fetch("/Assets/partials/home.html", { cache: "no-cache" })
+          .then(function (r) {
+            if (!r.ok) throw new Error("home partial " + r.status);
+            return r.text();
+          })
+          .then(function (html) {
+            mount.innerHTML = html;
+            // Tell home.js to hydrate the new DOM. The same event
+            // chrome.js fires for the overlay, so listeners are unified.
+            document.dispatchEvent(
+              new CustomEvent("home-overlay:loaded", {
+                detail: { body: mount },
+              }),
+            );
+          })
+          .catch(function (err) {
+            console.error("[home] partial fetch failed:", err);
+          });
+      })();
+    </script>
 
     <script src="/Assets/js/menu.js"></script>
-    <script src="/Assets/js/chrome.js?v=4" defer></script>
-    <script src="/Assets/js/works-page.js?v=3" defer></script>
+    <script src="/Assets/js/chrome.js?v=5" defer></script>
+    <script src="/Assets/js/home.js?v=1" defer></script>
   </body>
 </html>

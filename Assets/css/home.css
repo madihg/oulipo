@@ -1,8 +1,6 @@
 /* ═══════════════════════════════════════════
    home.css — styles for the home surface
-   Consumed by both /index.html (root) and the .home-overlay
-   shell from chrome.js. Phase A ships the intro paragraph;
-   Phase B + C add events, featured works, speaking, and chat.
+   Consumed by /index.html (root) and the .home-overlay shell.
    ═══════════════════════════════════════════ */
 
 .home {
@@ -17,13 +15,13 @@
 }
 
 .home-section {
-  margin-bottom: 3rem;
+  margin-bottom: 3.5rem;
 }
 .home-section:last-child {
   margin-bottom: 0;
 }
 
-/* Intro paragraph — same idiom as the landing-page Halim card */
+/* ── intro paragraph ────────────────────────────────────── */
 .home-intro {
   font-family: var(--font-body);
   font-size: 1.2rem;
@@ -36,4 +34,219 @@
   .home-intro {
     font-size: 1.06rem;
   }
+}
+
+/* ── section header (used by events + featured + others) ── */
+.home-section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ink-15);
+}
+.home-section__title {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin: 0;
+  font-weight: 400;
+}
+.home-section__more {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  text-decoration: none;
+}
+.home-section__more:hover {
+  opacity: 0.7;
+}
+.home-section__loading {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-50);
+  margin: 0;
+}
+
+/* ── upcoming events ────────────────────────────────────── */
+.home-event {
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--ink-15);
+}
+.home-event:last-child {
+  border-bottom: none;
+}
+.home-event__head {
+  font-family: var(--font-body);
+  font-size: 1.06rem;
+  line-height: 1.25;
+  color: var(--ink-85);
+  margin: 0 0 0.15rem;
+}
+.home-event__head b {
+  font-weight: 700;
+}
+.home-event__head a {
+  color: var(--ink-85);
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+}
+.home-event__meta {
+  display: block;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  color: var(--ink-50);
+  letter-spacing: 0.02em;
+}
+
+/* ── featured works (vertical stack of small cards) ──────── */
+.home-featured__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+.home-feature {
+  display: grid;
+  grid-template-columns: 6rem 1fr;
+  gap: 1rem;
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem 0;
+  align-items: center;
+}
+.home-feature:hover .home-feature__title {
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
+}
+.home-feature:hover .home-feature__image img {
+  filter: grayscale(0%);
+}
+.home-feature__image {
+  aspect-ratio: 4 / 3;
+  background: var(--ink-08);
+  overflow: hidden;
+}
+.home-feature__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+.home-feature__body {
+  min-width: 0;
+}
+.home-feature__title {
+  font-family: var(--font-h2);
+  font-weight: 700;
+  font-size: 1.1rem;
+  line-height: 1.2;
+  color: var(--ink-85);
+  margin: 0 0 0.25rem;
+}
+.home-feature__meta {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-50);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .home-feature {
+    grid-template-columns: 4.5rem 1fr;
+    gap: 0.75rem;
+  }
+  .home-feature__title {
+    font-size: 1rem;
+  }
+}
+
+/* ── speaking + teaching split ──────────────────────────── */
+.home-speak-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 700px) {
+  .home-speak-split {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+.home-speak {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.home-speak:hover .home-speak__title {
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
+}
+.home-speak__image {
+  aspect-ratio: 1 / 1;
+  background: var(--ink-08);
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-speak__image-label {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-40);
+  background: var(--paper);
+  padding: 0.1rem 0.4rem;
+}
+.home-speak__title {
+  font-family: var(--font-h2);
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--ink-85);
+  margin: 0 0 0.5rem;
+}
+.home-speak__lede {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink-85);
+  margin: 0 0 0.75rem;
+  max-width: 32ch;
+}
+.home-speak__cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink-85);
+  border-bottom: 1px solid var(--ink-85);
+  padding-bottom: 0.1rem;
 }

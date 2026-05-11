@@ -1,14 +1,15 @@
 <!--
   home.html — shared home body, consumed by BOTH:
-   • /index.html (root) — full page version
-   • chrome.js home-overlay — full-viewport overlay accessible
-     via the [Halim Madi H] chip / H key / burger "Home" link
-  Stub for now; Phase B fills in the real sections (intro, events,
-  featured works, speaking + teaching). Phase C drops the Whomp chat
-  surface at the top.
+   • /index.html (root) — fetched at boot, injected into [data-home-mount]
+   • chrome.js home-overlay — full-viewport overlay opened via H key
+  home.js hydrates the events strip + featured works from the data layer
+  (Supabase + works.json) and stops there. Phase C will prepend a Whomp
+  chat surface.
 -->
 
 <div class="home">
+  <!-- Phase C will inject the Whomp chat surface ABOVE this line. -->
+
   <section class="home-section home-section--intro" aria-label="Intro">
     <p class="home-intro">
       Halim trains and performs with other than human intelligences as part of
@@ -43,6 +44,59 @@
     </p>
   </section>
 
-  <!-- Phase B will append: events strip, featured works, speaking + teaching -->
-  <!-- Phase C will prepend: Whomp chat surface -->
+  <section
+    class="home-section home-section--events"
+    aria-label="Upcoming events"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Upcoming</h2>
+      <a class="home-section__more" href="/now/">all events &rarr;</a>
+    </header>
+    <div data-home-events>
+      <p class="home-section__loading">Loading events…</p>
+    </div>
+  </section>
+
+  <section
+    class="home-section home-section--featured"
+    aria-label="Featured works"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Featured works</h2>
+      <a class="home-section__more" href="/works/">all works &rarr;</a>
+    </header>
+    <div data-home-featured>
+      <p class="home-section__loading">Loading works…</p>
+    </div>
+  </section>
+
+  <section
+    class="home-section home-section--speaking"
+    aria-label="Speaking and teaching"
+  >
+    <div class="home-speak-split">
+      <a class="home-speak" href="/speaking/">
+        <div class="home-speak__image" aria-hidden="true">
+          <span class="home-speak__image-label">speaking</span>
+        </div>
+        <h2 class="home-speak__title">Speaking</h2>
+        <p class="home-speak__lede">
+          Keynotes on AI, language, and creative infrastructure — for teams who
+          want to build with care.
+        </p>
+        <span class="home-speak__cta">Book a talk &rarr;</span>
+      </a>
+      <a class="home-speak" href="/speaking/">
+        <div class="home-speak__image" aria-hidden="true">
+          <span class="home-speak__image-label">teaching</span>
+        </div>
+        <h2 class="home-speak__title">Teaching</h2>
+        <p class="home-speak__lede">
+          Workshops for artists, classrooms, and product teams — hands-on with
+          poetic systems and the models behind them.
+        </p>
+        <span class="home-speak__cta">Host a workshop &rarr;</span>
+      </a>
+    </div>
+  </section>
 </div>

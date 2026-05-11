@@ -686,6 +686,17 @@
     document.head.appendChild(s);
   }
 
+  function loadHomeModule() {
+    // home.js hydrates events + featured works inside the home overlay
+    // (and inside the root /index.html mount). Inject once site-wide.
+    if (document.querySelector("script[data-home-loader]")) return;
+    var s = document.createElement("script");
+    s.src = "/Assets/js/home.js?v=1";
+    s.defer = true;
+    s.setAttribute("data-home-loader", "");
+    document.head.appendChild(s);
+  }
+
   function boot() {
     injectChrome().then(function () {
       bindPalette();
@@ -694,6 +705,7 @@
       bindHomeOverlay();
       applyConnectIntent();
       loadMascot();
+      loadHomeModule();
       document.addEventListener("keydown", onKeydown);
     });
   }

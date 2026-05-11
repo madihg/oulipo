@@ -47,7 +47,6 @@ body.has-signup-bar > .menu-toggle {
   border-bottom: 1px solid var(--ink);
   display: flex;
   align-items: center;
-  gap: 0.75rem;
   padding: 0 var(--pad-page-desktop);
   font-family: var(--font-mono);
   font-variation-settings:
@@ -60,15 +59,37 @@ body.has-signup-bar > .menu-toggle {
 @media (max-width: 900px) {
   .signup-bar {
     padding: 0 1.25rem;
-    gap: 0.5rem;
   }
 }
 @media (max-width: 600px) {
   .signup-bar {
     height: var(--signup-bar-h-mobile);
     padding: 0 0.75rem;
-    gap: 0.4rem;
     font-size: 0.7rem;
+  }
+}
+
+/* Inner row clamps to --max-content so the [Halim Madi ⌂] chip
+   and the burger button line up with body content edges on wide
+   viewports (>1200px). On narrower viewports the inner row fills
+   the bar's padding box, so the chips stay flush with the page
+   gutters. */
+.signup-bar__inner {
+  width: 100%;
+  max-width: var(--max-content);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+@media (max-width: 900px) {
+  .signup-bar__inner {
+    gap: 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .signup-bar__inner {
+    gap: 0.4rem;
   }
 }
 
@@ -126,6 +147,18 @@ body.has-signup-bar > .menu-toggle {
 .chip-name--link {
   padding: 0.25rem 0.55rem;
 }
+/* Decoration variant for the leading chip glyph (e.g. the house
+   on Halim Madi). No background block, no shortcut affordance —
+   the glyph is purely ornamental, slightly larger so it reads. */
+.chip-name__key--decoration {
+  background: transparent;
+  color: var(--ink-50);
+  font-weight: 400;
+  font-size: 0.85rem;
+  padding: 0;
+  min-width: 0;
+  height: auto;
+}
 
 /* ── form (middle of the bar) ──────────────────────────── */
 .signup-bar__form {
@@ -144,9 +177,9 @@ body.has-signup-bar > .menu-toggle {
 .signup-bar__input {
   flex: 1;
   min-width: 0;
+  max-width: 12rem;
   background: transparent;
   border: none;
-  border-bottom: 1px solid var(--ink-50);
   height: 1.25rem;
   padding: 0 0.25rem;
   font-family: inherit;
@@ -154,26 +187,32 @@ body.has-signup-bar > .menu-toggle {
   color: var(--ink-85);
   outline: none;
 }
-.signup-bar__input:focus {
-  border-bottom-color: var(--ink-85);
-}
 .signup-bar__input::placeholder {
   color: var(--ink-40);
 }
+/* Subscribe reads as a filled chip — same family as the corner
+   chips (ink-filled rect, monospace, uppercase, 4px radius). */
 .signup-bar__submit {
   flex-shrink: 0;
-  background: transparent;
-  border: none;
-  padding: 0;
-  font-family: inherit;
-  font-size: inherit;
-  color: var(--ink-85);
-  text-decoration: underline;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  padding: 0.25rem 0.7rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
-  text-transform: lowercase;
+  line-height: 1;
+  transition: opacity 0.2s ease;
 }
 .signup-bar__submit:hover {
-  opacity: 0.7;
+  opacity: 0.85;
 }
 .signup-bar__status {
   flex-shrink: 0;
@@ -354,88 +393,4 @@ body:not(.machine-mode) .mode-toggle__hint {
 .mode-toggle__option:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 2px;
-}
-
-/* ═══════════════════════════════════════════
-   Home overlay
-   Full-viewport surface accessible from anywhere via H key,
-   the [Halim Madi H] chip click, or the burger menu's "Home"
-   link. Content is fetched from /Assets/partials/home.html on
-   first open and cached for subsequent opens.
-   ═══════════════════════════════════════════ */
-
-.home-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-palette);
-  background: var(--paper);
-  overflow-y: auto;
-  display: none;
-}
-body.home-open .home-overlay {
-  display: block;
-}
-body.home-open {
-  overflow: hidden;
-}
-
-.home-overlay__close {
-  position: fixed;
-  top: calc(var(--signup-bar-h) + 1rem);
-  right: 1rem;
-  z-index: 1;
-  width: 2rem;
-  height: 2rem;
-  border: 1px solid var(--ink);
-  border-radius: 4px;
-  background: var(--paper);
-  color: var(--ink);
-  font-size: 1.2rem;
-  line-height: 1;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  transition: background 0.2s ease;
-}
-.home-overlay__close:hover {
-  background: var(--ink-08);
-}
-.home-overlay__close:focus-visible {
-  outline: 3px solid var(--ink);
-  outline-offset: 2px;
-}
-@media (max-width: 600px) {
-  .home-overlay__close {
-    top: calc(var(--signup-bar-h-mobile) + 0.75rem);
-    right: 0.75rem;
-  }
-}
-
-.home-overlay__body {
-  padding: calc(var(--signup-bar-h) + 1.5rem) 0 4rem;
-  min-height: 100%;
-}
-@media (max-width: 600px) {
-  .home-overlay__body {
-    padding: calc(var(--signup-bar-h-mobile) + 1rem) 0 3rem;
-  }
-}
-
-.home-overlay__loading {
-  font-family: var(--font-mono);
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
-  font-size: var(--type-size-meta);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--ink-50);
-  padding: var(--pad-page-desktop);
-}
-@media (max-width: 600px) {
-  .home-overlay__loading {
-    padding: var(--pad-page-mobile);
-  }
 }

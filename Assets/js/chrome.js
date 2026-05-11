@@ -299,118 +299,23 @@
     window.location.href = cmd.go;
   }
 
-  // ── Halim card toggle (landing-page intro paragraph) ──────
-  // The chip's key glyph is now permanently `H` (it opens the home
-  // overlay). The `x` keyboard shortcut still collapses the intro
-  // paragraph on the landing page so the works grid can move up flush.
-  function toggleHalimCard() {
-    if (!document.body.classList.contains("is-landing")) return;
-    var card = document.querySelector("[data-halim-card]");
-    if (!card) return;
-    card.classList.toggle("is-collapsed");
-    document.body.classList.toggle(
-      "halim-card-collapsed",
-      card.classList.contains("is-collapsed"),
-    );
-  }
+  // (toggleHalimCard removed — the old landing-page Halim card was
+  // replaced by the home content partial in Phase B. Nothing to toggle.)
 
-  // ── Home overlay ──────────────────────────────────────────
-  // Lazy-fetches /Assets/partials/home.html on first open, caches the
-  // result for subsequent opens. Sets body.home-open so the overlay
-  // CSS shows it and underlying scroll locks.
-  var homePartialCache = null;
-  var homePartialLoading = null;
-
-  function fetchHomePartial() {
-    if (homePartialCache) return Promise.resolve(homePartialCache);
-    if (homePartialLoading) return homePartialLoading;
-    homePartialLoading = fetch("/Assets/partials/home.html", {
-      cache: "no-cache",
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("home partial " + r.status);
-        return r.text();
-      })
-      .then(function (html) {
-        homePartialCache = html;
-        homePartialLoading = null;
-        return html;
-      })
-      .catch(function (err) {
-        homePartialLoading = null;
-        console.error("[chrome] failed to load home partial:", err);
-        return null;
-      });
-    return homePartialLoading;
-  }
-
-  function openHomeOverlay() {
-    var overlay = document.querySelector(".home-overlay");
-    if (!overlay) return;
-    overlay.hidden = false;
-    overlay.setAttribute("aria-hidden", "false");
-    document.body.classList.add("home-open");
-
-    // Sync the chip's aria-expanded
-    var chip = document.querySelector("[data-home-toggle]");
-    if (chip) chip.setAttribute("aria-expanded", "true");
-
-    // Inject the partial on first open; subsequent opens reuse the cached DOM.
-    var body = overlay.querySelector("[data-home-overlay-body]");
-    if (body && body.dataset.loaded !== "true") {
-      fetchHomePartial().then(function (html) {
-        if (html) {
-          body.innerHTML = html;
-          body.dataset.loaded = "true";
-          // Notify other modules (Phase B/C may want to hydrate events,
-          // featured works, the Whomp chat — they listen for this).
-          document.dispatchEvent(
-            new CustomEvent("home-overlay:loaded", { detail: { body: body } }),
-          );
-        }
-      });
-    } else {
-      // Re-fire the event so listeners can refresh state if they want.
-      document.dispatchEvent(
-        new CustomEvent("home-overlay:opened", { detail: { body: body } }),
-      );
-    }
-
-    // Focus the close button so Esc / Tab feels coherent.
-    setTimeout(function () {
-      var close = overlay.querySelector("[data-home-close]");
-      if (close) close.focus();
-    }, 0);
-  }
-
-  function closeHomeOverlay() {
-    var overlay = document.querySelector(".home-overlay");
-    if (!overlay) return;
-    overlay.hidden = true;
-    overlay.setAttribute("aria-hidden", "true");
-    document.body.classList.remove("home-open");
-
-    var chip = document.querySelector("[data-home-toggle]");
-    if (chip) {
-      chip.setAttribute("aria-expanded", "false");
-      chip.focus();
-    }
-
-    document.dispatchEvent(new CustomEvent("home-overlay:closed"));
-  }
+  // (The home overlay used to live here. Halim asked to drop it on
+  // 2026-05-12 — the Halim Madi chip now just navigates to / like a
+  // normal logo. The home content is still shared via
+  // Assets/partials/home.html, which /index.html fetches inline; the
+  // home-overlay:loaded custom event still fires from there so
+  // home.js and whomp-chat.js hydrate.)
 
   // ── keyboard shortcuts ────────────────────────────────────
   function onKeydown(e) {
     var t = e.target;
     var inEditable = isEditable(t);
 
-    // Esc — cascading close: home overlay first, then palette / MACHINE mode.
+    // Esc closes the palette / exits MACHINE mode.
     if (e.key === "Escape") {
-      if (document.body.classList.contains("home-open")) {
-        e.preventDefault();
-        closeHomeOverlay();
-        return;
-      }
       if (!palette || palette.hidden) return;
       e.preventDefault();
       setMode("human");
@@ -441,13 +346,9 @@
       return;
     }
     if (e.key === "h") {
-      // H now toggles the home overlay (was: setMode("human"))
+      // H = HUMAN mode (exits MACHINE if on; default state otherwise).
       e.preventDefault();
-      if (document.body.classList.contains("home-open")) {
-        closeHomeOverlay();
-      } else {
-        openHomeOverlay();
-      }
+      setMode("human");
       return;
     }
     if (e.key === "m") {
@@ -456,13 +357,6 @@
       setMode(
         document.body.classList.contains("machine-mode") ? "human" : "machine",
       );
-      return;
-    }
-    if (e.key === "x") {
-      if (document.body.classList.contains("is-landing")) {
-        e.preventDefault();
-        toggleHalimCard();
-      }
       return;
     }
 
@@ -620,43 +514,10 @@
     });
   }
 
-  // ── [Halim Madi H] chip + Home overlay close + burger Home ─
-  // The chip now opens the home overlay from any page (including the
-  // landing — pressing H re-shows the home as an overlay layer over
-  // whatever was on screen).
-  function bindHomeOverlay() {
-    var chip = document.querySelector("[data-home-toggle]");
-    if (chip) {
-      chip.addEventListener("click", function (e) {
-        e.preventDefault();
-        openHomeOverlay();
-      });
-    }
-
-    var close = document.querySelector("[data-home-close]");
-    if (close) {
-      close.addEventListener("click", function (e) {
-        e.preventDefault();
-        closeHomeOverlay();
-      });
-    }
-
-    // Intercept any side-menu "Home" link click and open the overlay
-    // instead of navigating. Match `.menu-home` (existing class on the
-    // side-menu home link) and any anchor whose href is exactly "/" or
-    // "/home/" inside a `.side-menu`.
-    document.querySelectorAll(".side-menu .menu-home").forEach(function (a) {
-      a.addEventListener("click", function (e) {
-        e.preventDefault();
-        // Close the side menu first (uses the global toggleMenu() from menu.js)
-        if (typeof window.toggleMenu === "function") {
-          var menu = document.querySelector(".side-menu");
-          if (menu && menu.classList.contains("active")) window.toggleMenu();
-        }
-        openHomeOverlay();
-      });
-    });
-  }
+  // (The Halim Madi chip is now a plain <a href="/"> in chrome.html —
+  // no JS click handler needed. Side-menu "Home" link also goes to /
+  // directly. The previous overlay-opening behavior was dropped on
+  // 2026-05-12.)
 
   // ── connect intent pre-select ─────────────────────────────
   function applyConnectIntent() {
@@ -713,7 +574,6 @@
       bindPalette();
       bindModeButtons();
       bindSignup();
-      bindHomeOverlay();
       applyConnectIntent();
       loadMascot();
       loadHomeModule();

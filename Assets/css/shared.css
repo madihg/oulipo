@@ -3,13 +3,16 @@
    ═══════════════════════════════════════════ */
 
 /* Design tokens (single source of truth for colors / type / spacing / motion) */
-@import url("./tokens.css");
+@import url("./tokens.css?v=3");
 
 /* Persistent UI chrome — top signup bar + corner chips */
-@import url("./chrome.css");
+@import url("./chrome.css?v=3");
 
 /* Command palette overlay (MACHINE mode) */
-@import url("./palette.css");
+@import url("./palette.css?v=3");
+
+/* Home surface (consumed by /index.html + chrome.js home-overlay) */
+@import url("./home.css?v=3");
 
 /* Cargo Fonts */
 @font-face {

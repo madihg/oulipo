@@ -12,13 +12,7 @@
       "location": "Paris, Barcelona",
       "short_description": "Part I of the Singulars series - a daily duel between a human poet and a fine-tuned language model trained exclusively on poetry.",
       "cover_image": "Assets/images/works/carnation-exe/featured.jpg",
-      "tags": [
-        "ai",
-        "poetry",
-        "performance",
-        "singulars",
-        "computational"
-      ],
+      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
       "series": "singulars",
       "external_links": [
         {
@@ -47,13 +41,7 @@
       "location": "San Francisco",
       "short_description": "Part II of the Singulars series - a 10-day human-machine poetry confrontation exploring rivalry as intimacy.",
       "cover_image": "Assets/images/works/versus-exe/featured.jpg",
-      "tags": [
-        "ai",
-        "poetry",
-        "performance",
-        "singulars",
-        "computational"
-      ],
+      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
       "series": "singulars",
       "external_links": [
         {
@@ -82,13 +70,7 @@
       "location": "Istanbul",
       "short_description": "Part III of the Singulars series - reinforcement learning meets poetic confrontation at DevConnect Istanbul.",
       "cover_image": "Assets/images/works/reinforcement-exe/featured.jpg",
-      "tags": [
-        "ai",
-        "poetry",
-        "installation",
-        "singulars",
-        "computational"
-      ],
+      "tags": ["ai", "poetry", "installation", "singulars", "computational"],
       "series": "singulars",
       "external_links": [
         {
@@ -117,12 +99,7 @@
       "location": "San Francisco",
       "short_description": "A full-body multimedia poem about borders, queerness, and the architecture of belonging. Features Arabic zajal, projected code, and live performance.",
       "cover_image": "Assets/images/works/borderline/featured.jpg",
-      "tags": [
-        "performance",
-        "queer",
-        "migration",
-        "poetry"
-      ],
+      "tags": ["performance", "queer", "migration", "poetry"],
       "external_links": [
         {
           "url": "https://borderline.oulipo.xyz",
@@ -146,12 +123,7 @@
       "location": "Toronto, Bergen, San Francisco",
       "short_description": "An interactive web poem exploring consciousness, Arabic linguistics, and human-machine co-authorship.",
       "cover_image": "Assets/images/works/we-called-us/featured.png",
-      "tags": [
-        "ai",
-        "poetry",
-        "digital",
-        "computational"
-      ],
+      "tags": ["ai", "poetry", "digital", "computational"],
       "external_links": [
         {
           "url": "https://elo-2025.vercel.app",
@@ -175,10 +147,7 @@
       "location": "Seoul",
       "short_description": "A durational AI-body performance where audience answers shape a real-time generative portrait.",
       "cover_image": "Assets/images/works/feed-it/featured.jpg",
-      "tags": [
-        "ai",
-        "performance"
-      ],
+      "tags": ["ai", "performance"],
       "external_links": [],
       "featured": false,
       "sort_order": 6,
@@ -197,12 +166,7 @@
       "location": "San Francisco",
       "short_description": "A durational immigration performance - a fictional visa form that scrambles your answers into poetry.",
       "cover_image": "Assets/images/works/deserve-it/featured.jpg",
-      "tags": [
-        "performance",
-        "migration",
-        "queer",
-        "digital"
-      ],
+      "tags": ["performance", "migration", "queer", "digital"],
       "external_links": [
         {
           "url": "https://deserve.vercel.app/",
@@ -226,11 +190,7 @@
       "location": "San Francisco",
       "short_description": "A walking poem through San Francisco's Tenderloin, mapping queer nightlife from Beirut to the Bay.",
       "cover_image": "Assets/images/works/i-live-here/featured.jpg",
-      "tags": [
-        "performance",
-        "queer",
-        "migration"
-      ],
+      "tags": ["performance", "queer", "migration"],
       "external_links": [],
       "featured": false,
       "sort_order": 8,
@@ -249,12 +209,7 @@
       "location": "Online",
       "short_description": "An interactive HTML poem - a border that writes itself between two lovers.",
       "cover_image": "Assets/images/works/borderline-exe/featured.png",
-      "tags": [
-        "digital",
-        "poetry",
-        "queer",
-        "computational"
-      ],
+      "tags": ["digital", "poetry", "queer", "computational"],
       "external_links": [
         {
           "url": "https://borderline.oulipo.xyz/exe",
@@ -278,11 +233,7 @@
       "location": "Barcelona, Paris, London, San Francisco",
       "short_description": "A traveling workshop-performance inviting participants to build weird, queer web dwellings.",
       "cover_image": "Assets/images/works/weirder-webs/featured.jpg",
-      "tags": [
-        "digital",
-        "queer",
-        "computational"
-      ],
+      "tags": ["digital", "queer", "computational"],
       "external_links": [],
       "featured": false,
       "sort_order": 10,
@@ -301,11 +252,7 @@
       "location": "San Francisco",
       "short_description": "A collage-poetry installation transforming spam text into sacred objects at a queer arts space.",
       "cover_image": "Assets/images/works/borrow-never-give-back/featured.jpg",
-      "tags": [
-        "installation",
-        "poetry",
-        "queer"
-      ],
+      "tags": ["installation", "poetry", "queer"],
       "external_links": [],
       "featured": false,
       "sort_order": 11,
@@ -324,12 +271,7 @@
       "location": "San Francisco",
       "short_description": "A generative web piece that rewrites the Declaration of Independence using AI and immigrant voices.",
       "cover_image": "Assets/images/works/re-declarations/featured.png",
-      "tags": [
-        "digital",
-        "ai",
-        "migration",
-        "computational"
-      ],
+      "tags": ["digital", "ai", "migration", "computational"],
       "external_links": [],
       "featured": false,
       "sort_order": 12,
@@ -348,11 +290,7 @@
       "location": "San Francisco",
       "short_description": "An installation mapping the metabolization of immigrant identity through receipt-poems and data visualization.",
       "cover_image": "Assets/images/works/american-metabolisis/featured.jpg",
-      "tags": [
-        "installation",
-        "migration",
-        "poetry"
-      ],
+      "tags": ["installation", "migration", "poetry"],
       "external_links": [],
       "featured": false,
       "sort_order": 13,
@@ -371,10 +309,7 @@
       "location": "Paris, Sao Paulo",
       "short_description": "A series of site-specific interventions exploring futures, migration, and the politics of public space.",
       "cover_image": "Assets/images/works/avenir/featured.jpg",
-      "tags": [
-        "installation",
-        "migration"
-      ],
+      "tags": ["installation", "migration"],
       "external_links": [
         {
           "url": "https://medium.com/@builduntitled",
@@ -398,11 +333,7 @@
       "location": "San Francisco",
       "short_description": "A generative text interface that turns casual messaging into absurdist poetry.",
       "cover_image": "Assets/images/works/whomp/featured.png",
-      "tags": [
-        "digital",
-        "poetry",
-        "computational"
-      ],
+      "tags": ["digital", "poetry", "computational"],
       "external_links": [],
       "featured": false,
       "sort_order": 15,
@@ -421,11 +352,7 @@
       "location": "San Francisco",
       "short_description": "A computational poetry performance exploring the syntax of intimacy and touch.",
       "cover_image": null,
-      "tags": [
-        "performance",
-        "poetry",
-        "computational"
-      ],
+      "tags": ["performance", "poetry", "computational"],
       "external_links": [],
       "featured": false,
       "sort_order": 16,
@@ -444,10 +371,7 @@
       "location": "San Francisco, LA, CDMX, Santa Barbara, Ojai",
       "short_description": "Live readings from the Invasions poetry book - performing spam-text poems as ritual incantation.",
       "cover_image": null,
-      "tags": [
-        "performance",
-        "poetry"
-      ],
+      "tags": ["performance", "poetry"],
       "external_links": [],
       "featured": false,
       "sort_order": 17,

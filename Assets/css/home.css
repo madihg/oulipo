@@ -1,0 +1,39 @@
+/* ═══════════════════════════════════════════
+   home.css — styles for the home surface
+   Consumed by both /index.html (root) and the .home-overlay
+   shell from chrome.js. Phase A ships the intro paragraph;
+   Phase B + C add events, featured works, speaking, and chat.
+   ═══════════════════════════════════════════ */
+
+.home {
+  max-width: var(--max-content);
+  margin: 0 auto;
+  padding: 0 var(--pad-page-desktop);
+}
+@media (max-width: 600px) {
+  .home {
+    padding: 0 var(--pad-page-mobile);
+  }
+}
+
+.home-section {
+  margin-bottom: 3rem;
+}
+.home-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Intro paragraph — same idiom as the landing-page Halim card */
+.home-intro {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: var(--ink-85);
+  margin: 0;
+  max-width: 60ch;
+}
+@media (max-width: 600px) {
+  .home-intro {
+    font-size: 1.06rem;
+  }
+}

@@ -83,6 +83,7 @@ body.has-signup-bar > .menu-toggle {
   gap: 0.4rem;
   flex-shrink: 0;
   border: 1px solid var(--ink);
+  border-radius: 4px;
   background: var(--paper);
   color: var(--ink-85);
   padding: 0.25rem 0.55rem;
@@ -124,14 +125,6 @@ body.has-signup-bar > .menu-toggle {
 /* Variant: link-style chip (used for CONNECT — key on the right). */
 .chip-name--link {
   padding: 0.25rem 0.55rem;
-}
-
-/* When the Halim card is collapsed (landing only), flip the × to + */
-body.is-landing .halim-card.is-collapsed ~ .signup-bar .chip-name__key,
-body.is-landing.halim-card-collapsed
-  .chip-name[data-halim-toggle]
-  .chip-name__key {
-  /* fallback selector — chrome.js writes the literal glyph too. */
 }
 
 /* ── form (middle of the bar) ──────────────────────────── */
@@ -244,7 +237,7 @@ body.is-landing.halim-card-collapsed
   align-items: stretch;
   background: var(--paper);
   border: 1px solid var(--ink);
-  border-radius: 999px;
+  border-radius: 4px;
   padding: 0.18rem;
   font-family: var(--font-mono);
   font-variation-settings:
@@ -285,7 +278,7 @@ body.is-landing.halim-card-collapsed
   letter-spacing: inherit;
   text-transform: inherit;
   color: var(--ink-50);
-  border-radius: 999px;
+  border-radius: 4px;
   transition:
     color 0.15s ease,
     background 0.15s ease;
@@ -361,4 +354,88 @@ body:not(.machine-mode) .mode-toggle__hint {
 .mode-toggle__option:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 2px;
+}
+
+/* ═══════════════════════════════════════════
+   Home overlay
+   Full-viewport surface accessible from anywhere via H key,
+   the [Halim Madi H] chip click, or the burger menu's "Home"
+   link. Content is fetched from /Assets/partials/home.html on
+   first open and cached for subsequent opens.
+   ═══════════════════════════════════════════ */
+
+.home-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-palette);
+  background: var(--paper);
+  overflow-y: auto;
+  display: none;
+}
+body.home-open .home-overlay {
+  display: block;
+}
+body.home-open {
+  overflow: hidden;
+}
+
+.home-overlay__close {
+  position: fixed;
+  top: calc(var(--signup-bar-h) + 1rem);
+  right: 1rem;
+  z-index: 1;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: background 0.2s ease;
+}
+.home-overlay__close:hover {
+  background: var(--ink-08);
+}
+.home-overlay__close:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .home-overlay__close {
+    top: calc(var(--signup-bar-h-mobile) + 0.75rem);
+    right: 0.75rem;
+  }
+}
+
+.home-overlay__body {
+  padding: calc(var(--signup-bar-h) + 1.5rem) 0 4rem;
+  min-height: 100%;
+}
+@media (max-width: 600px) {
+  .home-overlay__body {
+    padding: calc(var(--signup-bar-h-mobile) + 1rem) 0 3rem;
+  }
+}
+
+.home-overlay__loading {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-50);
+  padding: var(--pad-page-desktop);
+}
+@media (max-width: 600px) {
+  .home-overlay__loading {
+    padding: var(--pad-page-mobile);
+  }
 }

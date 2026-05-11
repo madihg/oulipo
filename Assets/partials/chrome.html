@@ -14,14 +14,14 @@
 <header class="signup-bar">
   <button
     type="button"
-    class="chip-name"
-    data-halim-toggle
-    aria-controls="halim-card-body"
-    aria-expanded="true"
-    aria-label="Halim Madi"
+    class="chip-name chip-name--link"
+    data-home-toggle
+    aria-controls="home-overlay"
+    aria-expanded="false"
+    aria-label="Open home (or press H)"
   >
-    <span class="chip-name__key" aria-hidden="true">&times;</span>
     <span class="chip-name__label">Halim Madi</span>
+    <span class="chip-name__key" aria-hidden="true">H</span>
   </button>
 
   <form
@@ -273,3 +273,34 @@
     </button>
   </form>
 </div>
+
+<!-- ── home overlay ──────────────────────────────────────────
+     Full-viewport surface that contains the home experience
+     (Phase B: intro + events + featured + speaking; Phase C: chat).
+     Opens when `H` is pressed, when [Halim Madi H] chip is clicked,
+     or when the burger menu's "Home" link is clicked. Esc closes.
+     The home content is fetched from /Assets/partials/home.html on
+     first open and cached for subsequent opens.
+-->
+<aside
+  class="home-overlay"
+  id="home-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="home-overlay-heading"
+  aria-hidden="true"
+  hidden
+>
+  <button
+    type="button"
+    class="home-overlay__close"
+    data-home-close
+    aria-label="Close home (or press Esc)"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <h2 id="home-overlay-heading" class="visually-hidden">Home</h2>
+  <div class="home-overlay__body" data-home-overlay-body>
+    <p class="home-overlay__loading">Loading home…</p>
+  </div>
+</aside>

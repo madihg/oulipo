@@ -793,6 +793,16 @@ hr {
   letter-spacing: 0;
 }
 
+/* ─── ★ glyph used by the works-page "featured" filter pseudo-section ── */
+.works-filter-btn .star,
+.works-chip .star {
+  font-family: var(--font-mono);
+  color: var(--ink-70);
+  font-size: 0.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
 /* ───────────────────────────────────────────
    Page CTA — outlined Connect button used at the end of
    About / Writing / individual work / Speaking pages.

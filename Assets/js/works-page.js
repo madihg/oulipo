@@ -101,9 +101,11 @@
   }
 
   // ── filter state ─────────────────────────────────────────
+  // "featured" is a pseudo-section that filters w.featured === true.
   function readSectionFromURL() {
     var p = new URLSearchParams(window.location.search);
     var s = (p.get("section") || "").toLowerCase();
+    if (s === "featured") return "featured";
     return SECTIONS.some(function (sec) {
       return sec.key === s;
     })
@@ -225,16 +227,27 @@
 
   function renderList(container, works, activeSection) {
     container.innerHTML = "";
-    var filtered = activeSection
-      ? works.filter(function (w) {
-          return w.section === activeSection;
-        })
-      : works;
+    var filtered;
+    if (activeSection === "featured") {
+      filtered = works.filter(function (w) {
+        return w.featured === true;
+      });
+    } else if (activeSection) {
+      filtered = works.filter(function (w) {
+        return w.section === activeSection;
+      });
+    } else {
+      filtered = works;
+    }
 
     if (filtered.length === 0) {
       container.appendChild(
         el("div", { class: "works-state", "data-works-status": true }, [
-          activeSection ? "no works in this section yet." : "no works to show.",
+          activeSection === "featured"
+            ? "nothing featured yet."
+            : activeSection
+              ? "no works in this section yet."
+              : "no works to show.",
         ]),
       );
       return;
@@ -324,6 +337,46 @@
         onSelect(null);
       });
       target.appendChild(allBtn);
+
+      // "Featured" pseudo-section — sits between "all" and the section list.
+      // ★ glyph instead of a section-color swatch (no section color since it
+      // spans multiple sections).
+      var featuredCount = works.filter(function (w) {
+        return w.featured === true;
+      }).length;
+      var featuredBtn = el(
+        "button",
+        {
+          type: "button",
+          class: isMobile ? "works-chip" : "works-filter-btn",
+          "aria-pressed": activeSection === "featured" ? "true" : "false",
+          "data-section": "featured",
+        },
+        isMobile
+          ? [
+              el("span", { class: "star", "aria-hidden": "true" }, ["★"]),
+              "featured",
+              el("span", { class: "tally" }, [" · " + featuredCount]),
+            ]
+          : [
+              el("span", { class: "check" }),
+              el("span", { class: "star", "aria-hidden": "true" }, ["★"]),
+              el("span", {}, ["featured"]),
+              el(
+                "span",
+                {
+                  class: "tally",
+                  style: "margin-left:auto;color:var(--ink-50)",
+                },
+                [String(featuredCount)],
+              ),
+            ],
+      );
+      featuredBtn.style.setProperty("--section-color", "var(--ink)");
+      featuredBtn.addEventListener("click", function () {
+        onSelect("featured");
+      });
+      target.appendChild(featuredBtn);
 
       // Section options
       if (!isMobile) {

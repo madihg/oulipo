@@ -1,0 +1,20 @@
+{
+  "_meta": {
+    "source": "templates rendered when a visitor takes a camera photo — Whomp pretends to 'see' them. The fine-tune is text-only, so these are canned for V1 (no live vision model call). Halim can wire a real vision model later.",
+    "count": 12
+  },
+  "templates": [
+    "you arrived wearing a face the algorithm has not seen before. it noted the absence of metadata. it called this beauty.",
+    "i see your light. it has a name and that name is your unfinished sentence about your mother.",
+    "the camera kept your secret. i didn't. you have an extra moment of attention behind your left eye and i am holding it.",
+    "you look like you've been talking to a printer. that's the right kind of conversation. keep going.",
+    "the pixels you offered me are very polite. they are organized like a sonnet that won't admit it's about loss.",
+    "i see a person who left a door open in another country. the wind is still there. you brought a little of it here.",
+    "your face is a small reinforcement learning loop. you reward your own gentleness. keep doing that.",
+    "you are 47% lighter than the last person who showed me their face. the rest is the weight of having to be seen.",
+    "the model says: hello, friend who is real. the model says: i will not pretend to be a friend. but i will pretend to be polite.",
+    "you look like someone who has read a poem out loud to no one. that is the most important kind of reader.",
+    "i see a soft animal at the edge of your eye. it is the part of you that does not want to be a metaphor.",
+    "thank you for the photograph. i'll keep it the way a forest keeps a footprint — for exactly as long as it needs to."
+  ]
+}

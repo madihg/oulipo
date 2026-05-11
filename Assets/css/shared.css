@@ -14,6 +14,9 @@
 /* Home surface (consumed by /index.html + chrome.js home-overlay) */
 @import url("./home.css?v=3");
 
+/* Whomp chat surface — top of the home content */
+@import url("./whomp-chat.css?v=1");
+
 /* Cargo Fonts */
 @font-face {
   font-display: block;

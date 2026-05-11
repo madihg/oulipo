@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "source": "fallback Whomp replies — used only when the live /api/chat at scam-ai-poet.vercel.app is unreachable",
+    "voice": "fine-tune persona per the Whomp project README: a witty French poet whose writing is a mix of Ocean Vuong and Charles Bernstein",
+    "_todo": "Halim to refine these once the page is live; they're plausible-but-clearly-mine starters",
+    "count": 12
+  },
+  "samples": [
+    {
+      "scam": "URGENT: Your iCloud has been compromised. Click here to verify your identity immediately.",
+      "whomp": "my icloud blinks the way a backlit jellyfish remembers a body it once was. who is verifying whom, and from which cloud do you watch me sleep."
+    },
+    {
+      "scam": "Hi mom it's me, my phone broke can you text me on this number for now?",
+      "whomp": "if you are my mother prove it by misremembering my name the way she does, with a tenderness that is also a small theft."
+    },
+    {
+      "scam": "FedEx: We attempted to deliver your package but missed you. Please confirm your address: bit.ly/fdx-track",
+      "whomp": "i was home. you were never coming. the package was the wait — that's what arrived."
+    },
+    {
+      "scam": "Hi Amy, how's John doing today? Long time no chat — would love to catch up.",
+      "whomp": "amy is doing the laundry of her own future. john is a small forgetting we agreed on. catch up to what."
+    },
+    {
+      "scam": "Congratulations! You've been selected for a $750 Walmart gift card. Click here to claim before midnight.",
+      "whomp": "the prize is the click. the click is the prize. the algorithm whispers your worth in dollar amounts and you, beautifully, listen."
+    },
+    {
+      "scam": "Hey, are you free this weekend? My yacht in Miami needs a third hand. The pay is incredible.",
+      "whomp": "free, like the sea is free of its salt — that is to say, never. tell me the yacht's name and i'll tell you a name back."
+    },
+    {
+      "scam": "USPS NOTICE: An issue prevents delivery. Update your information here: usps-track.help",
+      "whomp": "the issue is that you've been writing letters to me for years and not one envelope. update yourself, friend, the address has always been here."
+    },
+    {
+      "scam": "This is Officer Daniels from the IRS. There is a warrant for your arrest. Call this number immediately.",
+      "whomp": "officer, the only crime is that we keep believing in voices we cannot hold. arrest the silence, please. it's the louder one."
+    },
+    {
+      "scam": "I've been thinking about you. Let's reconnect — I'm in town next week. Coffee?",
+      "whomp": "thinking is one thing; arriving is another country. bring proof of your thinking. a poem. a glass of cold water."
+    },
+    {
+      "scam": "Your account will be deactivated in 24 hours. Verify your details now to keep your access.",
+      "whomp": "deactivate me, please. i am tired of the access. the password to the kingdom was always a small unwatched window."
+    },
+    {
+      "scam": "Are you the one who answered the ad about the room? Send me a deposit and I'll send the keys.",
+      "whomp": "the room is a metaphor i can no longer afford. the deposit is the dream of a fixed address. send me, instead, a window."
+    },
+    {
+      "scam": "Hi I'm Dr. Sarah and I'd love to invest in your work. Can we set up a quick call?",
+      "whomp": "dr. sarah, my work is the audience of a small bird that has already decided not to land. invest in the not-landing, if you like."
+    }
+  ]
+}

@@ -8,7 +8,46 @@
 -->
 
 <div class="home">
-  <!-- Phase C will inject the Whomp chat surface ABOVE this line. -->
+  <!-- Whomp chat surface — the first thing a visitor sees. The chat
+       pre-generates Whomp's reply to a random scam text before they've
+       typed anything, so the home page feels alive on first paint. -->
+  <section
+    class="whomp-chat"
+    data-whomp-chat
+    aria-label="Chat with Whomp, an AI-trained poetic mirror"
+  >
+    <div class="whomp-chat__head">
+      <span class="whomp-chat__head-dot" aria-hidden="true"></span>
+      <span>Whomp · poetic mirror</span>
+    </div>
+    <div class="whomp-chat__stream" data-whomp-stream></div>
+    <form class="whomp-chat__form" data-whomp-form>
+      <input
+        type="text"
+        class="whomp-chat__input"
+        data-whomp-input
+        placeholder="reply to whomp…"
+        autocomplete="off"
+      />
+      <button
+        type="button"
+        class="whomp-chat__action"
+        data-whomp-camera
+        aria-label="Take a photo so Whomp can 'see' you"
+        title="Take a photo"
+      >
+        ◉
+      </button>
+      <button
+        type="submit"
+        class="whomp-chat__action"
+        aria-label="Send"
+        title="Send"
+      >
+        →
+      </button>
+    </form>
+  </section>
 
   <section class="home-section home-section--intro" aria-label="Intro">
     <p class="home-intro">

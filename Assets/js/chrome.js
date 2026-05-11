@@ -697,6 +697,17 @@
     document.head.appendChild(s);
   }
 
+  function loadWhompChat() {
+    // whomp-chat.js hydrates the chat surface at the top of the home
+    // content (root /index.html mount + home overlay).
+    if (document.querySelector("script[data-whomp-loader]")) return;
+    var s = document.createElement("script");
+    s.src = "/Assets/js/whomp-chat.js?v=1";
+    s.defer = true;
+    s.setAttribute("data-whomp-loader", "");
+    document.head.appendChild(s);
+  }
+
   function boot() {
     injectChrome().then(function () {
       bindPalette();
@@ -706,6 +717,7 @@
       applyConnectIntent();
       loadMascot();
       loadHomeModule();
+      loadWhompChat();
       document.addEventListener("keydown", onKeydown);
     });
   }

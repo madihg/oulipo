@@ -223,18 +223,36 @@ body.machine-mode .palette {
   padding: 0.18rem 0.45rem;
 }
 
-/* ── parallel-cli style banner above the input ─────────── */
-.palette__cli {
+/* ── terminal mascot (human-vs-machine duel) ───────────── */
+/* Sits centered above the palette input bar. palette-mascot.js
+   cycles through poem fragments every ~700ms. */
+.palette-mascot {
   position: fixed;
-  left: 1.25rem;
+  left: 0;
+  right: 0;
   bottom: 4.25rem;
+  margin: 0;
+  padding: 0 1.25rem;
   font-family: var(--font-mono);
-  font-size: 0.72rem;
-  color: rgba(255, 255, 255, 0.45);
-  letter-spacing: 0.04em;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  user-select: none;
 }
-.palette__cli-prompt {
-  color: rgba(255, 255, 255, 0.7);
+@media (max-width: 700px) {
+  .palette-mascot {
+    font-size: 0.66rem;
+    bottom: 4rem;
+  }
 }
 
 /* ── scrollbar polish ─────────────────────────────────── */

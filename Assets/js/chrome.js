@@ -675,6 +675,17 @@
   }
 
   // ── boot ─────────────────────────────────────────────────
+  function loadMascot() {
+    // Inject palette-mascot.js once, after the partial is in the DOM
+    // so the mascot module can hook the [data-mascot] node.
+    if (document.querySelector("script[data-mascot-loader]")) return;
+    var s = document.createElement("script");
+    s.src = "/Assets/js/palette-mascot.js?v=3";
+    s.defer = true;
+    s.setAttribute("data-mascot-loader", "");
+    document.head.appendChild(s);
+  }
+
   function boot() {
     injectChrome().then(function () {
       bindPalette();
@@ -682,6 +693,7 @@
       bindSignup();
       bindHomeOverlay();
       applyConnectIntent();
+      loadMascot();
       document.addEventListener("keydown", onKeydown);
     });
   }

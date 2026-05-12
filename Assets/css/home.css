@@ -113,13 +113,31 @@
   letter-spacing: 0.02em;
 }
 
-/* ── featured works (vertical stack of small cards) ──────── */
+/* ── featured works (horizontal scroll-snap carousel) ──────
+   Cards stay the same size as the vertical stack used to render;
+   the list axis flips from column to row, and the container
+   scrolls horizontally with snap. Hidden scrollbar; users use
+   touch-drag, shift-mousewheel, or the L/R arrow keys. */
 .home-featured__list {
-  display: grid;
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: row;
   gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  /* Bleed slightly past the page padding so cards don't clip on
+     the right edge when scrolled to the start. */
+  padding-bottom: 0.5rem;
+  /* Hide scrollbar visually (functional scroll preserved). */
+  scrollbar-width: none;
+}
+.home-featured__list::-webkit-scrollbar {
+  display: none;
 }
 .home-feature {
+  flex: 0 0 auto;
+  width: 22rem;
   display: grid;
   grid-template-columns: 6rem 1fr;
   gap: 1rem;
@@ -127,13 +145,16 @@
   color: inherit;
   padding: 0.5rem 0;
   align-items: center;
+  scroll-snap-align: start;
+}
+@media (max-width: 600px) {
+  .home-feature {
+    width: 18rem;
+  }
 }
 .home-feature:hover .home-feature__title {
   text-decoration: underline 1px var(--ink-85);
   text-underline-offset: 0.12em;
-}
-.home-feature:hover .home-feature__image img {
-  filter: grayscale(0%);
 }
 .home-feature__image {
   aspect-ratio: 4 / 3;
@@ -145,8 +166,6 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  filter: grayscale(100%);
-  transition: filter 0.5s ease;
 }
 .home-feature__body {
   min-width: 0;

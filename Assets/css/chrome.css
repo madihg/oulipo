@@ -90,11 +90,36 @@ body.has-signup-bar > .menu-toggle {
   }
 }
 
-/* ── chip-name (shared by [× HALIM MADI] and [CONNECT c]) ──
-   Mirrors parallel.ai's [CONTACT C] / [LOG IN P] pattern:
-   a thin outlined chip with a key-glyph block on one side.
-   Typography + key-glyph treatment is intentionally identical to
-   the bottom-right .mode-toggle so the two read as the same family. */
+/* ═══════════════════════════════════════════════════════════
+   CHIP FAMILY — design-system rules
+   ───────────────────────────────────────────────────────────
+   All five corner buttons render as the same typographic family:
+   - Outlined: .chip-name (HALIM MADI, CONNECT) + .mode-toggle__option (HUMAN, MACHINE)
+   - Filled:   .signup-bar__submit (SUBSCRIBE)
+
+   Shared (every chip must match exactly):
+   - font-family:           var(--font-mono)
+   - font-variation-settings: "slnt" 0, "MONO" 1
+   - font-size:             0.72rem
+   - letter-spacing:        0.04em
+   - text-transform:        uppercase
+   - font-weight:           700
+   - line-height:           1
+   - padding:               0.25rem 0.55rem
+   - border-radius:         4px
+   - color (label):         var(--ink-85)
+
+   Variant: key-glyph block (the [C] [H] [M] inset, or × on Halim Madi)
+   - min-width:             1.05rem
+   - height:                1.05rem
+   - padding:               0 0.25rem
+   - background:            var(--ink-08)
+   - color:                 var(--ink-70)
+   - font-size:             0.62rem
+   - font-weight:           700
+   - border-radius:         0.2rem
+   - line-height:           1
+   ═══════════════════════════════════════════════════════════ */
 .chip-name {
   display: inline-flex;
   align-items: center;
@@ -144,18 +169,6 @@ body.has-signup-bar > .menu-toggle {
 .chip-name--link {
   padding: 0.25rem 0.55rem;
 }
-/* Decoration variant for the leading chip glyph (e.g. the house
-   on Halim Madi). No background block, no shortcut affordance —
-   the glyph is purely ornamental, slightly larger so it reads. */
-.chip-name__key--decoration {
-  background: transparent;
-  color: var(--ink-50);
-  font-weight: 400;
-  font-size: 0.85rem;
-  padding: 0;
-  min-width: 0;
-  height: auto;
-}
 
 /* ── form (flush right, just before Connect + burger) ─────
    margin-left: auto pushes the form (and everything after it)
@@ -170,7 +183,7 @@ body.has-signup-bar > .menu-toggle {
 }
 .signup-bar__label {
   color: var(--ink-50);
-  text-transform: uppercase;
+  text-transform: lowercase;
   flex-shrink: 0;
 }
 .signup-bar__input {
@@ -202,15 +215,22 @@ body.has-signup-bar > .menu-toggle {
 .signup-bar__input::placeholder {
   color: var(--ink-40);
 }
-/* Subscribe reads as a filled chip — same family as the corner
-   chips (ink-filled rect, monospace, uppercase, 4px radius). */
+/* Subscribe — filled-ink variant of the chip family. Matches
+   .chip-name padding / font / weight / letter-spacing pixel-for-
+   pixel so all corner chips render at identical dimensions. */
 .signup-bar__submit {
   flex-shrink: 0;
   background: var(--ink);
   color: var(--paper);
   border: 1px solid var(--ink);
   border-radius: 4px;
-  padding: 0.25rem 0.7rem;
+  /* Match .chip-name intrinsic height (which is set by its inner
+     1.05rem key-block + padding + border). Without this, Subscribe
+     would shrink to text-height only. */
+  min-height: 1.675rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.55rem;
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
@@ -218,6 +238,7 @@ body.has-signup-bar > .menu-toggle {
   font-size: 0.72rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  font-weight: 700;
   text-decoration: none;
   cursor: pointer;
   line-height: 1;
@@ -401,11 +422,17 @@ body:not(.machine-mode) .mode-toggle__hint {
 }
 
 /* ── focus ring ────────────────────────────────────────── */
-.signup-bar__input:focus-visible,
+/* Buttons + chips get a clear 3px focus ring. */
 .signup-bar__submit:focus-visible,
 .chip-name:focus-visible,
 .signup-bar__menu:focus-visible,
 .mode-toggle__option:focus-visible {
   outline: 3px solid var(--ink);
   outline-offset: 2px;
+}
+/* Email input does NOT get the heavy outline rectangle —
+   just the soft underline darkens on focus (see .signup-bar__input:focus). */
+.signup-bar__input:focus,
+.signup-bar__input:focus-visible {
+  outline: none;
 }

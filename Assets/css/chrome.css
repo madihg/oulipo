@@ -59,20 +59,25 @@ body.has-signup-bar > .menu-toggle {
 }
 @media (max-width: 900px) {
   .signup-bar {
-    padding: 0 1.25rem;
+    /* Body content at this breakpoint uses .page { padding: 4rem }
+       (no tablet override in shared.css). Match it so chip aligns
+       with H1. */
+    padding: 0 var(--pad-page-desktop);
   }
 }
 @media (max-width: 600px) {
   .signup-bar {
     height: var(--signup-bar-h-mobile);
-    padding: 0 0.75rem;
+    /* Body content at <600px uses .page { padding: 2rem } —
+       (--pad-page-mobile). Use the same token so chip ↔ H1 left
+       edges align pixel-for-pixel on mobile. */
+    padding: 0 var(--pad-page-mobile);
     font-size: 0.7rem;
   }
 }
 
 /* Inner row fills the bar's padding box edge-to-edge so chips
-   align with body content gutters (4rem desktop / 1.25rem ≥900 /
-   0.75rem mobile — matches the bar's own padding). */
+   align with body content gutters at every breakpoint. */
 .signup-bar__inner {
   width: 100%;
   display: flex;
@@ -260,15 +265,13 @@ body.has-signup-bar > .menu-toggle {
   color: var(--section-machine);
 }
 
-/* On narrow screens, stash the email field inside the form
-   but keep the chips visible. The form collapses to icon-only. */
+/* On narrow screens (<600px), drop the entire subscribe form from
+   the chrome — the burger menu's "Newsletter ↗" already covers
+   that affordance, and the chrome needs the room for Halim Madi /
+   Connect / burger to breathe. */
 @media (max-width: 600px) {
-  .signup-bar__label,
-  .signup-bar__status {
-    display: none;
-  }
   .signup-bar__form {
-    gap: 0.35rem;
+    display: none;
   }
 }
 

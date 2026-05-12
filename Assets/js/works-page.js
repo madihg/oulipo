@@ -339,8 +339,8 @@
       target.appendChild(allBtn);
 
       // "Featured" pseudo-section — sits between "all" and the section list.
-      // ★ glyph instead of a section-color swatch (no section color since it
-      // spans multiple sections).
+      // No glyph or section swatch — just the word "featured" so it reads
+      // as the same family as the other filter options.
       var featuredCount = works.filter(function (w) {
         return w.featured === true;
       }).length;
@@ -354,13 +354,11 @@
         },
         isMobile
           ? [
-              el("span", { class: "star", "aria-hidden": "true" }, ["★"]),
               "featured",
               el("span", { class: "tally" }, [" · " + featuredCount]),
             ]
           : [
               el("span", { class: "check" }),
-              el("span", { class: "star", "aria-hidden": "true" }, ["★"]),
               el("span", {}, ["featured"]),
               el(
                 "span",

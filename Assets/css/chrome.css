@@ -265,13 +265,36 @@ body.has-signup-bar > .menu-toggle {
   color: var(--section-machine);
 }
 
-/* On narrow screens (<600px), drop the entire subscribe form from
-   the chrome — the burger menu's "Newsletter ↗" already covers
-   that affordance, and the chrome needs the room for Halim Madi /
-   Connect / burger to breathe. */
+/* On narrow screens (<600px): drop email label + input, keep
+   Subscribe as a chip. Tighten chip padding + gap so all four
+   (Halim Madi × / Subscribe / Connect C / burger) fit at 375px. */
 @media (max-width: 600px) {
-  .signup-bar__form {
+  .signup-bar__label,
+  .signup-bar__input,
+  .signup-bar__status {
     display: none;
+  }
+  .signup-bar__form {
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .signup-bar__inner {
+    gap: 0.3rem;
+  }
+  .chip-name,
+  .chip-name--link,
+  .signup-bar__submit {
+    padding: 0 0.35rem;
+    min-height: 1.5rem;
+  }
+  .chip-name {
+    gap: 0.25rem;
+  }
+  .chip-name__key {
+    min-width: 0.95rem;
+    height: 0.95rem;
+    font-size: 0.58rem;
+    padding: 0 0.18rem;
   }
 }
 

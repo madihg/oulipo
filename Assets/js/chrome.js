@@ -596,7 +596,21 @@
       e.preventDefault();
       var input = form.querySelector(".signup-bar__input");
       var email = ((input && input.value) || "").trim();
-      if (!email) return;
+      if (!email) {
+        // On mobile the email field is hidden — clicking Subscribe with
+        // no email opens Substack's hosted signup page directly so the
+        // user still has a path to subscribe. On desktop with a visible
+        // empty field, just bail (user hasn't typed anything yet).
+        var inputHidden = !input || getComputedStyle(input).display === "none";
+        if (inputHidden) {
+          window.open(
+            "https://halimmadi.substack.com/subscribe",
+            "_blank",
+            "noopener,noreferrer",
+          );
+        }
+        return;
+      }
       if (status) {
         status.textContent = "subscribing…";
         status.classList.remove(

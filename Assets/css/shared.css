@@ -6,7 +6,7 @@
 @import url("./tokens.css?v=3");
 
 /* Persistent UI chrome — top signup bar + corner chips */
-@import url("./chrome.css?v=11");
+@import url("./chrome.css?v=13");
 
 /* Command palette overlay (MACHINE mode) */
 @import url("./palette.css?v=4");

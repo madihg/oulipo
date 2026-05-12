@@ -417,11 +417,34 @@ body.has-signup-bar > .menu-toggle {
   align-self: center;
   color: var(--ink-50);
   padding: 0 0.2rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.62rem;
 }
-/* Hide the / and ⌘K hint when not in MACHINE mode */
-body:not(.machine-mode) .mode-toggle__divider,
-body:not(.machine-mode) .mode-toggle__hint {
+/* kbd-style chip variant on the / and ⌘K hints (parallel.ai-style)
+   — only applied to non-divider hints so the | divider stays a
+   thin line. */
+.mode-toggle__hint:not(.mode-toggle__hint--divider) {
+  background: var(--ink-08);
+  color: var(--ink-70);
+  border-radius: 0.2rem;
+  padding: 0.1rem 0.3rem;
+  font-weight: 700;
+}
+/* Hide the kbd hints once the palette is open — the user has
+   already discovered the shortcut. Hide them on mobile too
+   (no keyboard) to save room. */
+body.palette-open .mode-toggle__divider,
+body.palette-open .mode-toggle__hint {
   display: none;
+}
+@media (max-width: 600px) {
+  .mode-toggle__divider,
+  .mode-toggle__hint {
+    display: none;
+  }
 }
 
 /* ── focus ring ────────────────────────────────────────── */

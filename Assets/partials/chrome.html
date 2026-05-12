@@ -102,12 +102,25 @@
     <span class="mode-toggle__key" aria-hidden="true">M</span>
   </button>
   <span class="mode-toggle__divider" aria-hidden="true"></span>
-  <span class="mode-toggle__hint" aria-hidden="true">/</span>
-  <span class="mode-toggle__hint">|</span>
-  <span class="mode-toggle__hint" aria-hidden="true">⌘K</span>
+  <span
+    class="mode-toggle__hint"
+    aria-hidden="true"
+    title="Slash to open command palette"
+    >/</span
+  >
+  <span
+    class="mode-toggle__hint"
+    aria-hidden="true"
+    title="Cmd+K to open command palette"
+    >⌘K</span
+  >
 </div>
 
-<!-- ── command palette overlay ────────────────────────── -->
+<!-- ── command palette overlay ──────────────────────────
+     Stacked from bottom up:
+       [input bar] ▲ [suggestions panel — hidden until /] ▲ [mascot panel — always]
+     The mascot has its own bordered + backgrounded panel so it
+     never overlaps the suggestions list (Halim 2026-05-12). -->
 <div
   class="palette"
   role="dialog"
@@ -115,125 +128,10 @@
   aria-labelledby="palette-input"
   hidden
 >
-  <div class="palette__sitemap" aria-hidden="true">
-    <div class="palette__sitemap-section">
-      <div class="palette__sitemap-section-title">HALIM MADI</div>
-      <div>Works:</div>
-      <div>
-        &nbsp;<span class="palette__sitemap-link">[Carnation.exe]</span
-        ><span class="palette__sitemap-url">(/works/carnation-exe/)</span>
-      </div>
-      <div>
-        &nbsp;<span class="palette__sitemap-link">[Versus.exe]</span
-        ><span class="palette__sitemap-url">(/works/versus-exe/)</span>
-      </div>
-      <div>
-        &nbsp;<span class="palette__sitemap-link">[Reinforcement.exe]</span
-        ><span class="palette__sitemap-url">(/works/reinforcement-exe/)</span>
-      </div>
-      <div>
-        &nbsp;<span class="palette__sitemap-link">[Borderline]</span
-        ><span class="palette__sitemap-url">(/works/borderline/)</span>
-      </div>
-      <div>
-        &nbsp;<span class="palette__sitemap-link">[Curl]</span
-        ><span class="palette__sitemap-url">(/works/curl/)</span>
-      </div>
-    </div>
-    <div class="palette__sitemap-section">
-      <div class="palette__sitemap-section-title">SECTIONS</div>
-      <div>
-        <span class="palette__sitemap-link">[Machine talk]</span
-        ><span class="palette__sitemap-url"
-          >(/works/?section=machine-talk)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Algorithmic plays]</span
-        ><span class="palette__sitemap-url"
-          >(/works/?section=algorithmic-plays)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Somatic semantics]</span
-        ><span class="palette__sitemap-url"
-          >(/works/?section=somatic-semantics)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Tools]</span
-        ><span class="palette__sitemap-url">(/works/?section=tools)</span>
-      </div>
-    </div>
-    <div class="palette__sitemap-section">
-      <div class="palette__sitemap-section-title">PAGES</div>
-      <div>
-        <span class="palette__sitemap-link">[About]</span
-        ><span class="palette__sitemap-url">(/about/)</span>
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Speaking]</span
-        ><span class="palette__sitemap-url">(/speaking/)</span>
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Writing]</span
-        ><span class="palette__sitemap-url">(/writing/)</span>
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Connect]</span
-        ><span class="palette__sitemap-url">(/connect/)</span>
-      </div>
-    </div>
-    <div class="palette__sitemap-section">
-      <div class="palette__sitemap-section-title">
-        CHAT WITH MY POETIC MODELS
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Whomp the scam-poet]</span
-        ><span class="palette__sitemap-url"
-          >(https://singulars.oulipo.xyz/chat?model=whomp)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Carnation.exe]</span
-        ><span class="palette__sitemap-url"
-          >(https://singulars.oulipo.xyz/chat?model=carnation-exe)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Versus.exe]</span
-        ><span class="palette__sitemap-url"
-          >(https://singulars.oulipo.xyz/chat?model=versus-exe)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Reinforcement.exe]</span
-        ><span class="palette__sitemap-url"
-          >(https://singulars.oulipo.xyz/chat?model=reinforcement-exe)</span
-        >
-      </div>
-    </div>
-    <div class="palette__sitemap-section">
-      <div class="palette__sitemap-section-title">EXTERNAL</div>
-      <div>
-        <span class="palette__sitemap-link">[Newsletter]</span
-        ><span class="palette__sitemap-url"
-          >(https://halimmadi.substack.com)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Instagram]</span
-        ><span class="palette__sitemap-url"
-          >(https://instagram.com/yalla_halim)</span
-        >
-      </div>
-      <div>
-        <span class="palette__sitemap-link">[Singulars]</span
-        ><span class="palette__sitemap-url"
-          >(https://singulars.oulipo.xyz)</span
-        >
-      </div>
-    </div>
+  <div class="palette__mascot-panel" data-mascot-panel>
+    <pre class="palette-mascot" data-mascot aria-hidden="true">
+( •_• ) ⌨           i was born in a softmax           ░░ ( ◉_◉ )</pre
+    >
   </div>
 
   <div
@@ -241,11 +139,8 @@
     data-palette-results
     role="listbox"
     aria-label="Commands"
+    hidden
   ></div>
-
-  <pre class="palette-mascot" data-mascot aria-hidden="true">
-( •_• ) ⌨        “i was born”        ░░ ( ◉_◉ )</pre
-  >
 
   <form class="palette__inputbar" data-palette-form>
     <span class="palette__prompt" aria-hidden="true">›</span>

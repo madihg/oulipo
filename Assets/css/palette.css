@@ -1,13 +1,19 @@
 /* ═══════════════════════════════════════════
-   palette.css — parallel.ai-style command palette overlay
+   palette.css — command palette overlay (MACHINE mode)
    Triggered by `/`, ⌘K, ⌃K, or `m` (MACHINE mode toggle).
+
+   Layout (stacked bottom-up):
+     ▼ palette container (full viewport, dark)
+     │   ▲ mascot panel — own bordered/backgrounded box, ALWAYS visible
+     │   ▲ suggestions panel — hidden until user types / or ⌘K
+     │   ▼ input bar
    ═══════════════════════════════════════════ */
 
 .palette {
   position: fixed;
   inset: 0;
   z-index: var(--z-palette);
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(0, 0, 0, 0.96);
   color: #ffffff;
   font-family: var(--font-mono);
   font-variation-settings:
@@ -15,60 +21,69 @@
     "MONO" 1;
   display: none;
   flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 1.25rem 0;
 }
 body.palette-open .palette,
 body.machine-mode .palette {
   display: flex;
 }
 
-/* ── dimmed monospace site map (background) ────────────── */
-.palette__sitemap {
-  flex: 1;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 4rem var(--pad-page-desktop) 22rem;
-  font-size: 0.82rem;
-  line-height: 1.65;
-  color: rgba(255, 255, 255, 0.25);
-  pointer-events: none;
-  user-select: text;
+/* ── mascot panel (own bg, never overlaps suggestions) ── */
+.palette__mascot-panel {
+  align-self: center;
+  width: 100%;
+  max-width: 60ch;
+  margin: 0 0 1rem;
+  padding: 1.25rem 1.5rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
 }
 @media (max-width: 600px) {
-  .palette__sitemap {
-    padding: 2.5rem var(--pad-page-mobile) 24rem;
-    font-size: 0.74rem;
+  .palette__mascot-panel {
+    padding: 1rem;
+    margin-bottom: 0.75rem;
   }
 }
 
-.palette__sitemap-section {
-  margin-top: 1.4rem;
+.palette-mascot {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.65);
+  text-align: center;
+  white-space: pre;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
 }
-.palette__sitemap-section:first-of-type {
-  margin-top: 0;
-}
-.palette__sitemap-section-title {
-  color: rgba(255, 255, 255, 0.6);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  margin-bottom: 0.4rem;
-}
-.palette__sitemap-link {
-  color: rgba(255, 255, 255, 0.85);
-}
-.palette__sitemap-url {
-  color: rgba(255, 255, 255, 0.25);
+@media (max-width: 700px) {
+  .palette-mascot {
+    font-size: 0.68rem;
+  }
 }
 
-/* ── results list (above the input bar) ───────────────── */
+/* ── suggestions panel (above input, hidden until / typed) ── */
 .palette__results {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 3.5rem;
+  align-self: center;
+  width: 100%;
+  max-width: 60ch;
   max-height: 18rem;
   overflow-y: auto;
-  background: rgba(0, 0, 0, 0.95);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 0 0 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
+.palette__results[hidden] {
+  display: none;
 }
 
 .palette__row {
@@ -76,12 +91,13 @@ body.machine-mode .palette {
   grid-template-columns: 2rem 1fr 1.5fr 4rem;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.6rem 1.25rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.55rem 1.1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
   cursor: pointer;
   background: transparent;
   border-left: none;
   border-right: none;
+  border-top: none;
   width: 100%;
   text-align: left;
   color: inherit;
@@ -134,6 +150,10 @@ body.machine-mode .palette {
 .palette__row-badge--page {
   color: rgba(255, 255, 255, 0.85);
 }
+.palette__row-badge--subwork {
+  color: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.3);
+}
 .palette__row-badge--tool {
   background: rgba(255, 165, 0, 0.85);
   color: #1a1a1a;
@@ -154,16 +174,15 @@ body.machine-mode .palette {
   .palette__row {
     grid-template-columns: 1.5rem 1fr 3rem;
     gap: 0.5rem;
-    padding: 0.55rem 1rem;
+    padding: 0.55rem 0.9rem;
   }
   .palette__row-desc {
     display: none;
   }
 }
 
-/* ── empty state (no matches) ─────────────────────────── */
 .palette__empty {
-  padding: 1rem 1.25rem;
+  padding: 0.85rem 1.1rem;
   font-family: var(--font-body);
   color: rgba(255, 255, 255, 0.55);
   font-size: 0.85rem;
@@ -171,17 +190,23 @@ body.machine-mode .palette {
 
 /* ── bottom input bar ──────────────────────────────────── */
 .palette__inputbar {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  align-self: center;
+  width: 100%;
+  max-width: 60ch;
   height: 3.5rem;
-  background: rgba(0, 0, 0, 0.98);
-  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  background: rgba(0, 0, 0, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
   display: flex;
   align-items: center;
   gap: 0.625rem;
-  padding: 0 1.25rem;
+  padding: 0 1.1rem;
+  margin: 0 0 1.5rem;
+}
+@media (max-width: 600px) {
+  .palette__inputbar {
+    margin-bottom: 1rem;
+  }
 }
 
 .palette__prompt {
@@ -221,46 +246,55 @@ body.machine-mode .palette {
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.18rem 0.45rem;
+  border-radius: 0.2rem;
 }
 
-/* ── terminal mascot (human-vs-machine duel) ───────────── */
-/* Sits centered above the palette input bar. palette-mascot.js
-   cycles through poem fragments every ~700ms. */
-.palette-mascot {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 4.25rem;
-  margin: 0;
-  padding: 0 1.25rem;
-  font-family: var(--font-mono);
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
-  font-size: 0.78rem;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  color: rgba(255, 255, 255, 0.55);
-  text-align: center;
-  white-space: pre;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-  user-select: none;
+/* ── mode-toggle inverted when palette is open ─────────
+   The HUMAN/MACHINE toggle stays visible (it's position: fixed
+   with z-index above the palette below), but its colors flip to
+   read on the dark palette background. */
+body.palette-open .mode-toggle {
+  background: rgba(0, 0, 0, 0.92);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
+  z-index: calc(var(--z-palette) + 1);
 }
-@media (max-width: 700px) {
-  .palette-mascot {
-    font-size: 0.66rem;
-    bottom: 4rem;
-  }
+body.palette-open .mode-toggle__option {
+  color: rgba(255, 255, 255, 0.85);
+}
+body.palette-open .mode-toggle__option:hover,
+body.palette-open .mode-toggle__option.is-active {
+  background: rgba(255, 255, 255, 0.12);
+}
+body.palette-open .mode-toggle__radio {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+body.palette-open .mode-toggle__option.is-active .mode-toggle__radio {
+  border-color: #ffffff;
+  background: #ffffff;
+}
+body.palette-open .mode-toggle__option.is-active .mode-toggle__radio::after {
+  background: rgba(0, 0, 0, 0.92);
+}
+body.palette-open .mode-toggle__key {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.85);
+}
+body.palette-open .mode-toggle__option.is-active .mode-toggle__key {
+  background: #ffffff;
+  color: #1a1a1a;
+}
+body.palette-open .mode-toggle__divider {
+  background: rgba(255, 255, 255, 0.25);
+}
+body.palette-open .mode-toggle__hint {
+  color: rgba(255, 255, 255, 0.55);
 }
 
 /* ── scrollbar polish ─────────────────────────────────── */
-.palette__sitemap::-webkit-scrollbar,
 .palette__results::-webkit-scrollbar {
   width: 0.5rem;
 }
-.palette__sitemap::-webkit-scrollbar-thumb,
 .palette__results::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.1);
 }

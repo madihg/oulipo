@@ -139,7 +139,7 @@
   // ── inject the partial ────────────────────────────────────
   function injectChrome() {
     if (document.querySelector(".signup-bar")) return Promise.resolve();
-    return fetch("/Assets/partials/chrome.html?v=9", { cache: "no-cache" })
+    return fetch("/Assets/partials/chrome.html?v=10", { cache: "no-cache" })
       .then(function (r) {
         if (!r.ok) throw new Error("chrome partial " + r.status);
         return r.text();
@@ -197,10 +197,103 @@
   }
 
   // ── palette ──────────────────────────────────────────────
+  // Top-level pages shown when user types `/`. These are the ONLY
+  // suggestions on the first slash — keeps the palette uncluttered.
+  var TOP_LEVEL = [
+    { cmd: "/works", desc: "browse all works", kind: "page", go: "/works/" },
+    {
+      cmd: "/speaking",
+      desc: "keynotes & workshops",
+      kind: "page",
+      go: "/speaking/",
+    },
+    {
+      cmd: "/writing",
+      desc: "books, essays, zines",
+      kind: "page",
+      go: "/writing/",
+    },
+    { cmd: "/about", desc: "who · where · why", kind: "page", go: "/about/" },
+    {
+      cmd: "/connect",
+      desc: "send a message",
+      kind: "page",
+      go: "/connect/",
+    },
+    { cmd: "/now", desc: "upcoming events", kind: "page", go: "/now/" },
+  ];
+
+  // Subworks shown when user types `/works` or `/works/`.
+  // Hardcoded for now — could be hydrated from works.json later.
+  var SUBWORKS = [
+    {
+      cmd: "/works/borderline",
+      desc: "queer-Arab full-body web piece",
+      kind: "subwork",
+      go: "/works/borderline/",
+    },
+    {
+      cmd: "/works/carnation-exe",
+      desc: "fine-tuned model — Singulars I",
+      kind: "subwork",
+      go: "/works/carnation-exe/",
+    },
+    {
+      cmd: "/works/versus-exe",
+      desc: "duel-trained model — Singulars II",
+      kind: "subwork",
+      go: "/works/versus-exe/",
+    },
+    {
+      cmd: "/works/reinforcement-exe",
+      desc: "RLHF poetry — Singulars III",
+      kind: "subwork",
+      go: "/works/reinforcement-exe/",
+    },
+    {
+      cmd: "/works/curl",
+      desc: "scroll-driven scalp piece",
+      kind: "subwork",
+      go: "/works/curl/",
+    },
+    {
+      cmd: "/works/whomp",
+      desc: "scam-poet (chat live on /)",
+      kind: "subwork",
+      go: "/works/whomp/",
+    },
+    {
+      cmd: "/works/?section=machine-talk",
+      desc: "section · machine talk",
+      kind: "page",
+      go: "/works/?section=machine-talk",
+    },
+    {
+      cmd: "/works/?section=algorithmic-plays",
+      desc: "section · algorithmic plays",
+      kind: "page",
+      go: "/works/?section=algorithmic-plays",
+    },
+    {
+      cmd: "/works/?section=somatic-semantics",
+      desc: "section · somatic semantics",
+      kind: "page",
+      go: "/works/?section=somatic-semantics",
+    },
+    {
+      cmd: "/works/?section=tools",
+      desc: "section · tools",
+      kind: "page",
+      go: "/works/?section=tools",
+    },
+  ];
+
   function openPalette() {
     if (!palette) return;
     palette.hidden = false;
     document.body.classList.add("palette-open");
+    // Empty input on open → no suggestions visible (just mascot panel).
+    if (paletteInput) paletteInput.value = "";
     renderResults("");
     setTimeout(function () {
       if (paletteInput) paletteInput.focus();
@@ -212,30 +305,62 @@
     palette.hidden = true;
     document.body.classList.remove("palette-open");
     if (paletteInput) paletteInput.value = "";
+    renderResults("");
   }
 
+  // Slash-hierarchy router for suggestions:
+  //   empty   → no results (panel hidden, only mascot visible)
+  //   "/"     → top-level pages
+  //   "/works"|"/works/" → subworks list
+  //   "/works/<x>" → filter SUBWORKS by partial match
+  //   anything else → fuzzy filter across COMMANDS + SUBWORKS
   function renderResults(query) {
     if (!paletteResults) return;
-    var q = (query || "").trim().toLowerCase();
-    var matches = COMMANDS.filter(function (c) {
-      if (!q) return true;
-      return (
-        c.cmd.toLowerCase().indexOf(q) !== -1 ||
-        c.desc.toLowerCase().indexOf(q) !== -1
-      );
-    }).slice(0, 8);
+    var raw = query || "";
+    var q = raw.trim().toLowerCase();
+    var matches = [];
+
+    if (!q) {
+      paletteResults.hidden = true;
+      paletteResults.innerHTML = "";
+      paletteRows = [];
+      return;
+    }
+
+    if (q === "/") {
+      matches = TOP_LEVEL.slice();
+    } else if (q === "/works" || q === "/works/") {
+      matches = SUBWORKS.slice();
+    } else if (q.indexOf("/works/") === 0) {
+      var rest = q;
+      matches = SUBWORKS.filter(function (c) {
+        return c.cmd.toLowerCase().indexOf(rest) === 0;
+      });
+    } else {
+      var pool = TOP_LEVEL.concat(SUBWORKS).concat(COMMANDS);
+      matches = pool
+        .filter(function (c) {
+          return (
+            c.cmd.toLowerCase().indexOf(q) !== -1 ||
+            (c.desc || "").toLowerCase().indexOf(q) !== -1
+          );
+        })
+        .slice(0, 10);
+    }
 
     paletteResults.innerHTML = "";
 
     if (matches.length === 0) {
+      paletteResults.hidden = false;
       var empty = document.createElement("div");
       empty.className = "palette__empty";
-      empty.textContent = "No matches. Try /works, /connect, /speaking…";
+      empty.textContent = "no matches. try /, /works, /connect…";
       paletteResults.appendChild(empty);
       paletteRows = [];
       return;
     }
 
+    paletteResults.hidden = false;
     paletteRows = matches.map(function (cmd, idx) {
       var row = document.createElement("button");
       row.type = "button";
@@ -541,7 +666,7 @@
     // so the mascot module can hook the [data-mascot] node.
     if (document.querySelector("script[data-mascot-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/palette-mascot.js?v=3";
+    s.src = "/Assets/js/palette-mascot.js?v=4";
     s.defer = true;
     s.setAttribute("data-mascot-loader", "");
     document.head.appendChild(s);

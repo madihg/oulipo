@@ -280,6 +280,28 @@
       e.preventDefault();
       openCamera(stream);
     });
+
+    // Suggestion prompt chips — clicking a chip pre-fills the input
+    // and submits via the form's existing handler. Chips hide after
+    // first use (the conversation is now under way).
+    var promptsBox = root.querySelector("[data-whomp-prompts]");
+    if (promptsBox) {
+      promptsBox.addEventListener("click", function (e) {
+        var btn = e.target.closest(".whomp-prompt");
+        if (!btn) return;
+        e.preventDefault();
+        var prompt = btn.getAttribute("data-prompt") || btn.textContent;
+        input.value = prompt.trim();
+        // Fire the form's submit handler so the message goes through
+        // the same path as a normal typed submission.
+        if (typeof form.requestSubmit === "function") {
+          form.requestSubmit();
+        } else {
+          form.dispatchEvent(new Event("submit", { cancelable: true }));
+        }
+        promptsBox.style.display = "none";
+      });
+    }
   }
 
   // ── boot ─────────────────────────────────────────────────

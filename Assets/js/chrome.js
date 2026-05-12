@@ -563,7 +563,7 @@
     // content (root /index.html mount + home overlay).
     if (document.querySelector("script[data-whomp-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/whomp-chat.js?v=1";
+    s.src = "/Assets/js/whomp-chat.js?v=2";
     s.defer = true;
     s.setAttribute("data-whomp-loader", "");
     document.head.appendChild(s);

@@ -139,7 +139,7 @@
   // ── inject the partial ────────────────────────────────────
   function injectChrome() {
     if (document.querySelector(".signup-bar")) return Promise.resolve();
-    return fetch("/Assets/partials/chrome.html?v=7", { cache: "no-cache" })
+    return fetch("/Assets/partials/chrome.html?v=8", { cache: "no-cache" })
       .then(function (r) {
         if (!r.ok) throw new Error("chrome partial " + r.status);
         return r.text();

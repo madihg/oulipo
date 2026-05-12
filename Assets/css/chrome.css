@@ -70,15 +70,11 @@ body.has-signup-bar > .menu-toggle {
   }
 }
 
-/* Inner row clamps to --max-content so the [Halim Madi ⌂] chip
-   and the burger button line up with body content edges on wide
-   viewports (>1200px). On narrower viewports the inner row fills
-   the bar's padding box, so the chips stay flush with the page
-   gutters. */
+/* Inner row fills the bar's padding box edge-to-edge so chips
+   align with body content gutters (4rem desktop / 1.25rem ≥900 /
+   0.75rem mobile — matches the bar's own padding). */
 .signup-bar__inner {
   width: 100%;
-  max-width: var(--max-content);
-  margin: 0 auto;
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -161,13 +157,15 @@ body.has-signup-bar > .menu-toggle {
   height: auto;
 }
 
-/* ── form (middle of the bar) ──────────────────────────── */
+/* ── form (flush right, just before Connect + burger) ─────
+   margin-left: auto pushes the form (and everything after it)
+   to the right edge of the bar. The form itself stays compact
+   — auto width, no flex grow. */
 .signup-bar__form {
-  flex: 1;
+  margin-left: auto;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  margin: 0;
   min-width: 0;
 }
 .signup-bar__label {
@@ -176,9 +174,8 @@ body.has-signup-bar > .menu-toggle {
   flex-shrink: 0;
 }
 .signup-bar__input {
-  flex: 1;
+  width: 9rem;
   min-width: 0;
-  max-width: 12rem;
   background: transparent;
   border: none;
   height: 1.25rem;
@@ -187,6 +184,20 @@ body.has-signup-bar > .menu-toggle {
   font-size: inherit;
   color: var(--ink-85);
   outline: none;
+  border-bottom: 1px dotted var(--ink-15);
+}
+.signup-bar__input:focus {
+  border-bottom-color: var(--ink-50);
+}
+@media (max-width: 900px) {
+  .signup-bar__input {
+    width: 7rem;
+  }
+}
+@media (max-width: 600px) {
+  .signup-bar__input {
+    width: 6rem;
+  }
 }
 .signup-bar__input::placeholder {
   color: var(--ink-40);

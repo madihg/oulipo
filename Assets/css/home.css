@@ -3,15 +3,14 @@
    Consumed by /index.html (root) and the .home-overlay shell.
    ═══════════════════════════════════════════ */
 
+/* .home is rendered INSIDE .page (which already adds 4rem padding
+   on desktop, 2rem on mobile). Don't double-pad — full-bleed and
+   no max-width, so the [HALIM MADI ×] chip and home content share
+   a left edge at every viewport. Internal columns (.home-intro at
+   60ch, .whomp-chat at 84ch) constrain readable line lengths. */
 .home {
-  max-width: var(--max-content);
-  margin: 0 auto;
-  padding: 0 var(--pad-page-desktop);
-}
-@media (max-width: 600px) {
-  .home {
-    padding: 0 var(--pad-page-mobile);
-  }
+  max-width: 100%;
+  padding: 0;
 }
 
 .home-section {

@@ -326,21 +326,22 @@ body.has-signup-bar > .menu-toggle {
   cursor: pointer;
   font-family: inherit;
   font-size: inherit;
+  font-variation-settings: inherit;
   letter-spacing: inherit;
   text-transform: inherit;
-  color: var(--ink-50);
+  /* Match .chip-name__label weight + color so HUMAN / MACHINE /
+     HALIM MADI / CONNECT all render as the same typographic family.
+     The active state's distinction comes from the filled radio
+     dot + ink-08 background, not weight. */
+  font-weight: 700;
+  color: var(--ink-85);
   border-radius: 4px;
-  transition:
-    color 0.15s ease,
-    background 0.15s ease;
+  transition: background 0.15s ease;
 }
 .mode-toggle__option:hover {
-  color: var(--ink-85);
   background: var(--ink-08);
 }
 .mode-toggle__option.is-active {
-  color: var(--ink-85);
-  font-weight: 700;
   background: var(--ink-08);
 }
 .mode-toggle__radio {
@@ -364,17 +365,19 @@ body.has-signup-bar > .menu-toggle {
   border-radius: 50%;
 }
 .mode-toggle__key {
+  /* Match .chip-name__key dimensions + padding pixel-for-pixel. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 0.95rem;
-  height: 0.95rem;
-  padding: 0 0.2rem;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
   background: var(--ink-08);
   color: var(--ink-70);
   border-radius: 0.2rem;
   font-size: 0.62rem;
   font-weight: 700;
+  line-height: 1;
 }
 .mode-toggle__option.is-active .mode-toggle__key {
   background: var(--ink);

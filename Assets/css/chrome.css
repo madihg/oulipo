@@ -265,21 +265,34 @@ body.has-signup-bar > .menu-toggle {
   color: var(--section-machine);
 }
 
-/* On narrow screens (<600px): drop email label + input, keep
-   Subscribe as a chip. Tighten chip padding + gap so all four
-   (Halim Madi × / Subscribe / Connect C / burger) fit at 375px. */
+/* Mobile (<600px) chrome rebalance:
+   - email + Subscribe visible (per Halim 2026-05-12 PM)
+   - Connect chip HIDDEN (duplicate of burger menu's Connect link,
+     and the chrome ran out of room with 4 chips at 375px)
+   Final row: [HALIM MADI X] ─── email[__] [SUBSCRIBE] [≡] */
 @media (max-width: 600px) {
-  .signup-bar__label,
-  .signup-bar__input,
+  .signup-bar__label {
+    display: inline;
+    font-size: 0.65rem;
+  }
+  .signup-bar__input {
+    display: inline-block;
+    width: 5rem;
+  }
   .signup-bar__status {
     display: none;
   }
+  /* Hide the Connect chip on mobile (kept in burger menu). */
+  .signup-bar a.chip-name--link[href="/connect/"] {
+    display: none;
+  }
   .signup-bar__form {
-    gap: 0;
+    gap: 0.3rem;
     flex-shrink: 0;
+    margin-left: auto;
   }
   .signup-bar__inner {
-    gap: 0.3rem;
+    gap: 0.35rem;
   }
   .chip-name,
   .chip-name--link,
@@ -320,6 +333,14 @@ body.has-signup-bar > .menu-toggle {
   height: 1.5px;
   background: var(--ink);
   width: 1.1rem;
+}
+/* Desktop only: extra breathing room between Connect and the burger
+   (Halim 2026-05-12 PM — the two corner controls were too close).
+   Mobile keeps it tight so the chrome fits. */
+@media (min-width: 601px) {
+  .signup-bar__menu {
+    margin-left: 0.6rem;
+  }
 }
 
 /* ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style, button-y) ──
@@ -411,64 +432,10 @@ body.has-signup-bar > .menu-toggle {
   background: var(--paper);
   border-radius: 50%;
 }
-.mode-toggle__key {
-  /* Match .chip-name__key dimensions + padding pixel-for-pixel. */
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 1.05rem;
-  height: 1.05rem;
-  padding: 0 0.25rem;
-  background: var(--ink-08);
-  color: var(--ink-70);
-  border-radius: 0.2rem;
-  font-size: 0.62rem;
-  font-weight: 700;
-  line-height: 1;
-}
-.mode-toggle__option.is-active .mode-toggle__key {
-  background: var(--ink);
-  color: var(--paper);
-}
-.mode-toggle__divider {
-  display: inline-block;
-  width: 1px;
-  background: var(--ink-15);
-  margin: 0.2rem 0.45rem;
-}
-.mode-toggle__hint {
-  align-self: center;
-  color: var(--ink-50);
-  padding: 0 0.2rem;
-  font-family: var(--font-mono);
-  font-variation-settings:
-    "slnt" 0,
-    "MONO" 1;
-  font-size: 0.62rem;
-}
-/* kbd-style chip variant on the / and ⌘K hints (parallel.ai-style)
-   — only applied to non-divider hints so the | divider stays a
-   thin line. */
-.mode-toggle__hint:not(.mode-toggle__hint--divider) {
-  background: var(--ink-08);
-  color: var(--ink-70);
-  border-radius: 0.2rem;
-  padding: 0.1rem 0.3rem;
-  font-weight: 700;
-}
-/* Hide the kbd hints once the palette is open — the user has
-   already discovered the shortcut. Hide them on mobile too
-   (no keyboard) to save room. */
-body.palette-open .mode-toggle__divider,
-body.palette-open .mode-toggle__hint {
-  display: none;
-}
-@media (max-width: 600px) {
-  .mode-toggle__divider,
-  .mode-toggle__hint {
-    display: none;
-  }
-}
+/* H / M key-glyph chips removed (Halim 2026-05-12 PM) — pressing
+   H or M is still the keyboard shortcut, but the chip face just
+   reads ○ HUMAN / ○ MACHINE. Agent-discovery moves to the palette
+   background (llms.txt rendered as terminal text). */
 
 /* ── focus ring ────────────────────────────────────────── */
 /* Buttons + chips get a clear 3px focus ring. */

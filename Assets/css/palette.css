@@ -276,20 +276,8 @@ body.palette-open .mode-toggle__option.is-active .mode-toggle__radio {
 body.palette-open .mode-toggle__option.is-active .mode-toggle__radio::after {
   background: rgba(0, 0, 0, 0.92);
 }
-body.palette-open .mode-toggle__key {
-  background: rgba(255, 255, 255, 0.15);
-  color: rgba(255, 255, 255, 0.85);
-}
-body.palette-open .mode-toggle__option.is-active .mode-toggle__key {
-  background: #ffffff;
-  color: #1a1a1a;
-}
-body.palette-open .mode-toggle__divider {
-  background: rgba(255, 255, 255, 0.25);
-}
-body.palette-open .mode-toggle__hint {
-  color: rgba(255, 255, 255, 0.55);
-}
+/* mode-toggle__key + __hint + __divider rules removed: those
+   elements no longer exist in chrome.html (dropped 2026-05-12 PM). */
 
 /* ── scrollbar polish ─────────────────────────────────── */
 .palette__results::-webkit-scrollbar {

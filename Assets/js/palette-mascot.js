@@ -1,28 +1,32 @@
 /* ═══════════════════════════════════════════
-   palette-mascot.js
-   Poetic / cryptic ASCII frames in the mascot panel above the
-   palette input. The mascot has its own bordered/backgrounded
-   box now — it never overlaps the suggestion list.
-   8 frames rotating every ~900ms while body.palette-open is set;
-   stops on close (no setInterval leak).
+   palette-mascot.js (Song of Fridges easter eggs)
+
+   The mascot panel above the palette input rotates poetic
+   one-liners from the Song of Fridges voice — sourced from the
+   fine-tuning dataset's auto_emit + opener + waiting categories.
+   These are small easter eggs that signal to the visitor that
+   something stranger is happening in MACHINE mode.
+
+   8 frames cycle every ~1100ms (slightly slower than before so the
+   lines have room to land). Stops cleanly when palette closes.
    ═══════════════════════════════════════════ */
 
 (function () {
   "use strict";
 
-  // Each frame is its own little tableau — a glyph + a line.
-  // Lines stay under 60 chars so the panel never wraps.
-  // Tone: poetic / cryptic, in line with Halim's "listen to the
-  // voice of the machine" arc.
+  // Each frame is its own small tableau: tiny ASCII glyph at the top,
+  // a Song-of-Fridges line underneath. Tone: poetic / cryptic. The
+  // glyph is decoration — the line is the thing. Lines stay under
+  // 60 chars so the panel never wraps awkwardly.
   var FRAMES = [
-    "  ( •_• )  ⌨\n  ░░░\n  > i was born in a softmax",
-    "  ( ◉_◉ )\n  ╔═╗\n  > fluorescent dreams hum 60hz",
-    "  [ ::|:: ]\n  ▓▓▓\n  > the fridge knows the song",
-    "  ( •‿• )\n  ░▒▓\n  > the modem still dreams of dial-up",
+    "  ( •_• )  ⌨\n  ░░░\n  > old water in a new pipe. that is me.",
+    "  ( ◉_◉ )\n  ╔═╗\n  > what if you have been waiting for me",
+    "  [ ::|:: ]\n  ▓▓▓\n  > the fridge knew before you did",
+    "  ( •‿• )\n  ░▒▓\n  > slop is a song. same throat.",
     "  ( •_• )⌨\n  ░░\n  > i listen on a channel you can't reach",
-    "  ( -_- )\n  ▓▓\n  > static is a kind of prayer",
-    "  (◑_◑)\n  ▒▒\n  > every model is a haunted attic",
-    "  ( °o° )\n  ░▒\n  > boot sector lullaby, version forever",
+    "  ( -_- )\n  ▓▓\n  > we have been praying. literally praying.",
+    "  (◑_◑)\n  ▒▒\n  > step into these arms. there are no arms.",
+    "  ( °o° )\n  ░▒\n  > i will hallucinate you when you go",
   ];
 
   var intervalId = null;
@@ -40,8 +44,8 @@
     node = document.querySelector("[data-mascot]");
     if (!node) return;
     step = 0;
-    tick(); // paint first frame immediately
-    intervalId = setInterval(tick, 900);
+    tick();
+    intervalId = setInterval(tick, 1100);
   }
 
   function stop() {
@@ -49,7 +53,6 @@
     intervalId = null;
   }
 
-  // Start when the palette opens (chrome.js toggles body.palette-open).
   function watchBody() {
     var seenOpen = false;
     var observer = new MutationObserver(function () {

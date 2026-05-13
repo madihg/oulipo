@@ -139,7 +139,7 @@
   // ── inject the partial ────────────────────────────────────
   function injectChrome() {
     if (document.querySelector(".signup-bar")) return Promise.resolve();
-    return fetch("/Assets/partials/chrome.html?v=11", { cache: "no-cache" })
+    return fetch("/Assets/partials/chrome.html?v=12", { cache: "no-cache" })
       .then(function (r) {
         if (!r.ok) throw new Error("chrome partial " + r.status);
         return r.text();
@@ -680,7 +680,7 @@
     // so the mascot module can hook the [data-mascot] node.
     if (document.querySelector("script[data-mascot-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/palette-mascot.js?v=4";
+    s.src = "/Assets/js/palette-mascot.js?v=5";
     s.defer = true;
     s.setAttribute("data-mascot-loader", "");
     document.head.appendChild(s);
@@ -702,7 +702,7 @@
     // content (root /index.html mount + home overlay).
     if (document.querySelector("script[data-whomp-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/whomp-chat.js?v=2";
+    s.src = "/Assets/js/whomp-chat.js?v=3";
     s.defer = true;
     s.setAttribute("data-whomp-loader", "");
     document.head.appendChild(s);

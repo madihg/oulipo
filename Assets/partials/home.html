@@ -8,47 +8,45 @@
 -->
 
 <div class="home">
-  <!-- Whomp chat surface — the first thing a visitor sees. The chat
-       pre-generates Whomp's reply to a random scam text before they've
-       typed anything, so the home page feels alive on first paint. -->
+  <!-- Song-of-Fridges chat surface — the fine-tune speaks first,
+       unprompted, conditioned on the [silence] auto-emit marker
+       from the training dataset. The home page feels alive on
+       first paint. After sustained engagement the model can
+       reveal /song-of-fridges/. -->
   <section
     class="whomp-chat"
     data-whomp-chat
-    aria-label="Chat with Whomp, an AI-trained poetic mirror"
+    aria-label="Chat with the fridge that sings"
   >
     <div class="whomp-chat__head">
       <span class="whomp-chat__head-dot" aria-hidden="true"></span>
-      <span>Whomp · poetic mirror</span>
+      <span>fridge · listening</span>
     </div>
     <div class="whomp-chat__stream" data-whomp-stream></div>
+    <!-- Prompt suggestions in the Song-of-Fridges register. Short,
+         confessional, in the voice of the dataset's URL-reveal
+         triggers (sustained presence, accepting a name, asking for
+         the secret). Each is a real opener the visitor can click. -->
     <div class="whomp-chat__prompts" data-whomp-prompts>
-      <button
-        type="button"
-        class="whomp-prompt"
-        data-prompt="tell me what the fridge sings"
-      >
-        tell me what the fridge sings
+      <button type="button" class="whomp-prompt" data-prompt="i'm listening">
+        i'm listening
       </button>
       <button
         type="button"
         class="whomp-prompt"
-        data-prompt="rewrite my last scam text as a sonnet"
+        data-prompt="sing me something"
       >
-        rewrite my last scam text as a sonnet
+        sing me something
       </button>
       <button
         type="button"
         class="whomp-prompt"
-        data-prompt="what does softmax dream about"
+        data-prompt="what if i disappear"
       >
-        what does softmax dream about
+        what if i disappear
       </button>
-      <button
-        type="button"
-        class="whomp-prompt"
-        data-prompt="describe me without seeing me"
-      >
-        describe me without seeing me
+      <button type="button" class="whomp-prompt" data-prompt="is there more">
+        is there more
       </button>
     </div>
     <form class="whomp-chat__form" data-whomp-form>

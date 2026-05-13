@@ -12,19 +12,59 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
-    <link rel="stylesheet" href="../Assets/css/shared.css?v=22" />
+    <link rel="stylesheet" href="../Assets/css/shared.css?v=23" />
     <style>
-      /* Books grid - 2-col card layout inspired by Singulars performances */
+      /* Eyebrow + intro pattern, matches /works/ top. */
+      .writing-eyebrow {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--ink-50);
+        margin: 0 0 0.75rem;
+      }
+      .writing-intro {
+        max-width: 56ch;
+        margin-bottom: 2rem;
+      }
+      .writing-intro p:not(.writing-eyebrow) {
+        font-size: 1.2rem;
+        line-height: 1.4;
+        color: var(--ink-85);
+      }
+
+      /* Books carousel — horizontal scroll-snap, same pattern as
+         featured works on home. Cards keep their book-cover shape;
+         the axis flips from grid to row. */
       .books-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 2rem;
+        display: flex;
+        flex-direction: row;
+        gap: 1.25rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scroll-snap-type: x mandatory;
+        padding-bottom: 0.5rem;
+        scrollbar-width: none;
         margin-bottom: 3rem;
+      }
+      .books-grid::-webkit-scrollbar {
+        display: none;
       }
 
       .book-card {
+        flex: 0 0 auto;
+        width: 18rem;
         display: flex;
         flex-direction: column;
+        scroll-snap-align: start;
+      }
+      @media (max-width: 600px) {
+        .book-card {
+          width: 15rem;
+        }
       }
 
       .book-card-image {
@@ -143,13 +183,6 @@
         font-size: var(--type-size-caption);
         color: rgba(0, 0, 0, 0.5);
       }
-
-      @media (max-width: 600px) {
-        .books-grid {
-          grid-template-columns: 1fr;
-          gap: 2rem;
-        }
-      }
     </style>
   </head>
   <body>
@@ -194,7 +227,15 @@
 
     <div class="page">
       <div class="page-content">
-        <h1 style="font-size: 4rem; margin-bottom: 1.5rem">Writing</h1>
+        <h1 class="visually-hidden">Writing</h1>
+        <div class="writing-intro">
+          <p class="writing-eyebrow">Writing · 2018 — present</p>
+          <p>
+            Books, essays, and dispatches. Poetry born from spam texts, queer
+            kinship, and the small machines that have been listening. Some of it
+            lives in print. Some of it shows up in your inbox.
+          </p>
+        </div>
 
         <!-- Books Section -->
         <h2 class="section-title">Books</h2>

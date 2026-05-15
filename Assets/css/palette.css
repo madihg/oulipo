@@ -33,14 +33,19 @@ body.machine-mode .palette {
    Sits behind the mascot panel + suggestions + input. Low
    contrast so it reads as ambience for human visitors but is
    fully selectable text for AI crawlers/agents in MACHINE mode. */
+/* Background terminal text — width matches the input + mascot
+   panel (60ch max), centered. Halim 2026-05-15: was full-bleed
+   which felt sprawled. */
 .palette__llms {
   position: absolute;
   top: 0;
-  left: 0;
-  right: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 60ch;
   bottom: 0;
   margin: 0;
-  padding: 4rem 2rem 22rem;
+  padding: 4rem 1rem 22rem;
   overflow-y: auto;
   font-family: var(--font-mono);
   font-variation-settings:
@@ -85,8 +90,10 @@ body.machine-mode .palette {
   max-width: 60ch;
   margin: 0 0 1rem;
   padding: 1.25rem 1.5rem;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* Opaque so it sits cleanly above the dimmed llms.txt background
+     (Halim 2026-05-15). */
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 4px;
 }
 @media (max-width: 600px) {

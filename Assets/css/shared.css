@@ -9,10 +9,10 @@
 @import url("./chrome.css?v=16");
 
 /* Command palette overlay (MACHINE mode) */
-@import url("./palette.css?v=7");
+@import url("./palette.css?v=8");
 
 /* Home surface (consumed by /index.html + chrome.js home-overlay) */
-@import url("./home.css?v=6");
+@import url("./home.css?v=7");
 
 /* Whomp chat surface — top of the home content */
 @import url("./whomp-chat.css?v=2");

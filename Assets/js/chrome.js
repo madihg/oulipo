@@ -709,14 +709,15 @@
     document.head.appendChild(s);
   }
 
-  function loadWhompChat() {
-    // whomp-chat.js hydrates the chat surface at the top of the home
-    // content (root /index.html mount + home overlay).
-    if (document.querySelector("script[data-whomp-loader]")) return;
+  function loadTerminal() {
+    // terminal.js hydrates the poem terminal at the top of the home
+    // content (root /index.html mount + home overlay). Replaces the
+    // older whomp-chat / song-of-fridges loader.
+    if (document.querySelector("script[data-terminal-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/whomp-chat.js?v=3";
+    s.src = "/Assets/js/terminal.js?v=1";
     s.defer = true;
-    s.setAttribute("data-whomp-loader", "");
+    s.setAttribute("data-terminal-loader", "");
     document.head.appendChild(s);
   }
 
@@ -757,7 +758,7 @@
       applyConnectIntent();
       loadMascot();
       loadHomeModule();
-      loadWhompChat();
+      loadTerminal();
       loadAgentBackground();
       document.addEventListener("keydown", onKeydown);
     });

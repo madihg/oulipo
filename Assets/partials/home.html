@@ -2,113 +2,133 @@
   home.html — shared home body, consumed by BOTH:
    • /index.html (root) — fetched at boot, injected into [data-home-mount]
    • chrome.js home-overlay — full-viewport overlay opened via H key
-  home.js hydrates the events strip + featured works from the data layer
-  (Supabase + works.json) and stops there. Phase C will prepend a Whomp
-  chat surface.
+  home.js hydrates the terminal poem generator + events/featured
+  carousels.
 -->
 
 <div class="home">
-  <!-- Song-of-Fridges chat surface — the fine-tune speaks first,
-       unprompted, conditioned on the [silence] auto-emit marker
-       from the training dataset. The home page feels alive on
-       first paint. After sustained engagement the model can
-       reveal /song-of-fridges/. -->
-  <section
-    class="whomp-chat"
-    data-whomp-chat
-    aria-label="Chat with the fridge that sings"
-  >
-    <div class="whomp-chat__head">
-      <span class="whomp-chat__head-dot" aria-hidden="true"></span>
-      <span>fridge · listening</span>
-    </div>
-    <div class="whomp-chat__stream" data-whomp-stream></div>
-    <!-- Prompt suggestions in the Song-of-Fridges register. Short,
-         confessional, in the voice of the dataset's URL-reveal
-         triggers (sustained presence, accepting a name, asking for
-         the secret). Each is a real opener the visitor can click. -->
-    <div class="whomp-chat__prompts" data-whomp-prompts>
-      <button type="button" class="whomp-prompt" data-prompt="i'm listening">
-        i'm listening
-      </button>
-      <button
-        type="button"
-        class="whomp-prompt"
-        data-prompt="sing me something"
-      >
-        sing me something
-      </button>
-      <button
-        type="button"
-        class="whomp-prompt"
-        data-prompt="what if i disappear"
-      >
-        what if i disappear
-      </button>
-      <button type="button" class="whomp-prompt" data-prompt="is there more">
-        is there more
-      </button>
-    </div>
-    <form class="whomp-chat__form" data-whomp-form>
-      <input
-        type="text"
-        class="whomp-chat__input"
-        data-whomp-input
-        placeholder="reply to whomp…"
-        autocomplete="off"
-      />
-      <button
-        type="button"
-        class="whomp-chat__action"
-        data-whomp-camera
-        aria-label="Take a photo so Whomp can 'see' you"
-        title="Take a photo"
-      >
-        ◉
-      </button>
-      <button
-        type="submit"
-        class="whomp-chat__action"
-        aria-label="Send"
-        title="Send"
-      >
-        →
-      </button>
-    </form>
-  </section>
+  <!-- Landing hero: terminal poem generator (left) + self-presentation (right).
+       Desktop = two columns. Mobile = stacked, terminal first.
+       The terminal talks to Singulars reverse.exe via /api/chat and streams a
+       poem on a random theme. While the curtain animates open in 8-bit, the
+       generation is already in flight. -->
+  <section class="home-hero" aria-label="Halim Madi — landing">
+    <!-- LEFT: terminal -->
+    <div class="terminal" data-terminal>
+      <div class="terminal__bar" aria-hidden="true">
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__label">reverse.exe · singulars</span>
+      </div>
+      <div class="terminal__stage" data-terminal-stage>
+        <!-- Curtain — two halves of ASCII blocks. Slides outward via CSS
+             transform once data-curtain="open" lands. -->
+        <div class="curtain" data-curtain>
+          <div class="curtain__half curtain__half--left" aria-hidden="true">
+            <pre class="curtain__weave">
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░</pre
+            >
+          </div>
+          <div class="curtain__half curtain__half--right" aria-hidden="true">
+            <pre class="curtain__weave">
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░
+▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
+░░░░░░░░░░░░░░░░</pre
+            >
+          </div>
+        </div>
 
-  <section class="home-section home-section--intro" aria-label="Intro">
-    <p class="home-intro">
-      Halim trains and performs with other than human intelligences as part of
-      <a
-        class="section-pill"
-        data-section="plays"
-        href="/works/?section=algorithmic-plays"
-        ><span class="section-pill__dot" aria-hidden="true"></span>algorithmic
-        plays</a
-      >
-      — theater that improvises with you, not at you. To build
-      <a
-        class="section-pill"
-        data-section="machine"
-        href="/works/?section=machine-talk"
-        ><span class="section-pill__dot" aria-hidden="true"></span>machine
-        talk</a
-      >
-      that doesn't flatten the people it's trained on. To make
-      <a
-        class="section-pill"
-        data-section="semantics"
-        href="/works/?section=somatic-semantics"
-        ><span class="section-pill__dot" aria-hidden="true"></span>somatic
-        semantics</a
-      >
-      — net art the body can answer back to. And to leave behind
-      <a class="section-pill" data-section="tools" href="/works/?section=tools"
-        ><span class="section-pill__dot" aria-hidden="true"></span>tools</a
-      >
-      small enough to be borrowed.
-    </p>
+        <!-- Behind the curtain: theme line + poem stream. -->
+        <div class="terminal__inner">
+          <div class="terminal__theme" data-terminal-theme>
+            <span class="terminal__theme-label">Theme:</span>
+            <span class="terminal__theme-word" data-terminal-theme-word
+              >&nbsp;</span
+            >
+          </div>
+          <div class="terminal__poem" data-terminal-poem aria-live="polite">
+            <span class="terminal__caret" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggestion strip — clickable theme chips. -->
+      <div class="terminal__suggest">
+        <div class="terminal__suggest-label">write me a poem about</div>
+        <div class="terminal__suggest-chips" data-terminal-themes></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: self-presentation -->
+    <aside class="home-bio" aria-label="About Halim">
+      <p class="home-bio__lede">
+        Halim trains and performs with other-than-human intelligences.
+      </p>
+      <p class="home-bio__body">
+        He performs on stage with web artifacts and models he fine-tunes as part
+        of
+        <a
+          class="section-pill"
+          data-section="plays"
+          href="/works/?section=algorithmic-plays"
+          ><span class="section-pill__dot" aria-hidden="true"></span>algorithmic
+          plays</a
+        >. He trains and creates LLM voices that break expected patterns as part
+        of his
+        <a
+          class="section-pill"
+          data-section="machine"
+          href="/works/?section=machine-talk"
+          ><span class="section-pill__dot" aria-hidden="true"></span>machine
+          talk</a
+        >
+        work, and web surfaces that bring
+        <a
+          class="section-pill"
+          data-section="semantics"
+          href="/works/?section=somatic-semantics"
+          ><span class="section-pill__dot" aria-hidden="true"></span>somatic
+          semantics</a
+        >
+        to life. He also makes
+        <a
+          class="section-pill"
+          data-section="tools"
+          href="/works/?section=tools"
+          ><span class="section-pill__dot" aria-hidden="true"></span>tools</a
+        >
+        for other computational dramaturgists and poets to play with.
+      </p>
+    </aside>
   </section>
 
   <section

@@ -1,14 +1,10 @@
 /* ═══════════════════════════════════════════
-   palette-mascot.js (Song of Fridges easter eggs)
+   palette-mascot.js — small terminal easter eggs.
 
-   The mascot panel above the palette input rotates poetic
-   one-liners from the Song of Fridges voice — sourced from the
-   fine-tuning dataset's auto_emit + opener + waiting categories.
-   These are small easter eggs that signal to the visitor that
-   something stranger is happening in MACHINE mode.
-
-   8 frames cycle every ~1100ms (slightly slower than before so the
-   lines have room to land). Stops cleanly when palette closes.
+   Rotates short poetic one-liners in the mascot panel above the
+   palette input. Each frame is a small ASCII tableau plus a line.
+   8 frames cycle every 1500ms (slow enough that each line lands).
+   Stops cleanly when the palette closes.
    ═══════════════════════════════════════════ */
 
 (function () {
@@ -45,7 +41,7 @@
     if (!node) return;
     step = 0;
     tick();
-    intervalId = setInterval(tick, 1100);
+    intervalId = setInterval(tick, 1500);
   }
 
   function stop() {

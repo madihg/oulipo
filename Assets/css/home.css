@@ -13,6 +13,279 @@
   padding: 0;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   LANDING HERO — terminal poem generator (left) + bio (right)
+   Desktop: 2-col grid. Mobile: stacked, terminal first.
+   ═══════════════════════════════════════════════════════════ */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 4rem;
+}
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ── terminal ───────────────────────────────────────────── */
+.terminal {
+  background: #0a0a0a;
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid #000;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 26rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.06),
+    0 12px 30px -10px rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 600px) {
+  .terminal {
+    min-height: 22rem;
+  }
+}
+
+/* Top window bar — three dots + label. */
+.terminal__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+.terminal__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+.terminal__dot:nth-child(1) {
+  background: rgba(255, 95, 86, 0.7);
+}
+.terminal__dot:nth-child(2) {
+  background: rgba(255, 189, 46, 0.7);
+}
+.terminal__dot:nth-child(3) {
+  background: rgba(40, 200, 64, 0.7);
+}
+.terminal__label {
+  margin-left: 0.6rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Stage — holds curtain + the inner poem panel. */
+.terminal__stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 18rem;
+}
+
+/* The inner content sits behind the curtain. */
+.terminal__inner {
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+@media (max-width: 600px) {
+  .terminal__inner {
+    padding: 1.1rem 1.1rem 0.9rem;
+  }
+}
+
+.terminal__theme {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.terminal__theme-label {
+  color: rgba(255, 255, 255, 0.42);
+}
+.terminal__theme-word {
+  color: var(--section-tools, #02f700);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.terminal__poem {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+.terminal__poem::-webkit-scrollbar {
+  width: 0.4rem;
+}
+.terminal__poem::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Blinking caret while streaming. */
+.terminal__caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: var(--section-tools, #02f700);
+  vertical-align: text-bottom;
+  margin-left: 0.1em;
+  animation: terminal-caret 0.95s steps(1, end) infinite;
+}
+@keyframes terminal-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Suggestion strip. */
+.terminal__suggest {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.9rem 1.5rem 1.1rem;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .terminal__suggest {
+    padding: 0.8rem 1.1rem 0.9rem;
+  }
+}
+.terminal__suggest-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  margin-bottom: 0.55rem;
+}
+.terminal__suggest-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.terminal__chip {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 0.28rem 0.6rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.terminal__chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+.terminal__chip:focus-visible {
+  outline: 2px solid var(--section-tools, #02f700);
+  outline-offset: 2px;
+}
+
+/* ── 8-bit curtain ───────────────────────────────────────
+   Two halves cover the stage at boot, then slide outward.
+   Pattern: blocky ▓░ rows in a chunky pixel font. */
+.curtain {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  z-index: 2;
+}
+.curtain__half {
+  flex: 1;
+  background: #000;
+  overflow: hidden;
+  transition: transform 1.2s cubic-bezier(0.7, 0, 0.3, 1);
+  will-change: transform;
+}
+.curtain__half--left {
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+}
+.curtain__weave {
+  margin: 0;
+  padding: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  line-height: 0.85;
+  color: rgba(255, 255, 255, 0.16);
+  white-space: pre;
+  letter-spacing: 0;
+  user-select: none;
+}
+/* Slide outward when JS opens the curtain. */
+.curtain[data-curtain="open"] .curtain__half--left {
+  transform: translateX(-101%);
+}
+.curtain[data-curtain="open"] .curtain__half--right {
+  transform: translateX(101%);
+}
+/* When fully open, take the curtain out of the layer stack so
+   it doesn't catch pointer events on a transparent area. */
+.curtain[data-curtain="done"] {
+  display: none;
+}
+
+/* ── bio (right column) ──────────────────────────────────── */
+.home-bio {
+  font-family: var(--font-body);
+  color: var(--ink-85);
+  padding: 0.5rem 0;
+}
+.home-bio__lede {
+  font-family: var(--font-h2, var(--font-body));
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.25rem;
+  color: var(--ink-85);
+}
+.home-bio__body {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--ink-85);
+}
+@media (max-width: 600px) {
+  .home-bio__lede {
+    font-size: 1.3rem;
+  }
+  .home-bio__body {
+    font-size: 1rem;
+  }
+}
+
 .home-section {
   margin-bottom: 3.5rem;
 }

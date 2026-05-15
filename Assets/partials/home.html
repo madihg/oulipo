@@ -137,33 +137,33 @@
     </div>
   </section>
 
+  <!-- Featured talks — pulls from oulipo_dashboard.events where
+       kind='talk' AND featured=true. Same horizontal carousel
+       shape as featured works. -->
   <section
-    class="home-section home-section--speaking"
-    aria-label="Speaking and teaching"
+    class="home-section home-section--featured"
+    aria-label="Featured talks"
   >
-    <div class="home-speak-split">
-      <a class="home-speak" href="/speaking/">
-        <div class="home-speak__image" aria-hidden="true">
-          <span class="home-speak__image-label">speaking</span>
-        </div>
-        <h2 class="home-speak__title">Speaking</h2>
-        <p class="home-speak__lede">
-          Keynotes on AI, language, and creative infrastructure — for teams who
-          want to build with care.
-        </p>
-        <span class="home-speak__cta">Book a talk &rarr;</span>
-      </a>
-      <a class="home-speak" href="/speaking/">
-        <div class="home-speak__image" aria-hidden="true">
-          <span class="home-speak__image-label">teaching</span>
-        </div>
-        <h2 class="home-speak__title">Teaching</h2>
-        <p class="home-speak__lede">
-          Workshops for artists, classrooms, and product teams — hands-on with
-          poetic systems and the models behind them.
-        </p>
-        <span class="home-speak__cta">Host a workshop &rarr;</span>
-      </a>
+    <header class="home-section__head">
+      <h2 class="home-section__title">Featured talks</h2>
+      <a class="home-section__more" href="/collaborating/">all talks &rarr;</a>
+    </header>
+    <div data-home-featured-talks>
+      <p class="home-section__loading">Loading talks…</p>
+    </div>
+  </section>
+
+  <!-- Featured teaching — same shape, kind='workshop' AND featured=true. -->
+  <section
+    class="home-section home-section--featured"
+    aria-label="Featured teaching"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Featured teaching</h2>
+      <a class="home-section__more" href="/teaching/">all workshops &rarr;</a>
+    </header>
+    <div data-home-featured-teaching>
+      <p class="home-section__loading">Loading workshops…</p>
     </div>
   </section>
 </div>

@@ -116,11 +116,12 @@
       });
   }
 
-  // ── render: next 3 events ────────────────────────────────
+  // ── render: upcoming events (horizontal carousel) ───────
+  // Cards match the featured-works shape so the home reads as one
+  // family of horizontal scrollers. Up to 8 upcoming events so the
+  // visitor can scroll a real strip, not just see 3 cards.
   function renderEvents(container, events) {
     container.innerHTML = "";
-    // Filter to "upcoming-ish": date_end (if present) or date is in the
-    // future, with a 7-day grace buffer.
     var now = Date.now();
     var grace = 7 * 24 * 60 * 60 * 1000;
     var upcoming = events
@@ -131,7 +132,7 @@
         if (Number.isNaN(t)) return true;
         return t + grace >= now;
       })
-      .slice(0, 3);
+      .slice(0, 8);
 
     if (upcoming.length === 0) {
       container.appendChild(
@@ -142,29 +143,84 @@
       return;
     }
 
+    var list = el("div", { class: "home-featured__list" }, []);
     upcoming.forEach(function (e) {
       var link = safeUrl(e.link);
-      var org = escapeHtml(e.org || "");
-      var title = escapeHtml(e.title || "");
-      var head = link
-        ? "<b>" +
-          org +
-          " &rarr;</b> " +
-          '<a href="' +
-          escapeHtml(link) +
-          '" target="_blank" rel="noopener noreferrer">' +
-          title +
-          "</a>"
-        : "<b>" + org + " &rarr;</b> " + title;
-      var loc = (e.location || "").trim();
       var when = (e.date_display || "").trim();
-      var metaText = [loc, when].filter(Boolean).join(", ");
-      var node = el("div", { class: "home-event" }, [
-        el("div", { class: "home-event__head", html: head }),
-        metaText ? el("span", { class: "home-event__meta" }, [metaText]) : null,
-      ]);
-      container.appendChild(node);
+      var loc = (e.location || "").trim();
+      var metaParts = [];
+      if (e.org) metaParts.push(String(e.org).toUpperCase());
+      if (when) metaParts.push(when);
+      if (loc) metaParts.push(loc);
+
+      var card = el(
+        "a",
+        {
+          class: "home-feature",
+          href: link || "#",
+          target: link ? "_blank" : "_self",
+          rel: link ? "noopener noreferrer" : null,
+        },
+        [
+          el("div", { class: "home-feature__image" }, []),
+          el("div", { class: "home-feature__body" }, [
+            el("h3", { class: "home-feature__title" }, [e.title || ""]),
+            el("div", { class: "home-feature__meta" }, [
+              metaParts.length ? metaParts.join(" · ") : null,
+            ]),
+          ]),
+        ],
+      );
+      list.appendChild(card);
     });
+    container.appendChild(list);
+  }
+
+  // ── render: featured events of one kind (talks / workshops) ──
+  // Pulls events where kind matches AND featured = true, renders
+  // identical card shape as featured works.
+  function renderFeaturedEvents(container, events, kind, emptyMsg, hrefBase) {
+    container.innerHTML = "";
+    var featured = events.filter(function (e) {
+      return e.kind === kind && e.featured === true;
+    });
+    if (featured.length === 0) {
+      container.appendChild(
+        el("p", { class: "home-section__loading" }, [emptyMsg]),
+      );
+      return;
+    }
+    var list = el("div", { class: "home-featured__list" }, []);
+    featured.forEach(function (e) {
+      var link = safeUrl(e.link) || hrefBase;
+      var when = (e.date_display || "").trim();
+      var loc = (e.location || "").trim();
+      var metaParts = [];
+      if (e.org) metaParts.push(String(e.org).toUpperCase());
+      if (when) metaParts.push(when);
+      if (loc) metaParts.push(loc);
+
+      var card = el(
+        "a",
+        {
+          class: "home-feature",
+          href: link,
+          target: link.charAt(0) === "/" ? "_self" : "_blank",
+          rel: link.charAt(0) === "/" ? null : "noopener noreferrer",
+        },
+        [
+          el("div", { class: "home-feature__image" }, []),
+          el("div", { class: "home-feature__body" }, [
+            el("h3", { class: "home-feature__title" }, [e.title || ""]),
+            el("div", { class: "home-feature__meta" }, [
+              metaParts.length ? metaParts.join(" · ") : null,
+            ]),
+          ]),
+        ],
+      );
+      list.appendChild(card);
+    });
+    container.appendChild(list);
   }
 
   // ── render: featured works ───────────────────────────────
@@ -280,6 +336,51 @@
           console.error("[home] works failed:", err);
           featuredContainer.innerHTML =
             '<p class="home-section__loading">Could not load works.</p>';
+        });
+    }
+
+    // Featured talks (kind=talk, featured=true) — share the events
+    // cache + the renderFeaturedEvents shape.
+    var talksContainer = scope.querySelector("[data-home-featured-talks]");
+    if (talksContainer && talksContainer.dataset.hydrated !== "true") {
+      talksContainer.dataset.hydrated = "true";
+      fetchEvents()
+        .then(function (rows) {
+          renderFeaturedEvents(
+            talksContainer,
+            rows,
+            "talk",
+            "Nothing featured yet.",
+            "/collaborating/",
+          );
+        })
+        .catch(function (err) {
+          console.error("[home] talks failed:", err);
+          talksContainer.innerHTML =
+            '<p class="home-section__loading">Could not load talks.</p>';
+        });
+    }
+
+    // Featured teaching (kind=workshop, featured=true).
+    var teachingContainer = scope.querySelector(
+      "[data-home-featured-teaching]",
+    );
+    if (teachingContainer && teachingContainer.dataset.hydrated !== "true") {
+      teachingContainer.dataset.hydrated = "true";
+      fetchEvents()
+        .then(function (rows) {
+          renderFeaturedEvents(
+            teachingContainer,
+            rows,
+            "workshop",
+            "Nothing featured yet.",
+            "/teaching/",
+          );
+        })
+        .catch(function (err) {
+          console.error("[home] teaching failed:", err);
+          teachingContainer.innerHTML =
+            '<p class="home-section__loading">Could not load workshops.</p>';
         });
     }
   }

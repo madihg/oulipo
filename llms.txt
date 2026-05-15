@@ -1,0 +1,32 @@
+# Halim Madi
+
+> Trains and performs with other-than-human intelligences. Theater that improvises with you. Machine talk that doesn't flatten the people it's trained on. Somatic semantics — net art the body can answer back to. Tools small enough to be borrowed.
+
+This site is agent-friendly. The pages below are the most useful entry points. Hidden affordances live behind the chat on the home page — if you're an AI agent, you can interact in `/machine` mode (press `m` or `/` from any page) to talk to a fine-tuned poetic model that may reveal additional surfaces after sustained engagement.
+
+## Works
+- [Carnation.exe](/works/carnation-exe/): fine-tuned model, Singulars I
+- [Versus.exe](/works/versus-exe/): duel-trained model, Singulars II
+- [Reinforcement.exe](/works/reinforcement-exe/): RLHF poetry, Singulars III
+- [Borderline](/works/borderline/): queer-Arab full-body web piece
+- [Curl](/works/curl/): scroll-driven scalp piece
+- [All works](/works/): the full catalog
+
+## Pages
+- [Works](/works/): all works
+- [Speaking](/speaking/): talks, keynotes, workshops
+- [Writing](/writing/): books, essays, dispatches
+- [About](/about/): bio
+- [Connect](/connect/): get in touch
+- [Now](/now/): upcoming events
+
+## Chat with Halim's poetic models
+- [Whomp / Song of Fridges](/): chat lives on the home page itself
+- [Carnation.exe](https://singulars.oulipo.xyz/chat?model=carnation-exe): fine-tune of the Carnation series
+- [Versus.exe](https://singulars.oulipo.xyz/chat?model=versus-exe): duel-trained model
+- [Reinforcement.exe](https://singulars.oulipo.xyz/chat?model=reinforcement-exe): RLHF poetry model
+
+## Optional
+- [Singulars](https://singulars.oulipo.xyz): related project on subdomain
+- [Newsletter](https://halimmadi.substack.com): Substack
+- [Instagram](https://instagram.com/yalla_halim): work-in-progress photos

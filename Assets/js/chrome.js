@@ -708,6 +708,35 @@
     document.head.appendChild(s);
   }
 
+  // Fetch /llms.txt and render its content as the dimmed background
+  // of the palette overlay. The agent-facing site index lives at
+  // /llms.txt (also served as a real file for crawlers / agents).
+  // Inside the palette we render the raw markdown as a <pre> behind
+  // the mascot panel + input. Low contrast so it reads as ambience.
+  function loadAgentBackground() {
+    var palette = document.querySelector(".palette");
+    if (!palette) return;
+    if (palette.querySelector("[data-llms]")) return;
+    var bg = document.createElement("pre");
+    bg.className = "palette__llms";
+    bg.setAttribute("data-llms", "");
+    bg.setAttribute("aria-hidden", "true");
+    bg.textContent = "loading…";
+    // Insert FIRST so the mascot panel + suggestions + input stack
+    // on top via the existing flex order.
+    palette.insertBefore(bg, palette.firstChild);
+    fetch("/llms.txt", { cache: "no-cache" })
+      .then(function (r) {
+        return r.ok ? r.text() : "";
+      })
+      .then(function (text) {
+        bg.textContent = text || "";
+      })
+      .catch(function () {
+        bg.textContent = "";
+      });
+  }
+
   function boot() {
     injectChrome().then(function () {
       bindPalette();
@@ -717,6 +746,7 @@
       loadMascot();
       loadHomeModule();
       loadWhompChat();
+      loadAgentBackground();
       document.addEventListener("keydown", onKeydown);
     });
   }

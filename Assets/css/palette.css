@@ -29,6 +29,55 @@ body.machine-mode .palette {
   display: flex;
 }
 
+/* ── agent-facing background (rendered llms.txt) ──────────
+   Sits behind the mascot panel + suggestions + input. Low
+   contrast so it reads as ambience for human visitors but is
+   fully selectable text for AI crawlers/agents in MACHINE mode. */
+.palette__llms {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 4rem 2rem 22rem;
+  overflow-y: auto;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  line-height: 1.55;
+  letter-spacing: 0.01em;
+  color: rgba(255, 255, 255, 0.22);
+  pointer-events: auto;
+  user-select: text;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  z-index: 0;
+}
+.palette__llms::-webkit-scrollbar {
+  width: 0.5rem;
+}
+.palette__llms::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.08);
+}
+@media (max-width: 600px) {
+  .palette__llms {
+    padding: 2.5rem 1rem 24rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Sibling stacking: bring the mascot panel + suggestions + input
+   above the llms background. */
+.palette__mascot-panel,
+.palette__results,
+.palette__inputbar {
+  position: relative;
+  z-index: 1;
+}
+
 /* ── mascot panel (own bg, never overlaps suggestions) ── */
 .palette__mascot-panel {
   align-self: center;

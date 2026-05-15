@@ -14,7 +14,8 @@ This site is agent-friendly. The pages below are the most useful entry points. H
 
 ## Pages
 - [Works](/works/): all works
-- [Speaking](/speaking/): talks, keynotes, workshops
+- [Collaborating](/collaborating/): talks, keynotes, panels
+- [Teaching](/teaching/): workshops + classes
 - [Writing](/writing/): books, essays, dispatches
 - [About](/about/): bio
 - [Connect](/connect/): get in touch

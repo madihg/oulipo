@@ -47,10 +47,16 @@
       go: "/works/?section=tools",
     },
     {
-      cmd: "/speaking",
-      desc: "keynotes & workshops",
+      cmd: "/collaborating",
+      desc: "talks, keynotes, panels",
       kind: "page",
-      go: "/speaking/",
+      go: "/collaborating/",
+    },
+    {
+      cmd: "/teaching",
+      desc: "workshops + classes",
+      kind: "page",
+      go: "/teaching/",
     },
     { cmd: "/about", desc: "who · where · why", kind: "page", go: "/about/" },
     {
@@ -202,10 +208,16 @@
   var TOP_LEVEL = [
     { cmd: "/works", desc: "browse all works", kind: "page", go: "/works/" },
     {
-      cmd: "/speaking",
-      desc: "keynotes & workshops",
+      cmd: "/collaborating",
+      desc: "talks, keynotes, panels",
       kind: "page",
-      go: "/speaking/",
+      go: "/collaborating/",
+    },
+    {
+      cmd: "/teaching",
+      desc: "workshops + classes",
+      kind: "page",
+      go: "/teaching/",
     },
     {
       cmd: "/writing",

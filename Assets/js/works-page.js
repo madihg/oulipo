@@ -66,7 +66,6 @@
       headers: {
         apikey: SUPABASE_ANON_KEY,
         authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "accept-profile": "oulipo_dashboard",
         accept: "application/json",
       },
     }).then(function (r) {

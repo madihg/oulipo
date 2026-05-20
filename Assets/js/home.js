@@ -60,6 +60,10 @@
   }
 
   // ── events fetch (Supabase REST, public anon read) ───────
+  // We read from public.events — a view that selects all rows from
+  // oulipo_dashboard.events. The oulipo_dashboard schema isn't exposed
+  // via PostgREST, so going through public is the path that doesn't
+  // require a dashboard "expose schema" toggle. (Halim 2026-05-15.)
   function fetchEvents() {
     if (eventsCache) return Promise.resolve(eventsCache);
     var url =
@@ -68,7 +72,6 @@
       headers: {
         apikey: SUPABASE_ANON_KEY,
         authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "accept-profile": "oulipo_dashboard",
         accept: "application/json",
       },
     })
@@ -83,6 +86,7 @@
   }
 
   // ── works fetch (Supabase first, works.json fallback) ────
+  // Reads from public.works (a view over oulipo_dashboard.works).
   function fetchWorks() {
     if (worksCache) return Promise.resolve(worksCache);
     var url =
@@ -91,7 +95,6 @@
       headers: {
         apikey: SUPABASE_ANON_KEY,
         authorization: "Bearer " + SUPABASE_ANON_KEY,
-        "accept-profile": "oulipo_dashboard",
         accept: "application/json",
       },
     })

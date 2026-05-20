@@ -34,8 +34,8 @@ body.machine-mode .palette {
    contrast so it reads as ambience for human visitors but is
    fully selectable text for AI crawlers/agents in MACHINE mode. */
 /* Background terminal text — width matches the input + mascot
-   panel (60ch max), centered. Halim 2026-05-15: was full-bleed
-   which felt sprawled. */
+   panel (60ch max), centered. Halim 2026-05-15: brighter contrast
+   so it reads, scrollbar hidden so it doesn't visually clutter. */
 .palette__llms {
   position: absolute;
   top: 0;
@@ -54,18 +54,24 @@ body.machine-mode .palette {
   font-size: 0.78rem;
   line-height: 1.55;
   letter-spacing: 0.01em;
-  color: rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.4);
   pointer-events: auto;
   user-select: text;
   white-space: pre-wrap;
   word-wrap: break-word;
   z-index: 0;
+  /* Hide scrollbar entirely (Halim 2026-05-15) — fully scrollable still,
+     just no visible chrome. */
+  scrollbar-width: none;
 }
 .palette__llms::-webkit-scrollbar {
-  width: 0.5rem;
+  display: none;
 }
-.palette__llms::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.08);
+@media (max-width: 600px) {
+  .palette__llms {
+    padding: 2.5rem 1rem 24rem;
+    font-size: 0.72rem;
+  }
 }
 @media (max-width: 600px) {
   .palette__llms {
@@ -88,10 +94,11 @@ body.machine-mode .palette {
   align-self: center;
   width: 100%;
   max-width: 60ch;
-  margin: 0 0 1rem;
-  padding: 1.25rem 1.5rem;
-  /* Opaque so it sits cleanly above the dimmed llms.txt background
-     (Halim 2026-05-15). */
+  margin: 0 0 0.75rem;
+  /* Shorter — single-line mascot frames mean we don't need the
+     bigger vertical box (Halim 2026-05-15). */
+  padding: 0.75rem 1.1rem;
+  /* Opaque so it sits cleanly above the dimmed llms.txt background. */
   background: #1a1a1a;
   border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 4px;

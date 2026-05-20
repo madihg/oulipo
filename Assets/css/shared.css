@@ -9,10 +9,10 @@
 @import url("./chrome.css?v=16");
 
 /* Command palette overlay (MACHINE mode) */
-@import url("./palette.css?v=8");
+@import url("./palette.css?v=9");
 
 /* Home surface (consumed by /index.html + chrome.js home-overlay) */
-@import url("./home.css?v=7");
+@import url("./home.css?v=9");
 
 /* Whomp chat surface — top of the home content */
 @import url("./whomp-chat.css?v=2");
@@ -161,25 +161,71 @@ hr {
   max-width: 100%;
 }
 
-/* Cargo button style — outlined with slight radius */
+/* ═══════════════════════════════════════════════════════════
+   .button-8 — primary outlined CTA, large variant of the chip family
+   ─────────────────────────────────────────────────────────────
+   Halim 2026-05-15: harden the design system so old buttons (Send
+   an Email, Vote Now, Reach Out, Contact Halim) read as the same
+   family as the new corner chips (CONNECT, HUMAN/MACHINE). The
+   Connect aesthetic wins: outlined, monospace, uppercase, 4px
+   radius. Just bigger here because these are primary page CTAs,
+   not corner micro-buttons.
+
+   Family hierarchy:
+   - .chip-name (chrome.css):           outlined micro-chip (corners)
+   - .mode-toggle__option (chrome.css): outlined micro-chip with radio
+   - .button-8 (here):                  outlined LARGE CTA — same family,
+                                        bigger padding + type
+   - .signup-bar__submit (chrome.css):  filled-ink variant of .chip-name
+   - .section-pill (below):             color-coded decorative pill,
+                                        kept distinct (content anchors)
+   ═══════════════════════════════════════════════════════════ */
 .button-8 {
-  display: inline-block;
-  font-family: Standard, sans-serif;
-  font-size: var(--type-size-base);
-  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: rgba(0, 0, 0, 0.85);
-  background: transparent;
-  border: 0.2rem solid rgba(0, 0, 0, 0.85);
-  border-radius: 0.5rem;
-  padding: 0.8rem 1rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.85);
+  border-radius: 4px;
+  padding: 0.6rem 1.1rem;
+  line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
-
 .button-8:hover {
-  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.06);
   color: rgba(0, 0, 0, 0.85);
+  opacity: 1;
+}
+.button-8:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.85);
+  outline-offset: 2px;
+}
+/* Filled variant for primary CTAs (e.g. a single "Subscribe now"
+   where attention matters most). Mirrors .signup-bar__submit. */
+.button-8--filled {
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.85);
+}
+.button-8--filled:hover {
+  background: rgba(0, 0, 0, 1);
+  color: #ffffff;
+  opacity: 0.92;
 }
 
 /* Cargo layout splits — asymmetric grids */
@@ -746,25 +792,34 @@ hr {
    ─────────────────────────────────────────── */
 .section-pill {
   display: inline-flex;
-  align-items: baseline;
-  gap: 0.3rem;
-  padding: 0.05rem 0.55rem;
+  align-items: center;
+  gap: 0.35rem;
+  /* Vertical breathing so the rounded ends don't kiss the next line's
+     text when the pill wraps in a paragraph (Halim 2026-05-15). */
+  padding: 0.15rem 0.65rem;
+  margin: 0 0.05em;
   border: 1.2px solid var(--section-color, var(--ink));
   border-radius: 999px;
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
     "MONO" 1;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   letter-spacing: 0.02em;
   text-transform: lowercase;
   color: var(--ink-85);
   background: var(--paper);
   text-decoration: none;
   white-space: nowrap;
+  vertical-align: baseline;
   transition:
     background 0.2s ease,
     color 0.2s ease;
+}
+/* Parent paragraphs that hold section pills get extra line-height
+   so adjacent lines have breathing room around the pill. */
+p:has(.section-pill) {
+  line-height: 1.95;
 }
 .section-pill:hover,
 .section-pill:focus-visible {

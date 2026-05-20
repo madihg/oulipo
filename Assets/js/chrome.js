@@ -539,7 +539,18 @@
         return;
       }
       if (e.key === "Tab") {
-        // autocomplete to the highlighted command
+        // Two behaviors:
+        //   1. Input is empty → open the slash hierarchy (same as
+        //      typing "/"). Halim 2026-05-15: "tab does nothing
+        //      right now, when i click on it it should show something."
+        //   2. Input non-empty + a suggestion highlighted → autocomplete.
+        var currentValue = paletteInput.value || "";
+        if (currentValue.trim() === "") {
+          e.preventDefault();
+          paletteInput.value = "/";
+          renderResults("/");
+          return;
+        }
         if (paletteRows[paletteSelected]) {
           e.preventDefault();
           var cmd =
@@ -692,7 +703,7 @@
     // so the mascot module can hook the [data-mascot] node.
     if (document.querySelector("script[data-mascot-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/palette-mascot.js?v=5";
+    s.src = "/Assets/js/palette-mascot.js?v=6";
     s.defer = true;
     s.setAttribute("data-mascot-loader", "");
     document.head.appendChild(s);
@@ -703,7 +714,7 @@
     // (and inside the root /index.html mount). Inject once site-wide.
     if (document.querySelector("script[data-home-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/home.js?v=2";
+    s.src = "/Assets/js/home.js?v=3";
     s.defer = true;
     s.setAttribute("data-home-loader", "");
     document.head.appendChild(s);
@@ -715,7 +726,7 @@
     // older whomp-chat / song-of-fridges loader.
     if (document.querySelector("script[data-terminal-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/terminal.js?v=1";
+    s.src = "/Assets/js/terminal.js?v=3";
     s.defer = true;
     s.setAttribute("data-terminal-loader", "");
     document.head.appendChild(s);

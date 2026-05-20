@@ -131,19 +131,7 @@
     </aside>
   </section>
 
-  <section
-    class="home-section home-section--events"
-    aria-label="Upcoming events"
-  >
-    <header class="home-section__head">
-      <h2 class="home-section__title">Upcoming</h2>
-      <a class="home-section__more" href="/now/">all events &rarr;</a>
-    </header>
-    <div data-home-events>
-      <p class="home-section__loading">Loading events…</p>
-    </div>
-  </section>
-
+  <!-- 1. Featured works -->
   <section
     class="home-section home-section--featured"
     aria-label="Featured works"
@@ -157,33 +145,34 @@
     </div>
   </section>
 
-  <!-- Featured talks — pulls from oulipo_dashboard.events where
-       kind='talk' AND featured=true. Same horizontal carousel
-       shape as featured works. -->
+  <!-- 2. Upcoming events -->
   <section
-    class="home-section home-section--featured"
-    aria-label="Featured talks"
+    class="home-section home-section--events"
+    aria-label="Upcoming events"
   >
     <header class="home-section__head">
-      <h2 class="home-section__title">Featured talks</h2>
-      <a class="home-section__more" href="/collaborating/">all talks &rarr;</a>
+      <h2 class="home-section__title">Upcoming</h2>
+      <a class="home-section__more" href="/now/">all events &rarr;</a>
     </header>
-    <div data-home-featured-talks>
-      <p class="home-section__loading">Loading talks…</p>
+    <div data-home-events>
+      <p class="home-section__loading">Loading events…</p>
     </div>
   </section>
 
-  <!-- Featured teaching — same shape, kind='workshop' AND featured=true. -->
+  <!-- 3. Recent keynotes & workshops — combined strip pulling events
+       where kind IN ('talk','workshop') AND featured=true, ordered
+       by date desc. Halim 2026-05-15: was two separate sections,
+       merged into one. -->
   <section
     class="home-section home-section--featured"
-    aria-label="Featured teaching"
+    aria-label="Recent keynotes and workshops"
   >
     <header class="home-section__head">
-      <h2 class="home-section__title">Featured teaching</h2>
-      <a class="home-section__more" href="/teaching/">all workshops &rarr;</a>
+      <h2 class="home-section__title">Recent keynotes &amp; workshops</h2>
+      <a class="home-section__more" href="/collaborating/">all &rarr;</a>
     </header>
-    <div data-home-featured-teaching>
-      <p class="home-section__loading">Loading workshops…</p>
+    <div data-home-recent>
+      <p class="home-section__loading">Loading…</p>
     </div>
   </section>
 </div>

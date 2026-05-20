@@ -21,8 +21,12 @@
   "use strict";
 
   // ── config ────────────────────────────────────────────────
-  var ENDPOINT = "https://singulars.oulipo.xyz/api/chat";
-  var MODEL_SLUG = "reverse";
+  // Our own endpoint (oulipo-poems-api on Vercel). Copies Singulars'
+  // OpenAI-SDK pattern verbatim — same Claude Opus 4.7 + SYSTEM_PROMPT_REVERSE
+  // that reverse.exe runs on — but served from a domain we control so no
+  // cross-origin issues. Halim updates this URL after the first deploy if
+  // the Vercel host name ends up different.
+  var ENDPOINT = "https://song-of-fridges-api.vercel.app/api/chat";
 
   // One-word evocative themes. The reverse.exe model handles abstract
   // nouns well — these are tuned to its register (Ocean Vuong meets
@@ -105,7 +109,6 @@
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         messages: [{ role: "user", content: prompt }],
-        modelSlug: MODEL_SLUG,
       }),
       mode: "cors",
     })

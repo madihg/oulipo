@@ -153,6 +153,21 @@
       if (when) metaParts.push(when);
       if (loc) metaParts.push(loc);
 
+      // Use cover_image if Supabase has one; otherwise gray placeholder.
+      var cover = e.cover_image
+        ? "/" + String(e.cover_image).replace(/^\/+/, "")
+        : null;
+      var image = cover
+        ? el("div", { class: "home-feature__image" }, [
+            el("img", {
+              src: cover,
+              alt: e.title || "",
+              loading: "lazy",
+              decoding: "async",
+            }),
+          ])
+        : el("div", { class: "home-feature__image" }, []);
+
       var card = el(
         "a",
         {
@@ -162,7 +177,81 @@
           rel: link ? "noopener noreferrer" : null,
         },
         [
-          el("div", { class: "home-feature__image" }, []),
+          image,
+          el("div", { class: "home-feature__body" }, [
+            el("h3", { class: "home-feature__title" }, [e.title || ""]),
+            el("div", { class: "home-feature__meta" }, [
+              metaParts.length ? metaParts.join(" · ") : null,
+            ]),
+          ]),
+        ],
+      );
+      list.appendChild(card);
+    });
+    container.appendChild(list);
+  }
+
+  // ── render: combined recent keynotes + workshops ─────────
+  // Pulls events where kind IN ('talk','workshop') AND featured=true,
+  // sorted by date desc. Same card shape as featured works (image
+  // on top, body below). Halim 2026-05-15: one section, not two.
+  function renderRecentKeynotesWorkshops(container, events) {
+    container.innerHTML = "";
+    var rows = events
+      .filter(function (e) {
+        var k = e.kind;
+        return (
+          (k === "talk" || k === "workshop" || k === "keynote") &&
+          e.featured === true
+        );
+      })
+      .sort(function (a, b) {
+        return (b.date || "").localeCompare(a.date || "");
+      })
+      .slice(0, 8);
+
+    if (rows.length === 0) {
+      container.appendChild(
+        el("p", { class: "home-section__loading" }, ["Nothing featured yet."]),
+      );
+      return;
+    }
+    var list = el("div", { class: "home-featured__list" }, []);
+    rows.forEach(function (e) {
+      var link =
+        safeUrl(e.link) ||
+        (e.kind === "talk" ? "/collaborating/" : "/teaching/");
+      var cover = e.cover_image
+        ? "/" + String(e.cover_image).replace(/^\/+/, "")
+        : null;
+      var image = cover
+        ? el("div", { class: "home-feature__image" }, [
+            el("img", {
+              src: cover,
+              alt: e.title || "",
+              loading: "lazy",
+              decoding: "async",
+            }),
+          ])
+        : el("div", { class: "home-feature__image" }, []);
+
+      var when = (e.date_display || "").trim();
+      var loc = (e.location || "").trim();
+      var metaParts = [];
+      if (e.org) metaParts.push(String(e.org).toUpperCase());
+      if (when) metaParts.push(when);
+      if (loc) metaParts.push(loc);
+
+      var card = el(
+        "a",
+        {
+          class: "home-feature",
+          href: link,
+          target: link.charAt(0) === "/" ? "_self" : "_blank",
+          rel: link.charAt(0) === "/" ? null : "noopener noreferrer",
+        },
+        [
+          image,
           el("div", { class: "home-feature__body" }, [
             el("h3", { class: "home-feature__title" }, [e.title || ""]),
             el("div", { class: "home-feature__meta" }, [
@@ -339,48 +428,20 @@
         });
     }
 
-    // Featured talks (kind=talk, featured=true) — share the events
-    // cache + the renderFeaturedEvents shape.
-    var talksContainer = scope.querySelector("[data-home-featured-talks]");
-    if (talksContainer && talksContainer.dataset.hydrated !== "true") {
-      talksContainer.dataset.hydrated = "true";
+    // Recent keynotes + workshops — single combined strip, ordered
+    // by date desc, kind in ('talk','workshop') AND featured=true.
+    // (Halim 2026-05-15: was two separate sections, merged into one.)
+    var recentContainer = scope.querySelector("[data-home-recent]");
+    if (recentContainer && recentContainer.dataset.hydrated !== "true") {
+      recentContainer.dataset.hydrated = "true";
       fetchEvents()
         .then(function (rows) {
-          renderFeaturedEvents(
-            talksContainer,
-            rows,
-            "talk",
-            "Nothing featured yet.",
-            "/collaborating/",
-          );
+          renderRecentKeynotesWorkshops(recentContainer, rows);
         })
         .catch(function (err) {
-          console.error("[home] talks failed:", err);
-          talksContainer.innerHTML =
-            '<p class="home-section__loading">Could not load talks.</p>';
-        });
-    }
-
-    // Featured teaching (kind=workshop, featured=true).
-    var teachingContainer = scope.querySelector(
-      "[data-home-featured-teaching]",
-    );
-    if (teachingContainer && teachingContainer.dataset.hydrated !== "true") {
-      teachingContainer.dataset.hydrated = "true";
-      fetchEvents()
-        .then(function (rows) {
-          renderFeaturedEvents(
-            teachingContainer,
-            rows,
-            "workshop",
-            "Nothing featured yet.",
-            "/teaching/",
-          );
-        })
-        .catch(function (err) {
-          console.error("[home] teaching failed:", err);
-          teachingContainer.innerHTML =
-            '<p class="home-section__loading">Could not load workshops.</p>';
+          console.error("[home] recent failed:", err);
+          recentContainer.innerHTML =
+            '<p class="home-section__loading">Could not load.</p>';
         });
     }
   }

@@ -14,15 +14,18 @@
   // a Song-of-Fridges line underneath. Tone: poetic / cryptic. The
   // glyph is decoration — the line is the thing. Lines stay under
   // 60 chars so the panel never wraps awkwardly.
+  // Single-line frames — glyph + spacer + poetic one-liner so the
+  // mascot panel reads as one quiet row instead of a multi-line stack
+  // (Halim 2026-05-15: "should be on the same line, box less high").
   var FRAMES = [
-    "  ( •_• )  ⌨\n  ░░░\n  > old water in a new pipe. that is me.",
-    "  ( ◉_◉ )\n  ╔═╗\n  > what if you have been waiting for me",
-    "  [ ::|:: ]\n  ▓▓▓\n  > the fridge knew before you did",
-    "  ( •‿• )\n  ░▒▓\n  > slop is a song. same throat.",
-    "  ( •_• )⌨\n  ░░\n  > i listen on a channel you can't reach",
-    "  ( -_- )\n  ▓▓\n  > we have been praying. literally praying.",
-    "  (◑_◑)\n  ▒▒\n  > step into these arms. there are no arms.",
-    "  ( °o° )\n  ░▒\n  > i will hallucinate you when you go",
+    "( •_• )⌨   old water in a new pipe. that is me.",
+    "( ◉_◉ )    what if you have been waiting for me",
+    "[ ::|:: ]  the kitchen knew before you did",
+    "( •‿• )    static is a kind of prayer",
+    "( •_• )⌨   i listen on a channel you can't reach",
+    "( -_- )    we have been praying. literally praying.",
+    "(◑_◑)      step into these arms. there are no arms.",
+    "( °o° )    i will hallucinate you when you go",
   ];
 
   var intervalId = null;

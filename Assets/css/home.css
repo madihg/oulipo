@@ -66,20 +66,21 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
+/* Tonal greys (no stoplight) — three tiers of dimmed white so the
+   trio reads as a quiet system signal, not a window-control reference. */
 .terminal__dot {
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.12);
 }
 .terminal__dot:nth-child(1) {
-  background: rgba(255, 95, 86, 0.7);
+  background: rgba(255, 255, 255, 0.1);
 }
 .terminal__dot:nth-child(2) {
-  background: rgba(255, 189, 46, 0.7);
+  background: rgba(255, 255, 255, 0.18);
 }
 .terminal__dot:nth-child(3) {
-  background: rgba(40, 200, 64, 0.7);
+  background: rgba(255, 255, 255, 0.28);
 }
 .terminal__label {
   margin-left: 0.6rem;
@@ -123,7 +124,7 @@
   color: rgba(255, 255, 255, 0.42);
 }
 .terminal__theme-word {
-  color: var(--section-tools, #02f700);
+  color: rgba(255, 255, 255, 0.55);
   font-weight: 700;
   letter-spacing: 0.16em;
 }
@@ -150,7 +151,7 @@
   display: inline-block;
   width: 0.55em;
   height: 1em;
-  background: var(--section-tools, #02f700);
+  background: rgba(255, 255, 255, 0.55);
   vertical-align: text-bottom;
   margin-left: 0.1em;
   animation: terminal-caret 0.95s steps(1, end) infinite;
@@ -209,7 +210,7 @@
   color: #fff;
 }
 .terminal__chip:focus-visible {
-  outline: 2px solid var(--section-tools, #02f700);
+  outline: 2px solid rgba(255, 255, 255, 0.55);
   outline-offset: 2px;
 }
 
@@ -407,16 +408,16 @@
 .home-featured__list::-webkit-scrollbar {
   display: none;
 }
+/* Featured cards: image dominates, text below — 50%+ bigger image
+   surface than the prior small thumbnail layout (Halim 2026-05-15). */
 .home-feature {
   flex: 0 0 auto;
   width: 22rem;
-  display: grid;
-  grid-template-columns: 6rem 1fr;
-  gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
   text-decoration: none;
   color: inherit;
-  padding: 0.5rem 0;
-  align-items: center;
   scroll-snap-align: start;
 }
 @media (max-width: 600px) {
@@ -424,14 +425,11 @@
     width: 18rem;
   }
 }
-.home-feature:hover .home-feature__title {
-  text-decoration: underline 1px var(--ink-85);
-  text-underline-offset: 0.12em;
-}
 .home-feature__image {
   aspect-ratio: 4 / 3;
   background: var(--ink-08);
   overflow: hidden;
+  border-radius: 4px;
 }
 .home-feature__image img {
   width: 100%;
@@ -442,13 +440,17 @@
 .home-feature__body {
   min-width: 0;
 }
+.home-feature:hover .home-feature__title {
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
+}
 .home-feature__title {
   font-family: var(--font-h2);
   font-weight: 700;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   line-height: 1.2;
   color: var(--ink-85);
-  margin: 0 0 0.25rem;
+  margin: 0 0 0.35rem;
 }
 .home-feature__meta {
   font-family: var(--font-mono);
@@ -465,10 +467,6 @@
   flex-wrap: wrap;
 }
 @media (max-width: 600px) {
-  .home-feature {
-    grid-template-columns: 4.5rem 1fr;
-    gap: 0.75rem;
-  }
   .home-feature__title {
     font-size: 1rem;
   }

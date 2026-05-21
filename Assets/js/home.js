@@ -59,15 +59,27 @@
     }
   }
 
-  // ── events fetch (Supabase REST, public anon read) ───────
-  // We read from public.events — a view that selects all rows from
-  // oulipo_dashboard.events. The oulipo_dashboard schema isn't exposed
-  // via PostgREST, so going through public is the path that doesn't
-  // require a dashboard "expose schema" toggle. (Halim 2026-05-15.)
+  // ── fetch event-shaped rows from the merged works table ───
+  // Post-merge (2026-05-20), events live as kind-tagged rows in
+  // oulipo_dashboard.works. We pull the event-shaped kinds via
+  // public.works (a view over the dashboard schema). PostgREST 'in'
+  // filter spelling: kind=in.(a,b,c).
+  var EVENT_KINDS = [
+    "performance",
+    "workshop",
+    "keynote",
+    "panel",
+    "talk",
+    "exhibition",
+    "residency",
+  ].join(",");
   function fetchEvents() {
     if (eventsCache) return Promise.resolve(eventsCache);
     var url =
-      SUPABASE_URL + "/rest/v1/events?select=*&order=date.asc.nullslast";
+      SUPABASE_URL +
+      "/rest/v1/works?select=*&kind=in.(" +
+      EVENT_KINDS +
+      ")&order=date_start.asc.nullslast";
     return fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -85,12 +97,26 @@
       });
   }
 
-  // ── works fetch (Supabase first, works.json fallback) ────
-  // Reads from public.works (a view over oulipo_dashboard.works).
+  // ── fetch work-shaped rows from the merged works table ────
+  // The 7 portfolio kinds. We add &featured=eq.true here because the
+  // featured strip is the only consumer of fetchWorks() on the home
+  // page — pulling 152 rows just to filter client-side is wasteful.
+  var WORK_KINDS = [
+    "performance",
+    "installation",
+    "net_art",
+    "workshop_piece",
+    "film",
+    "tools",
+    "exhibition",
+  ].join(",");
   function fetchWorks() {
     if (worksCache) return Promise.resolve(worksCache);
     var url =
-      SUPABASE_URL + "/rest/v1/works?select=*&order=year.desc.nullslast";
+      SUPABASE_URL +
+      "/rest/v1/works?select=*&kind=in.(" +
+      WORK_KINDS +
+      ")&featured=eq.true&order=date_start.desc.nullslast";
     return fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -129,7 +155,7 @@
     var grace = 7 * 24 * 60 * 60 * 1000;
     var upcoming = events
       .filter(function (e) {
-        var d = e.date_end || e.date;
+        var d = e.date_end || e.date_start;
         if (!d) return true;
         var t = new Date(d).getTime();
         if (Number.isNaN(t)) return true;
@@ -209,7 +235,7 @@
         );
       })
       .sort(function (a, b) {
-        return (b.date || "").localeCompare(a.date || "");
+        return (b.date_start || "").localeCompare(a.date_start || "");
       })
       .slice(0, 8);
 
@@ -223,7 +249,7 @@
     rows.forEach(function (e) {
       var link =
         safeUrl(e.link) ||
-        (e.kind === "talk" ? "/collaborating/" : "/teaching/");
+        (e.kind === "workshop" ? "/teaching/" : "/collaborating/");
       var cover = e.cover_image
         ? "/" + String(e.cover_image).replace(/^\/+/, "")
         : null;
@@ -316,6 +342,8 @@
   }
 
   // ── render: featured works ───────────────────────────────
+  // Post-merge: works rows have `kind` + `date_start` instead of the
+  // legacy `section` + `year` fields. We derive both for display.
   function renderFeatured(container, works) {
     container.innerHTML = "";
     var featured = works.filter(function (w) {
@@ -344,21 +372,25 @@
           ])
         : el("div", { class: "home-feature__image" }, []);
 
+      var year =
+        w.year || (w.date_start ? String(w.date_start).slice(0, 4) : "");
+      var sectionSlug = w.section || sectionFromKind(w.kind);
+
       var metaParts = [];
       if (w.venue) metaParts.push(String(w.venue).toUpperCase());
-      if (w.year) metaParts.push(String(w.year));
+      if (year) metaParts.push(year);
 
       var sectionPill = null;
-      if (w.section) {
+      if (sectionSlug) {
         sectionPill = el(
           "span",
           {
             class: "section-pill section-pill--mini",
-            "data-section": sectionDataKey(w.section),
+            "data-section": sectionDataKey(sectionSlug),
           },
           [
             el("span", { class: "section-pill__dot", "aria-hidden": "true" }),
-            sectionLabel(w.section),
+            sectionLabel(sectionSlug),
           ],
         );
       }
@@ -368,7 +400,7 @@
         {
           class: "home-feature",
           href: "/works/" + w.slug + "/",
-          "data-section": sectionDataKey(w.section),
+          "data-section": sectionDataKey(sectionSlug),
         },
         [
           image,
@@ -393,6 +425,19 @@
     "somatic-semantics": { label: "somatic semantics", data: "semantics" },
     tools: { label: "tools", data: "tools" },
   };
+  // kind (Supabase) -> section slug. Halim 2026-05-20: themes (these
+  // 4 sections) and formats (kind) are orthogonal cuts; only the 4
+  // anchored kinds get a section pill. exhibition / film /
+  // workshop_piece flow into the year grid without one.
+  var KIND_TO_SECTION = {
+    performance: "algorithmic-plays",
+    net_art: "somatic-semantics",
+    installation: "machine-talk",
+    tools: "tools",
+  };
+  function sectionFromKind(kind) {
+    return KIND_TO_SECTION[kind] || null;
+  }
   function sectionLabel(slug) {
     return SECTIONS[slug] ? SECTIONS[slug].label : slug;
   }

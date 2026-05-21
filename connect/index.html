@@ -504,11 +504,21 @@
       }
 
       function renderEvent(event) {
-        const linkUrl = safeExternalUrl(event.link);
+        const linkUrl =
+          safeExternalUrl(event.link) ||
+          safeExternalUrl(
+            Array.isArray(event.external_links) && event.external_links[0]
+              ? event.external_links[0].url || event.external_links[0]
+              : null,
+          );
         const org = escapeHtml(event.org);
         const title = escapeHtml(event.title);
-        const description = event.description
-          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+        const descText =
+          event.long_description ||
+          event.short_description ||
+          event.description;
+        const description = descText
+          ? `<span class="event-description">${escapeHtml(descText)}</span>`
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const metaLine = metaText
@@ -531,11 +541,16 @@
         const container = document.getElementById("events-container");
         container.innerHTML = '<p class="event-meta">Loading events...</p>';
 
+        // Post-events-merge (2026-05-20): engagement-shaped kinds live
+        // in the merged `works` table. Pull keynote/talk/panel/workshop/
+        // residency for the upcoming list — that matches the
+        // /engagements/ scope. Goes through the `public.works` view
+        // because PostgREST blocks the oulipo_dashboard schema (406).
         const { data, error } = await _supabase
-          .schema("oulipo_dashboard")
-          .from("events")
+          .from("works")
           .select("*")
-          .order("date", { ascending: true });
+          .in("kind", ["keynote", "panel", "talk", "workshop", "residency"])
+          .order("date_start", { ascending: true });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -549,7 +564,7 @@
 
         const upcoming = data.filter((e) => {
           const eventDate =
-            parseEventDate(e.date_end) || parseEventDate(e.date);
+            parseEventDate(e.date_end) || parseEventDate(e.date_start);
           if (!eventDate) return true;
           return eventDate.getTime() + bufferMs >= nowMs;
         });

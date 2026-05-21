@@ -22,6 +22,40 @@
     { key: "tools", label: "tools", data: "tools" },
   ];
 
+  // Kinds shown on /works/. Post-events-merge (2026-05-20), works rows
+  // can be any of these portfolio kinds. exhibition + film + workshop_piece
+  // appear in the year grid without a section pill — Halim 2026-05-20:
+  // "no need for this filtering for now, let's just clean things up …
+  // it's a different way to cut the works than semantic somatics, machine
+  // talk etc. (which are themes)". See memory:
+  // feedback_works_themes_vs_formats.md.
+  var WORK_KINDS = [
+    "performance",
+    "installation",
+    "net_art",
+    "workshop_piece",
+    "film",
+    "tools",
+    "exhibition",
+  ];
+
+  // Map a row's kind to a theme-section slug. Returns null for kinds
+  // that don't have a theme anchor (exhibition / film / workshop_piece).
+  var KIND_TO_SECTION = {
+    performance: "algorithmic-plays",
+    net_art: "somatic-semantics",
+    installation: "machine-talk",
+    tools: "tools",
+  };
+  function sectionOf(work) {
+    return work.section || KIND_TO_SECTION[work.kind] || null;
+  }
+  function yearOf(work) {
+    if (work.year) return work.year;
+    if (work.date_start) return String(work.date_start).slice(0, 4);
+    return null;
+  }
+
   // ── small DOM helpers ─────────────────────────────────────
   function $(sel, root) {
     return (root || document).querySelector(sel);
@@ -61,7 +95,9 @@
   function fetchFromSupabase() {
     var url =
       SUPABASE_URL +
-      "/rest/v1/works?select=*&order=year.desc.nullslast,sort_order.asc.nullslast";
+      "/rest/v1/works?select=*&kind=in.(" +
+      WORK_KINDS.join(",") +
+      ")&order=date_start.desc.nullslast,sort_order.asc.nullslast";
     return fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,
@@ -133,11 +169,11 @@
   }
 
   function renderCard(work) {
-    var dataKey = sectionDataKey(work.section);
+    var sectionSlug = sectionOf(work);
+    var dataKey = sectionDataKey(sectionSlug);
     var venue = work.venue ? String(work.venue).toUpperCase() : "";
     var loc = work.location || "";
-    var year = work.year || "";
-    var meta = [year, loc].filter(Boolean).join("§sep§");
+    var year = yearOf(work) || "";
     var coverPath = work.cover_image
       ? work.cover_image.replace(/^\/?Assets\//, "/Assets/")
       : null;
@@ -162,7 +198,7 @@
         {
           class: "section-pill section-pill--mini",
           "data-section": dataKey,
-          href: "/works/?section=" + work.section,
+          href: "/works/?section=" + sectionSlug,
           // stop the wrapping anchor from stealing the click
           onclick: function (e) {
             e.stopPropagation();
@@ -170,7 +206,7 @@
         },
         [
           el("span", { class: "section-pill__dot", "aria-hidden": "true" }),
-          sectionLabel(work.section),
+          sectionLabel(sectionSlug),
         ],
       );
     }
@@ -198,7 +234,9 @@
       : null;
     var docLabel = work.doc_count
       ? work.doc_count + " doc" + (work.doc_count === 1 ? "" : "s")
-      : sectionLabel(work.section);
+      : sectionSlug
+        ? sectionLabel(sectionSlug)
+        : "—";
     var footer = el("div", { class: "work-card__footer" }, [
       docLabel,
       el("span", { class: "work-card__dot", "aria-hidden": "true" }),
@@ -233,7 +271,7 @@
       });
     } else if (activeSection) {
       filtered = works.filter(function (w) {
-        return w.section === activeSection;
+        return sectionOf(w) === activeSection;
       });
     } else {
       filtered = works;
@@ -255,7 +293,7 @@
     // Group by year (descending)
     var byYear = {};
     filtered.forEach(function (w) {
-      var y = w.year || "—";
+      var y = yearOf(w) || "—";
       (byYear[y] = byYear[y] || []).push(w);
     });
     var years = Object.keys(byYear).sort(function (a, b) {
@@ -266,12 +304,12 @@
 
     years.forEach(function (y) {
       var group = byYear[y];
-      // Section color for the year heading: if all works in this group share a
-      // section, use that color; otherwise mark it as mixed (ink fallback).
+      // Section color for the year heading: if all works in this group share
+      // a section, use that color; otherwise mark it as mixed (ink fallback).
       var sections = Array.from(
         new Set(
           group.map(function (w) {
-            return w.section;
+            return sectionOf(w);
           }),
         ),
       );
@@ -283,7 +321,7 @@
         },
         [String(y)],
       );
-      if (sections.length === 1) {
+      if (sections.length === 1 && sections[0]) {
         heading.dataset.section = sectionDataKey(sections[0]) || "";
       }
       container.appendChild(heading);
@@ -300,7 +338,8 @@
       target.innerHTML = "";
       var counts = {};
       works.forEach(function (w) {
-        counts[w.section] = (counts[w.section] || 0) + 1;
+        var s = sectionOf(w);
+        if (s) counts[s] = (counts[s] || 0) + 1;
       });
 
       // "All" option
@@ -467,8 +506,8 @@
     loadWorks()
       .then(function (res) {
         state.works = res.works.slice().sort(function (a, b) {
-          var ya = a.year || 0,
-            yb = b.year || 0;
+          var ya = Number(yearOf(a)) || 0,
+            yb = Number(yearOf(b)) || 0;
           if (ya !== yb) return yb - ya;
           var sa = a.sort_order == null ? 9999 : a.sort_order;
           var sb = b.sort_order == null ? 9999 : b.sort_order;

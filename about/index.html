@@ -325,7 +325,7 @@
           return m ? Number(m[0]) : null;
         }
         function getYear(e) {
-          const dt = parseEventDate(e.date) || parseEventDate(e.date_end);
+          const dt = parseEventDate(e.date_start) || parseEventDate(e.date_end);
           return dt ? dt.getFullYear() : parseYearFromDisplay(e.date_display);
         }
 
@@ -345,11 +345,11 @@
         ];
         const PER_SECTION_CAP = 6;
 
+        // public.works view — see note in cv/index.html on schema header 406.
         const { data, error } = await _supabase
-          .schema("oulipo_dashboard")
-          .from("events")
+          .from("works")
           .select("*")
-          .order("date", { ascending: false });
+          .order("date_start", { ascending: false });
         if (error) {
           container.innerHTML = '<p class="caption">Could not load CV.</p>';
           return;
@@ -383,7 +383,9 @@
             if (byKind[k]) events.push(...byKind[k]);
           }
           if (!events.length) continue;
-          events.sort((a, b) => new Date(b.date) - new Date(a.date));
+          events.sort(
+            (a, b) => new Date(b.date_start) - new Date(a.date_start),
+          );
           const capped = events.slice(0, PER_SECTION_CAP);
           html += `<div class="cv-section"><div class="section-heading">${section.label}</div><hr>${capped.map(renderEvent).join("\n<hr>\n")}`;
           if (events.length > PER_SECTION_CAP) {

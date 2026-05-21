@@ -714,7 +714,7 @@
     // (and inside the root /index.html mount). Inject once site-wide.
     if (document.querySelector("script[data-home-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/home.js?v=4";
+    s.src = "/Assets/js/home.js?v=5";
     s.defer = true;
     s.setAttribute("data-home-loader", "");
     document.head.appendChild(s);

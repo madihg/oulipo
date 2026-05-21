@@ -285,6 +285,16 @@
         }
       }
 
+      // After the events->works merge, the legacy `link` text column was
+      // mapped into external_links as a single-element jsonb array on
+      // migrated rows. Pull the first URL when there's no direct event.link.
+      function firstExternalLink(event) {
+        const list = event && event.external_links;
+        if (!Array.isArray(list) || list.length === 0) return null;
+        const first = list[0];
+        return first && typeof first === "object" ? first.url : first;
+      }
+
       // Section definitions: label → array of kind values
       const CV_SECTIONS = [
         { label: "Exhibitions", kinds: ["exhibition"] },
@@ -313,17 +323,24 @@
       }
 
       function getYear(event) {
-        const dt = parseEventDate(event.date) || parseEventDate(event.date_end);
+        const dt =
+          parseEventDate(event.date_start) || parseEventDate(event.date_end);
         if (dt) return dt.getFullYear();
         return parseYearFromDisplay(event.date_display);
       }
 
       function renderCvEvent(event) {
-        const linkUrl = safeExternalUrl(event.link);
+        const linkUrl =
+          safeExternalUrl(event.link) ||
+          safeExternalUrl(firstExternalLink(event));
         const org = escapeHtml(event.org);
         const title = escapeHtml(event.title);
-        const description = event.description
-          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+        const descText =
+          event.long_description ||
+          event.short_description ||
+          event.description;
+        const description = descText
+          ? `<span class="event-description">${escapeHtml(descText)}</span>`
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const linkTag = linkUrl
@@ -360,11 +377,13 @@
         const container = document.getElementById("cv-container");
         container.innerHTML = '<p class="caption">Loading events...</p>';
 
+        // Post-events-merge (2026-05-20): the merged table is `works`.
+        // We hit the `public.works` view (PostgREST blocks the
+        // oulipo_dashboard schema with 406 on REST requests).
         const { data, error } = await _supabase
-          .schema("oulipo_dashboard")
-          .from("events")
+          .from("works")
           .select("*")
-          .order("date", { ascending: false });
+          .order("date_start", { ascending: false });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -390,7 +409,9 @@
           if (events.length === 0) return;
 
           // Sort by date descending within section
-          events.sort((a, b) => new Date(b.date) - new Date(a.date));
+          events.sort(
+            (a, b) => new Date(b.date_start) - new Date(a.date_start),
+          );
 
           html += `<div class="cv-section">`;
           html += `<div class="section-heading">${section.label}</div>`;

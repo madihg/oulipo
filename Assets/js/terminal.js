@@ -3,34 +3,31 @@
 
    What it does:
      1. Picks a random one-word theme.
-     2. Fires the live POST to oulipo-poems-api right away.
-     3. ~120ms later, slides the 8-bit curtain open.
+     2. POSTs same-origin to /api/chat (Vercel Edge function at
+        api/chat.js). That function holds the OPENROUTER_API_KEY
+        env var and forwards to OpenRouter (Claude Opus 4.7 +
+        SYSTEM_PROMPT_REVERSE, the same brain reverse.exe runs on
+        at live shows). No key is ever in client code.
+     3. ~120ms later, pulls the theater curtain open.
      4. Streams the poem into the terminal body. Caret blinks until
         the first token lands.
      5. Renders a strip of suggestion chips below. Clicking a chip
         retriggers the cycle with that theme.
 
-   Endpoint: /api/chat on our own oulipo-poems-api Vercel deploy. It
-   copies the Singulars pattern verbatim — Claude Opus 4.7 via
-   OpenRouter, system prompt = SYSTEM_PROMPT_REVERSE (the same brain
-   reverse.exe runs on at live shows) — but it is hosted under a
-   domain we control, so the cross-origin POST from oulipo.xyz works
-   without touching the Singulars repo.
-
-   Response is a streaming text/plain body (Vercel AI SDK
-   StreamingTextResponse). If the network is genuinely offline or the
-   API is down, we fall back to a small inline pool so the surface
-   stays alive — but the live call is the path that should fire.
+   Response format: SSE (`data: {...}\n\n`) — OpenRouter's stream
+   passed straight through. Each chunk's choices[0].delta.content
+   is appended to the poem area. If the network is offline or the
+   function is down we fall back to a small inline pool so the
+   surface stays alive.
    ═══════════════════════════════════════════ */
 
 (function () {
   "use strict";
 
   // ── config ────────────────────────────────────────────────
-  // oulipo-poems-api on Vercel — our own /api/chat. Source lives at
-  // /Users/halim/Documents/oulipo/oulipo-poems-api/. If Halim deploys
-  // under a different Vercel hostname, paste it here.
-  var ENDPOINT = "https://oulipo-poems-api.vercel.app/api/chat";
+  // Same-origin Vercel function. No key in this file; the key lives
+  // in process.env.OPENROUTER_API_KEY on the Vercel project.
+  var ENDPOINT = "/api/chat";
 
   // One-word evocative themes. The reverse.exe model handles abstract
   // nouns well — these are tuned to its register (Ocean Vuong meets
@@ -75,7 +72,7 @@
   ];
 
   // Inline fallback poems. Used when the live endpoint can't be reached
-  // (CORS, offline, deploy down). Generated to match reverse.exe's voice.
+  // (offline, key revoked, OpenRouter outage).
   var FALLBACK_POEMS = {
     Liberation:
       "The door was never the door. It was the hinge that learned to stop arguing.\nI carried my mother's coat for years before I noticed it weighed less than her grief.\nWhat I called freedom was a window that finally believed me.",
@@ -105,7 +102,7 @@
     return out;
   }
 
-  // ── live call (streaming) with fallback ───────────────────
+  // ── live call (same-origin /api/chat → OpenRouter, SSE) ───
   function streamPoem(theme, onChunk) {
     var prompt = "Write a short poem about " + theme + ".";
     return fetch(ENDPOINT, {
@@ -114,26 +111,49 @@
       body: JSON.stringify({
         messages: [{ role: "user", content: prompt }],
       }),
-      mode: "cors",
     })
       .then(function (r) {
         if (!r.ok) throw new Error("api " + r.status);
         if (!r.body) throw new Error("no stream");
         var reader = r.body.getReader();
         var decoder = new TextDecoder();
+        var buffer = "";
         return reader.read().then(function pump(result) {
-          if (result.done) return;
-          onChunk(decoder.decode(result.value, { stream: true }));
+          if (result.done) {
+            // Flush any final buffered event.
+            if (buffer.trim()) handleSseLine(buffer.trim(), onChunk);
+            return;
+          }
+          buffer += decoder.decode(result.value, { stream: true });
+          // SSE events are split by blank lines; lines start with "data: ".
+          var lines = buffer.split("\n");
+          buffer = lines.pop() || "";
+          for (var i = 0; i < lines.length; i++) {
+            handleSseLine(lines[i], onChunk);
+          }
           return reader.read().then(pump);
         });
       })
       .catch(function (err) {
         console.warn("[terminal] live API failed:", err);
-        // Fallback: drop a curated poem one character at a time so
-        // the typing feel is preserved.
         var text = FALLBACK_POEMS[theme] || FALLBACK_POEMS.default;
         return typewriter(text, 14, onChunk);
       });
+  }
+
+  function handleSseLine(line, onChunk) {
+    var trimmed = line.trim();
+    if (!trimmed || trimmed.charAt(0) === ":") return; // empty or comment
+    if (trimmed.indexOf("data:") !== 0) return;
+    var data = trimmed.slice(5).trim();
+    if (!data || data === "[DONE]") return;
+    try {
+      var json = JSON.parse(data);
+      var delta = json.choices && json.choices[0] && json.choices[0].delta;
+      if (delta && delta.content) onChunk(delta.content);
+    } catch (_) {
+      // Non-JSON keepalive or partial frame — ignore.
+    }
   }
 
   function typewriter(text, msPerChar, onChunk) {
@@ -161,7 +181,6 @@
     if (!stage || !curtain || !themeWord || !poem || !chipsBox) return;
 
     function cycle(theme) {
-      // Reset poem area + theme.
       themeWord.textContent = theme;
       poem.innerHTML = "";
       var caret = document.createElement("span");
@@ -173,7 +192,6 @@
       function onChunk(text) {
         if (!text) return;
         if (!firstToken) {
-          // Remove caret on first token; we'll add a trailing one later.
           if (caret && caret.parentNode === poem) poem.removeChild(caret);
           firstToken = true;
         }
@@ -182,8 +200,6 @@
       }
 
       streamPoem(theme, onChunk).then(function () {
-        // After the stream ends, re-add a static caret as a finishing
-        // beat (no animation — just a small green block).
         if (!firstToken) return;
         var endCaret = document.createElement("span");
         endCaret.className = "terminal__caret";
@@ -193,7 +209,6 @@
         poem.appendChild(endCaret);
       });
 
-      // Refresh chip suggestions (exclude current theme).
       renderChips(theme);
     }
 
@@ -212,19 +227,16 @@
       });
     }
 
-    // Boot: pick a theme, fire the request, slide the curtain open.
     var initial = rand(THEMES);
     cycle(initial);
 
-    // Slight delay so the curtain reveal has a beat before the
-    // streaming starts visibly populating.
     setTimeout(function () {
       curtain.setAttribute("data-curtain", "open");
-      // Hide curtain entirely after the transition finishes so it
-      // doesn't block pointer events on the chips.
+      // Theater pull = 1.4s transition; clear from layer stack a beat
+      // after the velvet halves finish sliding off.
       setTimeout(function () {
         curtain.setAttribute("data-curtain", "done");
-      }, 1350);
+      }, 1550);
     }, 220);
   }
 
@@ -242,6 +254,5 @@
     boot();
   }
 
-  // The home overlay fires this when the partial is injected mid-flight.
   document.addEventListener("home-overlay:loaded", boot);
 })();

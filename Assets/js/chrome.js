@@ -722,12 +722,13 @@
 
   function loadTerminal() {
     // terminal.js hydrates the poem terminal at the top of the home
-    // content (root /index.html mount + home overlay). It POSTs to the
-    // oulipo-poems-api edge route (OpenRouter + Claude Opus 4.7 +
-    // SYSTEM_PROMPT_REVERSE), the same brain reverse.exe runs on.
+    // content (root /index.html mount + home overlay). It POSTs to
+    // same-origin /api/chat (api/chat.js Edge fn → OpenRouter Claude
+    // Opus 4.7 + SYSTEM_PROMPT_REVERSE), the same brain reverse.exe
+    // runs on. The OpenRouter key lives in Vercel env vars only.
     if (document.querySelector("script[data-terminal-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/terminal.js?v=4";
+    s.src = "/Assets/js/terminal.js?v=6";
     s.defer = true;
     s.setAttribute("data-terminal-loader", "");
     document.head.appendChild(s);

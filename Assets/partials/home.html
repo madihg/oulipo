@@ -9,9 +9,9 @@
 <div class="home">
   <!-- Landing hero: terminal poem generator (left) + self-presentation (right).
        Desktop = two columns. Mobile = stacked, terminal first.
-       The terminal talks to Singulars reverse.exe via /api/chat and streams a
-       poem on a random theme. While the curtain animates open in 8-bit, the
-       generation is already in flight. -->
+       The terminal calls OpenRouter directly from the browser and streams a
+       reverse.exe poem on a random theme. While the theater curtain pulls
+       open, the generation is already in flight. -->
   <section class="home-hero" aria-label="Halim Madi — landing">
     <!-- LEFT: terminal -->
     <div class="terminal" data-terminal>
@@ -22,49 +22,20 @@
         <span class="terminal__label">reverse.exe · singulars</span>
       </div>
       <div class="terminal__stage" data-terminal-stage>
-        <!-- Curtain — two halves of ASCII blocks. Slides outward via CSS
-             transform once data-curtain="open" lands. -->
+        <!-- Theater curtain — two velvet halves pull outward with overshoot.
+             Rope strip rides the top edge until the pull completes. -->
         <div class="curtain" data-curtain>
-          <div class="curtain__half curtain__half--left" aria-hidden="true">
-            <pre class="curtain__weave">
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░</pre
-            >
+          <div class="curtain__rope" aria-hidden="true">
+            ╱ ╲ ╱ ╲ ╱ ╲ ╱ ╲ ╱ ╲
           </div>
-          <div class="curtain__half curtain__half--right" aria-hidden="true">
-            <pre class="curtain__weave">
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░
-▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓
-░░░░░░░░░░░░░░░░</pre
-            >
-          </div>
+          <div
+            class="curtain__half curtain__half--left"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="curtain__half curtain__half--right"
+            aria-hidden="true"
+          ></div>
         </div>
 
         <!-- Behind the curtain: theme line + poem stream. -->

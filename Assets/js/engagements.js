@@ -19,9 +19,8 @@
   var SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
   var SUPABASE_ANON_KEY = "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
 
-  // The 5 engagement-shaped kinds, in chip order. Counts are derived
-  // live from the data; an empty kind (e.g. talk = 0) still renders
-  // its chip so the data shape is honest.
+  // The 4 engagement-shaped kinds, in chip order. (Halim 2026-05-20:
+  // dropped `talk` — it's a sub-flavor of keynote, not its own kind.)
   var KINDS = [
     {
       slug: "keynote",
@@ -32,11 +31,6 @@
       slug: "panel",
       label: "Panel",
       color: "var(--section-semantics)",
-    },
-    {
-      slug: "talk",
-      label: "Talk",
-      color: "var(--section-plays)",
     },
     {
       slug: "workshop",

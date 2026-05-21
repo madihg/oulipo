@@ -69,7 +69,6 @@
     "workshop",
     "keynote",
     "panel",
-    "talk",
     "exhibition",
     "residency",
   ].join(",");
@@ -229,10 +228,7 @@
     var rows = events
       .filter(function (e) {
         var k = e.kind;
-        return (
-          (k === "talk" || k === "workshop" || k === "keynote") &&
-          e.featured === true
-        );
+        return (k === "workshop" || k === "keynote") && e.featured === true;
       })
       .sort(function (a, b) {
         return (b.date_start || "").localeCompare(a.date_start || "");
@@ -247,6 +243,8 @@
     }
     var list = el("div", { class: "home-featured__list" }, []);
     rows.forEach(function (e) {
+      // chrome.js installs a click interceptor that prefixes /staging/
+      // when needed, so this absolute href stays simple.
       var link =
         safeUrl(e.link) ||
         "/engagements/?kind=" + encodeURIComponent(e.kind || "");

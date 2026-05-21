@@ -94,6 +94,14 @@
     {
       "source": "/becoming-crossings/:path+",
       "destination": "https://becoming-borders.vercel.app/becoming-crossings/:path+"
+    },
+    {
+      "source": "/staging",
+      "destination": "/"
+    },
+    {
+      "source": "/staging/:path*",
+      "destination": "/:path*"
     }
   ]
 }

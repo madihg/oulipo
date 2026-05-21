@@ -14,6 +14,61 @@
 (function () {
   "use strict";
 
+  // ── staging path prefix ────────────────────────────────────
+  // When the site is served under /staging/ (via the vercel rewrite
+  // /staging/:path* -> /:path*), the page content is the same as the
+  // production version — but every <a href="/works/"> in the markup
+  // resolves to oulipo.xyz/works/, jumping out of staging. This
+  // interceptor catches those clicks and rewrites the href to keep
+  // the visitor inside /staging/. Same for command-palette nav and
+  // any in-app window.location.href = "/..." we trigger ourselves.
+  var STAGING_PREFIX = "/staging";
+  function isStaging() {
+    return (
+      window.location.pathname.indexOf(STAGING_PREFIX + "/") === 0 ||
+      window.location.pathname === STAGING_PREFIX
+    );
+  }
+  function stagingHref(href) {
+    if (!isStaging()) return href;
+    if (!href) return href;
+    if (href.indexOf("//") === 0 || /^https?:/i.test(href)) return href;
+    if (href.charAt(0) === "/" && href.indexOf(STAGING_PREFIX + "/") !== 0) {
+      return STAGING_PREFIX + href;
+    }
+    return href;
+  }
+  // Expose for any other module (engagements.js, etc.) that does its
+  // own programmatic navigation.
+  window.stagingHref = stagingHref;
+  if (isStaging()) {
+    document.addEventListener(
+      "click",
+      function (e) {
+        var a = e.target.closest && e.target.closest("a[href]");
+        if (!a) return;
+        var raw = a.getAttribute("href");
+        var fixed = stagingHref(raw);
+        if (fixed !== raw) {
+          e.preventDefault();
+          // respect target=_blank / cmd-click / middle-click
+          if (
+            a.target === "_blank" ||
+            e.metaKey ||
+            e.ctrlKey ||
+            e.shiftKey ||
+            e.button !== 0
+          ) {
+            window.open(fixed, a.target || "_self");
+          } else {
+            window.location.href = fixed;
+          }
+        }
+      },
+      true,
+    );
+  }
+
   // ── command catalogue (filtered by the palette input) ─────
   var COMMANDS = [
     {
@@ -439,7 +494,7 @@
       window.open(cmd.go, "_blank", "noopener,noreferrer");
       return;
     }
-    window.location.href = cmd.go;
+    window.location.href = stagingHref(cmd.go);
   }
 
   // (toggleHalimCard removed — the old landing-page Halim card was
@@ -485,7 +540,7 @@
     }
     if (e.key === "c") {
       e.preventDefault();
-      window.location.href = "/connect/";
+      window.location.href = stagingHref("/connect/");
       return;
     }
     if (e.key === "h") {
@@ -720,7 +775,7 @@
     // (and inside the root /index.html mount). Inject once site-wide.
     if (document.querySelector("script[data-home-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/home.js?v=6";
+    s.src = "/Assets/js/home.js?v=7";
     s.defer = true;
     s.setAttribute("data-home-loader", "");
     document.head.appendChild(s);

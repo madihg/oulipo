@@ -22,7 +22,7 @@ This site is agent-friendly. The pages below are the most useful entry points. H
 - [Now](/now/): upcoming events
 
 ## Chat with Halim's poetic models
-- [Whomp / Song of Fridges](/): chat lives on the home page itself
+- [reverse.exe](/): landing-page terminal — Claude Opus 4.7 streaming with SYSTEM_PROMPT_REVERSE (same brain as reverse.exe on Singulars)
 - [Carnation.exe](https://singulars.oulipo.xyz/chat?model=carnation-exe): fine-tune of the Carnation series
 - [Versus.exe](https://singulars.oulipo.xyz/chat?model=versus-exe): duel-trained model
 - [Reinforcement.exe](https://singulars.oulipo.xyz/chat?model=reinforcement-exe): RLHF poetry model

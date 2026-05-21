@@ -3,30 +3,34 @@
 
    What it does:
      1. Picks a random one-word theme.
-     2. Fires the live POST to Singulars' reverse.exe right away.
+     2. Fires the live POST to oulipo-poems-api right away.
      3. ~120ms later, slides the 8-bit curtain open.
      4. Streams the poem into the terminal body. Caret blinks until
         the first token lands.
      5. Renders a strip of suggestion chips below. Clicking a chip
         retriggers the cycle with that theme.
 
-   The Singulars chat endpoint lives at https://singulars.oulipo.xyz/api/chat
-   and accepts { messages: [...], modelSlug: "reverse" } per route.ts.
-   It streams a text/plain body (Vercel AI SDK StreamingTextResponse).
-   If CORS or network blocks the live call, we fall back to a curated
-   pool of inline poems so the surface still feels alive.
+   Endpoint: /api/chat on our own oulipo-poems-api Vercel deploy. It
+   copies the Singulars pattern verbatim — Claude Opus 4.7 via
+   OpenRouter, system prompt = SYSTEM_PROMPT_REVERSE (the same brain
+   reverse.exe runs on at live shows) — but it is hosted under a
+   domain we control, so the cross-origin POST from oulipo.xyz works
+   without touching the Singulars repo.
+
+   Response is a streaming text/plain body (Vercel AI SDK
+   StreamingTextResponse). If the network is genuinely offline or the
+   API is down, we fall back to a small inline pool so the surface
+   stays alive — but the live call is the path that should fire.
    ═══════════════════════════════════════════ */
 
 (function () {
   "use strict";
 
   // ── config ────────────────────────────────────────────────
-  // Our own endpoint (oulipo-poems-api on Vercel). Copies Singulars'
-  // OpenAI-SDK pattern verbatim — same Claude Opus 4.7 + SYSTEM_PROMPT_REVERSE
-  // that reverse.exe runs on — but served from a domain we control so no
-  // cross-origin issues. Halim updates this URL after the first deploy if
-  // the Vercel host name ends up different.
-  var ENDPOINT = "https://song-of-fridges-api.vercel.app/api/chat";
+  // oulipo-poems-api on Vercel — our own /api/chat. Source lives at
+  // /Users/halim/Documents/oulipo/oulipo-poems-api/. If Halim deploys
+  // under a different Vercel hostname, paste it here.
+  var ENDPOINT = "https://oulipo-poems-api.vercel.app/api/chat";
 
   // One-word evocative themes. The reverse.exe model handles abstract
   // nouns well — these are tuned to its register (Ocean Vuong meets

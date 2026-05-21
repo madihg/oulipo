@@ -722,11 +722,12 @@
 
   function loadTerminal() {
     // terminal.js hydrates the poem terminal at the top of the home
-    // content (root /index.html mount + home overlay). Replaces the
-    // older whomp-chat / song-of-fridges loader.
+    // content (root /index.html mount + home overlay). It POSTs to the
+    // oulipo-poems-api edge route (OpenRouter + Claude Opus 4.7 +
+    // SYSTEM_PROMPT_REVERSE), the same brain reverse.exe runs on.
     if (document.querySelector("script[data-terminal-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/terminal.js?v=3";
+    s.src = "/Assets/js/terminal.js?v=4";
     s.defer = true;
     s.setAttribute("data-terminal-loader", "");
     document.head.appendChild(s);

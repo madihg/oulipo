@@ -1,0 +1,306 @@
+/* ═══════════════════════════════════════════
+   engagements.css — page styles for /engagements/
+
+   The merged speaking + teaching surface. Two editorial theme blocks
+   on top (workshops, then keynotes), then a dense archive section
+   with a sticky kind-filter chip strip and year-grouped rows.
+
+   Namespace: .eng-* so it doesn't collide with /engagements-explorations/
+   picker styles (.v3-* / .v1-* / etc) or any global classes.
+   ═══════════════════════════════════════════ */
+
+/* ── page chrome ─────────────────────────────────────────── */
+.engagements-page {
+  max-width: 1080px;
+}
+.eng-intro {
+  max-width: 56ch;
+  margin-bottom: 2.5rem;
+}
+.eng-eyebrow {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-50);
+  margin: 0 0 0.75rem;
+}
+.eng-lede {
+  font-size: 1.2rem;
+  line-height: 1.4;
+  color: var(--ink-85);
+  margin: 0;
+}
+
+/* ── editorial theme blocks ─────────────────────────────── */
+.eng-theme {
+  display: grid;
+  grid-template-columns: 1fr 40%;
+  gap: 2.5rem;
+  align-items: start;
+  padding: 1.5rem 0;
+}
+.eng-theme h2 {
+  font-family: var(--font-h2);
+  font-size: clamp(1.4rem, 2.2vw, 1.8rem);
+  line-height: 1.1;
+  margin: 0 0 0.85rem;
+  color: var(--ink-85);
+}
+.eng-theme p {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin: 0;
+  color: var(--ink-85);
+}
+.eng-theme__img {
+  aspect-ratio: 4/3;
+  background: var(--ink-08);
+  overflow: hidden;
+}
+.eng-theme__img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.eng-divider {
+  border: 0;
+  border-top: 1px solid var(--ink-15);
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .eng-theme {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  .eng-theme__img {
+    order: -1; /* image first on mobile */
+  }
+}
+
+/* ── archive section ────────────────────────────────────── */
+.eng-archive {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--ink-15);
+}
+
+/* The sticky cluster — heading + chip strip pin to top together.
+   var(--signup-bar-h) is set globally so we sit flush under the
+   persistent signup bar (or the viewport top on pages without it). */
+.eng-archive__sticky {
+  position: sticky;
+  top: var(--signup-bar-h, 0);
+  z-index: 4;
+  background: var(--paper);
+  padding: 1rem 0 0.5rem;
+  margin-bottom: 0.75rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 1rem;
+  border-bottom: 1px solid var(--ink-15);
+}
+.eng-archive__head {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-85);
+  margin: 0;
+  white-space: nowrap;
+}
+
+/* ── chip strip ─────────────────────────────────────────── */
+.eng-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+.eng-chips__placeholder {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  color: var(--ink-40);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.eng-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border: 1px solid var(--ink-15);
+  border-radius: 4px;
+  background: var(--paper);
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-85);
+}
+.eng-chip[aria-pressed="true"] {
+  background: var(--ink-85);
+  color: var(--paper);
+  border-color: var(--ink-85);
+}
+.eng-chip[aria-pressed="true"] .eng-chip__count {
+  color: rgba(255, 255, 255, 0.55);
+}
+.eng-chip__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--ink-40);
+  flex-shrink: 0;
+}
+.eng-chip__count {
+  color: var(--ink-40);
+  margin-left: 0.15rem;
+}
+
+@media (max-width: 700px) {
+  .eng-archive__sticky {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+  .eng-chips {
+    justify-content: flex-start;
+  }
+}
+
+/* ── year hairlines ─────────────────────────────────────── */
+.eng-year {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin: 1.75rem 0 0.5rem;
+  padding-bottom: 0.3rem;
+  border-bottom: 1px solid var(--ink-15);
+}
+
+/* ── dense engagement rows ──────────────────────────────── */
+.eng-row {
+  display: grid;
+  grid-template-columns: 0.6rem minmax(0, 1.1fr) minmax(0, 2fr) auto auto;
+  gap: 0.9rem;
+  align-items: baseline;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-caption);
+  color: var(--ink-85);
+  text-decoration: none;
+}
+.eng-row:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+.eng-row__dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  display: inline-block;
+  background: var(--ink-40);
+  align-self: center;
+}
+.eng-row__org {
+  color: var(--ink-85);
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eng-row__title {
+  color: var(--ink-70);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.eng-row__kind {
+  color: var(--ink-40);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: var(--type-size-meta);
+  white-space: nowrap;
+}
+.eng-row__date {
+  color: var(--ink-50);
+  font-size: var(--type-size-meta);
+  white-space: nowrap;
+}
+.eng-row__link {
+  color: var(--ink-40);
+  font-size: var(--type-size-meta);
+  text-decoration: none;
+  margin-left: 0.4rem;
+}
+.eng-row__link:hover {
+  color: var(--ink-85);
+}
+
+@media (max-width: 700px) {
+  .eng-row {
+    grid-template-columns: 0.6rem 1fr auto;
+    row-gap: 0.15rem;
+  }
+  .eng-row__org {
+    grid-column: 2;
+    grid-row: 1;
+    white-space: normal;
+  }
+  .eng-row__title {
+    grid-column: 2;
+    grid-row: 2;
+    white-space: normal;
+  }
+  .eng-row__kind {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  .eng-row__date {
+    grid-column: 3;
+    grid-row: 2;
+  }
+  .eng-row__dot {
+    grid-row: 1 / span 2;
+    align-self: center;
+  }
+}
+
+/* ── states ─────────────────────────────────────────────── */
+.eng-state {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  color: var(--ink-50);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2rem 0;
+  text-align: center;
+}

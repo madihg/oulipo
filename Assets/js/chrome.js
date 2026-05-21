@@ -47,16 +47,28 @@
       go: "/works/?section=tools",
     },
     {
-      cmd: "/collaborating",
-      desc: "talks, keynotes, panels",
+      cmd: "/engagements",
+      desc: "keynotes, panels, workshops, residencies",
       kind: "page",
-      go: "/collaborating/",
+      go: "/engagements/",
     },
     {
-      cmd: "/teaching",
-      desc: "workshops + classes",
-      kind: "page",
-      go: "/teaching/",
+      cmd: "/engagements keynote",
+      desc: "keynotes only",
+      kind: "action",
+      go: "/engagements/?kind=keynote",
+    },
+    {
+      cmd: "/engagements workshop",
+      desc: "workshops only",
+      kind: "action",
+      go: "/engagements/?kind=workshop",
+    },
+    {
+      cmd: "/engagements residency",
+      desc: "residencies only",
+      kind: "action",
+      go: "/engagements/?kind=residency",
     },
     { cmd: "/about", desc: "who · where · why", kind: "page", go: "/about/" },
     {
@@ -208,16 +220,10 @@
   var TOP_LEVEL = [
     { cmd: "/works", desc: "browse all works", kind: "page", go: "/works/" },
     {
-      cmd: "/collaborating",
-      desc: "talks, keynotes, panels",
+      cmd: "/engagements",
+      desc: "keynotes, panels, workshops, residencies",
       kind: "page",
-      go: "/collaborating/",
-    },
-    {
-      cmd: "/teaching",
-      desc: "workshops + classes",
-      kind: "page",
-      go: "/teaching/",
+      go: "/engagements/",
     },
     {
       cmd: "/writing",
@@ -714,7 +720,7 @@
     // (and inside the root /index.html mount). Inject once site-wide.
     if (document.querySelector("script[data-home-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/home.js?v=5";
+    s.src = "/Assets/js/home.js?v=6";
     s.defer = true;
     s.setAttribute("data-home-loader", "");
     document.head.appendChild(s);

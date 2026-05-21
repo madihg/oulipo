@@ -249,7 +249,7 @@
     rows.forEach(function (e) {
       var link =
         safeUrl(e.link) ||
-        (e.kind === "workshop" ? "/teaching/" : "/collaborating/");
+        "/engagements/?kind=" + encodeURIComponent(e.kind || "");
       var cover = e.cover_image
         ? "/" + String(e.cover_image).replace(/^\/+/, "")
         : null;

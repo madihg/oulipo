@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Engagements — Halim Madi</title>
+    <meta
+      name="description"
+      content="Keynotes, panels, workshops, and residencies by Halim Madi — talks for rooms where people make things, workshops that turn the talk into a tool."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
+    />
+    <link rel="stylesheet" href="/Assets/css/shared.css?v=31" />
+    <link rel="stylesheet" href="/Assets/css/engagements.css?v=1" />
+  </head>
+  <body>
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/engagements/">Engagements</a>
+        <a href="/writing/">Writing</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/connect/">Connect</a>
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
+        >
+      </div>
+    </nav>
+
+    <div class="page">
+      <div class="page-content engagements-page">
+        <h1 class="visually-hidden">Engagements</h1>
+
+        <header class="eng-intro">
+          <p class="eng-eyebrow">Engagements · 2011 — present</p>
+          <p class="eng-lede">
+            Workshops and keynotes for creative communities, classrooms, and
+            companies who want their teams making again. Residencies in between.
+          </p>
+        </header>
+
+        <!-- Workshops first (Halim's call 2026-05-20) -->
+        <section class="eng-theme">
+          <div class="eng-theme__text">
+            <h2>Workshops as practice</h2>
+            <p>
+              Workshops are where the talk turns into a tool. Two days, hands on
+              keyboards, prompts on the wall. For creative communities,
+              classrooms, and corporations that want to remember how making
+              feels.
+            </p>
+          </div>
+          <div class="eng-theme__img">
+            <img
+              src="/Assets/images/workshops/dschool_CCSHalimMadi_DE_5-13-25_PatrickBeaudouin_PTB_1735.jpg"
+              alt="Halim Madi leading a d.school workshop"
+              loading="lazy"
+            />
+          </div>
+        </section>
+
+        <hr class="eng-divider" />
+
+        <section class="eng-theme">
+          <div class="eng-theme__text">
+            <h2>Keynotes that make room</h2>
+            <p>
+              I speak in rooms where people make things. The talk clears noise
+              so the work can hear itself. Conferences, schools, companies who
+              want their teams writing again.
+            </p>
+          </div>
+          <div class="eng-theme__img">
+            <img
+              src="/Assets/images/keynotes/IMG_9390.JPEG"
+              alt="Halim Madi keynote"
+              loading="lazy"
+            />
+          </div>
+        </section>
+
+        <!-- ── Archive ─────────────────────────────────────────
+             Sticky chip strip + year-grouped dense rows. Live data
+             from public.works, kinds in keynote/panel/talk/workshop/
+             residency. Engagements.js mounts here.
+         ─────────────────────────────────────────────────────── -->
+        <section class="eng-archive">
+          <div class="eng-archive__sticky">
+            <h2 class="eng-archive__head">Full archive</h2>
+            <nav
+              class="eng-chips"
+              role="tablist"
+              aria-label="Filter by kind"
+              data-eng-chips
+            >
+              <!-- chips hydrated by engagements.js -->
+              <span class="eng-chips__placeholder">loading filters…</span>
+            </nav>
+          </div>
+
+          <div data-eng-list>
+            <p class="eng-state" data-eng-status>loading archive…</p>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <script src="../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js?v=22" defer></script>
+    <script src="/Assets/js/engagements.js?v=1" defer></script>
+  </body>
+</html>

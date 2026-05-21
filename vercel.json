@@ -27,22 +27,52 @@
     },
     {
       "source": "/keynotes",
-      "destination": "/speaking",
+      "destination": "/engagements",
       "permanent": true
     },
     {
       "source": "/keynotes/:path*",
-      "destination": "/speaking/:path*",
+      "destination": "/engagements",
       "permanent": true
     },
     {
       "source": "/workshops",
-      "destination": "/speaking",
+      "destination": "/engagements",
       "permanent": true
     },
     {
       "source": "/workshops/:path*",
-      "destination": "/speaking/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching/:path*",
+      "destination": "/engagements",
       "permanent": true
     },
     {

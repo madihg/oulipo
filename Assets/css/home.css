@@ -66,21 +66,13 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   flex-shrink: 0;
 }
-/* Tonal greys (no stoplight) — three tiers of dimmed white so the
-   trio reads as a quiet system signal, not a window-control reference. */
+/* Halim 2026-05-22: all three dots the same light grey — a uniform
+   trio reads as system signal, not a stoplight reference. */
 .terminal__dot {
   width: 0.7rem;
   height: 0.7rem;
   border-radius: 50%;
-}
-.terminal__dot:nth-child(1) {
-  background: rgba(255, 255, 255, 0.1);
-}
-.terminal__dot:nth-child(2) {
-  background: rgba(255, 255, 255, 0.18);
-}
-.terminal__dot:nth-child(3) {
-  background: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.2);
 }
 .terminal__label {
   margin-left: 0.6rem;

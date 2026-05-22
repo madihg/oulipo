@@ -678,9 +678,8 @@
     }
 
     if (rail) {
-      rail.appendChild(
-        el("div", { class: "works-filter-rail__title" }, ["filter"]),
-      );
+      // Halim 2026-05-22: top-level "filter" label removed — View + Section
+      // sub-headings inside the rail already communicate what it is.
       var inner = el("div", { class: "works-filter-rail__inner" }, []);
       rail.appendChild(inner);
       render(inner, false);

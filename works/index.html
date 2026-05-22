@@ -12,7 +12,7 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
-    <link rel="stylesheet" href="../Assets/css/shared.css?v=31" />
+    <link rel="stylesheet" href="../Assets/css/shared.css?v=32" />
     <style>
       .works-page {
         max-width: 1280px;
@@ -224,20 +224,8 @@
         letter-spacing: 0.05em;
       }
 
-      .work-card__venue {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.4rem;
-        font-family: var(--font-mono);
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
-        font-size: var(--type-size-meta);
-        text-transform: uppercase;
-        letter-spacing: 0.04em;
-        color: var(--ink-50);
-        margin-bottom: 0.5rem;
-      }
+      /* .work-card__venue removed 2026-05-22 — venue text now lives inline
+         in .work-card__meta beside year and location. */
       .work-card__title {
         font-family: var(--font-h2);
         font-weight: 700;
@@ -271,12 +259,15 @@
         display: flex;
         align-items: center;
         gap: 0.5rem;
+        margin-top: 0.5rem;
+      }
+      .work-card__footer-spacer {
+        color: var(--ink-40);
         font-family: var(--font-mono);
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
         font-size: var(--type-size-meta);
-        color: var(--ink-50);
       }
       .work-card__dot {
         display: none;

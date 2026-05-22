@@ -593,8 +593,13 @@ hr {
    stay readable inside .detail-text.
    ───────────────────────────────────────────── */
 
+/* Halim 2026-05-22: detail pages now use a single 780px reading column.
+   Hero, body text, single inline photos, and 3-up image strips all snap
+   to the same column edges so there is no visual mismatch between a
+   full-bleed image and a narrower text block. The strip stays a 3-col
+   grid but inside the unified column. */
 .detail-page {
-  max-width: 1080px;
+  max-width: 780px;
   margin: 0 auto;
 }
 
@@ -616,7 +621,7 @@ hr {
 }
 
 .detail-text {
-  max-width: 56ch;
+  max-width: none;
   margin-left: 0;
 }
 .detail-text p {
@@ -648,6 +653,21 @@ hr {
   grid-template-columns: 1fr 1fr 1fr;
   gap: 0.5rem;
   margin: 0;
+}
+/* Uniform aspect ratio so a strip of 3 photos lines up, regardless of
+   the underlying image dimensions. Halim 2026-05-22: previously each
+   figure took its own aspect and they read as a ragged collage. */
+.detail-image-strip figure {
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--ink-08);
+}
+.detail-image-strip figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 @media (max-width: 900px) {
   .detail-image-strip {

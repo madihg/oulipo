@@ -157,16 +157,28 @@
       });
   }
 
+  // Halim 2026-05-22: /works/ only shows things that already happened.
+  // Future-dated rows (festival selections, upcoming residencies) still
+  // surface on the home page's upcoming carousel, but they don't belong
+  // in the year grid where past pieces live.
+  function filterPastOnly(works) {
+    var today = new Date().toISOString().slice(0, 10);
+    return works.filter(function (w) {
+      if (!w.date_start) return true;
+      return String(w.date_start).slice(0, 10) <= today;
+    });
+  }
+
   function loadWorks() {
     return fetchFromSupabase()
       .then(function (rows) {
         if (!rows || rows.length === 0) throw new Error("supabase empty");
-        return { source: "supabase", works: rows };
+        return { source: "supabase", works: filterPastOnly(rows) };
       })
       .catch(function (err) {
         console.warn("[works] supabase fetch failed, using fallback:", err);
         return fetchFromFallback().then(function (works) {
-          return { source: "fallback", works: works };
+          return { source: "fallback", works: filterPastOnly(works) };
         });
       });
   }
@@ -236,7 +248,7 @@
   function renderCard(work) {
     var sectionSlug = sectionOf(work);
     var dataKey = sectionDataKey(sectionSlug);
-    var venue = work.venue ? String(work.venue).toUpperCase() : "";
+    var venue = work.venue || "";
     var loc = work.location || "";
     var year = yearOf(work) || "";
     var coverPath = work.cover_image
@@ -253,18 +265,42 @@
           }),
         ])
       : el("div", { class: "work-card__image is-empty" }, ["no cover yet"]);
-    // Venue row: [● section-pill] + venue text in mono gray.
-    // The pill is the only spot of color on the card — the rest of
-    // the card stays neutral (Halim 2026-05-05 walkthrough).
-    var pill = null;
+    // Halim 2026-05-22: meta is a single inline line "year · location · venue".
+    // The all-caps grey "VENUE" sub-row is gone; the section-pill moves to
+    // the bottom of the card and replaces the section label that used to
+    // live there.
+    var metaParts = [];
+    if (year) metaParts.push(String(year));
+    if (loc) {
+      if (metaParts.length) {
+        metaParts.push(
+          el("span", { class: "sep", "aria-hidden": "true" }, ["·"]),
+        );
+      }
+      metaParts.push(loc);
+    }
+    if (venue) {
+      if (metaParts.length) {
+        metaParts.push(
+          el("span", { class: "sep", "aria-hidden": "true" }, ["·"]),
+        );
+      }
+      metaParts.push(venue);
+    }
+    var metaEl = metaParts.length
+      ? el("div", { class: "work-card__meta" }, metaParts)
+      : null;
+    var descEl = work.short_description
+      ? el("p", { class: "work-card__desc" }, [work.short_description])
+      : null;
+    var pillBottom = null;
     if (dataKey) {
-      pill = el(
+      pillBottom = el(
         "a",
         {
           class: "section-pill section-pill--mini",
           "data-section": dataKey,
           href: "/works/?section=" + sectionSlug,
-          // stop the wrapping anchor from stealing the click
           onclick: function (e) {
             e.stopPropagation();
           },
@@ -275,40 +311,11 @@
         ],
       );
     }
-    var venueEl =
-      pill || venue
-        ? el(
-            "div",
-            { class: "work-card__venue" },
-            [pill, venue ? el("span", {}, [venue]) : null].filter(Boolean),
-          )
-        : null;
-    var descEl = work.short_description
-      ? el("p", { class: "work-card__desc" }, [work.short_description])
-      : null;
-    var metaParts = [];
-    if (year) metaParts.push(String(year));
-    if (loc) {
-      if (metaParts.length) {
-        metaParts.push(el("span", { class: "sep" }, ["·"]));
-      }
-      metaParts.push(loc);
-    }
-    var metaEl = metaParts.length
-      ? el("div", { class: "work-card__meta" }, metaParts)
-      : null;
-    var docLabel = work.doc_count
-      ? work.doc_count + " doc" + (work.doc_count === 1 ? "" : "s")
-      : sectionSlug
-        ? sectionLabel(sectionSlug)
-        : "—";
     var footer = el("div", { class: "work-card__footer" }, [
-      docLabel,
-      el("span", { class: "work-card__dot", "aria-hidden": "true" }),
+      pillBottom || el("span", { class: "work-card__footer-spacer" }, ["—"]),
     ]);
 
-    var textCol = el("div", {}, [
-      venueEl,
+    var textCol = el("div", { class: "work-card__text" }, [
       el("h2", { class: "work-card__title" }, [work.title]),
       metaEl,
       descEl,

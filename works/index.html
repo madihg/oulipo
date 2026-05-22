@@ -282,6 +282,100 @@
         display: none;
       }
 
+      /* ── Series view (Halim 2026-05-22) ───────────────────────
+         The View=series toggle replaces the year grid with a stack of
+         large series banners (Singulars, New Beirut, oulipo.xyz). Each
+         banner mirrors the .home-feature 5/7 split. Clicking the banner
+         expands an inline list of that series' pieces (rendered with the
+         existing .work-card markup) so the visual rhythm stays consistent
+         across both views. */
+      .work-series {
+        margin-bottom: 3rem;
+      }
+      .work-series__banner {
+        display: grid;
+        grid-template-columns: 5fr 7fr;
+        gap: 2rem;
+        align-items: stretch;
+        width: 100%;
+        background: transparent;
+        border: 0;
+        padding: 0;
+        margin: 0 0 1.5rem;
+        cursor: pointer;
+        text-align: left;
+      }
+      @media (max-width: 900px) {
+        .work-series__banner {
+          grid-template-columns: 1fr;
+          gap: 1rem;
+        }
+        .work-series__image {
+          order: -1;
+        }
+      }
+      .work-series__image {
+        aspect-ratio: 16 / 9;
+        background: var(--ink-08);
+        overflow: hidden;
+      }
+      .work-series__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .work-series__body {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 0.5rem;
+      }
+      .work-series__eyebrow {
+        font-family: var(--font-mono);
+        font-variation-settings:
+          "slnt" 0,
+          "MONO" 1;
+        font-size: var(--type-size-meta);
+        color: var(--ink-50);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin: 0;
+      }
+      .work-series__title {
+        font-family: var(--font-h2);
+        font-weight: 700;
+        font-size: clamp(1.4rem, 2.4vw, 2rem);
+        line-height: 1.05;
+        color: var(--ink-85);
+        margin: 0;
+      }
+      .work-series__tagline {
+        font-size: 1.05rem;
+        line-height: 1.4;
+        color: var(--ink-85);
+        margin: 0;
+        max-width: 50ch;
+      }
+      .work-series__banner:hover .work-series__title {
+        text-decoration: underline 1px var(--ink-85);
+        text-underline-offset: 0.12em;
+      }
+      .work-series__inner {
+        display: none;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--ink-15);
+      }
+      .work-series--open .work-series__inner {
+        display: block;
+      }
+      .work-series--open .work-series__banner {
+        margin-bottom: 1rem;
+      }
+      .work-series--open .work-card {
+        margin-bottom: 2.5rem;
+      }
+
       /* Skeleton + empty + error states */
       .works-state {
         font-family: var(--font-mono);
@@ -421,6 +515,6 @@
 
     <script src="../Assets/js/menu.js"></script>
     <script src="/Assets/js/chrome.js?v=24" defer></script>
-    <script src="/Assets/js/works-page.js?v=6" defer></script>
+    <script src="/Assets/js/works-page.js?v=7" defer></script>
   </body>
 </html>

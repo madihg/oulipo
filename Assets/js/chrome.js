@@ -212,7 +212,7 @@
   // ── inject the partial ────────────────────────────────────
   function injectChrome() {
     if (document.querySelector(".signup-bar")) return Promise.resolve();
-    return fetch("/Assets/partials/chrome.html?v=12", { cache: "no-cache" })
+    return fetch("/Assets/partials/chrome.html?v=14", { cache: "no-cache" })
       .then(function (r) {
         if (!r.ok) throw new Error("chrome partial " + r.status);
         return r.text();
@@ -775,7 +775,7 @@
     // (and inside the root /index.html mount). Inject once site-wide.
     if (document.querySelector("script[data-home-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/home.js?v=7";
+    s.src = "/Assets/js/home.js?v=8";
     s.defer = true;
     s.setAttribute("data-home-loader", "");
     document.head.appendChild(s);

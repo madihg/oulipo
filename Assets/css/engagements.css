@@ -10,8 +10,10 @@
    ═══════════════════════════════════════════ */
 
 /* ── page chrome ─────────────────────────────────────────── */
+/* Let the engagements surface breathe — match the wide /works/ layout
+   instead of being capped at the narrower text-doc width. */
 .engagements-page {
-  max-width: 1080px;
+  max-width: 100%;
 }
 .eng-intro {
   max-width: 56ch;
@@ -201,13 +203,19 @@
 }
 
 /* ── dense engagement rows ──────────────────────────────── */
+/* The row is now a clickable <a> spanning the full width. Layout uses
+   minmax(0, ...) on flexible columns so long org names (e.g.
+   "Banff Computational Writing Residency") can ellipsize cleanly
+   instead of pushing the rest of the row out of alignment. */
 .eng-row {
   display: grid;
-  grid-template-columns: 0.6rem minmax(0, 1.1fr) minmax(0, 2fr) auto auto;
-  gap: 0.9rem;
+  grid-template-columns:
+    0.6rem minmax(10rem, 1.2fr) minmax(12rem, 2.2fr)
+    7rem 8rem;
+  gap: 1.25rem;
   align-items: baseline;
-  padding: 0.65rem 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
@@ -215,9 +223,16 @@
   font-size: var(--type-size-caption);
   color: var(--ink-85);
   text-decoration: none;
+  width: 100%;
+  box-sizing: border-box;
 }
 .eng-row:hover {
-  background: rgba(0, 0, 0, 0.02);
+  background: rgba(0, 0, 0, 0.025);
+}
+.eng-row:hover .eng-row__title {
+  color: var(--ink-85);
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
 }
 .eng-row__dot {
   width: 0.5rem;
@@ -233,12 +248,14 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 .eng-row__title {
   color: var(--ink-70);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  min-width: 0;
 }
 .eng-row__kind {
   color: var(--ink-40);
@@ -246,11 +263,13 @@
   letter-spacing: 0.04em;
   font-size: var(--type-size-meta);
   white-space: nowrap;
+  text-align: right;
 }
 .eng-row__date {
   color: var(--ink-50);
   font-size: var(--type-size-meta);
   white-space: nowrap;
+  text-align: right;
 }
 .eng-row__link {
   color: var(--ink-40);
@@ -262,20 +281,23 @@
   color: var(--ink-85);
 }
 
-@media (max-width: 700px) {
+/* Mid breakpoint — collapse the 5-col grid to 3 cols so titles stop
+   getting compressed against long org names on tablets. */
+@media (max-width: 1024px) {
   .eng-row {
-    grid-template-columns: 0.6rem 1fr auto;
-    row-gap: 0.15rem;
+    grid-template-columns: 0.6rem minmax(0, 1fr) auto;
+    row-gap: 0.2rem;
+    column-gap: 0.9rem;
   }
   .eng-row__org {
     grid-column: 2;
     grid-row: 1;
-    white-space: normal;
+    white-space: nowrap;
   }
   .eng-row__title {
     grid-column: 2;
     grid-row: 2;
-    white-space: normal;
+    color: var(--ink-85);
   }
   .eng-row__kind {
     grid-column: 3;
@@ -288,6 +310,16 @@
   .eng-row__dot {
     grid-row: 1 / span 2;
     align-self: center;
+  }
+}
+
+@media (max-width: 600px) {
+  .eng-row {
+    column-gap: 0.6rem;
+  }
+  .eng-row__org,
+  .eng-row__title {
+    white-space: normal;
   }
 }
 

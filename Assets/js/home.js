@@ -179,6 +179,7 @@
       var link = safeUrl(e.link);
       var when = (e.date_display || "").trim();
       var loc = (e.location || "").trim();
+      var kindLabel = e.kind ? String(e.kind).toUpperCase() : "";
       var metaParts = [];
       if (e.org) metaParts.push(String(e.org).toUpperCase());
       if (when) metaParts.push(when);
@@ -210,6 +211,9 @@
         [
           image,
           el("div", { class: "home-feature__body" }, [
+            kindLabel
+              ? el("div", { class: "home-feature__kind" }, [kindLabel])
+              : null,
             el("h3", { class: "home-feature__title" }, [e.title || ""]),
             el("div", { class: "home-feature__meta" }, [
               metaParts.length ? metaParts.join(" · ") : null,
@@ -222,16 +226,25 @@
     container.appendChild(list);
   }
 
-  // ── render: combined recent keynotes + workshops ─────────
-  // Pulls events where kind IN ('talk','workshop') AND featured=true,
-  // sorted by date desc. Same card shape as featured works (image
-  // on top, body below). Halim 2026-05-15: one section, not two.
+  // ── render: combined recent engagements ─────────────────
+  // Pulls rows where kind IN ('keynote','workshop','panel','residency')
+  // AND date_start strictly in the past (no overlap with the Upcoming
+  // carousel). Sorted by date desc. Halim 2026-05-22: renamed from
+  // "Recent keynotes & workshops", broadened to all engagement kinds,
+  // and de-duplicated against Upcoming.
   function renderRecentKeynotesWorkshops(container, events) {
     container.innerHTML = "";
+    var ENG_KINDS = { keynote: 1, workshop: 1, panel: 1, residency: 1 };
+    var todayMs = Date.now();
     var rows = events
       .filter(function (e) {
-        var k = e.kind;
-        return (k === "workshop" || k === "keynote") && e.featured === true;
+        if (!ENG_KINDS[e.kind]) return false;
+        // Past only — anchor on date_end if present, else date_start.
+        var d = e.date_end || e.date_start;
+        if (!d) return false;
+        var t = new Date(d).getTime();
+        if (Number.isNaN(t)) return false;
+        return t < todayMs;
       })
       .sort(function (a, b) {
         return (b.date_start || "").localeCompare(a.date_start || "");
@@ -267,6 +280,7 @@
 
       var when = (e.date_display || "").trim();
       var loc = (e.location || "").trim();
+      var kindLabel = e.kind ? String(e.kind).toUpperCase() : "";
       var metaParts = [];
       if (e.org) metaParts.push(String(e.org).toUpperCase());
       if (when) metaParts.push(when);
@@ -283,6 +297,9 @@
         [
           image,
           el("div", { class: "home-feature__body" }, [
+            kindLabel
+              ? el("div", { class: "home-feature__kind" }, [kindLabel])
+              : null,
             el("h3", { class: "home-feature__title" }, [e.title || ""]),
             el("div", { class: "home-feature__meta" }, [
               metaParts.length ? metaParts.join(" · ") : null,

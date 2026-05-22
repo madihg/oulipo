@@ -130,16 +130,18 @@
     </div>
   </section>
 
-  <!-- 3. Recent keynotes & workshops — combined strip pulling events
-       where kind IN ('talk','workshop') AND featured=true, ordered
-       by date desc. Halim 2026-05-15: was two separate sections,
-       merged into one. -->
+  <!-- 3. Recent engagements — combined strip pulling rows where kind
+       IN ('keynote','workshop','panel','residency') AND date_start in
+       the past, ordered by date desc. Halim 2026-05-22: renamed from
+       "Recent keynotes & workshops" + de-duplicated against Upcoming
+       (only past dates here; future-dated rows stay in the Upcoming
+       carousel). -->
   <section
     class="home-section home-section--featured"
-    aria-label="Recent keynotes and workshops"
+    aria-label="Recent engagements"
   >
     <header class="home-section__head">
-      <h2 class="home-section__title">Recent keynotes &amp; workshops</h2>
+      <h2 class="home-section__title">Recent engagements</h2>
       <a class="home-section__more" href="/engagements/">all &rarr;</a>
     </header>
     <div data-home-recent>

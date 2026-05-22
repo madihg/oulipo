@@ -191,19 +191,26 @@
             var org = (row.org || "").trim() || "—";
             var date = row.date_display || y;
             var link = safeUrl(firstExternalLink(row));
-            var linkChunk = link
-              ? '<a class="eng-row__link" href="' +
-                esc(link) +
-                '" target="_blank" rel="noopener noreferrer">↗</a>'
-              : "";
 
-            // The outer element is non-link by default; the in-row arrow
-            // handles the external nav so the row itself can hover-highlight
-            // without trapping clicks for visitors who just want to skim.
+            // The whole row is the clickable target. Use <a> when we
+            // have an external link, fall back to <div> when we don't
+            // (so non-linked rows still render but don't pretend to be
+            // clickable). Halim 2026-05-22: kill the in-row arrow + lift
+            // the whole row to a single hit target.
+            var tag = link ? "a" : "div";
+            var hrefAttr = link
+              ? ' href="' +
+                esc(link) +
+                '" target="_blank" rel="noopener noreferrer"'
+              : "";
             return (
-              '<div class="eng-row" data-kind="' +
+              "<" +
+              tag +
+              ' class="eng-row" data-kind="' +
               esc(row.kind) +
-              '">' +
+              '"' +
+              hrefAttr +
+              ">" +
               '<span class="eng-row__dot" style="background:' +
               kindMeta.color +
               '" aria-hidden="true"></span>' +
@@ -218,9 +225,10 @@
               "</span>" +
               '<span class="eng-row__date">' +
               esc(date) +
-              linkChunk +
               "</span>" +
-              "</div>"
+              "</" +
+              tag +
+              ">"
             );
           })
           .join("");

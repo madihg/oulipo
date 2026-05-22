@@ -312,6 +312,9 @@ body.has-signup-bar > .menu-toggle {
 }
 
 /* ── inline hamburger ──────────────────────────────────── */
+/* align-items: flex-end pushes the three hamburger lines to the
+   right edge of the 1.5rem box, so the icon visually lines up
+   with the right-hand content gutter on mobile (Halim 2026-05-22). */
 .signup-bar__menu {
   flex-shrink: 0;
   width: 1.5rem;
@@ -323,6 +326,7 @@ body.has-signup-bar > .menu-toggle {
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: flex-end;
   gap: 4px;
 }
 .signup-bar__menu:hover {

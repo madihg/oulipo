@@ -459,6 +459,17 @@
 .home-feature__body {
   min-width: 0;
 }
+.home-feature__kind {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin: 0 0 0.35rem;
+}
 .home-feature:hover .home-feature__title {
   text-decoration: underline 1px var(--ink-85);
   text-underline-offset: 0.12em;

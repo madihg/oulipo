@@ -42,7 +42,7 @@ body.machine-mode .palette {
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 60ch;
+  max-width: min(88ch, 92vw);
   bottom: 0;
   margin: 0;
   padding: 4rem 1rem 22rem;
@@ -93,7 +93,7 @@ body.machine-mode .palette {
 .palette__mascot-panel {
   align-self: center;
   width: 100%;
-  max-width: 60ch;
+  max-width: min(88ch, 92vw);
   margin: 0 0 0.75rem;
   /* Shorter — single-line mascot frames mean we don't need the
      bigger vertical box (Halim 2026-05-15). */
@@ -137,12 +137,16 @@ body.machine-mode .palette {
 .palette__results {
   align-self: center;
   width: 100%;
-  max-width: 60ch;
+  max-width: min(88ch, 92vw);
   max-height: 18rem;
   overflow-y: auto;
   margin: 0 0 0.75rem;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  /* Opaque so the slash-hierarchy menu sits cleanly above the dimmed
+     llms.txt background instead of showing through as a ghost panel
+     (Halim 2026-05-22: "the menu that appears when i click tab is
+     transparent which is bad, should be opaque"). */
+  background: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 4px;
 }
 .palette__results[hidden] {
@@ -255,7 +259,7 @@ body.machine-mode .palette {
 .palette__inputbar {
   align-self: center;
   width: 100%;
-  max-width: 60ch;
+  max-width: min(88ch, 92vw);
   height: 3.5rem;
   background: rgba(0, 0, 0, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.18);

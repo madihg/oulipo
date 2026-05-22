@@ -13,7 +13,7 @@
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
     <link rel="stylesheet" href="/Assets/css/shared.css?v=32" />
-    <link rel="stylesheet" href="/Assets/css/engagements.css?v=2" />
+    <link rel="stylesheet" href="/Assets/css/engagements.css?v=3" />
   </head>
   <body>
     <div class="menu-overlay" onclick="toggleMenu()"></div>
@@ -67,45 +67,46 @@
           </p>
         </header>
 
-        <!-- Workshops first (Halim's call 2026-05-20) -->
-        <section class="eng-theme">
-          <div class="eng-theme__text">
-            <h2>Workshops as practice</h2>
-            <p>
-              Workshops are where the talk turns into a tool. Two days, hands on
-              keyboards, prompts on the wall. For creative communities,
-              classrooms, and corporations that want to remember how making
-              feels.
-            </p>
-          </div>
-          <div class="eng-theme__img">
-            <img
-              src="/Assets/images/workshops/dschool_CCSHalimMadi_DE_5-13-25_PatrickBeaudouin_PTB_1735.jpg"
-              alt="Halim Madi leading a d.school workshop"
-              loading="lazy"
-            />
-          </div>
-        </section>
+        <!-- Workshops + Keynotes — two side-by-side cards (stack on mobile).
+             Halim 2026-05-22 walkthrough. -->
+        <div class="eng-themes">
+          <section class="eng-theme">
+            <div class="eng-theme__img">
+              <img
+                src="/Assets/images/engagements/workshops.jpg"
+                alt="Halim Madi leading a workshop"
+                loading="lazy"
+              />
+            </div>
+            <div class="eng-theme__text">
+              <h2>Workshops as practice</h2>
+              <p>
+                Workshops are where the talk turns into a tool. Two days, hands
+                on keyboards, prompts on the wall. For creative communities,
+                classrooms, and corporations that want to remember how making
+                feels.
+              </p>
+            </div>
+          </section>
 
-        <hr class="eng-divider" />
-
-        <section class="eng-theme">
-          <div class="eng-theme__text">
-            <h2>Keynotes that make room</h2>
-            <p>
-              I speak in rooms where people make things. The talk clears noise
-              so the work can hear itself. Conferences, schools, companies who
-              want their teams writing again.
-            </p>
-          </div>
-          <div class="eng-theme__img">
-            <img
-              src="/Assets/images/keynotes/IMG_9390.JPEG"
-              alt="Halim Madi keynote"
-              loading="lazy"
-            />
-          </div>
-        </section>
+          <section class="eng-theme">
+            <div class="eng-theme__img">
+              <img
+                src="/Assets/images/engagements/keynotes.jpeg"
+                alt="Halim Madi keynote"
+                loading="lazy"
+              />
+            </div>
+            <div class="eng-theme__text">
+              <h2>Keynotes that make room</h2>
+              <p>
+                I speak in rooms where people make things. The talk clears noise
+                so the work can hear itself. Conferences, schools, companies who
+                want their teams writing again.
+              </p>
+            </div>
+          </section>
+        </div>
 
         <!-- ── Archive ─────────────────────────────────────────
              Sticky chip strip + year-grouped dense rows. Live data

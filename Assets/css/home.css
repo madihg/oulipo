@@ -247,33 +247,12 @@
   transition: transform 2.6s cubic-bezier(0.65, 0, 0.22, 1);
   will-change: transform;
 }
-.curtain__rope {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1.1rem;
-  background: #000;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  font-family: var(--font-mono);
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.35);
-  letter-spacing: 0.2em;
-  z-index: 3;
-  user-select: none;
-  transition: opacity 0.4s ease 1s;
-}
 /* Slide outward when JS opens the curtain. */
 .curtain[data-curtain="open"] .curtain__half--left {
   transform: translateX(-102%);
 }
 .curtain[data-curtain="open"] .curtain__half--right {
   transform: translateX(102%);
-}
-.curtain[data-curtain="open"] .curtain__rope {
-  opacity: 0;
 }
 /* When fully open, take the curtain out of the layer stack so
    it doesn't catch pointer events on a transparent area. */

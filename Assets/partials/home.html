@@ -15,15 +15,20 @@
   <section class="home-hero" aria-label="Halim Madi — landing">
     <!-- LEFT: terminal -->
     <div class="terminal" data-terminal>
-      <!-- Halim 2026-05-22: top "lights" (three dots + label) removed.
-           The curtain itself is the visual signal — no chrome on top. -->
+      <div class="terminal__bar" aria-hidden="true">
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__label">reverse.exe · singulars</span>
+      </div>
       <div class="terminal__stage" data-terminal-stage>
         <!-- Theater curtain — two velvet halves pull outward with overshoot.
              Rope strip rides the top edge until the pull completes. -->
         <div class="curtain" data-curtain>
-          <div class="curtain__rope" aria-hidden="true">
-            ╱ ╲ ╱ ╲ ╱ ╲ ╱ ╲ ╱ ╲
-          </div>
+          <!-- Halim 2026-05-22: the curtain rope strip at the top was
+               reading as "strange lights / bars" sitting over the velvet.
+               Removed; the velvet halves now meet a clean edge under the
+               terminal__bar above. -->
           <div
             class="curtain__half curtain__half--left"
             aria-hidden="true"

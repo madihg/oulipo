@@ -12,7 +12,7 @@
 @import url("./palette.css?v=9");
 
 /* Home surface (consumed by /index.html + chrome.js home-overlay) */
-@import url("./home.css?v=10");
+@import url("./home.css?v=11");
 
 /* Whomp chat surface — top of the home content */
 @import url("./whomp-chat.css?v=2");

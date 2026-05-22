@@ -609,24 +609,6 @@ hr {
   display: block;
 }
 
-/* Halim 2026-05-22: CleanShot screenshots ship with transparent alpha-
-   padded drop shadow on the sides + bottom. When rendered against the
-   paper page background the padding reads as a soft gray ring around
-   the hero. The .detail-hero--screenshot modifier crops that padding
-   by scaling the inner img up and bleeding it past the figure clip.
-   Apply on per-work pages whose featured.png came out of CleanShot
-   (Open Season, Boys Not Men, Seed Your Voice, etc.) so the screenshot
-   fills the hero box edge-to-edge. */
-.detail-hero--screenshot {
-  overflow: hidden;
-}
-.detail-hero--screenshot img {
-  width: 110%;
-  margin-left: -5%;
-  margin-top: -2%;
-  margin-bottom: -4%;
-}
-
 .detail-flow {
   display: flex;
   flex-direction: column;

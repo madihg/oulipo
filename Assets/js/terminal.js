@@ -232,11 +232,11 @@
 
     setTimeout(function () {
       curtain.setAttribute("data-curtain", "open");
-      // Theater pull = 1.4s transition; clear from layer stack a beat
-      // after the velvet halves finish sliding off.
+      // Theater pull = 2.6s transition (Halim 2026-05-22: slow it down).
+      // Clear from layer stack a beat after the velvet halves finish.
       setTimeout(function () {
         curtain.setAttribute("data-curtain", "done");
-      }, 1550);
+      }, 2750);
     }, 220);
   }
 

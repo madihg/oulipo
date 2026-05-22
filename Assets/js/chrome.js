@@ -789,7 +789,7 @@
     // runs on. The OpenRouter key lives in Vercel env vars only.
     if (document.querySelector("script[data-terminal-loader]")) return;
     var s = document.createElement("script");
-    s.src = "/Assets/js/terminal.js?v=6";
+    s.src = "/Assets/js/terminal.js?v=7";
     s.defer = true;
     s.setAttribute("data-terminal-loader", "");
     document.head.appendChild(s);

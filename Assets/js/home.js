@@ -111,11 +111,14 @@
   ].join(",");
   function fetchWorks() {
     if (worksCache) return Promise.resolve(worksCache);
+    // Skip rows tagged 'cv-only' — they belong on /cv/ but should not
+    // surface on the home featured strip even if featured=true is set.
     var url =
       SUPABASE_URL +
       "/rest/v1/works?select=*&kind=in.(" +
       WORK_KINDS +
-      ")&featured=eq.true&order=date_start.desc.nullslast";
+      ")&featured=eq.true&tags=not.cs.{cv-only}" +
+      "&order=date_start.desc.nullslast";
     return fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,

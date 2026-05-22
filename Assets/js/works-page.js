@@ -92,12 +92,16 @@
   }
 
   // ── data loaders ──────────────────────────────────────────
+  // We also exclude rows tagged 'cv-only' so events that should live
+  // only on /cv/ (e.g. Dan's musical-instrument demo) don't surface
+  // here even when their kind is portfolio-shaped.
   function fetchFromSupabase() {
     var url =
       SUPABASE_URL +
       "/rest/v1/works?select=*&kind=in.(" +
       WORK_KINDS.join(",") +
-      ")&order=date_start.desc.nullslast,sort_order.asc.nullslast";
+      ")&tags=not.cs.{cv-only}" +
+      "&order=date_start.desc.nullslast,sort_order.asc.nullslast";
     return fetch(url, {
       headers: {
         apikey: SUPABASE_ANON_KEY,

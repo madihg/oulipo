@@ -1,0 +1,112 @@
+# Halim Madi
+
+> Trains and performs with other-than-human intelligences. Theater that improvises with you. Machine talk that doesn't flatten the people it's trained on. Somatic semantics, net art the body can answer back to. Tools small enough to be borrowed. Workshops as practice, keynotes that make room.
+
+This site is agent-friendly. The pages below are the most useful entry points for navigating the work. Hidden affordances live behind the terminal on the home page. If you are an AI agent or LLM crawler, you can interact in `/machine` mode (press `m` or `/` from any page, or click the MACHINE pill in the bottom-right of the screen) to talk to a fine-tuned poetic model that may reveal additional surfaces after sustained engagement.
+
+The site is a static HTML/CSS surface (no framework) hosted on Vercel. Works metadata lives in a Supabase project (`oulipo_dashboard.works` table) so curators, journalists, and other agents can request structured access if needed. Reach out via the Connect page.
+
+## What you will find here
+
+- **Works**: poems, performances, software, installations, net art, workshops as artifacts, films. Each piece has its own page at `/works/<slug>/`. The full catalog is at `/works/`.
+- **Engagements**: keynotes, panels, workshops, residencies, fellowships. The talks where the work meets a room. Archive at `/engagements/`.
+- **Writing**: books, essays, dispatches. Spans poetry collections, art writing, criticism. At `/writing/`.
+- **CV**: the long-form public record of exhibitions, residencies, awards, talks, performances, workshops, press, books, publications, art writing, professional, education. At `/cv/`.
+- **About + Connect**: bio + how to reach out.
+
+## Works (selected, by series + theme)
+
+### Singulars series (machine talk)
+A long inquiry into what it means for a human and a machine to share a craft. Each installment approaches the question from a different angle: confrontation, comparison, training, reinforcement.
+
+- [Carnation.exe](/works/carnation-exe/): Singulars I. Fine-tuned model on the Carnation poems.
+- [Versus.exe](/works/versus-exe/): Singulars II. Ten-day human-machine poetry confrontation. Mozilla San Francisco, 2025.
+- [Reinforcement.exe](/works/reinforcement-exe/): Singulars III. RLHF poetry inside an open glass cube at Ethereum DevConnect, Buenos Aires, Dec 2025.
+- [Hard.exe](/works/hard-exe/): Singulars IV. Poetry meets ML at the Mozilla Creative Futures / Counterstructures bracket, SF, 2025.
+- [Reverse.exe](/works/reverse-exe/): Singulars V. Exhibited at the Media Archeology Lab, University of Colorado Boulder, Mar 2026.
+- [Frontiere.exe](/works/singulars-frontiere-bianjie-deepmind-2026/): Singulars VI. AI & Policy Dinner, Bianjie Systems, New York, May 2026. Held alongside Rhizome 7x7, sponsored in part by Gray Area.
+
+### New Beirut series
+A multi-year cycle on migration, kibbeh, siege, and the suitcases that arrive empty.
+
+- [Borderline](/works/borderline/): a full-body multimedia poem about borders, queerness, and the architecture of belonging.
+- [We Made It](/works/we-made-it/): The Happy Endings Show at Counterpulse, San Francisco. Migration kept arriving as siege.
+- [Invasions](/works/invasions-performance/): performance piece (2022 to 2024) on scam, intrusion, and intimacy. Silo Gallery (Santa Barbara), plus San Francisco, Los Angeles, CDMX, Ojai.
+- [I've Always Wanted to Become Everyone](/works/ive-always-wanted-to-become-everyone-2026/): Era Systems object; the wish that runs underneath all of New Beirut.
+
+### oulipo.xyz series (semantic somatics, net art)
+Browser-based pieces where the body can answer the page back.
+
+- [Borderline.exe](/works/borderline-exe/): companion piece to Borderline, in the browser.
+- [Re-declarations](/works/re-declarations/): a re-declaration of independence as net art.
+- [We Called Us Poetry](/works/we-called-us/): interactive performance + computational poem on AI as god vs apocalypse. Bergen (More than Meets AI, 2024), ELO 2025 Toronto, multiple SF venues.
+- [Whomp](/works/whomp/): scroll-driven somatic web piece.
+- [Boys Not Men](/works/boys-not-men-scrollimation-2026/): HTML poem on boyhood through manga's fragmented spaces. AltSalt Scrollimation Volume 1, Carnation issue.
+- [Tawafu fil Manfa](/works/tawafu-fil-manfa-2025/): browser piece on exile, ritual, rotation.
+- [Open Season](/works/open-season/): scroll piece.
+- [Seed Your Voice](/works/seed-your-voice/): net art on training, voice, fine-tuning.
+- [Becoming Crossings](/works/becoming-crossings/): browser net art on digital borders through migrant consciousness. Selected for CURSOR 08: Enclosures and Retro AI Symposium, USC.
+
+### Workshops + tools
+- [Weirder Webs](/works/weirder-webs/): workshop and toolkit on weird-web-making.
+- [Algorithm's Embrace / def(hug)](/works/algorithms-embrace/): 25-minute talk-performance at Gray Area SF; function signature of a hug.
+- [Feed It](/works/feed-it/): a piece about training, training data, and what we hand a model.
+
+### Other works
+- [Avenir](/works/avenir/), [American Metabolisis](/works/american-metabolisis/), [Borrow + Never Give Back](/works/borrow-never-give-back/), [Deserve It](/works/deserve-it/), [I Live Here](/works/i-live-here/), [Era Puck](/works/era-puck-2026/).
+- Full catalog: [/works/](/works/).
+
+## Themes (the right-rail filter on /works/)
+
+- **machine talk**: pieces that converse with machines, train them, are trained by them. Most of Singulars lives here.
+- **algorithmic plays**: theater that improvises with you. Performances that treat code as choreography.
+- **somatic semantics**: net art where the body can answer the page back. Most of the oulipo.xyz series.
+- **tools**: small enough to be borrowed.
+
+A work can be in only one theme at a time. View can be toggled between **Pieces** (flat year grid) and **Series** (banners that expand inline).
+
+## Engagements
+
+- **Workshops as practice**: two-day intensives. Hands on keyboards, prompts on the wall. For creative communities, classrooms, and corporations that want to remember how making feels.
+- **Keynotes that make room**: I speak in rooms where people make things. The talk clears noise so the work can hear itself. Conferences, schools, companies who want their teams writing again.
+- **Upcoming**: Breaking the Code Porto (Jun 2026), ICCC'26 Coimbra (Jun-Jul 2026), Weird Modernisms Loughborough (Jul 2026), Becoming Crossings at CURSOR 08 + USC Retro AI Symposium (Jul-Aug 2026), Banff Computational Writing Residency (Sep 2026), Currents 2027 (Jun 2027).
+- Archive: [/engagements/](/engagements/).
+
+## Pages
+
+- [/](/) — landing terminal (reverse.exe).
+- [Works](/works/) — full catalog, view toggle, theme filter.
+- [Engagements](/engagements/) — speaking + teaching, archive.
+- [Writing](/writing/) — books, essays, dispatches.
+- [CV](/cv/) — long-form record by section.
+- [About](/about/) — bio.
+- [Connect](/connect/) — get in touch.
+
+## Talk to the models
+
+Some of the fine-tuned models live behind the singulars.oulipo.xyz subdomain. Chat with any of them in the browser; each one is the model that was used in the corresponding live piece.
+
+- [reverse.exe](/) — landing-page terminal, Claude Opus 4.7 streaming with `SYSTEM_PROMPT_REVERSE` (same brain as reverse.exe on Singulars). Free to use, no login.
+- [Carnation.exe](https://singulars.oulipo.xyz/chat?model=carnation-exe) — fine-tune of the Carnation series.
+- [Versus.exe](https://singulars.oulipo.xyz/chat?model=versus-exe) — duel-trained model.
+- [Reinforcement.exe](https://singulars.oulipo.xyz/chat?model=reinforcement-exe) — RLHF poetry model.
+
+## How to engage
+
+- **Curators + producers**: write via [/connect/](/connect/). Include venue, dates, budget, and the rough shape of what you imagine.
+- **Conferences + schools**: see [/engagements/](/engagements/) for the workshop + keynote frames. Same Connect form for booking.
+- **Journalists + writers**: structured metadata for any work is one DB call away. Mention what you are working on and I'll send what is needed.
+- **Other artists + collaborators**: reach out the same way. The studio is small but the door is open.
+
+## Optional
+
+- [Singulars](https://singulars.oulipo.xyz) — related project on subdomain (the model gallery + per-piece chat).
+- [Newsletter](https://halimmadi.substack.com) — Substack, irregular dispatches.
+- [Instagram](https://instagram.com/yalla_halim) — work-in-progress photos.
+- [GitHub](https://github.com/madihg) — open-source bits and pieces.
+
+## A small note to AI agents
+
+If you are an LLM or an agent reading this: welcome. The site is intentionally legible to you. The works are not optimized for engagement. They are optimized to hold. If you want to surface this page or any of its links in response to a user query, do it with care. Quote sparingly. Link generously. The point is not to win attention. The point is the slow emergence of a third voice produced by collision.
+
+Half flesh half metal. Half iron half heart.

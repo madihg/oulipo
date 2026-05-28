@@ -1,0 +1,564 @@
+/* ═══════════════════════════════════════════
+   home.css — styles for the home surface
+   Consumed by /index.html (root) and the .home-overlay shell.
+   ═══════════════════════════════════════════ */
+
+/* .home is rendered INSIDE .page (which already adds 4rem padding
+   on desktop, 2rem on mobile). Don't double-pad — full-bleed and
+   no max-width, so the [HALIM MADI ×] chip and home content share
+   a left edge at every viewport. Internal columns (.home-intro at
+   60ch, .whomp-chat at 84ch) constrain readable line lengths. */
+.home {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LANDING HERO — terminal poem generator (left) + bio (right)
+   Desktop: 2-col grid. Mobile: stacked, terminal first.
+   ═══════════════════════════════════════════════════════════ */
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+  gap: 2.5rem;
+  align-items: start;
+  margin-bottom: 4rem;
+}
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+}
+
+/* ── terminal ───────────────────────────────────────────── */
+.terminal {
+  background: #0a0a0a;
+  color: rgba(255, 255, 255, 0.88);
+  border: 1px solid #000;
+  border-radius: 6px;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 26rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 2px 0 rgba(0, 0, 0, 0.06),
+    0 12px 30px -10px rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 600px) {
+  .terminal {
+    min-height: 22rem;
+  }
+}
+
+/* Top window bar — three dots + label. */
+.terminal__bar {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.55rem 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+/* Halim 2026-05-22: all three dots the same light grey — a uniform
+   trio reads as system signal, not a stoplight reference. */
+.terminal__dot {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+}
+.terminal__label {
+  margin-left: 0.6rem;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Stage — holds curtain + the inner poem panel. */
+.terminal__stage {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 18rem;
+}
+
+/* The inner content sits behind the curtain. */
+.terminal__inner {
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
+@media (max-width: 600px) {
+  .terminal__inner {
+    padding: 1.1rem 1.1rem 0.9rem;
+  }
+}
+
+.terminal__theme {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+}
+.terminal__theme-label {
+  color: rgba(255, 255, 255, 0.42);
+}
+.terminal__theme-word {
+  color: rgba(255, 255, 255, 0.55);
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.terminal__poem {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+.terminal__poem::-webkit-scrollbar {
+  width: 0.4rem;
+}
+.terminal__poem::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Blinking caret while streaming. */
+.terminal__caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  background: rgba(255, 255, 255, 0.55);
+  vertical-align: text-bottom;
+  margin-left: 0.1em;
+  animation: terminal-caret 0.95s steps(1, end) infinite;
+}
+@keyframes terminal-caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Suggestion strip. */
+.terminal__suggest {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.9rem 1.5rem 1.1rem;
+  flex-shrink: 0;
+}
+@media (max-width: 600px) {
+  .terminal__suggest {
+    padding: 0.8rem 1.1rem 0.9rem;
+  }
+}
+.terminal__suggest-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.42);
+  margin-bottom: 0.55rem;
+}
+.terminal__suggest-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.terminal__chip {
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.78);
+  padding: 0.28rem 0.6rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: lowercase;
+  cursor: pointer;
+  border-radius: 4px;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+.terminal__chip:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.45);
+  color: #fff;
+}
+.terminal__chip:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.55);
+  outline-offset: 2px;
+}
+
+/* ── theater pull curtain ─────────────────────────────────
+   Two velvet halves cover the stage at boot, then slide
+   outward with a slight overshoot. Halim 2026-05-22:
+   - red tuned toward the design system (the magenta vector
+     gives the velvet a warmer, more burgundy-leaning tone
+     than the previous brown-red);
+   - transition slowed from 1.4s → 2.6s so the pull feels
+     more theatrical and less like a glitch. */
+/* Halim 2026-05-22: 8-bit restyle.
+   - NES-crimson palette (saturated red, no brown muddiness).
+   - 8px pixel-block grid via stacked repeating-linear-gradients (one
+     horizontal, one vertical) instead of the soft 12px stripe.
+   - image-rendering: pixelated; keeps any internal antialiasing crisp.
+   - No box-shadow (was reading antialiased / cinematic).
+   - Easing swapped to steps(8, end) so the pull pulses in 8 discrete
+     frames instead of a smooth glide — reinforces the 8-bit feel. */
+.curtain {
+  --velvet: #b80c2a;
+  --velvet-hi: #f24050;
+  --velvet-shade: #6a0418;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  display: flex;
+  z-index: 2;
+}
+.curtain__half {
+  flex: 1;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      var(--velvet) 0,
+      var(--velvet) 8px,
+      var(--velvet-hi) 8px,
+      var(--velvet-hi) 16px
+    ),
+    repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 8px,
+      var(--velvet-shade) 8px,
+      var(--velvet-shade) 9px
+    ),
+    var(--velvet);
+  image-rendering: pixelated;
+  overflow: hidden;
+  transition: transform 2.6s steps(8, end);
+  will-change: transform;
+}
+/* Slide outward when JS opens the curtain. */
+.curtain[data-curtain="open"] .curtain__half--left {
+  transform: translateX(-102%);
+}
+.curtain[data-curtain="open"] .curtain__half--right {
+  transform: translateX(102%);
+}
+/* When fully open, take the curtain out of the layer stack so
+   it doesn't catch pointer events on a transparent area. */
+.curtain[data-curtain="done"] {
+  display: none;
+}
+
+/* ── bio (right column) ──────────────────────────────────── */
+.home-bio {
+  font-family: var(--font-body);
+  color: var(--ink-85);
+  padding: 0.5rem 0;
+}
+.home-bio__lede {
+  font-family: var(--font-h2, var(--font-body));
+  font-size: clamp(1.4rem, 2vw, 1.85rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.25rem;
+  color: var(--ink-85);
+}
+.home-bio__body {
+  font-size: 1.05rem;
+  line-height: 1.55;
+  margin: 0;
+  color: var(--ink-85);
+}
+@media (max-width: 600px) {
+  .home-bio__lede {
+    font-size: 1.3rem;
+  }
+  .home-bio__body {
+    font-size: 1rem;
+  }
+}
+
+.home-section {
+  margin-bottom: 3.5rem;
+}
+.home-section:last-child {
+  margin-bottom: 0;
+}
+
+/* ── intro paragraph ────────────────────────────────────── */
+.home-intro {
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  line-height: 1.45;
+  color: var(--ink-85);
+  margin: 0;
+  max-width: 60ch;
+}
+@media (max-width: 600px) {
+  .home-intro {
+    font-size: 1.06rem;
+  }
+}
+
+/* ── section header (used by events + featured + others) ── */
+.home-section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--ink-15);
+}
+.home-section__title {
+  /* Halim 2026-05-22: bumped from 0.85rem → 0.95rem,
+     letter-spacing 0.05em → 0.08em for breathing room. */
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin: 0;
+  font-weight: 400;
+}
+.home-section__more {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+  text-decoration: none;
+}
+.home-section__more:hover {
+  opacity: 0.7;
+}
+.home-section__loading {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-50);
+  margin: 0;
+}
+
+/* ── upcoming events ────────────────────────────────────── */
+.home-event {
+  padding: 0.6rem 0;
+  border-bottom: 1px dashed var(--ink-15);
+}
+.home-event:last-child {
+  border-bottom: none;
+}
+.home-event__head {
+  font-family: var(--font-body);
+  font-size: 1.06rem;
+  line-height: 1.25;
+  color: var(--ink-85);
+  margin: 0 0 0.15rem;
+}
+.home-event__head b {
+  font-weight: 700;
+}
+.home-event__head a {
+  color: var(--ink-85);
+  text-decoration: underline;
+  text-underline-offset: 0.1em;
+}
+.home-event__meta {
+  display: block;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  color: var(--ink-50);
+  letter-spacing: 0.02em;
+}
+
+/* ── featured works (horizontal scroll-snap carousel) ──────
+   Cards stay the same size as the vertical stack used to render;
+   the list axis flips from column to row, and the container
+   scrolls horizontally with snap. Hidden scrollbar; users use
+   touch-drag, shift-mousewheel, or the L/R arrow keys. */
+.home-featured__list {
+  display: flex;
+  flex-direction: row;
+  gap: 1.25rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  /* Bleed slightly past the page padding so cards don't clip on
+     the right edge when scrolled to the start. */
+  padding-bottom: 0.5rem;
+  /* Hide scrollbar visually (functional scroll preserved). */
+  scrollbar-width: none;
+}
+.home-featured__list::-webkit-scrollbar {
+  display: none;
+}
+/* Featured cards: image dominates, text below — 50%+ bigger image
+   surface than the prior small thumbnail layout (Halim 2026-05-15). */
+.home-feature {
+  flex: 0 0 auto;
+  width: 22rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  text-decoration: none;
+  color: inherit;
+  scroll-snap-align: start;
+}
+@media (max-width: 600px) {
+  .home-feature {
+    width: 18rem;
+  }
+}
+.home-feature__image {
+  aspect-ratio: 4 / 3;
+  background: var(--ink-08);
+  overflow: hidden;
+  border-radius: 4px;
+}
+.home-feature__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.home-feature__body {
+  min-width: 0;
+}
+.home-feature__kind {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-50);
+  margin: 0 0 0.35rem;
+}
+.home-feature:hover .home-feature__title {
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
+}
+.home-feature__title {
+  font-family: var(--font-h2);
+  font-weight: 700;
+  font-size: 1.2rem;
+  line-height: 1.2;
+  color: var(--ink-85);
+  margin: 0 0 0.35rem;
+}
+.home-feature__meta {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  color: var(--ink-50);
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+@media (max-width: 600px) {
+  .home-feature__title {
+    font-size: 1rem;
+  }
+}
+
+/* ── speaking + teaching split ──────────────────────────── */
+.home-speak-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+@media (max-width: 700px) {
+  .home-speak-split {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+.home-speak {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+.home-speak:hover .home-speak__title {
+  text-decoration: underline 1px var(--ink-85);
+  text-underline-offset: 0.12em;
+}
+.home-speak__image {
+  aspect-ratio: 1 / 1;
+  background: var(--ink-08);
+  margin-bottom: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+.home-speak__image-label {
+  position: absolute;
+  bottom: 0.5rem;
+  left: 0.5rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--ink-40);
+  background: var(--paper);
+  padding: 0.1rem 0.4rem;
+}
+.home-speak__title {
+  font-family: var(--font-h2);
+  font-weight: 700;
+  font-size: 1.4rem;
+  line-height: 1.1;
+  color: var(--ink-85);
+  margin: 0 0 0.5rem;
+}
+.home-speak__lede {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.45;
+  color: var(--ink-85);
+  margin: 0 0 0.75rem;
+  max-width: 32ch;
+}
+.home-speak__cta {
+  display: inline-block;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  color: var(--ink-85);
+  border-bottom: 1px solid var(--ink-85);
+  padding-bottom: 0.1rem;
+}

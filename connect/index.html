@@ -12,27 +12,23 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
-    <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <link rel="stylesheet" href="../Assets/css/shared.css?v=34" />
 
     <style>
       .page-content {
         max-width: 36rem;
       }
 
-      /* Featured: NMWP vote card */
+      /* Featured: NMWP vote card (text-only, no image) */
       .featured-vote {
         background: #000000;
         color: #ffffff;
-        padding: 1.6rem;
+        padding: 1.4rem 1.6rem;
         margin-bottom: 1.8rem;
         border: 1px solid #000000;
         width: 100%;
         max-width: 52rem;
         box-sizing: border-box;
-        display: grid;
-        grid-template-columns: 5fr 4fr;
-        gap: 1.6rem;
-        align-items: center;
       }
 
       .featured-vote .featured-text {
@@ -203,21 +199,26 @@
         margin-bottom: 0.6rem;
       }
 
+      /* Halim 2026-05-22: align Connect buttons to the landing-page
+         .button-8 dimensions exactly (was running at a smaller variant
+         with thicker borders that read as a different family). */
       .connect-links .button-8 {
-        font-size: var(--type-size-caption);
-        padding: 0.45rem 0.75rem;
-        border-width: 0.15rem;
+        font-size: 0.85rem;
+        padding: 0.6rem 1.1rem;
+        border-width: 1px;
       }
 
-      /* Section title - monospace uppercase label */
+      /* Section title — same Diatype Mono family as landing's
+         .home-section__title, slightly bumped for breathing room
+         (0.96rem → 1rem, letter-spacing 0.04em → 0.08em). */
       .page-title {
         font-family: "Diatype Mono Variable", monospace;
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        font-size: var(--type-size-meta);
+        font-size: 1rem;
         font-weight: 700;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         margin-bottom: 0.5rem;
         margin-top: 1.2rem;
@@ -282,26 +283,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
-    <!-- Site Header -->
-    <div class="header-bar"></div>
-    <div class="site-header">
-      <a href="/home/">Halim Madi</a>
-    </div>
-
     <!-- Menu Toggle Button -->
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
     <!-- Menu Overlay -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
     <!-- Side Menu Drawer -->
     <nav class="side-menu">
       <div class="menu-header">
-        <a href="/home/" class="menu-home">Home</a>
+        <a href="/" class="menu-home">Home</a>
         <button
           class="menu-close"
           onclick="toggleMenu()"
@@ -310,16 +299,12 @@
           &times;
         </button>
       </div>
-
       <div class="menu-section">
         <a href="/works/">Works</a>
-        <a href="/keynotes/">Keynotes</a>
-        <a href="/workshops/">Workshops</a>
+        <a href="/engagements/">Engagements</a>
         <a href="/writing/">Writing</a>
       </div>
-
       <hr class="menu-divider" />
-
       <div class="menu-section">
         <a href="/about/">About</a>
         <a href="/connect/">Connect</a>
@@ -375,19 +360,6 @@
             </a>
           </div>
         </div>
-        <a
-          class="featured-image"
-          href="https://newmediawritingprize.co.uk/opening-up-2025/#vote"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Open the NMWP vote form (Curl is highlighted)"
-        >
-          <img
-            src="../Assets/screenshots/nmwp-vote-form.png"
-            alt="NMWP Opening Up 2025 vote form, with Curl highlighted in red"
-            loading="eager"
-          />
-        </a>
       </section>
 
       <div class="page-content">
@@ -412,24 +384,10 @@
           >
           <a
             class="button-8"
-            href="https://www.youtube.com/@yalla_halim"
-            target="_blank"
-            rel="noopener noreferrer"
-            >YouTube <span class="external-arrow">&#x2197;</span></a
-          >
-          <a
-            class="button-8"
             href="https://halimmadi.substack.com/"
             target="_blank"
             rel="noopener noreferrer"
             >Newsletter <span class="external-arrow">&#x2197;</span></a
-          >
-          <a
-            class="button-8"
-            href="https://cal.com/halim-madi"
-            target="_blank"
-            rel="noopener noreferrer"
-            >Book a Meeting <span class="external-arrow">&#x2197;</span></a
           >
         </div>
 
@@ -483,6 +441,7 @@
     </div>
 
     <script src="../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js?v=24" defer></script>
     <script>
       // -- Supabase Config --
       const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
@@ -549,11 +508,21 @@
       }
 
       function renderEvent(event) {
-        const linkUrl = safeExternalUrl(event.link);
+        const linkUrl =
+          safeExternalUrl(event.link) ||
+          safeExternalUrl(
+            Array.isArray(event.external_links) && event.external_links[0]
+              ? event.external_links[0].url || event.external_links[0]
+              : null,
+          );
         const org = escapeHtml(event.org);
         const title = escapeHtml(event.title);
-        const description = event.description
-          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+        const descText =
+          event.long_description ||
+          event.short_description ||
+          event.description;
+        const description = descText
+          ? `<span class="event-description">${escapeHtml(descText)}</span>`
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const metaLine = metaText
@@ -576,11 +545,16 @@
         const container = document.getElementById("events-container");
         container.innerHTML = '<p class="event-meta">Loading events...</p>';
 
+        // Post-events-merge (2026-05-20): engagement-shaped kinds live
+        // in the merged `works` table. Pull keynote/talk/panel/workshop/
+        // residency for the upcoming list — that matches the
+        // /engagements/ scope. Goes through the `public.works` view
+        // because PostgREST blocks the oulipo_dashboard schema (406).
         const { data, error } = await _supabase
-          .schema("oulipo_dashboard")
-          .from("events")
+          .from("works")
           .select("*")
-          .order("date", { ascending: true });
+          .in("kind", ["keynote", "panel", "workshop", "residency"])
+          .order("date_start", { ascending: true });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -594,7 +568,7 @@
 
         const upcoming = data.filter((e) => {
           const eventDate =
-            parseEventDate(e.date_end) || parseEventDate(e.date);
+            parseEventDate(e.date_end) || parseEventDate(e.date_start);
           if (!eventDate) return true;
           return eventDate.getTime() + bufferMs >= nowMs;
         });

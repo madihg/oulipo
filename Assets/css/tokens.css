@@ -1,0 +1,89 @@
+/* ═══════════════════════════════════════════
+   tokens.css — single source of truth for colors,
+   typography, spacing, motion. Imported by shared.css.
+
+   Section colors map to the four practice tribes.
+   No other file should inline-quote these hex values.
+   ═══════════════════════════════════════════ */
+
+:root {
+  /* Section colors (Singulars palette) */
+  --section-machine: #f6009b; /* machine talk          (was: carnation) */
+  --section-plays: #2aa4dd; /* algorithmic plays     (renamed from "computer theater") */
+  --section-semantics: #8b5cf6; /* somatic semantics     (was: reverse) */
+  --section-tools: #02f700; /* tools                 (was: reinforcement) */
+
+  /* Live / now accent — never used as a section color */
+  --accent-live: #fee005;
+
+  /* Inks (paper-on-ink and ink-on-paper) */
+  --ink: #1a1a1a;
+  --ink-85: rgba(0, 0, 0, 0.85);
+  --ink-70: rgba(0, 0, 0, 0.7);
+  --ink-60: rgba(0, 0, 0, 0.6);
+  --ink-50: rgba(0, 0, 0, 0.5);
+  --ink-40: rgba(0, 0, 0, 0.4);
+  --ink-15: rgba(0, 0, 0, 0.15);
+  --ink-08: rgba(0, 0, 0, 0.08);
+  --paper: #ffffff;
+  --paper-warm: #fafaf7;
+
+  /* Borders */
+  --border-strong: rgba(0, 0, 0, 0.75);
+  --border-soft: rgba(0, 0, 0, 0.12);
+
+  /* Type sizes (line up with existing shared.css scale) */
+  --type-size-nav: 1.08rem;
+  --type-size-base: 1.06rem;
+  --type-size-caption: 0.98rem;
+  --type-size-meta: 0.96rem;
+  --type-size-mini: 0.85rem;
+
+  /* Type families */
+  --font-body: "Standard", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Terminal Grotesque", "Standard", sans-serif;
+  --font-h2: "Diatype Variable", "Standard", sans-serif;
+  --font-mono:
+    "Diatype Mono Variable", ui-monospace, "JetBrains Mono", monospace;
+
+  /* Spacing */
+  --pad-page-desktop: 4rem;
+  --pad-page-mobile: 2rem;
+  --max-content: 1200px;
+  --gap-grid: 2rem;
+  --gap-card: 4rem;
+  --gap-card-mobile: 2.5rem;
+
+  /* Chrome dimensions */
+  --signup-bar-h: 2.5rem;
+  --signup-bar-h-mobile: 2.25rem;
+  --corner-pad: 1rem;
+
+  /* Motion */
+  --t-opacity: opacity 0.3s ease;
+  --t-bw-color: filter 0.5s ease;
+  --t-border: border-color 0.2s ease;
+
+  /* Z stack */
+  --z-content: 1;
+  --z-chrome-corner: 100;
+  --z-signup-bar: 110;
+  --z-menu-overlay: 150;
+  --z-side-menu: 160;
+  --z-palette: 200;
+}
+
+/* Section-color helper — apply to any element to colorize accents.
+   Usage: <article data-section="machine"> picks up --section-color via this rule. */
+[data-section="machine"] {
+  --section-color: var(--section-machine);
+}
+[data-section="plays"] {
+  --section-color: var(--section-plays);
+}
+[data-section="semantics"] {
+  --section-color: var(--section-semantics);
+}
+[data-section="tools"] {
+  --section-color: var(--section-tools);
+}

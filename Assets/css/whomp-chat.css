@@ -1,0 +1,252 @@
+/* ═══════════════════════════════════════════
+   whomp-chat.css — chat surface at the top of /
+   Imported by shared.css. Lives at the very top of the home content.
+   ═══════════════════════════════════════════ */
+
+.whomp-chat {
+  background: var(--paper-warm);
+  border: 1px solid var(--ink-15);
+  margin: 0 0 3rem;
+  padding: 1.5rem 1.5rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  /* 50% bigger than the original 56ch (per Halim 2026-05-12). */
+  max-width: 84ch;
+}
+@media (max-width: 600px) {
+  .whomp-chat {
+    padding: 1rem 1rem 0.75rem;
+  }
+}
+
+.whomp-chat__head {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ink-70);
+}
+.whomp-chat__head-dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--section-tools);
+  box-shadow: 0 0 0 0 var(--section-tools);
+  animation: whomp-pulse 2s ease-in-out infinite;
+}
+@keyframes whomp-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--section-tools);
+  }
+  50% {
+    box-shadow: 0 0 0 4px rgba(2, 247, 0, 0.18);
+  }
+}
+
+.whomp-chat__stream {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-height: 33rem;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* Bubbles */
+.whomp-bubble {
+  display: flex;
+  max-width: 75%;
+}
+.whomp-bubble--you {
+  align-self: flex-end;
+}
+.whomp-bubble--whomp {
+  align-self: flex-start;
+}
+.whomp-bubble__body {
+  /* Mono inside the chat — terminal/voice feel, distinct from the
+     body Standard font, ties to the chrome chip typography. */
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.95rem;
+  line-height: 1.45;
+  padding: 0.55rem 0.8rem;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.whomp-bubble--you .whomp-bubble__body {
+  background: var(--ink-08);
+  color: var(--ink-85);
+  border-radius: 8px 8px 2px 8px;
+}
+.whomp-bubble--whomp .whomp-bubble__body {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 8px 8px 8px 2px;
+}
+.whomp-bubble__thumb {
+  width: 6rem;
+  height: 6rem;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--ink-08);
+}
+.whomp-bubble__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(80%);
+}
+
+/* Suggestion prompts — small outlined chips above the input.
+   Clicking a chip pre-fills the input and submits. */
+.whomp-chat__prompts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  padding: 0.25rem 0;
+}
+.whomp-prompt {
+  flex-shrink: 0;
+  border: 1px solid var(--ink-15);
+  background: var(--paper);
+  color: var(--ink-50);
+  border-radius: 4px;
+  padding: 0.3rem 0.6rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.03em;
+  text-transform: lowercase;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+.whomp-prompt:hover {
+  background: var(--ink-08);
+  color: var(--ink-85);
+  border-color: var(--ink-50);
+}
+.whomp-prompt:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Input row */
+.whomp-chat__form {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: 1px solid var(--ink-15);
+  padding-top: 0.75rem;
+  margin: 0;
+}
+.whomp-chat__input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  /* Mono input matches bubble interior + chrome chips. */
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.95rem;
+  color: var(--ink-85);
+  padding: 0.25rem 0;
+  min-width: 0;
+}
+.whomp-chat__input::placeholder {
+  color: var(--ink-40);
+  font-style: italic;
+}
+.whomp-chat__action {
+  flex-shrink: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid var(--ink-50);
+  background: var(--paper);
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-85);
+  padding: 0;
+  transition: background 0.2s ease;
+}
+.whomp-chat__action:hover {
+  background: var(--ink-08);
+}
+.whomp-chat__action:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Camera capture */
+.whomp-camera {
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  background: var(--paper);
+  border: 1px dashed var(--ink-50);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.whomp-camera__preview {
+  width: 100%;
+  max-width: 16rem;
+  background: var(--ink);
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.whomp-camera__controls {
+  display: flex;
+  gap: 0.5rem;
+}
+.whomp-camera__shoot,
+.whomp-camera__cancel {
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink-85);
+  cursor: pointer;
+}
+.whomp-camera__shoot {
+  background: var(--ink);
+  color: var(--paper);
+}
+.whomp-camera__shoot:hover {
+  opacity: 0.85;
+}
+.whomp-camera__cancel:hover {
+  background: var(--ink-08);
+}

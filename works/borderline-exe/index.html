@@ -12,18 +12,13 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
-    <link rel="stylesheet" href="../../Assets/css/shared.css" />
+    <link rel="stylesheet" href="../../Assets/css/shared.css?v=34" />
   </head>
   <body>
-    <div class="header-bar"></div>
-    <div class="site-header"><a href="/home/">Halim Madi</a></div>
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
     <div class="menu-overlay" onclick="toggleMenu()"></div>
     <nav class="side-menu">
       <div class="menu-header">
-        <a href="/home/" class="menu-home">Home</a>
+        <a href="/" class="menu-home">Home</a>
         <button
           class="menu-close"
           onclick="toggleMenu()"
@@ -34,8 +29,7 @@
       </div>
       <div class="menu-section">
         <a href="/works/">Works</a>
-        <a href="/keynotes/">Keynotes</a>
-        <a href="/workshops/">Workshops</a>
+        <a href="/engagements/">Engagements</a>
         <a href="/writing/">Writing</a>
       </div>
       <hr class="menu-divider" />
@@ -59,7 +53,7 @@
       </div>
     </nav>
     <div class="page">
-      <div class="page-content">
+      <div class="page-content detail-page">
         <div class="detail-header">
           <h1>Borderline.exe</h1>
           <div class="detail-meta">
@@ -70,85 +64,88 @@
             <a
               href="https://www.oulipo.xyz/borderline-deny.html"
               target="_blank"
+              rel="noopener noreferrer"
               >Live site <span class="external-arrow">&#x2197;</span></a
             >
           </div>
         </div>
-        <div class="detail-gallery two-col">
-          <img
-            src="../../Assets/images/works/borderline-exe/screenshot.png"
-            alt="Borderline.exe opening screen with border interrogation interface"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.03.39PM.png"
-            alt="Screenshot of the invasive questioning interface in Borderline.exe"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.04.16PM.png"
-            alt="Checkbox interaction where options evade the cursor"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.04.28PM.png"
-            alt="Admissibility form with evasive interface elements"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.06.05PM.png"
-            alt="Processing screen simulating bureaucratic waiting"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.10.19PM.png"
-            alt="Green screen displaying the 299-day wait notification"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.10.59PM.png"
-            alt="Final screen of Borderline.exe with approval and delay message"
-          />
-          <img
-            src="../../Assets/images/works/borderline-exe/Photo-from-Google-Photos.JPG"
-            alt="Documentation photo of Borderline.exe being experienced by a viewer"
-          />
-        </div>
-        <div class="detail-body">
-          <p>
-            Borderline.exe opens with a question: &ldquo;Are you carrying
+    <figure class="detail-hero">
+      <img src="../../Assets/images/works/borderline-exe/screenshot.png" alt="Borderline.exe opening screen with border interrogation interface" loading="eager" />
+    </figure>
+    <div class="detail-flow">
+      <div class="detail-text">
+        <p>Borderline.exe opens with a question: &ldquo;Are you carrying
             weapons?&rdquo; Your only way forward is to chase &ldquo;No.&rdquo;
             You are declared admissible, but not welcome. The green screen that
-            signals success burns a hole in your chest.
-          </p>
-          <p>
-            This web-based piece distills the experience of crossing borders
+            signals success burns a hole in your chest.</p>
+        <p>This web-based piece distills the experience of crossing borders
             into its most distilled, digital form. A faceless interface issues
             invasive, accusatory prompts. As you attempt to respond, checkboxes
             evade your cursor, prolonging the process. Each interaction mimics
             the psychological toll of being scrutinized, diminished, and made to
-            wait.
-          </p>
-          <p>
-            The final screen delivers a quiet violence: 299 days. That&rsquo;s
+            wait.</p>
+      </div>
+      <figure class="detail-image">
+        <img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.03.39PM.png" alt="Screenshot of the invasive questioning interface in Borderline.exe" loading="lazy" />
+      </figure>
+      <div class="detail-text">
+        <p>The final screen delivers a quiet violence: 299 days. That&rsquo;s
             how long it will take for your documents to arrive. A green
             background, used elsewhere to signal progress, now becomes a cruel
-            parody of success.
-          </p>
-          <p>
-            Winner of the 2024 Robert Coover Award for Electronic Literature,
+            parody of success.</p>
+      </div>
+      <figure class="detail-image">
+        <img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.04.16PM.png" alt="Checkbox interaction where options evade the cursor" loading="lazy" />
+      </figure>
+      <div class="detail-image-strip">
+        <figure><img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.04.28PM.png" alt="Admissibility form with evasive interface elements" loading="lazy" /></figure>
+        <figure><img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.06.05PM.png" alt="Processing screen simulating bureaucratic waiting" loading="lazy" /></figure>
+        <figure><img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.10.19PM.png" alt="Green screen displaying the 299-day wait notification" loading="lazy" /></figure>
+      </div>
+      <div class="detail-text">
+        <p>Winner of the 2024 Robert Coover Award for Electronic Literature,
             Borderline.exe was praised for its formal clarity and emotional
             restraint. As the judges noted: &ldquo;Each interactive element is
             perfectly deployed in service of its subject matter - distilling the
             complex and intersecting mechanics of capitalism, bureaucracy, and
-            border control into their purest forms.&rdquo;
-          </p>
-          <p>
-            Borderline.exe doesn&rsquo;t tell you what to feel. It makes you
+            border control into their purest forms.&rdquo;</p>
+      </div>
+      <figure class="detail-image">
+        <img src="../../Assets/images/works/borderline-exe/Screenshot-2025-10-06-at-2.10.59PM.png" alt="Final screen of Borderline.exe with approval and delay message" loading="lazy" />
+      </figure>
+      <div class="detail-text">
+        <p>Borderline.exe doesn&rsquo;t tell you what to feel. It makes you
             feel it. Built with deceptively simple code, it forces you to
             navigate absurdity, humiliation, and delay - without spectacle,
             without reprieve. The border is not explained. It is enacted. In an
             era of biometric scans and algorithmic suspicion, Borderline.exe is
             a digital elegy. It is not a metaphor. It is a system. One you must
-            survive. &ldquo;A poem you must obey before it lets you read.&rdquo;
-          </p>
-        </div>
+            survive. &ldquo;A poem you must obey before it lets you read.&rdquo;</p>
       </div>
+      <figure class="detail-image">
+        <img src="../../Assets/images/works/borderline-exe/Photo-from-Google-Photos.JPG" alt="Documentation photo of Borderline.exe being experienced by a viewer" loading="lazy" />
+      </figure>
+    </div>
+    <nav class="work-nav" aria-label="More works">
+      <a class="work-nav__link work-nav__link--prev" href="/works/deserve-it/">
+        <span class="work-nav__arrow" aria-hidden="true">←</span>
+        <span class="work-nav__thumb"><img src="/Assets/images/works/deserve-it/featured.jpg" alt="" loading="lazy" /></span>
+        <span class="work-nav__meta">
+          <span class="work-nav__label">Previous</span>
+          <span class="work-nav__title">Deserve It</span>
+        </span>
+      </a>
+      <a class="work-nav__link work-nav__link--next" href="/works/weirder-webs/">
+        <span class="work-nav__arrow" aria-hidden="true">→</span>
+        <span class="work-nav__thumb"><img src="/Assets/images/works/weirder-webs/featured.jpg" alt="" loading="lazy" /></span>
+        <span class="work-nav__meta">
+          <span class="work-nav__label">Next</span>
+          <span class="work-nav__title">Weirder Webs</span>
+        </span>
+      </a>
+    </nav>
     </div>
     <script src="../../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js?v=24" defer></script>
   </body>
 </html>

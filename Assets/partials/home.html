@@ -1,0 +1,152 @@
+<!--
+  home.html — shared home body, consumed by BOTH:
+   • /index.html (root) — fetched at boot, injected into [data-home-mount]
+   • chrome.js home-overlay — full-viewport overlay opened via H key
+  home.js hydrates the terminal poem generator + events/featured
+  carousels.
+-->
+
+<div class="home">
+  <!-- Landing hero: terminal poem generator (left) + self-presentation (right).
+       Desktop = two columns. Mobile = stacked, terminal first.
+       The terminal calls OpenRouter directly from the browser and streams a
+       reverse.exe poem on a random theme. While the theater curtain pulls
+       open, the generation is already in flight. -->
+  <section class="home-hero" aria-label="Halim Madi — landing">
+    <!-- LEFT: terminal -->
+    <div class="terminal" data-terminal>
+      <div class="terminal__bar" aria-hidden="true">
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__dot"></span>
+        <span class="terminal__label">reverse.exe · singulars</span>
+      </div>
+      <div class="terminal__stage" data-terminal-stage>
+        <!-- Theater curtain — two velvet halves pull outward with overshoot.
+             Rope strip rides the top edge until the pull completes. -->
+        <div class="curtain" data-curtain>
+          <!-- Halim 2026-05-22: the curtain rope strip at the top was
+               reading as "strange lights / bars" sitting over the velvet.
+               Removed; the velvet halves now meet a clean edge under the
+               terminal__bar above. -->
+          <div
+            class="curtain__half curtain__half--left"
+            aria-hidden="true"
+          ></div>
+          <div
+            class="curtain__half curtain__half--right"
+            aria-hidden="true"
+          ></div>
+        </div>
+
+        <!-- Behind the curtain: theme line + poem stream. -->
+        <div class="terminal__inner">
+          <div class="terminal__theme" data-terminal-theme>
+            <span class="terminal__theme-label">Theme:</span>
+            <span class="terminal__theme-word" data-terminal-theme-word
+              >&nbsp;</span
+            >
+          </div>
+          <div class="terminal__poem" data-terminal-poem aria-live="polite">
+            <span class="terminal__caret" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggestion strip — clickable theme chips. -->
+      <div class="terminal__suggest">
+        <div class="terminal__suggest-label">write me a poem about</div>
+        <div class="terminal__suggest-chips" data-terminal-themes></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: self-presentation -->
+    <aside class="home-bio" aria-label="About Halim">
+      <p class="home-bio__lede">
+        Halim trains and performs with other-than-human intelligences.
+      </p>
+      <p class="home-bio__body">
+        He performs on stage with web artifacts and models he fine-tunes as part
+        of
+        <a
+          class="section-pill"
+          data-section="plays"
+          href="/works/?section=algorithmic-plays"
+          ><span class="section-pill__dot" aria-hidden="true"></span>algorithmic
+          plays</a
+        >. He trains and creates LLM voices that break expected patterns as part
+        of his
+        <a
+          class="section-pill"
+          data-section="machine"
+          href="/works/?section=machine-talk"
+          ><span class="section-pill__dot" aria-hidden="true"></span>machine
+          talk</a
+        >
+        work, and web surfaces that bring
+        <a
+          class="section-pill"
+          data-section="semantics"
+          href="/works/?section=somatic-semantics"
+          ><span class="section-pill__dot" aria-hidden="true"></span>somatic
+          semantics</a
+        >
+        to life. He also makes
+        <a
+          class="section-pill"
+          data-section="tools"
+          href="/works/?section=tools"
+          ><span class="section-pill__dot" aria-hidden="true"></span>tools</a
+        >
+        for other computational dramaturgists and poets to play with.
+      </p>
+    </aside>
+  </section>
+
+  <!-- 1. Featured works -->
+  <section
+    class="home-section home-section--featured"
+    aria-label="Featured works"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Featured works</h2>
+      <a class="home-section__more" href="/works/">all works &rarr;</a>
+    </header>
+    <div data-home-featured>
+      <p class="home-section__loading">Loading works…</p>
+    </div>
+  </section>
+
+  <!-- 2. Upcoming events -->
+  <section
+    class="home-section home-section--events"
+    aria-label="Upcoming events"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Upcoming</h2>
+      <a class="home-section__more" href="/engagements/">all events &rarr;</a>
+    </header>
+    <div data-home-events>
+      <p class="home-section__loading">Loading events…</p>
+    </div>
+  </section>
+
+  <!-- 3. Recent engagements — combined strip pulling rows where kind
+       IN ('keynote','workshop','panel','residency') AND date_start in
+       the past, ordered by date desc. Halim 2026-05-22: renamed from
+       "Recent keynotes & workshops" + de-duplicated against Upcoming
+       (only past dates here; future-dated rows stay in the Upcoming
+       carousel). -->
+  <section
+    class="home-section home-section--featured"
+    aria-label="Recent engagements"
+  >
+    <header class="home-section__head">
+      <h2 class="home-section__title">Recent engagements</h2>
+      <a class="home-section__more" href="/engagements/">all &rarr;</a>
+    </header>
+    <div data-home-recent>
+      <p class="home-section__loading">Loading…</p>
+    </div>
+  </section>
+</div>

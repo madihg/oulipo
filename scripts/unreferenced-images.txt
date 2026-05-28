@@ -1,0 +1,19 @@
+# Files in Assets/images/ not referenced in code OR Supabase cover_image.
+# Generated 2026-05-20 (post-cleanup pass). Remaining 14 files / ~7.3 MB
+# are gallery candidates that haven't been tagged in works.images jsonb yet.
+# Halim opted to keep these for future selection.
+
+Assets/images/works/versus-exe/IMG_1694.JPG
+Assets/images/works/versus-exe/IMG_1738.JPG
+Assets/images/works/versus-exe/IMG_9913.JPG
+Assets/images/works/versus-exe/IMG_9915.JPG
+Assets/images/works/versus-exe/IMG_9917.JPG
+Assets/images/works/versus-exe/IMG_9920.JPG
+Assets/images/works/versus-exe/IMG_9940.jpg
+Assets/images/works/reinforcement-exe/L1002259.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-02.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-04.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-05.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-06.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-07.jpg
+Assets/images/works/reinforcement-exe/Untitled-2-08.jpg

@@ -1,0 +1,385 @@
+{
+  "generated_at": "2026-05-05T01:19:57.812Z",
+  "source": "scripts/seed-works.mjs (via dump-works-to-json.mjs)",
+  "count": 17,
+  "works": [
+    {
+      "title": "Carnation.exe",
+      "slug": "carnation-exe",
+      "type": "performance",
+      "date_start": "2025-05-01",
+      "venue": "European Artist Program",
+      "location": "Paris, Barcelona",
+      "short_description": "Part I of the Singulars series - a daily duel between a human poet and a fine-tuned language model trained exclusively on poetry.",
+      "cover_image": "Assets/images/works/carnation-exe/featured.jpg",
+      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
+      "series": "singulars",
+      "external_links": [
+        {
+          "url": "https://singulars.oulipo.xyz/carnation-exe",
+          "label": "Live site"
+        },
+        {
+          "url": "https://huggingface.co/datasets/madihalim/carnation-fr",
+          "label": "Dataset"
+        }
+      ],
+      "featured": true,
+      "sort_order": 1,
+      "section": "machine-talk",
+      "year": 2025,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Versus.exe",
+      "slug": "versus-exe",
+      "type": "performance",
+      "date_start": "2025-10-01",
+      "venue": "Mozilla San Francisco",
+      "location": "San Francisco",
+      "short_description": "Part II of the Singulars series - a 10-day human-machine poetry confrontation exploring rivalry as intimacy.",
+      "cover_image": "Assets/images/works/versus-exe/featured.jpg",
+      "tags": ["ai", "poetry", "performance", "singulars", "computational"],
+      "series": "singulars",
+      "external_links": [
+        {
+          "url": "https://singulars.oulipo.xyz/versus-exe",
+          "label": "Live site"
+        },
+        {
+          "url": "https://huggingface.co/datasets/madihalim/versus",
+          "label": "Dataset"
+        }
+      ],
+      "featured": true,
+      "sort_order": 2,
+      "section": "machine-talk",
+      "year": 2025,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Reinforcement.exe",
+      "slug": "reinforcement-exe",
+      "type": "installation",
+      "date_start": "2026-01-01",
+      "venue": "IGAC Gallery",
+      "location": "Istanbul",
+      "short_description": "Part III of the Singulars series - reinforcement learning meets poetic confrontation at DevConnect Istanbul.",
+      "cover_image": "Assets/images/works/reinforcement-exe/featured.jpg",
+      "tags": ["ai", "poetry", "installation", "singulars", "computational"],
+      "series": "singulars",
+      "external_links": [
+        {
+          "url": "https://singulars.oulipo.xyz/reinforcement-exe",
+          "label": "Live site"
+        },
+        {
+          "url": "https://huggingface.co/datasets/madihalim/reinforcement",
+          "label": "Dataset"
+        }
+      ],
+      "featured": true,
+      "sort_order": 3,
+      "section": "machine-talk",
+      "year": 2026,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Borderline",
+      "slug": "borderline",
+      "type": "performance",
+      "date_start": "2026-02-01",
+      "venue": "Counterpulse",
+      "location": "San Francisco",
+      "short_description": "A full-body multimedia poem about borders, queerness, and the architecture of belonging. Features Arabic zajal, projected code, and live performance.",
+      "cover_image": "Assets/images/works/borderline/featured.jpg",
+      "tags": ["performance", "queer", "migration", "poetry"],
+      "external_links": [
+        {
+          "url": "https://borderline.oulipo.xyz",
+          "label": "Live site"
+        }
+      ],
+      "featured": true,
+      "sort_order": 4,
+      "section": "algorithmic-plays",
+      "year": 2026,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "We Called Us Poetry",
+      "slug": "we-called-us",
+      "type": "digital",
+      "date_start": "2024-10-01",
+      "venue": "ELO Conference / Bergen / TIAT",
+      "location": "Toronto, Bergen, San Francisco",
+      "short_description": "An interactive web poem exploring consciousness, Arabic linguistics, and human-machine co-authorship.",
+      "cover_image": "Assets/images/works/we-called-us/featured.png",
+      "tags": ["ai", "poetry", "digital", "computational"],
+      "external_links": [
+        {
+          "url": "https://elo-2025.vercel.app",
+          "label": "Live site"
+        }
+      ],
+      "featured": false,
+      "sort_order": 5,
+      "section": "machine-talk",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Feed It",
+      "slug": "feed-it",
+      "type": "performance",
+      "date_start": "2025-06-01",
+      "venue": "APE Camp Seoul",
+      "location": "Seoul",
+      "short_description": "A durational AI-body performance where audience answers shape a real-time generative portrait.",
+      "cover_image": "Assets/images/works/feed-it/featured.jpg",
+      "tags": ["ai", "performance"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 6,
+      "section": "machine-talk",
+      "year": 2025,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Deserve It",
+      "slug": "deserve-it",
+      "type": "performance",
+      "date_start": "2024-08-01",
+      "venue": "Gray Area",
+      "location": "San Francisco",
+      "short_description": "A durational immigration performance - a fictional visa form that scrambles your answers into poetry.",
+      "cover_image": "Assets/images/works/deserve-it/featured.jpg",
+      "tags": ["performance", "migration", "queer", "digital"],
+      "external_links": [
+        {
+          "url": "https://deserve.vercel.app/",
+          "label": "Live site"
+        }
+      ],
+      "featured": false,
+      "sort_order": 7,
+      "section": "algorithmic-plays",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "I Live Here",
+      "slug": "i-live-here",
+      "type": "performance",
+      "date_start": "2025-03-01",
+      "venue": "Counterpulse / We-Topia Gala",
+      "location": "San Francisco",
+      "short_description": "A walking poem through San Francisco's Tenderloin, mapping queer nightlife from Beirut to the Bay.",
+      "cover_image": "Assets/images/works/i-live-here/featured.jpg",
+      "tags": ["performance", "queer", "migration"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 8,
+      "section": "algorithmic-plays",
+      "year": 2025,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Borderline.exe",
+      "slug": "borderline-exe",
+      "type": "digital",
+      "date_start": "2024-01-01",
+      "venue": "Robert Coover Award",
+      "location": "Online",
+      "short_description": "An interactive HTML poem - a border that writes itself between two lovers.",
+      "cover_image": "Assets/images/works/borderline-exe/featured.png",
+      "tags": ["digital", "poetry", "queer", "computational"],
+      "external_links": [
+        {
+          "url": "https://borderline.oulipo.xyz/exe",
+          "label": "Live site"
+        }
+      ],
+      "featured": false,
+      "sort_order": 9,
+      "section": "somatic-semantics",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Weirder Webs",
+      "slug": "weirder-webs",
+      "type": "workshop_piece",
+      "date_start": "2024-11-01",
+      "venue": "Multiple venues",
+      "location": "Barcelona, Paris, London, San Francisco",
+      "short_description": "A traveling workshop-performance inviting participants to build weird, queer web dwellings.",
+      "cover_image": "Assets/images/works/weirder-webs/featured.jpg",
+      "tags": ["digital", "queer", "computational"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 10,
+      "section": "somatic-semantics",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Borrow and Never Give Back",
+      "slug": "borrow-never-give-back",
+      "type": "installation",
+      "date_start": "2024-06-01",
+      "venue": "Silo Gallery",
+      "location": "San Francisco",
+      "short_description": "A collage-poetry installation transforming spam text into sacred objects at a queer arts space.",
+      "cover_image": "Assets/images/works/borrow-never-give-back/featured.jpg",
+      "tags": ["installation", "poetry", "queer"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 11,
+      "section": "somatic-semantics",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Re/declarations",
+      "slug": "re-declarations",
+      "type": "digital",
+      "date_start": "2024-07-01",
+      "venue": "Online",
+      "location": "San Francisco",
+      "short_description": "A generative web piece that rewrites the Declaration of Independence using AI and immigrant voices.",
+      "cover_image": "Assets/images/works/re-declarations/featured.png",
+      "tags": ["digital", "ai", "migration", "computational"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 12,
+      "section": "machine-talk",
+      "year": 2024,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "American Metabolisis",
+      "slug": "american-metabolisis",
+      "type": "installation",
+      "date_start": "2019-06-01",
+      "venue": "Gray Area",
+      "location": "San Francisco",
+      "short_description": "An installation mapping the metabolization of immigrant identity through receipt-poems and data visualization.",
+      "cover_image": "Assets/images/works/american-metabolisis/featured.jpg",
+      "tags": ["installation", "migration", "poetry"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 13,
+      "section": "somatic-semantics",
+      "year": 2019,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Avenir",
+      "slug": "avenir",
+      "type": "installation",
+      "date_start": "2019-06-01",
+      "venue": "Multiple venues",
+      "location": "Paris, Sao Paulo",
+      "short_description": "A series of site-specific interventions exploring futures, migration, and the politics of public space.",
+      "cover_image": "Assets/images/works/avenir/featured.jpg",
+      "tags": ["installation", "migration"],
+      "external_links": [
+        {
+          "url": "https://medium.com/@builduntitled",
+          "label": "Website"
+        }
+      ],
+      "featured": false,
+      "sort_order": 14,
+      "section": "algorithmic-plays",
+      "year": 2019,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "WHOMP",
+      "slug": "whomp",
+      "type": "digital",
+      "date_start": "2023-01-01",
+      "venue": "Online",
+      "location": "San Francisco",
+      "short_description": "A generative text interface that turns casual messaging into absurdist poetry.",
+      "cover_image": "Assets/images/works/whomp/featured.png",
+      "tags": ["digital", "poetry", "computational"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 15,
+      "section": "somatic-semantics",
+      "year": 2023,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "def(hug)",
+      "slug": "def-hug",
+      "type": "performance",
+      "date_start": "2023-06-01",
+      "venue": "Various venues",
+      "location": "San Francisco",
+      "short_description": "A computational poetry performance exploring the syntax of intimacy and touch.",
+      "cover_image": null,
+      "tags": ["performance", "poetry", "computational"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 16,
+      "section": "algorithmic-plays",
+      "year": 2023,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    },
+    {
+      "title": "Invasions (Performance)",
+      "slug": "invasions-performance",
+      "type": "performance",
+      "date_start": "2022-06-01",
+      "venue": "Various venues",
+      "location": "San Francisco, LA, CDMX, Santa Barbara, Ojai",
+      "short_description": "Live readings from the Invasions poetry book - performing spam-text poems as ritual incantation.",
+      "cover_image": null,
+      "tags": ["performance", "poetry"],
+      "external_links": [],
+      "featured": false,
+      "sort_order": 17,
+      "section": "algorithmic-plays",
+      "year": 2022,
+      "long_description": null,
+      "images": [],
+      "doc_count": 0
+    }
+  ]
+}

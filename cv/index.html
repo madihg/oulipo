@@ -12,7 +12,7 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
-    <link rel="stylesheet" href="../Assets/css/shared.css" />
+    <link rel="stylesheet" href="../Assets/css/shared.css?v=34" />
 
     <style>
       /* CV page-specific styles */
@@ -178,26 +178,14 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   </head>
   <body>
-    <!-- Site Header -->
-    <div class="header-bar"></div>
-    <div class="site-header">
-      <a href="/home/">Halim Madi</a>
-    </div>
-
     <!-- Menu Toggle Button -->
-    <button class="menu-toggle" onclick="toggleMenu()" aria-label="Open menu">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
     <!-- Menu Overlay -->
     <div class="menu-overlay" onclick="toggleMenu()"></div>
 
     <!-- Side Menu Drawer -->
     <nav class="side-menu">
       <div class="menu-header">
-        <a href="/home/" class="menu-home">Home</a>
+        <a href="/" class="menu-home">Home</a>
         <button
           class="menu-close"
           onclick="toggleMenu()"
@@ -206,16 +194,12 @@
           &times;
         </button>
       </div>
-
       <div class="menu-section">
         <a href="/works/">Works</a>
-        <a href="/keynotes/">Keynotes</a>
-        <a href="/workshops/">Workshops</a>
+        <a href="/engagements/">Engagements</a>
         <a href="/writing/">Writing</a>
       </div>
-
       <hr class="menu-divider" />
-
       <div class="menu-section">
         <a href="/about/">About</a>
         <a href="/connect/">Connect</a>
@@ -247,6 +231,7 @@
     </div>
 
     <script src="../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js?v=24" defer></script>
     <script>
       // ── Supabase Config ──
       const SUPABASE_URL = "https://smytgqkgomsfyurskpcl.supabase.co";
@@ -299,13 +284,23 @@
         }
       }
 
+      // After the events->works merge, the legacy `link` text column was
+      // mapped into external_links as a single-element jsonb array on
+      // migrated rows. Pull the first URL when there's no direct event.link.
+      function firstExternalLink(event) {
+        const list = event && event.external_links;
+        if (!Array.isArray(list) || list.length === 0) return null;
+        const first = list[0];
+        return first && typeof first === "object" ? first.url : first;
+      }
+
       // Section definitions: label → array of kind values
       const CV_SECTIONS = [
         { label: "Exhibitions", kinds: ["exhibition"] },
         { label: "Residencies", kinds: ["residency"] },
         { label: "Fellowships", kinds: ["fellowship"] },
         { label: "Awards", kinds: ["award"] },
-        { label: "Talks", kinds: ["keynote", "panel", "talk"] },
+        { label: "Talks", kinds: ["keynote", "panel"] },
         { label: "Performances", kinds: ["performance"] },
         { label: "Workshops", kinds: ["workshop"] },
         { label: "Press", kinds: ["press"] },
@@ -327,17 +322,24 @@
       }
 
       function getYear(event) {
-        const dt = parseEventDate(event.date) || parseEventDate(event.date_end);
+        const dt =
+          parseEventDate(event.date_start) || parseEventDate(event.date_end);
         if (dt) return dt.getFullYear();
         return parseYearFromDisplay(event.date_display);
       }
 
       function renderCvEvent(event) {
-        const linkUrl = safeExternalUrl(event.link);
+        const linkUrl =
+          safeExternalUrl(event.link) ||
+          safeExternalUrl(firstExternalLink(event));
         const org = escapeHtml(event.org);
         const title = escapeHtml(event.title);
-        const description = event.description
-          ? `<span class="event-description">${escapeHtml(event.description)}</span>`
+        const descText =
+          event.long_description ||
+          event.short_description ||
+          event.description;
+        const description = descText
+          ? `<span class="event-description">${escapeHtml(descText)}</span>`
           : "";
         const metaText = escapeHtml(buildMetaLine(event));
         const linkTag = linkUrl
@@ -374,11 +376,13 @@
         const container = document.getElementById("cv-container");
         container.innerHTML = '<p class="caption">Loading events...</p>';
 
+        // Post-events-merge (2026-05-20): the merged table is `works`.
+        // We hit the `public.works` view (PostgREST blocks the
+        // oulipo_dashboard schema with 406 on REST requests).
         const { data, error } = await _supabase
-          .schema("oulipo_dashboard")
-          .from("events")
+          .from("works")
           .select("*")
-          .order("date", { ascending: false });
+          .order("date_start", { ascending: false });
 
         if (error) {
           console.error("Supabase error:", error);
@@ -404,7 +408,9 @@
           if (events.length === 0) return;
 
           // Sort by date descending within section
-          events.sort((a, b) => new Date(b.date) - new Date(a.date));
+          events.sort(
+            (a, b) => new Date(b.date_start) - new Date(a.date_start),
+          );
 
           html += `<div class="cv-section">`;
           html += `<div class="section-heading">${section.label}</div>`;

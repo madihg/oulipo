@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seed Your Voice - Halim Madi</title>
+    <meta
+      name="description"
+      content="A voice modulator seeded by a poem collectively generated from words supplied by the room. Premiered at Dan Gorelick's TIAT musical instrument workshop."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
+    />
+    <link rel="stylesheet" href="../../Assets/css/shared.css?v=34" />
+  </head>
+  <body>
+    <div class="menu-overlay" onclick="toggleMenu()"></div>
+    <nav class="side-menu">
+      <div class="menu-header">
+        <a href="/" class="menu-home">Home</a>
+        <button
+          class="menu-close"
+          onclick="toggleMenu()"
+          aria-label="Close menu"
+        >
+          &times;
+        </button>
+      </div>
+      <div class="menu-section">
+        <a href="/works/">Works</a>
+        <a href="/engagements/">Engagements</a>
+        <a href="/writing/">Writing</a>
+      </div>
+      <hr class="menu-divider" />
+      <div class="menu-section">
+        <a href="/about/">About</a>
+        <a href="/connect/">Connect</a>
+        <a
+          href="https://halimmadi.substack.com/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Newsletter <span class="external-arrow">&#x2197;</span></a
+        >
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Instagram <span class="external-arrow">&#x2197;</span></a
+        >
+      </div>
+    </nav>
+    <div class="page">
+      <div class="page-content detail-page">
+        <div class="detail-header">
+          <h1>Seed Your Voice</h1>
+          <div class="detail-meta">
+            Jan '26<br />
+            TIAT, San Francisco, Dan Gorelick&rsquo;s musical instrument workshop
+          </div>
+          <div class="detail-links">
+            <a href="https://seed-your-voice.vercel.app/" target="_blank"
+              >Live site <span class="external-arrow">&#x2197;</span></a
+            >
+            <a href="https://github.com/madihg/seed-your-voice" target="_blank"
+              >Repo <span class="external-arrow">&#x2197;</span></a
+            >
+          </div>
+        </div>
+    <figure class="detail-hero">
+      <img src="../../Assets/images/works/seed-your-voice/featured.png" alt="Seed Your Voice interface during the TIAT performance" loading="eager" />
+    </figure>
+    <div class="detail-flow">
+      <div class="detail-text">
+        <p><em>Seed Your Voice</em> is a small musical instrument that runs
+            in a browser. The room supplies words. A poem grows from those
+            words. The performer&rsquo;s voice is then modulated by the poem,
+            line by line, as if the poem itself were the synthesizer&rsquo;s
+            patch. The audience seeds. The poem germinates. The voice bends to
+            whatever the room said it should be.</p>
+        <p>It premiered on January 5th, 2026 at TIAT in San Francisco, during
+            Dan Gorelick&rsquo;s evening on the intersection of music and
+            technology. The brief was simple: build a web-based musical
+            instrument over three hours. Most participants built laser harps,
+            hand-tracking synths, gesture-based sequencers. I built something
+            that asks the room to give me a poem before I sing.</p>
+      </div>
+      <div class="detail-text">
+        <p>The audience side opens on a phone. People drop in words.
+            <em>Frost. Honey. Mother. Outage. Verge.</em> A small model stitches
+            them into a short poem in something close to my voice. The
+            performer side picks the poem up and turns it into a control
+            surface: vowels become formants, line breaks become envelopes, the
+            shape of the stanza becomes the shape of the sound.</p>
+      </div>
+      <div class="detail-text">
+        <p>What I liked about building this is how literal the metaphor
+            became. Seed in, voice out. The instrument is unplayable without a
+            room. It will not make a sound until at least a few people have
+            contributed a word. Authorship gets diffuse fast. By the time I am
+            singing into it, I am not sure whose voice the voice is.</p>
+      </div>
+      <div class="detail-text">
+        <p>This belongs to a longer line of work where the audience is the
+            unseen trainer. Singulars trains its model on votes. <em>Feed It</em>
+            trains its model on bodies. <em>Seed Your Voice</em> is the smallest,
+            quickest version of that idea. A poem generated from the breath of
+            the room, turned back on the room as song.</p>
+      </div>
+      <div class="detail-text">
+        <p>You give the instrument a word. It gives you back a stanza you
+            then have to sing. Most rooms hand it something stranger than they
+            meant to.</p>
+      </div>
+    </div>
+    <nav class="work-nav" aria-label="More works">
+      <a class="work-nav__link work-nav__link--prev" href="/works/reverse-exe/">
+        <span class="work-nav__arrow" aria-hidden="true">&larr;</span>
+        <span class="work-nav__thumb"><img src="/Assets/images/works/reverse-exe/featured.JPG" alt="" loading="lazy" /></span>
+        <span class="work-nav__meta">
+          <span class="work-nav__label">Previous</span>
+          <span class="work-nav__title">Reverse.exe</span>
+        </span>
+      </a>
+      <a class="work-nav__link work-nav__link--next" href="/works/tawafu-fil-manfa-2025/">
+        <span class="work-nav__arrow" aria-hidden="true">&rarr;</span>
+        <span class="work-nav__thumb"><img src="/Assets/images/works/tawafu-fil-manfa-2025/featured.png" alt="" loading="lazy" /></span>
+        <span class="work-nav__meta">
+          <span class="work-nav__label">Next</span>
+          <span class="work-nav__title">Tawafu fil Manfa</span>
+        </span>
+      </a>
+    </nav>
+    </div>
+    <script src="../../Assets/js/menu.js"></script>
+    <script src="/Assets/js/chrome.js?v=24" defer></script>
+  </body>
+</html>

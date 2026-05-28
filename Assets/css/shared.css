@@ -2,6 +2,21 @@
    shared.css — oulipo.xyz shared styles
    ═══════════════════════════════════════════ */
 
+/* Design tokens (single source of truth for colors / type / spacing / motion) */
+@import url("./tokens.css?v=3");
+
+/* Persistent UI chrome — top signup bar + corner chips */
+@import url("./chrome.css?v=17");
+
+/* Command palette overlay (MACHINE mode) */
+@import url("./palette.css?v=9");
+
+/* Home surface (consumed by /index.html + chrome.js home-overlay) */
+@import url("./home.css?v=13");
+
+/* Whomp chat surface — top of the home content */
+@import url("./whomp-chat.css?v=2");
+
 /* Cargo Fonts */
 @font-face {
   font-display: block;
@@ -146,25 +161,71 @@ hr {
   max-width: 100%;
 }
 
-/* Cargo button style — outlined with slight radius */
+/* ═══════════════════════════════════════════════════════════
+   .button-8 — primary outlined CTA, large variant of the chip family
+   ─────────────────────────────────────────────────────────────
+   Halim 2026-05-15: harden the design system so old buttons (Send
+   an Email, Vote Now, Reach Out, Contact Halim) read as the same
+   family as the new corner chips (CONNECT, HUMAN/MACHINE). The
+   Connect aesthetic wins: outlined, monospace, uppercase, 4px
+   radius. Just bigger here because these are primary page CTAs,
+   not corner micro-buttons.
+
+   Family hierarchy:
+   - .chip-name (chrome.css):           outlined micro-chip (corners)
+   - .mode-toggle__option (chrome.css): outlined micro-chip with radio
+   - .button-8 (here):                  outlined LARGE CTA — same family,
+                                        bigger padding + type
+   - .signup-bar__submit (chrome.css):  filled-ink variant of .chip-name
+   - .section-pill (below):             color-coded decorative pill,
+                                        kept distinct (content anchors)
+   ═══════════════════════════════════════════════════════════ */
 .button-8 {
-  display: inline-block;
-  font-family: Standard, sans-serif;
-  font-size: var(--type-size-base);
-  font-weight: 400;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   color: rgba(0, 0, 0, 0.85);
-  background: transparent;
-  border: 0.2rem solid rgba(0, 0, 0, 0.85);
-  border-radius: 0.5rem;
-  padding: 0.8rem 1rem;
+  background: #ffffff;
+  border: 1px solid rgba(0, 0, 0, 0.85);
+  border-radius: 4px;
+  padding: 0.6rem 1.1rem;
+  line-height: 1;
   text-decoration: none;
   cursor: pointer;
-  transition: opacity 0.3s ease;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease,
+    opacity 0.2s ease;
 }
-
 .button-8:hover {
-  opacity: 0.7;
+  background: rgba(0, 0, 0, 0.06);
   color: rgba(0, 0, 0, 0.85);
+  opacity: 1;
+}
+.button-8:focus-visible {
+  outline: 3px solid rgba(0, 0, 0, 0.85);
+  outline-offset: 2px;
+}
+/* Filled variant for primary CTAs (e.g. a single "Subscribe now"
+   where attention matters most). Mirrors .signup-bar__submit. */
+.button-8--filled {
+  background: rgba(0, 0, 0, 0.85);
+  color: #ffffff;
+  border-color: rgba(0, 0, 0, 0.85);
+}
+.button-8--filled:hover {
+  background: rgba(0, 0, 0, 1);
+  color: #ffffff;
+  opacity: 0.92;
 }
 
 /* Cargo layout splits — asymmetric grids */
@@ -524,6 +585,189 @@ hr {
   margin: 0 0 1.5rem;
 }
 
+/* ─────────────────────────────────────────────
+   Individual work page — alternating text/image flow
+   (reinforcement.exe-style spread, per Halim's 2026-05-05 walkthrough).
+   The detail-flow container is wider than the body's reading column
+   so full-width images can carry their own weight while paragraphs
+   stay readable inside .detail-text.
+   ───────────────────────────────────────────── */
+
+/* Halim 2026-05-22: detail pages now use a single 780px reading column.
+   Hero, body text, single inline photos, and 3-up image strips all snap
+   to the same column edges so there is no visual mismatch between a
+   full-bleed image and a narrower text block. The strip stays a 3-col
+   grid but inside the unified column. */
+.detail-page {
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.detail-hero {
+  margin: 1.5rem 0 2rem;
+}
+.detail-hero img,
+.detail-image img,
+.detail-image-strip img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.detail-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.detail-text {
+  max-width: none;
+  margin-left: 0;
+}
+.detail-text p {
+  line-height: 1.55;
+  margin: 0 0 1.25rem;
+  font-size: 1.06rem;
+}
+.detail-text p:last-child {
+  margin-bottom: 0;
+}
+
+.detail-image {
+  margin: 0;
+}
+.detail-image figcaption {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+.detail-image-strip {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 0.5rem;
+  margin: 0;
+}
+/* Uniform aspect ratio so a strip of 3 photos lines up, regardless of
+   the underlying image dimensions. Halim 2026-05-22: previously each
+   figure took its own aspect and they read as a ragged collage. */
+.detail-image-strip figure {
+  margin: 0;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--ink-08);
+}
+.detail-image-strip figure img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+@media (max-width: 900px) {
+  .detail-image-strip {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 600px) {
+  .detail-image-strip {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Prev / next nav at the bottom of an individual work page. */
+.work-nav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin: 4rem 0 1rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+.work-nav__link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.85);
+  padding: 0.5rem;
+}
+.work-nav__link:hover {
+  opacity: 0.7;
+}
+.work-nav__link--prev {
+  justify-self: start;
+}
+.work-nav__link--next {
+  justify-self: end;
+  grid-column: 2;
+  flex-direction: row-reverse;
+  text-align: right;
+}
+.work-nav__thumb {
+  width: 4rem;
+  height: 3rem;
+  flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+.work-nav__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%);
+  transition: filter 0.5s ease;
+}
+.work-nav__link:hover .work-nav__thumb img {
+  filter: grayscale(0%);
+}
+.work-nav__arrow {
+  font-family: "Diatype Mono Variable", monospace;
+  font-size: 1.1rem;
+  color: rgba(0, 0, 0, 0.85);
+}
+.work-nav__meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.work-nav__label {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.5);
+}
+.work-nav__title {
+  font-family: Standard, sans-serif;
+  font-size: 1.06rem;
+  font-weight: 700;
+  color: rgba(0, 0, 0, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+@media (max-width: 600px) {
+  .work-nav {
+    grid-template-columns: 1fr;
+  }
+  .work-nav__link--next {
+    grid-column: 1;
+    justify-self: start;
+    flex-direction: row;
+    text-align: left;
+  }
+}
+
 .video-container {
   position: relative;
   padding-bottom: 56.25%;
@@ -554,5 +798,157 @@ hr {
 @media (max-width: 600px) {
   .detail-gallery.three-col {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ───────────────────────────────────────────
+   Section pill — the only place section colors land in the
+   restrained palette (per Halim 2026-05-05): a small inline
+   tag with a colored dot and a colored 1.2px border. Used in
+   the Halim card paragraph, on each work card row, and on
+   the per-section landing pages.
+   Apply via: <a class="section-pill" data-section="machine">…</a>
+   (data-section gets --section-color from tokens.css)
+   ─────────────────────────────────────────── */
+.section-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  /* Vertical breathing so the rounded ends don't kiss the next line's
+     text when the pill wraps in a paragraph (Halim 2026-05-15). */
+  padding: 0.15rem 0.65rem;
+  margin: 0 0.05em;
+  border: 1.2px solid var(--section-color, var(--ink));
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.9rem;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  color: var(--ink-85);
+  background: var(--paper);
+  text-decoration: none;
+  white-space: nowrap;
+  vertical-align: baseline;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+}
+/* Parent paragraphs that hold section pills get extra line-height
+   so adjacent lines have breathing room around the pill. */
+p:has(.section-pill) {
+  line-height: 1.95;
+}
+.section-pill:hover,
+.section-pill:focus-visible {
+  background: var(--section-color, var(--ink));
+  color: var(--paper);
+}
+.section-pill:hover .section-pill__dot,
+.section-pill:focus-visible .section-pill__dot {
+  background: var(--paper);
+}
+.section-pill:focus-visible {
+  outline: 3px solid var(--section-color, var(--ink));
+  outline-offset: 2px;
+}
+.section-pill__dot {
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--section-color, var(--ink));
+  flex-shrink: 0;
+  transform: translateY(-1px);
+  transition: background 0.2s ease;
+}
+/* Smaller variant for work-card rows */
+.section-pill--mini {
+  font-size: 0.78rem;
+  padding: 0 0.45rem;
+  letter-spacing: 0;
+}
+
+/* ─── ★ glyph used by the works-page "featured" filter pseudo-section ── */
+.works-filter-btn .star,
+.works-chip .star {
+  font-family: var(--font-mono);
+  color: var(--ink-70);
+  font-size: 0.8rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+/* ───────────────────────────────────────────
+   Page CTA — outlined Connect button used at the end of
+   About / Writing / individual work / Speaking pages.
+   Routes to /connect/?intent=<...>; chrome.js pre-selects
+   the matching door radio when the page renders.
+   ─────────────────────────────────────────── */
+
+.page-cta {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.page-cta .button-8 {
+  text-decoration: none;
+}
+
+.page-cta__hint {
+  font-family: "Diatype Mono Variable", monospace;
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: var(--type-size-meta);
+  color: rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ───────────────────────────────────────────
+   Utilities
+   ─────────────────────────────────────────── */
+
+/* Hide visually but keep available to assistive technology */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* When the persistent signup bar is on, the existing fixed-position
+   header bar / site-header / menu-toggle should slide down to clear it. */
+body.has-signup-bar .header-bar {
+  top: var(--signup-bar-h);
+}
+body.has-signup-bar .site-header {
+  top: calc(var(--signup-bar-h) + 1.5rem);
+}
+body.has-signup-bar .menu-toggle {
+  top: calc(var(--signup-bar-h) + 1.5rem);
+}
+@media (max-width: 600px) {
+  body.has-signup-bar .header-bar {
+    top: var(--signup-bar-h-mobile);
+  }
+  body.has-signup-bar .site-header {
+    top: calc(var(--signup-bar-h-mobile) + 1.5rem);
+  }
+  body.has-signup-bar .menu-toggle {
+    top: calc(var(--signup-bar-h-mobile) + 1.5rem);
   }
 }

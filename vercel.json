@@ -14,6 +14,76 @@
       "source": "/becoming-borders/:path*",
       "destination": "/becoming-crossings/:path*",
       "permanent": true
+    },
+    {
+      "source": "/works/computer-theater",
+      "destination": "/works/algorithmic-plays",
+      "permanent": true
+    },
+    {
+      "source": "/works/computer-theater/:path*",
+      "destination": "/works/algorithmic-plays/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/workshops",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/workshops/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching/:path*",
+      "destination": "/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/home",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/home/:path*",
+      "destination": "/:path*",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -24,6 +94,14 @@
     {
       "source": "/becoming-crossings/:path+",
       "destination": "https://becoming-borders.vercel.app/becoming-crossings/:path+"
+    },
+    {
+      "source": "/staging",
+      "destination": "/"
+    },
+    {
+      "source": "/staging/:path*",
+      "destination": "/:path*"
     }
   ]
 }

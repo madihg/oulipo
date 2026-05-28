@@ -1,0 +1,152 @@
+<!--
+  chrome.html — markup for the persistent UI chrome.
+  Injected into <body> on every page by Assets/js/chrome.js.
+  Do NOT include this file directly via <link> or <script>; chrome.js fetches it.
+-->
+
+<!-- ── top bar — single inline strip ─────────────────────
+     [× HALIM MADI]   email[___] subscribe       [CONNECT c] [≡]
+     - On landing (body.is-landing), the [×] chip toggles the Halim card.
+       The × glyph flips to + when the card is collapsed.
+     - On other pages, clicking the chip navigates home.
+     - The hamburger reuses the existing toggleMenu() / .side-menu pattern.
+-->
+<header class="signup-bar">
+  <div class="signup-bar__inner">
+    <a
+      class="chip-name chip-name--link"
+      href="/"
+      aria-label="Halim Madi — home"
+    >
+      <span class="chip-name__label">Halim Madi</span>
+    </a>
+
+    <form
+      class="signup-bar__form"
+      action="https://halimmadi.substack.com/api/v1/free?nojs=true"
+      method="post"
+      target="_blank"
+      novalidate
+      data-substack
+    >
+      <label class="visually-hidden" for="signup-bar-email">Your email</label>
+      <input
+        class="signup-bar__input"
+        id="signup-bar-email"
+        type="email"
+        name="email"
+        placeholder="email"
+        required
+        autocomplete="email"
+      />
+      <!-- Hidden fields mirror Substack's embed form. chrome.js fills the
+         *_url and *_referrer values at submit time. -->
+      <input type="hidden" name="source" value="embed" />
+      <input type="hidden" name="first_url" value="" />
+      <input type="hidden" name="first_referrer" value="" />
+      <input type="hidden" name="current_url" value="" />
+      <input type="hidden" name="current_referrer" value="" />
+      <input type="hidden" name="first_session_url" value="" />
+      <input type="hidden" name="first_session_referrer" value="" />
+      <input type="hidden" name="referral_code" value="" />
+      <input type="hidden" name="referring_pub_id" value="" />
+      <input type="hidden" name="additional_referring_pub_ids" value="" />
+      <button class="signup-bar__submit" type="submit">subscribe</button>
+      <span
+        class="signup-bar__status"
+        data-signup-status
+        aria-live="polite"
+      ></span>
+    </form>
+
+    <a class="chip-name chip-name--link" href="/connect/" aria-label="Connect">
+      <span class="chip-name__label">Connect</span>
+      <span class="chip-name__key" aria-hidden="true">c</span>
+    </a>
+
+    <button
+      type="button"
+      class="signup-bar__menu"
+      aria-label="Open menu"
+      aria-controls="side-menu"
+      aria-expanded="false"
+      onclick="toggleMenu()"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<!-- ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style) ────── -->
+<div class="mode-toggle" role="group" aria-label="Site mode">
+  <button
+    type="button"
+    class="mode-toggle__option is-active"
+    data-mode="human"
+    aria-pressed="true"
+  >
+    <span class="mode-toggle__radio" aria-hidden="true"></span>
+    <span class="mode-toggle__label">HUMAN</span>
+  </button>
+  <button
+    type="button"
+    class="mode-toggle__option"
+    data-mode="machine"
+    aria-pressed="false"
+  >
+    <span class="mode-toggle__radio" aria-hidden="true"></span>
+    <span class="mode-toggle__label">MACHINE</span>
+  </button>
+</div>
+
+<!-- ── command palette overlay ──────────────────────────
+     Stacked from bottom up:
+       [input bar] ▲ [suggestions panel — hidden until /] ▲ [mascot panel — always]
+     The mascot has its own bordered + backgrounded panel so it
+     never overlaps the suggestions list (Halim 2026-05-12). -->
+<div
+  class="palette"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="palette-input"
+  hidden
+>
+  <div class="palette__mascot-panel" data-mascot-panel>
+    <pre class="palette-mascot" data-mascot aria-hidden="true">
+  ( •_• )  ⌨
+  ░░░
+  > old water in a new pipe. that is me.</pre
+    >
+  </div>
+
+  <div
+    class="palette__results"
+    data-palette-results
+    role="listbox"
+    aria-label="Commands"
+    hidden
+  ></div>
+
+  <form class="palette__inputbar" data-palette-form>
+    <span class="palette__prompt" aria-hidden="true">›</span>
+    <label class="visually-hidden" for="palette-input">Command</label>
+    <input
+      type="text"
+      class="palette__input"
+      id="palette-input"
+      data-palette-input
+      placeholder="/search"
+      autocomplete="off"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="false"
+    />
+    <span class="palette__keys" aria-hidden="true">
+      <span class="palette__key">tab</span>
+      <span class="palette__key">esc</span>
+    </span>
+    <button type="submit" class="visually-hidden" tabindex="-1">
+      Run command
+    </button>
+  </form>
+</div>

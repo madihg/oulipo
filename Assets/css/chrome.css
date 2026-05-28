@@ -1,0 +1,461 @@
+/* ═══════════════════════════════════════════
+   chrome.css — persistent UI chrome
+     - top signup bar (single inline strip)
+       [× HALIM MADI]   email[___] subscribe       [CONNECT c]  [≡]
+     - bottom-right HUMAN/MACHINE toggle (parallel.ai-style)
+     - body padding to accommodate the signup bar
+   ═══════════════════════════════════════════ */
+
+/* ── body offset for the persistent signup bar ─────────── */
+body.has-signup-bar {
+  padding-top: var(--signup-bar-h);
+}
+@media (max-width: 600px) {
+  body.has-signup-bar {
+    padding-top: var(--signup-bar-h-mobile);
+  }
+}
+/* The static page wrappers add 4rem of padding-top by default. With
+   the persistent signup bar that's redundant — tighten it so content
+   sits closer to the bar. */
+body.has-signup-bar .page {
+  padding-top: 1.5rem;
+}
+@media (max-width: 600px) {
+  body.has-signup-bar .page {
+    padding-top: 1rem;
+  }
+}
+
+/* When chrome is on, hide the legacy floating site-header /
+   menu-toggle / header-bar across all pages — chrome.html now
+   provides them inline in the signup bar. */
+body.has-signup-bar .header-bar,
+body.has-signup-bar > .site-header,
+body.has-signup-bar > .menu-toggle {
+  display: none;
+}
+
+/* ── top bar ───────────────────────────────────────────── */
+.signup-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--signup-bar-h);
+  background: var(--paper);
+  border-bottom: 1px solid var(--ink);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0 var(--pad-page-desktop);
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  z-index: var(--z-signup-bar);
+}
+@media (max-width: 900px) {
+  .signup-bar {
+    /* Body content at this breakpoint uses .page { padding: 4rem }
+       (no tablet override in shared.css). Match it so chip aligns
+       with H1. */
+    padding: 0 var(--pad-page-desktop);
+  }
+}
+@media (max-width: 600px) {
+  .signup-bar {
+    height: var(--signup-bar-h-mobile);
+    /* Body content at <600px uses .page { padding: 2rem } —
+       (--pad-page-mobile). Use the same token so chip ↔ H1 left
+       edges align pixel-for-pixel on mobile. */
+    padding: 0 var(--pad-page-mobile);
+    font-size: 0.7rem;
+  }
+}
+
+/* Inner row fills the bar's padding box edge-to-edge so chips
+   align with body content gutters at every breakpoint. */
+.signup-bar__inner {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+@media (max-width: 900px) {
+  .signup-bar__inner {
+    gap: 0.5rem;
+  }
+}
+@media (max-width: 600px) {
+  .signup-bar__inner {
+    gap: 0.4rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHIP FAMILY — design-system rules
+   ───────────────────────────────────────────────────────────
+   All five corner buttons render as the same typographic family:
+   - Outlined: .chip-name (HALIM MADI, CONNECT) + .mode-toggle__option (HUMAN, MACHINE)
+   - Filled:   .signup-bar__submit (SUBSCRIBE)
+
+   Shared (every chip must match exactly):
+   - font-family:           var(--font-mono)
+   - font-variation-settings: "slnt" 0, "MONO" 1
+   - font-size:             0.72rem
+   - letter-spacing:        0.04em
+   - text-transform:        uppercase
+   - font-weight:           700
+   - line-height:           1
+   - padding:               0.25rem 0.55rem
+   - border-radius:         4px
+   - color (label):         var(--ink-85)
+
+   Variant: key-glyph block (the [C] [H] [M] inset, or × on Halim Madi)
+   - min-width:             1.05rem
+   - height:                1.05rem
+   - padding:               0 0.25rem
+   - background:            var(--ink-08)
+   - color:                 var(--ink-70)
+   - font-size:             0.62rem
+   - font-weight:           700
+   - border-radius:         0.2rem
+   - line-height:           1
+   ═══════════════════════════════════════════════════════════ */
+.chip-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  background: var(--paper);
+  color: var(--ink-85);
+  padding: 0.25rem 0.55rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  line-height: 1;
+}
+.chip-name:hover {
+  background: var(--ink-08);
+}
+.chip-name__label {
+  font-weight: 700;
+}
+/* Key glyph: matches .mode-toggle__key — ink-08 background with
+   ink-70 text. Bigger 1.05rem for the leading × so it reads as a
+   clear close affordance on the Halim Madi chip. */
+.chip-name__key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.05rem;
+  height: 1.05rem;
+  padding: 0 0.25rem;
+  background: var(--ink-08);
+  color: var(--ink-70);
+  border-radius: 0.2rem;
+  font-weight: 700;
+  font-size: 0.62rem;
+  line-height: 1;
+}
+/* Variant: link-style chip (used for CONNECT — key on the right). */
+.chip-name--link {
+  padding: 0.25rem 0.55rem;
+}
+
+/* ── form (flush right, just before Connect + burger) ─────
+   margin-left: auto pushes the form (and everything after it)
+   to the right edge of the bar. The form itself stays compact
+   — auto width, no flex grow. */
+.signup-bar__form {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+.signup-bar__label {
+  color: var(--ink-50);
+  text-transform: lowercase;
+  flex-shrink: 0;
+}
+.signup-bar__input {
+  width: 9rem;
+  min-width: 0;
+  background: transparent;
+  border: none;
+  height: 1.25rem;
+  padding: 0 0.25rem;
+  /* Halim 2026-05-22: was inheriting mono from .signup-bar — felt like
+     a code prompt. Standard reads as a real form field. */
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0;
+  color: var(--ink-85);
+  outline: none;
+  border-bottom: 1px dotted var(--ink-15);
+}
+.signup-bar__input:focus {
+  border-bottom-color: var(--ink-50);
+}
+@media (max-width: 900px) {
+  .signup-bar__input {
+    width: 7rem;
+  }
+}
+@media (max-width: 600px) {
+  .signup-bar__input {
+    width: 6rem;
+  }
+}
+.signup-bar__input::placeholder {
+  color: var(--ink-40);
+}
+/* Subscribe — filled-ink variant of the chip family. Matches
+   .chip-name padding / font / weight / letter-spacing pixel-for-
+   pixel so all corner chips render at identical dimensions. */
+.signup-bar__submit {
+  flex-shrink: 0;
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  /* Match .chip-name intrinsic height (which is set by its inner
+     1.05rem key-block + padding + border). Without this, Subscribe
+     would shrink to text-height only. */
+  min-height: 1.675rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 0.55rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 1;
+  transition: opacity 0.2s ease;
+}
+.signup-bar__submit:hover {
+  opacity: 0.85;
+}
+.signup-bar__status {
+  flex-shrink: 0;
+  color: var(--ink-50);
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+.signup-bar__status--success {
+  color: var(--section-tools);
+}
+.signup-bar__status--error {
+  color: var(--section-machine);
+}
+
+/* Mobile (<600px) chrome rebalance:
+   - email + Subscribe visible (per Halim 2026-05-12 PM)
+   - Connect chip HIDDEN (duplicate of burger menu's Connect link,
+     and the chrome ran out of room with 4 chips at 375px)
+   Final row: [HALIM MADI X] ─── email[__] [SUBSCRIBE] [≡] */
+@media (max-width: 600px) {
+  .signup-bar__label {
+    display: inline;
+    font-size: 0.65rem;
+  }
+  .signup-bar__input {
+    display: inline-block;
+    width: 5rem;
+  }
+  .signup-bar__status {
+    display: none;
+  }
+  /* Hide the Connect chip on mobile (kept in burger menu). */
+  .signup-bar a.chip-name--link[href="/connect/"] {
+    display: none;
+  }
+  .signup-bar__form {
+    gap: 0.3rem;
+    flex-shrink: 0;
+    margin-left: auto;
+  }
+  .signup-bar__inner {
+    gap: 0.35rem;
+  }
+  .chip-name,
+  .chip-name--link,
+  .signup-bar__submit {
+    padding: 0 0.35rem;
+    min-height: 1.5rem;
+  }
+  .chip-name {
+    gap: 0.25rem;
+  }
+  .chip-name__key {
+    min-width: 0.95rem;
+    height: 0.95rem;
+    font-size: 0.58rem;
+    padding: 0 0.18rem;
+  }
+}
+
+/* ── inline hamburger ──────────────────────────────────── */
+/* align-items: flex-end pushes the three hamburger lines to the
+   right edge of the 1.5rem box, so the icon visually lines up
+   with the right-hand content gutter on mobile (Halim 2026-05-22). */
+.signup-bar__menu {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 4px;
+}
+.signup-bar__menu:hover {
+  opacity: 0.7;
+}
+.signup-bar__menu span {
+  display: block;
+  height: 1.5px;
+  background: var(--ink);
+  width: 1.1rem;
+}
+/* Desktop only: extra breathing room between Connect and the burger
+   (Halim 2026-05-12 PM — the two corner controls were too close).
+   Mobile keeps it tight so the chrome fits. */
+@media (min-width: 601px) {
+  .signup-bar__menu {
+    margin-left: 0.6rem;
+  }
+}
+
+/* ── bottom-right HUMAN/MACHINE toggle (parallel.ai-style, button-y) ──
+   Single rounded outer pill. Each option is a real button with its
+   own hover background + active inset look so the affordance is
+   clearly clickable (per Halim 2026-05-05). */
+.mode-toggle {
+  position: fixed;
+  right: var(--corner-pad);
+  bottom: var(--corner-pad);
+  z-index: var(--z-chrome-corner);
+  display: inline-flex;
+  align-items: stretch;
+  background: var(--paper);
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  padding: 0.18rem;
+  font-family: var(--font-mono);
+  font-variation-settings:
+    "slnt" 0,
+    "MONO" 1;
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-85);
+  box-shadow:
+    0 1px 0 var(--ink-08),
+    0 0 0 1px transparent;
+  transition: box-shadow 0.2s ease;
+}
+.mode-toggle:hover {
+  box-shadow:
+    0 1px 0 var(--ink-15),
+    0 0 0 1px var(--ink-15);
+}
+@media (max-width: 600px) {
+  .mode-toggle {
+    right: 0.5rem;
+    bottom: 0.5rem;
+    font-size: 0.65rem;
+    padding: 0.15rem;
+  }
+}
+.mode-toggle__option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  padding: 0.3rem 0.65rem;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-variation-settings: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  /* Match .chip-name__label weight + color so HUMAN / MACHINE /
+     HALIM MADI / CONNECT all render as the same typographic family.
+     The active state's distinction comes from the filled radio
+     dot + ink-08 background, not weight. */
+  font-weight: 700;
+  color: var(--ink-85);
+  border-radius: 4px;
+  transition: background 0.15s ease;
+}
+.mode-toggle__option:hover {
+  background: var(--ink-08);
+}
+.mode-toggle__option.is-active {
+  background: var(--ink-08);
+}
+.mode-toggle__radio {
+  width: 0.7rem;
+  height: 0.7rem;
+  border: 1px solid var(--ink-50);
+  border-radius: 50%;
+  background: transparent;
+  flex-shrink: 0;
+  position: relative;
+}
+.mode-toggle__option.is-active .mode-toggle__radio {
+  border-color: var(--ink);
+  background: var(--ink);
+}
+.mode-toggle__option.is-active .mode-toggle__radio::after {
+  content: "";
+  position: absolute;
+  inset: 2px;
+  background: var(--paper);
+  border-radius: 50%;
+}
+/* H / M key-glyph chips removed (Halim 2026-05-12 PM) — pressing
+   H or M is still the keyboard shortcut, but the chip face just
+   reads ○ HUMAN / ○ MACHINE. Agent-discovery moves to the palette
+   background (llms.txt rendered as terminal text). */
+
+/* ── focus ring ────────────────────────────────────────── */
+/* Buttons + chips get a clear 3px focus ring. */
+.signup-bar__submit:focus-visible,
+.chip-name:focus-visible,
+.signup-bar__menu:focus-visible,
+.mode-toggle__option:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
+/* Email input does NOT get the heavy outline rectangle —
+   just the soft underline darkens on focus (see .signup-bar__input:focus). */
+.signup-bar__input:focus,
+.signup-bar__input:focus-visible {
+  outline: none;
+}

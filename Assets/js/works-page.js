@@ -30,8 +30,10 @@
   var SERIES = [
     {
       key: "singulars",
-      label: "Singulars.exe",
+      label: "Singulars",
       tagline: "fine-tuned poetic models trained on me, performed against me.",
+      description:
+        "A long inquiry into what it means for a human and a machine to share a craft. Each installment approaches the question from a different angle: confrontation, comparison, training, reinforcement.",
       data: "machine",
     },
     {
@@ -39,12 +41,16 @@
       label: "New Beirut",
       tagline:
         "borders, migration, the play of becoming, and the play of arriving.",
+      description:
+        "A multi-year cycle on migration, kibbeh, siege, and the suitcases that arrived empty.",
       data: "plays",
     },
     {
       key: "oulipo-xyz",
       label: "oulipo.xyz",
       tagline: "net art pieces that live in the browser.",
+      description:
+        "Browser-based pieces where the body can answer the page back. Semantic somatics on the web.",
       data: "semantics",
     },
   ];
@@ -408,9 +414,13 @@
   // card expands it inline to show that series' pieces (date desc).
   // Hero image: use the most-recent piece's cover_image, or fall back
   // to a section-color gradient.
-  function renderSeriesView(container, works, activeSeries) {
+  // Halim 2026-05-22: series view rewritten to mirror the landing
+  // page's Featured / Upcoming / Recent strip layout — flat, no
+  // click-to-expand. Each series gets its own home-section-style
+  // header (eyebrow + title + count), a description paragraph, then
+  // a grid of home-feature-style cards (one per piece in the series).
+  function renderSeriesView(container, works, _activeSeries) {
     container.innerHTML = "";
-    // Group pieces by series
     var bySeries = {};
     works.forEach(function (w) {
       if (!w.series) return;
@@ -421,74 +431,103 @@
       var pieces = (bySeries[s.key] || []).slice().sort(function (a, b) {
         return (b.date_start || "").localeCompare(a.date_start || "");
       });
-      var heroPiece = pieces.find(function (p) {
-        return p.cover_image;
-      });
-      var heroImg =
-        heroPiece && heroPiece.cover_image
-          ? "/" + String(heroPiece.cover_image).replace(/^\/+/, "")
-          : null;
+      if (pieces.length === 0) return;
 
-      var isOpen = activeSeries === s.key;
       var seriesEl = el(
         "section",
         {
-          class: "work-series" + (isOpen ? " work-series--open" : ""),
+          class: "work-series",
           "data-section": s.data,
           "data-series": s.key,
         },
         [],
       );
 
-      // Banner card — clicking toggles expansion
-      var banner = el(
-        "button",
-        {
-          type: "button",
-          class: "work-series__banner",
-          "aria-expanded": isOpen ? "true" : "false",
-        },
-        [
-          el(
-            "div",
-            { class: "work-series__image" },
-            heroImg
-              ? [
-                  el("img", {
-                    src: heroImg,
-                    alt: "",
-                    loading: "lazy",
-                    decoding: "async",
-                  }),
-                ]
-              : [],
-          ),
-          el("div", { class: "work-series__body" }, [
-            el("p", { class: "work-series__eyebrow" }, [
-              "Series · " + pieces.length + " pieces",
-            ]),
-            el("h2", { class: "work-series__title" }, [s.label]),
-            el("p", { class: "work-series__tagline" }, [s.tagline]),
+      // Header — mirrors .home-section__head pattern
+      seriesEl.appendChild(
+        el("header", { class: "work-series__head" }, [
+          el("h2", { class: "work-series__title" }, [s.label]),
+          el("p", { class: "work-series__count" }, [
+            pieces.length + (pieces.length === 1 ? " piece" : " pieces"),
           ]),
-        ],
+        ]),
       );
-      banner.addEventListener("click", function () {
-        var nowOpen = !seriesEl.classList.contains("work-series--open");
-        seriesEl.classList.toggle("work-series--open", nowOpen);
-        banner.setAttribute("aria-expanded", nowOpen ? "true" : "false");
-        writeSeriesToURL(nowOpen ? s.key : null);
-      });
-      seriesEl.appendChild(banner);
 
-      // Pieces — sub-card list visible when open
-      var inner = el("div", { class: "work-series__inner" }, []);
+      // Description paragraph
+      seriesEl.appendChild(
+        el("p", { class: "work-series__desc" }, [s.description || s.tagline]),
+      );
+
+      // Pieces — grid of home-feature-style cards
+      var grid = el("div", { class: "work-series__pieces" }, []);
       pieces.forEach(function (p) {
-        inner.appendChild(renderCard(p));
+        grid.appendChild(renderSeriesPieceCard(p, s));
       });
-      seriesEl.appendChild(inner);
+      seriesEl.appendChild(grid);
 
       container.appendChild(seriesEl);
     });
+  }
+
+  // home-feature-shaped card for a single piece inside the series view.
+  // Image on top, body below: eyebrow (kind), title, meta (year + loc).
+  function renderSeriesPieceCard(work, series) {
+    var year = yearOf(work) || "";
+    var loc = work.location || "";
+    var venue = work.venue || "";
+    var coverPath = work.cover_image
+      ? work.cover_image.replace(/^\/?Assets\//, "/Assets/")
+      : null;
+    var altText = work.title + (work.venue ? ", " + work.venue : "");
+
+    var image = coverPath
+      ? el("div", { class: "work-series-card__image" }, [
+          el("img", {
+            src: coverPath,
+            alt: altText,
+            loading: "lazy",
+            decoding: "async",
+          }),
+        ])
+      : el("div", { class: "work-series-card__image is-empty" }, [
+          "no cover yet",
+        ]);
+
+    var metaParts = [];
+    if (year) metaParts.push(String(year));
+    if (loc) {
+      if (metaParts.length)
+        metaParts.push(
+          el("span", { class: "sep", "aria-hidden": "true" }, ["·"]),
+        );
+      metaParts.push(loc);
+    }
+    if (venue) {
+      if (metaParts.length)
+        metaParts.push(
+          el("span", { class: "sep", "aria-hidden": "true" }, ["·"]),
+        );
+      metaParts.push(venue);
+    }
+
+    return el(
+      "a",
+      {
+        class: "work-series-card",
+        href: "/works/" + work.slug + "/",
+        "data-section": series.data || "machine",
+      },
+      [
+        image,
+        el("div", { class: "work-series-card__body" }, [
+          el("p", { class: "work-series-card__kind" }, [work.kind || ""]),
+          el("h3", { class: "work-series-card__title" }, [work.title]),
+          metaParts.length
+            ? el("p", { class: "work-series-card__meta" }, metaParts)
+            : null,
+        ]),
+      ],
+    );
   }
 
   // ── filter UI (rail + chips) ─────────────────────────────

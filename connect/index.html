@@ -199,21 +199,26 @@
         margin-bottom: 0.6rem;
       }
 
+      /* Halim 2026-05-22: align Connect buttons to the landing-page
+         .button-8 dimensions exactly (was running at a smaller variant
+         with thicker borders that read as a different family). */
       .connect-links .button-8 {
-        font-size: var(--type-size-caption);
-        padding: 0.45rem 0.75rem;
-        border-width: 0.15rem;
+        font-size: 0.85rem;
+        padding: 0.6rem 1.1rem;
+        border-width: 1px;
       }
 
-      /* Section title - monospace uppercase label */
+      /* Section title — same Diatype Mono family as landing's
+         .home-section__title, slightly bumped for breathing room
+         (0.96rem → 1rem, letter-spacing 0.04em → 0.08em). */
       .page-title {
         font-family: "Diatype Mono Variable", monospace;
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        font-size: var(--type-size-meta);
+        font-size: 1rem;
         font-weight: 700;
-        letter-spacing: 0.04em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
         margin-bottom: 0.5rem;
         margin-top: 1.2rem;

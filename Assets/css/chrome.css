@@ -198,8 +198,11 @@ body.has-signup-bar > .menu-toggle {
   border: none;
   height: 1.25rem;
   padding: 0 0.25rem;
-  font-family: inherit;
-  font-size: inherit;
+  /* Halim 2026-05-22: was inheriting mono from .signup-bar — felt like
+     a code prompt. Standard reads as a real form field. */
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  letter-spacing: 0;
   color: var(--ink-85);
   outline: none;
   border-bottom: 1px dotted var(--ink-15);

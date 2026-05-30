@@ -510,6 +510,28 @@
       metaParts.push(venue);
     }
 
+    // Halim 2026-05-29: replace the kind eyebrow with the section pill
+    // so the "machine talk" / "algorithmic plays" tag is visible on every
+    // series card, matching the Pieces-view pattern.
+    var sectionSlug = sectionOf(work);
+    var pillDataKey = sectionDataKey(sectionSlug);
+    var pill = pillDataKey
+      ? el(
+          "a",
+          {
+            class: "section-pill section-pill--mini",
+            "data-section": pillDataKey,
+            href: "/works/?section=" + sectionSlug,
+            onclick: function (e) {
+              e.stopPropagation();
+            },
+          },
+          [
+            el("span", { class: "section-pill__dot", "aria-hidden": "true" }),
+            sectionLabel(sectionSlug),
+          ],
+        )
+      : null;
     return el(
       "a",
       {
@@ -519,13 +541,19 @@
       },
       [
         image,
-        el("div", { class: "work-series-card__body" }, [
-          el("p", { class: "work-series-card__kind" }, [work.kind || ""]),
-          el("h3", { class: "work-series-card__title" }, [work.title]),
-          metaParts.length
-            ? el("p", { class: "work-series-card__meta" }, metaParts)
-            : null,
-        ]),
+        el(
+          "div",
+          { class: "work-series-card__body" },
+          [
+            el("h3", { class: "work-series-card__title" }, [work.title]),
+            metaParts.length
+              ? el("p", { class: "work-series-card__meta" }, metaParts)
+              : null,
+            pill
+              ? el("div", { class: "work-series-card__footer" }, [pill])
+              : null,
+          ].filter(Boolean),
+        ),
       ],
     );
   }

@@ -4958,6 +4958,9 @@
       resize();
       animate();
     </script>
-    <script src="/Assets/js/chrome.js?v=24" defer></script>
+    <!-- chrome.js intentionally NOT loaded here: /curl/ is an immersive
+         piece, not a catalog page. Loading it without shared.css drops
+         raw unstyled signup-bar + connect + HUMAN/MACHINE markup in the
+         top-left (Halim flagged 2026-05-29). -->
   </body>
 </html>

@@ -242,3 +242,26 @@ Cargo CDN 403 bypass discovered: adding `Referer: https://www.halimmadi.com/` he
 
 - Replace Formspree FORM_ID placeholder in contact/index.html
 - Check responsive layout at 600px/900px/1200px breakpoints
+
+## Working model (2026-06-01) — WORK FROM MAIN, no more worktree split
+
+Halim and Claude now both work from the main repo at `~/Documents/oulipo`.
+The earlier two-folder split (Claude committing from a `.claude/worktrees/`
+checkout while Halim edited in main) caused repeated divergence: Halim's
+image drops never reached the site because they lived only in his working
+dir. That is retired.
+
+How it works now:
+- Halim drops images / edits files in `~/Documents/oulipo` (his folder).
+- Claude edits + commits + pushes from that SAME folder. His drops are the
+  files Claude commits — no bridge, no second copy.
+- settings.local.json grants Claude git checkout/reset/stash/fetch/clean/
+  merge/branch (plus the pre-existing add/commit/push) in the main repo.
+- Ship path: short branch off origin/main → push → `gh pr merge --admin`
+  (keeps a review trail; Vercel auto-deploys origin/main to www.oulipo.xyz).
+- featured.* rule: whatever is named featured.* in a work's image folder is
+  the cover + page hero. scripts/sync-featured-images.mjs resolves it from
+  git ls-files (NOT the macOS filesystem, which leaks case-insensitive
+  casing — that bit versus-exe: featured.JPG vs git's featured.jpg).
+- scripts/import-from-main.mjs still exists as a bridge but is no longer the
+  primary path now that work happens in main directly.

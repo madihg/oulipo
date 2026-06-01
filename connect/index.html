@@ -208,33 +208,62 @@
         border-width: 1px;
       }
 
-      /* Section title — same Diatype Mono family as landing's
-         .home-section__title, slightly bumped for breathing room
-         (0.96rem → 1rem, letter-spacing 0.04em → 0.08em). */
+      /* Halim 2026-06-01: align Connect section titles ("Connect" /
+         "Latest" / "Upcoming") exactly with .home-section__title on
+         the landing page and .work-series__title on /works/?view=series:
+         Diatype Mono, 0.95rem, 0.08em letter-spacing, uppercase,
+         400 weight, ink-50. Drops a hairline border-bottom to match. */
       .page-title {
         font-family: "Diatype Mono Variable", monospace;
         font-variation-settings:
           "slnt" 0,
           "MONO" 1;
-        font-size: 1rem;
-        font-weight: 700;
+        font-size: 0.95rem;
+        font-weight: 400;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-        margin-bottom: 0.5rem;
-        margin-top: 1.2rem;
+        color: rgba(0, 0, 0, 0.5);
+        margin: 1.5rem 0 0.75rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.15);
       }
 
-      /* Event entries */
+      /* Event entries — small inline thumbnail (when cover_image
+         is set), then head/meta/desc stack to the right.
+         Halim 2026-06-01: "images appear on the page in a smaller way". */
       .event {
+        display: grid;
+        grid-template-columns: 80px 1fr;
+        gap: 0.8rem;
+        align-items: start;
         margin: 0;
-        padding-bottom: 0.45rem;
+        padding-bottom: 0.5rem;
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-        margin-bottom: 0.45rem;
+        margin-bottom: 0.5rem;
+      }
+      .event--no-thumb {
+        grid-template-columns: 1fr;
       }
 
       .event:last-child {
         border-bottom: none;
         margin-bottom: 0;
+      }
+
+      .event-thumb {
+        width: 80px;
+        height: 52px;
+        background: rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+      }
+      .event-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .event-body {
+        min-width: 0;
       }
 
       .event-head {
@@ -392,7 +421,7 @@
         </div>
 
         <div class="page-title">Latest</div>
-        <div class="event">
+        <div class="event event--no-thumb">
           <div class="event-head">
             <a
               href="https://word-garden-seven.vercel.app/"
@@ -406,7 +435,7 @@
             break out of the linear carcass.</span
           >
         </div>
-        <div class="event">
+        <div class="event event--no-thumb">
           <div class="event-head">
             <a
               href="https://halimmadi.substack.com/p/vibe-thinking"
@@ -420,7 +449,7 @@
           >
           <span class="event-meta">Mar 24, 2026</span>
         </div>
-        <div class="event">
+        <div class="event event--no-thumb">
           <div class="event-head">
             <a
               href="https://halimmadi.substack.com/p/where-the-hydra-splits"
@@ -534,10 +563,23 @@
           ? `<div class="event-head"><a href="${escapeHtml(linkUrl)}" target="_blank" rel="noopener noreferrer">${headContent}</a></div>`
           : `<div class="event-head">${headContent}</div>`;
 
-        return `<div class="event">
-          ${headHtml}
-          ${description}
-          ${metaLine}
+        // Halim 2026-06-01: small thumb (80x52) on the left when the row
+        // has a cover_image. Otherwise the .event--no-thumb modifier
+        // collapses the grid back to a single column.
+        const coverUrl =
+          safeExternalUrl(event.cover_image) || event.cover_image;
+        const thumbHtml = coverUrl
+          ? `<div class="event-thumb"><img src="${escapeHtml(coverUrl)}" alt="" loading="lazy" decoding="async" /></div>`
+          : "";
+        const rowClass = coverUrl ? "event" : "event event--no-thumb";
+
+        return `<div class="${rowClass}">
+          ${thumbHtml}
+          <div class="event-body">
+            ${headHtml}
+            ${description}
+            ${metaLine}
+          </div>
         </div>`;
       }
 

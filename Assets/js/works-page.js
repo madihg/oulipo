@@ -810,10 +810,17 @@
 
     loadWorks()
       .then(function (res) {
+        // Order by full date_start (newest first), nulls last, then
+        // sort_order. Halim 2026-06-01: previously sorted by YEAR only, so
+        // months were ignored and within-year order was arbitrary. Now the
+        // month corrections actually drive the order. date_start is
+        // YYYY-MM-DD so a string compare is chronological.
         state.works = res.works.slice().sort(function (a, b) {
-          var ya = Number(yearOf(a)) || 0,
-            yb = Number(yearOf(b)) || 0;
-          if (ya !== yb) return yb - ya;
+          var da = a.date_start || "";
+          var db = b.date_start || "";
+          if (da && db && da !== db) return da < db ? 1 : -1;
+          if (da && !db) return -1;
+          if (!da && db) return 1;
           var sa = a.sort_order == null ? 9999 : a.sort_order;
           var sb = b.sort_order == null ? 9999 : b.sort_order;
           return sa - sb;

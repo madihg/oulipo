@@ -12,7 +12,7 @@
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>◉</text></svg>"
     />
-    <link rel="stylesheet" href="../Assets/css/shared.css?v=35" />
+    <link rel="stylesheet" href="../Assets/css/shared.css?v=36" />
 
     <style>
       /* CV page-specific styles */
@@ -99,10 +99,18 @@
         color: #000000;
         line-height: 1.14;
         letter-spacing: 0em;
+        /* wrap long mono strings instead of overflowing the column */
+        overflow-wrap: anywhere;
       }
 
       .event-description {
         font-size: var(--type-size-caption);
+        /* Halim 2026-06-01: cap CV descriptions at 2 lines so nothing
+           runs for paragraphs even if a snippet is missing. */
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
       }
 
       .event-meta {
@@ -334,10 +342,12 @@
           safeExternalUrl(firstExternalLink(event));
         const org = escapeHtml(event.org);
         const title = escapeHtml(event.title);
+        // Halim 2026-06-01: CV shows the short snippet, never the full
+        // long_description (which ran for paragraphs). Prefer the curated
+        // `snippet`, then short_description; long_description stays in the
+        // DB as context but is not displayed here.
         const descText =
-          event.long_description ||
-          event.short_description ||
-          event.description;
+          event.snippet || event.short_description || event.description;
         const description = descText
           ? `<span class="event-description">${escapeHtml(descText)}</span>`
           : "";

@@ -810,16 +810,18 @@ hr {
    Apply via: <a class="section-pill" data-section="machine">…</a>
    (data-section gets --section-color from tokens.css)
    ─────────────────────────────────────────── */
+/* Halim 2026-06-01: section "pills" are no longer pills. The label sits
+   as plain mono text with a colored line underneath in the section color
+   (machine talk = magenta, algorithmic plays = blue, somatic semantics =
+   violet, tools = green). The dot + rounded border are gone. */
 .section-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
-  /* Vertical breathing so the rounded ends don't kiss the next line's
-     text when the pill wraps in a paragraph (Halim 2026-05-15). */
-  padding: 0.15rem 0.65rem;
+  display: inline-block;
   margin: 0 0.05em;
-  border: 1.2px solid var(--section-color, var(--ink));
-  border-radius: 999px;
+  padding-bottom: 2px;
+  border: 0;
+  border-bottom: 2px solid var(--section-color, var(--ink));
+  border-radius: 0;
+  background: none;
   font-family: var(--font-mono);
   font-variation-settings:
     "slnt" 0,
@@ -828,46 +830,26 @@ hr {
   letter-spacing: 0.02em;
   text-transform: lowercase;
   color: var(--ink-85);
-  background: var(--paper);
   text-decoration: none;
   white-space: nowrap;
   vertical-align: baseline;
-  transition:
-    background 0.2s ease,
-    color 0.2s ease;
-}
-/* Parent paragraphs that hold section pills get extra line-height
-   so adjacent lines have breathing room around the pill. */
-p:has(.section-pill) {
-  line-height: 1.95;
+  transition: color 0.2s ease;
 }
 .section-pill:hover,
 .section-pill:focus-visible {
-  background: var(--section-color, var(--ink));
-  color: var(--paper);
-}
-.section-pill:hover .section-pill__dot,
-.section-pill:focus-visible .section-pill__dot {
-  background: var(--paper);
+  color: var(--section-color, var(--ink));
 }
 .section-pill:focus-visible {
-  outline: 3px solid var(--section-color, var(--ink));
+  outline: 2px solid var(--section-color, var(--ink));
   outline-offset: 2px;
 }
+/* Dot retired — the underline carries the color now. */
 .section-pill__dot {
-  display: inline-block;
-  width: 0.5rem;
-  height: 0.5rem;
-  border-radius: 50%;
-  background: var(--section-color, var(--ink));
-  flex-shrink: 0;
-  transform: translateY(-1px);
-  transition: background 0.2s ease;
+  display: none;
 }
 /* Smaller variant for work-card rows */
 .section-pill--mini {
   font-size: 0.78rem;
-  padding: 0 0.45rem;
   letter-spacing: 0;
 }
 

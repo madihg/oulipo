@@ -271,12 +271,11 @@
           }),
         ])
       : el("div", { class: "work-card__image is-empty" }, ["no cover yet"]);
-    // Halim 2026-05-22: meta is a single inline line "year · location · venue".
-    // The all-caps grey "VENUE" sub-row is gone; the section-pill moves to
-    // the bottom of the card and replaces the section label that used to
-    // live there.
+    // Halim 2026-06-01: lead the card meta with the month (date_display,
+    // e.g. "May '26") right under the title, then location · venue.
+    var when = work.date_display || year;
     var metaParts = [];
-    if (year) metaParts.push(String(year));
+    if (when) metaParts.push(String(when));
     if (loc) {
       if (metaParts.length) {
         metaParts.push(
@@ -494,7 +493,8 @@
         ]);
 
     var metaParts = [];
-    if (year) metaParts.push(String(year));
+    var when = work.date_display || year;
+    if (when) metaParts.push(String(when));
     if (loc) {
       if (metaParts.length)
         metaParts.push(

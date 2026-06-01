@@ -394,9 +394,13 @@
         w.year || (w.date_start ? String(w.date_start).slice(0, 4) : "");
       var sectionSlug = w.section || sectionFromKind(w.kind);
 
+      // Halim 2026-06-01: richer meta line (date · location · venue), like
+      // the events strip, instead of just venue + year.
       var metaParts = [];
-      if (w.venue) metaParts.push(String(w.venue).toUpperCase());
-      if (year) metaParts.push(year);
+      if (w.date_display) metaParts.push(w.date_display);
+      else if (year) metaParts.push(year);
+      if (w.location) metaParts.push(w.location);
+      if (w.venue) metaParts.push(w.venue);
 
       var sectionPill = null;
       if (sectionSlug) {
@@ -428,6 +432,9 @@
               sectionPill,
               metaParts.length ? metaParts.join(" · ") : null,
             ]),
+            w.short_description
+              ? el("p", { class: "home-feature__desc" }, [w.short_description])
+              : null,
           ]),
         ],
       );

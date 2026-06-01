@@ -30,6 +30,7 @@
  */
 
 import { readdirSync, statSync } from "fs";
+import { execSync } from "child_process";
 import { resolve, dirname, join } from "path";
 import { fileURLToPath } from "url";
 import { createClient } from "@supabase/supabase-js";
@@ -67,12 +68,39 @@ const COVER_FALLBACK_NAMES = [
   "cover.webp",
 ];
 
-function findFeatured(folder, allowCoverFallback = false) {
-  let entries;
+// IMPORTANT: resolve the featured filename from GIT, not the filesystem.
+// macOS is case-insensitive, so readdirSync reports whatever casing the
+// file was last written with (e.g. featured.JPG) even when git tracks it
+// as featured.jpg. Vercel builds on case-sensitive Linux and serves the
+// git-tracked casing, so a featured.JPG cover_image 404s in production.
+// Consulting `git ls-files` gives us the exact name Vercel will serve.
+// Halim 2026-06-01: versus-exe hit this — DB said .JPG, prod served .jpg.
+function gitTrackedNames(folder) {
   try {
-    entries = readdirSync(folder);
+    const out = execSync(`git ls-files -- ${JSON.stringify(folder)}`, {
+      encoding: "utf8",
+    });
+    return out
+      .split("\n")
+      .map((p) => p.trim())
+      .filter(Boolean)
+      .map((p) => p.split("/").pop());
   } catch {
     return null;
+  }
+}
+
+function findFeatured(folder, allowCoverFallback = false) {
+  // Prefer git-tracked names (the production truth). Fall back to the
+  // filesystem only for files not yet committed.
+  const gitNames = gitTrackedNames(folder);
+  let entries = gitNames;
+  if (!entries || entries.length === 0) {
+    try {
+      entries = readdirSync(folder);
+    } catch {
+      return null;
+    }
   }
   const lower = new Map(entries.map((e) => [e.toLowerCase(), e]));
   for (const name of FEATURED_NAMES) {

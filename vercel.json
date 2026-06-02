@@ -16,66 +16,6 @@
       "permanent": true
     },
     {
-      "source": "/works/computer-theater",
-      "destination": "/works/algorithmic-plays",
-      "permanent": true
-    },
-    {
-      "source": "/works/computer-theater/:path*",
-      "destination": "/works/algorithmic-plays/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/keynotes",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/keynotes/:path*",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/workshops",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/workshops/:path*",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/speaking",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/speaking/:path*",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/collaborating",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/collaborating/:path*",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/teaching",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
-      "source": "/teaching/:path*",
-      "destination": "/engagements",
-      "permanent": true
-    },
-    {
       "source": "/home",
       "destination": "/",
       "permanent": true
@@ -83,6 +23,136 @@
     {
       "source": "/home/:path*",
       "destination": "/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/works/computer-theater",
+      "destination": "https://www.halimmadi.com/works/algorithmic-plays",
+      "permanent": true
+    },
+    {
+      "source": "/works/computer-theater/:path*",
+      "destination": "https://www.halimmadi.com/works/algorithmic-plays/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "https://www.halimmadi.com/about",
+      "permanent": true
+    },
+    {
+      "source": "/about/:path*",
+      "destination": "https://www.halimmadi.com/about/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/cv",
+      "destination": "https://www.halimmadi.com/cv",
+      "permanent": true
+    },
+    {
+      "source": "/cv/:path*",
+      "destination": "https://www.halimmadi.com/cv/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/connect",
+      "destination": "https://www.halimmadi.com/connect",
+      "permanent": true
+    },
+    {
+      "source": "/connect/:path*",
+      "destination": "https://www.halimmadi.com/connect/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/writing",
+      "destination": "https://www.halimmadi.com/writing",
+      "permanent": true
+    },
+    {
+      "source": "/writing/:path*",
+      "destination": "https://www.halimmadi.com/writing/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/books",
+      "destination": "https://www.halimmadi.com/books",
+      "permanent": true
+    },
+    {
+      "source": "/books/:path*",
+      "destination": "https://www.halimmadi.com/books/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/engagements",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/engagements/:path*",
+      "destination": "https://www.halimmadi.com/engagements/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/works",
+      "destination": "https://www.halimmadi.com/works",
+      "permanent": true
+    },
+    {
+      "source": "/works/:path*",
+      "destination": "https://www.halimmadi.com/works/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/keynotes/:path*",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/workshops",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/workshops/:path*",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/speaking/:path*",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/collaborating/:path*",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching",
+      "destination": "https://www.halimmadi.com/engagements",
+      "permanent": true
+    },
+    {
+      "source": "/teaching/:path*",
+      "destination": "https://www.halimmadi.com/engagements",
       "permanent": true
     }
   ],

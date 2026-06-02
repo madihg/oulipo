@@ -23,6 +23,7 @@
         font-family: "Standard", -apple-system, BlinkMacSystemFont, sans-serif;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
       }
       .lab-wrap {
         max-width: 1100px;
@@ -60,9 +61,10 @@
       .lab-title {
         font-family: "Terminal Grotesque", Georgia, serif;
         font-weight: 400;
-        font-size: clamp(3.2rem, 13vw, 8rem);
+        font-size: clamp(2.6rem, 12vw, 8rem);
         line-height: 0.92;
         margin: 3.5rem 0 1.5rem;
+        overflow-wrap: anywhere;
       }
       .lab-intro {
         max-width: 40rem;
@@ -72,39 +74,109 @@
         margin: 0 0 1rem;
       }
       .lab-section {
-        margin: 3.5rem 0 0.5rem;
+        margin: 4rem 0 1.25rem;
         font-size: 0.8rem;
         color: rgba(0, 0, 0, 0.5);
       }
-      .lab-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-        gap: 0 2.5rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
+
+      /* Shared thumbnail framing — a thin border so even minimal pieces read
+         as intentional tiles, not missing images. */
+      .lab-thumb {
+        display: block;
+        width: 100%;
+        aspect-ratio: 1 / 1;
+        object-fit: cover;
+        background: var(--ink-08, rgba(0, 0, 0, 0.04));
+        border: 1px solid rgba(0, 0, 0, 0.16);
       }
-      .lab-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: baseline;
-        gap: 1rem;
-        padding: 0.85rem 0;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+
+      /* Featured (Curl, Becoming Crossings) — large two-up cards */
+      .lab-featured {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+        gap: 1.5rem;
+      }
+      .lab-feature {
         text-decoration: none;
         color: rgba(0, 0, 0, 0.85);
         transition: opacity 0.3s ease;
       }
-      .lab-item:hover {
+      .lab-feature:hover {
         opacity: 0.7;
       }
-      .lab-item__name {
-        font-size: 1.1rem;
+      .lab-feature .lab-thumb {
+        aspect-ratio: 3 / 2;
       }
-      .lab-item__kind {
+      .lab-feature__name {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.25rem;
+        margin-top: 0.65rem;
+      }
+      .lab-feature__kind {
         font-size: 0.7rem;
         color: rgba(0, 0, 0, 0.4);
+        margin-top: 0.1rem;
       }
+
+      /* Series — a thumbnail beside the title + the contained links listed */
+      .lab-series {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 1.5rem;
+        padding: 1.5rem 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        align-items: start;
+      }
+      .lab-series:last-of-type {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      .lab-series__name {
+        font-family: "Diatype Variable", sans-serif;
+        font-size: 1.25rem;
+        margin: 0 0 0.15rem;
+      }
+      .lab-series__kind {
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.4);
+        margin-bottom: 0.9rem;
+      }
+      .lab-series__links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem 0.9rem;
+      }
+      .lab-series__links a {
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+        padding-bottom: 1px;
+        transition: opacity 0.3s ease;
+      }
+      .lab-series__links a:hover {
+        opacity: 0.7;
+      }
+
+      /* Petri Dishes — gallery of small experiment cards */
+      .lab-dishes {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
+        gap: 1.5rem 1.25rem;
+      }
+      .lab-dish {
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+        transition: opacity 0.3s ease;
+      }
+      .lab-dish:hover {
+        opacity: 0.7;
+      }
+      .lab-dish__name {
+        font-size: 0.95rem;
+        margin-top: 0.5rem;
+      }
+
       .lab-foot {
-        margin-top: 4rem;
+        margin-top: 4.5rem;
         padding-top: 1.5rem;
         border-top: 1px solid rgba(0, 0, 0, 0.12);
         font-size: 0.8rem;
@@ -121,6 +193,10 @@
       @media (max-width: 600px) {
         .lab-wrap {
           padding: 1.5rem 1.25rem 4rem;
+        }
+        .lab-series {
+          grid-template-columns: 96px 1fr;
+          gap: 1rem;
         }
       }
     </style>
@@ -145,101 +221,72 @@
         <p>
           Some are browser instruments I open when I&rsquo;m writing. Some are
           dispatches. Some are old promises I keep visiting until they become
-          finished. The point is to keep making, not to keep filing. Each one
-          was made to be played, not archived.
+          finished. Each one was made to be played, not archived.
         </p>
       </div>
 
-      <div class="lab-section mono">Instruments</div>
-      <div class="lab-grid">
-        <a class="lab-item" href="/somatic-poetry-sandbox/phenomenal.html"
-          ><span class="lab-item__name">Phenomenal</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/hover.html"
-          ><span class="lab-item__name">Hover</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/trail.html"
-          ><span class="lab-item__name">Trail</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/joycut.html"
-          ><span class="lab-item__name">Joy Cut</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/bend.html"
-          ><span class="lab-item__name">Bend</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/Blushing.html"
-          ><span class="lab-item__name">Blushing</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/brainstorm.html"
-          ><span class="lab-item__name">Brainstorm</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/erasure.html"
-          ><span class="lab-item__name">Erasure</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/dontbe.html"
-          ><span class="lab-item__name">Don&rsquo;t Be</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/allsortsofthings.html"
-          ><span class="lab-item__name">All Sorts of Things</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/choose.html"
-          ><span class="lab-item__name">Choose</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/defeatme.html"
-          ><span class="lab-item__name">Defeat Me</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/hittheroad.html"
-          ><span class="lab-item__name">Hit the Road</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/theyfleefromme.html"
-          ><span class="lab-item__name">They Flee from Me</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/we-called-us-poetry.html"
-          ><span class="lab-item__name">We Called Us Poetry</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/akbar.html"
-          ><span class="lab-item__name">Akbar</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
-        <a class="lab-item" href="/somatic-poetry-sandbox/Typewriter.html"
-          ><span class="lab-item__name">Typewriter</span
-          ><span class="lab-item__kind mono">somatic</span></a
-        >
+      <div class="lab-section mono">Featured</div>
+      <div class="lab-featured">
+        <a class="lab-feature" href="/curl/">
+          <img class="lab-thumb" src="/Assets/images/kitchen-lab/curl.jpg" alt="Curl" loading="lazy" />
+          <div class="lab-feature__name">Curl</div>
+          <div class="lab-feature__kind mono">net art</div>
+        </a>
+        <a class="lab-feature" href="/becoming-crossings">
+          <img class="lab-thumb" src="/Assets/images/kitchen-lab/becoming-crossings.jpg" alt="Becoming Crossings" loading="lazy" />
+          <div class="lab-feature__name">Becoming Crossings</div>
+          <div class="lab-feature__kind mono">net art</div>
+        </a>
       </div>
 
       <div class="lab-section mono">Series</div>
-      <div class="lab-grid">
-        <a class="lab-item" href="/curl/"
-          ><span class="lab-item__name">Curl</span
-          ><span class="lab-item__kind mono">net art</span></a
-        >
-        <a class="lab-item" href="/borderline/borderline-deny.html"
-          ><span class="lab-item__name">Borderline.exe</span
-          ><span class="lab-item__kind mono">interactive</span></a
-        >
-        <a class="lab-item" href="/case-against-the-son/impossible.html"
-          ><span class="lab-item__name">The Case Against the Son</span
-          ><span class="lab-item__kind mono">exhibits</span></a
-        >
-        <a class="lab-item" href="/becoming-crossings"
-          ><span class="lab-item__name">Becoming Crossings</span
-          ><span class="lab-item__kind mono">net art</span></a
-        >
+      <div class="lab-series">
+        <img class="lab-thumb" src="/Assets/images/kitchen-lab/borderline.jpg" alt="Borderline.exe" loading="lazy" />
+        <div>
+          <h2 class="lab-series__name">Borderline.exe</h2>
+          <div class="lab-series__kind mono">interactive · 4 pieces</div>
+          <div class="lab-series__links">
+            <a href="/borderline/borderline-deny.html">Deny</a>
+            <a href="/borderline/borderline-reach.html">Reach</a>
+            <a href="/borderline/borderline-wait.html">Wait</a>
+            <a href="/borderline/borderline-erase.html">Continuous Movement</a>
+          </div>
+        </div>
+      </div>
+      <div class="lab-series">
+        <img class="lab-thumb" src="/Assets/images/kitchen-lab/case-against-the-son.jpg" alt="The Case Against the Son" loading="lazy" />
+        <div>
+          <h2 class="lab-series__name">The Case Against the Son</h2>
+          <div class="lab-series__kind mono">exhibits · 5 pieces</div>
+          <div class="lab-series__links">
+            <a href="/case-against-the-son/impossible.html">Exhibit A</a>
+            <a href="/case-against-the-son/childfree.html">Exhibit B</a>
+            <a href="/case-against-the-son/tally.html">Exhibit C</a>
+            <a href="/case-against-the-son/sorry.html">Exhibit D</a>
+            <a href="/case-against-the-son/judgement-day.html">Judgement Day, Son</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="lab-section mono">Petri Dishes</div>
+      <div class="lab-dishes">
+        <a class="lab-dish" href="/somatic-poetry-sandbox/phenomenal.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/phenomenal.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Phenomenal</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/hover.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/hover.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Hover</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/trail.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/trail.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Trail</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/joycut.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/joycut.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Joy Cut</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/bend.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/bend.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Bend</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/Blushing.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/blushing.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Blushing</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/brainstorm.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/brainstorm.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Brainstorm</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/erasure.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/erasure.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Erasure</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/dontbe.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/dontbe.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Don&rsquo;t Be</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/allsortsofthings.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/allsortsofthings.jpg" alt="" loading="lazy" /><div class="lab-dish__name">All Sorts of Things</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/choose.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/choose.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Choose</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/defeatme.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/defeatme.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Defeat Me</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/hittheroad.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/hittheroad.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Hit the Road</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/theyfleefromme.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/theyfleefromme.jpg" alt="" loading="lazy" /><div class="lab-dish__name">They Flee from Me</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/we-called-us-poetry.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/we-called-us-poetry.jpg" alt="" loading="lazy" /><div class="lab-dish__name">We Called Us Poetry</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/akbar.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/akbar.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Akbar</div></a>
+        <a class="lab-dish" href="/somatic-poetry-sandbox/Typewriter.html"><img class="lab-thumb" src="/Assets/images/kitchen-lab/typewriter.jpg" alt="" loading="lazy" /><div class="lab-dish__name">Typewriter</div></a>
       </div>
 
       <div class="lab-foot mono">

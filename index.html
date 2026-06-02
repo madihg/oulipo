@@ -3,104 +3,248 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Halim Madi — poet, performer, software-leaning</title>
+    <title>oulipo.xyz — Kitchen Lab</title>
     <meta
       name="description"
-      content="Halim Madi trains and performs with other than human intelligences — algorithmic plays, machine talk, somatic semantics, and tools."
+      content="oulipo.xyz, the Kitchen Lab: small browser instruments, prototypes, and experimental net art by Halim Madi."
     />
     <link
       rel="icon"
       href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
     />
     <link rel="stylesheet" href="/Assets/css/shared.css?v=36" />
+    <style>
+      /* Kitchen Lab — self-contained. No chrome: no hamburger, no signup bar,
+         no terminal. Just the pieces and a way home. */
+      body.lab {
+        margin: 0;
+        background: #fff;
+        color: rgba(0, 0, 0, 0.85);
+        font-family: "Standard", -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+      }
+      .lab-wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 2rem 5rem;
+      }
+      .mono {
+        font-family: "Diatype Mono Variable", ui-monospace, monospace;
+        font-variation-settings: "slnt" 0, "MONO" 1;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .lab-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
+      }
+      .lab-mark {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .lab-back {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: none;
+        border: 1px solid rgba(0, 0, 0, 0.85);
+        padding: 0.45rem 0.8rem;
+        transition: opacity 0.3s ease;
+        white-space: nowrap;
+      }
+      .lab-back:hover {
+        opacity: 0.7;
+      }
+      .lab-title {
+        font-family: "Terminal Grotesque", Georgia, serif;
+        font-weight: 400;
+        font-size: clamp(3.2rem, 13vw, 8rem);
+        line-height: 0.92;
+        margin: 3.5rem 0 1.5rem;
+      }
+      .lab-intro {
+        max-width: 40rem;
+        font-size: 1.06rem;
+      }
+      .lab-intro p {
+        margin: 0 0 1rem;
+      }
+      .lab-section {
+        margin: 3.5rem 0 0.5rem;
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .lab-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+        gap: 0 2.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+      }
+      .lab-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 1rem;
+        padding: 0.85rem 0;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        text-decoration: none;
+        color: rgba(0, 0, 0, 0.85);
+        transition: opacity 0.3s ease;
+      }
+      .lab-item:hover {
+        opacity: 0.7;
+      }
+      .lab-item__name {
+        font-size: 1.1rem;
+      }
+      .lab-item__kind {
+        font-size: 0.7rem;
+        color: rgba(0, 0, 0, 0.4);
+      }
+      .lab-foot {
+        margin-top: 4rem;
+        padding-top: 1.5rem;
+        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.5);
+      }
+      .lab-foot a {
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+      }
+      .lab-foot a:hover {
+        opacity: 0.7;
+      }
+      @media (max-width: 600px) {
+        .lab-wrap {
+          padding: 1.5rem 1.25rem 4rem;
+        }
+      }
+    </style>
   </head>
-  <body class="is-landing">
-    <div class="menu-overlay" onclick="toggleMenu()"></div>
+  <body class="lab">
+    <div class="lab-wrap">
+      <div class="lab-top">
+        <span class="lab-mark mono">oulipo.xyz</span>
+        <a class="lab-back mono" href="https://www.halimmadi.com"
+          >Halim Madi &#x2197;</a
+        >
+      </div>
 
-    <nav class="side-menu">
-      <div class="menu-header">
-        <a href="/" class="menu-home">Home</a>
-        <button
-          class="menu-close"
-          onclick="toggleMenu()"
-          aria-label="Close menu"
-        >
-          &times;
-        </button>
-      </div>
-      <div class="menu-section">
-        <a href="/works/">Works</a>
-        <a href="/engagements/">Engagements</a>
-        <a href="/writing/">Writing</a>
-      </div>
-      <hr class="menu-divider" />
-      <div class="menu-section">
-        <a href="/about/">About</a>
-        <a href="/connect/">Connect</a>
-        <a
-          href="https://halimmadi.substack.com/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Newsletter <span class="external-arrow">&#x2197;</span></a
-        >
-        <a
-          href="https://www.instagram.com/yalla_halim"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Instagram <span class="external-arrow">&#x2197;</span></a
-        >
-      </div>
-    </nav>
+      <h1 class="lab-title">Kitchen Lab</h1>
 
-    <main class="page">
-      <h1 class="visually-hidden">Halim Madi</h1>
-      <!--
-        The home content lives in Assets/partials/home.html so the same
-        markup powers BOTH this page and the chrome.js H-key overlay.
-        A tiny inline loader fetches the partial and injects it here.
-      -->
-      <div data-home-mount>
-        <p
-          class="home-section__loading"
-          style="padding: 2rem var(--pad-page-desktop)"
-        >
-          Loading home…
+      <div class="lab-intro">
+        <p>
+          This is the Kitchen Lab. The small pieces kept loose, the prototypes
+          still warm, the experiments that don&rsquo;t need a catalog entry to
+          be worth visiting.
+        </p>
+        <p>
+          Some are browser instruments I open when I&rsquo;m writing. Some are
+          dispatches. Some are old promises I keep visiting until they become
+          finished. The point is to keep making, not to keep filing. Each one
+          was made to be played, not archived.
         </p>
       </div>
-    </main>
 
-    <script>
-      // Fetch the home partial and inline it into [data-home-mount] on
-      // first paint. home.js (loaded right below) handles hydration of
-      // events + featured works once the partial is in place.
-      (function () {
-        var mount = document.querySelector("[data-home-mount]");
-        if (!mount) return;
-        fetch("/Assets/partials/home.html", { cache: "no-cache" })
-          .then(function (r) {
-            if (!r.ok) throw new Error("home partial " + r.status);
-            return r.text();
-          })
-          .then(function (html) {
-            mount.innerHTML = html;
-            // Tell home.js to hydrate the new DOM. The same event
-            // chrome.js fires for the overlay, so listeners are unified.
-            document.dispatchEvent(
-              new CustomEvent("home-overlay:loaded", {
-                detail: { body: mount },
-              }),
-            );
-          })
-          .catch(function (err) {
-            console.error("[home] partial fetch failed:", err);
-          });
-      })();
-    </script>
+      <div class="lab-section mono">Instruments</div>
+      <div class="lab-grid">
+        <a class="lab-item" href="/somatic-poetry-sandbox/phenomenal.html"
+          ><span class="lab-item__name">Phenomenal</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/hover.html"
+          ><span class="lab-item__name">Hover</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/trail.html"
+          ><span class="lab-item__name">Trail</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/joycut.html"
+          ><span class="lab-item__name">Joy Cut</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/bend.html"
+          ><span class="lab-item__name">Bend</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/Blushing.html"
+          ><span class="lab-item__name">Blushing</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/brainstorm.html"
+          ><span class="lab-item__name">Brainstorm</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/erasure.html"
+          ><span class="lab-item__name">Erasure</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/dontbe.html"
+          ><span class="lab-item__name">Don&rsquo;t Be</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/allsortsofthings.html"
+          ><span class="lab-item__name">All Sorts of Things</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/choose.html"
+          ><span class="lab-item__name">Choose</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/defeatme.html"
+          ><span class="lab-item__name">Defeat Me</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/hittheroad.html"
+          ><span class="lab-item__name">Hit the Road</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/theyfleefromme.html"
+          ><span class="lab-item__name">They Flee from Me</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/we-called-us-poetry.html"
+          ><span class="lab-item__name">We Called Us Poetry</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/akbar.html"
+          ><span class="lab-item__name">Akbar</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+        <a class="lab-item" href="/somatic-poetry-sandbox/Typewriter.html"
+          ><span class="lab-item__name">Typewriter</span
+          ><span class="lab-item__kind mono">somatic</span></a
+        >
+      </div>
 
-    <script src="/Assets/js/menu.js"></script>
-    <script src="/Assets/js/chrome.js?v=24" defer></script>
-    <script src="/Assets/js/home.js?v=9" defer></script>
+      <div class="lab-section mono">Series</div>
+      <div class="lab-grid">
+        <a class="lab-item" href="/curl/"
+          ><span class="lab-item__name">Curl</span
+          ><span class="lab-item__kind mono">net art</span></a
+        >
+        <a class="lab-item" href="/borderline/borderline-deny.html"
+          ><span class="lab-item__name">Borderline.exe</span
+          ><span class="lab-item__kind mono">interactive</span></a
+        >
+        <a class="lab-item" href="/case-against-the-son/impossible.html"
+          ><span class="lab-item__name">The Case Against the Son</span
+          ><span class="lab-item__kind mono">exhibits</span></a
+        >
+        <a class="lab-item" href="/becoming-crossings"
+          ><span class="lab-item__name">Becoming Crossings</span
+          ><span class="lab-item__kind mono">net art</span></a
+        >
+      </div>
+
+      <div class="lab-foot mono">
+        A Kitchen Lab by <a href="https://www.halimmadi.com">Halim Madi</a>
+      </div>
+    </div>
   </body>
 </html>

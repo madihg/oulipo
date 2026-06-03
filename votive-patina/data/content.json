@@ -1,0 +1,40 @@
+{
+  "_comment": "The five prayer lines + the virgin aside. Arabic = live RTL text on the card. literal = flat machine register (Google-Translate-cold). expansion = Halim's poetry, the buried layer revealed by '+'. The canonical CONSOLE prayer lines live in lib/console-prayer.js (the scripture in the source) and differ from `literal` on purpose - that gap is the lossy machine vs the remediated human prayer. Do not reconcile them.",
+  "lines": [
+    {
+      "id": "1",
+      "arabic": "بحضنك خذينا",
+      "literal": "Take us into your embrace.",
+      "expansion": "Ingestion or embrace, either way - your body is both: child-eater and church. Older ladies chant and shake the altar while my younger body sweats and compassion is drilled into my bones. Your maidenhead is the fabric of the Sufi dancer's khirqah; just when the dervish thinks he is rising to the skies, it whirls him back into the ground. Clothing that transcends us. Like masks that become skin."
+    },
+    {
+      "id": "2",
+      "arabic": "وعن كل شر ابعدينا",
+      "literal": "And keep us away from all evil.",
+      "expansion": "Also: move us. Away. Evil imagined as conquest, as outsider - snake, mosquito, a dog with rabies. Never a cancer. Never the body assaulting itself. Teeth bite the cheeks, blood fills the mouth and we get drunk on ourselves. Mary, guard us from the whiteness inside, the skin inside our skins. Move us away, deeper this time, into what must be the heart."
+    },
+    {
+      "id": "3",
+      "arabic": "يا أم يسوع",
+      "literal": "O mother of Jesus.",
+      "expansion": "The child, as you can see, has an early onset of martyrdom. I would give him 34 years at most. Mary, if I call you Mommy will you call me boy? I want to strap this body to experience the way the zealot straps to his bomb - my skin another growth ring, the blast my rocket to kingdom come. All I wanted was the deluge, the sound of the mold breaking, the dam giving way to the primitive. The Torah on fire."
+    },
+    {
+      "id": "4",
+      "arabic": "تشفعي فينا",
+      "literal": "Intercede for us.",
+      "expansion": "Maybe: step in. The savior is still a child, and even grown he will still be a man - too set on seeding the kingdom of heaven to notice we are cold. We cannot pray anymore. Love our neighbors. Turn the other cheek; my skin is seething red. I would rather regress: my shirt too small, my hands the size of bruised peaches. Homage to the mother rather than the father. Medjugorje, Lourdes, Guadalupe, Fatima - her apparitions, coordinates on the globe."
+    },
+    {
+      "id": "5",
+      "arabic": "أمين",
+      "literal": "Amen.",
+      "expansion": "Actually: safe. Amin - safe, in Arabic. Also my grandmother's neighbor, my childhood classmate. A man kneels before a white statue. This is not a joke. The statue's eyes begin to water; the water is olive oil, the oil is blood with clots. The church is for sale and the Virgin knows. Her body is a shield, metal banging steel. Virgin Mary, sacred robot, Pokemon Go - your womb an empty ball to catch them all. Hollow Eve, now with a human inside."
+    }
+  ],
+  "virgin": {
+    "label": "person",
+    "confidence": 0.94,
+    "aside": "The model sees a person. 0.94 confidence. It does not see the mother, the intercession, the centuries. It boxes her and moves on."
+  }
+}

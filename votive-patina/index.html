@@ -1,0 +1,141 @@
+<!--
+       +
+       +
+   +++++++++              .-"""-.
+       +                 /  .  . \      mother, the code is praying.
+       +                 |   ..   |
+       +                 \   __   /     a prayer lives in this file: below,
+                          '.____.'      as comments that accrete when someone
+                          _|    |_      attends; and in the console, scratched
+                         /        \     where the empire does not look.
+
+   votivepatina - Arab Christianity, held hand to hand, now screen to screen.
+   View Source is a catacomb. Keep these comments. Do not minify the prayer.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>votivepatina</title>
+    <meta
+      name="description"
+      content="A prayer that is upheld and worn down by the same gesture. my mother sends me a picture of the Virgin Mary on WhatsApp."
+    />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="page">
+      <header class="site-head">
+        <a href="https://oulipo.xyz" rel="home">oulipo.xyz / kitchen lab</a>
+        <span>net.art &middot; e-lit</span>
+      </header>
+
+      <section class="intro">
+        <h1>votivepatina</h1>
+        <p class="lede">
+          My mother sends me a picture of the Virgin Mary on WhatsApp. Pray for
+          us, and watch the picture wear.
+        </p>
+        <p class="dek">
+          an object-detection model is pointed at a sacred image
+        </p>
+        <p class="returning-note" id="returning-note" hidden></p>
+      </section>
+
+      <main>
+        <!-- the interactive prayer card: one card transitioning through states -->
+        <section
+          class="prayer-card"
+          id="prayer-card"
+          aria-label="an interactive icon of the Virgin Mary that wears down as you pray"
+        >
+          <img id="mary-source" src="assets/mary-interactive.jpg" alt="" />
+          <canvas id="mary-canvas"></canvas>
+          <div class="arabic-layer" id="arabic-layer" aria-hidden="true"></div>
+          <div id="boxes-overlay"></div>
+          <div class="sweep" id="sweep" aria-hidden="true"></div>
+
+          <div class="closing-couplet" id="closing-couplet" hidden></div>
+
+          <div class="card-controls">
+            <button type="button" class="pill pray-pill" id="pray-button">
+              Pray for us
+            </button>
+            <button
+              type="button"
+              class="pill counter-pill"
+              id="counter-pill"
+              hidden
+              aria-live="polite"
+            ></button>
+          </div>
+        </section>
+
+        <!-- the machine's literal, and the buried poem beneath the "+" -->
+        <aside
+          class="translation-panel"
+          id="translation-panel"
+          role="region"
+          aria-label="translation"
+          aria-live="polite"
+          hidden
+        ></aside>
+
+        <!-- the longitudinal litany: a forwarded thread, worn by scroll depth -->
+        <section class="litany" aria-label="the litany">
+          <p class="litany-head">
+            the litany &mdash; worn by every hand it passed through
+          </p>
+          <div id="litany"></div>
+        </section>
+      </main>
+
+      <footer class="site-foot">
+        <p>
+          votivepatina &mdash; a reflection on faith, memory, and decay. Nothing
+          about you leaves this device: the prayer is written to your console,
+          your storage, and this page&rsquo;s source, and nowhere else.
+        </p>
+        <p>
+          made in the kitchen lab &middot;
+          <a href="https://oulipo.xyz">oulipo.xyz</a> &middot;
+          <a href="https://www.halimmadi.com">halimmadi.com</a>
+        </p>
+      </footer>
+
+      <!-- the prayer accretes here, line by line, as it is prayed (machine-readable) -->
+      <div id="inscription" hidden></div>
+    </div>
+
+    <!-- the mobile "look beneath": a faux console that mirrors the real one -->
+    <button
+      type="button"
+      class="console-handle"
+      id="console-handle"
+      aria-expanded="false"
+      aria-controls="console-drawer"
+    >
+      <span class="chev" aria-hidden="true">&#9650;</span>
+      look beneath
+    </button>
+    <section
+      class="console-drawer"
+      id="console-drawer"
+      data-open="false"
+      inert
+      aria-label="the console - where the prayer is written"
+    >
+      <div class="console-bar">
+        <span>console &mdash; the prayer, written</span>
+        <button type="button" class="console-close" id="console-close">
+          close
+        </button>
+      </div>
+      <div class="console-body"></div>
+    </section>
+
+    <script type="module" src="main.js"></script>
+  </body>
+</html>

@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "4242"],
       "port": 4242
+    },
+    {
+      "name": "votivepatina",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["--prefix", "votive-patina", "run", "serve"],
+      "port": 4178
     }
   ]
 }

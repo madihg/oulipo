@@ -1,0 +1,634 @@
+<!doctype html>
+<!--
+  experimental/generative.html
+  votivepatina - MACHINE DREAMING sandbox
+
+  NOT part of the artwork. Never linked from index.html.
+  Makes live network calls to the Anthropic API (or a proxy).
+  Read experimental/README.md before using.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MACHINE DREAMING - votivepatina experimental</title>
+    <style>
+      /* Deliberately clinical. Unlike the main piece. */
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --lab-bg: #0f1117;
+        --lab-surface: #1a1d27;
+        --lab-border: #2e3347;
+        --lab-text: #c9d1e0;
+        --lab-muted: #5a6480;
+        --lab-accent: #4ade80; /* machine green */
+        --lab-warn: #f59e0b; /* amber warning */
+        --lab-error: #f87171; /* red error */
+        --lab-authored: #93c5fd; /* cold blue for human text */
+        --lab-dreamt: #4ade80; /* green for machine text */
+        --font-mono:
+          ui-monospace, "SFMono-Regular", Menlo, "Cascadia Mono", Consolas,
+          monospace;
+        --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      body {
+        background: var(--lab-bg);
+        color: var(--lab-text);
+        font-family: var(--font-mono);
+        font-size: 13px;
+        line-height: 1.6;
+        min-height: 100vh;
+        padding: 0;
+      }
+
+      /* ---------- Header banner ---------- */
+
+      .lab-header {
+        border-bottom: 1px solid var(--lab-warn);
+        padding: 14px 24px;
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        background: rgba(245, 158, 11, 0.05);
+      }
+
+      .lab-header h1 {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--lab-warn);
+      }
+
+      .lab-header p {
+        font-size: 11px;
+        color: var(--lab-muted);
+      }
+
+      /* ---------- Layout ---------- */
+
+      .lab-body {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 32px 24px 64px;
+        display: grid;
+        gap: 32px;
+      }
+
+      /* ---------- Section labels ---------- */
+
+      .section-label {
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--lab-muted);
+        margin-bottom: 10px;
+        border-bottom: 1px solid var(--lab-border);
+        padding-bottom: 6px;
+      }
+
+      /* ---------- Config panel ---------- */
+
+      .config-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+
+      @media (max-width: 640px) {
+        .config-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      label {
+        display: block;
+        font-size: 10px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--lab-muted);
+        margin-bottom: 6px;
+      }
+
+      input[type="text"],
+      input[type="password"],
+      select {
+        width: 100%;
+        background: var(--lab-surface);
+        border: 1px solid var(--lab-border);
+        color: var(--lab-text);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        padding: 8px 10px;
+        outline: none;
+        appearance: none;
+        -webkit-appearance: none;
+      }
+
+      input[type="text"]:focus,
+      input[type="password"]:focus,
+      select:focus {
+        border-color: var(--lab-accent);
+      }
+
+      select option {
+        background: var(--lab-surface);
+      }
+
+      .field-note {
+        font-size: 10px;
+        color: var(--lab-muted);
+        margin-top: 4px;
+      }
+
+      .field-note.warn {
+        color: var(--lab-warn);
+      }
+
+      /* ---------- Dream button ---------- */
+
+      .dream-btn {
+        display: inline-block;
+        background: transparent;
+        border: 1px solid var(--lab-accent);
+        color: var(--lab-accent);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 10px 24px;
+        cursor: pointer;
+        transition:
+          background 0.2s,
+          color 0.2s;
+      }
+
+      .dream-btn:hover:not(:disabled) {
+        background: var(--lab-accent);
+        color: var(--lab-bg);
+      }
+
+      .dream-btn:disabled {
+        opacity: 0.4;
+        cursor: not-allowed;
+      }
+
+      /* ---------- Status line ---------- */
+
+      .status-line {
+        font-size: 11px;
+        min-height: 18px;
+        color: var(--lab-muted);
+      }
+
+      .status-line.ok {
+        color: var(--lab-accent);
+      }
+      .status-line.err {
+        color: var(--lab-error);
+      }
+      .status-line.busy {
+        color: var(--lab-warn);
+      }
+
+      /* ---------- Comparison grid ---------- */
+
+      .comparison {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1px;
+        background: var(--lab-border);
+        border: 1px solid var(--lab-border);
+      }
+
+      @media (max-width: 700px) {
+        .comparison {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      .comparison-col {
+        background: var(--lab-surface);
+        padding: 20px;
+      }
+
+      .col-label {
+        font-size: 10px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid var(--lab-border);
+      }
+
+      .col-label.authored {
+        color: var(--lab-authored);
+      }
+      .col-label.dreamt {
+        color: var(--lab-dreamt);
+      }
+
+      .line-meta {
+        font-size: 10px;
+        color: var(--lab-muted);
+        margin-bottom: 12px;
+      }
+
+      .line-arabic {
+        font-family: "Amiri", "Noto Naskh Arabic", "Times New Roman", serif;
+        font-size: 18px;
+        direction: rtl;
+        text-align: right;
+        color: var(--lab-text);
+        margin-bottom: 4px;
+      }
+
+      .line-literal {
+        font-size: 11px;
+        color: var(--lab-muted);
+        margin-bottom: 16px;
+        font-style: italic;
+      }
+
+      .expansion-text {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        line-height: 1.75;
+        color: var(--lab-text);
+        white-space: pre-wrap;
+      }
+
+      .expansion-text.authored {
+        color: var(--lab-authored);
+      }
+
+      .expansion-text.dreamt {
+        color: var(--lab-dreamt);
+      }
+
+      .expansion-placeholder {
+        font-size: 11px;
+        color: var(--lab-muted);
+        font-style: italic;
+      }
+
+      /* ---------- Abort button ---------- */
+
+      .abort-btn {
+        background: transparent;
+        border: 1px solid var(--lab-error);
+        color: var(--lab-error);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        padding: 6px 14px;
+        cursor: pointer;
+        display: none;
+      }
+
+      .abort-btn.visible {
+        display: inline-block;
+      }
+
+      .abort-btn:hover {
+        background: var(--lab-error);
+        color: var(--lab-bg);
+      }
+
+      .controls-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+
+      /* ---------- Loading animation ---------- */
+
+      @keyframes blink {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.2;
+        }
+      }
+
+      .dreaming-cursor::after {
+        content: "_";
+        animation: blink 1s step-start infinite;
+        color: var(--lab-accent);
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Banner: make it impossible to mistake this for the artwork -->
+    <header class="lab-header">
+      <h1>Machine Dreaming</h1>
+      <p>
+        experimental sandbox - not part of the artwork - makes live API calls
+      </p>
+    </header>
+
+    <main class="lab-body">
+      <!-- Section 1: Configuration -->
+      <section>
+        <div class="section-label">Configuration</div>
+        <div class="config-grid">
+          <div>
+            <label for="api-key">Anthropic API key (local testing only)</label>
+            <input
+              type="password"
+              id="api-key"
+              placeholder="sk-ant-..."
+              autocomplete="off"
+              spellcheck="false"
+            />
+            <p class="field-note warn">
+              Key stays in memory only. Never sent anywhere except the API
+              endpoint below.
+            </p>
+          </div>
+          <div>
+            <label for="proxy-url">Proxy endpoint (overrides direct key)</label>
+            <input
+              type="text"
+              id="proxy-url"
+              placeholder="https://your-proxy.example.com/api/dream"
+              spellcheck="false"
+            />
+            <p class="field-note">
+              If set, requests route here server-side. Leave blank to call the
+              Anthropic API directly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 2: Line selector + trigger -->
+      <section>
+        <div class="section-label">Prayer line</div>
+        <div class="config-grid">
+          <div>
+            <label for="line-select">Select a line</label>
+            <select id="line-select">
+              <option value="" disabled selected>
+                Loading content.json...
+              </option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Controls -->
+      <section>
+        <div class="controls-row">
+          <button class="dream-btn" id="dream-btn" disabled>Dream</button>
+          <button class="abort-btn" id="abort-btn">Abort</button>
+          <span class="status-line" id="status-line"
+            >Load content.json to begin.</span
+          >
+        </div>
+      </section>
+
+      <!-- Section 4: Side-by-side comparison -->
+      <section>
+        <div class="section-label">Comparison - authored vs machine dream</div>
+        <div class="comparison">
+          <div class="comparison-col">
+            <div class="col-label authored">Authored (Halim)</div>
+            <div id="authored-meta" class="line-meta"></div>
+            <div id="authored-arabic" class="line-arabic"></div>
+            <div id="authored-literal" class="line-literal"></div>
+            <div id="authored-expansion" class="expansion-text authored">
+              <span class="expansion-placeholder"
+                >Select a line to see the authored expansion.</span
+              >
+            </div>
+          </div>
+          <div class="comparison-col">
+            <div class="col-label dreamt">Machine Dream</div>
+            <div id="dreamt-meta" class="line-meta"></div>
+            <div id="dreamt-arabic" class="line-arabic"></div>
+            <div id="dreamt-literal" class="line-literal"></div>
+            <div id="dreamt-expansion" class="expansion-text dreamt">
+              <span class="expansion-placeholder"
+                >Click "Dream" to generate a machine expansion.</span
+              >
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script type="module">
+      import { dreamExpansion } from "../lib/generative-expansion.js";
+
+      // -----------------------------------------------------------------------
+      // State
+      // -----------------------------------------------------------------------
+
+      let contentData = null; // parsed content.json
+      let abortController = null;
+
+      const dreamBtn = document.getElementById("dream-btn");
+      const abortBtn = document.getElementById("abort-btn");
+      const statusLine = document.getElementById("status-line");
+      const lineSelect = document.getElementById("line-select");
+      const apiKeyEl = document.getElementById("api-key");
+      const proxyUrlEl = document.getElementById("proxy-url");
+
+      // Authored column
+      const authoredMeta = document.getElementById("authored-meta");
+      const authoredArabic = document.getElementById("authored-arabic");
+      const authoredLiteral = document.getElementById("authored-literal");
+      const authoredExpansion = document.getElementById("authored-expansion");
+
+      // Dreamt column
+      const dreamtMeta = document.getElementById("dreamt-meta");
+      const dreamtArabic = document.getElementById("dreamt-arabic");
+      const dreamtLiteral = document.getElementById("dreamt-literal");
+      const dreamtExpansion = document.getElementById("dreamt-expansion");
+
+      // -----------------------------------------------------------------------
+      // Load content.json
+      // -----------------------------------------------------------------------
+
+      function setStatus(msg, kind = "") {
+        statusLine.textContent = msg;
+        statusLine.className = "status-line" + (kind ? " " + kind : "");
+      }
+
+      async function loadContent() {
+        try {
+          const res = await fetch("../data/content.json");
+          if (!res.ok) throw new Error(`HTTP ${res.status}`);
+          contentData = await res.json();
+
+          lineSelect.innerHTML = "";
+          contentData.lines.forEach((line, i) => {
+            const opt = document.createElement("option");
+            opt.value = i;
+            opt.textContent = `Line ${line.id}: ${line.literal}`;
+            lineSelect.appendChild(opt);
+          });
+
+          dreamBtn.disabled = false;
+          setStatus("Ready. Select a line and click Dream.");
+        } catch (err) {
+          setStatus(`Failed to load content.json: ${err.message}`, "err");
+          lineSelect.innerHTML =
+            "<option disabled>content.json unavailable</option>";
+        }
+      }
+
+      // -----------------------------------------------------------------------
+      // Update authored column when selection changes
+      // -----------------------------------------------------------------------
+
+      function updateAuthoredColumn(lineIndex) {
+        if (!contentData) return;
+        const line = contentData.lines[lineIndex];
+        if (!line) return;
+
+        authoredMeta.textContent = `Line ${line.id} of ${contentData.lines.length}`;
+        authoredArabic.textContent = line.arabic;
+        authoredLiteral.textContent = line.literal;
+        authoredExpansion.textContent = line.expansion;
+
+        // Mirror to dreamt column header (same line, different expansion)
+        dreamtMeta.textContent = `Line ${line.id} of ${contentData.lines.length} - machine version`;
+        dreamtArabic.textContent = line.arabic;
+        dreamtLiteral.textContent = line.literal;
+      }
+
+      lineSelect.addEventListener("change", () => {
+        const idx = parseInt(lineSelect.value, 10);
+        updateAuthoredColumn(idx);
+        // Reset dreamt column when selection changes
+        dreamtExpansion.innerHTML =
+          '<span class="expansion-placeholder">Click "Dream" to generate.</span>';
+      });
+
+      // Initialize authored column on first load
+      lineSelect.addEventListener("change", () => {}, { once: false });
+
+      // -----------------------------------------------------------------------
+      // Dream button
+      // -----------------------------------------------------------------------
+
+      dreamBtn.addEventListener("click", async () => {
+        if (!contentData) return;
+
+        const lineIndex = parseInt(lineSelect.value, 10);
+        if (isNaN(lineIndex)) {
+          setStatus("Select a prayer line first.", "err");
+          return;
+        }
+
+        const apiKey = apiKeyEl.value.trim();
+        const proxyUrl = proxyUrlEl.value.trim();
+
+        if (!apiKey && !proxyUrl) {
+          setStatus("Enter an API key or a proxy URL to proceed.", "err");
+          return;
+        }
+
+        const selectedLine = contentData.lines[lineIndex];
+        const exemplars = contentData.lines;
+
+        // Build config - proxy takes precedence over direct key
+        const config = {
+          force: true, // bypass GENERATIVE_ENABLED=false guard for this sandbox
+          model: "claude-sonnet-4-6",
+        };
+
+        if (proxyUrl) {
+          config.endpoint = proxyUrl;
+          // If the artist also filled in a key, pass it - proxy may need it in
+          // the request body; otherwise the proxy handles auth itself.
+          if (apiKey) config.apiKey = apiKey;
+        } else {
+          // Direct Anthropic API - local testing only
+          config.endpoint = "https://api.anthropic.com/v1/messages";
+          config.apiKey = apiKey;
+        }
+
+        // UI: busy state
+        dreamBtn.disabled = true;
+        abortBtn.classList.add("visible");
+        dreamtExpansion.innerHTML =
+          '<span class="dreaming-cursor expansion-placeholder">Dreaming</span>';
+        setStatus("Calling API...", "busy");
+
+        abortController = new AbortController();
+
+        try {
+          const dreamt = await dreamExpansion({
+            line: {
+              arabic: selectedLine.arabic,
+              literal: selectedLine.literal,
+            },
+            exemplars,
+            config,
+            signal: abortController.signal,
+          });
+
+          dreamtExpansion.textContent = dreamt;
+          setStatus("Dream complete.", "ok");
+        } catch (err) {
+          if (err.name === "AbortError") {
+            dreamtExpansion.innerHTML =
+              '<span class="expansion-placeholder">Aborted.</span>';
+            setStatus("Aborted by artist.", "");
+          } else {
+            dreamtExpansion.innerHTML = `<span style="color:var(--lab-error)">${escapeHtml(err.message)}</span>`;
+            setStatus(`Error: ${err.message}`, "err");
+          }
+        } finally {
+          dreamBtn.disabled = false;
+          abortBtn.classList.remove("visible");
+          abortController = null;
+        }
+      });
+
+      // -----------------------------------------------------------------------
+      // Abort button
+      // -----------------------------------------------------------------------
+
+      abortBtn.addEventListener("click", () => {
+        if (abortController) abortController.abort();
+      });
+
+      // -----------------------------------------------------------------------
+      // Helpers
+      // -----------------------------------------------------------------------
+
+      function escapeHtml(str) {
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      // -----------------------------------------------------------------------
+      // Init
+      // -----------------------------------------------------------------------
+
+      loadContent();
+    </script>
+  </body>
+</html>

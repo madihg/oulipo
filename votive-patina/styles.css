@@ -1,0 +1,709 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   votivepatina / styles.css
+
+   Two worlds, deliberately clashing:
+   - the warm devotional image (reds, creams, gold) that rots like a forwarded jpeg
+   - the cold machine-vision overlay (YOLO neon) that brackets devotion as objects
+
+   No external requests. All fonts are bundled locally (assets/fonts/fonts.css) or
+   system faces. Three type registers kept distinct: Arabic naskh / machine mono /
+   intimate serif. Motion is subtle and gated by prefers-reduced-motion.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  /* base - oulipo brand (white page, black-opacity ink) */
+  --bg: #ffffff;
+  --ink: rgba(0, 0, 0, 0.85);
+  --ink-strong: #000000;
+  --ink-muted: rgba(0, 0, 0, 0.6);
+  --ink-subtle: rgba(0, 0, 0, 0.4);
+  --rule: rgba(0, 0, 0, 0.75);
+
+  /* devotional warmth (for Arabic ink + accents) */
+  --warm-ink: #2a140c;
+  --warm-cream: #fff6ea;
+
+  /* detection overlay - YOLO/COCO neon, deliberately clashing */
+  --yolo-green: #39ff14;
+  --yolo-magenta: #ff00ff;
+  --yolo-cyan: #00ffff;
+  --yolo-yellow: #ffd400;
+  --yolo-red: #ff3b30;
+  --yolo-label-ink: #000000;
+
+  /* faux-console / terminal drawer - OLED dark */
+  --term-bg: #0b0e14;
+  --term-fg: #e6e6e6;
+  --term-dim: #6b7280;
+  --term-accent: #22c55e;
+  --term-prayer: #f8fafc;
+
+  /* type registers */
+  --font-arabic:
+    "Amiri", "Noto Naskh Arabic", "Geeza Pro", "Times New Roman", serif;
+  --font-mono:
+    ui-monospace, "SFMono-Regular", Menlo, "Cascadia Mono", Consolas,
+    "Liberation Mono", monospace;
+  --font-serif:
+    "EB Garamond", "Iowan Old Style", "Palatino Linotype", Palatino, Georgia,
+    serif;
+  --font-sans:
+    system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  /* motion */
+  --t-micro: 200ms;
+  --t-decay: 400ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* z-index scale */
+  --z-image: 1;
+  --z-arabic: 15;
+  --z-boxes: 20;
+  --z-sweep: 25;
+  --z-panel: 30;
+  --z-drawer: 50;
+}
+
+/* ── reset / base ─────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 1.05rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+a:hover {
+  opacity: 0.7;
+}
+
+:focus-visible {
+  outline: 2px solid var(--ink-strong);
+  outline-offset: 2px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ── page shell ───────────────────────────────────────────────────────────── */
+.page {
+  max-width: 540px;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 6rem;
+}
+
+.site-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--ink-muted);
+  text-transform: lowercase;
+  margin-bottom: 2.5rem;
+}
+.site-head a {
+  text-decoration: none;
+}
+.site-head a:hover {
+  text-decoration: underline;
+}
+
+.intro {
+  margin-bottom: 1.75rem;
+}
+.intro h1 {
+  font-family: var(--font-serif);
+  font-weight: 400;
+  font-style: italic;
+  font-size: clamp(2.4rem, 12vw, 3.4rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.6rem;
+  color: var(--ink-strong);
+}
+.intro .lede {
+  font-family: var(--font-serif);
+  font-size: 1.15rem;
+  line-height: 1.45;
+  color: var(--ink-muted);
+  margin: 0;
+}
+.intro .dek {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-subtle);
+  margin: 0.9rem 0 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.returning-note {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-subtle);
+  margin: 0.75rem 0 0;
+}
+
+/* ── the interactive prayer card (phone-proportioned) ─────────────────────── */
+.prayer-card {
+  position: relative;
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  aspect-ratio: 2 / 3;
+  background: var(--warm-cream);
+  container-type: inline-size;
+  overflow: hidden;
+  isolation: isolate; /* contain the z-index scale to the card */
+  user-select: none;
+}
+
+/* the decaying photo - the only layer that rots */
+#mary-source {
+  display: none;
+}
+#mary-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: var(--z-image);
+  display: block;
+}
+
+/* live Arabic text - crisp, RTL, never decays */
+.arabic-layer {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-arabic);
+  pointer-events: none;
+}
+.ar-line {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end; /* RTL right-align within the band */
+  align-items: center;
+}
+.ar-glyphs {
+  font-family: var(--font-arabic);
+  font-weight: 700;
+  font-size: 6.4cqw;
+  line-height: 1.3;
+  white-space: nowrap;
+  color: var(--warm-ink);
+  /* a soft cream halo so the words stay legible over the rotting photo */
+  text-shadow:
+    0 0 2px var(--warm-cream),
+    0 1px 6px rgba(255, 246, 234, 0.85);
+}
+
+/* ── the machine-vision overlay (boxes as real buttons) ───────────────────── */
+.boxes-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-boxes);
+  pointer-events: none; /* the container ignores clicks; the buttons opt back in */
+}
+.det-box {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  border: 2px solid var(--box-color, var(--yolo-green));
+  cursor: pointer;
+  pointer-events: auto;
+  /* Un-revealed boxes are visibility:hidden (not just opacity:0) so they are
+     genuinely gone: not painted, not focusable, not clickable, and correctly
+     reported as not-visible. You cannot pray before pressing "Pray for us". */
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity var(--t-micro) var(--ease-out),
+    visibility var(--t-micro) var(--ease-out);
+  /* a faint neon presence - the cold eye */
+  box-shadow: 0 0 6px
+    color-mix(in srgb, var(--box-color, #39ff14) 55%, transparent);
+}
+/* guarantee a 44x44 tap target even on tiny mislabels, without changing visuals */
+.det-box::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  min-width: 44px;
+  min-height: 44px;
+}
+.det-box.is-revealed {
+  opacity: 1;
+  visibility: visible;
+  transition-delay: calc(var(--reveal-index, 0) * 110ms);
+}
+.det-box:hover {
+  box-shadow: 0 0 12px
+    color-mix(in srgb, var(--box-color, #39ff14) 80%, transparent);
+}
+.det-box:focus-visible {
+  outline: 2px solid var(--box-color, var(--yolo-cyan));
+  outline-offset: 2px;
+}
+.det-box[data-opened="true"] {
+  border-style: double;
+}
+/* box-type is NEVER signalled by color alone: stroke style differs too */
+.det-box[data-box-type="virgin"] {
+  border-width: 3px;
+}
+.det-box[data-box-type="mislabel"] {
+  border-style: dashed;
+  border-width: 1.5px;
+  opacity: 0;
+  visibility: hidden;
+}
+.det-box[data-box-type="mislabel"].is-revealed {
+  opacity: 0.62;
+  visibility: visible;
+}
+
+.det-label {
+  position: absolute;
+  left: -1.5px;
+  top: 0;
+  transform: translateY(-100%);
+  background: var(--box-color, var(--yolo-green));
+  color: var(--yolo-label-ink);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  line-height: 1.25;
+  font-weight: 700;
+  padding: 1px 5px;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+  /* decorative (aria-hidden): a label tab sits above its box and can overlap the
+     box above it - never let it swallow that box's clicks. The box body handles
+     the gesture. */
+  pointer-events: none;
+}
+
+/* the detection sweep - a neon scan line traveling top to bottom */
+.sweep {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  z-index: var(--z-sweep);
+  background: var(--yolo-cyan);
+  box-shadow:
+    0 0 10px var(--yolo-cyan),
+    0 0 24px var(--yolo-cyan);
+  opacity: 0;
+  pointer-events: none;
+}
+body[data-state="detecting"] .sweep {
+  animation: sweep-travel 1100ms var(--ease-out) forwards;
+}
+@keyframes sweep-travel {
+  0% {
+    top: 0;
+    opacity: 0;
+  }
+  8% {
+    opacity: 1;
+  }
+  92% {
+    opacity: 1;
+  }
+  100% {
+    top: 100%;
+    opacity: 0;
+  }
+}
+/* a faint scanline texture while the machine "looks" */
+body[data-state="detecting"] .prayer-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-sweep);
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 3px,
+    rgba(0, 255, 255, 0.05) 3px,
+    rgba(0, 255, 255, 0.05) 4px
+  );
+}
+
+/* ── the pray gate + the counter pill ─────────────────────────────────────── */
+.card-controls {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1rem;
+  z-index: var(--z-panel);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+.card-controls > * {
+  pointer-events: auto;
+}
+
+.pill {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  border: none;
+  border-radius: 999px;
+  padding: 0.7rem 1.4rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+.pray-pill {
+  background: var(--warm-ink);
+  color: var(--warm-cream);
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+}
+.pray-pill:hover {
+  opacity: 0.85;
+}
+.counter-pill {
+  background: #ff7a18; /* the orange of the storyboard */
+  color: #000;
+  max-width: 92%;
+  text-align: center;
+  line-height: 1.2;
+}
+.counter-pill.is-complete {
+  background: #000;
+  color: var(--term-accent);
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+/* the closing couplet, spoken softly on the card at 5 of 5 */
+.closing-couplet {
+  position: absolute;
+  inset: 0;
+  z-index: var(--z-panel);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 2rem;
+  text-align: center;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(255, 246, 234, 0.82),
+    rgba(255, 246, 234, 0.5)
+  );
+  opacity: 0;
+  transition: opacity 1.2s var(--ease-out);
+  pointer-events: none;
+}
+body[data-state="complete"] .closing-couplet,
+body[data-state="resting"] .closing-couplet {
+  opacity: 1;
+}
+.cc-line {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.35;
+  color: var(--warm-ink);
+}
+
+/* in the resting state the boxes fade; the prayer has migrated elsewhere */
+body[data-state="resting"] .boxes-overlay {
+  opacity: 0.18;
+  transition: opacity 1.5s var(--ease-out);
+}
+
+/* ── translation panel + the "+" buried expansion ─────────────────────────── */
+.translation-panel {
+  max-width: 420px;
+  margin: 1.25rem auto 0;
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  min-height: 2rem;
+}
+.tp-literal {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+.tp-aside {
+  font-family: var(--font-serif);
+  font-size: 1.08rem;
+  font-style: italic;
+  line-height: 1.5;
+  color: var(--ink-muted);
+  margin: 0.75rem 0 0;
+}
+.tp-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 0.85rem;
+  padding: 0.35rem 0.1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-subtle);
+}
+.tp-expand:hover {
+  color: var(--ink);
+}
+.tp-plus {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+.tp-expand[aria-expanded="true"] .tp-plus {
+  transform: rotate(45deg);
+  display: inline-block;
+}
+.tp-expansion {
+  overflow: hidden;
+  margin-top: 0.5rem;
+  border-left: 2px solid var(--warm-ink);
+  padding-left: 1rem;
+  animation: uncover var(--t-micro) var(--ease-out);
+}
+.tp-expansion p {
+  font-family: var(--font-serif);
+  font-size: 1.18rem;
+  line-height: 1.55;
+  color: var(--warm-ink);
+  margin: 0;
+}
+@keyframes uncover {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── the longitudinal litany (a forwarded thread, worn by scroll depth) ───── */
+.litany {
+  max-width: 420px;
+  margin: 4rem auto 0;
+}
+.litany-head {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-subtle);
+  border-top: 1px solid var(--rule);
+  padding-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+.litany-item {
+  margin: 0 0 1.25rem;
+}
+.litany-jpeg {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* generational loss deepens with scroll depth (--wear set by main.js) */
+  filter: contrast(calc(1 + var(--wear, 0) * 0.7))
+    saturate(calc(1 - var(--wear, 0) * 0.55))
+    brightness(calc(1 - var(--wear, 0) * 0.06))
+    blur(calc(var(--wear, 0) * 0.7px));
+  transition: filter 600ms var(--ease-out);
+}
+
+/* ── the mobile "look beneath" faux-console drawer (mirror of the console) ── */
+.console-handle {
+  position: fixed;
+  right: 0.8rem;
+  bottom: 0.8rem;
+  z-index: var(--z-drawer);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: var(--term-bg);
+  color: var(--term-fg);
+  border: 1px solid #1d2430;
+  border-radius: 999px;
+  padding: 0.5rem 1rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  cursor: pointer;
+  min-height: 44px;
+}
+.console-handle .chev {
+  transition: transform var(--t-micro) var(--ease-out);
+}
+.console-handle[aria-expanded="true"] .chev {
+  transform: rotate(180deg);
+}
+
+.console-drawer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: var(--z-drawer);
+  height: min(60vh, 420px);
+  background: var(--term-bg);
+  color: var(--term-fg);
+  border-top: 1px solid #1d2430;
+  transform: translateY(100%);
+  transition: transform 320ms var(--ease-out);
+  display: flex;
+  flex-direction: column;
+}
+.console-drawer[data-open="true"] {
+  transform: translateY(0);
+}
+.console-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.55rem 0.9rem;
+  border-bottom: 1px solid #1d2430;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--term-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.console-close {
+  background: none;
+  border: 1px solid #1d2430;
+  color: var(--term-fg);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  cursor: pointer;
+  min-height: 32px;
+}
+.console-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.85rem 0.95rem 1.5rem;
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+.console-line {
+  white-space: pre-wrap;
+  color: var(--term-prayer);
+}
+.console-line[data-kind="line"] {
+  color: var(--term-fg);
+}
+.console-line[data-kind="couplet"] {
+  color: var(--term-dim);
+}
+.console-line.is-invite {
+  color: var(--term-accent);
+  font-style: italic;
+  padding: 0.4rem 0;
+}
+.console-line.will-print {
+  opacity: 0;
+  transform: translateY(3px);
+}
+.console-line.is-printed {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity 200ms var(--ease-out) calc(var(--print-index, 0) * 60ms),
+    transform 200ms var(--ease-out) calc(var(--print-index, 0) * 60ms);
+}
+
+/* ── footer ───────────────────────────────────────────────────────────────── */
+.site-foot {
+  max-width: 420px;
+  margin: 4rem auto 0;
+  border-top: 1px solid var(--rule);
+  padding-top: 1.25rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--ink-subtle);
+  line-height: 1.6;
+}
+.site-foot a {
+  color: var(--ink-muted);
+}
+
+/* ── responsive ───────────────────────────────────────────────────────────── */
+@media (min-width: 768px) {
+  .page {
+    padding-top: 3.5rem;
+  }
+  /* desktop: keep the phone-like proportion; do NOT stretch the card full-width */
+  .prayer-card {
+    max-width: 380px;
+  }
+}
+
+/* coarse pointer: the handle is offered; on fine pointers we rely on DevTools */
+body[data-coarse-pointer="0"] .console-handle {
+  display: none;
+}
+
+/* ── reduced motion: keep the decay (content), drop the choreography ──────── */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .sweep {
+    display: none;
+  }
+  .det-box {
+    transition: none;
+  }
+  .closing-couplet {
+    transition: none;
+  }
+}

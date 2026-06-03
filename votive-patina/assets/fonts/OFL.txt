@@ -1,0 +1,51 @@
+SIL Open Font License 1.1 - Font Attribution Notice
+=====================================================
+
+The following fonts bundled in assets/fonts/ are distributed under the
+SIL Open Font License, Version 1.1 (https://scripts.sil.org/OFL).
+
+----------------------------------------------------------------------
+Amiri
+----------------------------------------------------------------------
+Copyright (c) 2010-2024, Khaled Hosny (khaledhosny@eglug.org)
+Version used: v30 (sourced via Google Fonts / fonts.gstatic.com)
+
+Amiri is a classical Arabic typeface in Naskh style. It is based on
+the Amiria font used by Bulaq Press (Egypt), one of the finest examples
+of traditional Arabic book typography.
+
+OFL Reserved Font Names: "Amiri"
+
+----------------------------------------------------------------------
+EB Garamond
+----------------------------------------------------------------------
+Copyright (c) 2017, Georg Duffner and Octavio Pardo
+Version used: v32 (sourced via Google Fonts / fonts.gstatic.com)
+
+EB Garamond is an open-source revival of Claude Garamont's famous
+humanist typeface from the 16th century. This project was initiated
+by Georg Duffner in 2010 and continued by Octavio Pardo.
+
+OFL Reserved Font Names: "EB Garamond"
+
+----------------------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+----------------------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font
+creation efforts of academic and linguistic communities, and to
+provide a free and open framework in which fonts may be shared and
+improved in partnership with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply to
+any document created using the fonts or their derivatives.
+
+Full license text: https://scripts.sil.org/OFL

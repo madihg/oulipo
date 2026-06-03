@@ -1,0 +1,86 @@
+{
+  "_comment": "Hand-authored detection overlay (NOT detected at runtime). rectNorm values are fractions (0..1) of the rendered image box. arabic-line boxes prefer a rect computed from the live RTL text node; rectNorm is the fallback. type drives stroke style so box-type is never signalled by color alone: arabic-line=solid 2px, virgin=solid 3px, mislabel=dashed 1.5px dimmed. contentRef maps to data/content.json (lines[].id or 'virgin'). mislabels have no contentRef - they show only the raw detection, no poetry. ORDER MATTERS: virgin + mislabels come first so the five arabic-line boxes render LAST (topmost) and stay reliably clickable where boxes overlap; reading/tab order among the prayer lines is still 1..5.",
+  "image": "assets/mary-interactive.jpg",
+  "imageAlt": "A photographic icon of the Virgin Mary, warm reds and creams, held like an image on a phone. As you pray it wears down, each prayer a generation of loss.",
+  "aspect": 0.6667,
+  "boxes": [
+    {
+      "id": "virgin",
+      "type": "virgin",
+      "label": "person",
+      "confidence": 0.94,
+      "color": "#FF00FF",
+      "rectNorm": { "x": 0.18, "y": 0.06, "w": 0.64, "h": 0.66 },
+      "contentRef": "virgin"
+    },
+    {
+      "id": "mislabel-1",
+      "type": "mislabel",
+      "label": "vase",
+      "confidence": 0.41,
+      "color": "#FFD400",
+      "rectNorm": { "x": 0.05, "y": 0.4, "w": 0.16, "h": 0.22 }
+    },
+    {
+      "id": "mislabel-2",
+      "type": "mislabel",
+      "label": "cell phone",
+      "confidence": 0.38,
+      "color": "#FF3B30",
+      "rectNorm": { "x": 0.8, "y": 0.46, "w": 0.14, "h": 0.2 }
+    },
+    {
+      "id": "mislabel-3",
+      "type": "mislabel",
+      "label": "tie",
+      "confidence": 0.33,
+      "color": "#00FFFF",
+      "rectNorm": { "x": 0.44, "y": 0.34, "w": 0.12, "h": 0.22 }
+    },
+    {
+      "id": "line-1",
+      "type": "arabic-line",
+      "label": "text",
+      "confidence": 0.93,
+      "color": "#39FF14",
+      "rectNorm": { "x": 0.14, "y": 0.47, "w": 0.62, "h": 0.055 },
+      "contentRef": "1"
+    },
+    {
+      "id": "line-2",
+      "type": "arabic-line",
+      "label": "text",
+      "confidence": 0.91,
+      "color": "#00FFFF",
+      "rectNorm": { "x": 0.1, "y": 0.535, "w": 0.7, "h": 0.055 },
+      "contentRef": "2"
+    },
+    {
+      "id": "line-3",
+      "type": "arabic-line",
+      "label": "text",
+      "confidence": 0.88,
+      "color": "#FFD400",
+      "rectNorm": { "x": 0.3, "y": 0.6, "w": 0.4, "h": 0.055 },
+      "contentRef": "3"
+    },
+    {
+      "id": "line-4",
+      "type": "arabic-line",
+      "label": "text",
+      "confidence": 0.9,
+      "color": "#39FF14",
+      "rectNorm": { "x": 0.26, "y": 0.665, "w": 0.48, "h": 0.055 },
+      "contentRef": "4"
+    },
+    {
+      "id": "line-5",
+      "type": "arabic-line",
+      "label": "text",
+      "confidence": 0.86,
+      "color": "#00FFFF",
+      "rectNorm": { "x": 0.4, "y": 0.73, "w": 0.22, "h": 0.055 },
+      "contentRef": "5"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "votivepatina-dev",
+  "version": "0.0.1",
+  "description": "DEV-ONLY test harness for the votivepatina net.art piece. Never imported by the shipped artwork.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "test:unit": "node --test tests/unit/*.test.mjs",
+    "test:e2e": "playwright test",
+    "lint:html": "html-validate index.html",
+    "verify:purity": "node scripts/verify-purity.mjs",
+    "test": "npm run test:unit && npm run lint:html && npm run verify:purity && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "html-validate": "latest"
+  }
+}

@@ -1,0 +1,9 @@
+# dev-only tooling - never part of the shipped artwork
+node_modules/
+test-results/
+playwright-report/
+.playwright/
+*.log
+
+# OS
+.DS_Store

@@ -1,22 +1,30 @@
 /**
  * tests/e2e/console-inscription.spec.mjs
  *
- * Verifies the real browser console receives the prayer lines as boxes are
- * opened, the full prayer + couplet + SUBSTACK invite at 5/5, and that the
- * ASCII relic comment + accreted inscription DOM nodes are present.
+ * Verifies the real browser console receives prayer lines (bilingual: Arabic
+ * then English) as boxes are opened, the full bilingual prayer + couplet at
+ * 5/5 (no SUBSTACK_URL), and that the ASCII relic comment + accreted
+ * inscription DOM nodes are present.
  *
  * Covers: US-002 (console prayer), US-010 (hidden inscriptions).
  */
 
 import { test, expect } from "@playwright/test";
 
-// Canonical prayer lines (from DESIGN.md Appendix B / the contract)
 const PRAYER_LINES = [
   "Hold us against your bosom",
   "Guard us from all evil",
   "Mother of Jesus",
   "Plead for us",
   "Amen",
+];
+
+const ARABIC_LINES = [
+  "بحضنك خذينا",
+  "وعن كل شر ابعدينا",
+  "يا أم يسوع",
+  "تشفعي فينا",
+  "أمين",
 ];
 
 async function freshPage(page) {
@@ -30,14 +38,18 @@ async function freshPage(page) {
 }
 
 async function enterPraying(page) {
-  await page.locator("#pray-button").click();
+  await page.locator("#prayer-button").click();
   await expect(page.locator("body")).toHaveAttribute("data-state", "praying", {
     timeout: 8000,
   });
 }
 
+// ---------------------------------------------------------------------------
+// Console inscription - prayer lines (bilingual: Arabic then English)
+// ---------------------------------------------------------------------------
+
 test.describe("Console inscription - prayer lines", () => {
-  test("each arabic-line box open logs its canonical prayer line to the real console", async ({
+  test("each arabic-line box open logs its Arabic line to the real console", async ({
     page,
   }) => {
     const consoleMessages = [];
@@ -57,15 +69,19 @@ test.describe("Console inscription - prayer lines", () => {
     for (let i = 0; i < boxCount; i++) {
       const before = consoleMessages.length;
       await arabicBoxes.nth(i).click();
-      // Wait briefly for the console.log to fire
       await page.waitForTimeout(300);
 
-      // The prayer line for box i must have been logged
+      // Both Arabic and English must appear for this box
       const newMessages = consoleMessages.slice(before);
-      const found = newMessages.some((msg) => msg.includes(PRAYER_LINES[i]));
+      const foundAr = newMessages.some((msg) => msg.includes(ARABIC_LINES[i]));
+      const foundEn = newMessages.some((msg) => msg.includes(PRAYER_LINES[i]));
       expect(
-        found,
-        `Expected console log containing "${PRAYER_LINES[i]}" after clicking box ${i}`,
+        foundAr,
+        `Expected console log containing Arabic "${ARABIC_LINES[i]}" after clicking box ${i}`,
+      ).toBe(true);
+      expect(
+        foundEn,
+        `Expected console log containing English "${PRAYER_LINES[i]}" after clicking box ${i}`,
       ).toBe(true);
     }
   });
@@ -90,13 +106,17 @@ test.describe("Console inscription - prayer lines", () => {
     await page.waitForTimeout(300);
     const countAfterFirst = matchingLogs.length;
 
-    // Click again
+    // Click again - should not re-log
     await firstBox.click();
     await page.waitForTimeout(300);
 
     expect(matchingLogs.length).toBe(countAfterFirst);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Console inscription - full bilingual prayer at 5/5
+// ---------------------------------------------------------------------------
 
 test.describe("Console inscription - full prayer at 5/5", () => {
   async function prayAll(page) {
@@ -117,19 +137,19 @@ test.describe("Console inscription - full prayer at 5/5", () => {
       await arabicBoxes.nth(i).click();
       await page.waitForTimeout(200);
     }
-    await expect(page.locator("#counter-pill")).toHaveAttribute(
-      "data-count",
-      "5",
-      {
-        timeout: 5000,
-      },
+
+    // Wait for "answered" phase (signals printFull has run)
+    await expect(page.locator("#prayer-button")).toHaveAttribute(
+      "data-phase",
+      "answered",
+      { timeout: 5000 },
     );
     // Give full-prayer log time to fire
     await page.waitForTimeout(600);
     return allLogs;
   }
 
-  test("all 5 canonical prayer lines appear in console by 5/5", async ({
+  test("all 5 English prayer lines appear in console by 5/5", async ({
     page,
   }) => {
     const allLogs = await prayAll(page);
@@ -137,7 +157,20 @@ test.describe("Console inscription - full prayer at 5/5", () => {
     for (const line of PRAYER_LINES) {
       expect(
         joined.includes(line),
-        `Expected console to contain "${line}"`,
+        `Expected console to contain English line "${line}"`,
+      ).toBe(true);
+    }
+  });
+
+  test("all 5 Arabic prayer lines appear in console by 5/5", async ({
+    page,
+  }) => {
+    const allLogs = await prayAll(page);
+    const joined = allLogs.join("\n");
+    for (const line of ARABIC_LINES) {
+      expect(
+        joined.includes(line),
+        `Expected console to contain Arabic line "${line}"`,
       ).toBe(true);
     }
   });
@@ -153,24 +186,25 @@ test.describe("Console inscription - full prayer at 5/5", () => {
     ).toBe(true);
   });
 
-  test("a log line containing '<SUBSTACK_URL>' appears in console at 5/5", async ({
-    page,
-  }) => {
+  test("no log contains '<SUBSTACK_URL>'", async ({ page }) => {
     const allLogs = await prayAll(page);
     const joined = allLogs.join("\n");
     expect(
       joined.includes("<SUBSTACK_URL>"),
-      "Expected '<SUBSTACK_URL>' placeholder in console logs at 5/5",
-    ).toBe(true);
+      "Console must NOT contain '<SUBSTACK_URL>' - INVITE was removed",
+    ).toBe(false);
   });
 });
+
+// ---------------------------------------------------------------------------
+// Relic comment and inscriptions in DOM
+// ---------------------------------------------------------------------------
 
 test.describe("Relic comment and inscriptions in DOM", () => {
   test("page source begins with an HTML comment containing '+'", async ({
     page,
   }) => {
     await freshPage(page);
-    // Fetch the raw source of index.html
     const response = await page.request.get("/");
     const source = await response.text();
     const trimmed = source.trimStart();
@@ -207,7 +241,6 @@ test.describe("Relic comment and inscriptions in DOM", () => {
       await page.waitForTimeout(200);
     }
 
-    // #inscription should contain at least one prayer line
     const inscriptionText = await page.locator("#inscription").textContent();
     const found = PRAYER_LINES.some((line) => inscriptionText?.includes(line));
     expect(
@@ -228,7 +261,6 @@ test.describe("Relic comment and inscriptions in DOM", () => {
     await arabicBoxes.first().click();
     await page.waitForTimeout(300);
 
-    // Check that at least one prayer line appears as an HTML comment in #prayer-card
     const cardHTML = await page.locator("#prayer-card").innerHTML();
     expect(
       cardHTML.includes("<!--"),

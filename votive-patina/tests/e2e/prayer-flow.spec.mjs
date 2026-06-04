@@ -2,143 +2,173 @@
  * tests/e2e/prayer-flow.spec.mjs
  *
  * Core prayer interaction flow: idle state -> detect -> pray -> 5/5 complete.
- * Covers: US-005 (pray gate + state machine), US-006 (the one gesture),
- *         US-007 (translation panel + expansion), US-008 (completion + couplet).
+ * Uses the #prayer-button phase machine (idle -> instruct -> answered).
+ * No #counter-pill, no #pray-button.
  *
  * Runs on all three projects (mobile, desktop, reduced-motion).
  */
 
 import { test, expect } from "@playwright/test";
 
-test.describe("Idle state", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    // Clear localStorage so each test starts fresh
-    await page.evaluate(() => {
-      localStorage.removeItem("votivepatina.decayStep");
-      localStorage.removeItem("votivepatina.prayerCount");
-      localStorage.removeItem("votivepatina.prayer");
-    });
-    await page.reload();
+// Helper: load a fresh page with cleared localStorage
+async function freshPage(page) {
+  await page.goto("/");
+  await page.evaluate(() => {
+    localStorage.removeItem("votivepatina.decayStep");
+    localStorage.removeItem("votivepatina.prayerCount");
+    localStorage.removeItem("votivepatina.prayer");
   });
+  await page.reload();
+}
 
+// Helper: click prayer-button and wait for praying state
+async function enterPrayingState(page) {
+  await freshPage(page);
+  await page.locator("#prayer-button").click();
+  // State must reach praying (detecting is transient; allow either, then settle on praying)
+  await expect(page.locator("body")).toHaveAttribute("data-state", "praying", {
+    timeout: 8000,
+  });
+}
+
+// Helper: click all 5 arabic-line boxes and wait for "answered" phase
+async function prayAll(page) {
+  await enterPrayingState(page);
+  const arabicBoxes = page.locator(
+    "button.det-box[data-box-type='arabic-line']",
+  );
+  const count = await arabicBoxes.count();
+  expect(count).toBe(5);
+  for (let i = 0; i < count; i++) {
+    await arabicBoxes.nth(i).click();
+    await page.waitForTimeout(200);
+  }
+  // Wait for the button to reach "answered" phase
+  await expect(page.locator("#prayer-button")).toHaveAttribute(
+    "data-phase",
+    "answered",
+    { timeout: 5000 },
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Idle state
+// ---------------------------------------------------------------------------
+
+test.describe("Idle state", () => {
   test("body has data-state=idle on load", async ({ page }) => {
+    await freshPage(page);
     await expect(page.locator("body")).toHaveAttribute("data-state", "idle");
   });
 
-  test("#pray-button is visible with text 'Pray for us'", async ({ page }) => {
-    const btn = page.locator("#pray-button");
+  test("#prayer-button is visible with phase=idle and contains 'Pray for us'", async ({
+    page,
+  }) => {
+    await freshPage(page);
+    const btn = page.locator("#prayer-button");
     await expect(btn).toBeVisible();
-    await expect(btn).toHaveText("Pray for us");
+    await expect(btn).toHaveAttribute("data-phase", "idle");
+    await expect(btn.locator(".pb-en")).toHaveText("Pray for us");
+  });
+
+  test("#prayer-button also shows Arabic text in idle state", async ({
+    page,
+  }) => {
+    await freshPage(page);
+    const ar = page.locator("#prayer-button .pb-ar");
+    await expect(ar).toHaveText("صلّي لأجلنا");
   });
 
   test("no .det-box elements are visible in idle state", async ({ page }) => {
+    await freshPage(page);
     const boxes = page.locator(".det-box");
-    // Either none exist, or none are visible
     const count = await boxes.count();
     for (let i = 0; i < count; i++) {
       await expect(boxes.nth(i)).not.toBeVisible();
     }
   });
 
-  test("#counter-pill is not visible in idle state", async ({ page }) => {
-    const pill = page.locator("#counter-pill");
-    const count = await pill.count();
-    if (count > 0) {
-      await expect(pill).not.toBeVisible();
-    }
+  test("#counter-pill does not exist in the DOM", async ({ page }) => {
+    await freshPage(page);
+    await expect(page.locator("#counter-pill")).toHaveCount(0);
   });
 });
 
-test.describe("Detection sweep (after clicking Pray)", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto("/");
-    await page.evaluate(() => {
-      localStorage.removeItem("votivepatina.decayStep");
-      localStorage.removeItem("votivepatina.prayerCount");
-      localStorage.removeItem("votivepatina.prayer");
-    });
-    await page.reload();
-  });
+// ---------------------------------------------------------------------------
+// Detection sweep (after clicking Pray)
+// ---------------------------------------------------------------------------
 
-  test("clicking #pray-button transitions state to detecting then praying", async ({
+test.describe("Detection sweep (after clicking #prayer-button)", () => {
+  test("clicking #prayer-button transitions state from idle to detecting then praying", async ({
     page,
   }) => {
-    await page.locator("#pray-button").click();
+    await freshPage(page);
+    await page.locator("#prayer-button").click();
 
-    // State must reach praying (detecting is transient; accept either or praying)
+    // State must reach praying (detecting is transient)
     await expect(page.locator("body")).toHaveAttribute(
       "data-state",
       /^(detecting|praying)$/,
       { timeout: 5000 },
     );
 
-    // Eventually reaches praying
     await expect(page.locator("body")).toHaveAttribute(
       "data-state",
       "praying",
-      {
-        timeout: 8000,
-      },
+      { timeout: 8000 },
     );
   });
 
-  test("#counter-pill shows '0 of 5' after sweep", async ({ page }) => {
-    await page.locator("#pray-button").click();
-    const pill = page.locator("#counter-pill");
-    await expect(pill).toBeVisible({ timeout: 8000 });
-    await expect(pill).toHaveText(/0\s*of\s*5/i);
-    await expect(pill).toHaveAttribute("data-count", "0");
+  test("button phase becomes 'instruct' after clicking from idle", async ({
+    page,
+  }) => {
+    await freshPage(page);
+    await page.locator("#prayer-button").click();
+    await expect(page.locator("#prayer-button")).toHaveAttribute(
+      "data-phase",
+      "instruct",
+      { timeout: 5000 },
+    );
+  });
+
+  test("button .pb-en text changes to 'click the colored squares' after click", async ({
+    page,
+  }) => {
+    await freshPage(page);
+    await page.locator("#prayer-button").click();
+    await expect(page.locator("#prayer-button .pb-en")).toHaveText(
+      "click the colored squares",
+      { timeout: 5000 },
+    );
   });
 
   test("detection boxes appear after sweep", async ({ page }) => {
-    await page.locator("#pray-button").click();
-    // Wait for praying state
+    await freshPage(page);
+    await page.locator("#prayer-button").click();
     await expect(page.locator("body")).toHaveAttribute(
       "data-state",
       "praying",
-      {
-        timeout: 8000,
-      },
+      { timeout: 8000 },
     );
-    // At least one det-box should be visible
     await expect(page.locator(".det-box").first()).toBeVisible({
       timeout: 3000,
     });
   });
 
-  test("#pray-button is gone after sweep", async ({ page }) => {
-    await page.locator("#pray-button").click();
-    await expect(page.locator("body")).toHaveAttribute(
-      "data-state",
-      "praying",
-      {
-        timeout: 8000,
-      },
+  test("5 arabic-line boxes are present after the sweep", async ({ page }) => {
+    await enterPrayingState(page);
+    const arabicBoxes = page.locator(
+      "button.det-box[data-box-type='arabic-line']",
     );
-    await expect(page.locator("#pray-button")).not.toBeVisible();
+    await expect(arabicBoxes).toHaveCount(5);
   });
 });
 
-test.describe("Arabic-line box interaction (the one gesture)", () => {
-  async function enterPrayingState(page) {
-    await page.goto("/");
-    await page.evaluate(() => {
-      localStorage.removeItem("votivepatina.decayStep");
-      localStorage.removeItem("votivepatina.prayerCount");
-      localStorage.removeItem("votivepatina.prayer");
-    });
-    await page.reload();
-    await page.locator("#pray-button").click();
-    await expect(page.locator("body")).toHaveAttribute(
-      "data-state",
-      "praying",
-      {
-        timeout: 8000,
-      },
-    );
-  }
+// ---------------------------------------------------------------------------
+// Arabic-line box interaction (the one gesture)
+// ---------------------------------------------------------------------------
 
+test.describe("Arabic-line box interaction", () => {
   test("clicking first arabic-line box shows #translation-panel with .tp-literal", async ({
     page,
   }) => {
@@ -154,43 +184,7 @@ test.describe("Arabic-line box interaction (the one gesture)", () => {
     await expect(panel.locator(".tp-literal")).toBeVisible();
   });
 
-  test("clicking first arabic-line box increments counter from 0 to 1", async ({
-    page,
-  }) => {
-    await enterPrayingState(page);
-    const firstArabic = page
-      .locator("button.det-box[data-box-type='arabic-line']")
-      .first();
-    await firstArabic.click();
-
-    const pill = page.locator("#counter-pill");
-    await expect(pill).toHaveText(/1\s*of\s*5/i, { timeout: 3000 });
-    await expect(pill).toHaveAttribute("data-count", "1");
-  });
-
-  test("clicking boxes in DOM order increments counter to 5", async ({
-    page,
-  }) => {
-    await enterPrayingState(page);
-    const arabicBoxes = page.locator(
-      "button.det-box[data-box-type='arabic-line']",
-    );
-    const count = await arabicBoxes.count();
-    expect(count).toBe(5);
-
-    for (let i = 0; i < count; i++) {
-      await arabicBoxes.nth(i).click();
-      await expect(page.locator("#counter-pill")).toHaveAttribute(
-        "data-count",
-        String(i + 1),
-        { timeout: 3000 },
-      );
-    }
-
-    await expect(page.locator("#counter-pill")).toHaveText(/5\s*of\s*5/i);
-  });
-
-  test("re-clicking an already-opened box does NOT increment counter", async ({
+  test("re-clicking an already-opened box does NOT advance to answered phase", async ({
     page,
   }) => {
     await enterPrayingState(page);
@@ -198,22 +192,16 @@ test.describe("Arabic-line box interaction (the one gesture)", () => {
       .locator("button.det-box[data-box-type='arabic-line']")
       .first();
 
-    // First click - opens the box, counter goes to 1
+    // First click
     await firstArabic.click();
-    await expect(page.locator("#counter-pill")).toHaveAttribute(
-      "data-count",
-      "1",
-      {
-        timeout: 3000,
-      },
-    );
+    // Second click on same box
+    await firstArabic.click();
+    await page.waitForTimeout(400);
 
-    // Second click on same box - counter must stay at 1
-    await firstArabic.click();
-    await page.waitForTimeout(400); // allow any async state to settle
-    await expect(page.locator("#counter-pill")).toHaveAttribute(
-      "data-count",
-      "1",
+    // Phase should still be instruct (not answered) since only 1 unique box opened
+    await expect(page.locator("#prayer-button")).toHaveAttribute(
+      "data-phase",
+      "instruct",
     );
   });
 
@@ -229,7 +217,7 @@ test.describe("Arabic-line box interaction (the one gesture)", () => {
       timeout: 2000,
     });
 
-    // Click a different box to change the active panel, then click first again
+    // Click a different box then click first again
     const secondArabic = page
       .locator("button.det-box[data-box-type='arabic-line']")
       .nth(1);
@@ -242,23 +230,13 @@ test.describe("Arabic-line box interaction (the one gesture)", () => {
   });
 });
 
-test.describe("Translation panel '+'  expansion (US-007)", () => {
+// ---------------------------------------------------------------------------
+// Translation panel '+' expansion
+// ---------------------------------------------------------------------------
+
+test.describe("Translation panel expansion", () => {
   async function openFirstBox(page) {
-    await page.goto("/");
-    await page.evaluate(() => {
-      localStorage.removeItem("votivepatina.decayStep");
-      localStorage.removeItem("votivepatina.prayerCount");
-      localStorage.removeItem("votivepatina.prayer");
-    });
-    await page.reload();
-    await page.locator("#pray-button").click();
-    await expect(page.locator("body")).toHaveAttribute(
-      "data-state",
-      "praying",
-      {
-        timeout: 8000,
-      },
-    );
+    await enterPrayingState(page);
     await page
       .locator("button.det-box[data-box-type='arabic-line']")
       .first()
@@ -302,40 +280,30 @@ test.describe("Translation panel '+'  expansion (US-007)", () => {
   });
 });
 
-test.describe("Completion state at 5/5 (US-008)", () => {
-  async function prayAll(page) {
-    await page.goto("/");
-    await page.evaluate(() => {
-      localStorage.removeItem("votivepatina.decayStep");
-      localStorage.removeItem("votivepatina.prayerCount");
-      localStorage.removeItem("votivepatina.prayer");
-    });
-    await page.reload();
-    await page.locator("#pray-button").click();
-    await expect(page.locator("body")).toHaveAttribute(
-      "data-state",
-      "praying",
-      {
-        timeout: 8000,
-      },
+// ---------------------------------------------------------------------------
+// Completion state at 5/5 - #prayer-button phase "answered"
+// ---------------------------------------------------------------------------
+
+test.describe("Completion state at 5/5", () => {
+  test("#prayer-button phase becomes 'answered' after 5/5", async ({
+    page,
+  }) => {
+    await prayAll(page);
+    await expect(page.locator("#prayer-button")).toHaveAttribute(
+      "data-phase",
+      "answered",
     );
-    const arabicBoxes = page.locator(
-      "button.det-box[data-box-type='arabic-line']",
+  });
+
+  test("#prayer-button .pb-en text is 'Prayer is Answered' at 5/5", async ({
+    page,
+  }) => {
+    await prayAll(page);
+    await expect(page.locator("#prayer-button .pb-en")).toHaveText(
+      "Prayer is Answered",
+      { timeout: 3000 },
     );
-    const count = await arabicBoxes.count();
-    for (let i = 0; i < count; i++) {
-      await arabicBoxes.nth(i).click();
-      // Brief pause so state machine can process each click
-      await page.waitForTimeout(200);
-    }
-    await expect(page.locator("#counter-pill")).toHaveAttribute(
-      "data-count",
-      "5",
-      {
-        timeout: 5000,
-      },
-    );
-  }
+  });
 
   test("#closing-couplet appears after 5/5", async ({ page }) => {
     await prayAll(page);
@@ -354,13 +322,15 @@ test.describe("Completion state at 5/5 (US-008)", () => {
     );
   });
 
-  test("#counter-pill text at 5/5 references OPEN CONSOLE or equivalent message", async ({
+  test("clicking #prayer-button at 'answered' opens #console-drawer", async ({
     page,
   }) => {
     await prayAll(page);
-    const pill = page.locator("#counter-pill");
-    // The contract says: "5 of 5 - YOUR PRAYER WAS PRINTED - OPEN CONSOLE (PC)"
-    // Accept flexible casing/whitespace around the key markers
-    await expect(pill).toHaveText(/5\s*of\s*5/i, { timeout: 5000 });
+    await page.locator("#prayer-button").click();
+    await expect(page.locator("#console-drawer")).toHaveAttribute(
+      "data-open",
+      "true",
+      { timeout: 3000 },
+    );
   });
 });

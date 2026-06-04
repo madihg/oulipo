@@ -1,7 +1,7 @@
 {
   "_comment": "Hand-authored detection overlay (NOT detected at runtime). rectNorm values are fractions (0..1) of the rendered image box. arabic-line boxes prefer a rect computed from the live RTL text node; rectNorm is the fallback. type drives stroke style so box-type is never signalled by color alone: arabic-line=solid 2px, virgin=solid 3px, mislabel=dashed 1.5px dimmed. contentRef maps to data/content.json (lines[].id or 'virgin'). mislabels have no contentRef - they show only the raw detection, no poetry. ORDER MATTERS: virgin + mislabels come first so the five arabic-line boxes render LAST (topmost) and stay reliably clickable where boxes overlap; reading/tab order among the prayer lines is still 1..5.",
   "image": "assets/mary-interactive.jpg",
-  "imageAlt": "A photographic icon of the Virgin Mary, warm reds and creams, held like an image on a phone. As you pray it wears down, each prayer a generation of loss.",
+  "imageAlt": "A forwarded photographic icon of the Virgin Mary, head bowed in prayer, ringed by a halo with a small cross above - the kind of image sent hand to hand on WhatsApp. As you pray it wears down, each prayer a generation of loss.",
   "aspect": 0.6667,
   "boxes": [
     {

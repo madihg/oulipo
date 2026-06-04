@@ -3,16 +3,15 @@
 //
 //  Orchestration. The console and the canvas are wired to a single gesture: the
 //  click that inscribes a prayer line (into the console, into localStorage, into
-//  the page source) is the same click that wears the icon down one generation.
-//  Attending preserves and erodes in the same motion.
+//  the page source) is the same click that wears the icon down one generation,
+//  brightens the radiance, and shoots a ray that hangs the next forwarded prayer.
 //
 //  Readable on purpose. No bundler ever touches this. The comments are part of it.
 //
-//  ── TODO (placeholders until Halim provides) ───────────────────────────────────
-//   [ ] assets/mary-interactive.jpg : real text-free photographic Virgin (no baked text)
-//   [ ] assets/litany/*.jpg         : the real WhatsApp-meme litany set
-//   [ ] assets/fonts/               : the licensed Arabic display face (Amiri bundled as fallback)
-//   [ ] <SUBSTACK_URL>              : the real address for the final console line (see lib/console-prayer.js)
+//  ── TODO (still pending from Halim) ────────────────────────────────────────────
+//   [x] assets/mary-interactive.jpg : Halim's real forwarded Virgin (bowed; baked text scrimmed)
+//   [x] assets/litany/*.jpg         : Halim's real WhatsApp-forwarded prayer set (11 found prayers)
+//   [ ] assets/fonts/               : a licensed Arabic display face if desired (Amiri bundled, OFL)
 // ─────────────────────────────────────────────────────────────────────────────
 
 import { createDecayEngine } from "./lib/decay.js";
@@ -22,8 +21,12 @@ import {
   printLine,
   printFull,
   prayerAsText,
+  fullBilingualPrayer,
   subscribe,
 } from "./lib/console-prayer.js";
+import { setupConstellation } from "./lib/constellation.js";
+import { setupAbout } from "./lib/about.js";
+import { setupLightbox, openLightbox } from "./lib/lightbox.js";
 
 // The generative "machine-dreaming" layer ships OFF and is never imported here.
 // It lives in lib/generative-expansion.js and is exercised only in experimental/.
@@ -36,6 +39,17 @@ const LS = {
 };
 
 const MAX_LINES = 5;
+
+// The single button speaks two tongues in every state.
+const STRINGS = {
+  pray: { en: "Pray for us", ar: "صلّي لأجلنا" },
+  instruct: {
+    en: "click the colored squares",
+    ar: "انقر على المربّعات الملوّنة",
+  },
+  answered: { en: "Prayer is Answered", ar: "اُستُجيبت الصلاة" },
+  copied: { en: "Prayer copied", ar: "نُسِخت الصلاة" },
+};
 
 // ── environment ────────────────────────────────────────────────────────────────
 const reducedMotion = window.matchMedia(
@@ -66,6 +80,7 @@ const state = {
   boxesConfig: null,
   engine: null,
   boxesApi: null,
+  constellation: null,
   opened: new Set(), // arabic-line ids opened this session
   decayStep: 0, // personal erosion (deepens each visit; persisted)
   prayerCount: 0, // votive counter (persisted)
@@ -102,13 +117,26 @@ async function boot() {
   setupBoxes();
   setupDrawerMirror();
   setupReturningNote();
+  setupAbout();
+  setupLightbox();
+
+  // The constellation: the forwarded prayers, hidden until the rays carry them out.
+  state.constellation = setupConstellation({
+    stageEl: els["constellation"],
+    raysEl: els["rays"],
+    satellitesEl: els["satellites"],
+    cardEl: els["prayer-card"],
+    units: state.content?.litany || [],
+    reducedMotion,
+    onOpen: (unit, satEl) =>
+      openLightbox(unit, { reducedMotion, openerEl: satEl }),
+  });
+
   wireControls();
 
-  // Recompute box geometry once fonts settle and on resize.
+  // Recompute box + ray geometry once fonts settle and on resize.
   if (document.fonts?.ready) document.fonts.ready.then(relayout);
   window.addEventListener("resize", relayout, { passive: true });
-
-  setupLitany();
 }
 
 function cacheEls() {
@@ -119,12 +147,14 @@ function cacheEls() {
     "arabic-layer",
     "boxes-overlay",
     "sweep",
-    "pray-button",
-    "counter-pill",
+    "prayer-button",
+    "copy-flash",
     "closing-couplet",
     "inscription",
     "translation-panel",
-    "litany",
+    "constellation",
+    "rays",
+    "satellites",
     "console-drawer",
     "console-handle",
     "returning-note",
@@ -164,15 +194,12 @@ async function setupDecay() {
   // NOTE: we deliberately do NOT call img.decode() here. decode() can hang
   // indefinitely on a display:none image in Chromium (which #mary-source is), and
   // a `complete` image with naturalWidth>0 draws synchronously without it.
-  // Size the canvas to the image's aspect; CSS scales it responsively.
   const canvas = els["mary-canvas"];
   canvas.width = img.naturalWidth || 800;
   canvas.height = img.naturalHeight || 1200;
 
   // Paint the pristine image synchronously so the card is NEVER blank, then let
-  // the engine take over. A returning visitor watches the stored patina settle
-  // back in over the fresh frame - the icon re-wearing as it loads, which suits
-  // the theme - rather than staring at an empty card while N re-encodes run.
+  // the engine take over.
   try {
     canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
   } catch {
@@ -184,8 +211,7 @@ async function setupDecay() {
     sourceImage: img,
     maxStep: MAX_LINES,
   });
-  // Apply the stored erosion WITHOUT blocking boot - returning visitors may be
-  // several generations deep, and the boxes / returning-note must not wait on it.
+  // Apply the stored erosion WITHOUT blocking boot.
   state.engine.renderStep(state.decayStep, { animate: false });
 }
 
@@ -260,6 +286,7 @@ function setupBoxes() {
 
 function relayout() {
   state.boxesApi?.layout();
+  state.constellation?.layout();
 }
 
 // ── the gesture ────────────────────────────────────────────────────────────────
@@ -286,12 +313,13 @@ function openPrayerLine(box) {
 
   const index = (state.content.lines || []).findIndex((l) => l.id === line.id);
 
-  // One gesture, three inscriptions and one erosion:
-  printLine(index); // 1. into the real console (and the drawer mirror)
-  inscribe(PRAYER_LINES[index]); // 2. into the page source (comment + hidden node)
-  deepenDecay(); // 3. wear the icon down one generation (persists to localStorage)
-
-  updateCounter();
+  // One gesture: inscribe (console, source), erode the icon, brighten the
+  // radiance, and shoot the next rays out with their prayers.
+  printLine(index); // into the real console (Arabic then English) + the drawer
+  inscribe(PRAYER_LINES[index]); // into the page source (comment + hidden node)
+  deepenDecay(); // wear the icon down one generation (persists to localStorage)
+  setRadiance(); // the icon and the button glow a little more
+  state.constellation?.revealBatch(); // extend the rays, hang the next prayers
 
   if (state.opened.size >= MAX_LINES) complete();
 }
@@ -304,13 +332,11 @@ function deepenDecay() {
   state.engine?.renderStep(state.decayStep, { animate: !reducedMotion });
 }
 
-function updateCounter() {
-  const pill = els["counter-pill"];
-  const n = state.opened.size;
-  pill.dataset.count = String(n);
-  if (n < MAX_LINES) {
-    pill.textContent = `${n} of ${MAX_LINES}`;
-  }
+// The radiance grows with the session's prayer (0 at idle, full at 5 of 5). It
+// drives the glow behind the icon and the button via the --radiance CSS variable.
+function setRadiance() {
+  const r = Math.min(1, state.opened.size / MAX_LINES);
+  document.documentElement.style.setProperty("--radiance", r.toFixed(3));
 }
 
 // ── translation panel + the "+" buried expansion ────────────────────────────────
@@ -401,33 +427,43 @@ function inscribe(text) {
   if (insc) insc.textContent = `${insc.textContent || ""}${text}\n`;
 }
 
-// ── the pray gate + detection sweep ──────────────────────────────────────────────
+// ── the single bilingual button: pray -> click the squares -> answered ───────────
 function wireControls() {
-  els["pray-button"].addEventListener("click", beginPraying, { once: true });
-
-  // The counter pill, at 5/5, doubles as the handle that opens the drawer (touch).
-  els["counter-pill"].addEventListener("click", () => {
-    if (state.completed) toggleDrawer(true);
-  });
-
+  els["prayer-button"]?.addEventListener("click", onPrayerButton);
   els["console-handle"]?.addEventListener("click", () => toggleDrawer());
   document
     .getElementById("console-close")
     ?.addEventListener("click", () => toggleDrawer(false));
 }
 
+function onPrayerButton() {
+  const phase = els["prayer-button"]?.dataset.phase;
+  if (phase === "idle") beginPraying();
+  else if (phase === "answered") answeredAction();
+  // "instruct": the button is only a sign now; the squares are the gesture.
+}
+
+function setButtonPhase(phase) {
+  const btn = els["prayer-button"];
+  if (!btn) return;
+  btn.dataset.phase = phase;
+  const key =
+    phase === "idle" ? "pray" : phase === "answered" ? "answered" : "instruct";
+  const s = STRINGS[key];
+  const en = btn.querySelector(".pb-en");
+  const ar = btn.querySelector(".pb-ar");
+  if (en) en.textContent = s.en;
+  if (ar) ar.textContent = s.ar;
+}
+
 function beginPraying() {
   document.body.dataset.state = "detecting";
-  els["pray-button"].hidden = true;
+  setButtonPhase("instruct"); // the button greys and says: click the colored squares
 
   const reveal = () => {
     state.boxesApi.layout();
     state.boxesApi.revealAll({ animate: !reducedMotion });
     document.body.dataset.state = "praying";
-    const pill = els["counter-pill"];
-    pill.hidden = false;
-    pill.dataset.count = "0";
-    pill.textContent = `0 of ${MAX_LINES}`;
   };
 
   if (reducedMotion) {
@@ -443,16 +479,12 @@ function complete() {
   state.completed = true;
   document.body.dataset.state = "complete";
 
-  // The clean resolution: full prayer + couplet + the one styled invite.
+  // The clean resolution, bilingual, in the console and the drawer.
   printFull();
 
-  // The pill becomes the witness-handle and announces where to look.
-  const pill = els["counter-pill"];
-  pill.dataset.count = String(MAX_LINES);
-  pill.textContent = coarsePointer
-    ? `${MAX_LINES} of ${MAX_LINES} — YOUR PRAYER WAS PRINTED — OPEN CONSOLE`
-    : `${MAX_LINES} of ${MAX_LINES} — YOUR PRAYER WAS PRINTED — OPEN CONSOLE (PC)`;
-  pill.classList.add("is-complete");
+  // The button becomes the answer - and the door to the console.
+  setButtonPhase("answered");
+  setRadiance(); // full glow
 
   // The closing couplet appears softly on the card, and is inscribed last.
   revealClosingCouplet();
@@ -465,8 +497,8 @@ function complete() {
   // On touch there is no DevTools; surface the drawer handle and let it be found.
   if (coarsePointer) els["console-handle"]?.removeAttribute("hidden");
 
-  // Settle into the resting state: the icon worn, the boxes fading, the prayer now
-  // living in the console, in storage, and in the source.
+  // Settle into the resting state: the icon worn, the prayer now living in the
+  // console, in storage, and in the source.
   const rest = () => {
     document.body.dataset.state = "resting";
   };
@@ -474,22 +506,72 @@ function complete() {
   else window.setTimeout(rest, 4000);
 }
 
+// At 5 of 5 the button both copies the prayer (locally) and opens the console.
+async function answeredAction() {
+  const text = fullBilingualPrayer();
+  let copied = false;
+  try {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text); // local; nothing is sent anywhere
+      copied = true;
+    }
+  } catch {
+    copied = false;
+  }
+  if (!copied) copied = legacyCopy(text);
+  flashCopy(copied);
+  toggleDrawer(true); // open the faux console where the prayer is written
+}
+
+function legacyCopy(text) {
+  try {
+    const ta = document.createElement("textarea");
+    ta.value = text;
+    ta.setAttribute("readonly", "");
+    ta.style.position = "absolute";
+    ta.style.left = "-9999px";
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand("copy");
+    ta.remove();
+    return ok;
+  } catch {
+    return false;
+  }
+}
+
+function flashCopy(copied) {
+  const el = els["copy-flash"];
+  if (!el) return;
+  const c = STRINGS.copied;
+  // On a PC, also tell them the keystroke for the real DevTools console.
+  const hint = coarsePointer ? "" : ` - real console: ${consoleShortcut()}`;
+  el.innerHTML = copied
+    ? `${c.en}<span class="cf-ar" lang="ar" dir="rtl"> &middot; ${c.ar}</span>${hint}`
+    : `the prayer is in the console below${hint}`;
+  el.hidden = false;
+}
+
+function consoleShortcut() {
+  const ua = `${navigator.platform || ""} ${navigator.userAgent || ""}`;
+  const mac = /Mac|iPhone|iPad/i.test(ua);
+  return mac ? "Cmd+Option+J" : "Ctrl+Shift+J (or F12)";
+}
+
 function revealClosingCouplet() {
   const el = els["closing-couplet"];
   if (!el) return;
-  const couplet = (state.content && state.content.closingCouplet) || null;
   // The couplet's canonical text lives in lib/console-prayer.js; mirror it here for
   // the soft on-card appearance via the same words the console just printed.
   el.innerHTML = "";
-  const lines = COUPLET_FALLBACK;
-  for (const l of lines) {
+  for (const l of COUPLET_FALLBACK) {
     const span = document.createElement("span");
     span.className = "cc-line";
     span.textContent = l;
     el.appendChild(span);
   }
   el.hidden = false;
-  inscribe("— and, softly —");
+  inscribe("- and, softly -");
   for (const l of COUPLET_FALLBACK) inscribe(l);
 }
 
@@ -509,11 +591,10 @@ function setupDrawerMirror() {
   const body = drawer.querySelector(".console-body") || drawer;
 
   let printed = 0; // for the line-by-line timing when the drawer is open
-  subscribe(({ text, kind, style }) => {
+  subscribe(({ text, kind }) => {
     const line = document.createElement("div");
     line.className = "console-line";
-    line.dataset.kind = kind;
-    if (kind === "invite" && style) line.classList.add("is-invite");
+    line.dataset.kind = kind; // kinds ending in "-ar" are styled RTL by the CSS
     line.textContent = text;
     body.appendChild(line);
 
@@ -555,43 +636,4 @@ function setupReturningNote() {
     note.textContent = `you have prayed here ${n} time${n === 1 ? "" : "s"}`;
     note.hidden = false;
   }
-}
-
-// ── the longitudinal litany (a WhatsApp thread of Marys, worn by scroll depth) ───
-function setupLitany() {
-  const litany = els["litany"];
-  if (!litany) return;
-  const COUNT = 8;
-  for (let i = 1; i <= COUNT; i++) {
-    const id = String(i).padStart(2, "0");
-    const fig = document.createElement("figure");
-    fig.className = "litany-item";
-    fig.dataset.depth = String(i);
-    const img = document.createElement("img");
-    img.className = "litany-jpeg";
-    img.loading = "lazy";
-    img.decoding = "async";
-    img.src = `assets/litany/litany-${id}.jpg`;
-    img.alt = `A forwarded image of the Virgin, generation ${i} - worn by every hand it passed through.`;
-    fig.appendChild(img);
-    litany.appendChild(fig);
-  }
-
-  // Wear deepens with scroll depth. The wear is content; we don't animate it (so
-  // reduced-motion needs no special case here) - we just set a CSS variable.
-  const items = Array.from(litany.querySelectorAll(".litany-item"));
-  const io = new IntersectionObserver(
-    (entries) => {
-      for (const e of entries) {
-        if (!e.isIntersecting) continue;
-        const depth = Number(e.target.dataset.depth || "1");
-        // 0 (top) -> ~1 (deep): more generations of loss further down the thread.
-        const wear = Math.min(1, depth / COUNT);
-        e.target.style.setProperty("--wear", wear.toFixed(3));
-        e.target.dataset.worn = "true";
-      }
-    },
-    { threshold: 0.15 },
-  );
-  items.forEach((it) => io.observe(it));
 }

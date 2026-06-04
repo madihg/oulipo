@@ -17,7 +17,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>votivepatina</title>
+    <title>Votive Patina</title>
     <meta
       name="description"
       content="A prayer that is upheld and worn down by the same gesture. my mother sends me a picture of the Virgin Mary on WhatsApp."
@@ -26,52 +26,203 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="page">
-      <header class="site-head">
-        <a href="https://oulipo.xyz" rel="home">oulipo.xyz / kitchen lab</a>
-        <span>net.art &middot; e-lit</span>
-      </header>
+    <!-- About: a quiet question mark, top-right -->
+    <button
+      type="button"
+      class="about-toggle"
+      id="about-toggle"
+      aria-haspopup="dialog"
+      aria-controls="about-modal"
+      aria-label="About this piece"
+    >
+      ?
+    </button>
 
-      <section class="intro">
-        <h1>votivepatina</h1>
-        <p class="lede">
-          My mother sends me a picture of the Virgin Mary on WhatsApp. Pray for
-          us, and watch the picture wear.
+    <!-- About modal: everything that is not the prayer itself lives here -->
+    <div
+      class="about-overlay"
+      id="about-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="about-title"
+      hidden
+    >
+      <div class="about-scrim" data-about-dismiss aria-hidden="true"></div>
+      <article class="about-panel">
+        <button type="button" class="about-close" id="about-close">
+          close
+        </button>
+
+        <h2 id="about-title">Votive Patina</h2>
+        <p class="about-frame">
+          Pray for us, and watch the picture wear. An object-detection model is
+          pointed at a sacred image: it brackets the Virgin as a person,
+          mislabels the holy as the mundane, and reads the prayer as a rectangle
+          of text. Everything it misses is behind the click, the
+          &ldquo;+&rdquo;, and the console. Nothing about you leaves this device
+          - the prayer is written to your console, your storage, and this
+          page&rsquo;s source, and nowhere else.
         </p>
-        <p class="dek">
-          an object-detection model is pointed at a sacred image
+
+        <hr />
+
+        <h3>Lossy JPEGs as votive patina</h3>
+        <p class="about-dek">
+          How faith travels as .jpeg in the sacred compression of family
+          WhatsApp group chats.
+          <span class="about-byline">Halim Madi &middot; Dec 2025</span>
+        </p>
+
+        <p>
+          I wake up to these images most mornings. My Christian mother in
+          Lebanon forwards them on the family WhatsApp. Blessed JPEGs, if you
+          will.
+        </p>
+        <p>
+          A low-res Virgin Mary surrounded by roses the color of expired candy.
+          Jesus either emaciated under dramatic lightning or posing with freshly
+          blown-out hair, post-resurrection. The Holy Spirit, always a dove. All
+          of it looks like it was designed in Microsoft Paint circa 2003 and has
+          somehow survived two decades. Lately AI has joined the game, and slop
+          has never felt as sloppy as when the Virgin Mary is rendered as a
+          Pixar child.
+        </p>
+
+        <h4>Digital apparitions</h4>
+        <p>
+          A few years ago, it hit me: these are apparitions. Not miracles, but
+          their approximation - daily prayers, compressed. For migrants and
+          their parents, these pixelated images have become new rosaries. Each
+          forward pixelates the image further, softens an edge, corrupts a hue,
+          proof that it has travelled, been seen, believed in. The lower the
+          resolution, the more the picture was forwarded, the more eyes it has
+          touched.
+        </p>
+        <p>
+          That decay is a kind of holiness. Saint Peter&rsquo;s foot at the
+          Vatican, worn smooth by centuries of kisses. Art historians call it
+          votive patina or devotional wear. The Virgin my mother sends me each
+          morning is a digital equivalent, a tactile shrine of pixels.
+        </p>
+
+        <h4>Faith as transmission</h4>
+        <p>
+          In this networked era, faith is no longer congregation, it&rsquo;s
+          transmission. Long-press &rarr; Forward is the new exchange of peace.
+          Passing on these relics is the prayer. Barthes, in Camera Lucida,
+          called it the punctum, the detail that pierces us beyond meaning. For
+          me, it&rsquo;s the compression halo around Mary&rsquo;s face, the
+          ghostly aura of digital decay. It tells me this image has migrated:
+          from Tyre to Dubai to Paris to Detroit, and finally, to me in San
+          Francisco. Like me, it has travelled. These images aren&rsquo;t art
+          objects; they&rsquo;re acts. Not curated, but performed. Faith as a
+          networked performance.
+        </p>
+
+        <h4>The silence as cathedral</h4>
+        <p>
+          My mother sends her JPEG at precisely 6:03 a.m. Neither my sister nor
+          I reply. Even an emoji would break the spell. There&rsquo;s
+          choreography to this. Her predictability, our muted chat, the
+          invisible thread of belief stretched across continents. That silence
+          completes the image. It&rsquo;s the shared cathedral of our
+          family&rsquo;s esoteric faith. When one of us finally reacts - a lone
+          heart, a thumbs-up - that becomes the Eucharist.
+        </p>
+
+        <h4>Kitsch, camp, and care</h4>
+        <p>
+          Milan Kundera called kitsch the denial of everything unpleasant. These
+          Marys are kitsch perfected, no irony, no doubt, only pink clouds and
+          glitter fonts whispering &ldquo;The Virgin blesses your
+          morning.&rdquo; Sontag might call it Camp, Byung-Chul Han might call
+          it positive violence, the smoothing of contradiction. Maybe
+          they&rsquo;re right. But I still think something sacred is happening
+          here. When my mother sends these images, she&rsquo;s saying something
+          she doesn&rsquo;t know how to say:
+        </p>
+        <blockquote>
+          My son, my daughter, I am aging. This faith is the buoy I know best.
+          These worn images are the best way I know to say I love you.
+        </blockquote>
+        <p>
+          And all this decoding, this media theory of Arab Jesus memes, is just
+          my way of saying &ldquo;I love you back&rdquo;.
+        </p>
+
+        <hr />
+        <p class="about-colophon">
+          Votive Patina &middot; net.art &middot; e-lit &middot; made in the
+          kitchen lab &middot;
+          <a href="https://oulipo.xyz">oulipo.xyz</a> &middot;
+          <a href="https://www.halimmadi.com">halimmadi.com</a>
+        </p>
+      </article>
+    </div>
+
+    <div class="page">
+      <section class="intro">
+        <h1>Votive Patina</h1>
+        <p class="lede">
+          my mother sends me a picture of the Virgin Mary on WhatsApp
         </p>
         <p class="returning-note" id="returning-note" hidden></p>
       </section>
 
       <main>
-        <!-- the interactive prayer card: one card transitioning through states -->
-        <section
-          class="prayer-card"
-          id="prayer-card"
-          aria-label="an interactive icon of the Virgin Mary that wears down as you pray"
-        >
-          <img id="mary-source" src="assets/mary-interactive.jpg" alt="" />
-          <canvas id="mary-canvas"></canvas>
-          <div class="arabic-layer" id="arabic-layer" aria-hidden="true"></div>
-          <div id="boxes-overlay"></div>
-          <div class="sweep" id="sweep" aria-hidden="true"></div>
+        <!-- the constellation: the icon at center; as you pray it shoots rays of
+             light, and the forwarded prayers hang at their ends -->
+        <div class="constellation" id="constellation">
+          <svg
+            class="rays"
+            id="rays"
+            aria-hidden="true"
+            preserveAspectRatio="none"
+          ></svg>
+          <div
+            class="satellites"
+            id="satellites"
+            role="group"
+            aria-label="forwarded prayers, revealed as you pray"
+          ></div>
 
-          <div class="closing-couplet" id="closing-couplet" hidden></div>
+          <div class="card-stack">
+            <!-- the single bilingual button, ABOVE the image -->
+            <div class="card-controls">
+              <button
+                type="button"
+                class="prayer-button"
+                id="prayer-button"
+                data-phase="idle"
+              >
+                <span class="pb-en">Pray for us</span>
+                <span class="pb-ar" lang="ar" dir="rtl">صلّي لأجلنا</span>
+              </button>
+              <p class="copy-flash" id="copy-flash" role="status" hidden></p>
+            </div>
 
-          <div class="card-controls">
-            <button type="button" class="pill pray-pill" id="pray-button">
-              Pray for us
-            </button>
-            <button
-              type="button"
-              class="pill counter-pill"
-              id="counter-pill"
-              hidden
-              aria-live="polite"
-            ></button>
+            <!-- the central interactive prayer card -->
+            <section
+              class="prayer-card"
+              id="prayer-card"
+              aria-label="an interactive icon of the Virgin Mary that wears down as you pray"
+            >
+              <img id="mary-source" src="assets/mary-interactive.jpg" alt="" />
+              <canvas id="mary-canvas"></canvas>
+              <!-- scrim: darkens the lower image so the photo's OWN burned-in
+                   Arabic recedes and the live prayer lines have a legible surface -->
+              <div class="card-scrim" aria-hidden="true"></div>
+              <div
+                class="arabic-layer"
+                id="arabic-layer"
+                aria-hidden="true"
+              ></div>
+              <div id="boxes-overlay"></div>
+              <div class="sweep" id="sweep" aria-hidden="true"></div>
+              <div class="closing-couplet" id="closing-couplet" hidden></div>
+            </section>
           </div>
-        </section>
+        </div>
 
         <!-- the machine's literal, and the buried poem beneath the "+" -->
         <aside
@@ -82,31 +233,32 @@
           aria-live="polite"
           hidden
         ></aside>
-
-        <!-- the longitudinal litany: a forwarded thread, worn by scroll depth -->
-        <section class="litany" aria-label="the litany">
-          <p class="litany-head">
-            the litany &mdash; worn by every hand it passed through
-          </p>
-          <div id="litany"></div>
-        </section>
       </main>
-
-      <footer class="site-foot">
-        <p>
-          votivepatina &mdash; a reflection on faith, memory, and decay. Nothing
-          about you leaves this device: the prayer is written to your console,
-          your storage, and this page&rsquo;s source, and nowhere else.
-        </p>
-        <p>
-          made in the kitchen lab &middot;
-          <a href="https://oulipo.xyz">oulipo.xyz</a> &middot;
-          <a href="https://www.halimmadi.com">halimmadi.com</a>
-        </p>
-      </footer>
 
       <!-- the prayer accretes here, line by line, as it is prayed (machine-readable) -->
       <div id="inscription" hidden></div>
+    </div>
+
+    <!-- lightbox: a forwarded prayer, enlarged, with its own detection boxes -->
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="a forwarded prayer, enlarged"
+      hidden
+    >
+      <div
+        class="lightbox-scrim"
+        data-lightbox-dismiss
+        aria-hidden="true"
+      ></div>
+      <div class="lightbox-stage" id="lightbox-stage">
+        <button type="button" class="lightbox-close" id="lightbox-close">
+          close
+        </button>
+        <div class="lightbox-body" id="lightbox-body"></div>
+      </div>
     </div>
 
     <!-- the mobile "look beneath": a faux console that mirrors the real one -->
@@ -128,7 +280,7 @@
       aria-label="the console - where the prayer is written"
     >
       <div class="console-bar">
-        <span>console &mdash; the prayer, written</span>
+        <span>console - the prayer, written</span>
         <button type="button" class="console-close" id="console-close">
           close
         </button>

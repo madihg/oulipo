@@ -44,13 +44,29 @@ authored against the contract, then integrated, tested, and visually verified.
 
 ## Session State
 
-- Status: COMPLETE and verified end to end (idle -> pray -> detection sweep -> 5
-  boxes each (panel + console line + decay + counter + source inscription) -> "+"
-  serif expansion -> 5/5 (full prayer + couplet + styled invite in console & in the
-  mirrored drawer) -> resting; localStorage patina restores on return with "you have
-  prayed here N times").
-- Tests all green: `npm test` exit 0 = unit 25/25 + html-validate + purity 4/4 +
-  Playwright e2e 99/99 (mobile + desktop + reduced-motion). Run from votive-patina/.
+- Status: v3 built + visually verified; tests being rewritten (agent). The redesign:
+  (1) quiet landing - h1 "Votive Patina" + one poem line; ALL framing/chrome + the
+  pasted Substack essay moved into an About modal behind a subtle "?" (lib/about.js;
+  .site-head/.site-foot removed). (2) ONE bilingual button `#prayer-button` cycles
+  data-phase idle ("Pray for us"/"صلّي لأجلنا") -> instruct ("click the colored
+  squares") -> answered ("Prayer is Answered"); the old #counter-pill is gone. A
+  yellow `--radiance` glow grows on the icon + button per click. (3) The found
+  prayers are a CONSTELLATION (lib/constellation.js): the icon shoots rays of light;
+  11 satellites hang at the ray ends, revealed in batches across the 5 box-clicks -
+  a ring/sunburst halo on wide screens (>=820px), ~3 downward fans on narrow. Tap a
+  satellite -> a LIGHTBOX (lib/lightbox.js) with the enlarged image + pink/green
+  boxes + Arabic/translation/"+"note + decay + console. (4) Console is BILINGUAL
+  (Arabic then English, drawer styles -ar kinds RTL); Substack INVITE dropped; the
+  answered button copies the full bilingual prayer (clipboard, local) + opens the
+  console (PC: shows the DevTools shortcut). Dropped found-prayers p12 (watermark) +
+  p13 (queen of peace) -> 11 remain.
+- console-prayer.js now exports ARABIC_LINES + fullBilingualPrayer(); INVITE removed.
+  lib/litany.js DELETED (replaced by constellation + lightbox). data/content.json
+  litany array = 11 units; assets/litany/litany-12.jpg + -13.jpg removed.
+- Bug fixed in v3: constellation `wide` used `stage.clientWidth` on a DOMRect
+  (undefined) -> always mobile layout on desktop; fixed to `stage.width`. Also: the
+  ring radius is capped to the stage width so satellites never overflow; an early
+  layout() before the card is sized is guarded + re-run on rAF.
 - Built by several parallel agents (decay engine + unit tests, placeholder assets +
   fonts, generative scaffold, test harness) against DESIGN.md; core (index.html,
   styles.css, main.js, console-prayer.js, boxes.js) authored by hand.
@@ -67,7 +83,11 @@ authored against the contract, then integrated, tested, and visually verified.
      made aria-hidden box labels pointer-events:none, and reordered boxes.json so
      arabic-line boxes render LAST (topmost = reliably clickable).
 - Preview: `.claude/launch.json` has a "votivepatina" server (npm run serve, :4178).
-- NOT committed yet (worktree branch halim-bot/tender-hofstadter-8e67ec).
-- Still pending from Halim: real text-free Mary photo, real litany jpegs, licensed
-  Arabic face, Substack URL (placeholders + `<SUBSTACK_URL>` in place; decay reads
-  far more dramatically on a real photo than on the flat placeholder).
+- v2 NOT committed yet (worktree). The earlier placeholder build merged to main as
+  PR #29; the real-images + interactive-litany rewrite is uncommitted in the worktree
+  pending Halim's voice-review of the 13 notes, then commit/PR/merge/sync.
+- Raw source folder `assets/mary-pictures/` (Halim's 15 dropped originals) sits
+  untracked in the MAIN checkout; the piece uses curated clean-named copies. Decide
+  at commit whether to keep or drop the raw folder.
+- Still pending from Halim: the Substack URL (`<SUBSTACK_URL>` placeholder); optional
+  licensed Arabic display face (Amiri bundled, OFL); and his nod on the 13 notes.

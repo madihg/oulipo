@@ -1,5 +1,5 @@
 {
-  "_comment": "The five prayer lines + the virgin aside. Arabic = live RTL text on the card. literal = flat machine register (Google-Translate-cold). expansion = Halim's poetry, the buried layer revealed by '+'. The canonical CONSOLE prayer lines live in lib/console-prayer.js (the scripture in the source) and differ from `literal` on purpose - that gap is the lossy machine vs the remediated human prayer. Do not reconcile them.",
+  "_comment": "Two parts. `lines` + `virgin` drive the TOP card (Halim's own prayer, live Arabic overlay - unchanged, fully tested). `litany` is the scroll of FOUND prayers: each is a real forwarded WhatsApp image whose burned-in Arabic was read off the picture (arabic), given a flat machine translation (literal), and answered with a note in Halim's voice (note). textRect/personRect are normalized (0..1) box regions over each image. The machine reads (arabic/literal); the poet answers (note).",
   "lines": [
     {
       "id": "1",
@@ -36,5 +36,117 @@
     "label": "person",
     "confidence": 0.94,
     "aside": "The model sees a person. 0.94 confidence. It does not see the mother, the intercession, the centuries. It boxes her and moves on."
-  }
+  },
+  "litany": [
+    {
+      "id": "p01",
+      "image": "assets/litany/litany-01.jpg",
+      "figure": "Praying Mary statue, jeweled crown, dense red-and-white rose background",
+      "arabic": "صباح الخير والبركة / لا أحد يستطيع أن ينزع عنا / ثياب الخلاص ورداء البرّ! / فالمؤمن الحقيقي لا يفقد / خلاصه أبداً",
+      "literal": "Good morning and blessing. No one is able to strip from us the garments of salvation and the robe of righteousness. For the true believer never loses his salvation.",
+      "note": "A robe you cannot take off, even once it stops fitting. My grandmother forwards salvation at six in the morning the way she once ironed my father's shirts - pressing the night out of the day. Righteousness as a fabric and the believer a body that keeps wearing it past the point of fashion, past the point of fit. The jpeg thins with every send. The garment thins with every washing. We are saved, threadbare.",
+      "textRect": { "x": 0.1, "y": 0.62, "w": 0.8, "h": 0.34 },
+      "personRect": { "x": 0.2, "y": 0.1, "w": 0.62, "h": 0.58 }
+    },
+    {
+      "id": "p02",
+      "image": "assets/litany/litany-02.jpg",
+      "figure": "Frontal Mary statue, ornate gold star-crown halo, neon pink-and-blue tones",
+      "arabic": "صباح النور / من أمّ النور",
+      "literal": "Morning of light, from the mother of light.",
+      "note": "We answer light with more light, the way you answer a forward with a forward. Her halo here is not gold but the blue-pink of a screen left on overnight, the LED of a phone praying to itself on a nightstand. Mother of light, mother of backlight. The dawn comes whether or not we wake to it; the notification comes whether or not we read it. I read it. I am the mother of light's least reliable son.",
+      "textRect": { "x": 0.15, "y": 0.7, "w": 0.7, "h": 0.22 },
+      "personRect": { "x": 0.2, "y": 0.12, "w": 0.6, "h": 0.55 }
+    },
+    {
+      "id": "p03",
+      "image": "assets/litany/litany-03.jpg",
+      "figure": "Immaculate Heart of Mary, cream veil and blue mantle, gold sunburst halo, stone-tablet frame",
+      "arabic": "رافقينا خلال هذا اليوم / وباركي صباحنا / بحضورك يا امنا / الحنونة ونجينا من كل / المخاطر / امين",
+      "literal": "Accompany us throughout this day and bless our morning with your presence, O our tender mother, and save us from all dangers. Amen.",
+      "note": "Accompany us - as if she had nothing better to do than walk a diaspora to its bus stops. The tender mother, الحنونة, is a word that tastes of warm milk and the inside of the wrist. Danger here is always exterior: the road, the stranger, the evil eye. Never the slow danger of forgetting her face between forwards. Save us from all dangers, Mother, especially the one where your icon degrades into a smear of warm pixels and we keep praying to the smear.",
+      "textRect": { "x": 0.08, "y": 0.42, "w": 0.84, "h": 0.5 },
+      "personRect": { "x": 0.12, "y": 0.08, "w": 0.76, "h": 0.4 }
+    },
+    {
+      "id": "p04",
+      "image": "assets/litany/litany-04.jpg",
+      "figure": "Standing Madonna and Child on a globe, blue robe, ring of apostles behind",
+      "arabic": "يا والدة الإله أنت هي الكرمة الحقيقية / الحاملة عنقود الحياة / نسألك أيتها المملوءة نعمة، مع الرسل / من أجل خلاص نفوسنا / صلاة الساعة الثالثة",
+      "literal": "O Mother of God, you are the true vine, the bearer of the cluster of life. We ask you, O full of grace, with the apostles, for the salvation of our souls. Prayer of the Third Hour.",
+      "note": "The true vine, the cluster of life - she is agricultural before she is heavenly, a woman who bore fruit and was then asked to be the orchard. The Third Hour: nine in the morning, when the office martyrs itself to email and the body forgets it is a body. Cluster of life, and I am one grape pressed thin. Salvation of our souls, plural, as if we travel in bunches, as if no one is saved alone, as if heaven were a harvest and not an exit.",
+      "textRect": { "x": 0.12, "y": 0.48, "w": 0.76, "h": 0.34 },
+      "personRect": { "x": 0.3, "y": 0.08, "w": 0.45, "h": 0.44 }
+    },
+    {
+      "id": "p05",
+      "image": "assets/litany/litany-05.jpg",
+      "figure": "Byzantine Hodegetria icon, dark-red maphorion, gold ground, framed border",
+      "arabic": "افتحي لنا باب / التحنن يا والدة / الإله المباركة / فإننا باتكالنا / عليك لا نخيب / وبك ننجو من / كل الشدائد / لأنك انت خلاص / للمسيحيين",
+      "literal": "Open for us the door of compassion, O blessed Mother of God, for in our reliance upon you we are not disappointed, and through you we are saved from all hardships, because you are the salvation for Christians.",
+      "note": "Open the door - as if compassion kept office hours, as if you could be locked out of mercy for arriving after five. A Byzantine door, gold and flat, no perspective, because in the icon nothing recedes; everything is equally near, equally now. We rely on you and are not disappointed: the lowest bar for love, and still we clear it rarely. Salvation for Christians - the qualifier that breaks me, the smallness of a god who had to be claimed by a tribe before he could be claimed by a body.",
+      "textRect": { "x": 0.55, "y": 0.06, "w": 0.42, "h": 0.88 },
+      "personRect": { "x": 0.03, "y": 0.04, "w": 0.49, "h": 0.9 }
+    },
+    {
+      "id": "p06",
+      "image": "assets/litany/litany-06.jpg",
+      "figure": "Madonna and Child cheek-to-cheek on the right; sunset landscape on the left",
+      "arabic": "السلام عليكِ / يا أمي الحبيبة / يا عروساً بتول / ملكة طاهرة بريئة / زادها الطهر / جمالاً و أصول / يا وردة الصُبح البهية / يا زهرة الكرمل / يا أنشودة الأمل / نلجئ إليكِ نشتاق لكِ / نمجدك و نطلب عونك / بلا ملل",
+      "literal": "Peace be upon you, O my beloved mother, O virgin bride, pure innocent queen - purity increased her in beauty and origin. O splendid rose of the morning, O flower of Carmel, O song of hope: we take refuge in you, we long for you, we glorify you and seek your help without weariness.",
+      "note": "السلام عليكِ - the greeting we share with the other half of the family, the Muslim half, the half that prays to no mother but salutes her all the same. A bride, a queen, a rose, a flower, a song: the litany piles names on her until she vanishes under them, the way we bury what we love in epithets so we never have to see its face plainly. Flower of Carmel, a mountain I have never climbed. We long for you without weariness, which is a lie - I am tired, Mother, and the longing is the tiredness, and the tiredness is the prayer.",
+      "textRect": { "x": 0.03, "y": 0.06, "w": 0.44, "h": 0.86 },
+      "personRect": { "x": 0.5, "y": 0.05, "w": 0.47, "h": 0.9 }
+    },
+    {
+      "id": "p07",
+      "image": "assets/litany/litany-07.jpg",
+      "figure": "Soft pastel Mary, downward gaze, pink lilies along the bottom",
+      "arabic": "إليك الورد يا مريم / يهدى مع اطلالة الصباح / بك يمتلىء نهارنا بالمحبة / والصلاة",
+      "literal": "To you the roses, O Mary, are offered with the break of morning. Through you our day is filled with love and prayer.",
+      "note": "Roses at the break of morning - cut flowers, which is to say flowers already dying, offered to a woman who is herself a cut flower, picked young by an angel. We give the dying to the deathless. Through you the day fills with love and prayer the way a glass fills, from the bottom, invisibly, until it spills and we name the spill grief. I have offered her nothing but this clicking. Mother, these are my roses: lossy, forwarded, wilting in the cache.",
+      "textRect": { "x": 0.1, "y": 0.5, "w": 0.8, "h": 0.45 },
+      "personRect": { "x": 0.15, "y": 0.0, "w": 0.8, "h": 0.5 }
+    },
+    {
+      "id": "p08",
+      "image": "assets/litany/litany-08.jpg",
+      "figure": "Sacred Heart Mary, white veil and blue robe, the face of Christ on her heart",
+      "arabic": "يا ملكة الارض والسماء / يا مريم العذراء / صلي لنا عند ابنك / تشفعي بِنَا / بحنانك اغمرينا / ومن الاخطار احمينا / امين",
+      "literal": "O queen of the earth and the sky, O Mary the Virgin, pray for us to your son, intercede for us, envelop us with your tenderness, and protect us from dangers. Amen.",
+      "note": "Queen of the earth and the sky, and of the one-bedroom in Jersey where her portrait hangs above the radiator, warping in the heat. Intercede - the job of the mother in every Arab household: to carry the message to the father who will not be addressed directly. You do not pray to the son; you pray to her, and she leans over and whispers it to him at the table, and he pretends it was his own idea. Envelop us in your tenderness. Radiator-warm. Cheap-frame-gold. Amen, which means safe.",
+      "textRect": { "x": 0.3, "y": 0.12, "w": 0.65, "h": 0.62 },
+      "personRect": { "x": 0.1, "y": 0.06, "w": 0.7, "h": 0.55 }
+    },
+    {
+      "id": "p09",
+      "image": "assets/litany/litany-09.jpg",
+      "figure": "Mary in profile, head bowed, a single large red rose at her side",
+      "arabic": "نسألك يا رب يوماً / مباركاً مقدساً هادئاً / مملوءا بمراحمك / صباح الخير",
+      "literal": "We ask You, O Lord, for a day - blessed, holy, calm, filled with Your mercies. Good morning.",
+      "note": "A calm day - the most radical prayer in a body raised on apocalypse. Not glory, not rapture, not the Torah on fire: just calm, just a Tuesday that does not detonate. The rose leans into her profile like a child who has learned the cheek is the safest part of the mother. Fill the day with mercies, small ones, rose-sized, the size of a forwarded good-morning from someone who does not know how else to say she is still alive. صباح الخير. It means: I woke. It means: did you?",
+      "textRect": { "x": 0.04, "y": 0.06, "w": 0.55, "h": 0.34 },
+      "personRect": { "x": 0.45, "y": 0.2, "w": 0.5, "h": 0.6 }
+    },
+    {
+      "id": "p10",
+      "image": "assets/litany/litany-10.jpg",
+      "figure": "Immaculate Heart Mary, arms open, sunset landscape (lower resolution)",
+      "arabic": "كل عيد إنتقال / إمنا العذراء بالنفس / والجسد إلى السماء / وأنتم بألف خير / وينعاد على الجميع / بالصحة والبركة / والمحبة و السلام",
+      "literal": "Every feast of the assumption of our mother the Virgin, in soul and body, to heaven - and may you be in a thousand goodnesses, and may it return upon everyone with health and blessing and love and peace.",
+      "note": "Body and soul to heaven - the one doctrine I envy, that she did not have to leave her body behind like a coat at the door. Everyone else decomposes; she was lifted whole, taken up like a screenshot before it could pixelate. كل عام وأنتم بخير, every feast a greeting that loops, the same words sent and resent until they mean only we are still on each other's lists. Health, blessing, love, peace, in that order - the order of an aunt who knows what the body needs before it needs the soul.",
+      "textRect": { "x": 0.1, "y": 0.42, "w": 0.8, "h": 0.5 },
+      "personRect": { "x": 0.25, "y": 0.06, "w": 0.5, "h": 0.4 }
+    },
+    {
+      "id": "p11",
+      "image": "assets/litany/litany-11.jpg",
+      "figure": "Immaculate Heart Mary in a sunset landscape, exposed glowing heart (lower resolution)",
+      "arabic": "امرأة فاضلة من يجدها ؟ لأن ثمنها يفوق اللآلئ / الأمثال 31 / من أحقّ منكِ / بالشكر يوم عيد / الأم أمومتك نبع / حب",
+      "literal": "A virtuous woman, who can find her? For her price exceeds pearls. Proverbs 31. Who is more deserving than you of thanks on Mother's Day; your motherhood is a spring of love.",
+      "note": "Proverbs 31 - the verse fathers quote to praise the labor they will not share. Her price exceeds pearls, which is still a way of pricing her, of setting the priceless on the shelf beside the pearls to see which one moves. Mother's Day in the Arab world is March, not May; we pray on our own calendar, off by two months from the empire. A spring of love, نبع, water that does not know it is being drawn from, that gives until the village forgets the spring has a floor. My mother sends me the Virgin. The Virgin is how she says the thing she cannot say in her own voice.",
+      "textRect": { "x": 0.1, "y": 0.62, "w": 0.8, "h": 0.3 },
+      "personRect": { "x": 0.25, "y": 0.2, "w": 0.5, "h": 0.45 }
+    }
+  ]
 }

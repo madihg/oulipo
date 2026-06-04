@@ -44,7 +44,11 @@ authored against the contract, then integrated, tested, and visually verified.
 
 ## Session State
 
-- Status: v3 built + visually verified; tests being rewritten (agent). The redesign:
+- Status: v3 COMPLETE - built, visually verified, all gates green (29 unit,
+  html-validate, purity 4/4, 192 e2e across mobile/desktop/reduced-motion), and
+  committed + merged to main via PR #30 (no drift: votive-patina tree hash
+  30ef88cd identical across local main, origin/main, and the worktree commit). The
+  redesign:
   (1) quiet landing - h1 "Votive Patina" + one poem line; ALL framing/chrome + the
   pasted Substack essay moved into an About modal behind a subtle "?" (lib/about.js;
   .site-head/.site-foot removed). (2) ONE bilingual button `#prayer-button` cycles
@@ -63,10 +67,21 @@ authored against the contract, then integrated, tested, and visually verified.
 - console-prayer.js now exports ARABIC_LINES + fullBilingualPrayer(); INVITE removed.
   lib/litany.js DELETED (replaced by constellation + lightbox). data/content.json
   litany array = 11 units; assets/litany/litany-12.jpg + -13.jpg removed.
-- Bug fixed in v3: constellation `wide` used `stage.clientWidth` on a DOMRect
-  (undefined) -> always mobile layout on desktop; fixed to `stage.width`. Also: the
-  ring radius is capped to the stage width so satellites never overflow; an early
-  layout() before the card is sized is guarded + re-run on rAF.
+- Bugs fixed in v3:
+  - constellation `wide` used `stage.clientWidth` on a DOMRect (undefined) -> always
+    mobile layout on desktop; fixed to `stage.width`. Ring radius capped to the stage
+    width; early layout() before the card is sized is guarded + re-run on rAF.
+  - LIGHTBOX boxes collapsed to 0x0: renderBoxes.layout() reads overlayEl.clientWidth,
+    which is 0 when the flex-centred lightbox first opens, so every box got 0 size and
+    never recovered (un-clickable). Fix: re-layout on a ResizeObserver(canvas) + rAF in
+    lib/lightbox.js, disconnected on close.
+  - MOBILE horizontal overflow -> phone zoom-out -> displaced fixed "?" toggle (ALL 9
+    mobile About tests failed). Root cause: the narrow constellation fanned satellites
+    at +/-0.62rad over distances up to ry\*2.86, flinging them ~+/-480px sideways past
+    the 390px viewport. Fix: narrow geometry now places 3 bounded downward threads
+    (colDx capped to halfW-52) that stay inside the stage; html also gets overflow-x:clip.
+  - About scrim-dismiss e2e clicked the panel-covered centre of the scrim; now clicks an
+    exposed backdrop corner ({position:{x:5,y:5}}).
 - Built by several parallel agents (decay engine + unit tests, placeholder assets +
   fonts, generative scaffold, test harness) against DESIGN.md; core (index.html,
   styles.css, main.js, console-prayer.js, boxes.js) authored by hand.
@@ -83,11 +98,11 @@ authored against the contract, then integrated, tested, and visually verified.
      made aria-hidden box labels pointer-events:none, and reordered boxes.json so
      arabic-line boxes render LAST (topmost = reliably clickable).
 - Preview: `.claude/launch.json` has a "votivepatina" server (npm run serve, :4178).
-- v2 NOT committed yet (worktree). The earlier placeholder build merged to main as
-  PR #29; the real-images + interactive-litany rewrite is uncommitted in the worktree
-  pending Halim's voice-review of the 13 notes, then commit/PR/merge/sync.
-- Raw source folder `assets/mary-pictures/` (Halim's 15 dropped originals) sits
-  untracked in the MAIN checkout; the piece uses curated clean-named copies. Decide
-  at commit whether to keep or drop the raw folder.
+- v2 + v3 are COMMITTED + MERGED (PR #30, squash commit f8b04566). The earlier
+  placeholder build was PR #29. Local main fast-forwarded; tree hashes verified equal.
+- Raw source folder `assets/mary-pictures/` (Halim's 15 dropped originals) is LEFT
+  UNTRACKED in the MAIN checkout - it is source material, not the shipped artwork
+  (the piece ships curated clean-named copies litany-01..11 + mary-interactive). Not
+  committed; revisit only if Halim wants the originals preserved in-repo.
 - Still pending from Halim: the Substack URL (`<SUBSTACK_URL>` placeholder); optional
   licensed Arabic display face (Amiri bundled, OFL); and his nod on the 13 notes.

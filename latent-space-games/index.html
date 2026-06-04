@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Latent Space Games — oulipo.xyz</title>
+    <meta
+      name="description"
+      content="Three browser games played inside a language model's embedding space - mapping words by similarity, hunting a hidden word by semantic distance, and feeding memories to a forgetful bot."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
+    />
+    <link rel="stylesheet" href="/Assets/css/shared.css?v=36" />
+    <style>
+      body.lab {
+        margin: 0;
+        background: #fff;
+        color: rgba(0, 0, 0, 0.85);
+        font-family: "Standard", -apple-system, BlinkMacSystemFont, sans-serif;
+        line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      .lab-wrap { max-width: 1100px; margin: 0 auto; padding: 2rem 2rem 5rem; }
+      .mono {
+        font-family: "Diatype Mono Variable", ui-monospace, monospace;
+        font-variation-settings: "slnt" 0, "MONO" 1;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+      .lab-top { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+      .lab-mark { font-size: 0.8rem; color: rgba(0, 0, 0, 0.5); }
+      .lab-back {
+        font-size: 0.8rem;
+        color: rgba(0, 0, 0, 0.85);
+        text-decoration: none;
+        border: 1px solid rgba(0, 0, 0, 0.85);
+        padding: 0.45rem 0.8rem;
+      }
+      .lab-back:hover { opacity: 0.7; }
+      .lsg-title {
+        font-family: "Terminal Grotesque", "Standard", sans-serif;
+        font-weight: 400;
+        font-size: 5rem;
+        line-height: 0.9;
+        letter-spacing: -0.01em;
+        margin: 2.5rem 0 0;
+      }
+      .lsg-intro { max-width: 60ch; margin-top: 1.5rem; }
+      .lsg-intro p { margin: 0 0 1rem; }
+      .lsg-games {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2rem;
+        margin-top: 3.5rem;
+      }
+      .lsg-game { display: flex; flex-direction: column; border-top: 4px solid #f6009b; }
+      .lsg-game__thumb { margin: 0; aspect-ratio: 16 / 10; overflow: hidden; border: 1px solid rgba(0,0,0,0.12); }
+      .lsg-game__thumb img {
+        width: 100%; height: 100%; object-fit: cover; display: block;
+        filter: grayscale(100%); transition: filter 0.5s ease;
+      }
+      .lsg-game:hover .lsg-game__thumb img { filter: grayscale(0%); }
+      .lsg-game__title {
+        font-family: "Diatype Variable", "Standard", sans-serif;
+        font-weight: 700; font-size: 1.3rem; margin: 0.75rem 0 0.25rem;
+      }
+      .lsg-game__desc { color: rgba(0, 0, 0, 0.6); font-size: 0.96rem; line-height: 1.35; margin-bottom: 0.7rem; }
+      .lsg-game__launch { margin-top: auto; }
+      .lsg-game__launch a { font-size: 0.8rem; color: rgba(0,0,0,0.85); }
+      .lsg-foot { margin-top: 4rem; font-size: 0.8rem; color: rgba(0, 0, 0, 0.5); }
+      .lsg-foot a { color: rgba(0, 0, 0, 0.85); }
+      @media (max-width: 900px) {
+        .lsg-games { grid-template-columns: 1fr; }
+        .lsg-title { font-size: 3.2rem; }
+      }
+    </style>
+  </head>
+  <body class="lab">
+    <div class="lab-wrap">
+      <div class="lab-top">
+        <span class="lab-mark mono">oulipo.xyz</span>
+        <a class="lab-back mono" href="/">Kitchen Lab</a>
+      </div>
+
+      <h1 class="lsg-title">Latent Space Games</h1>
+
+      <div class="lsg-intro">
+        <p>A language model holds every word it knows in a high-dimensional
+          space. Nearby points mean nearby meanings. We never get to stand inside
+          that space - it has hundreds of dimensions and no doors. These three
+          small games are doors.</p>
+        <p>Each one takes the same hidden machinery - sentence embeddings running
+          entirely in your browser - and turns it into something you can touch.
+          One maps words by how close they sit. One hides a word and lets you
+          hunt it by warmth. One asks a bot to remember what you feed it, and
+          watches it fumble. Together they are a way of playing with how a
+          machine thinks it understands us.</p>
+      </div>
+
+      <div class="lsg-games">
+        <article class="lsg-game">
+          <figure class="lsg-game__thumb">
+            <img src="/Assets/images/latent-space-games/embeddings-experiment.png" alt="Embedding Space - a word-similarity map" loading="lazy" />
+          </figure>
+          <h2 class="lsg-game__title">Embedding Space</h2>
+          <p class="lsg-game__desc">Type words and watch them scatter. The first word anchors the center, the rest land by cosine similarity.</p>
+          <div class="lsg-game__launch mono"><a href="https://embeddings-experiment.vercel.app" target="_blank" rel="noopener">Play &#x2197;</a></div>
+        </article>
+
+        <article class="lsg-game">
+          <figure class="lsg-game__thumb">
+            <img src="/Assets/images/latent-space-games/embeddings-battleship.png" alt="Semantic Battleship - a guessing game in vector space" loading="lazy" />
+          </figure>
+          <h2 class="lsg-game__title">Semantic Battleship</h2>
+          <p class="lsg-game__desc">Hunt a hidden word by meaning. Semantic distance is the sonar, and warmer guesses sink the ship.</p>
+          <div class="lsg-game__launch mono"><a href="https://embeddings-battleship.vercel.app" target="_blank" rel="noopener">Play &#x2197;</a></div>
+        </article>
+
+        <article class="lsg-game">
+          <figure class="lsg-game__thumb">
+            <img src="/Assets/images/latent-space-games/monster-meme-memory.png" alt="Monster Meme Memory - a forgetful memory bot" loading="lazy" />
+          </figure>
+          <h2 class="lsg-game__title">Monster Meme Memory</h2>
+          <p class="lsg-game__desc">Feed a bot memories and talk to it. A small study of machine memory and how clumsily it recalls.</p>
+          <div class="lsg-game__launch mono"><a href="https://monster-meme-memory.vercel.app" target="_blank" rel="noopener">Play &#x2197;</a></div>
+        </article>
+      </div>
+
+      <div class="lsg-foot mono">
+        A Kitchen Lab series by <a href="https://www.halimmadi.com">Halim Madi</a>
+      </div>
+    </div>
+  </body>
+</html>

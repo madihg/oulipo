@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>Votive Patina - operator</title>
+    <link rel="stylesheet" href="../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../stage.css" />
+  </head>
+  <body>
+    <main class="stage" id="admin">
+      <header class="station-line">
+        <span class="station-translit">Votive Patina - operator console</span>
+      </header>
+
+      <p class="stage-banner" id="transport-banner" hidden></p>
+
+      <section class="admin-grid">
+        <div class="admin-row">
+          <label for="n-input">Audience size (N)</label>
+          <input
+            id="n-input"
+            type="number"
+            min="1"
+            value="12"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="admin-row">
+          <label for="threshold-input">Peaces per station</label>
+          <input
+            id="threshold-input"
+            type="number"
+            min="1"
+            value="12"
+            inputmode="numeric"
+          />
+        </div>
+        <div class="admin-row">
+          <label>Connected audience</label>
+          <span class="admin-state" id="presence-count">0</span>
+        </div>
+        <div class="admin-row" style="border: none">
+          <button class="admin-btn" id="begin-btn" type="button">Begin</button>
+          <button
+            class="admin-btn"
+            id="reset-btn"
+            type="button"
+            data-variant="danger"
+          >
+            Reset
+          </button>
+        </div>
+      </section>
+
+      <section>
+        <p class="stage-readout">
+          <b id="peace-count">0</b> people passed the peace
+        </p>
+        <pre class="admin-state" id="state-readout">joining...</pre>
+      </section>
+
+      <p class="stage-banner">
+        Audience joins at: <span id="audience-url"></span>
+      </p>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

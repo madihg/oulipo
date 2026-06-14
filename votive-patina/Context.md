@@ -44,6 +44,30 @@ authored against the contract, then integrated, tested, and visually verified.
 
 ## Session State
 
+- votivepatina-STAGE (live performance layer) - IN PROGRESS (PRD:
+  tasks/prd-votivepatina-stage.md). A staged multi-device layer over the piece: 3
+  surfaces (performer = main page `?stage=performer`; `/audience`; `/admin`) synced
+  live over Supabase Realtime (oulipo_main, per-session channel; offline loopback
+  transport for tests). The audience "passes the peace" (one deliberate phone motion,
+  magnitude-based + debounce + dedupe per device per station; manual button fallback);
+  crossing the per-station threshold (PASSES_PER_STATION, default = N, set in admin)
+  advances the station, reveals the next on-image translation, lights the next thread,
+  and wears the image one JPEG generation. 5 stations = the 5 prayer lines + Halim's
+  narration + directional prompts (data/stations.json). decayGen 0..5 = fully worn at
+  "Amin". ADMIN is the single authority (owns the reducer lib/perf-state.js);
+  performer + audience are renderers. Modules: lib/{perf-state,realtime,realtime-config,
+  stage,motion,performer,qr}.js + stage.css + admin/ + audience/. Purity RELAXED to
+  allow Supabase (esm.sh + \*.supabase.co only; all other remote hosts + analytics still
+  blocked; probe-verified). test:unit pinned --test-concurrency=1 (node v25 IPC flake).
+  DONE + tested: US-001 (purity+realtime), US-002 (stations), US-003 (reducer),
+  US-004 (sync), US-005 (performer + 5 threads), US-006 (audience), US-007 (motion),
+  US-008 (admin), US-009 (advance), US-011 QR + "?" controls, US-012 dry-run + docs.
+  Gates green: 53 unit, lint (3 pages), purity, 216+ e2e. REMAINING: US-010 (move the
+  MAIN-page translation onto the image as a dismissible overlay - the audience already
+  has this; the main page still shows .translation-panel below) and the SUBJECTIVE
+  US-011 remainder (Halim's "pray for us button + fonts drifted" on the main page -
+  needs his specific direction). Authority = admin deviates from the PRD's "performer
+  or admin" wording, chosen for resilience (projected performer screen can reload).
 - Status: v3 COMPLETE - built, visually verified, all gates green (29 unit,
   html-validate, purity 4/4, 192 e2e across mobile/desktop/reduced-motion), and
   committed + merged to main via PR #30 (no drift: votive-patina tree hash

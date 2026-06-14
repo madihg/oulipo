@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="robots" content="noindex" />
+    <title>Votive Patina - pass the peace</title>
+    <link rel="stylesheet" href="../assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="../styles.css" />
+    <link rel="stylesheet" href="../stage.css" />
+  </head>
+  <body>
+    <!-- entry gate: a user gesture is required to ask iOS for motion permission -->
+    <section class="join-gate" id="join-gate">
+      <h1>Votive Patina</h1>
+      <p class="join-note">
+        my mother sends me a picture of the Virgin Mary on WhatsApp
+      </p>
+      <button class="peace-btn" id="join-btn" type="button">
+        <span class="pb-en">Tap to join</span>
+        <span class="pb-ar" lang="ar" dir="rtl">انضمّ</span>
+      </button>
+      <p class="join-note" id="join-status"></p>
+    </section>
+
+    <!-- the live, synced view -->
+    <main class="stage" id="live" hidden>
+      <p class="stage-banner" id="transport-banner" hidden></p>
+
+      <p class="stage-readout">
+        <b id="peace-count">0</b> people passed the peace
+      </p>
+
+      <div class="stage-image-wrap" id="image-wrap">
+        <canvas
+          class="stage-canvas"
+          id="stage-mary"
+          width="675"
+          height="1200"
+          role="img"
+          aria-label="the Virgin Mary, wearing as the room prays"
+        ></canvas>
+        <!-- dismissible on-image overlay: the station line + the movement prompt -->
+        <div class="img-overlay" id="overlay" hidden>
+          <button
+            class="img-overlay-close"
+            id="overlay-close"
+            type="button"
+            aria-label="dismiss"
+          >
+            &times;
+          </button>
+          <div class="station-line">
+            <span class="station-translit" id="ov-translit"></span>
+            <span
+              class="station-arabic"
+              id="ov-arabic"
+              lang="ar"
+              dir="rtl"
+            ></span>
+            <span class="station-english" id="ov-english"></span>
+          </div>
+          <p class="station-prompt" id="ov-prompt"></p>
+        </div>
+      </div>
+
+      <p class="station-prompt" id="phase-note"></p>
+
+      <div style="text-align: center">
+        <button class="peace-btn" id="peace-btn" type="button" disabled>
+          <span class="pb-en">Pass the peace</span>
+          <span class="pb-ar" lang="ar" dir="rtl">سلّم</span>
+        </button>
+        <p class="peace-flash" id="peace-flash" role="status"></p>
+      </div>
+    </main>
+
+    <script type="module" src="audience.js"></script>
+  </body>
+</html>

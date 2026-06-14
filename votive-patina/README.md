@@ -53,6 +53,12 @@ Shipped artwork: `index.html`, `styles.css`, `main.js`,
 `assets/*`. Fully client-side and offline-capable - nothing about the visitor leaves
 the device (the answered-prayer copy uses the local clipboard only).
 
+Shipped live-performance layer (votivepatina-stage): `stage.css`, `admin/`,
+`audience/`, `lib/{perf-state,realtime,stage,motion,performer,qr}.js`,
+`lib/realtime-config.js`, `data/stations.json`. This layer DOES talk to the network
+(Supabase Realtime + the QR encoder from esm.sh) and is reached only via the
+`/admin`, `/audience`, and `?stage=performer` routes - the plain art page stays offline.
+
 Not shipped: `package.json`, `tests/`, `scripts/`, `playwright.config.mjs`, and the
 **optional generative layer** (`lib/generative-expansion.js` + `experimental/`),
 which is OFF by default and never imported by the artwork. It lets the machine
@@ -71,10 +77,59 @@ call, which breaks the offline/no-surveillance principle, so it lives only in
   Swap in a licensed Arabic display face if desired.
 - The Substack link was removed - the essay now lives in the About modal.
 
+## Live performance (votivepatina-stage)
+
+A staged, multi-device layer sits on top of the piece for live shows. Three
+surfaces stay in sync over **Supabase Realtime** (broadcast + presence on a
+per-session channel); the audience (on a Zoom grid) drives it by "passing the
+peace" - one deliberate phone gesture each. The score is five stations (the five
+prayer lines, each with narration + a directional prompt, in `data/stations.json`);
+crossing a per-station threshold advances the station, reveals the next on-image
+translation, lights the next thread of light, and wears the image one generation of
+JPEG decay - so it is fully worn by "Amin".
+
+Surfaces (the session id is the `?s=` param; the audience scans the QR):
+
+- **Performer** - `/?stage=performer&s=<id>` : the main page in stage mode. A pure
+  renderer of the channel - the decaying icon, the active station (line + narration),
+  five threads of light lit per completed station, the live "{N} passed the peace"
+  readout, and the top-right `[ SHOW QR ] [ ? ]` controls.
+- **Audience** - `/audience/?s=<id>` : phone-first. Tap to join (grants iOS motion),
+  then the synced image with the station line + movement prompt as a dismissible
+  on-image overlay, and pass-the-peace by motion (or the always-present button).
+- **Admin** - `/admin/?s=<id>` : the operator console and the single **authority**
+  (it owns the reducer). Set N and the per-station threshold (default = N) live,
+  begin, reset between shows, and watch presence + the live state.
+
+Channel contract (`lib/realtime.js`): the admin broadcasts `state`
+`{ peaceCount, stationIndex, decayGen, threadsLit, threshold, started, finale, ... }`;
+the audience sends `peace` `{ deviceId, stationIndex }`. Peaces are deduped per device
+per station, in the pure reducer `lib/perf-state.js`.
+
+Run a local rehearsal: `npm run serve`, open `/admin/?s=demo`, `/?stage=performer&s=demo`,
+and `/audience/?s=demo` (set N + threshold, Begin, pass). For tests, append
+`&rt=loopback` to use an offline BroadcastChannel transport (no network).
+
+**Show-day iOS checklist**: the audience link must be HTTPS (Vercel is fine);
+"Tap to join" is the gesture that lets iOS grant `DeviceMotionEvent` permission; if a
+phone denies it, the on-screen "Pass the peace" button is the fallback.
+
+**Note on purity**: the stage layer uses Supabase Realtime, so `verify:purity` is
+relaxed to allow exactly the Supabase client (esm.sh) + `*.supabase.co`, and STILL
+blocks every other remote host and analytics. The offline art page makes no network
+call unless it is loaded in `?stage=performer`.
+
 ## Map
 
 - `DESIGN.md` - the original build contract (tokens, DOM selectors, module specs).
 - `Context.md` - living project notes (incl. the v3 redesign + bugs fixed).
+- `tasks/prd-votivepatina-stage.md` - the PRD for the live-performance layer.
+- `lib/perf-state.js` - the pure performance-state reducer (threshold + dedupe).
+- `lib/realtime.js` - the Supabase + offline-loopback transport (one channel/show).
+- `lib/stage.js` - the controller (admin authority; performer/audience renderers).
+- `lib/motion.js` - "pass the peace": deliberate-motion detection + iOS permission.
+- `lib/performer.js` - performer stage mode (renderer of the channel) + QR/about.
+- `lib/qr.js` - the QR encoder (loaded on demand for the operator surfaces).
 - `lib/decay.js` - generational JPEG-loss engine (Canvas 2D, deterministic).
 - `lib/console-prayer.js` - the bilingual scripture + single source of truth for
   every prayer string; mirrored (not duplicated) into the faux-console drawer.

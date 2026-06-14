@@ -10,6 +10,7 @@
 import { createStage } from "../lib/stage.js";
 import { createDecayEngine } from "../lib/decay.js";
 import { requestMotionPermission, createShakeDetector } from "../lib/motion.js";
+import { printLine, printFull } from "../lib/console-prayer.js";
 
 const params = new URLSearchParams(location.search);
 const sessionId = params.get("s") || "live";
@@ -68,11 +69,25 @@ async function setupDecay() {
   engine.renderStep(0, { animate: false });
 }
 
+let printedUpTo = 0;
+let printedFull = false;
+
 function renderState(s) {
   lastState = s;
   els.peaceCount.textContent = String(s.peaceCount ?? 0);
   if (engine) {
     engine.renderStep(Math.min(s.decayGen ?? 0, MAX_STEP), { animate: false });
+  }
+
+  // print the prayer to the console as each station completes (same as the piece)
+  const completed = Math.min(s.stationIndex ?? 0, MAX_STEP);
+  while (printedUpTo < completed) {
+    printLine(printedUpTo);
+    printedUpTo += 1;
+  }
+  if (s.finale && !printedFull) {
+    printedFull = true;
+    printFull();
   }
 
   // A station change resets the per-station dedupe and re-shows the overlay.

@@ -17,6 +17,7 @@ import { createStage } from "./stage.js";
 import { createDecayEngine } from "./decay.js";
 import { setupAbout } from "./about.js";
 import { qrSvg } from "./qr.js";
+import { printLine, printFull } from "./console-prayer.js";
 
 export async function setupPerformer({
   sessionId = "live",
@@ -78,12 +79,27 @@ export async function setupPerformer({
 
   setupAccessControls(sessionId);
 
+  // The prayer prints to the real console as each station completes - the same
+  // scripture the main page writes when you pray. Guarded so it prints once.
+  let printedUpTo = 0;
+  let printedFull = false;
+
   function render(s) {
     if (els.count) els.count.textContent = String(s.peaceCount ?? 0);
     engine.renderStep(Math.min(s.decayGen ?? 0, stationCount), {
       animate: false,
     });
     lightThreads(els.threads, s.threadsLit ?? 0);
+
+    const completed = Math.min(s.stationIndex ?? 0, stationCount);
+    while (printedUpTo < completed) {
+      printLine(printedUpTo);
+      printedUpTo += 1;
+    }
+    if (s.finale && !printedFull) {
+      printedFull = true;
+      printFull();
+    }
 
     const phase = s.finale ? "finale" : s.started ? "active" : "preroll";
     document.body.dataset.phase = phase;

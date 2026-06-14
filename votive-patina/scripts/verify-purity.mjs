@@ -95,10 +95,34 @@ const NETWORK_PATTERNS = [
   "EventSource(",
 ];
 
-// fetch()/import() pointing at an absolute remote URL (http:, https:, or the
-// protocol-relative //host form). Same-origin relative paths (./ , ../ , /data)
-// do not match.
-const REMOTE_CALL_RE = /\b(?:fetch|import)\s*\(\s*[`'"]\s*(?:https?:)?\/\//;
+// The live-performance layer (votivepatina-stage) is allowed exactly ONE remote
+// dependency: the Supabase Realtime client, loaded as an ESM module from esm.sh
+// and talking to the project's *.supabase.co endpoint. Every OTHER remote host
+// stays forbidden, so analytics/tracker CDNs are still caught. (The art's offline
+// principle is relaxed for Supabase only, by design - see the stage PRD.)
+const ALLOWED_REMOTE_HOSTS = [
+  "esm.sh", // ESM CDN serving @supabase/supabase-js
+  /(?:^|\.)supabase\.co$/, // the realtime endpoint (any subdomain)
+];
+
+// A remote reference in shipped JS: fetch("url") / import("url") / import ... from
+// "url", for an absolute (http:, https:) or protocol-relative (//host) URL.
+// Same-origin relative paths (./ , ../ , /data) never match.
+const REMOTE_REF_RE =
+  /(?:\b(?:fetch|import)\s*\(\s*|\bfrom\s+)[`'"]\s*((?:https?:)?\/\/[^`'"\s]+)/gi;
+
+function hostOf(url) {
+  return String(url)
+    .replace(/^(?:https?:)?\/\//, "")
+    .split(/[/?#]/)[0]
+    .toLowerCase();
+}
+
+function hostAllowed(host) {
+  return ALLOWED_REMOTE_HOSTS.some((a) =>
+    a instanceof RegExp ? a.test(host) : a === host,
+  );
+}
 
 function getShippedJsFiles() {
   const files = [];
@@ -114,6 +138,15 @@ function getShippedJsFiles() {
       if (!f.endsWith(".js")) continue;
       if (f === "generative-expansion.js") continue;
       files.push(path.join(libDir, f));
+    }
+  }
+
+  // the live-performance surfaces (votivepatina-stage) ship their own page JS
+  for (const sub of ["admin", "audience", "performer"]) {
+    const dir = path.join(ROOT, sub);
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir)) {
+      if (f.endsWith(".js")) files.push(path.join(dir, f));
     }
   }
 
@@ -140,8 +173,14 @@ function checkNoNetworkCalls() {
         hits.push(pattern);
       }
     }
-    if (REMOTE_CALL_RE.test(source)) {
-      hits.push("remote fetch()/import() to an absolute URL");
+    // Remote refs are allowed only to the Supabase allowlist; flag anything else.
+    REMOTE_REF_RE.lastIndex = 0;
+    let mm;
+    while ((mm = REMOTE_REF_RE.exec(source)) !== null) {
+      const host = hostOf(mm[1]);
+      if (!hostAllowed(host)) {
+        hits.push(`remote reference to ${host}`);
+      }
     }
 
     if (hits.length > 0) {

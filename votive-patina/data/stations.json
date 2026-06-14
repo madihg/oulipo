@@ -1,0 +1,54 @@
+{
+  "_note": "The live-performance score for votivepatina-stage. Five stations, each a prayer line (translit + arabic + english gloss), Halim's long-form narration (performer screen), and a directional movement prompt (audience phone). One station = one generation of JPEG decay, so the image is fully worn by 'Amin'. arabic[] mirrors lib/console-prayer.js ARABIC_LINES.",
+  "preroll": {
+    "narration": "On most days of the week I wake up to an image of the Virgin Mary in my WhatsApp. My mother sent a jpeg of the mother of the lord, edited, plastered, reimagined. And AI slop has not spared the mother of the lord. I've gotten versions of this image with Ghiblified Maries, or Mary as a Pixar child. For migrants who belong to a religious community, these images are a rosary of sorts only instead of the bead one finger passes to another, we forward pixels. And as if the mother of god knew that she now travels in a new realm, something happens every time her body is passed on from phone to phone.",
+    "cue": "Scan this QR code"
+  },
+  "stations": [
+    {
+      "index": 1,
+      "translit": "FI KHOUDNIKI KHOUZINA",
+      "arabic": "بحضنك خذينا",
+      "english": "Into your bosom take us",
+      "narration": "Embrace us. Also ingest us. Metabolize us. Your body both child-eater and church. I remember the old ladies chanting from the top of their lungs in the church my grandfather took me to every single day of summer vacation in the country side. The incense smuggling god into my lungs, which is the closest you can get to the heart through the nose. Embrace us. Mary, ingest us. Your stomach acids dissolving our defenses. Drill this faith into our bones until these masks become skin.",
+      "prompt": "Raise your phone and move your arm to the right. Pass the image to the person whose Zoom square is to your right. The image fades and pixelizes. As it is in heaven so shall it be on the Internet. With every forward, the image loses resolution you see. But not resolve, digital Mary might be a lesson in how things might melt without losing heart.",
+      "direction": "right"
+    },
+    {
+      "index": 2,
+      "translit": "WA 3AN KOULLI CHARREN 2EB3IDINA",
+      "arabic": "وعن كل شر ابعدينا",
+      "english": "And keep us away from all evil",
+      "narration": "And keep us away from all evil, which means move us. Remove our bodies from risky territory. Evil is imagined as conquest, as outsider - a snake, a criminal, a mosquito, a dictator, a dog with rabies. but never a cancer. Never the body assaulting itself. Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves. Mary, keep us away from that too. The skin inside our skins. Move us away, deeper this time, into what must be the heart.",
+      "prompt": "Let's raise our hands, waive to the left this time. Pass the image of the mother of god to the Zoom square on your left. Mary, my body is nothing if not movement, if not the gesture of stretching, a lexicon of fortified surrender.",
+      "direction": "left"
+    },
+    {
+      "index": 3,
+      "translit": "YA OUM YASSOU3",
+      "arabic": "يا أم يسوع",
+      "english": "O mother of Jesus",
+      "narration": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come. Hard to birth a boy with a death drive. Love his body and wish your touch could add a growth ring to his skin, make it thick, hard enough to bend the iron nails of an empire.",
+      "prompt": "Raise your phone and move your arm to the top. Which is impossible in reality because no one levitates above you at church but is possible here. There's a story about how the pelican feeds its children its skin to the point where it dies the day it dies, the kid says, oh good i was sick of eating the same thing. The moral of the story is you're an asshole and you should call your mom.",
+      "direction": "up"
+    },
+    {
+      "index": 4,
+      "translit": "TACHAFA3I FINA",
+      "arabic": "تشفعي فينا",
+      "english": "Intercede for us",
+      "narration": "Intercede for us. Pray for us, but really pray to your son. Mary the middle woman. Mary, tell the boy we've been talking to him won't you. Won't you Mary, we've been in line for days and it doesn't let and you got your ways with him we know. Won't you, won't you Mary.",
+      "prompt": "Raise your phone and move your arm to the bottom. The ground this time.",
+      "direction": "down"
+    },
+    {
+      "index": 5,
+      "translit": "AMIN",
+      "arabic": "أمين",
+      "english": "Amen",
+      "narration": "which is Hebrew and Arabic for trustworthy. Also safe. Also the name of my grandmother's neighbor, my childhood classmate. Amin. Amen. A man kneels before a white statue whose eyes begin to water. This is not the opening for a joke nor a tale. The water is olive oil, the oil is blood with clots. The church where the man is kneeling is for sale and the Virgin knows. Her body is a shield, metal banging steel. Virgin Mary, sacred robot, Pokemon Go: Your womb is an empty ball to catch them all. Hollow Eve, now with a human inside.",
+      "prompt": "Place the phone against your heart.",
+      "direction": "heart"
+    }
+  ]
+}

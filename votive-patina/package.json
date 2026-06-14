@@ -6,9 +6,9 @@
   "type": "module",
   "scripts": {
     "serve": "node scripts/serve.mjs",
-    "test:unit": "node --test tests/unit/*.test.mjs",
+    "test:unit": "node --test --test-concurrency=1 tests/unit/*.test.mjs",
     "test:e2e": "playwright test",
-    "lint:html": "html-validate index.html",
+    "lint:html": "html-validate index.html admin/index.html audience/index.html",
     "verify:purity": "node scripts/verify-purity.mjs",
     "test": "npm run test:unit && npm run lint:html && npm run verify:purity && npm run test:e2e"
   },

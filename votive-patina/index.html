@@ -24,6 +24,9 @@
     />
     <link rel="stylesheet" href="assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- stage.css adds the live-performance styles (performer stage mode); it only
+         adds new classes + strengthens [hidden], so the normal page is unchanged -->
+    <link rel="stylesheet" href="stage.css" />
   </head>
   <body>
     <!-- About: a quiet question mark, top-right -->
@@ -287,6 +290,84 @@
       </div>
       <div class="console-body"></div>
     </section>
+
+    <!-- performer stage mode: the projected screen for a live performance. Hidden
+         by default; revealed (and the normal pray UI hidden) only when the page is
+         loaded with ?stage=performer. Driven entirely by the live channel. -->
+    <div class="performer-stage" id="performer-stage" hidden>
+      <header class="perf-head">
+        <h1 class="perf-title">Votive Patina</h1>
+        <p class="stage-readout">
+          <b id="perf-count">0</b> people passed the peace
+        </p>
+        <p class="stage-banner" id="perf-banner" hidden></p>
+      </header>
+
+      <div class="perf-body">
+        <div class="perf-image-wrap">
+          <canvas
+            class="perf-canvas"
+            id="perf-canvas"
+            width="675"
+            height="1200"
+            role="img"
+            aria-label="the Virgin Mary, wearing as the room prays"
+          ></canvas>
+        </div>
+
+        <div class="perf-text" id="perf-text">
+          <div class="station-line">
+            <span class="station-translit" id="perf-translit"></span>
+            <span
+              class="station-arabic"
+              id="perf-arabic"
+              lang="ar"
+              dir="rtl"
+            ></span>
+            <span class="station-english" id="perf-english"></span>
+          </div>
+          <p class="station-narration" id="perf-narration"></p>
+        </div>
+      </div>
+
+      <div class="perf-threads" id="perf-threads" aria-hidden="true"></div>
+    </div>
+
+    <!-- access control: SHOW QR (the "?" about button sits to its right). Shown
+         only in performer stage mode. -->
+    <button
+      type="button"
+      class="stage-qr-btn"
+      id="stage-qr-btn"
+      hidden
+      aria-haspopup="dialog"
+      aria-controls="qr-overlay"
+    >
+      <span class="qr-glyph" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 7 7">
+          <path
+            fill="currentColor"
+            d="M0 0h3v3H0V1h1v1h1V1H1V0zM4 0h3v3H4V1h1v1h1V1H5V0zM0 4h3v3H0V5h1v1h1V5H1V4zM4 4h1v1H4zM6 4h1v1H6zM5 5h1v1H5zM4 6h1v1H4zM6 6h1v1H6z"
+          />
+        </svg>
+      </span>
+      Show QR
+    </button>
+
+    <!-- the QR overlay: a big scannable code + the join URL -->
+    <div
+      class="qr-overlay"
+      id="qr-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="join by QR"
+      hidden
+    >
+      <p class="qr-caption">Scan to join the prayer</p>
+      <div class="qr-code" id="qr-code"></div>
+      <p class="qr-url" id="qr-url"></p>
+      <button class="admin-btn" id="qr-close" type="button">close</button>
+    </div>
 
     <script type="module" src="main.js"></script>
   </body>

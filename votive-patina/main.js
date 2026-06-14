@@ -93,6 +93,16 @@ const els = {}; // cached DOM references
 boot().catch((err) => console.error("votivepatina failed to start:", err));
 
 async function boot() {
+  // Performer stage mode: a live-performance projection of this page, driven by
+  // the realtime channel. Loaded ONLY on demand, so normal visitors never pull in
+  // the stage/realtime layer and the offline page stays offline.
+  const params = new URLSearchParams(location.search);
+  if (params.get("stage") === "performer") {
+    const { setupPerformer } = await import("./lib/performer.js");
+    await setupPerformer({ sessionId: params.get("s") || "live" });
+    return;
+  }
+
   cacheEls();
   document.body.dataset.reducedMotion = reducedMotion ? "1" : "0";
   document.body.dataset.coarsePointer = coarsePointer ? "1" : "0";

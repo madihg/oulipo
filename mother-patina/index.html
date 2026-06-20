@@ -22,8 +22,39 @@
     />
     <link rel="stylesheet" href="assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
+    <!-- pick lock screen vs chat before paint, so neither flashes -->
+    <script>
+      document.documentElement.classList.add(
+        new URLSearchParams(location.search).has("screen")
+          ? "is-chat"
+          : "is-lock",
+      );
+    </script>
   </head>
   <body>
+    <!-- the landing: a phone lock screen. tap to open the conversation. -->
+    <section class="lock" id="lock">
+      <div class="lock-veil" aria-hidden="true"></div>
+      <div class="lock-top">
+        <time class="lock-clock" id="lock-clock">6:03</time>
+        <div class="lock-date" id="lock-date"></div>
+      </div>
+      <button class="lock-notif" id="lock-open" type="button">
+        <span class="lock-notif-head">
+          <span class="lock-notif-avatar" aria-hidden="true"></span>
+          <b>Maman</b>
+          <i>now</i>
+        </span>
+        <span class="lock-notif-title"
+          >Every day my mother sends me a picture of the Virgin Mary on
+          WhatsApp</span
+        >
+        <span class="lock-notif-sub"
+          >Every day my mother sends me a WhatsApp</span
+        >
+      </button>
+      <div class="lock-hint">tap to open</div>
+    </section>
     <div class="phone">
       <header class="chat-head">
         <span class="chat-back" aria-hidden="true">&#8249;</span>

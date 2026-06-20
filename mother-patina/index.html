@@ -11,6 +11,19 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!-- resolve relative assets (css/js/images) whether or not the URL has a
+         trailing slash, so /mother-patina and /mother-patina/ both work. Must run
+         before the stylesheet/script links below. -->
+    <script>
+      (function () {
+        var p = location.pathname,
+          b;
+        if (p.charAt(p.length - 1) === "/") b = p;
+        else if (/\.[a-z0-9]+$/i.test(p)) b = p.replace(/[^/]*$/, "");
+        else b = p + "/";
+        document.write('<base href="' + b + '">');
+      })();
+    </script>
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"

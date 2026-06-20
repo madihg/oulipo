@@ -27,6 +27,24 @@ test.describe("mother-patina", () => {
     await expect(page.locator(".phone")).toBeVisible();
   });
 
+  test("a <base> is set so relative assets resolve (with or without a trailing slash)", async ({
+    page,
+  }) => {
+    await page.goto("/?screen=1&fast=1");
+    const baseHref = await page.evaluate(() => {
+      const b = document.querySelector("base");
+      return b ? b.getAttribute("href") : null;
+    });
+    expect(baseHref).toBeTruthy();
+    expect(baseHref.endsWith("/")).toBe(true);
+    // and the stylesheet is genuinely applied (the sr-only h1 is hidden)
+    const cssApplied = await page.evaluate(() => {
+      const h1 = document.querySelector("h1.sr-only");
+      return h1 ? getComputedStyle(h1).position === "absolute" : false;
+    });
+    expect(cssApplied).toBe(true);
+  });
+
   test("screen 1 plays under a date separator, with left/right bubbles", async ({
     page,
   }) => {

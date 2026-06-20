@@ -1,0 +1,72 @@
+<!--
+       +
+       +
+   +++++++++
+       +        mother-patina
+
+   she travels now as .jpeg, phone to phone, window to window. the prayer is a
+   chat; the chat forwards itself. keep these comments. do not minify the prayer.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    />
+    <title>mother</title>
+    <meta
+      name="description"
+      content="my mother sends me a picture of the Virgin Mary on WhatsApp - a conversation that forwards itself."
+    />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="phone">
+      <header class="chat-head">
+        <span class="chat-back" aria-hidden="true">&#8249;</span>
+        <span class="chat-avatar" aria-hidden="true"></span>
+        <span class="chat-who">
+          <b class="chat-name">Maman</b>
+          <i class="chat-status" id="chat-status">online</i>
+        </span>
+      </header>
+
+      <main
+        class="thread"
+        id="thread"
+        aria-live="polite"
+        aria-label="conversation"
+      ></main>
+
+      <!-- jump-to-latest, shown only when the reader has scrolled up -->
+      <button class="jump-latest" id="jump-latest" type="button" hidden>
+        &#8595; latest
+      </button>
+
+      <!-- the forward: an in-app notification that opens the next screen on tap -->
+      <button
+        class="notif"
+        id="notif"
+        type="button"
+        hidden
+        aria-label="Maman sent you an image - open"
+      >
+        <span class="notif-avatar" aria-hidden="true"></span>
+        <span class="notif-body">
+          <b>Maman</b>
+          <span>sent you an image</span>
+        </span>
+        <span class="notif-cue" aria-hidden="true">open &rsaquo;</span>
+      </button>
+
+      <footer class="chat-foot" aria-hidden="true">
+        <span class="foot-input">Message</span>
+      </footer>
+    </div>
+
+    <script type="module" src="chat.js"></script>
+  </body>
+</html>

@@ -1,0 +1,235 @@
+{
+  "_note": "mother-patina conversation script. 5 screens; each opens with user b forwarding the Mary image, then the prayer line as arabic / translit (chat-Latin, 7 for the throaty h) / english, then a poetic back-and-forth. from: a = reader (right/sent), b = left/incoming, system = centered. kind: image | arabic | translit | text. gen = JPEG decay generation for that screen's image.",
+  "image": "assets/mary-interactive.jpg",
+  "screens": [
+    {
+      "screen": 1,
+      "gen": 0,
+      "messages": [
+        { "from": "b", "kind": "image" },
+        { "from": "b", "kind": "arabic", "text": "بحضنك خذينا" },
+        { "from": "b", "kind": "translit", "text": "FI 7OUDNIKI KHOUZINA" },
+        { "from": "b", "kind": "text", "text": "Into your bosom take us" },
+        { "from": "b", "kind": "text", "text": "Embrace us." },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Also ingest us. Metabolize us."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Your body both child-eater and church."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "I remember the old ladies chanting from the top of their lungs in the church my grandfather took me to every single day of summer vacation in the country side. The incense smuggling god into my lungs, which is the closest you can get to the heart through the nose."
+        },
+        { "from": "b", "kind": "text", "text": "Embrace us. Mary, ingest us." },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Your stomach acids dissolve our defenses. Drill this faith into our bones until these masks become skin."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "this is a story of submission"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "this is a story of translation"
+        }
+      ]
+    },
+    {
+      "screen": 2,
+      "gen": 1,
+      "messages": [
+        { "from": "b", "kind": "image" },
+        { "from": "b", "kind": "arabic", "text": "وعن كل شر ابعدينا" },
+        {
+          "from": "b",
+          "kind": "translit",
+          "text": "WA 3AN KOULLI CHARREN 2EB3IDINA"
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "And keep us away from all evil"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "which means move us. Remove our bodies from risky territory."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Evil imagined as conquest, as outsider - a snake, a criminal, a mosquito, a dictator, a dog with rabies. but never a cancer. Never the body assaulting itself. Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "Mary, keep us away from that too."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "The skin inside our skins. Move us away, deeper this time, into what must be the heart."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "this is a story of translation"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "translation its own performance of loss, decay and failed approximation"
+        },
+        { "from": "b", "kind": "text", "text": "i'm trying to call you" },
+        { "from": "a", "kind": "text", "text": "i missed you" }
+      ]
+    },
+    {
+      "screen": 3,
+      "gen": 2,
+      "messages": [
+        { "from": "b", "kind": "image" },
+        { "from": "b", "kind": "arabic", "text": "يا أم يسوع" },
+        { "from": "b", "kind": "translit", "text": "YA OUM YASSOU3" },
+        { "from": "b", "kind": "text", "text": "mother of Jesus." },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Hard to birth a boy with a death drive."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "Love his body and wish your touch could add a growth ring to his skin, make it thick, hard enough to bend the iron nails of an empire."
+        },
+        { "from": "b", "kind": "text", "text": "this is a story of loss" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "and transmission. every forward of mary glitches her likeness"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "the jpeg lossy, the pixels falling"
+        },
+        { "from": "b", "kind": "text", "text": "but she knows" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "she is multiplying, scattering"
+        },
+        { "from": "b", "kind": "text", "text": "the network is the prayer" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "the golden threads of bandwidth"
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "fiber optic whispers ocean deep"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "the ghost relics of transmission. this is a story of"
+        },
+        { "from": "b", "kind": "text", "text": "submission" },
+        { "from": "a", "kind": "text", "text": "invasion" }
+      ]
+    },
+    {
+      "screen": 4,
+      "gen": 3,
+      "messages": [
+        { "from": "b", "kind": "image" },
+        { "from": "b", "kind": "arabic", "text": "تشفعي فينا" },
+        { "from": "b", "kind": "translit", "text": "TACHAFA3I FINA" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Intercede for us. Pray for us"
+        },
+        { "from": "b", "kind": "text", "text": "but really pray to your son." },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Mary the middle woman. Mary, tell the boy we've been talking to him won't you. Won't you Mary, we've been in line for days and it doesn't let and you got your ways with him we know."
+        },
+        { "from": "a", "kind": "text", "text": "Won't you, won't you Mary." },
+        { "from": "b", "kind": "text", "text": "this is a song" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "a maximalist attempt at echoing through invisibility"
+        },
+        { "from": "b", "kind": "text", "text": "contagion" }
+      ]
+    },
+    {
+      "screen": 5,
+      "gen": 4,
+      "messages": [
+        { "from": "b", "kind": "image" },
+        { "from": "b", "kind": "arabic", "text": "أمين" },
+        { "from": "b", "kind": "translit", "text": "AMIN" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "which is Hebrew and Arabic for trustworthy. Also safe."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "Also the name of my grandmother's neighbor, my childhood classmate."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Amin. Amen. A man kneels before a white statue whose eyes begin to water. This is not the opening for a joke nor a tale. The water is olive oil, the oil is blood with clots."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "The church where the man is kneeling is for sale and the Virgin knows. Her body is a shield, metal banging steel."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Virgin Mary, sacred robot, Pokemon Go: Your womb is an empty ball to catch them all. Hollow Eve, now with a human inside."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "epiphany weaved into the gene"
+        },
+        { "from": "a", "kind": "text", "text": "encoded, decoded" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "biology humming the womb's song"
+        },
+        { "from": "b", "kind": "text", "text": "I tried to call you" },
+        { "from": "a", "kind": "text", "text": "I missed you" },
+        { "from": "a", "kind": "text", "text": "I miss you" },
+        { "from": "b", "kind": "text", "text": "habibi" }
+      ]
+    }
+  ]
+}

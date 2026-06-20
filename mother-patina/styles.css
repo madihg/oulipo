@@ -1,0 +1,325 @@
+/* ─────────────────────────────────────────────────────────────────────────────
+   mother-patina / styles.css
+
+   A WhatsApp thread, faithful enough to be recognisable: a light header, the
+   beige chat field, white incoming bubbles, green sent bubbles, tails, tiny
+   timestamps. The prayer line is set apart - Arabic in naskh, the chat-Latin
+   transliteration letter-spaced. Each window is a phone. No external requests.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  --wa-head: #f0f2f5;
+  --wa-field: #efeae2;
+  --wa-in: #ffffff;
+  --wa-out: #d9fdd3;
+  --wa-ink: #111b21;
+  --wa-meta: #667781;
+  --wa-rule: rgba(0, 0, 0, 0.12);
+  --wa-accent: #25d366;
+  --wa-teal: #008069;
+  --font-chat:
+    "Helvetica Neue", Helvetica, -apple-system, "Segoe UI", Roboto, Arial,
+    sans-serif;
+  --font-arabic:
+    "Amiri", "Noto Naskh Arabic", "Geeza Pro", "Times New Roman", serif;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+
+body {
+  background: #d6d2cb;
+  font-family: var(--font-chat);
+  color: var(--wa-ink);
+  -webkit-font-smoothing: antialiased;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* each window is a phone-width column */
+.phone {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--wa-field);
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── header ── */
+.chat-head {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.8rem;
+  background: var(--wa-head);
+  border-bottom: 1px solid var(--wa-rule);
+}
+.chat-back {
+  font-size: 1.5rem;
+  color: var(--wa-meta);
+  line-height: 1;
+}
+.chat-avatar,
+.notif-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 35%, #cdbb9a, #8a7b63) no-repeat;
+  flex: 0 0 auto;
+  background-size: cover;
+  background-image: url("assets/mary-interactive.jpg");
+  background-position: 50% 22%;
+}
+.chat-who {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+.chat-name {
+  font-size: 1rem;
+  font-weight: 600;
+}
+.chat-status {
+  font-style: normal;
+  font-size: 0.78rem;
+  color: var(--wa-meta);
+}
+
+/* ── thread (scrollable) ── */
+.thread {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 0.8rem 0.7rem 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background-color: var(--wa-field);
+  /* a faint paper tone, no external doodle pattern (offline) */
+  background-image: radial-gradient(rgba(0, 0, 0, 0.015) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* ── bubbles ── */
+.msg {
+  max-width: 78%;
+  padding: 0.4rem 0.6rem 0.34rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  line-height: 1.34;
+  position: relative;
+  word-wrap: break-word;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+  animation: pop 180ms var(--ease);
+}
+.msg .meta {
+  display: block;
+  text-align: right;
+  font-size: 0.64rem;
+  color: var(--wa-meta);
+  margin-top: 0.1rem;
+}
+.msg.in {
+  align-self: flex-start;
+  background: var(--wa-in);
+  border-top-left-radius: 1px;
+}
+.msg.out {
+  align-self: flex-end;
+  background: var(--wa-out);
+  border-top-right-radius: 1px;
+}
+
+/* the prayer line, set apart */
+.msg.arabic {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: right;
+  font-size: 1.45rem;
+  line-height: 1.5;
+  color: #2a140c;
+}
+.msg.translit {
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #3a4a52;
+}
+
+/* image bubble (the forwarded Mary) */
+.msg.image {
+  padding: 0.22rem 0.22rem 0.3rem;
+  max-width: 72%;
+}
+.msg.image canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+}
+
+/* centered system note (date / "someone joined" treatment) */
+.sys {
+  align-self: center;
+  background: #e8e6df;
+  color: #54656f;
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  padding: 0.25rem 0.7rem;
+  border-radius: 8px;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.1);
+  margin: 0.3rem 0;
+  text-align: center;
+}
+
+/* typing indicator */
+.typing {
+  align-self: flex-start;
+  background: var(--wa-in);
+  border-radius: 8px;
+  border-top-left-radius: 1px;
+  padding: 0.55rem 0.7rem;
+  display: inline-flex;
+  gap: 4px;
+  box-shadow: 0 1px 0.5px rgba(0, 0, 0, 0.13);
+}
+.typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #9aa6ac;
+  animation: blink 1.2s infinite both;
+}
+.typing i:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.typing i:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+/* ── jump to latest ── */
+.jump-latest {
+  position: absolute;
+  right: 0.8rem;
+  bottom: 4.4rem;
+  z-index: 5;
+  border: none;
+  background: var(--wa-in);
+  color: var(--wa-teal);
+  font-family: var(--font-chat);
+  font-size: 0.78rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+/* ── the forward notification ── */
+.notif {
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  top: 0.7rem;
+  z-index: 8;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: left;
+  padding: 0.6rem 0.7rem;
+  border: none;
+  border-radius: 12px;
+  background: #ffffff;
+  box-shadow: 0 6px 22px rgba(0, 0, 0, 0.28);
+  cursor: pointer;
+  animation: drop 320ms var(--ease);
+}
+.notif-body {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+  flex: 1 1 auto;
+}
+.notif-body b {
+  font-size: 0.92rem;
+}
+.notif-body span {
+  font-size: 0.82rem;
+  color: var(--wa-meta);
+}
+.notif-cue {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--wa-teal);
+}
+
+/* ── fake input bar ── */
+.chat-foot {
+  flex: 0 0 auto;
+  padding: 0.5rem 0.7rem;
+  background: var(--wa-head);
+  border-top: 1px solid var(--wa-rule);
+}
+.foot-input {
+  display: block;
+  background: #fff;
+  border-radius: 20px;
+  padding: 0.5rem 0.9rem;
+  color: #9aa6ac;
+  font-size: 0.9rem;
+}
+
+@keyframes pop {
+  from {
+    transform: translateY(6px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes drop {
+  from {
+    transform: translateY(-14px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+@keyframes blink {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+  }
+  30% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .msg,
+  .notif {
+    animation: none;
+  }
+  .typing i {
+    animation: none;
+    opacity: 0.6;
+  }
+}

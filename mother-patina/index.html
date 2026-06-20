@@ -80,9 +80,9 @@
     <div class="phone">
       <header class="chat-head">
         <span class="chat-back" aria-hidden="true">&#8249;</span>
-        <span class="chat-avatar" aria-hidden="true"></span>
+        <span class="chat-avatar" id="chat-avatar" aria-hidden="true"></span>
         <span class="chat-who">
-          <b class="chat-name">Maman</b>
+          <b class="chat-name" id="chat-name">Maman</b>
           <i class="chat-status" id="chat-status">online</i>
         </span>
       </header>
@@ -94,20 +94,27 @@
         &#8595; latest
       </button>
 
-      <!-- the forward: an in-app notification that opens the next screen on tap -->
+      <!-- the forward: how the next screen arrives - a notification, a forward
+           button, a burst of messages, or "Save the prayer". Set per screen. -->
       <button
         class="notif"
         id="notif"
         type="button"
         hidden
-        aria-label="Maman sent you an image - open"
+        aria-label="continue"
       >
-        <span class="notif-avatar" aria-hidden="true"></span>
+        <span class="notif-avatar" id="notif-avatar" aria-hidden="true"></span>
         <span class="notif-body">
-          <b>Maman</b>
-          <span>sent you an image</span>
+          <b id="notif-title">Maman</b>
+          <span id="notif-sub">new message</span>
         </span>
-        <span class="notif-cue" aria-hidden="true">open &rsaquo;</span>
+        <span
+          class="notif-badge"
+          id="notif-badge"
+          aria-hidden="true"
+          hidden
+        ></span>
+        <span class="notif-cue" id="notif-cue" aria-hidden="true">open</span>
       </button>
 
       <footer class="chat-foot" aria-hidden="true">

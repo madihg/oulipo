@@ -328,29 +328,29 @@ function forwardNext() {
   const absolute = location.origin + relative;
   els.notif.hidden = true;
 
-  // Only a real desktop browser floats a new window / opens a tab. Phones,
-  // tablets, and in-app webviews (the WhatsApp / Instagram browsers, where this
-  // piece is most likely opened) navigate IN PLACE: popups are blocked in
-  // webviews, and a new tab there just loses the thread.
-  const desktop = !coarse && window.innerWidth >= 760;
-  if (!desktop) {
+  // A real phone (touch, NO mouse) navigates in place - it cannot float windows
+  // and popups are blocked in the WhatsApp / Instagram in-app browsers.
+  if (isPhone()) {
     location.href = relative;
     return;
   }
 
+  // Desktop: a NEW TAB when the browser fills the screen (maximized / fullscreen -
+  // there is no room to float a window), otherwise a FLOATING WINDOW cascaded off
+  // this one. Triggered by the notif click (a user gesture), so it is not blocked.
   let win = null;
   try {
-    if (isFullscreen()) {
-      win = window.open(absolute, "_blank");
+    if (isExpanded()) {
+      win = window.open(absolute, "_blank"); // new tab
     } else {
-      const w = Math.min(460, (screen.availWidth || 1280) - 40);
-      const h = Math.min(840, (screen.availHeight || 800) - 60);
-      const left = (window.screenX || 0) + 70 + next * 34;
-      const top = (window.screenY || 0) + 40 + next * 26;
+      const w = 470;
+      const h = Math.min(900, (screen.availHeight || 900) - 60);
+      const left = (window.screenX ?? window.screenLeft ?? 0) + 64;
+      const top = (window.screenY ?? window.screenTop ?? 0) + 52;
       win = window.open(
         absolute,
         `mother-${next}`,
-        `popup,width=${w},height=${h},left=${left},top=${top}`,
+        `popup=yes,width=${w},height=${h},left=${left},top=${top}`,
       );
     }
   } catch {
@@ -362,26 +362,43 @@ function forwardNext() {
     location.href = relative;
     return;
   }
-  // a stub window some blockers close immediately -> also fall back
+  try {
+    win.focus();
+  } catch {
+    /* ignore */
+  }
+  // a stub window some blockers close immediately -> fall back
   setTimeout(() => {
     try {
       if (win.closed) location.href = relative;
     } catch {
       /* the opened window is fine; leave it */
     }
-  }, 500);
+  }, 600);
 }
 
-function isFullscreen() {
+// A touch device with no mouse (phone/tablet). Desktops have hover + a fine
+// pointer, so this is false for them even on a touchscreen laptop with a mouse.
+function isPhone() {
+  try {
+    return matchMedia("(hover: none) and (pointer: coarse)").matches;
+  } catch {
+    return coarse;
+  }
+}
+
+// The browser window fills the available screen (maximized or actual fullscreen),
+// so there is no room around it to float a new window -> open a tab instead.
+function isExpanded() {
   if (document.fullscreenElement) return true;
   try {
     if (matchMedia("(display-mode: fullscreen)").matches) return true;
   } catch {
     /* ignore */
   }
-  return (
-    window.innerHeight === screen.height && window.innerWidth === screen.width
-  );
+  const aw = screen.availWidth || window.innerWidth;
+  const ah = screen.availHeight || window.innerHeight;
+  return window.outerWidth >= aw - 16 && window.outerHeight >= ah - 16;
 }
 
 // ── helpers ─────────────────────────────────────────────────────────────────

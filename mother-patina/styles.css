@@ -13,7 +13,7 @@
   --wa-in: #ffffff;
   --wa-out: #d9fdd3;
   --wa-ink: #111b21;
-  --wa-meta: #667781;
+  --wa-meta: #556069;
   --wa-rule: rgba(0, 0, 0, 0.12);
   --wa-accent: #25d366;
   --wa-teal: #008069;
@@ -46,6 +46,18 @@ body {
   display: none !important;
 }
 
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 /* lock screen vs chat are chosen by an html class (set before paint) */
 .lock,
 .phone {
@@ -62,6 +74,7 @@ html.is-lock .lock {
 .phone {
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   max-width: 460px;
   margin: 0 auto;
   background: var(--wa-field);
@@ -76,6 +89,7 @@ html.is-lock .lock {
   align-items: center;
   gap: 0.6rem;
   padding: 0.55rem 0.8rem;
+  padding-top: calc(0.55rem + env(safe-area-inset-top));
   background: var(--wa-head);
   border-bottom: 1px solid var(--wa-rule);
 }
@@ -115,6 +129,7 @@ html.is-lock .lock {
   flex: 1 1 auto;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
   padding: 0.8rem 0.7rem 1.2rem;
   display: flex;
   flex-direction: column;
@@ -181,11 +196,15 @@ html.is-lock .lock {
   line-height: 0;
   border-radius: 6px;
   overflow: hidden;
+  max-height: 56vh; /* a very tall forward is cropped, not a full-screen banner */
 }
 .img-frame canvas {
   display: block;
   width: 100%;
   height: auto;
+  max-height: 56vh;
+  object-fit: cover;
+  object-position: 50% 20%; /* favour the face when a tall image is cropped */
 }
 .img-arabic {
   position: absolute;
@@ -209,7 +228,7 @@ html.is-lock .lock {
 .sys {
   align-self: center;
   background: #e8e6df;
-  color: #54656f;
+  color: #3f4d56;
   font-size: 0.72rem;
   letter-spacing: 0.02em;
   padding: 0.25rem 0.7rem;
@@ -255,7 +274,8 @@ html.is-lock .lock {
   color: var(--wa-teal);
   font-family: var(--font-chat);
   font-size: 0.78rem;
-  padding: 0.45rem 0.7rem;
+  padding: 0.5rem 0.8rem;
+  min-height: 36px;
   border-radius: 16px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   cursor: pointer;
@@ -266,7 +286,7 @@ html.is-lock .lock {
   position: absolute;
   left: 0.7rem;
   right: 0.7rem;
-  top: 0.7rem;
+  top: calc(0.7rem + env(safe-area-inset-top));
   z-index: 8;
   display: flex;
   align-items: center;
@@ -303,6 +323,7 @@ html.is-lock .lock {
 .chat-foot {
   flex: 0 0 auto;
   padding: 0.5rem 0.7rem;
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom));
   background: var(--wa-head);
   border-top: 1px solid var(--wa-rule);
 }
@@ -321,9 +342,11 @@ html.is-lock .lock {
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  height: 100dvh;
   max-width: 460px;
   margin: 0 auto;
-  padding: 4.5rem 1.4rem 2.5rem;
+  padding: calc(4.5rem + env(safe-area-inset-top)) 1.4rem
+    calc(2.5rem + env(safe-area-inset-bottom));
   overflow: hidden;
   cursor: pointer;
   color: #fff;
@@ -380,7 +403,8 @@ html.is-lock .lock {
   padding: 0.85rem 0.95rem;
   border: none;
   border-radius: 16px;
-  background: rgba(245, 245, 245, 0.82);
+  background: rgba(245, 245, 245, 0.86);
+  -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
   color: #111;
   cursor: pointer;
@@ -468,7 +492,8 @@ html.is-lock .lock {
 
 @media (prefers-reduced-motion: reduce) {
   .msg,
-  .notif {
+  .notif,
+  .lock-hint {
     animation: none;
   }
   .typing i {

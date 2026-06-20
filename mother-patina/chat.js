@@ -89,28 +89,47 @@ function setupLock() {
 // ── play a screen ───────────────────────────────────────────────────────────
 
 async function playScreen(screen) {
-  const messages = expandLong(screen.messages);
-  for (let i = 0; i < messages.length; i++) {
-    const m = messages[i];
+  const messages = expandLong(withArabic(screen));
+  try {
+    for (let i = 0; i < messages.length; i++) {
+      const m = messages[i];
 
-    if (!reduced && m.kind !== "image") {
-      if (m.from === "b") {
-        setStatus("typing…");
-        showTyping();
-        await wait(typingDelay(m));
-        hideTyping();
-        setStatus("online");
-      } else {
-        await wait(fast ? 8 : Math.min(700, 200 + words(m) * 30));
+      if (!reduced && m.kind !== "image") {
+        if (m.cont) {
+          // a continuation of a split message: it lands quickly, no typing beat
+          await wait(fast ? 6 : 300);
+        } else if (m.from === "b") {
+          setStatus("typing…");
+          showTyping();
+          await wait(typingDelay(m));
+          hideTyping();
+          setStatus("online");
+        } else {
+          await wait(fast ? 8 : Math.min(700, 200 + words(m) * 30));
+        }
       }
+
+      if (m.kind === "image") await addImage(m.from, screen);
+      else els.thread.appendChild(bubble(m));
+      autoScroll();
+
+      // a split part with more to come gets a short beat, not a full read pause
+      if (!reduced) await wait(m.hasNext ? (fast ? 6 : 360) : readDelay(m));
     }
-
-    if (m.kind === "image") await addImage(m.from, screen);
-    else els.thread.appendChild(bubble(m));
-    autoScroll();
-
-    if (!reduced) await wait(readDelay(m));
+  } finally {
+    // never leave the thread frozen on a "typing…" status / dangling dots
+    hideTyping();
+    setStatus("online");
   }
+}
+
+// the Arabic line appears BOTH over the image and as the first chat bubble
+function withArabic(screen) {
+  const msgs = screen.messages.slice();
+  if (screen.arabic) {
+    msgs.splice(1, 0, { from: "b", kind: "arabic", text: screen.arabic });
+  }
+  return msgs;
 }
 
 async function addImage(from, screen) {
@@ -142,23 +161,33 @@ async function addImage(from, screen) {
       img.addEventListener("error", r, { once: true });
     });
   }
-  canvas.width = img.naturalWidth || 600;
-  canvas.height = img.naturalHeight || 600;
+  // image failed to load: leave the frame empty rather than feed a 0px source
+  // into the decay engine (which would reject on a blank canvas)
+  if (!img.naturalWidth) return;
+  canvas.width = img.naturalWidth;
+  canvas.height = img.naturalHeight;
   const engine = createDecayEngine({
     canvas,
     sourceImage: img,
     maxStep: MAX_SCREEN,
   });
-  engine.renderStep(Math.min(screen.gen ?? 0, MAX_SCREEN), { animate: false });
+  engine
+    .renderStep(Math.min(screen.gen ?? 0, MAX_SCREEN), { animate: false })
+    .catch((e) => console.warn("decay failed:", e));
 }
 
 function bubble(m) {
   const node = document.createElement("div");
-  const extra = m.kind === "translit" ? " translit" : "";
+  const extra =
+    m.kind === "translit" ? " translit" : m.kind === "arabic" ? " arabic" : "";
   node.className = `msg ${m.from === "a" ? "out" : "in"}${extra}`;
   const body = document.createElement("span");
   body.className = "body";
   body.textContent = m.text;
+  if (m.kind === "arabic") {
+    body.lang = "ar";
+    body.dir = "rtl";
+  }
   node.appendChild(body);
   node.appendChild(meta());
   return node;
@@ -200,9 +229,15 @@ function expandLong(messages) {
   const out = [];
   for (const m of messages) {
     if (m.kind === "text") {
-      for (const part of splitDeep(m.text, pbody, 0)) {
-        out.push({ ...m, text: part });
-      }
+      const parts = splitDeep(m.text, pbody, 0);
+      parts.forEach((part, idx) => {
+        out.push({
+          ...m,
+          text: part,
+          cont: idx > 0, // 2nd+ part: lands quickly, no typing beat
+          hasNext: idx < parts.length - 1, // not the last: short pause after
+        });
+      });
     } else {
       out.push(m);
     }
@@ -213,7 +248,7 @@ function expandLong(messages) {
 
 function splitDeep(text, pbody, depth) {
   pbody.textContent = text;
-  if (depth >= 2 || lineCount(pbody) <= 4) return [text];
+  if (depth >= 3 || lineCount(pbody) <= 4) return [text];
   const cut = splitPoint(text);
   if (cut <= 0 || cut >= text.length) return [text];
   return [
@@ -226,9 +261,10 @@ function splitPoint(text) {
   const mid = Math.floor(text.length / 2);
   let cut = text.indexOf(". ", mid); // prefer a sentence boundary past the middle
   if (cut !== -1) return cut + 1;
-  cut = text.lastIndexOf(" ", mid); // else the nearest space
-  if (cut !== -1) return cut;
-  return text.indexOf(" ", mid);
+  cut = text.lastIndexOf(" ", mid); // else the nearest space before the middle
+  if (cut > 0) return cut;
+  cut = text.indexOf(" ", mid); // or after it
+  return cut > 0 ? cut : mid; // last resort: bisect (never return -1)
 }
 
 function lineCount(node) {
@@ -243,6 +279,7 @@ function showTyping() {
   const t = document.createElement("div");
   t.className = "typing";
   t.id = "typing";
+  t.setAttribute("aria-hidden", "true");
   t.innerHTML = "<i></i><i></i><i></i>";
   els.thread.appendChild(t);
   autoScroll();
@@ -263,6 +300,7 @@ function onScroll() {
 }
 function autoScroll() {
   if (stickToBottom) scrollToBottom(false);
+  else els.jump.hidden = false; // new content arrived while the reader is scrolled up
 }
 function scrollToBottom(force) {
   if (force) stickToBottom = true;
@@ -290,7 +328,12 @@ function forwardNext() {
   const absolute = location.origin + relative;
   els.notif.hidden = true;
 
-  if (coarse) {
+  // Only a real desktop browser floats a new window / opens a tab. Phones,
+  // tablets, and in-app webviews (the WhatsApp / Instagram browsers, where this
+  // piece is most likely opened) navigate IN PLACE: popups are blocked in
+  // webviews, and a new tab there just loses the thread.
+  const desktop = !coarse && window.innerWidth >= 760;
+  if (!desktop) {
     location.href = relative;
     return;
   }
@@ -313,10 +356,20 @@ function forwardNext() {
   } catch {
     win = null;
   }
+  // blocked outright -> navigate here so the piece never dead-ends
   if (!win) {
     console.warn("mother-patina: popup blocked, navigating in place");
     location.href = relative;
+    return;
   }
+  // a stub window some blockers close immediately -> also fall back
+  setTimeout(() => {
+    try {
+      if (win.closed) location.href = relative;
+    } catch {
+      /* the opened window is fine; leave it */
+    }
+  }, 500);
 }
 
 function isFullscreen() {

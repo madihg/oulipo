@@ -1,13 +1,13 @@
 {
-  "_note": "mother-patina conversation script. 5 screens; each opens with user b forwarding the Mary image, then the prayer line as arabic / translit (chat-Latin, 7 for the throaty h) / english, then a poetic back-and-forth. from: a = reader (right/sent), b = left/incoming, system = centered. kind: image | arabic | translit | text. gen = JPEG decay generation for that screen's image.",
-  "image": "assets/mary-interactive.jpg",
+  "_note": "mother-patina conversation script. Each screen opens with user b forwarding a DIFFERENT Virgin Mary image (text-free crop of a real forwarded jpeg) with the clean Arabic prayer line laid over it. Then the chat-Latin transliteration (7 for the throaty h) and the back-and-forth. from: a = reader (right/sent), b = left/incoming, system = centered. kind: image | translit | text. gen = JPEG decay generation. Long messages are split to <=4 lines at render. The date separator per screen is computed (the last 5 days - every day she sends).",
   "screens": [
     {
       "screen": 1,
       "gen": 0,
+      "image": "assets/mary-1.jpg",
+      "arabic": "بحضنك خذينا",
       "messages": [
         { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "arabic", "text": "بحضنك خذينا" },
         { "from": "b", "kind": "translit", "text": "FI 7OUDNIKI KHOUZINA" },
         { "from": "b", "kind": "text", "text": "Into your bosom take us" },
         { "from": "b", "kind": "text", "text": "Embrace us." },
@@ -47,9 +47,10 @@
     {
       "screen": 2,
       "gen": 1,
+      "image": "assets/mary-2.jpg",
+      "arabic": "وعن كل شر ابعدينا",
       "messages": [
         { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "arabic", "text": "وعن كل شر ابعدينا" },
         {
           "from": "b",
           "kind": "translit",
@@ -97,9 +98,10 @@
     {
       "screen": 3,
       "gen": 2,
+      "image": "assets/mary-3.jpg",
+      "arabic": "يا أم يسوع",
       "messages": [
         { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "arabic", "text": "يا أم يسوع" },
         { "from": "b", "kind": "translit", "text": "YA OUM YASSOU3" },
         { "from": "b", "kind": "text", "text": "mother of Jesus." },
         {
@@ -157,9 +159,10 @@
     {
       "screen": 4,
       "gen": 3,
+      "image": "assets/mary-4.jpg",
+      "arabic": "تشفعي فينا",
       "messages": [
         { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "arabic", "text": "تشفعي فينا" },
         { "from": "b", "kind": "translit", "text": "TACHAFA3I FINA" },
         {
           "from": "a",
@@ -185,9 +188,10 @@
     {
       "screen": 5,
       "gen": 4,
+      "image": "assets/mary-5.jpg",
+      "arabic": "أمين",
       "messages": [
         { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "arabic", "text": "أمين" },
         { "from": "b", "kind": "translit", "text": "AMIN" },
         {
           "from": "a",

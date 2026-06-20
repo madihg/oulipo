@@ -46,9 +46,20 @@ body {
   display: none !important;
 }
 
+/* lock screen vs chat are chosen by an html class (set before paint) */
+.lock,
+.phone {
+  display: none;
+}
+html.is-chat .phone {
+  display: flex;
+}
+html.is-lock .lock {
+  display: flex;
+}
+
 /* each window is a phone-width column */
 .phone {
-  display: flex;
   flex-direction: column;
   height: 100vh;
   max-width: 460px;
@@ -81,8 +92,8 @@ body {
   background: radial-gradient(circle at 50% 35%, #cdbb9a, #8a7b63) no-repeat;
   flex: 0 0 auto;
   background-size: cover;
-  background-image: url("assets/mary-interactive.jpg");
-  background-position: 50% 22%;
+  background-image: url("assets/mary-1.jpg");
+  background-position: 50% 18%;
 }
 .chat-who {
   display: flex;
@@ -160,16 +171,38 @@ body {
   color: #3a4a52;
 }
 
-/* image bubble (the forwarded Mary) */
+/* image bubble (the forwarded Mary, with the clean Arabic laid over it) */
 .msg.image {
   padding: 0.22rem 0.22rem 0.3rem;
-  max-width: 72%;
+  max-width: 74%;
 }
-.msg.image canvas {
+.img-frame {
+  position: relative;
+  line-height: 0;
+  border-radius: 6px;
+  overflow: hidden;
+}
+.img-frame canvas {
   display: block;
   width: 100%;
   height: auto;
-  border-radius: 6px;
+}
+.img-arabic {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.4rem 0.5rem 0.5rem;
+  font-family: var(--font-arabic);
+  direction: rtl;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.3;
+  color: #fff;
+  text-shadow:
+    0 1px 6px rgba(0, 0, 0, 0.85),
+    0 0 2px rgba(0, 0, 0, 0.9);
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0));
 }
 
 /* centered system note (date / "someone joined" treatment) */
@@ -282,6 +315,126 @@ body {
   font-size: 0.9rem;
 }
 
+/* ── the landing: a phone lock screen ── */
+.lock {
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 4.5rem 1.4rem 2.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  color: #fff;
+  text-align: center;
+}
+.lock-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: url("assets/mary-5.jpg");
+  background-size: cover;
+  background-position: 50% 30%;
+  filter: brightness(0.5) saturate(1.05);
+}
+.lock-veil::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.2) 35%,
+    rgba(0, 0, 0, 0.75)
+  );
+}
+.lock-top {
+  position: relative;
+  z-index: 1;
+  margin-bottom: auto;
+}
+.lock-clock {
+  display: block;
+  font-family: var(--font-chat);
+  font-weight: 200;
+  font-size: 4.6rem;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+.lock-date {
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  opacity: 0.92;
+  margin-top: 0.3rem;
+}
+.lock-notif {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+  text-align: left;
+  padding: 0.85rem 0.95rem;
+  border: none;
+  border-radius: 16px;
+  background: rgba(245, 245, 245, 0.82);
+  backdrop-filter: blur(14px);
+  color: #111;
+  cursor: pointer;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+}
+.lock-notif-head {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  color: #3a3a3a;
+}
+.lock-notif-head i {
+  font-style: normal;
+  color: #8a8a8a;
+  margin-left: auto;
+  font-size: 0.72rem;
+}
+.lock-notif-avatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: url("assets/mary-1.jpg") 50% 18% / cover;
+}
+.lock-notif-title {
+  font-family: var(--font-chat);
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.32;
+  color: #0c0c0c;
+}
+.lock-notif-sub {
+  font-size: 0.86rem;
+  color: #4a4a4a;
+}
+.lock-hint {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.4rem;
+  font-size: 0.82rem;
+  letter-spacing: 0.06em;
+  opacity: 0.85;
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
 @keyframes pop {
   from {
     transform: translateY(6px) scale(0.98);

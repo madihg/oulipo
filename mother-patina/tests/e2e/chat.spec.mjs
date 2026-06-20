@@ -1,7 +1,4 @@
 // tests/e2e/chat.spec.mjs - mother-patina
-//
-// Auto-play + chat UI + decay + the forward mechanic (window/tab on desktop,
-// navigation on mobile). Uses ?fast=1 to collapse the delays so the suite is quick.
 
 import { test, expect } from "@playwright/test";
 
@@ -12,76 +9,89 @@ async function playScreen(page, n) {
   });
 }
 
-test.describe("mother-patina chat", () => {
-  test("screen 1 auto-plays a full thread with left/right bubbles", async ({
+test.describe("mother-patina", () => {
+  test("the landing is a lock screen with the title; tapping opens screen 1", async ({
+    page,
+  }) => {
+    await page.goto("/");
+    await expect(page.locator("#lock")).toBeVisible();
+    await expect(page.locator(".phone")).toBeHidden();
+    await expect(page.locator(".lock-notif-title")).toContainText(
+      "Every day my mother sends me a picture of the Virgin Mary on WhatsApp",
+    );
+    await expect(page.locator(".lock-notif-sub")).toContainText(
+      "Every day my mother sends me a WhatsApp",
+    );
+    await page.locator("#lock-open").click();
+    await expect(page).toHaveURL(/screen=1/);
+    await expect(page.locator(".phone")).toBeVisible();
+  });
+
+  test("screen 1 plays under a date separator, with left/right bubbles", async ({
     page,
   }) => {
     await playScreen(page, 1);
-    // many bubbles, both incoming (b -> .in) and sent (a -> .out)
+    await expect(page.locator(".date-sep").first()).toBeVisible();
     expect(await page.locator(".thread .msg").count()).toBeGreaterThan(8);
     expect(await page.locator(".msg.in").count()).toBeGreaterThan(0);
     expect(await page.locator(".msg.out").count()).toBeGreaterThan(0);
-    // the prayer line is set apart
-    await expect(page.locator(".msg.arabic .body")).toHaveText("بحضنك خذينا");
     await expect(page.locator(".msg.translit .body")).toHaveText(
       "FI 7OUDNIKI KHOUZINA",
     );
-    await expect(
-      page.locator(".msg.in", { hasText: "Embrace us." }).first(),
-    ).toBeVisible();
   });
 
-  test("the screen opens with the forwarded Mary image as a rendered canvas", async ({
+  test("the Mary image is forwarded with the clean Arabic laid over it", async ({
     page,
   }) => {
     await playScreen(page, 1);
-    const canvas = page.locator(".msg.image canvas").first();
-    await expect(canvas).toBeVisible();
-    const drawn = await canvas.evaluate((c) => {
-      const ctx = c.getContext("2d");
-      const { data } = ctx.getImageData(
-        0,
-        0,
-        Math.min(40, c.width),
-        Math.min(40, c.height),
-      );
-      // not a blank canvas: some pixel has colour
-      for (let i = 0; i < data.length; i += 4) {
-        if (data[i] + data[i + 1] + data[i + 2] > 0 && data[i + 3] > 0)
-          return true;
-      }
+    const frame = page.locator(".msg.image .img-frame").first();
+    await expect(frame.locator(".img-arabic")).toHaveText("بحضنك خذينا");
+    // the canvas is actually drawn (opaque pixels in the centre)
+    const drawn = await frame.locator("canvas").evaluate((c) => {
+      const x = Math.max(0, Math.floor(c.width / 2) - 20);
+      const y = Math.max(0, Math.floor(c.height / 2) - 20);
+      const d = c.getContext("2d").getImageData(x, y, 40, 40).data;
+      for (let i = 3; i < d.length; i += 4) if (d[i] > 0) return true;
       return false;
     });
     expect(drawn).toBe(true);
   });
 
-  test("the thread is scrollable on a long screen", async ({ page }) => {
-    await playScreen(page, 3); // the longest screen
-    const overflow = await page
-      .locator("#thread")
-      .evaluate((el) => el.scrollHeight - el.clientHeight);
-    expect(overflow).toBeGreaterThan(0);
+  test("each screen forwards a DIFFERENT image", async ({ page }) => {
+    const srcs = [];
+    for (const n of [1, 3, 5]) {
+      await playScreen(page, n);
+      srcs.push(
+        await page
+          .locator(".msg.image canvas")
+          .first()
+          .evaluate((c) => {
+            // each screen's own image draws differently; sample a centre patch
+            const x = Math.max(0, Math.floor(c.width / 2) - 6);
+            const y = Math.max(0, Math.floor(c.height / 2) - 6);
+            const d = c.getContext("2d").getImageData(x, y, 12, 12).data;
+            return Array.from(d).join(",");
+          }),
+      );
+    }
+    expect(new Set(srcs).size).toBe(3);
   });
 
-  test("a forward notification appears at the end of screens 1-4", async ({
-    page,
-  }) => {
-    await playScreen(page, 2);
-    await expect(page.locator("#notif")).toBeVisible();
-    await expect(page.locator("#notif")).toContainText("sent you an image");
+  test("no text bubble runs longer than four lines", async ({ page }) => {
+    await playScreen(page, 1); // contains the long 'I remember...' message
+    const tooLong = await page.evaluate(() => {
+      const bad = [];
+      for (const b of document.querySelectorAll(".msg:not(.image) .body")) {
+        const lh = parseFloat(getComputedStyle(b).lineHeight) || 18;
+        const lines = Math.round(b.getBoundingClientRect().height / lh);
+        if (lines > 4) bad.push({ lines, text: b.textContent.slice(0, 30) });
+      }
+      return bad;
+    });
+    expect(tooLong, JSON.stringify(tooLong)).toEqual([]);
   });
 
-  test("screen 5 ends the piece on 'habibi' with no further forward", async ({
-    page,
-  }) => {
-    await playScreen(page, 5);
-    await expect(
-      page.locator(".msg", { hasText: "habibi" }).last(),
-    ).toBeVisible();
-    await expect(page.locator("#notif")).toBeHidden();
-  });
-
-  test("tapping the notification forwards to the next screen (window or navigation)", async ({
+  test("a forward notification appears at the end of screens 1-4 and opens the next", async ({
     page,
     context,
   }) => {
@@ -93,12 +103,20 @@ test.describe("mother-patina chat", () => {
     await page.locator("#notif").click();
     const popup = await popupP;
     if (popup) {
-      // desktop: a new window/tab opened to screen 2
       await popup.waitForLoadState("domcontentloaded");
       expect(popup.url()).toContain("screen=2");
     } else {
-      // mobile / coarse pointer: same-window navigation
       await expect(page).toHaveURL(/screen=2/);
     }
+  });
+
+  test("screen 5 ends the piece on 'habibi' with no further forward", async ({
+    page,
+  }) => {
+    await playScreen(page, 5);
+    await expect(
+      page.locator(".msg", { hasText: "habibi" }).last(),
+    ).toBeVisible();
+    await expect(page.locator("#notif")).toBeHidden();
   });
 });

@@ -1,11 +1,19 @@
 {
-  "_note": "mother-patina conversation script. Each screen opens with user b forwarding a DIFFERENT Virgin Mary image (text-free crop of a real forwarded jpeg) with the clean Arabic prayer line laid over it. Then the chat-Latin transliteration (7 for the throaty h) and the back-and-forth. from: a = reader (right/sent), b = left/incoming, system = centered. kind: image | translit | text. gen = JPEG decay generation. Long messages are split to <=4 lines at render. The date separator per screen is computed (the last 5 days - every day she sends).",
+  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. forward: how the next screen arrives.",
+  "image": "assets/mary.jpg",
+  "savedPrayer": "When my mother sends these images\nshe's saying something\nshe doesn't know how to say:\nMy son, my daughter, I am aging.\nThis faith is the buoy I know best.\nThese worn images are how I learned\nto say I love you.\n\nMother I know nothing\nof the architecture of your faith\nbut here are my ribs\nbent to hang\na hammock for us\n",
   "screens": [
     {
       "screen": 1,
+      "contact": "Maman",
+      "avatar": "assets/avatars/maman.svg",
       "gen": 0,
-      "image": "assets/mary-1.jpg",
       "arabic": "بحضنك خذينا",
+      "forward": {
+        "type": "notify",
+        "to": "Tantina Auntie",
+        "avatar": "assets/avatars/tantina.svg"
+      },
       "messages": [
         { "from": "b", "kind": "image" },
         { "from": "b", "kind": "translit", "text": "FI 7OUDNIKI KHOUZINA" },
@@ -22,11 +30,22 @@
           "text": "Your body both child-eater and church."
         },
         {
+          "from": "b",
+          "kind": "text",
+          "text": "Do you remember the older ladies chanting from the top of their lungs in the church your grandfather took you to every single day of summer vacation in the country side?"
+        },
+        {
           "from": "a",
           "kind": "text",
-          "text": "I remember the old ladies chanting from the top of their lungs in the church my grandfather took me to every single day of summer vacation in the country side. The incense smuggling god into my lungs, which is the closest you can get to the heart through the nose."
+          "text": "The incense smuggling god into my lungs,"
         },
-        { "from": "b", "kind": "text", "text": "Embrace us. Mary, ingest us." },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "which is the closest you can get to the heart through the nose."
+        },
+        { "from": "b", "kind": "text", "text": "Embrace us. Mary," },
+        { "from": "a", "kind": "text", "text": "Ingest us." },
         {
           "from": "a",
           "kind": "text",
@@ -40,15 +59,21 @@
         {
           "from": "a",
           "kind": "text",
-          "text": "this is a story of translation"
+          "text": "this is a story of transmission"
         }
       ]
     },
     {
       "screen": 2,
+      "contact": "Tantina Auntie",
+      "avatar": "assets/avatars/tantina.svg",
       "gen": 1,
-      "image": "assets/mary-2.jpg",
       "arabic": "وعن كل شر ابعدينا",
+      "forward": {
+        "type": "forward",
+        "to": "Oukhti Sis",
+        "avatar": "assets/avatars/sis.svg"
+      },
       "messages": [
         { "from": "b", "kind": "image" },
         {
@@ -61,15 +86,31 @@
           "kind": "text",
           "text": "And keep us away from all evil"
         },
+        { "from": "a", "kind": "text", "text": "Hi habibi" },
         {
-          "from": "a",
+          "from": "b",
           "kind": "text",
-          "text": "which means move us. Remove our bodies from risky territory."
+          "text": "It means move us. Remove our bodies from risky territory."
         },
         {
           "from": "a",
           "kind": "text",
-          "text": "Evil imagined as conquest, as outsider - a snake, a criminal, a mosquito, a dictator, a dog with rabies. but never a cancer. Never the body assaulting itself. Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves."
+          "text": "Evil imagined as conquest, as outsider"
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "A snake, a criminal, a mosquito, a dictator, a dog with rabies."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "but never a cancer. Never the body assaulting itself."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves."
         },
         {
           "from": "b",
@@ -84,12 +125,29 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "this is a story of translation"
+          "text": "this is a story of prostration"
+        },
+        { "from": "a", "kind": "text", "text": "or loss" },
+        { "from": "b", "kind": "text", "text": "Loss?" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "What we do here. Scaffolding English letters to build an Arabic bridge. English or \"Englizi\". Arablish and Arablizi."
         },
         {
           "from": "a",
           "kind": "text",
-          "text": "translation its own performance of loss, decay and failed approximation"
+          "text": "Translation its own performance of loss"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Both failed approximation and decay"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "the way this lossy jpeg fractures as it forwards through the family"
         },
         { "from": "b", "kind": "text", "text": "i'm trying to call you" },
         { "from": "a", "kind": "text", "text": "i missed you" }
@@ -97,18 +155,26 @@
     },
     {
       "screen": 3,
+      "contact": "Oukhti Sis",
+      "avatar": "assets/avatars/sis.svg",
       "gen": 2,
-      "image": "assets/mary-3.jpg",
       "arabic": "يا أم يسوع",
+      "forward": {
+        "type": "notify",
+        "to": "Khalo joj",
+        "avatar": "assets/avatars/khalo.svg"
+      },
       "messages": [
-        { "from": "b", "kind": "image" },
-        { "from": "b", "kind": "translit", "text": "YA OUM YASSOU3" },
-        { "from": "b", "kind": "text", "text": "mother of Jesus." },
+        { "from": "a", "kind": "image" },
+        { "from": "a", "kind": "translit", "text": "YA OUM YASSOU3" },
+        { "from": "a", "kind": "text", "text": "mother of Jesus." },
+        { "from": "a", "kind": "text", "text": "mum sent me this again." },
         {
-          "from": "a",
+          "from": "b",
           "kind": "text",
           "text": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come."
         },
+        { "from": "a", "kind": "text", "text": "lol" },
         {
           "from": "a",
           "kind": "text",
@@ -117,7 +183,12 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "Love his body and wish your touch could add a growth ring to his skin, make it thick, hard enough to bend the iron nails of an empire."
+          "text": "Love his body and wish your touch could add a growth ring to his skin"
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "make it thick, hard enough to bend the iron nails of an empire."
         },
         { "from": "b", "kind": "text", "text": "this is a story of loss" },
         {
@@ -132,7 +203,7 @@
         },
         { "from": "b", "kind": "text", "text": "but she knows" },
         {
-          "from": "a",
+          "from": "b",
           "kind": "text",
           "text": "she is multiplying, scattering"
         },
@@ -152,15 +223,22 @@
           "kind": "text",
           "text": "the ghost relics of transmission. this is a story of"
         },
-        { "from": "b", "kind": "text", "text": "submission" },
+        { "from": "b", "kind": "text", "text": "salvation?" },
         { "from": "a", "kind": "text", "text": "invasion" }
       ]
     },
     {
       "screen": 4,
+      "contact": "Khalo joj",
+      "avatar": "assets/avatars/khalo.svg",
       "gen": 3,
-      "image": "assets/mary-4.jpg",
       "arabic": "تشفعي فينا",
+      "forward": {
+        "type": "burst",
+        "to": "mum",
+        "avatar": "assets/avatars/mum.svg",
+        "count": 3
+      },
       "messages": [
         { "from": "b", "kind": "image" },
         { "from": "b", "kind": "translit", "text": "TACHAFA3I FINA" },
@@ -169,49 +247,57 @@
           "kind": "text",
           "text": "Intercede for us. Pray for us"
         },
-        { "from": "b", "kind": "text", "text": "but really pray to your son." },
+        { "from": "b", "kind": "text", "text": "No. Pray to your son." },
         {
           "from": "a",
           "kind": "text",
           "text": "Mary the middle woman. Mary, tell the boy we've been talking to him won't you. Won't you Mary, we've been in line for days and it doesn't let and you got your ways with him we know."
         },
         { "from": "a", "kind": "text", "text": "Won't you, won't you Mary." },
-        { "from": "b", "kind": "text", "text": "this is a song" },
+        { "from": "b", "kind": "text", "text": "is this a new song" },
         {
           "from": "a",
           "kind": "text",
           "text": "a maximalist attempt at echoing through invisibility"
         },
-        { "from": "b", "kind": "text", "text": "contagion" }
+        { "from": "b", "kind": "text", "text": "a story of contagion" },
+        { "from": "a", "kind": "text", "text": "yeah" }
       ]
     },
     {
       "screen": 5,
+      "contact": "mum",
+      "avatar": "assets/avatars/mum.svg",
       "gen": 4,
-      "image": "assets/mary-5.jpg",
       "arabic": "أمين",
+      "forward": { "type": "save" },
       "messages": [
         { "from": "b", "kind": "image" },
         { "from": "b", "kind": "translit", "text": "AMIN" },
         {
-          "from": "a",
+          "from": "b",
           "kind": "text",
           "text": "which is Hebrew and Arabic for trustworthy. Also safe."
         },
         {
-          "from": "b",
+          "from": "a",
           "kind": "text",
-          "text": "Also the name of my grandmother's neighbor, my childhood classmate."
+          "text": "Also the name of grandma's neighbor and my childhood classmate."
         },
         {
-          "from": "a",
+          "from": "b",
           "kind": "text",
           "text": "Amin. Amen. A man kneels before a white statue whose eyes begin to water. This is not the opening for a joke nor a tale. The water is olive oil, the oil is blood with clots."
         },
         {
           "from": "a",
           "kind": "text",
-          "text": "The church where the man is kneeling is for sale and the Virgin knows. Her body is a shield, metal banging steel."
+          "text": "I know. The church where the man is kneeling is for sale and the Virgin knows."
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "Her body is a shield, metal banging steel."
         },
         {
           "from": "a",

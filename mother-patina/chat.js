@@ -1,19 +1,17 @@
 // ─────────────────────────────────────────────────────────────────────────────
 //  chat.js  -  mother-patina
 //
-//  The landing is a phone lock screen ("Every day my mother sends me a picture of
-//  the Virgin Mary on WhatsApp"); tapping it opens the conversation. Each screen
-//  plays as a WhatsApp thread under a date separator (the last five days - every
-//  day she sends), opening with a DIFFERENT forwarded Mary (a text-free crop with
-//  the clean Arabic laid over it), worn one more JPEG generation each screen. Long
-//  messages are split so no bubble runs past four lines. At a screen's end the
-//  conversation forwards itself: a new floating window on the desktop, a new tab in
-//  fullscreen, in place on a phone - always on a tap, so popups are never blocked.
+//  ONE Virgin Mary, forwarded through the family. Each screen is a chat with a
+//  different relative (a different contact + avatar), and the same image pixelizes
+//  one step more every screen until, by "mum", she is barely recognisable. The
+//  clean Arabic prayer line is laid over the image and arrives as the first chat
+//  bubble. The landing is a phone lock screen; tapping it opens the conversation.
 //
-//  No network, no bundler, no em-dashes.
+//  Each screen forwards itself the way a forward arrives - a window on desktop, a
+//  tab in fullscreen, in place on a phone - and the affordance differs per screen:
+//  a notification, a "Forward to ..." button, a burst of messages, or, at the end,
+//  "Save the prayer" (downloads mother-patina.txt). No network, no bundler.
 // ─────────────────────────────────────────────────────────────────────────────
-
-import { createDecayEngine } from "./lib/decay.js";
 
 const MAX_SCREEN = 5;
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,12 +29,21 @@ const screenNum = clamp(
 const els = {
   thread: document.getElementById("thread"),
   status: document.getElementById("chat-status"),
+  name: document.getElementById("chat-name"),
+  avatar: document.getElementById("chat-avatar"),
   notif: document.getElementById("notif"),
+  notifAvatar: document.getElementById("notif-avatar"),
+  notifTitle: document.getElementById("notif-title"),
+  notifSub: document.getElementById("notif-sub"),
+  notifCue: document.getElementById("notif-cue"),
+  notifBadge: document.getElementById("notif-badge"),
   jump: document.getElementById("jump-latest"),
 };
 
 window.__mp = { screen: screenNum, lock: onLock, done: false };
 
+let DATA = null;
+let SCREEN = null;
 let stickToBottom = true;
 
 boot().catch((err) => console.error("mother-patina failed to start:", err));
@@ -50,17 +57,27 @@ async function boot() {
 
   els.thread.addEventListener("scroll", onScroll, { passive: true });
   els.jump.addEventListener("click", () => scrollToBottom(true));
-  els.notif.addEventListener("click", forwardNext);
+  els.notif.addEventListener("click", onNotif);
 
-  const data = await (await fetch("data/screens.json")).json();
-  const screen =
-    data.screens.find((s) => s.screen === screenNum) || data.screens[0];
+  DATA = await (await fetch("data/screens.json")).json();
+  SCREEN = DATA.screens.find((s) => s.screen === screenNum) || DATA.screens[0];
 
+  setContact(SCREEN);
   addDateSeparator(screenNum);
-  await playScreen(screen);
+  // always arm the forward, even if a draw throws mid-play, so the reader is
+  // never stranded without a way onward (and the e2e ready-flag always flips).
+  try {
+    await playScreen(SCREEN);
+  } finally {
+    window.__mp.done = true;
+    armForward(SCREEN);
+  }
+}
 
-  window.__mp.done = true;
-  armForward();
+function setContact(s) {
+  if (els.name) els.name.textContent = s.contact;
+  if (els.avatar && s.avatar)
+    els.avatar.style.backgroundImage = `url("${s.avatar}")`;
 }
 
 // ── the lock-screen landing ─────────────────────────────────────────────────
@@ -96,7 +113,6 @@ async function playScreen(screen) {
 
       if (!reduced && m.kind !== "image") {
         if (m.cont) {
-          // a continuation of a split message: it lands quickly, no typing beat
           await wait(fast ? 6 : 300);
         } else if (m.from === "b") {
           setStatus("typing…");
@@ -113,21 +129,21 @@ async function playScreen(screen) {
       else els.thread.appendChild(bubble(m));
       autoScroll();
 
-      // a split part with more to come gets a short beat, not a full read pause
       if (!reduced) await wait(m.hasNext ? (fast ? 6 : 360) : readDelay(m));
     }
   } finally {
-    // never leave the thread frozen on a "typing…" status / dangling dots
     hideTyping();
     setStatus("online");
   }
 }
 
-// the Arabic line appears BOTH over the image and as the first chat bubble
+// the Arabic line appears over the image AND as the first chat bubble, from
+// whoever sent the image (the reader on the screen they forward it themselves).
 function withArabic(screen) {
   const msgs = screen.messages.slice();
   if (screen.arabic) {
-    msgs.splice(1, 0, { from: "b", kind: "arabic", text: screen.arabic });
+    const from = msgs[0] && msgs[0].from === "a" ? "a" : "b";
+    msgs.splice(1, 0, { from, kind: "arabic", text: screen.arabic });
   }
   return msgs;
 }
@@ -137,6 +153,7 @@ async function addImage(from, screen) {
   wrap.className = `msg image ${from === "a" ? "out" : "in"}`;
   const frame = document.createElement("div");
   frame.className = "img-frame";
+  if ((screen.gen ?? 0) > 0) frame.classList.add("is-pixelized");
   const canvas = document.createElement("canvas");
   canvas.setAttribute("role", "img");
   canvas.setAttribute("aria-label", "the Virgin Mary, forwarded");
@@ -154,26 +171,42 @@ async function addImage(from, screen) {
   els.thread.appendChild(wrap);
 
   const img = new Image();
-  img.src = screen.image;
+  img.src = DATA.image;
   if (!img.complete || img.naturalWidth === 0) {
     await new Promise((r) => {
       img.addEventListener("load", r, { once: true });
       img.addEventListener("error", r, { once: true });
     });
   }
-  // image failed to load: leave the frame empty rather than feed a 0px source
-  // into the decay engine (which would reject on a blank canvas)
   if (!img.naturalWidth) return;
   canvas.width = img.naturalWidth;
   canvas.height = img.naturalHeight;
-  const engine = createDecayEngine({
-    canvas,
-    sourceImage: img,
-    maxStep: MAX_SCREEN,
-  });
-  engine
-    .renderStep(Math.min(screen.gen ?? 0, MAX_SCREEN), { animate: false })
-    .catch((e) => console.warn("decay failed:", e));
+  pixelize(canvas, img, screen.gen ?? 0);
+}
+
+// Draw the image pixelized: downscale to `cols` blocks across, then upscale with
+// smoothing off so the blocks stay sharp. gen 0 is crisp; each step is blockier.
+function pixelize(canvas, img, gen) {
+  const ctx = canvas.getContext("2d");
+  const W = canvas.width,
+    H = canvas.height;
+  const COLS = [0, 70, 42, 25, 14]; // 0 = no pixelation (crisp)
+  const cols = COLS[Math.min(Math.max(gen, 0), COLS.length - 1)];
+  if (!cols || cols >= W) {
+    ctx.imageSmoothingEnabled = true;
+    ctx.drawImage(img, 0, 0, W, H);
+    return;
+  }
+  const rows = Math.max(1, Math.round((cols * H) / W));
+  const tmp = document.createElement("canvas");
+  tmp.width = cols;
+  tmp.height = rows;
+  const tctx = tmp.getContext("2d");
+  tctx.imageSmoothingEnabled = true;
+  tctx.drawImage(img, 0, 0, cols, rows);
+  ctx.imageSmoothingEnabled = false;
+  ctx.clearRect(0, 0, W, H);
+  ctx.drawImage(tmp, 0, 0, cols, rows, 0, 0, W, H);
 }
 
 function bubble(m) {
@@ -201,7 +234,7 @@ function meta() {
 }
 
 function addDateSeparator(n) {
-  const daysAgo = MAX_SCREEN - n; // screen 5 = today, screen 1 = four days ago
+  const daysAgo = MAX_SCREEN - n;
   const d = new Date();
   d.setDate(d.getDate() - daysAgo);
   let label;
@@ -234,8 +267,8 @@ function expandLong(messages) {
         out.push({
           ...m,
           text: part,
-          cont: idx > 0, // 2nd+ part: lands quickly, no typing beat
-          hasNext: idx < parts.length - 1, // not the last: short pause after
+          cont: idx > 0,
+          hasNext: idx < parts.length - 1,
         });
       });
     } else {
@@ -259,12 +292,12 @@ function splitDeep(text, pbody, depth) {
 
 function splitPoint(text) {
   const mid = Math.floor(text.length / 2);
-  let cut = text.indexOf(". ", mid); // prefer a sentence boundary past the middle
+  let cut = text.indexOf(". ", mid);
   if (cut !== -1) return cut + 1;
-  cut = text.lastIndexOf(" ", mid); // else the nearest space before the middle
+  cut = text.lastIndexOf(" ", mid);
   if (cut > 0) return cut;
-  cut = text.indexOf(" ", mid); // or after it
-  return cut > 0 ? cut : mid; // last resort: bisect (never return -1)
+  cut = text.indexOf(" ", mid);
+  return cut > 0 ? cut : mid;
 }
 
 function lineCount(node) {
@@ -300,7 +333,7 @@ function onScroll() {
 }
 function autoScroll() {
   if (stickToBottom) scrollToBottom(false);
-  else els.jump.hidden = false; // new content arrived while the reader is scrolled up
+  else els.jump.hidden = false;
 }
 function scrollToBottom(force) {
   if (force) stickToBottom = true;
@@ -308,15 +341,104 @@ function scrollToBottom(force) {
   els.jump.hidden = true;
 }
 
-// ── the forward ─────────────────────────────────────────────────────────────
+// ── the forward (varies per screen) ───────────────────────────────────────────
 
-function armForward() {
+function armForward(screen) {
   setStatus("online");
-  if (screenNum >= MAX_SCREEN) {
-    els.notif.hidden = true;
-    return;
+  const f = (screen && screen.forward) || { type: "notify" };
+  const av = els.notifAvatar;
+
+  // the visible spans are aria-hidden-ish decoration; the button's own
+  // aria-label is what assistive tech announces, so set it per screen.
+  if (f.type === "save") {
+    if (av) av.style.backgroundImage = `url("${screen.avatar}")`;
+    set(els.notifTitle, "Save the prayer");
+    set(els.notifSub, "mother-patina.txt");
+    set(els.notifCue, "save");
+    hideBadge();
+    els.notif.dataset.action = "save";
+    label("Save the prayer as mother-patina.txt");
+  } else if (f.type === "forward") {
+    if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
+    set(els.notifTitle, "Forward");
+    set(els.notifSub, "to " + f.to);
+    set(els.notifCue, "send");
+    hideBadge();
+    els.notif.dataset.action = "next";
+    label("Forward to " + f.to);
+  } else if (f.type === "burst") {
+    const n = f.count || 3;
+    if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
+    set(els.notifTitle, f.to || "");
+    set(els.notifSub, "new messages");
+    set(els.notifCue, "open");
+    els.notif.dataset.action = "next";
+    label(`Open ${n} new messages from ${f.to || "your mother"}`);
+    burstBadge(n);
+  } else {
+    // "notify"
+    if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
+    set(els.notifTitle, f.to || "");
+    set(els.notifSub, "new message");
+    set(els.notifCue, "open");
+    els.notif.dataset.action = "next";
+    label("Open new message from " + (f.to || "your family"));
+    hideBadge();
   }
   els.notif.hidden = false;
+}
+
+function onNotif() {
+  if (els.notif.dataset.action === "save") {
+    if (els.notif.dataset.saved !== "true") saveThePrayer(); // save once
+  } else forwardNext();
+}
+
+function burstBadge(count) {
+  if (!els.notifBadge) return;
+  els.notifBadge.hidden = false;
+  // reduced motion (or a trivial count): land on the final number, no ticking.
+  if (reduced || count <= 1) {
+    els.notifBadge.textContent = String(Math.max(1, count));
+    return;
+  }
+  let n = 1;
+  els.notifBadge.textContent = "1";
+  const iv = setInterval(
+    () => {
+      n += 1;
+      els.notifBadge.textContent = String(n);
+      if (n >= count) clearInterval(iv);
+    },
+    fast ? 10 : 240,
+  );
+}
+function hideBadge() {
+  if (els.notifBadge) els.notifBadge.hidden = true;
+}
+
+// Save the prayer to a local .txt file. Fully local (a Blob + a download link);
+// nothing leaves the device.
+function saveThePrayer() {
+  const text = (DATA && DATA.savedPrayer) || "";
+  try {
+    const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "mother-patina.txt";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 2000);
+    set(els.notifSub, "saved to your device");
+    set(els.notifCue, "✓");
+    els.notif.dataset.saved = "true";
+    label("Prayer saved to your device");
+  } catch (e) {
+    console.warn("mother-patina: save failed", e);
+    set(els.notifSub, "could not save");
+  }
 }
 
 function forwardNext() {
@@ -328,16 +450,11 @@ function forwardNext() {
   const absolute = location.origin + relative;
   els.notif.hidden = true;
 
-  // A real phone (touch, NO mouse) navigates in place - it cannot float windows
-  // and popups are blocked in the WhatsApp / Instagram in-app browsers.
   if (isPhone()) {
     location.href = relative;
     return;
   }
 
-  // Desktop: a NEW TAB when the browser fills the screen (maximized / fullscreen -
-  // there is no room to float a window), otherwise a FLOATING WINDOW cascaded off
-  // this one. Triggered by the notif click (a user gesture), so it is not blocked.
   let win = null;
   try {
     if (isExpanded()) {
@@ -356,7 +473,6 @@ function forwardNext() {
   } catch {
     win = null;
   }
-  // blocked outright -> navigate here so the piece never dead-ends
   if (!win) {
     console.warn("mother-patina: popup blocked, navigating in place");
     location.href = relative;
@@ -367,7 +483,6 @@ function forwardNext() {
   } catch {
     /* ignore */
   }
-  // a stub window some blockers close immediately -> fall back
   setTimeout(() => {
     try {
       if (win.closed) location.href = relative;
@@ -377,8 +492,6 @@ function forwardNext() {
   }, 600);
 }
 
-// A touch device with no mouse (phone/tablet). Desktops have hover + a fine
-// pointer, so this is false for them even on a touchscreen laptop with a mouse.
 function isPhone() {
   try {
     return matchMedia("(hover: none) and (pointer: coarse)").matches;
@@ -387,8 +500,6 @@ function isPhone() {
   }
 }
 
-// The browser window fills the available screen (maximized or actual fullscreen),
-// so there is no room around it to float a new window -> open a tab instead.
 function isExpanded() {
   if (document.fullscreenElement) return true;
   try {
@@ -403,6 +514,12 @@ function isExpanded() {
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
+function set(el, text) {
+  if (el) el.textContent = text;
+}
+function label(text) {
+  if (els.notif) els.notif.setAttribute("aria-label", text);
+}
 function setStatus(s) {
   if (els.status) els.status.textContent = s;
 }

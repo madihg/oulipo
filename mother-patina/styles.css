@@ -103,11 +103,12 @@ html.is-lock .lock {
   width: 38px;
   height: 38px;
   border-radius: 50%;
-  background: radial-gradient(circle at 50% 35%, #cdbb9a, #8a7b63) no-repeat;
-  flex: 0 0 auto;
+  /* a flat fallback; the per-persona avatar image is set by chat.js */
+  background-color: #d8cfc2;
+  background-repeat: no-repeat;
+  background-position: 50% 50%;
   background-size: cover;
-  background-image: url("assets/mary-1.jpg");
-  background-position: 50% 18%;
+  flex: 0 0 auto;
 }
 .chat-who {
   display: flex;
@@ -154,6 +155,9 @@ html.is-lock .lock {
 }
 .msg .meta {
   display: block;
+  /* keep the Latin timestamp LTR even inside the RTL Arabic bubble, so it
+     reads "6:03 AM" everywhere and never reorders to "AM 6:03". */
+  direction: ltr;
   text-align: right;
   font-size: 0.64rem;
   color: var(--wa-meta);
@@ -205,6 +209,11 @@ html.is-lock .lock {
   max-height: 56vh;
   object-fit: cover;
   object-position: 50% 20%; /* favour the face when a tall image is cropped */
+}
+/* once she has been forwarded a few times the jpeg is openly blocky: keep the
+   downscaled pixels crisp instead of letting the browser smooth them back. */
+.img-frame.is-pixelized canvas {
+  image-rendering: pixelated;
 }
 .img-arabic {
   position: absolute;
@@ -286,7 +295,9 @@ html.is-lock .lock {
   position: absolute;
   left: 0.7rem;
   right: 0.7rem;
-  top: calc(0.7rem + env(safe-area-inset-top));
+  /* sit just BELOW the chat header (~56px tall) so the current contact's name
+     and avatar stay visible - the banner names the NEXT person, not this one. */
+  top: calc(56px + env(safe-area-inset-top) + 0.45rem);
   z-index: 8;
   display: flex;
   align-items: center;
@@ -317,6 +328,20 @@ html.is-lock .lock {
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--wa-teal);
+}
+/* the unread-count badge that pulses up 1 -> 2 -> 3 on the final forward */
+.notif-badge {
+  flex: 0 0 auto;
+  min-width: 1.25rem;
+  height: 1.25rem;
+  padding: 0 0.35rem;
+  border-radius: 0.75rem;
+  background: #25d366;
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  text-align: center;
 }
 
 /* ── fake input bar ── */
@@ -356,7 +381,7 @@ html.is-lock .lock {
   position: absolute;
   inset: 0;
   z-index: 0;
-  background-image: url("assets/mary-5.jpg");
+  background-image: url("assets/mary.jpg");
   background-size: cover;
   background-position: 50% 30%;
   filter: brightness(0.5) saturate(1.05);
@@ -427,7 +452,8 @@ html.is-lock .lock {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  background: url("assets/mary-1.jpg") 50% 18% / cover;
+  /* the lock screen is Maman's message */
+  background: #d8cfc2 url("assets/avatars/maman.svg") 50% 50% / cover;
 }
 .lock-notif-title {
   font-family: var(--font-chat);

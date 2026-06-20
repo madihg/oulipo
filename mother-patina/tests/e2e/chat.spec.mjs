@@ -9,6 +9,19 @@ async function playScreen(page, n) {
   });
 }
 
+// sample a centre patch of the image canvas as a string fingerprint
+async function centrePatch(page) {
+  return page
+    .locator(".msg.image canvas")
+    .first()
+    .evaluate((c) => {
+      const x = Math.max(0, Math.floor(c.width / 2) - 6);
+      const y = Math.max(0, Math.floor(c.height / 2) - 6);
+      const d = c.getContext("2d").getImageData(x, y, 12, 12).data;
+      return Array.from(d).join(",");
+    });
+}
+
 test.describe("mother-patina", () => {
   test("the landing is a lock screen with the title; tapping opens screen 1", async ({
     page,
@@ -60,7 +73,28 @@ test.describe("mother-patina", () => {
     await expect(page.locator(".msg.arabic .body")).toHaveText("بحضنك خذينا");
   });
 
-  test("the Mary image is forwarded with the clean Arabic laid over it", async ({
+  test("each screen is a chat with a DIFFERENT named contact", async ({
+    page,
+  }) => {
+    const expected = {
+      1: "Maman",
+      2: "Tantina Auntie",
+      3: "Oukhti Sis",
+      4: "Khalo joj",
+      5: "mum",
+    };
+    for (const [n, name] of Object.entries(expected)) {
+      await playScreen(page, Number(n));
+      await expect(page.locator("#chat-name")).toHaveText(name);
+      // the header avatar is the persona svg, not the Mary picture
+      const bg = await page
+        .locator("#chat-avatar")
+        .evaluate((el) => getComputedStyle(el).backgroundImage);
+      expect(bg).toContain("avatars/");
+    }
+  });
+
+  test("the SAME Mary image is forwarded, with the clean Arabic laid over it", async ({
     page,
   }) => {
     await playScreen(page, 1);
@@ -77,28 +111,28 @@ test.describe("mother-patina", () => {
     expect(drawn).toBe(true);
   });
 
-  test("each screen forwards a DIFFERENT image", async ({ page }) => {
-    const srcs = [];
-    for (const n of [1, 3, 5]) {
-      await playScreen(page, n);
-      srcs.push(
-        await page
-          .locator(".msg.image canvas")
-          .first()
-          .evaluate((c) => {
-            // each screen's own image draws differently; sample a centre patch
-            const x = Math.max(0, Math.floor(c.width / 2) - 6);
-            const y = Math.max(0, Math.floor(c.height / 2) - 6);
-            const d = c.getContext("2d").getImageData(x, y, 12, 12).data;
-            return Array.from(d).join(",");
-          }),
-      );
-    }
-    expect(new Set(srcs).size).toBe(3);
+  test("she pixelizes more each screen: gen 0 crisp, later screens are blocky", async ({
+    page,
+  }) => {
+    // screen 1 is gen 0 (no pixelation class); later screens carry it
+    await playScreen(page, 1);
+    expect(
+      await page.locator(".msg.image .img-frame.is-pixelized").count(),
+    ).toBe(0);
+    const patch1 = await centrePatch(page);
+
+    await playScreen(page, 4);
+    await expect(
+      page.locator(".msg.image .img-frame.is-pixelized").first(),
+    ).toBeVisible();
+    const patch4 = await centrePatch(page);
+
+    // same source picture, different decay -> the centre patch differs
+    expect(patch1).not.toBe(patch4);
   });
 
   test("no text bubble runs longer than four lines", async ({ page }) => {
-    await playScreen(page, 1); // contains the long 'I remember...' message
+    await playScreen(page, 1); // contains the long 'Do you remember...' message
     const tooLong = await page.evaluate(() => {
       const bad = [];
       for (const b of document.querySelectorAll(".msg:not(.image) .body")) {
@@ -117,6 +151,8 @@ test.describe("mother-patina", () => {
   }, testInfo) => {
     await playScreen(page, 1);
     await expect(page.locator("#notif")).toBeVisible();
+    // screen 1 forwards via a notification from the next contact
+    await expect(page.locator("#notif-title")).toHaveText("Tantina Auntie");
     const isMobile = testInfo.project.name === "mobile";
     const popupP = context
       .waitForEvent("page", { timeout: 2500 })
@@ -136,13 +172,94 @@ test.describe("mother-patina", () => {
     }
   });
 
-  test("screen 5 ends the piece on 'habibi' with no further forward", async ({
+  test("the forward affordance differs per screen (forward button, then a burst badge)", async ({
+    page,
+  }) => {
+    // screen 2 forwards to the sister via a "Forward" button
+    await playScreen(page, 2);
+    await expect(page.locator("#notif")).toBeVisible();
+    await expect(page.locator("#notif-title")).toHaveText("Forward");
+    await expect(page.locator("#notif-sub")).toHaveText("to Oukhti Sis");
+
+    // screen 4 is a burst from mum: the unread badge climbs to 3
+    await playScreen(page, 4);
+    await expect(page.locator("#notif-title")).toHaveText("mum");
+    await expect(page.locator("#notif-badge")).toBeVisible();
+    await expect(page.locator("#notif-badge")).toHaveText("3");
+  });
+
+  test("screen 5 ends on a Save-the-prayer button that downloads mother-patina.txt", async ({
     page,
   }) => {
     await playScreen(page, 5);
     await expect(
       page.locator(".msg", { hasText: "habibi" }).last(),
     ).toBeVisible();
-    await expect(page.locator("#notif")).toBeHidden();
+    // no onward forward: the final affordance saves the prayer
+    await expect(page.locator("#notif")).toBeVisible();
+    await expect(page.locator("#notif-title")).toHaveText("Save the prayer");
+    await expect(page.locator("#notif-sub")).toHaveText("mother-patina.txt");
+
+    const downloadP = page.waitForEvent("download", { timeout: 5000 });
+    await page.locator("#notif").click();
+    const download = await downloadP;
+    expect(download.suggestedFilename()).toBe("mother-patina.txt");
+    const stream = await download.createReadStream();
+    const text = await new Promise((resolve, reject) => {
+      let buf = "";
+      stream.on("data", (c) => (buf += c));
+      stream.on("end", () => resolve(buf));
+      stream.on("error", reject);
+    });
+    expect(text).toContain("a hammock for us");
+    await expect(page.locator("#notif-sub")).toHaveText("saved to your device");
+  });
+
+  test("the forward button carries a per-screen accessible name (not a static 'continue')", async ({
+    page,
+  }) => {
+    const expected = {
+      1: "Open new message from Tantina Auntie",
+      2: "Forward to Oukhti Sis",
+      4: "Open 3 new messages from mum",
+      5: "Save the prayer as mother-patina.txt",
+    };
+    for (const [n, name] of Object.entries(expected)) {
+      await playScreen(page, Number(n));
+      await expect(page.locator("#notif")).toHaveAttribute("aria-label", name);
+    }
+  });
+
+  test("the Arabic prayer bubble's timestamp stays LTR ('6:03 AM', not reversed)", async ({
+    page,
+  }) => {
+    await playScreen(page, 1);
+    const dir = await page
+      .locator(".msg.arabic .meta")
+      .first()
+      .evaluate((el) => getComputedStyle(el).direction);
+    expect(dir).toBe("ltr");
+  });
+
+  test("the forward notification does not cover the chat header (current contact stays visible)", async ({
+    page,
+  }) => {
+    await playScreen(page, 3);
+    await expect(page.locator("#notif")).toBeVisible();
+    // let the drop-in entrance animation settle to the resting position
+    await page
+      .locator("#notif")
+      .evaluate((el) =>
+        Promise.all(el.getAnimations().map((a) => a.finished.catch(() => {}))),
+      );
+    const headBottom = await page
+      .locator(".chat-head")
+      .evaluate((el) => el.getBoundingClientRect().bottom);
+    const notifTop = await page
+      .locator("#notif")
+      .evaluate((el) => el.getBoundingClientRect().top);
+    // the banner sits below the header, so the header name/avatar are not occluded
+    expect(notifTop).toBeGreaterThanOrEqual(headBottom - 1);
+    await expect(page.locator("#chat-name")).toBeVisible();
   });
 });

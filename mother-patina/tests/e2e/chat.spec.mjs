@@ -93,22 +93,28 @@ test.describe("mother-patina", () => {
     expect(tooLong, JSON.stringify(tooLong)).toEqual([]);
   });
 
-  test("a forward notification appears at the end of screens 1-4 and opens the next", async ({
+  test("forward: desktop opens a NEW window (main stays); mobile navigates in place", async ({
     page,
     context,
-  }) => {
+  }, testInfo) => {
     await playScreen(page, 1);
     await expect(page.locator("#notif")).toBeVisible();
+    const isMobile = testInfo.project.name === "mobile";
     const popupP = context
       .waitForEvent("page", { timeout: 2500 })
       .catch(() => null);
     await page.locator("#notif").click();
     const popup = await popupP;
-    if (popup) {
+    if (isMobile) {
+      // a phone cannot float windows -> same-window navigation, no popup
+      expect(popup).toBeNull();
+      await expect(page).toHaveURL(/screen=2/);
+    } else {
+      // desktop -> a separate window/tab opens screen 2 and the main window stays
+      expect(popup).not.toBeNull();
       await popup.waitForLoadState("domcontentloaded");
       expect(popup.url()).toContain("screen=2");
-    } else {
-      await expect(page).toHaveURL(/screen=2/);
+      await expect(page).toHaveURL(/screen=1/);
     }
   });
 

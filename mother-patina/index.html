@@ -13,7 +13,7 @@
     <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <title>mother</title>
     <meta
@@ -32,6 +32,10 @@
     </script>
   </head>
   <body>
+    <h1 class="sr-only">
+      Every day my mother sends me a picture of the Virgin Mary on WhatsApp
+    </h1>
+
     <!-- the landing: a phone lock screen. tap to open the conversation. -->
     <section class="lock" id="lock">
       <div class="lock-veil" aria-hidden="true"></div>
@@ -39,7 +43,12 @@
         <time class="lock-clock" id="lock-clock">6:03</time>
         <div class="lock-date" id="lock-date"></div>
       </div>
-      <button class="lock-notif" id="lock-open" type="button">
+      <button
+        class="lock-notif"
+        id="lock-open"
+        type="button"
+        aria-label="Open Maman's message"
+      >
         <span class="lock-notif-head">
           <span class="lock-notif-avatar" aria-hidden="true"></span>
           <b>Maman</b>
@@ -65,12 +74,7 @@
         </span>
       </header>
 
-      <main
-        class="thread"
-        id="thread"
-        aria-live="polite"
-        aria-label="conversation"
-      ></main>
+      <main class="thread" id="thread" aria-label="conversation"></main>
 
       <!-- jump-to-latest, shown only when the reader has scrolled up -->
       <button class="jump-latest" id="jump-latest" type="button" hidden>

@@ -38,6 +38,8 @@ test.describe("mother-patina", () => {
     await expect(page.locator(".msg.translit .body")).toHaveText(
       "FI 7OUDNIKI KHOUZINA",
     );
+    // the Arabic appears BOTH over the image and as the first chat bubble
+    await expect(page.locator(".msg.arabic .body")).toHaveText("بحضنك خذينا");
   });
 
   test("the Mary image is forwarded with the clean Arabic laid over it", async ({

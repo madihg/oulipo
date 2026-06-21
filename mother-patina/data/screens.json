@@ -1,18 +1,19 @@
 {
-  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. forward: how the next screen arrives.",
+  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
   "image": "assets/mary.jpg",
-  "savedPrayer": "When my mother sends these images\nshe's saying something\nshe doesn't know how to say:\nMy son, my daughter, I am aging.\nThis faith is the buoy I know best.\nThese worn images are how I learned\nto say I love you.\n\nMother I know nothing\nof the architecture of your faith\nbut here are my ribs\nbent to hang\na hammock for us\n",
+  "prayer": "data/prayer.txt",
   "screens": [
     {
       "screen": 1,
       "contact": "Maman",
-      "avatar": "assets/avatars/maman.svg",
+      "app": "whatsapp",
+      "avatar": "assets/mary.jpg",
       "gen": 0,
       "arabic": "بحضنك خذينا",
       "forward": {
         "type": "notify",
         "to": "Tantina Auntie",
-        "avatar": "assets/avatars/tantina.svg"
+        "avatar": "assets/avatars/tantina.jpg"
       },
       "messages": [
         { "from": "b", "kind": "image" },
@@ -66,13 +67,14 @@
     {
       "screen": 2,
       "contact": "Tantina Auntie",
-      "avatar": "assets/avatars/tantina.svg",
+      "app": "whatsapp",
+      "avatar": "assets/avatars/tantina.jpg",
       "gen": 1,
       "arabic": "وعن كل شر ابعدينا",
       "forward": {
         "type": "forward",
         "to": "Oukhti Sis",
-        "avatar": "assets/avatars/sis.svg"
+        "avatar": "assets/avatars/sis.jpg"
       },
       "messages": [
         { "from": "b", "kind": "image" },
@@ -156,13 +158,14 @@
     {
       "screen": 3,
       "contact": "Oukhti Sis",
-      "avatar": "assets/avatars/sis.svg",
+      "app": "imessage",
+      "avatar": "assets/avatars/sis.jpg",
       "gen": 2,
       "arabic": "يا أم يسوع",
       "forward": {
         "type": "notify",
         "to": "Khalo joj",
-        "avatar": "assets/avatars/khalo.svg"
+        "avatar": "assets/avatars/khalo.jpg"
       },
       "messages": [
         { "from": "a", "kind": "image" },
@@ -230,13 +233,14 @@
     {
       "screen": 4,
       "contact": "Khalo joj",
-      "avatar": "assets/avatars/khalo.svg",
+      "app": "telegram",
+      "avatar": "assets/avatars/khalo.jpg",
       "gen": 3,
       "arabic": "تشفعي فينا",
       "forward": {
         "type": "burst",
         "to": "mum",
-        "avatar": "assets/avatars/mum.svg",
+        "avatar": "assets/mary.jpg",
         "count": 3
       },
       "messages": [
@@ -267,7 +271,8 @@
     {
       "screen": 5,
       "contact": "mum",
-      "avatar": "assets/avatars/mum.svg",
+      "app": "whatsapp",
+      "avatar": "assets/mary.jpg",
       "gen": 4,
       "arabic": "أمين",
       "forward": { "type": "save" },

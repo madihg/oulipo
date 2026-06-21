@@ -2,10 +2,11 @@
 //  chat.js  -  mother-patina
 //
 //  ONE Virgin Mary, forwarded through the family. Each screen is a chat with a
-//  different relative (a different contact + avatar), and the same image pixelizes
-//  one step more every screen until, by "mum", she is barely recognisable. The
-//  clean Arabic prayer line is laid over the image and arrives as the first chat
-//  bubble. The landing is a phone lock screen; tapping it opens the conversation.
+//  different relative (a different contact + avatar + messenger app: WhatsApp,
+//  iMessage, Telegram), and the same image pixelizes one step more every screen
+//  until, by "mum", she is barely recognisable. The mother's own profile picture
+//  IS the Virgin. The clean Arabic prayer line is laid over the image and arrives
+//  as the first chat bubble. The landing is a phone lock screen; tap to open.
 //
 //  Each screen forwards itself the way a forward arrives - a window on desktop, a
 //  tab in fullscreen, in place on a phone - and the affordance differs per screen:
@@ -38,12 +39,32 @@ const els = {
   notifCue: document.getElementById("notif-cue"),
   notifBadge: document.getElementById("notif-badge"),
   jump: document.getElementById("jump-latest"),
+  foot: document.querySelector(".foot-input"),
 };
+
+// each screen imitates a different messenger; the look is themed in CSS off
+// <html data-app="...">, the header status + input placeholder set here.
+const APPS = new Set(["whatsapp", "imessage", "telegram"]);
+const IDLE = {
+  whatsapp: "online",
+  imessage: "",
+  telegram: "last seen recently",
+};
+const PLACEHOLDER = {
+  whatsapp: "Message",
+  imessage: "iMessage",
+  telegram: "Message",
+};
+// if the decorated prayer file can't be read, the artifact still holds the poem.
+const FALLBACK_PRAYER =
+  "When my mother sends these images\nshe's saying something\nshe doesn't know how to say:\nMy son, my daughter, I am aging.\nThis faith is the buoy I know best.\nThese worn images are how I learned\nto say I love you.\n\nMother I know nothing\nof the architecture of your faith\nbut here are my ribs\nbent to hang\na hammock for us.\n";
 
 window.__mp = { screen: screenNum, lock: onLock, done: false };
 
 let DATA = null;
 let SCREEN = null;
+let IDLE_STATUS = "online";
+let PRAYER_TEXT = "";
 let stickToBottom = true;
 
 boot().catch((err) => console.error("mother-patina failed to start:", err));
@@ -61,6 +82,7 @@ async function boot() {
 
   DATA = await (await fetch("data/screens.json")).json();
   SCREEN = DATA.screens.find((s) => s.screen === screenNum) || DATA.screens[0];
+  PRAYER_TEXT = await loadPrayer(DATA.prayer);
 
   setContact(SCREEN);
   addDateSeparator(screenNum);
@@ -75,9 +97,28 @@ async function boot() {
 }
 
 function setContact(s) {
+  // skin the whole UI as the messenger this relative uses
+  const app = APPS.has(s.app) ? s.app : "whatsapp";
+  document.documentElement.dataset.app = app;
+  IDLE_STATUS = IDLE[app];
   if (els.name) els.name.textContent = s.contact;
+  if (els.status) els.status.textContent = IDLE_STATUS;
+  if (els.foot) els.foot.textContent = PLACEHOLDER[app];
   if (els.avatar && s.avatar)
     els.avatar.style.backgroundImage = `url("${s.avatar}")`;
+}
+
+// load the decorated prayer text the reader can save (same-origin static file).
+async function loadPrayer(path) {
+  if (!path) return FALLBACK_PRAYER;
+  try {
+    const res = await fetch(path);
+    if (!res.ok) return FALLBACK_PRAYER; // a 404 body is not the prayer
+    const text = await res.text();
+    return text.trim() ? text : FALLBACK_PRAYER;
+  } catch {
+    return FALLBACK_PRAYER;
+  }
 }
 
 // ── the lock-screen landing ─────────────────────────────────────────────────
@@ -113,15 +154,15 @@ async function playScreen(screen) {
 
       if (!reduced && m.kind !== "image") {
         if (m.cont) {
-          await wait(fast ? 6 : 300);
+          await wait(fast ? 6 : 380);
         } else if (m.from === "b") {
           setStatus("typing…");
           showTyping();
           await wait(typingDelay(m));
           hideTyping();
-          setStatus("online");
+          setStatus(IDLE_STATUS);
         } else {
-          await wait(fast ? 8 : Math.min(700, 200 + words(m) * 30));
+          await wait(fast ? 8 : Math.min(900, 260 + words(m) * 38));
         }
       }
 
@@ -129,11 +170,11 @@ async function playScreen(screen) {
       else els.thread.appendChild(bubble(m));
       autoScroll();
 
-      if (!reduced) await wait(m.hasNext ? (fast ? 6 : 360) : readDelay(m));
+      if (!reduced) await wait(m.hasNext ? (fast ? 6 : 460) : readDelay(m));
     }
   } finally {
     hideTyping();
-    setStatus("online");
+    setStatus(IDLE_STATUS);
   }
 }
 
@@ -344,7 +385,7 @@ function scrollToBottom(force) {
 // ── the forward (varies per screen) ───────────────────────────────────────────
 
 function armForward(screen) {
-  setStatus("online");
+  setStatus(IDLE_STATUS);
   const f = (screen && screen.forward) || { type: "notify" };
   const av = els.notifAvatar;
 
@@ -420,7 +461,7 @@ function hideBadge() {
 // Save the prayer to a local .txt file. Fully local (a Blob + a download link);
 // nothing leaves the device.
 function saveThePrayer() {
-  const text = (DATA && DATA.savedPrayer) || "";
+  const text = PRAYER_TEXT || FALLBACK_PRAYER;
   try {
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
@@ -528,12 +569,12 @@ function words(m) {
 }
 function readDelay(m) {
   if (fast) return 8;
-  const base = m.kind === "translit" ? 900 : 0;
-  return clamp(base + words(m) * 125, 480, 3800);
+  const base = m.kind === "translit" ? 1100 : 0;
+  return clamp(base + words(m) * 155, 620, 4200);
 }
 function typingDelay(m) {
   if (fast) return 6;
-  return clamp(300 + words(m) * 45, 450, 1500);
+  return clamp(360 + words(m) * 58, 560, 1800);
 }
 function formatTime(d) {
   let h = d.getHours();

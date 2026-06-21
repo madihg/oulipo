@@ -1,0 +1,26 @@
+mother-patina - avatar image credits
+========================================
+
+The mother's avatar (Maman + mum) is the project's own Virgin Mary image,
+assets/mary.jpg.
+
+The three persona avatars below are freely-licensed photographs from Wikimedia
+Commons, cropped to square. Attribution is given as the licenses require.
+
+tantina.jpg  (Tantina Auntie)
+  title  : "Woman wearing sunglasses.jpg"
+  source : https://commons.wikimedia.org/wiki/File:Woman_wearing_sunglasses.jpg
+  author : Rootology (Wikimedia Commons)
+  license: CC BY-SA 3.0  (https://creativecommons.org/licenses/by-sa/3.0/)
+
+sis.jpg  (Oukhti Sis)
+  title  : "LJY, smiling woman, 12 February 2016.jpg"
+  source : https://commons.wikimedia.org/wiki/File:LJY,_smiling_woman,_12_February_2016.jpg
+  author : 유끼밤비 (Yukkibambi, Wikimedia Commons)
+  license: CC BY-SA 4.0  (https://creativecommons.org/licenses/by-sa/4.0/)
+
+khalo.jpg  (Khalo joj)
+  title  : "Fender Starcaster noBG.png"
+  source : https://commons.wikimedia.org/wiki/File:Fender_Starcaster_noBG.png
+  author : Tasmer (Wikimedia Commons)
+  license: CC BY-SA 3.0  (https://creativecommons.org/licenses/by-sa/3.0/)

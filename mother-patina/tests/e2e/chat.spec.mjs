@@ -73,25 +73,62 @@ test.describe("mother-patina", () => {
     await expect(page.locator(".msg.arabic .body")).toHaveText("بحضنك خذينا");
   });
 
-  test("each screen is a chat with a DIFFERENT named contact", async ({
+  test("each screen is a chat with a DIFFERENT named contact + profile picture", async ({
     page,
   }) => {
+    // [contact name, avatar substring] - the mother's picture IS the Virgin Mary
     const expected = {
-      1: "Maman",
-      2: "Tantina Auntie",
-      3: "Oukhti Sis",
-      4: "Khalo joj",
-      5: "mum",
+      1: ["Maman", "mary.jpg"],
+      2: ["Tantina Auntie", "tantina.jpg"],
+      3: ["Oukhti Sis", "sis.jpg"],
+      4: ["Khalo joj", "khalo.jpg"],
+      5: ["mum", "mary.jpg"],
     };
-    for (const [n, name] of Object.entries(expected)) {
+    for (const [n, [name, avatar]] of Object.entries(expected)) {
       await playScreen(page, Number(n));
       await expect(page.locator("#chat-name")).toHaveText(name);
-      // the header avatar is the persona svg, not the Mary picture
       const bg = await page
         .locator("#chat-avatar")
         .evaluate((el) => getComputedStyle(el).backgroundImage);
-      expect(bg).toContain("avatars/");
+      expect(bg).toContain(avatar);
     }
+  });
+
+  test("each persona's screen is skinned as their messenger (WhatsApp / iMessage / Telegram)", async ({
+    page,
+  }) => {
+    const expected = { 1: "whatsapp", 3: "imessage", 4: "telegram" };
+    const out = {};
+    for (const [n, app] of Object.entries(expected)) {
+      await playScreen(page, Number(n));
+      // the theme is applied to <html data-app="...">
+      await expect(page.locator("html")).toHaveAttribute("data-app", app);
+      // capture a sent TEXT-bubble colour to prove the skins actually differ
+      // (not the image bubble, which iMessage renders flush/transparent)
+      out[app] = await page
+        .locator(".msg.out:not(.image)")
+        .first()
+        .evaluate((el) => getComputedStyle(el).backgroundColor);
+    }
+    // WhatsApp green, iMessage blue, Telegram mint are three different colours
+    expect(new Set(Object.values(out)).size).toBe(3);
+    // iMessage sent bubbles are blue-dominant (blue channel beats red + green)
+    const [r, g, bl] = out.imessage.match(/\d+/g).map(Number);
+    expect(bl).toBeGreaterThan(200);
+    expect(bl).toBeGreaterThan(r);
+    expect(bl).toBeGreaterThan(g);
+  });
+
+  test("iMessage shows the sent photo flush, with no blue bubble fill around it", async ({
+    page,
+  }) => {
+    await playScreen(page, 3); // Oukhti Sis = iMessage, image is reader-sent (out)
+    const bg = await page
+      .locator(".msg.image.out")
+      .first()
+      .evaluate((el) => getComputedStyle(el).backgroundColor);
+    // transparent (alpha 0) - the Virgin is not framed in a blue iMessage bubble
+    expect(bg).toMatch(/rgba\(\s*0,\s*0,\s*0,\s*0\s*\)|transparent/);
   });
 
   test("the SAME Mary image is forwarded, with the clean Arabic laid over it", async ({
@@ -211,6 +248,10 @@ test.describe("mother-patina", () => {
       stream.on("end", () => resolve(buf));
       stream.on("error", reject);
     });
+    // the saved file is the decorated Baroque prayer: the Ave Maria ask around the poem
+    expect(text).toMatch(/AVE\s+MARIA/);
+    expect(text).toMatch(/intercede for us/i);
+    expect(text).toContain("When my mother sends these images");
     expect(text).toContain("a hammock for us");
     await expect(page.locator("#notif-sub")).toHaveText("saved to your device");
   });

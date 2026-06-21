@@ -1,10 +1,13 @@
 /* ─────────────────────────────────────────────────────────────────────────────
    mother-patina / styles.css
 
-   A WhatsApp thread, faithful enough to be recognisable: a light header, the
-   beige chat field, white incoming bubbles, green sent bubbles, tails, tiny
-   timestamps. The prayer line is set apart - Arabic in naskh, the chat-Latin
-   transliteration letter-spaced. Each window is a phone. No external requests.
+   A messenger thread, faithful enough to be recognisable. The default skin is
+   WhatsApp (light header, beige field, green sent bubbles); each relative's
+   screen re-themes the same markup into their app via <html data-app="..."> -
+   iMessage (white, blue bubbles, centred header) and Telegram (blue header,
+   mint bubbles) at the bottom of this file. The prayer line is set apart -
+   Arabic in naskh, the chat-Latin transliteration letter-spaced. Each window
+   is a phone. No external requests.
    ──────────────────────────────────────────────────────────────────────────── */
 
 :root {
@@ -452,8 +455,8 @@ html.is-lock .lock {
   width: 22px;
   height: 22px;
   border-radius: 50%;
-  /* the lock screen is Maman's message */
-  background: #d8cfc2 url("assets/avatars/maman.svg") 50% 50% / cover;
+  /* the lock screen is Maman's message - and the mother's picture IS the Virgin */
+  background: #d8cfc2 url("assets/mary.jpg") 50% 18% / cover;
 }
 .lock-notif-title {
   font-family: var(--font-chat);
@@ -526,4 +529,150 @@ html.is-lock .lock {
     animation: none;
     opacity: 0.6;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────────────────────
+   per-app skins. The default above is WhatsApp; each relative's screen sets
+   <html data-app="..."> (chat.js) and the messenger re-themes. We mostly just
+   re-point the --wa-* tokens; only the structural bits (centered iMessage
+   header, bubble tails, text colour on a coloured bubble) need their own rules.
+   ──────────────────────────────────────────────────────────────────────────── */
+
+/* ── iMessage: white field, blue sent bubbles, grey received, centred header ── */
+html[data-app="imessage"] {
+  --wa-field: #ffffff;
+  --wa-head: #ffffff;
+  --wa-in: #e9e9eb;
+  --wa-out: #0a7cff;
+  --wa-ink: #000000;
+  --wa-meta: #8e8e93;
+  --wa-rule: rgba(0, 0, 0, 0.1);
+  --wa-teal: #007aff; /* iOS blue replaces WhatsApp green for accents */
+}
+html[data-app="imessage"] .thread {
+  background-image: none;
+}
+html[data-app="imessage"] .chat-head {
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  position: relative;
+  padding-top: calc(0.35rem + env(safe-area-inset-top));
+  padding-bottom: 0.4rem;
+}
+html[data-app="imessage"] .chat-back {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-35%);
+  color: #007aff;
+  font-size: 1.7rem;
+}
+html[data-app="imessage"] .chat-avatar {
+  width: 30px;
+  height: 30px;
+}
+html[data-app="imessage"] .chat-who {
+  align-items: center;
+}
+html[data-app="imessage"] .chat-name {
+  font-size: 0.8rem;
+}
+html[data-app="imessage"] .chat-status {
+  display: none;
+}
+html[data-app="imessage"] .msg {
+  border-radius: 18px;
+  box-shadow: none;
+}
+html[data-app="imessage"] .msg.in {
+  border-radius: 18px 18px 18px 5px;
+}
+html[data-app="imessage"] .msg.out {
+  border-radius: 18px 18px 5px 18px;
+  color: #fff;
+}
+html[data-app="imessage"] .msg.out.arabic,
+html[data-app="imessage"] .msg.out.translit {
+  color: #fff;
+}
+html[data-app="imessage"] .msg .meta {
+  display: none; /* iMessage hangs time on a separator, not under each bubble */
+}
+/* iMessage shows sent photos flush (no coloured fill, rounded) - not in a blue bubble */
+html[data-app="imessage"] .msg.image {
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
+}
+html[data-app="imessage"] .msg.image .img-frame {
+  border-radius: 16px;
+}
+html[data-app="imessage"] .typing {
+  background: #e9e9eb;
+  box-shadow: none;
+  border-radius: 18px;
+}
+html[data-app="imessage"] .sys {
+  background: transparent;
+  box-shadow: none;
+  color: #8e8e93;
+  font-weight: 600;
+}
+html[data-app="imessage"] .foot-input {
+  border: 1px solid #d1d1d6;
+}
+html[data-app="imessage"] .notif-cue {
+  color: #007aff;
+}
+
+/* ── Telegram: blue header, bluish wallpaper, mint sent bubbles, white received ── */
+html[data-app="telegram"] {
+  --wa-field: #ccd9e6;
+  --wa-head: #527da3;
+  --wa-in: #ffffff;
+  --wa-out: #effdde;
+  --wa-ink: #0b1620;
+  --wa-meta: #5d7888;
+  --wa-rule: rgba(0, 0, 0, 0.08);
+  --wa-teal: #2f7bbd; /* Telegram blue replaces WhatsApp green for accents */
+}
+html[data-app="telegram"] .chat-name {
+  color: #fff;
+}
+html[data-app="telegram"] .chat-status {
+  color: rgba(255, 255, 255, 0.82);
+}
+html[data-app="telegram"] .chat-back {
+  color: #fff;
+}
+html[data-app="telegram"] .msg {
+  border-radius: 12px;
+}
+html[data-app="telegram"] .msg.in {
+  border-radius: 12px 12px 12px 4px;
+}
+html[data-app="telegram"] .msg.out {
+  border-radius: 12px 12px 4px 12px;
+}
+html[data-app="telegram"] .msg.out .meta {
+  color: #54a972;
+}
+html[data-app="telegram"] .sys {
+  background: rgba(0, 0, 0, 0.22);
+  color: #fff;
+  box-shadow: none;
+}
+html[data-app="telegram"] .chat-foot {
+  background: #fff;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+html[data-app="telegram"] .foot-input {
+  border: 1px solid rgba(0, 0, 0, 0.12); /* keep the white pill visible on the white foot */
+}
+html[data-app="telegram"] .notif-cue {
+  color: #2f7bbd;
+}
+html[data-app="telegram"] .notif-badge {
+  background: #53a6e0;
 }

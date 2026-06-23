@@ -4,3 +4,6 @@ playwright-report/
 .playwright/
 *.log
 .DS_Store
+
+# the saved-prayer download name (never a source file)
+mother-patina.txt

@@ -248,12 +248,31 @@ test.describe("mother-patina", () => {
       stream.on("end", () => resolve(buf));
       stream.on("error", reject);
     });
-    // the saved file is the decorated Baroque prayer: the Ave Maria ask around the poem
-    expect(text).toMatch(/AVE\s+MARIA/);
-    expect(text).toMatch(/intercede for us/i);
-    expect(text).toContain("When my mother sends these images");
-    expect(text).toContain("a hammock for us");
+    // the saved file is the grandiose ASCII cathedral wrapped around the poem
+    expect(text).toContain("✠"); // the cross at the cathedral apex
+    expect(text).toContain("When my family forwards Mary");
+    expect(text).toContain("to say I love you.");
+    expect(text).not.toMatch(/AVE\s+MARIA/); // the old framing is gone
     await expect(page.locator("#notif-sub")).toHaveText("saved to your device");
+  });
+
+  test("WhatsApp-style emoji reactions pop onto the right bubbles", async ({
+    page,
+  }) => {
+    // screen 5: two heart reactions (on "I miss you" and "habibi. Me more.")
+    await playScreen(page, 5);
+    await expect(page.locator(".reaction")).toHaveCount(2);
+    for (const r of await page.locator(".reaction").all()) {
+      await expect(r).toHaveText("❤️");
+    }
+    // the reaction clings to its bubble (the bubble carries .has-reaction)
+    const miss = page.locator(".msg", { hasText: "I miss you" }).last();
+    await expect(miss).toHaveClass(/has-reaction/);
+
+    // screen 3 (iMessage): a single laughing reaction on the death-drive line
+    await playScreen(page, 3);
+    await expect(page.locator(".reaction")).toHaveCount(1);
+    await expect(page.locator(".reaction")).toHaveText("😂");
   });
 
   test("the forward button carries a per-screen accessible name (not a static 'continue')", async ({

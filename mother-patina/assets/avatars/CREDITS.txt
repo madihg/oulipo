@@ -7,17 +7,17 @@ assets/mary.jpg.
 The three persona avatars below are freely-licensed photographs from Wikimedia
 Commons, cropped to square. Attribution is given as the licenses require.
 
-tantina.jpg  (Tantina Auntie)
-  title  : "Woman wearing sunglasses.jpg"
-  source : https://commons.wikimedia.org/wiki/File:Woman_wearing_sunglasses.jpg
-  author : Rootology (Wikimedia Commons)
-  license: CC BY-SA 3.0  (https://creativecommons.org/licenses/by-sa/3.0/)
+tantina.jpg  (Tantina Auntie) - a red gown at a fashion show, from behind (no face)
+  title  : "Lauren Lee Smith wearing Ines Di Santo - The Heart Truth Red Dress, 2012"
+  source : https://commons.wikimedia.org/wiki/File:Lauren_Lee_Smith_wearing_Ines_Di_Santo_-_Heart_and_Stroke_Foundation_-_The_Heart_Truth_celebrity_fashion_show_-_Red_Dress_-_Red_Gown_-_Thursday_February_8,_2012_-_Creative_Commons_-a.jpg
+  author : Jason Hargrove (Toronto, Canada)
+  license: CC BY 2.0  (https://creativecommons.org/licenses/by/2.0/)
 
-sis.jpg  (Oukhti Sis)
-  title  : "LJY, smiling woman, 12 February 2016.jpg"
-  source : https://commons.wikimedia.org/wiki/File:LJY,_smiling_woman,_12_February_2016.jpg
-  author : 유끼밤비 (Yukkibambi, Wikimedia Commons)
-  license: CC BY-SA 4.0  (https://creativecommons.org/licenses/by-sa/4.0/)
+sis.jpg  (Oukhti Sis) - a lone figure on a beach in Calabria, Italy (no face)
+  title  : "Summer Farewell, Calabria, Italy (black and white photography)"
+  source : https://commons.wikimedia.org/wiki/File:Summer_Farewell_Calabria_Italy_Black_And_White_Photography_(227877931).jpeg
+  author : Giuseppe Milo
+  license: CC BY 3.0  (https://creativecommons.org/licenses/by/3.0/)
 
 khalo.jpg  (Khalo joj)
   title  : "Fender Starcaster noBG.png"

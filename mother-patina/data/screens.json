@@ -1,5 +1,5 @@
 {
-  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
+  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. reaction: a WhatsApp-style emoji that pops onto that bubble after a beat. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
   "image": "assets/mary.jpg",
   "prayer": "data/prayer.txt",
   "screens": [
@@ -18,8 +18,12 @@
       "messages": [
         { "from": "b", "kind": "image" },
         { "from": "b", "kind": "translit", "text": "FI 7OUDNIKI KHOUZINA" },
-        { "from": "b", "kind": "text", "text": "Into your bosom take us" },
-        { "from": "b", "kind": "text", "text": "Embrace us." },
+        { "from": "a", "kind": "text", "text": "Hi mum, kifik" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "It means Into your bosom take us, embrace us"
+        },
         {
           "from": "a",
           "kind": "text",
@@ -33,7 +37,12 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "Do you remember the older ladies chanting from the top of their lungs in the church your grandfather took you to every single day of summer vacation in the country side?"
+          "text": "Do you remember the older ladies chanting from the top of their lungs"
+        },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "in the church your grandfather took you to every single day of summer vacation in the country side?"
         },
         {
           "from": "a",
@@ -45,23 +54,24 @@
           "kind": "text",
           "text": "which is the closest you can get to the heart through the nose."
         },
-        { "from": "b", "kind": "text", "text": "Embrace us. Mary," },
-        { "from": "a", "kind": "text", "text": "Ingest us." },
+        { "from": "b", "kind": "text", "text": "Embrace us Mary" },
+        { "from": "a", "kind": "text", "text": "Eat us whole" },
         {
           "from": "a",
           "kind": "text",
-          "text": "Your stomach acids dissolve our defenses. Drill this faith into our bones until these masks become skin."
+          "text": "May your stomach acids dissolve our defenses."
+        },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "Drill this faith into our bones until these masks become skin."
         },
         {
           "from": "b",
           "kind": "text",
           "text": "this is a story of submission"
         },
-        {
-          "from": "a",
-          "kind": "text",
-          "text": "this is a story of transmission"
-        }
+        { "from": "a", "kind": "text", "text": "this is a story of transition" }
       ]
     },
     {
@@ -80,19 +90,15 @@
         { "from": "b", "kind": "image" },
         {
           "from": "b",
-          "kind": "translit",
-          "text": "WA 3AN KOULLI CHARREN 2EB3IDINA"
-        },
-        {
-          "from": "b",
           "kind": "text",
           "text": "And keep us away from all evil"
         },
         { "from": "a", "kind": "text", "text": "Hi habibi" },
+        { "from": "b", "kind": "text", "text": "how is your knee today?" },
         {
           "from": "b",
           "kind": "text",
-          "text": "It means move us. Remove our bodies from risky territory."
+          "text": "WA 3AN KOULLI CHARREN 2EB3IDINA means distance us. Move us away. Remove our bodies from risky territory."
         },
         {
           "from": "a",
@@ -112,12 +118,13 @@
         {
           "from": "a",
           "kind": "text",
-          "text": "Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves."
+          "text": "Never the teeth biting their inner cheeks, blood filling our mouths as we get drunk on ourselves.",
+          "reaction": "👎"
         },
         {
           "from": "b",
           "kind": "text",
-          "text": "Mary, keep us away from that too."
+          "text": "Mary, keep us away from that too!"
         },
         {
           "from": "a",
@@ -181,7 +188,8 @@
         {
           "from": "a",
           "kind": "text",
-          "text": "Hard to birth a boy with a death drive."
+          "text": "Hard to birth a boy with a death drive.",
+          "reaction": "😂"
         },
         {
           "from": "b",
@@ -222,6 +230,11 @@
           "text": "fiber optic whispers ocean deep"
         },
         {
+          "from": "b",
+          "kind": "text",
+          "text": "I really want to go to Thailand this summer!!!"
+        },
+        {
           "from": "a",
           "kind": "text",
           "text": "the ghost relics of transmission. this is a story of"
@@ -251,7 +264,14 @@
           "kind": "text",
           "text": "Intercede for us. Pray for us"
         },
-        { "from": "b", "kind": "text", "text": "No. Pray to your son." },
+        { "from": "b", "kind": "text", "text": "More like Pray to your son." },
+        { "from": "b", "kind": "text", "text": "Khalo how is work?" },
+        {
+          "from": "a",
+          "kind": "text",
+          "text": "All good habibi!",
+          "reaction": "💪"
+        },
         {
           "from": "a",
           "kind": "text",
@@ -322,8 +342,13 @@
         },
         { "from": "b", "kind": "text", "text": "I tried to call you" },
         { "from": "a", "kind": "text", "text": "I missed you" },
-        { "from": "a", "kind": "text", "text": "I miss you" },
-        { "from": "b", "kind": "text", "text": "habibi" }
+        { "from": "a", "kind": "text", "text": "I miss you", "reaction": "❤️" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "habibi. Me more.",
+          "reaction": "❤️"
+        }
       ]
     }
   ]

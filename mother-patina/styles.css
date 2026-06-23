@@ -177,6 +177,31 @@ html.is-lock .lock {
   border-top-right-radius: 1px;
 }
 
+/* a WhatsApp-style emoji reaction clinging to the bubble's bottom edge */
+.msg.has-reaction {
+  margin-bottom: 0.85rem;
+}
+.reaction {
+  position: absolute;
+  bottom: -0.65rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  background: var(--wa-in);
+  /* a fixed chip outline so the pill stays visible on every skin, incl. white iMessage */
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 1rem;
+  padding: 1px 4px 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.18);
+  z-index: 3;
+  animation: pop 200ms var(--ease);
+}
+.msg.in .reaction {
+  left: 0.5rem;
+}
+.msg.out .reaction {
+  right: 0.5rem;
+}
+
 /* the prayer line, set apart */
 .msg.arabic {
   font-family: var(--font-arabic);
@@ -522,7 +547,8 @@ html.is-lock .lock {
 @media (prefers-reduced-motion: reduce) {
   .msg,
   .notif,
-  .lock-hint {
+  .lock-hint,
+  .reaction {
     animation: none;
   }
   .typing i {

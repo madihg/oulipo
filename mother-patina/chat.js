@@ -57,7 +57,7 @@ const PLACEHOLDER = {
 };
 // if the decorated prayer file can't be read, the artifact still holds the poem.
 const FALLBACK_PRAYER =
-  "When my mother sends these images\nshe's saying something\nshe doesn't know how to say:\nMy son, my daughter, I am aging.\nThis faith is the buoy I know best.\nThese worn images are how I learned\nto say I love you.\n\nMother I know nothing\nof the architecture of your faith\nbut here are my ribs\nbent to hang\na hammock for us.\n";
+  "When my family forwards Mary\nThey are saying something\nThey don't know what to say but\nMy son, my daughter, my niece, my love\nWe are aging and this faith\nis the buoy we know best.\nThese worn images are how we learned\nto say I love you.\n";
 
 window.__mp = { screen: screenNum, lock: onLock, done: false };
 
@@ -166,9 +166,21 @@ async function playScreen(screen) {
         }
       }
 
+      let node = null;
       if (m.kind === "image") await addImage(m.from, screen);
-      else els.thread.appendChild(bubble(m));
+      else {
+        node = bubble(m);
+        els.thread.appendChild(node);
+      }
       autoScroll();
+
+      // a WhatsApp-style emoji reaction pops onto the bubble a beat later, before
+      // the next message arrives (only on the final part of a split message).
+      if (node && m.reaction && !m.hasNext) {
+        if (!reduced) await wait(fast ? 6 : 650);
+        addReaction(node, m.reaction);
+        autoScroll();
+      }
 
       if (!reduced) await wait(m.hasNext ? (fast ? 6 : 460) : readDelay(m));
     }
@@ -265,6 +277,17 @@ function bubble(m) {
   node.appendChild(body);
   node.appendChild(meta());
   return node;
+}
+
+// a WhatsApp-style reaction: a little emoji pill clinging to the bubble's edge.
+function addReaction(node, emoji) {
+  const r = document.createElement("span");
+  r.className = "reaction";
+  r.textContent = emoji;
+  r.setAttribute("role", "img");
+  r.setAttribute("aria-label", "reacted " + emoji);
+  node.appendChild(r);
+  node.classList.add("has-reaction");
 }
 
 function meta() {

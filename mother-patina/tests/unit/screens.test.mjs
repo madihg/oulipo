@@ -99,12 +99,37 @@ test("each screen opens with an image, sent by the right person", () => {
   });
 });
 
-test("each screen carries its transliteration line as a chat message", () => {
+test("each screen carries its romanised dua somewhere in the conversation", () => {
+  // screens 1/3/4/5 show it as a styled translit bubble; screen 2 embeds it in a
+  // later message ("WA 3AN... means distance us..."), so just assert it appears.
   data.screens.forEach((s, i) => {
-    const tr = s.messages.find((m) => m.kind === "translit");
-    assert.ok(tr, `screen ${i + 1} has a translit`);
-    assert.equal(tr.text, TRANSLITS[i]);
+    const has = s.messages.some((m) => (m.text || "").includes(TRANSLITS[i]));
+    assert.ok(has, `screen ${i + 1} carries "${TRANSLITS[i]}"`);
   });
+});
+
+test("the emoji reactions land on the right messages", () => {
+  // [screen index, the message text it reacts to, the emoji]
+  const expected = [
+    [1, "get drunk on ourselves", "👎"],
+    [2, "Hard to birth a boy with a death drive.", "😂"],
+    [3, "All good habibi!", "💪"],
+    [4, "I miss you", "❤️"],
+    [4, "habibi. Me more.", "❤️"],
+  ];
+  for (const [si, frag, emoji] of expected) {
+    const m = data.screens[si].messages.find((x) =>
+      (x.text || "").includes(frag),
+    );
+    assert.ok(m, `screen ${si + 1} has a message containing "${frag}"`);
+    assert.equal(m.reaction, emoji, `"${frag}" carries ${emoji}`);
+  }
+  // exactly five reactions across the piece
+  const total = data.screens.reduce(
+    (n, s) => n + s.messages.filter((m) => m.reaction).length,
+    0,
+  );
+  assert.equal(total, 5);
 });
 
 test("every message has a valid from + kind", () => {
@@ -137,36 +162,38 @@ test("the forward affordance varies per screen and ends on 'save'", () => {
   assert.equal(data.screens[3].forward.count, 3, "the burst counts to 3");
 });
 
-test("the saved prayer is a decorated file: the Ave Maria ask wrapped around the poem", () => {
+test("the saved prayer is a grandiose ASCII cathedral wrapped around the poem", () => {
   assert.equal(data.savedPrayer, undefined, "no longer inline in the json");
   assert.equal(data.prayer, "data/prayer.txt");
   const p = path.join(ROOT, data.prayer);
   assert.ok(fs.existsSync(p), "prayer.txt exists on disk");
   const txt = fs.readFileSync(p, "utf8");
-  assert.match(txt, /AVE\s+MARIA/, "carries an Ave Maria invocation");
-  assert.match(txt, /intercede for us/i, "the ask of the Virgin Mary");
+  // a Gothic cathedral: an apex cross and the nave walls
+  assert.ok(txt.includes("✠"), "has the cross at the apex");
+  assert.ok(txt.includes("╚"), "has the cathedral nave/frame");
+  // the new poem, opening and closing lines, sits inside
   assert.ok(
-    txt.includes("When my mother sends these images"),
-    "the existing poem opens in the middle",
+    txt.includes("When my family forwards Mary"),
+    "the poem opens inside the nave",
   );
-  assert.ok(txt.includes("a hammock for us"), "the poem ends on the hammock");
+  assert.ok(txt.includes("to say I love you."), "the poem closes the nave");
+  // the dropped framing is gone
+  for (const gone of ["AVE MARIA", "a prayer forwarded", "the ask"]) {
+    assert.ok(!new RegExp(gone, "i").test(txt), `"${gone}" was dropped`);
+  }
 });
 
-test("the in-code fallback prayer matches the decorated file's poem ending (no drift)", () => {
+test("the in-code fallback prayer matches the decorated file's poem (no drift)", () => {
   // if prayer.txt ever fails to load, saveThePrayer falls back to a literal in
-  // chat.js; the two must agree, down to the closing period.
+  // chat.js; the two must agree on the poem, down to the closing period.
   const txt = fs.readFileSync(path.join(ROOT, "data/prayer.txt"), "utf8");
   const js = fs.readFileSync(path.join(ROOT, "chat.js"), "utf8");
-  assert.ok(
-    txt.includes("a hammock for us."),
-    "prayer.txt keeps the closing period",
-  );
+  assert.ok(txt.includes("to say I love you."), "prayer.txt keeps the period");
   const fb = js.match(/FALLBACK_PRAYER\s*=\s*"([^]*?)";/);
   assert.ok(fb, "FALLBACK_PRAYER literal found in chat.js");
-  assert.ok(
-    fb[1].includes("a hammock for us."),
-    "FALLBACK_PRAYER keeps the same closing period",
-  );
+  for (const line of ["When my family forwards Mary", "to say I love you."]) {
+    assert.ok(fb[1].includes(line), `FALLBACK_PRAYER keeps "${line}"`);
+  }
 });
 
 test("the freely-licensed persona photos carry a credits file", () => {
@@ -178,8 +205,9 @@ test("the freely-licensed persona photos carry a credits file", () => {
   }
 });
 
-test("the last screen ends on 'habibi'", () => {
+test("the last screen ends on the mother's 'habibi. Me more.'", () => {
   const last = data.screens[4].messages.at(-1);
-  assert.equal(last.text, "habibi");
+  assert.equal(last.text, "habibi. Me more.");
   assert.equal(last.from, "b");
+  assert.equal(last.reaction, "❤️", "with a heart reaction");
 });

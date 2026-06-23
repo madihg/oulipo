@@ -1,0 +1,98 @@
+<!--
+       +
+       +
+   +++++++++
+       +        mother, not metaphor
+
+   five tongues for one mother. the camera is the performer; the hands turn the
+   page; the little colored blocks are the only language left. a reusable poem
+   machine - components inside a phone-sized frame. keep these comments.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- resolve relative assets whether or not the URL has a trailing slash, so
+         /mother-not-metaphor and /mother-not-metaphor/ both work. -->
+    <script>
+      (function () {
+        var p = location.pathname,
+          b;
+        if (p.charAt(p.length - 1) === "/") b = p;
+        else if (/\.[a-z0-9]+$/i.test(p)) b = p.replace(/[^/]*$/, "");
+        else b = p + "/";
+        document.write('<base href="' + b + '">');
+      })();
+    </script>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>mother, not metaphor</title>
+    <meta
+      name="description"
+      content="A poem in five tongues for one mother - a live performance instrument of camera, words and morphing color, sized for a phone."
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <h1 class="sr-only">mother, not metaphor - a poem in five tongues</h1>
+
+    <main
+      class="stage"
+      id="stage"
+      data-layout="L1"
+      aria-label="mother, not metaphor"
+    >
+      <!-- ME: the performer's camera (or, with no camera, the name) -->
+      <section class="box box--me" id="box-me" aria-label="performer">
+        <video class="cam-video" id="cam-video" playsinline muted></video>
+        <div class="cam-fallback" id="cam-fallback">
+          <span class="cam-fallback__name">Halim Madi</span>
+          <span class="cam-fallback__sub mono">mother, not metaphor</span>
+        </div>
+        <span class="box-label mono" aria-hidden="true">me</span>
+      </section>
+
+      <!-- WORDS: the line, revealed as if transcribed live, with translation -->
+      <section class="box box--words" id="box-words" aria-label="words">
+        <div class="words-tag mono" id="words-tag" aria-hidden="true"></div>
+        <p class="words-caption" id="words-caption" aria-live="polite"></p>
+        <p class="words-translation" id="words-translation"></p>
+        <span class="caret" aria-hidden="true"></span>
+        <span class="box-label mono" aria-hidden="true">words</span>
+      </section>
+
+      <!-- ILLUSTRATION: flat-geometric color that morphs, paced to speech -->
+      <section class="box box--illus" id="box-illus" aria-label="illustration">
+        <svg
+          class="illus-svg"
+          id="illus-svg"
+          viewBox="0 0 100 100"
+          preserveAspectRatio="xMidYMid meet"
+          aria-hidden="true"
+        ></svg>
+        <span class="box-label mono" aria-hidden="true">illustration</span>
+      </section>
+
+      <div class="hint mono" id="hint" aria-hidden="true"></div>
+
+      <!-- the start gate: a tap so the browser will grant the camera -->
+      <div class="intro" id="intro" hidden>
+        <div class="intro__inner">
+          <h2 class="intro__title">mother, not metaphor</h2>
+          <p class="intro__note" id="intro-note">
+            A poem in five tongues. Let the camera see your hands - change their
+            shape to turn from one tongue to the next. No camera? It plays
+            itself.
+          </p>
+          <button class="intro__start" id="start" type="button">begin</button>
+        </div>
+      </div>
+    </main>
+
+    <a class="back mono" href="/">oulipo.xyz</a>
+
+    <script type="module" src="src/main.js"></script>
+  </body>
+</html>

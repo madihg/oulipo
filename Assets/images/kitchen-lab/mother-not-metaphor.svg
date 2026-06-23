@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" role="img" aria-label="mother, not metaphor">
+  <rect width="600" height="400" fill="#f3f3f1" />
+  <!-- ocean -->
+  <rect x="36" y="64" width="206" height="150" fill="#2138de" />
+  <!-- sea + war bars -->
+  <rect x="36" y="226" width="206" height="34" fill="#3e8ede" />
+  <rect x="36" y="276" width="206" height="34" fill="#e8381f" />
+  <!-- dough / bread -->
+  <rect x="470" y="60" width="94" height="120" fill="#e9a21c" />
+  <rect x="470" y="206" width="94" height="104" fill="#1e854a" />
+  <!-- the cross (salibon) -->
+  <rect x="330" y="44" width="54" height="292" fill="#141414" />
+  <rect x="286" y="150" width="142" height="54" fill="#141414" />
+</svg>

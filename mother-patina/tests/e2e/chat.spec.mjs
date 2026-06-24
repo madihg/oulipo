@@ -275,6 +275,24 @@ test.describe("mother-patina", () => {
     await expect(page.locator(".reaction")).toHaveText("😂");
   });
 
+  test("the whole prayer is hidden in the browser console (no UI hint)", async ({
+    page,
+  }) => {
+    const logs = [];
+    page.on("console", (m) => logs.push(m.text()));
+    await page.goto("/?screen=5&fast=1");
+    await page.waitForFunction(() => window.__mp && window.__mp.done, {
+      timeout: 10000,
+    });
+    await page.waitForTimeout(150);
+    const joined = logs.join("\n");
+    expect(joined).toContain("When my family forwards Mary"); // the poem
+    expect(joined).toContain("to say I love you.");
+    expect(joined).toContain("✠"); // the ASCII cathedral apex
+    // and nothing in the visible page announces it
+    await expect(page.locator("body")).not.toContainText("console");
+  });
+
   test("the forward button carries a per-screen accessible name (not a static 'continue')", async ({
     page,
   }) => {

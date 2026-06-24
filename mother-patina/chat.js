@@ -73,6 +73,7 @@ async function boot() {
   if (onLock) {
     setupLock();
     window.__mp.done = true;
+    printPrayer(); // the prayer is hidden in the console even on the landing
     return;
   }
 
@@ -83,6 +84,7 @@ async function boot() {
   DATA = await (await fetch("data/screens.json")).json();
   SCREEN = DATA.screens.find((s) => s.screen === screenNum) || DATA.screens[0];
   PRAYER_TEXT = await loadPrayer(DATA.prayer);
+  printPrayer();
 
   setContact(SCREEN);
   addDateSeparator(screenNum);
@@ -118,6 +120,17 @@ async function loadPrayer(path) {
     return text.trim() ? text : FALLBACK_PRAYER;
   } catch {
     return FALLBACK_PRAYER;
+  }
+}
+
+// hidden: the saved prayer also prints, whole, to the browser console - the same
+// text the reader can save - for anyone who thinks to open it. No hint in the UI.
+async function printPrayer() {
+  try {
+    const text = PRAYER_TEXT || (await loadPrayer("data/prayer.txt"));
+    if (text && text.trim()) console.log("\n" + text + "\n");
+  } catch {
+    /* the prayer is a gift in the console, never a requirement */
   }
 }
 

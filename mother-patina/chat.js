@@ -610,7 +610,9 @@ function readDelay(m) {
 }
 function typingDelay(m) {
   if (fast) return 6;
-  return clamp(360 + words(m) * 58, 560, 1800);
+  const base = clamp(360 + words(m) * 58, 560, 1800);
+  // a few high-stakes lines hold the typing dots ~50% longer, so the weight lands.
+  return m.weight ? Math.round(base * 1.5) : base;
 }
 function formatTime(d) {
   let h = d.getHours();

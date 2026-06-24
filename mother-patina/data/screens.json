@@ -1,5 +1,5 @@
 {
-  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. reaction: a WhatsApp-style emoji that pops onto that bubble after a beat. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
+  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. reaction: a WhatsApp-style emoji that pops onto that bubble after a beat. weight: true on a few high-stakes incoming (b) lines holds the typing dots ~50% longer so the weight lands. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
   "image": "assets/mary.jpg",
   "prayer": "data/prayer.txt",
   "screens": [
@@ -182,7 +182,8 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come."
+          "text": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come.",
+          "weight": true
         },
         { "from": "a", "kind": "text", "text": "lol" },
         {
@@ -340,14 +341,20 @@
           "kind": "text",
           "text": "biology humming the womb's song"
         },
-        { "from": "b", "kind": "text", "text": "I tried to call you" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "I tried to call you",
+          "weight": true
+        },
         { "from": "a", "kind": "text", "text": "I missed you" },
         { "from": "a", "kind": "text", "text": "I miss you", "reaction": "❤️" },
         {
           "from": "b",
           "kind": "text",
           "text": "habibi. Me more.",
-          "reaction": "❤️"
+          "reaction": "❤️",
+          "weight": true
         }
       ]
     }

@@ -1,0 +1,11 @@
+{
+  "extends": ["html-validate:recommended"],
+  "rules": {
+    "void-style": "off",
+    "doctype-style": "off",
+    "prefer-native-element": [
+      "warn",
+      { "exclude": ["listbox", "presentation"] }
+    ]
+  }
+}

@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["--prefix", "votive-patina", "run", "serve"],
       "port": 4178
+    },
+    {
+      "name": "mother-not-metaphor",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["mother-not-metaphor/scripts/serve.mjs"],
+      "port": 4180
     }
   ]
 }

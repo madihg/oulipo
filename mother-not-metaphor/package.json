@@ -1,0 +1,19 @@
+{
+  "name": "mother-not-metaphor-dev",
+  "version": "0.0.1",
+  "description": "DEV-ONLY harness for the mother-not-metaphor net.art poem engine. Never ships.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "test:unit": "node --test --test-concurrency=1 tests/unit/*.test.mjs",
+    "test:e2e": "playwright test",
+    "lint:html": "html-validate index.html",
+    "verify:purity": "node scripts/verify-purity.mjs",
+    "test": "npm run test:unit && npm run lint:html && npm run verify:purity && npm run test:e2e"
+  },
+  "devDependencies": {
+    "@playwright/test": "latest",
+    "html-validate": "latest"
+  }
+}

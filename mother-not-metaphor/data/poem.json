@@ -1,0 +1,186 @@
+{
+  "title": "mother, not metaphor",
+  "credit": "Halim Madi",
+  "palette": {
+    "paper": "#f3f3f1",
+    "ink": "#141414",
+    "blue": "#2138de",
+    "sky": "#3e8ede",
+    "red": "#e8381f",
+    "amber": "#e9a21c",
+    "green": "#1e854a"
+  },
+  "pacing": {
+    "msPerChar": 55,
+    "minMomentMs": 4200,
+    "maxMomentMs": 13000,
+    "morphMs": 560
+  },
+  "moments": [
+    {
+      "id": "en",
+      "lang": "EN",
+      "dir": "ltr",
+      "layout": "L1",
+      "original": "Mother, there's an ocean, a sea, and a war between your ribs and my palms.",
+      "english": null,
+      "note": "ocean, sea, war stack between the ribs",
+      "illustration": {
+        "viewBox": "0 0 100 100",
+        "keyframes": [
+          [
+            { "x": 14, "y": 12, "w": 72, "h": 46, "fill": "blue", "o": 1 },
+            { "x": 14, "y": 69, "w": 72, "h": 0, "fill": "sky", "o": 0 },
+            { "x": 14, "y": 85, "w": 72, "h": 0, "fill": "red", "o": 0 }
+          ],
+          [
+            { "x": 14, "y": 12, "w": 72, "h": 46, "fill": "blue", "o": 1 },
+            { "x": 14, "y": 64, "w": 72, "h": 10, "fill": "sky", "o": 1 },
+            { "x": 14, "y": 85, "w": 72, "h": 0, "fill": "red", "o": 0 }
+          ],
+          [
+            { "x": 14, "y": 12, "w": 72, "h": 46, "fill": "blue", "o": 1 },
+            { "x": 14, "y": 64, "w": 72, "h": 10, "fill": "sky", "o": 1 },
+            { "x": 14, "y": 80, "w": 72, "h": 10, "fill": "red", "o": 1 }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "fr",
+      "lang": "FR",
+      "dir": "ltr",
+      "layout": "L2",
+      "original": "Ma mère l'absence de tes côtes est la seule présence que je ressens et mes mains ne pressent pas mais pétrissent plutôt l'air en un pain immangeable",
+      "english": "My mother, the absence of your ribs is the only presence I feel, and my hands do not press but rather knead the air into an inedible bread.",
+      "note": "ribs (slats) -> two hands -> dough -> burnt loaf",
+      "illustration": {
+        "viewBox": "0 0 100 100",
+        "keyframes": [
+          [
+            { "x": 18, "y": 12, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 23, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 34, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 45, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 56, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 67, "w": 64, "h": 6, "fill": "red", "o": 1 },
+            { "x": 18, "y": 78, "w": 64, "h": 6, "fill": "red", "o": 1 }
+          ],
+          [
+            { "x": 20, "y": 18, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 20, "y": 34, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 20, "y": 50, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 20, "y": 66, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 54, "y": 26, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 54, "y": 44, "w": 26, "h": 8, "fill": "red", "o": 1 },
+            { "x": 54, "y": 62, "w": 26, "h": 8, "fill": "red", "o": 1 }
+          ],
+          [
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 },
+            { "x": 22, "y": 26, "w": 56, "h": 48, "fill": "amber", "o": 1 }
+          ],
+          [
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 },
+            { "x": 26, "y": 26, "w": 48, "h": 48, "fill": "ink", "o": 1 }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ar",
+      "lang": "AR",
+      "dir": "ltr",
+      "layout": "L3",
+      "original": "Oummi dam3i salibon yachtoubou fi wajhi sabila khalasen mousta7il",
+      "english": "Mother, my tears are a cross written on my face - an impossible path to salvation.",
+      "note": "one cross, color cycling black -> blue -> amber -> red",
+      "illustration": {
+        "viewBox": "0 0 100 100",
+        "keyframes": [
+          [
+            { "x": 43, "y": 14, "w": 14, "h": 72, "fill": "ink", "o": 1 },
+            { "x": 28, "y": 40, "w": 44, "h": 14, "fill": "ink", "o": 1 }
+          ],
+          [
+            { "x": 43, "y": 14, "w": 14, "h": 72, "fill": "blue", "o": 1 },
+            { "x": 28, "y": 40, "w": 44, "h": 14, "fill": "blue", "o": 1 }
+          ],
+          [
+            { "x": 43, "y": 14, "w": 14, "h": 72, "fill": "amber", "o": 1 },
+            { "x": 28, "y": 40, "w": 44, "h": 14, "fill": "amber", "o": 1 }
+          ],
+          [
+            { "x": 43, "y": 14, "w": 14, "h": 72, "fill": "red", "o": 1 },
+            { "x": 28, "y": 40, "w": 44, "h": 14, "fill": "red", "o": 1 }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "ar-lev",
+      "lang": "AR-Levantine",
+      "dir": "ltr",
+      "layout": "L4",
+      "original": "Mama wa3adtik 2erja3 2e23oud ma3ik. Cigara w kess whiskey.",
+      "english": "Mama, I promised I'd come back and sit with you. A cigarette and a glass of whiskey.",
+      "note": "cigarette (amber bar + ember) -> a glass of whiskey",
+      "illustration": {
+        "viewBox": "0 0 100 100",
+        "keyframes": [
+          [
+            { "x": 20, "y": 42, "w": 34, "h": 7, "fill": "amber", "o": 1 },
+            { "x": 58, "y": 41, "w": 9, "h": 9, "fill": "ink", "o": 1 }
+          ],
+          [
+            { "x": 54, "y": 60, "w": 28, "h": 12, "fill": "amber", "o": 1 },
+            { "x": 54, "y": 42, "w": 28, "h": 18, "fill": "blue", "o": 1 }
+          ]
+        ]
+      }
+    },
+    {
+      "id": "pt-br",
+      "lang": "PT-BR",
+      "dir": "ltr",
+      "layout": "L5",
+      "original": "mas mama preciso de outra língua pra esconder o quanto são impróprias a minha distância e a minha incompletude quando você não está por perto",
+      "english": "but mama I need another language to hide the inappropriateness of both my distance and my incompleteness when you're not around.",
+      "note": "every color recombined into one mosaic - the other language",
+      "illustration": {
+        "viewBox": "0 0 100 100",
+        "keyframes": [
+          [
+            { "x": 19, "y": 22, "w": 6, "h": 6, "fill": "green", "o": 0.12 },
+            { "x": 36, "y": 22, "w": 6, "h": 6, "fill": "ink", "o": 0.12 },
+            { "x": 48, "y": 22, "w": 6, "h": 6, "fill": "red", "o": 0.12 },
+            { "x": 70, "y": 22, "w": 6, "h": 6, "fill": "amber", "o": 0.12 },
+            { "x": 47, "y": 46, "w": 6, "h": 6, "fill": "blue", "o": 0.12 },
+            { "x": 18, "y": 71, "w": 6, "h": 6, "fill": "green", "o": 0.12 },
+            { "x": 46, "y": 71, "w": 6, "h": 6, "fill": "amber", "o": 0.12 },
+            { "x": 75, "y": 71, "w": 6, "h": 6, "fill": "red", "o": 0.12 }
+          ],
+          [
+            { "x": 12, "y": 14, "w": 20, "h": 22, "fill": "green", "o": 1 },
+            { "x": 34, "y": 14, "w": 10, "h": 22, "fill": "ink", "o": 1 },
+            { "x": 46, "y": 14, "w": 10, "h": 22, "fill": "red", "o": 1 },
+            { "x": 58, "y": 14, "w": 30, "h": 22, "fill": "amber", "o": 1 },
+            { "x": 12, "y": 40, "w": 76, "h": 18, "fill": "blue", "o": 1 },
+            { "x": 12, "y": 62, "w": 18, "h": 24, "fill": "green", "o": 1 },
+            { "x": 32, "y": 62, "w": 34, "h": 24, "fill": "amber", "o": 1 },
+            { "x": 68, "y": 62, "w": 20, "h": 24, "fill": "red", "o": 1 }
+          ]
+        ]
+      }
+    }
+  ]
+}

@@ -200,8 +200,20 @@ test("the saved prayer is a grandiose ASCII cathedral wrapped around the poem", 
     "the poem opens inside the nave",
   );
   assert.ok(txt.includes("to say I love you."), "the poem closes the nave");
-  // the dropped framing is gone
-  for (const gone of ["AVE MARIA", "a prayer forwarded", "the ask"]) {
+  // the revised middle lines (the "but" leads the address; no possessives)
+  assert.ok(
+    txt.includes("but son, daughter, niece, love"),
+    "the revised address line",
+  );
+  // the dropped framing + the pre-revision phrasings are gone
+  for (const gone of [
+    "AVE MARIA",
+    "a prayer forwarded",
+    "the ask",
+    "They are saying something",
+    "My son, my daughter, my niece, my love",
+    "what to say but",
+  ]) {
     assert.ok(!new RegExp(gone, "i").test(txt), `"${gone}" was dropped`);
   }
 });
@@ -214,8 +226,13 @@ test("the in-code fallback prayer matches the decorated file's poem (no drift)",
   assert.ok(txt.includes("to say I love you."), "prayer.txt keeps the period");
   const fb = js.match(/FALLBACK_PRAYER\s*=\s*"([^]*?)";/);
   assert.ok(fb, "FALLBACK_PRAYER literal found in chat.js");
-  for (const line of ["When my family forwards Mary", "to say I love you."]) {
+  for (const line of [
+    "When my family forwards Mary",
+    "but son, daughter, niece, love",
+    "to say I love you.",
+  ]) {
     assert.ok(fb[1].includes(line), `FALLBACK_PRAYER keeps "${line}"`);
+    assert.ok(txt.includes(line), `prayer.txt keeps "${line}"`);
   }
 });
 

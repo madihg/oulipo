@@ -132,6 +132,29 @@ test("the emoji reactions land on the right messages", () => {
   assert.equal(total, 5);
 });
 
+test("exactly three high-stakes incoming lines carry extra typing weight", () => {
+  const weighted = [];
+  data.screens.forEach((s, i) =>
+    s.messages.forEach((m) => {
+      if (m.weight)
+        weighted.push({ screen: i + 1, from: m.from, text: m.text });
+    }),
+  );
+  assert.equal(weighted.length, 3, "exactly three weighted moments");
+  // weight only makes sense on incoming (b) lines - those are the ones that show typing dots
+  for (const w of weighted) {
+    assert.equal(
+      w.from,
+      "b",
+      `weighted line on screen ${w.screen} must be incoming`,
+    );
+  }
+  const texts = weighted.map((w) => w.text);
+  assert.ok(texts.some((t) => t.includes("It must be hard to raise a child")));
+  assert.ok(texts.includes("I tried to call you"));
+  assert.ok(texts.includes("habibi. Me more."));
+});
+
 test("every message has a valid from + kind", () => {
   const FROMS = new Set(["a", "b", "system"]);
   const KINDS = new Set(["image", "translit", "text"]);

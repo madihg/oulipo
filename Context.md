@@ -1,6 +1,143 @@
 # Oulipo.xyz Context
 
-## Session State (Apr 5, 2026 - session 7)
+## Session State (Jul 2, 2026 - modern signal redesign)
+
+### Current Task: Apply "modern signal" v3.1 design system to the Kitchen Lab landing
+
+**Status: BUILT + VERIFYING** - index.html fully rebuilt per DESIGN-SYSTEM.md
+section 10 (Halim supplied the spec in-chat; it is the IG design system for
+@yalla_halim translated to web). Uncommitted - awaiting Halim's review.
+
+What changed:
+
+- `index.html` - complete rewrite. Tokens verbatim (blue #1C39E8, ink #0B0B0D,
+  paper #FBFBF9, chrome #B8BCC2, copper #C9772E). VT323 lowercase display +
+  JetBrains Mono (labels UPPERCASE 13px +0.08em, prose sentence case 16/1.65),
+  loaded from Google Fonts. Nav with chrome hairline; hero with waw glyph
+  mark + Beirut coordinates; announcement banner (12px blue left bar - the one
+  place blue leads: Banff computational writing, Sep 07-18 2026); featured
+  wall (2 tiles + hug-width chips); series rows (borderline.exe, case against
+  the son, latent space games); petri-dish wall (4:5 tiles, 4px seam, 2 ink
+  quote tiles + 1 copper glyph tile interleaved, chips on hover); ink footer
+  (meem glyph, marquee ticker, one blue tick = the site's mark). Glitch +
+  scanline micro-interactions, registration-cross cursor on walls,
+  prefers-reduced-motion kills all motion. No JS. All piece links unchanged.
+- `scripts/treat-images.py` - pure-Pillow port of the canonical treat.py
+  (grayscale, contrast 1.15/brightness 1.05, duotone ink->paper, halftone
+  cell 5 strength 0.3, seeded grain seed 7 Pegtop soft-light 0.5). Bakes
+  Assets/images/kitchen-lab/treated/ (featured/series at 1080x1350, dishes
+  at 640x800, JPEG q88).
+- `scripts/arabic-marks.py` - Diwan Thuluth glyph marks (waw ink, meem white,
+  ha copper), halftoned transparent PNGs in Assets/images/marks/.
+- `scripts/check-design-system.mjs` - 17 ship checks (tokens, no pure
+  white/black, casing transforms, blue budget, 4px seam, treated-only images,
+  no em dashes, reduced-motion, focus ring). All pass.
+- `scripts/screenshot-landing.mjs` - full-page desktop+mobile captures via
+  playwright against `python3 -m http.server 4242` (launch.json:
+  oulipo-static).
+
+Gotcha fixed: tile hairlines must live on a ::before overlay - an
+absolutely-positioned img paints ABOVE its parent's outline.
+
+**MACHINE WARNING: Halim's disk is at 100% (263MB free of 228GB). A
+mid-session ENOSPC killed Bash entirely. Freed session temp files; he needs
+to clear space.**
+
+Open items: Halim to approve the redesign, then commit via the usual
+branch->PR path. Adversarial review workflow (wf_0e7bd33f-842) findings
+applied. Old landing recoverable via git (HEAD~ index.html).
+
+### Revision round (Jul 2, same day) - Halim's feedback
+
+Applied 6 of 7 asks:
+
+1. Removed the 3 unclickable filler tiles (2 quote text-tiles + copper glyph
+   tile) from the petri-dish wall. Now 17 real clickable tiles only. NOTE:
+   17 is prime -> the 4-col grid trails one orphan tile. No filler allowed
+   (Halim's call), and all 17 sandbox pieces are already linked, so nothing
+   real to pad with. Left ragged; offered to adjust.
+2. Killed the featured hover scanline (the "riso comes and goes") - removed
+   .tile::after entirely. Chip underline hairline on hover is the only
+   remaining featured hover, quiet + intentional.
+3. Announcement banner -> CONNECT CAROUSEL. 4 real upcoming events from
+   Supabase public.works (Strange Choir/Coimbra Jun29-Jul3, Weird Modernisms
+   Jul1-4, Becoming Crossings Jul31, Banff Sep7-18), 16s CSS step cycle,
+   pause on hover, links to halimmadi.com/connect/, blue CONNECT cta. Footer
+   ticker updated to the same real events.
+4. Hero mark: أوليبو (oulipo in Arabic), smaller (clamp 56-96px), silver
+   chrome 3D treatment. Footer mark: مطبخ (kitchen), chrome, on ink ground.
+5. (same as 4)
+6. Removed "Beirut-born" from footer byline.
+7. BLOCKED: OpenAI gpt-image sigil EXPLORATION. Key in
+   hmart-share/instagram/.env hit "Billing hard limit has been reached"
+   (HTTP 400). scripts/gen-oulipo-sigils.py is READY (8 candidates: 2 oulipo
+   word treatments, matbakh/mukhtabar footer words, 4 bolder abstract
+   sigils) - reruns clean once Halim raises the OpenAI billing cap.
+
+FALLBACK used for the word-marks: local code pipeline (no OpenAI) -
+scripts/render-word-masks.mjs shapes Arabic via headless browser (system
+Diwan Thuluth; PIL can't shape Arabic w/o libraqm), scripts/chrome-word-
+marks.py applies extruded silver-chrome + blue iridescence + copper glint +
+halftone. Outputs Assets/images/marks/gen/{oulipo-ar,matbakh,mukhtabar}-
+chrome.png. These are the marks currently on the page.
+
+Orphaned (no longer referenced, safe to delete): Assets/images/marks/
+{waw-ink,meem-white,ha-copper}.png and scripts/arabic-marks.py.
+
+### Revision round 2 (Jul 2, same day) - Halim's second pass
+
+1. Blue connect banner now CLOSED on all sides (border: 1px chrome + 12px
+   blue left) and given a paper background so the hero watermark doesn't
+   bleed through it.
+2. Hero "oulipo" mark: dropped the chrome word (looked rough), now a LARGE
+   flat-ink أوليبو ghosted watermark behind the hero (.hero-mark: width
+   clamp 240-500px, opacity .12, z-index -1). scripts/flat-word-marks.py
+   builds it (solid ink + faint halftone) from the browser-shaped mask.
+3. Footer mark: now reads "kitchen lab" = مختبر المطبخ (mukhtabar al-matbakh),
+   LARGE paper-tone ghosted watermark behind footer content (.foot-glyph
+   absolute, opacity .14). site-foot got position:relative + overflow:hidden;
+   foot-glyph moved to be a SIBLING of .foot-inner (z-index layering).
+4. Borrowed IG liquid-chrome objects (hmart-share/instagram/marks/v3/
+   chrome-01 blob, chrome-04 ring, chrome-03 splash), cropped + downscaled to
+   ~360px into Assets/images/marks/gen/chrome-{blob,ring,splash}.png. Placed
+   subtly: chrome ring floats upper-right in hero; chrome blob inline beside
+   the "petri dishes" section label; chrome splash flex-end in footer.
+5. Connect carousel titles no longer truncate: removed nowrap/ellipsis, added
+   .ann-slides min-height (96px desktop / 120px mobile) so absolute slides
+   don't clip; banner stacks column on mobile with CTA below.
+
+Marks now on page: gen/oulipo-ink-flat.png (hero), gen/kitchenlab-paper-flat
+.png (footer), gen/chrome-{ring,blob,splash}.png. The chrome word-marks
+(oulipo-ar-chrome, matbakh-chrome, mukhtabar-chrome) are now UNUSED (kept on
+disk; the flat versions won).
+
+### Revision round 3 (Jul 2, same day) - sigil exploration + review fixes
+
+- Halim ADDED OPENAI CREDITS; scripts/gen-oulipo-sigils.py reran clean (8
+  gpt-image-1 images, ~$1.7 est). RESULT: the 4 ABSTRACT sigils came out
+  great (sigil-waw-molten = molten و + crown, sigil-orbit = ring+comet-tail,
+  sigil-splash = symmetric seal, sigil-knot = chrome knot). The 4 Arabic
+  WORD marks FAILED - gpt-image-1 cannot spell specific Arabic words
+  (oulipo-diwan/kufi/matbakh/mukhtabar all misspelled). LESSON: for real
+  Arabic words use the browser-shape pipeline (render-word-masks.mjs), never
+  gpt-image. Contact sheet: Assets/images/marks/gen/_contact-sheet.png.
+- Halim chose "upgrade the subtle spots": swapped the 3 borrowed IG chrome
+  objects for the bolder generated sigils, same subtle scale/positions -
+  HERO float = sigil-orbit, PETRI DISHES label inline = sigil-splash, FOOTER
+  detail = sigil-waw-molten. (chrome-ring/blob/splash now unused on page.)
+- Review workflow wf_d2fbdee6-042 (23 agents) confirmed 4 findings; 2 were
+  FALSE POSITIVES (verifier lacked the full design doc: ticker chrome-on-ink
+  is sanctioned by 10.7, footer --chrome-alt links by 10.9). Applied the 2
+  real ones: .section-label + .series-kind ink-45 -> ink-60 (ink-45 = 3.12:1
+  fails AA at 13px; ink-60 = 5.14:1); .chrome-inline got pointer-events:none.
+  --ink-45 token now unused.
+
+All 18 ship checks pass, no console errors. STILL UNCOMMITTED - Halim to
+approve then ship via branch->PR. Screenshots for the review at
+scratchpad/review-shots/ (note: a `node -e` env-var slip once wrote shots to
+./undefined/ in the repo - cleaned up).
+
+## Previous Session State (Apr 5, 2026 - session 7)
 
 ### Current Task: Site Quality Fixes Round 2
 
@@ -252,6 +389,7 @@ image drops never reached the site because they lived only in his working
 dir. That is retired.
 
 How it works now:
+
 - Halim drops images / edits files in `~/Documents/oulipo` (his folder).
 - Claude edits + commits + pushes from that SAME folder. His drops are the
   files Claude commits — no bridge, no second copy.
@@ -259,7 +397,7 @@ How it works now:
   merge/branch (plus the pre-existing add/commit/push) in the main repo.
 - Ship path: short branch off origin/main → push → `gh pr merge --admin`
   (keeps a review trail; Vercel auto-deploys origin/main to www.oulipo.xyz).
-- featured.* rule: whatever is named featured.* in a work's image folder is
+- featured._ rule: whatever is named featured._ in a work's image folder is
   the cover + page hero. scripts/sync-featured-images.mjs resolves it from
   git ls-files (NOT the macOS filesystem, which leaks case-insensitive
   casing — that bit versus-exe: featured.JPG vs git's featured.jpg).

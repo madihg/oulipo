@@ -3,222 +3,644 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oulipo.xyz — Kitchen Lab</title>
+    <title>oulipo.xyz - Kitchen Lab</title>
     <meta
       name="description"
       content="oulipo.xyz, the Kitchen Lab: small browser instruments, prototypes, and experimental net art by Halim Madi."
     />
+    <meta name="theme-color" content="#FBFBF9" />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x25C9;</text></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23FBFBF9%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%231C39E8%22/></svg>"
     />
-    <link rel="stylesheet" href="/Assets/css/shared.css?v=36" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
     <style>
-      /* Kitchen Lab — self-contained. No chrome: no hamburger, no signup bar,
-         no terminal. Just the pieces and a way home. */
-      body.lab {
+      /* ================================================================
+         oulipo.xyz Kitchen Lab - "modern signal" v3.1
+         A bilingual terminal printing devotional ephemera.
+         Tokens per DESIGN-SYSTEM.md section 10.1; the numbers are law.
+         ================================================================ */
+      :root {
+        --blue: #1c39e8;
+        --ink: #0b0b0d;
+        --paper: #fbfbf9;
+        --chrome: #b8bcc2;
+        --chrome-alt: #9aa0a8;
+        --copper: #c9772e;
+        --ink-45: rgba(11, 11, 13, 0.45);
+        --ink-60: rgba(11, 11, 13, 0.6);
+        --paper-60: rgba(251, 251, 249, 0.6);
+        --font-display: "VT323", monospace;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+        --margin: clamp(24px, 6vw, 64px);
+        --pad-chip: 28px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
         margin: 0;
-        background: #fff;
-        color: rgba(0, 0, 0, 0.85);
-        font-family:
-          "Standard",
-          -apple-system,
-          BlinkMacSystemFont,
-          sans-serif;
-        line-height: 1.5;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 16px;
+        line-height: 1.65;
         -webkit-font-smoothing: antialiased;
         overflow-x: hidden;
       }
-      .lab-wrap {
-        max-width: 1100px;
-        margin: 0 auto;
-        padding: 2rem 2rem 5rem;
-      }
-      .mono {
-        font-family: "Diatype Mono Variable", ui-monospace, monospace;
-        font-variation-settings:
-          "slnt" 0,
-          "MONO" 1;
+
+      /* ---- type registers ---- */
+      .label {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
-        letter-spacing: 0.06em;
       }
-      .lab-top {
+      .detail {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-60);
+      }
+
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding-inline: var(--margin);
+      }
+
+      /* ---- nav ---- */
+      .site-nav {
+        border-bottom: 1px solid var(--chrome);
+        background: var(--paper);
+      }
+      .site-nav .wrap {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        gap: 1rem;
+        height: 72px;
       }
-      .lab-mark {
-        font-size: 0.8rem;
-        color: rgba(0, 0, 0, 0.5);
-      }
-      .lab-back {
-        font-size: 0.8rem;
-        color: rgba(0, 0, 0, 0.85);
+      .brand {
+        font-family: var(--font-display);
+        font-size: 28px;
+        text-transform: lowercase;
         text-decoration: none;
-        border: 1px solid rgba(0, 0, 0, 0.85);
-        padding: 0.45rem 0.8rem;
-        transition: opacity 0.3s ease;
+        line-height: 1;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: var(--ink);
+      }
+
+      /* ---- hero ---- */
+      .hero {
+        position: relative;
+        padding-top: 56px;
+      }
+      .hero-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(56px, 9vw, 150px);
+        line-height: 0.85;
+        letter-spacing: -0.01em;
+        text-transform: lowercase;
+        margin: 24px 0 32px;
+      }
+      /* oulipo in Arabic, large and set into the background - a ghosted
+         print behind the hero, not a chrome badge. */
+      .hero-mark {
+        position: absolute;
+        top: 48%;
+        right: clamp(-48px, -2vw, 0px);
+        transform: translateY(-50%);
+        width: clamp(240px, 38vw, 500px);
+        height: auto;
+        opacity: 0.12;
+        z-index: -1;
+        pointer-events: none;
+      }
+      .hero-intro {
+        max-width: 68ch;
+      }
+      .hero-intro p {
+        margin: 0 0 16px;
+        max-width: 44rem;
+      }
+
+      /* ---- connect carousel: the one place blue leads.
+             Four upcoming things cycle on a hard cut; the ask is flat. ---- */
+      .announcement {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        text-decoration: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        border-left: 12px solid var(--blue);
+        padding: 24px 24px 24px 32px;
+        margin-top: 56px;
+      }
+      .announcement .label {
+        color: var(--blue);
+      }
+      .ann-slides {
+        position: relative;
+        flex: 1;
+        min-width: 0;
+        min-height: 96px; /* holds all four slides so the box never jumps */
+      }
+      .ann-slide {
+        display: block;
+      }
+      .ann-slide .label,
+      .ann-slide .detail {
+        display: block;
+      }
+      .ann-slide + .ann-slide {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+      }
+      .ann-slide {
+        animation: ann-cycle 16s steps(1) infinite;
+      }
+      .ann-slide:nth-child(1) {
+        animation-delay: 0s;
+      }
+      .ann-slide:nth-child(2) {
+        animation-delay: 4s;
+      }
+      .ann-slide:nth-child(3) {
+        animation-delay: 8s;
+      }
+      .ann-slide:nth-child(4) {
+        animation-delay: 12s;
+      }
+      @keyframes ann-cycle {
+        0% {
+          opacity: 1;
+        }
+        25% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
+      .announcement:hover .ann-slide {
+        animation-play-state: paused;
+      }
+      .announcement .ann-title {
+        display: block;
+        font-family: var(--font-display);
+        font-size: clamp(28px, 4vw, 48px);
+        line-height: 1;
+        text-transform: lowercase;
+        margin: 8px 0 10px;
+      }
+      .ann-cta {
+        flex: 0 0 auto;
+        color: var(--ink);
         white-space: nowrap;
       }
-      .lab-back:hover {
-        opacity: 0.7;
-      }
-      .lab-title {
-        font-family: "Terminal Grotesque", Georgia, serif;
-        font-weight: 400;
-        font-size: clamp(2.6rem, 12vw, 8rem);
-        line-height: 0.92;
-        margin: 3.5rem 0 1.5rem;
-        overflow-wrap: anywhere;
-      }
-      .lab-intro {
-        max-width: 40rem;
-        font-size: 1.06rem;
-      }
-      .lab-intro p {
-        margin: 0 0 1rem;
-      }
-      .lab-section {
-        margin: 4rem 0 1.25rem;
-        font-size: 0.8rem;
-        color: rgba(0, 0, 0, 0.5);
+      .announcement:hover .ann-cta,
+      .announcement:focus-visible .ann-cta {
+        animation: glitch 120ms steps(2) 1;
       }
 
-      /* Shared thumbnail framing — a thin border so even minimal pieces read
-         as intentional tiles, not missing images. */
-      .lab-thumb {
+      /* ---- sections ---- */
+      section {
+        margin-top: 96px;
+      }
+      .section-label {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin: 0 0 20px;
+        color: var(--ink-60); /* ink-45 fails AA at 13px; ink-60 = 5.14:1 */
+        font-weight: 500;
+      }
+
+      /* ---- borrowed chrome objects (from the IG mark set), used sparingly:
+             one machined detail, never louder than the type around it ---- */
+      .chrome-inline {
+        width: 26px;
+        height: 26px;
+        object-fit: contain;
+        opacity: 0.9;
+        pointer-events: none;
+      }
+      .chrome-float {
+        position: absolute;
+        width: clamp(40px, 5vw, 60px);
+        height: auto;
+        pointer-events: none;
+        opacity: 0.85;
+      }
+      .chrome-float--hero {
+        top: 128px;
+        right: calc(var(--margin) + 4px);
+      }
+      .chrome-float--foot {
+        width: clamp(30px, 4vw, 44px);
+      }
+
+      /* ---- the wall ---- */
+      .wall {
+        display: grid;
+        gap: 4px; /* the IG seam */
+        cursor:
+          url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'><line x1='12' y1='0' x2='12' y2='24' stroke='%23B8BCC2' stroke-width='1'/><line x1='0' y1='12' x2='24' y2='12' stroke='%23B8BCC2' stroke-width='1'/><circle cx='12' cy='12' r='2' fill='%230B0B0D'/></svg>")
+            12 12,
+          crosshair;
+      }
+      .wall-featured {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .wall-dishes {
+        grid-template-columns: repeat(4, 1fr);
+      }
+
+      .tile {
+        position: relative;
         display: block;
-        width: 100%;
-        aspect-ratio: 1 / 1;
-        object-fit: cover;
-        background: var(--ink-08, rgba(0, 0, 0, 0.04));
-        border: 1px solid rgba(0, 0, 0, 0.16);
-      }
-
-      /* Featured (Curl, Becoming Crossings) — large two-up cards */
-      .lab-featured {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
-        gap: 1.5rem;
-      }
-      .lab-feature {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
         text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-        transition: opacity 0.3s ease;
+        background: var(--ink);
       }
-      .lab-feature:hover {
-        opacity: 0.7;
+      /* hairline above the media, so paper-white plates still read as tiles */
+      .tile::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border: 1px solid var(--chrome);
+        z-index: 1;
       }
-      .lab-feature .lab-thumb {
-        aspect-ratio: 3 / 2;
-      }
-      .lab-feature__name {
-        font-family: "Diatype Variable", sans-serif;
-        font-size: 1.25rem;
-        margin-top: 0.65rem;
-      }
-      .lab-feature__kind {
-        font-size: 0.7rem;
-        color: rgba(0, 0, 0, 0.4);
-        margin-top: 0.1rem;
+      .tile img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
       }
 
-      /* Series — a thumbnail beside the title + the contained links listed */
-      .lab-series {
+      /* ---- the chip: hugs, never a band ---- */
+      .chip {
+        position: absolute;
+        left: 12px;
+        bottom: 12px;
+        display: inline-flex;
+        flex-direction: column;
+        gap: 6px;
+        background: var(--paper);
+        padding: 12px 14px;
+        width: max-content;
+        max-width: calc(100% - 24px);
+        /* hairline so the paper chip reads over paper-white plates */
+        outline: 1px solid var(--chrome);
+        outline-offset: -1px;
+      }
+      .chip .title {
+        font-family: var(--font-display);
+        font-size: 24px;
+        line-height: 1;
+        text-transform: lowercase;
+        color: var(--ink);
+        position: relative;
+      }
+      .chip .title::after {
+        content: "";
+        display: block;
+        height: 1px;
+        width: 0;
+        margin-top: 3px;
+        background: var(--chrome);
+        transition: width 120ms steps(3);
+      }
+      .tile:hover .chip .title::after,
+      .tile:focus-visible .chip .title::after {
+        width: 100%;
+      }
+      .chip .label {
+        color: var(--ink);
+      }
+      .chip .slug {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-60);
+      }
+      .chip-full {
+        padding: var(--pad-chip);
+      }
+      .chip-full .title {
+        font-size: clamp(24px, 3vw, 40px);
+      }
+
+      /* dish chips: quiet until asked (desktop); always there for touch */
+      @media (hover: hover) {
+        .wall-dishes .tile .chip {
+          opacity: 0;
+          transition: opacity 120ms steps(2);
+        }
+        .wall-dishes .tile:hover .chip,
+        .wall-dishes .tile:focus-visible .chip {
+          opacity: 1;
+        }
+      }
+
+      /* ---- series rows ---- */
+      .series-row {
         display: grid;
-        grid-template-columns: 140px 1fr;
-        gap: 1.5rem;
-        padding: 1.5rem 0;
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
+        grid-template-columns: 200px 1fr;
+        gap: 32px;
+        padding-block: 32px;
+        border-top: 1px solid var(--chrome);
         align-items: start;
       }
-      .lab-series:last-of-type {
-        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+      .series-row:last-of-type {
+        border-bottom: 1px solid var(--chrome);
       }
-      .lab-series__name {
-        font-family: "Diatype Variable", sans-serif;
-        font-size: 1.25rem;
-        margin: 0 0 0.15rem;
+      .series-thumb {
+        display: block;
+        width: 100%;
+        aspect-ratio: 4 / 5;
+        object-fit: cover;
+        outline: 1px solid var(--chrome);
+        outline-offset: -1px;
       }
-      .lab-series__kind {
-        font-size: 0.7rem;
-        color: rgba(0, 0, 0, 0.4);
-        margin-bottom: 0.9rem;
+      .series-name {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(28px, 4vw, 48px);
+        line-height: 1;
+        text-transform: lowercase;
+        margin: 6px 0 6px;
       }
-      .lab-series__links {
+      .series-kind {
+        color: var(--ink-60); /* ink-45 fails AA at 13px; ink-60 = 5.14:1 */
+      }
+      .series-links {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.4rem 0.9rem;
+        gap: 10px 24px;
+        margin-top: 18px;
+        padding: 0;
+        list-style: none;
       }
-      .lab-series__links a {
+      .series-links a {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
         text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
-        padding-bottom: 1px;
-        transition: opacity 0.3s ease;
+        color: var(--ink-60);
+        border-bottom: 1px solid var(--chrome);
+        padding-bottom: 2px;
       }
-      .lab-series__links a:hover {
-        opacity: 0.7;
+      .series-links a:hover,
+      .series-links a:focus-visible {
+        color: var(--ink);
       }
 
-      /* Petri Dishes — gallery of small experiment cards */
-      .lab-dishes {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
-        gap: 1.5rem 1.25rem;
+      /* glitch micro-interaction: 2px blue ghost, one flash */
+      .nav-link:hover,
+      .nav-link:focus-visible,
+      .series-links a:hover,
+      .series-links a:focus-visible,
+      .foot-links a:hover,
+      .foot-links a:focus-visible {
+        animation: glitch 120ms steps(2) 1;
       }
-      .lab-dish {
-        text-decoration: none;
-        color: rgba(0, 0, 0, 0.85);
-        transition: opacity 0.3s ease;
-      }
-      .lab-dish:hover {
-        opacity: 0.7;
-      }
-      .lab-dish__name {
-        font-size: 0.95rem;
-        margin-top: 0.5rem;
-      }
-
-      .lab-foot {
-        margin-top: 4.5rem;
-        padding-top: 1.5rem;
-        border-top: 1px solid rgba(0, 0, 0, 0.12);
-        font-size: 0.8rem;
-        color: rgba(0, 0, 0, 0.5);
-      }
-      .lab-foot a {
-        color: rgba(0, 0, 0, 0.85);
-        text-decoration: none;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.3);
-      }
-      .lab-foot a:hover {
-        opacity: 0.7;
-      }
-      @media (max-width: 600px) {
-        .lab-wrap {
-          padding: 1.5rem 1.25rem 4rem;
+      @keyframes glitch {
+        0% {
+          text-shadow: 2px 0 var(--blue);
+          transform: translateX(-1px);
         }
-        .lab-series {
+        50% {
+          text-shadow: 2px 0 var(--blue);
+          transform: none;
+        }
+        100% {
+          text-shadow: none;
+        }
+      }
+
+      /* ---- footer: ink ground ---- */
+      .site-foot {
+        position: relative;
+        margin-top: 128px;
+        background: var(--ink);
+        color: var(--paper);
+        overflow: hidden;
+      }
+      .foot-inner {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 32px;
+        padding-block: 72px 48px;
+      }
+      .foot-name {
+        font-family: var(--font-display);
+        font-size: clamp(36px, 5vw, 72px);
+        line-height: 0.9;
+        text-transform: lowercase;
+        margin: 0 0 20px;
+      }
+      .foot-by {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--paper-60);
+        margin: 0 0 24px;
+        max-width: 34rem;
+      }
+      .foot-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .foot-links a {
+        text-decoration: none;
+        color: var(--chrome-alt);
+      }
+      .foot-links a:hover,
+      .foot-links a:focus-visible {
+        color: var(--paper);
+      }
+      /* blue on ink fails 3:1 non-text contrast; the footer ring is paper */
+      .site-foot :focus-visible {
+        outline-color: var(--paper);
+      }
+      .blue-tick {
+        width: 12px;
+        height: 12px;
+        background: var(--blue);
+        flex: 0 0 auto;
+      }
+      /* kitchen lab in Arabic - a large, faint print set into the footer */
+      .foot-glyph {
+        position: absolute;
+        right: clamp(-40px, -2vw, 24px);
+        bottom: 40px;
+        width: clamp(320px, 46vw, 640px);
+        height: auto;
+        opacity: 0.14;
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* marquee ticker: dates and coordinates, ~60px/s, pause on hover */
+      .ticker {
+        overflow: hidden;
+        border-top: 1px solid rgba(251, 251, 249, 0.14);
+        padding-block: 14px;
+      }
+      .ticker-track {
+        display: inline-flex;
+        white-space: nowrap;
+        animation: ticker 24s linear infinite;
+      }
+      .ticker:hover .ticker-track,
+      .ticker:focus-visible .ticker-track {
+        animation-play-state: paused;
+      }
+      .ticker span {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--chrome);
+        padding-right: 48px;
+      }
+      @keyframes ticker {
+        to {
+          transform: translateX(-50%);
+        }
+      }
+
+      /* ---- responsive ---- */
+      @media (max-width: 900px) {
+        .wall-dishes {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 640px) {
+        .site-nav .wrap {
+          height: 56px;
+        }
+        body {
+          font-size: 15px;
+        }
+        .label,
+        .detail {
+          font-size: 12px;
+        }
+        .wall-featured {
+          grid-template-columns: 1fr;
+        }
+        .wall-dishes {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        .series-row {
           grid-template-columns: 96px 1fr;
-          gap: 1rem;
+          gap: 16px;
+        }
+        .foot-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .announcement {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+        }
+        .ann-slides {
+          min-height: 120px;
+        }
+      }
+
+      /* motion is punctuation; none of it is required */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition-duration: 1ms !important;
+        }
+        .ticker {
+          overflow-x: auto;
         }
       }
     </style>
   </head>
-  <body class="lab">
-    <div class="lab-wrap">
-      <div class="lab-top">
-        <span class="lab-mark mono">oulipo.xyz</span>
-        <a class="lab-back mono" href="https://www.halimmadi.com"
-          >Halim Madi &#x2197;</a
+  <body>
+    <nav class="site-nav" aria-label="Site">
+      <div class="wrap">
+        <a class="brand" href="/">oulipo.xyz</a>
+        <a class="nav-link label" href="https://www.halimmadi.com"
+          >halimmadi.com &#x2197;&#xFE0E;</a
         >
       </div>
+    </nav>
 
-      <h1 class="lab-title">Kitchen Lab</h1>
-
-      <div class="lab-intro">
+    <header class="hero wrap">
+      <div class="hero-meta">
+        <span class="label">Kitchen lab &middot; net art</span>
+        <span class="detail">Beirut 33.8938 N &middot; 35.5018 E</span>
+      </div>
+      <img
+        class="hero-mark"
+        src="/Assets/images/marks/gen/oulipo-ink-flat.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <img
+        class="chrome-float chrome-float--hero"
+        src="/Assets/images/marks/gen/sigil-orbit.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <h1>kitchen lab</h1>
+      <div class="hero-intro">
         <p>
           This is the Kitchen Lab. The small pieces kept loose, the prototypes
           still warm, the experiments that don&rsquo;t need a catalog entry to
@@ -231,266 +653,408 @@
         </p>
       </div>
 
-      <div class="lab-section mono">Featured</div>
-      <div class="lab-featured">
-        <a class="lab-feature" href="/curl/">
+      <a class="announcement" href="https://www.halimmadi.com/connect/">
+        <span class="ann-slides">
+          <span class="ann-slide">
+            <span class="label">Workshop &middot; Jun 29 - Jul 3</span>
+            <span class="ann-title">building the strange choir</span>
+            <span class="detail">ICCC'26 &middot; Coimbra, Portugal</span>
+          </span>
+          <span class="ann-slide">
+            <span class="label">Panel &middot; Jul 1-4</span>
+            <span class="ann-title">weird modernisms</span>
+            <span class="detail">Loughborough University &middot; UK</span>
+          </span>
+          <span class="ann-slide">
+            <span class="label">Exhibition &middot; Jul 31 - Aug 1</span>
+            <span class="ann-title">becoming crossings</span>
+            <span class="detail">Retro AI Gallery &middot; USC + online</span>
+          </span>
+          <span class="ann-slide">
+            <span class="label">Residency &middot; Sep 7-18</span>
+            <span class="ann-title">banff computational writing</span>
+            <span class="detail">Banff Centre &middot; Alberta</span>
+          </span>
+        </span>
+        <span class="ann-cta label">connect &#x2197;&#xFE0E;</span>
+      </a>
+    </header>
+
+    <main class="wrap">
+      <section aria-labelledby="featured-label">
+        <h2 class="section-label label" id="featured-label">Featured</h2>
+        <div class="wall wall-featured">
+          <a class="tile" href="/curl/">
+            <img
+              src="/Assets/images/kitchen-lab/treated/curl.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip chip-full">
+              <span class="label">Net art</span>
+              <span class="title">curl</span>
+              <span class="slug">oulipo.xyz/curl</span>
+            </span>
+          </a>
+          <a class="tile" href="/becoming-crossings">
+            <img
+              src="/Assets/images/kitchen-lab/treated/becoming-crossings.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip chip-full">
+              <span class="label">Net art</span>
+              <span class="title">becoming crossings</span>
+              <span class="slug">oulipo.xyz/becoming-crossings</span>
+            </span>
+          </a>
+        </div>
+      </section>
+
+      <section aria-labelledby="series-label">
+        <h2 class="section-label label" id="series-label">Series</h2>
+
+        <div class="series-row">
           <img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/curl.jpg"
-            alt="Curl"
+            class="series-thumb"
+            src="/Assets/images/kitchen-lab/treated/borderline.jpg"
+            alt=""
             loading="lazy"
           />
-          <div class="lab-feature__name">Curl</div>
-          <div class="lab-feature__kind mono">net art</div>
-        </a>
-        <a class="lab-feature" href="/becoming-crossings">
+          <div>
+            <div class="label series-kind">Interactive &middot; 4 pieces</div>
+            <h3 class="series-name">borderline.exe</h3>
+            <ul class="series-links">
+              <li><a href="/borderline/borderline-deny.html">Deny</a></li>
+              <li><a href="/borderline/borderline-reach.html">Reach</a></li>
+              <li><a href="/borderline/borderline-wait.html">Wait</a></li>
+              <li>
+                <a href="/borderline/borderline-erase.html"
+                  >Continuous movement</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="series-row">
           <img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/becoming-crossings.jpg"
-            alt="Becoming Crossings"
+            class="series-thumb"
+            src="/Assets/images/kitchen-lab/treated/case-against-the-son.jpg"
+            alt=""
             loading="lazy"
           />
-          <div class="lab-feature__name">Becoming Crossings</div>
-          <div class="lab-feature__kind mono">net art</div>
-        </a>
-      </div>
-
-      <div class="lab-section mono">Series</div>
-      <div class="lab-series">
-        <img
-          class="lab-thumb"
-          src="/Assets/images/kitchen-lab/borderline.jpg"
-          alt="Borderline.exe"
-          loading="lazy"
-        />
-        <div>
-          <h2 class="lab-series__name">Borderline.exe</h2>
-          <div class="lab-series__kind mono">interactive · 4 pieces</div>
-          <div class="lab-series__links">
-            <a href="/borderline/borderline-deny.html">Deny</a>
-            <a href="/borderline/borderline-reach.html">Reach</a>
-            <a href="/borderline/borderline-wait.html">Wait</a>
-            <a href="/borderline/borderline-erase.html">Continuous Movement</a>
+          <div>
+            <div class="label series-kind">Exhibits &middot; 5 pieces</div>
+            <h3 class="series-name">the case against the son</h3>
+            <ul class="series-links">
+              <li>
+                <a href="/case-against-the-son/impossible.html">Exhibit A</a>
+              </li>
+              <li>
+                <a href="/case-against-the-son/childfree.html">Exhibit B</a>
+              </li>
+              <li><a href="/case-against-the-son/tally.html">Exhibit C</a></li>
+              <li><a href="/case-against-the-son/sorry.html">Exhibit D</a></li>
+              <li>
+                <a href="/case-against-the-son/judgement-day.html"
+                  >Judgement day, son</a
+                >
+              </li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="lab-series">
-        <img
-          class="lab-thumb"
-          src="/Assets/images/kitchen-lab/case-against-the-son.jpg"
-          alt="The Case Against the Son"
-          loading="lazy"
-        />
-        <div>
-          <h2 class="lab-series__name">The Case Against the Son</h2>
-          <div class="lab-series__kind mono">exhibits · 5 pieces</div>
-          <div class="lab-series__links">
-            <a href="/case-against-the-son/impossible.html">Exhibit A</a>
-            <a href="/case-against-the-son/childfree.html">Exhibit B</a>
-            <a href="/case-against-the-son/tally.html">Exhibit C</a>
-            <a href="/case-against-the-son/sorry.html">Exhibit D</a>
-            <a href="/case-against-the-son/judgement-day.html"
-              >Judgement Day, Son</a
-            >
+
+        <div class="series-row">
+          <img
+            class="series-thumb"
+            src="/Assets/images/kitchen-lab/treated/latent-space-games.jpg"
+            alt=""
+            loading="lazy"
+          />
+          <div>
+            <div class="label series-kind">Games &middot; 3 pieces</div>
+            <h3 class="series-name">latent space games</h3>
+            <ul class="series-links">
+              <li>
+                <a
+                  href="https://embeddings-experiment.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >Embedding space</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://embeddings-battleship.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >Semantic battleship</a
+                >
+              </li>
+              <li>
+                <a
+                  href="https://monster-meme-memory.vercel.app"
+                  target="_blank"
+                  rel="noopener"
+                  >Monster meme memory</a
+                >
+              </li>
+              <li><a href="/latent-space-games/">About the series</a></li>
+            </ul>
           </div>
         </div>
-      </div>
-      <div class="lab-series">
-        <img
-          class="lab-thumb"
-          src="/Assets/images/kitchen-lab/latent-space-games.jpg"
-          alt="Latent Space Games"
-          loading="lazy"
-        />
+      </section>
+
+      <section aria-labelledby="dishes-label">
+        <h2 class="section-label label" id="dishes-label">
+          Petri dishes
+          <img
+            class="chrome-inline"
+            src="/Assets/images/marks/gen/sigil-splash.png"
+            alt=""
+            aria-hidden="true"
+          />
+        </h2>
+        <div class="wall wall-dishes">
+          <a class="tile" href="/somatic-poetry-sandbox/phenomenal.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/phenomenal.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">phenomenal</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/hover.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/hover.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">hover</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/trail.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/trail.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">trail</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/joycut.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/joycut.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">joy cut</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/bend.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/bend.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">bend</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/Blushing.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/blushing.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">blushing</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/brainstorm.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/brainstorm.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">brainstorm</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/erasure.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/erasure.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">erasure</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/dontbe.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/dontbe.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">don&rsquo;t be</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/allsortsofthings.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/allsortsofthings.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"
+              ><span class="title">all sorts of things</span></span
+            >
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/choose.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/choose.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">choose</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/defeatme.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/defeatme.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">defeat me</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/hittheroad.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/hittheroad.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">hit the road</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/theyfleefromme.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/theyfleefromme.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"
+              ><span class="title">they flee from me</span></span
+            >
+          </a>
+          <a
+            class="tile"
+            href="/somatic-poetry-sandbox/we-called-us-poetry.html"
+          >
+            <img
+              src="/Assets/images/kitchen-lab/treated/we-called-us-poetry.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"
+              ><span class="title">we called us poetry</span></span
+            >
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/akbar.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/akbar.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">akbar</span></span>
+          </a>
+          <a class="tile" href="/somatic-poetry-sandbox/Typewriter.html">
+            <img
+              src="/Assets/images/kitchen-lab/treated/typewriter.jpg"
+              alt=""
+              loading="lazy"
+            />
+            <span class="chip"><span class="title">typewriter</span></span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <img
+        class="foot-glyph"
+        src="/Assets/images/marks/gen/kitchenlab-paper-flat.png"
+        alt=""
+        aria-hidden="true"
+      />
+      <div class="wrap foot-inner">
         <div>
-          <h2 class="lab-series__name">Latent Space Games</h2>
-          <div class="lab-series__kind mono">games · 3 pieces</div>
-          <div class="lab-series__links">
+          <p class="foot-name">oulipo.xyz</p>
+          <p class="foot-by">A kitchen lab by Halim Madi. Poet x machines.</p>
+          <div class="foot-links label">
+            <a href="https://www.halimmadi.com">halimmadi.com</a>
             <a
-              href="https://embeddings-experiment.vercel.app"
+              href="https://www.instagram.com/yalla_halim"
               target="_blank"
               rel="noopener"
-              >Embedding Space</a
+              >instagram</a
             >
-            <a
-              href="https://embeddings-battleship.vercel.app"
-              target="_blank"
-              rel="noopener"
-              >Semantic Battleship</a
-            >
-            <a
-              href="https://monster-meme-memory.vercel.app"
-              target="_blank"
-              rel="noopener"
-              >Monster Meme Memory</a
-            >
-            <a href="/latent-space-games/">About the series</a>
+            <span class="blue-tick" aria-hidden="true"></span>
           </div>
         </div>
+        <img
+          class="chrome-float chrome-float--foot"
+          src="/Assets/images/marks/gen/sigil-waw-molten.png"
+          alt=""
+          aria-hidden="true"
+          style="position: static; opacity: 0.9; align-self: flex-end"
+        />
       </div>
-
-      <div class="lab-section mono">Petri Dishes</div>
-      <div class="lab-dishes">
-        <a class="lab-dish" href="/somatic-poetry-sandbox/phenomenal.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/phenomenal.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Phenomenal</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/hover.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/hover.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Hover</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/trail.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/trail.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Trail</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/joycut.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/joycut.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Joy Cut</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/bend.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/bend.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Bend</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/Blushing.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/blushing.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Blushing</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/brainstorm.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/brainstorm.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Brainstorm</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/erasure.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/erasure.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Erasure</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/dontbe.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/dontbe.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Don&rsquo;t Be</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/allsortsofthings.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/allsortsofthings.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">All Sorts of Things</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/choose.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/choose.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Choose</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/defeatme.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/defeatme.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Defeat Me</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/hittheroad.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/hittheroad.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Hit the Road</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/theyfleefromme.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/theyfleefromme.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">They Flee from Me</div></a
-        >
-        <a
-          class="lab-dish"
-          href="/somatic-poetry-sandbox/we-called-us-poetry.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/we-called-us-poetry.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">We Called Us Poetry</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/akbar.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/akbar.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Akbar</div></a
-        >
-        <a class="lab-dish" href="/somatic-poetry-sandbox/Typewriter.html"
-          ><img
-            class="lab-thumb"
-            src="/Assets/images/kitchen-lab/typewriter.jpg"
-            alt=""
-            loading="lazy"
-          />
-          <div class="lab-dish__name">Typewriter</div></a
-        >
+      <div
+        class="ticker"
+        tabindex="0"
+        role="group"
+        aria-label="Upcoming: Strange Choir, Coimbra, Jun 29 - Jul 3. Weird Modernisms, Jul 1-4. Becoming Crossings, Jul 31 - Aug 1. Banff residency, Sep 7-18. Connect at halimmadi.com"
+      >
+        <div class="ticker-track" aria-hidden="true">
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+          <span
+            >Strange Choir Coimbra Jun 29 - Jul 3 &middot; Weird Modernisms Jul
+            1-4 &middot; Becoming Crossings Jul 31 &middot; Banff Sep 7-18
+            &middot; halimmadi.com/connect</span
+          >
+        </div>
       </div>
-
-      <div class="lab-foot mono">
-        A Kitchen Lab by <a href="https://www.halimmadi.com">Halim Madi</a>
-      </div>
-    </div>
+    </footer>
   </body>
 </html>

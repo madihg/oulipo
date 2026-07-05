@@ -132,10 +132,26 @@ disk; the flat versions won).
   fails AA at 13px; ink-60 = 5.14:1); .chrome-inline got pointer-events:none.
   --ink-45 token now unused.
 
-All 18 ship checks pass, no console errors. STILL UNCOMMITTED - Halim to
-approve then ship via branch->PR. Screenshots for the review at
-scratchpad/review-shots/ (note: a `node -e` env-var slip once wrote shots to
-./undefined/ in the repo - cleaned up).
+All 18 ship checks pass, no console errors. Shipped: PR #47 squash-merged to
+main 2026-07-03, live on oulipo.xyz (verified, zero 4xx).
+
+### Revision round 4 (Jul 5) - canonical sigil forms
+
+Halim supplied two hand-picked chrome marks in ~/Downloads/export/ (mark.png
+= faceted crystalline SHARD, mark-1.png = RING/torus) and set them as the
+design system's canonical sigil forms. Applied:
+
+- HERO (top) float: sigil-shard.png (was sigil-orbit).
+- FOOTER (bottom) detail: sigil-ring.png (was sigil-waw-molten).
+- REMOVED the inline sigil next to the "Petri dishes" label (was
+  sigil-splash); reverted .section-label to a plain block.
+- scripts/gen-oulipo-sigils.py rewritten: MARKS now only SHARD + RING
+  variants (sigil-shard/-b, sigil-ring/-b). Dropped the Arabic word-mark
+  generation entirely (gpt-image can't spell Arabic - see
+  reference_gptimage_arabic.md; use render-word-masks.mjs for words).
+  The oulipo chrome sigil vocabulary is now exactly two forms: faceted shard +
+  ring. sigil-orbit/-waw-molten/-splash/-knot remain in gen/ but are OFF-CANON
+  and unused by the page.
 
 ## Previous Session State (Apr 5, 2026 - session 7)
 

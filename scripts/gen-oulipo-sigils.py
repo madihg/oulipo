@@ -34,45 +34,24 @@ AD = (
     "texture, slightly degraded photocopy feel. Editorial, refined, not clip-art."
 )
 
+# The oulipo design system has exactly TWO canonical chrome sigil forms:
+# a faceted crystalline SHARD and a ring/TORUS. Every generated sigil is a
+# variant of one of these. (Arabic WORD marks are NOT made here - gpt-image
+# misspells Arabic; use scripts/render-word-masks.mjs for those.)
 MARKS = [
-    # the word "oulipo" in Arabic - hero mark candidates
-    ("oulipo-diwan", "high",
-     "The Arabic word أوليبو written once in flowing hand-brushed Diwani "
-     "calligraphy, a single connected word, rendered as three-dimensional "
-     "liquid mercury chrome with molten thickness. The exact letters must "
-     "read أوليبو and nothing else."),
-    ("oulipo-kufi", "high",
-     "The Arabic word أوليبو written once in bold geometric Kufic "
-     "calligraphy, a single connected word, rendered as three-dimensional "
-     "polished chrome metal type with hard bevels. The exact letters must "
-     "read أوليبو and nothing else."),
-    # footer word candidates - a different word than the hero
-    ("matbakh-chrome", "high",
-     "The Arabic word مطبخ (kitchen) written once in gestural Thuluth "
-     "calligraphy with dry-brush texture, rendered as molten liquid chrome, "
-     "one small detached chrome droplet beside it. The exact letters must "
-     "read مطبخ and nothing else."),
-    ("mukhtabar-chrome", "high",
-     "The Arabic word مختبر (laboratory) written once in flowing Diwani "
-     "calligraphy, rendered as three-dimensional liquid mercury chrome. "
-     "The exact letters must read مختبر and nothing else."),
-    # bolder abstract sigils - no text
-    ("sigil-waw-molten", "medium",
-     "No text except a single giant Arabic letter و rendered as a thick "
-     "molten chrome ribbon mid-pour, liquid crown splash at its head, "
-     "dramatic and sculptural."),
-    ("sigil-knot", "medium",
-     "An abstract calligraphic knot - one continuous thick chrome stroke "
-     "looping over and under itself three times, like a signature made of "
-     "liquid mercury, bold and gestural. No letters, no text."),
-    ("sigil-splash", "medium",
-     "A violent chrome ink-splash sigil - a central molten mass with six "
-     "radiating liquid arms and satellite droplets, symmetrical enough to "
-     "read as a seal or stamp. No letters, no text."),
-    ("sigil-orbit", "medium",
-     "A chrome torus seen at a steep angle with one thin calligraphic tail "
-     "sweeping off it like a comet, planet-and-brushstroke, minimal and "
-     "bold. No letters, no text."),
+    ("sigil-shard", "medium",
+     "A faceted crystalline shard - an angular chrome gem with sharp planar "
+     "facets and hard bevelled edges, tapering to a point, three-dimensional "
+     "and mineral. No letters, no text."),
+    ("sigil-shard-b", "medium",
+     "A slim faceted chrome shard standing upright, few clean facets, "
+     "crystalline and precise, like a cut mineral. No letters, no text."),
+    ("sigil-ring", "medium",
+     "A smooth chrome ring - a torus seen at a gentle three-quarter angle, "
+     "even molten thickness, mirror-polished. No letters, no text."),
+    ("sigil-ring-b", "medium",
+     "A chrome torus at a steeper tilt, slightly irregular hand-poured "
+     "thickness, one bright specular highlight. No letters, no text."),
 ]
 
 

@@ -51,3 +51,38 @@ a **reusable poem engine** (data + modules) for future poems.
   `.claude/launch.json` (added `mother-not-metaphor` server on 4180).
 - Next steps if resumed: optional brand fonts, optional real footage, optional
   second poem. Everything currently passes.
+
+## Session State (2026-07-07) - Fragmentary gesture layer + admin
+
+- Task: add deliberate dwell-based gesture control + an on-screen finger HUD, and
+  factor it into a reusable format ("Fragmentary"). DONE.
+- **Dwell + reset gate.** Moment switches are no longer instant on any hand
+  change. A deliberately-formed pose must be held ~1.5s (`dwellMs`, configurable)
+  before it fires, AND only after the hand passed a neutral/absent "reset" since
+  arming/last fire - so a resting or settling hand never advances on its own
+  (fixes a review finding). Interaction: relax, form the shape, hold. A meter
+  fills 0..1 during the hold. The dwell state machine is pure and lives in
+  `src/fragmentary/control.js`.
+- **Finger HUD.** The five finger bars + dwell meter are now on-screen
+  (`#hud-panel`, `fx-*` classes in `src/fragmentary/fragmentary.css`), shown only
+  once live tracking starts (`data-hud="on"` on the stage). `?hud=off` hides it.
+- **Config is data.** Finger-pattern -> action bindings live in
+  `data/gestures.json` (shipped default: open hand -> next, peace sign -> back;
+  bound poses are deliberate shapes so a relaxed/lowered hand stays a neutral).
+- **Admin console (`/admin/`).** Edits bindings + dwell + capture-pose, saves an
+  override to `localStorage`, which the live piece layers over the shipped default
+  via `mergeConfig`. Export JSON to bake as the new `data/gestures.json` default.
+- **Fragmentary = the reusable format.** `src/fragmentary/` (gestures, control,
+  config, hud, css) + `admin/` are meant to be copied into future oulipo pieces.
+  Documented in `FRAGMENTARY.md` (APIs + reuse steps); README updated with the
+  gesture-control section, module table, and `?hud=off` / `/admin/` params.
+- **Files touched here (docs only):** `FRAGMENTARY.md` (new), `README.md`,
+  `Context.md`. The gesture code + `data/gestures.json` + admin were built
+  earlier this session.
+- **Tests (all green).** New unit suites `tests/unit/control.test.mjs` +
+  `tests/unit/config.test.mjs`; `gestures` moved to `src/fragmentary/`
+  (`tests/unit/gestures.test.mjs`, + finger-extension coverage). New e2e
+  `tests/e2e/fragmentary.spec.mjs` drives the dwell + HUD via `window.MNM.feed`
+  with fake clocks. `npm test` = 50 unit + html lint (index + admin) + purity
+  (scans src + admin, still allows only the MediaPipe CDN) + 39 Playwright e2e
+  (piece + fragmentary, on mobile/desktop/reduced-motion).

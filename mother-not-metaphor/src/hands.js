@@ -7,7 +7,7 @@
  * no-camera auto-play path. Detection runs entirely on-device.
  */
 
-import { handSignature } from "./gestures.js";
+import { handReading } from "./fragmentary/gestures.js";
 
 const TASKS_VISION =
   "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14";
@@ -27,10 +27,11 @@ export async function loadHandLandmarker() {
 }
 
 /**
- * Run a per-frame detection loop, calling onSignature(signature, raw) each frame
- * (signature is null when no hand is present). Returns a stop() function.
+ * Run a per-frame detection loop, calling onReading(reading) each frame where
+ * `reading` is a handReading() object ({ present, up, extensions, signature }).
+ * When no hand is visible, `present` is false. Returns a stop() function.
  */
-export function trackHands(landmarker, video, onSignature) {
+export function trackHands(landmarker, video, onReading) {
   let stopped = false;
   let lastVideoTime = -1;
   const loop = () => {
@@ -44,9 +45,9 @@ export function trackHands(landmarker, video, onSignature) {
             (res.handednesses && res.handednesses[0] && res.handednesses[0][0]
               ? res.handednesses[0][0].categoryName
               : "Right") || "Right";
-          onSignature(handSignature(res.landmarks[0], handed), res);
+          onReading(handReading(res.landmarks[0], handed), res);
         } else {
-          onSignature(null, res);
+          onReading(handReading(null), res);
         }
       } catch {
         // transient detection error; keep looping

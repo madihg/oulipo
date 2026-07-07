@@ -244,6 +244,27 @@ body {
   z-index: 3;
   pointer-events: none;
 }
+
+/* Fragmentary finger HUD - a bottom overlay, shown only in gesture mode */
+.hud-panel {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--pad) + 24px);
+  transform: translateX(-50%);
+  z-index: 4;
+  display: none;
+  max-width: calc(100% - 2 * var(--pad));
+  pointer-events: none;
+}
+.stage[data-hud="on"] .hud-panel {
+  display: flex;
+}
+/* Reserve a strip at the bottom for the HUD so no component (e.g. the words box
+   on L1/L2) is ever hidden behind it - the whole grid sits above the HUD band. */
+.stage[data-hud="on"] {
+  padding-bottom: calc(var(--pad) + 92px);
+}
+
 .back {
   position: fixed;
   right: 10px;

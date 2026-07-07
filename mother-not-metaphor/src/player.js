@@ -5,14 +5,13 @@
  *   - sets the layout for each moment (FLIP transition);
  *   - reveals the words (typewriter) over the moment's duration;
  *   - paces the illustration keyframe morphs across that duration;
- *   - advances between moments either by a hand-shape change (live) or a timer
- *     (auto / no-camera fallback).
+ *   - advances between moments either by a deliberate hand gesture (live, via the
+ *     Fragmentary dwell control) or a timer (auto / no-camera fallback).
  *
  * Timing is pure-derived (pacing.js); a `speed` multiplier accelerates tests.
  */
 
 import { momentDurationMs, scheduleKeyframes } from "./pacing.js";
-import { stableSignature, signatureChanged } from "./gestures.js";
 
 export function createPlayer({
   poem,
@@ -21,6 +20,8 @@ export function createPlayer({
   layout,
   hint,
   stage,
+  control = null,
+  hud = null,
   speed = 1,
   loop = false,
 }) {
@@ -29,9 +30,7 @@ export function createPlayer({
   let index = -1;
   let mode = "auto";
   let timers = [];
-  let history = [];
-  let baseline = null; // last stable hand signature we acted on
-  let advancing = false;
+  let destroyed = false;
 
   const clearTimers = () => {
     for (const t of timers) clearTimeout(t);
@@ -43,8 +42,9 @@ export function createPlayer({
   }
 
   function goToMoment(i) {
-    if (i < 0 || i >= moments.length) return;
+    if (destroyed || i < 0 || i >= moments.length) return;
     clearTimers();
+    stage.removeAttribute("data-done");
     index = i;
     const m = moments[i];
     const dur = durationFor(m);
@@ -54,9 +54,7 @@ export function createPlayer({
     words.start(m, dur);
 
     const kfs = m.illustration.keyframes;
-    // cross-moment morph into this moment's first keyframe
     illustration.morphTo(kfs[0], morphMs);
-    // pace the within-moment keyframe morphs across the moment
     const sched = scheduleKeyframes(kfs.length, dur, morphMs);
     for (let k = 1; k < kfs.length; k++) {
       timers.push(
@@ -67,24 +65,40 @@ export function createPlayer({
       );
     }
 
-    if (mode === "auto") {
-      timers.push(setTimeout(() => advance(), dur));
-    }
+    if (mode === "auto") timers.push(setTimeout(() => advance(), dur));
     updateHint();
     stage.setAttribute("data-moment", m.id);
   }
 
   function advance() {
-    if (advancing) return;
-    if (index < moments.length - 1) {
-      goToMoment(index + 1);
-    } else if (loop) {
-      goToMoment(0);
-    } else {
-      // hold on the final moment
+    if (destroyed) return;
+    if (index < moments.length - 1) goToMoment(index + 1);
+    else if (loop) goToMoment(0);
+    else {
       clearTimers();
       stage.setAttribute("data-done", "1");
       updateHint();
+    }
+  }
+
+  /** Run a Fragmentary action from a fired gesture binding. */
+  function runAction(action) {
+    if (!action) return;
+    switch (action.type) {
+      case "prev":
+        if (index > 0) goToMoment(index - 1);
+        break;
+      case "goto":
+        goToMoment(
+          Math.max(0, Math.min(moments.length - 1, action.index || 0)),
+        );
+        break;
+      case "restart":
+        goToMoment(0);
+        break;
+      case "next":
+      default:
+        advance();
     }
   }
 
@@ -92,42 +106,53 @@ export function createPlayer({
     if (!hint) return;
     const pos = `${index + 1} / ${moments.length}`;
     if (stage.getAttribute("data-done")) hint.textContent = `${pos} · end`;
-    else if (mode === "live") hint.textContent = `${pos} · change your hands`;
-    else hint.textContent = `${pos}`;
+    else if (mode === "live")
+      hint.textContent = `${pos} · hold a new hand shape`;
+    else hint.textContent = pos;
   }
 
-  // --- live gesture input ---------------------------------------------------
-  function onSignature(sig) {
-    if (mode !== "live") return;
-    history.push(sig);
-    if (history.length > 8) history.shift();
-    const stable = stableSignature(history, 5);
-    if (!stable) return;
-    if (baseline == null) {
-      baseline = stable; // arm without advancing on the first pose
-      return;
+  /**
+   * Per-frame hand input: update the dwell control, paint the HUD, and run an
+   * action if a gesture completed its hold. Called by the hand tracker (live) or
+   * directly by tests via window.MNM.feed.
+   */
+  function feed(reading, nowMs) {
+    if (destroyed || !control) return null;
+    const r = reading || {
+      present: false,
+      up: null,
+      extensions: [0, 0, 0, 0, 0],
+    };
+    const res = control.update(r.present ? r.up : null, nowMs);
+    if (hud) {
+      hud.render({
+        present: r.present,
+        up: r.up || [false, false, false, false, false],
+        extensions: r.extensions || [0, 0, 0, 0, 0],
+        progress: res.progress,
+        label: res.binding ? res.binding.label : "",
+      });
     }
-    if (signatureChanged(baseline, stable)) {
-      baseline = stable;
-      advance();
+    if (res.firing) {
+      if (hud) hud.flash();
+      runAction(res.action);
     }
+    return res;
   }
 
   function start(startMode) {
     mode = startMode === "live" ? "live" : "auto";
     stage.removeAttribute("data-done");
-    history = [];
-    baseline = null;
+    if (control) control.reset();
     goToMoment(0);
   }
 
   function destroy() {
+    destroyed = true;
     clearTimers();
-    advancing = true;
   }
 
-  // Freeze on a moment at a given keyframe (default: its last) with no timers.
-  // Used for debugging and screenshots; not part of the performance flow.
+  // Freeze on a moment at a given keyframe (default: last), no timers. Debug only.
   function still(i, k = -1) {
     if (i < 0 || i >= moments.length) return;
     clearTimers();
@@ -145,7 +170,7 @@ export function createPlayer({
   return {
     start,
     advance,
-    onSignature,
+    feed,
     destroy,
     still,
     goTo: goToMoment,

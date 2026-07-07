@@ -2,11 +2,13 @@ import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
   fingersUp,
+  fingerExtensions,
+  handReading,
   orientation,
   handSignature,
   stableSignature,
   signatureChanged,
-} from "../../src/gestures.js";
+} from "../../src/fragmentary/gestures.js";
 
 // Build a 21-point landmark array, then override the indices the engine reads.
 function hand(overrides) {
@@ -95,4 +97,41 @@ test("signatureChanged needs two distinct non-null signatures", () => {
   assert.equal(signatureChanged("a", "b"), true);
   assert.equal(signatureChanged("a", "a"), false);
   assert.equal(signatureChanged(null, "b"), false);
+});
+
+test("fingerExtensions: open hand reads more extended than a fist", () => {
+  const open = fingerExtensions(OPEN);
+  const fist = fingerExtensions(FIST);
+  assert.equal(open.length, 5);
+  const mean = (a) => a.reduce((s, v) => s + v, 0) / a.length;
+  assert.ok(
+    mean(open) > mean(fist) + 0.2,
+    `open ${mean(open)} vs fist ${mean(fist)}`,
+  );
+  // every non-thumb finger reads clearly more extended open than in a fist
+  for (let i = 1; i < 5; i++) {
+    assert.ok(
+      open[i] > fist[i] + 0.15,
+      `finger ${i}: open ${open[i]} vs fist ${fist[i]}`,
+    );
+  }
+  for (const v of open.concat(fist)) assert.ok(v >= 0 && v <= 1);
+});
+
+test("fingerExtensions: bad input is safe zeros", () => {
+  assert.deepEqual(fingerExtensions(null), [0, 0, 0, 0, 0]);
+  assert.deepEqual(fingerExtensions([{ x: 0, y: 0 }]), [0, 0, 0, 0, 0]);
+});
+
+test("handReading bundles present/up/extensions/signature", () => {
+  const r = handReading(OPEN, "Right");
+  assert.equal(r.present, true);
+  assert.deepEqual(r.up, [true, true, true, true, true]);
+  assert.equal(r.extensions.length, 5);
+  assert.match(r.signature, /^11111:/);
+
+  const none = handReading(null);
+  assert.equal(none.present, false);
+  assert.equal(none.signature, "none");
+  assert.deepEqual(none.up, [false, false, false, false, false]);
 });

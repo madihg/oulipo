@@ -1,0 +1,172 @@
+<!--
+       +
+       +
+   +++++++++
+       +        fragmentary - gesture console
+
+   a private dev tool. wire a hand shape to a page turn, set the dwell, watch
+   the finger bars, save it to this browser, export the JSON to bake into
+   data/gestures.json. not linked from the piece. keep these comments.
+-->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- resolve relative assets whether or not the URL has a trailing slash, so
+         /admin and /admin/ both resolve to ../ correctly. -->
+    <script>
+      (function () {
+        var p = location.pathname,
+          b;
+        if (p.charAt(p.length - 1) === "/") b = p;
+        else if (/\.[a-z0-9]+$/i.test(p)) b = p.replace(/[^/]*$/, "");
+        else b = p + "/";
+        document.write('<base href="' + b + '">');
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fragmentary - gesture console</title>
+    <link rel="stylesheet" href="../src/fragmentary/fragmentary.css" />
+    <link rel="stylesheet" href="admin.css" />
+  </head>
+  <body>
+    <header class="head">
+      <h1 class="head__title">Fragmentary</h1>
+      <p class="head__sub mono">
+        gesture console &middot; <span id="storage-key">…</span>
+      </p>
+    </header>
+
+    <main class="cols">
+      <!-- LIVE PANEL ----------------------------------------------------- -->
+      <section class="panel panel--live" aria-labelledby="live-h">
+        <h2 class="panel__h" id="live-h">Live</h2>
+
+        <div class="cam">
+          <video class="cam__video" id="cam-video" playsinline muted></video>
+          <p class="cam__msg mono" id="cam-msg" role="status">
+            camera off &middot; the editor works without it
+          </p>
+        </div>
+
+        <div class="controls-row">
+          <button class="btn" id="start-cam" type="button">Start camera</button>
+          <button class="btn" id="stop-cam" type="button" disabled>
+            Stop camera
+          </button>
+        </div>
+
+        <div class="hud-wrap" id="hud-wrap" aria-hidden="true"></div>
+
+        <dl class="readout mono">
+          <div class="readout__row">
+            <dt>pattern</dt>
+            <dd id="ro-pattern">-----</dd>
+          </div>
+          <div class="readout__row">
+            <dt>matched</dt>
+            <dd id="ro-matched">none</dd>
+          </div>
+          <div class="readout__row">
+            <dt>event</dt>
+            <dd id="ro-fire" class="readout__fire">idle</dd>
+          </div>
+        </dl>
+
+        <p class="note mono" id="live-note">
+          This is a config tool: poses do not turn the page here. When a pose
+          would fire, the meter flashes and the event line names the action.
+        </p>
+      </section>
+
+      <!-- EDITOR PANEL --------------------------------------------------- -->
+      <section class="panel panel--edit" aria-labelledby="edit-h">
+        <h2 class="panel__h" id="edit-h">Config</h2>
+
+        <div class="field">
+          <label class="field__label mono" for="dwell"
+            >Dwell hold
+            <span class="field__val" id="dwell-val">1.5s</span></label
+          >
+          <input
+            class="field__range"
+            id="dwell"
+            type="range"
+            min="300"
+            max="4000"
+            step="100"
+            value="1500"
+          />
+          <p class="field__hint mono">
+            How long a pose is held before it fires.
+          </p>
+        </div>
+
+        <div class="field field--inline">
+          <label class="field__label mono" for="stable-frames"
+            >Stable frames</label
+          >
+          <input
+            class="field__num"
+            id="stable-frames"
+            type="number"
+            min="1"
+            max="10"
+            step="1"
+            value="4"
+          />
+          <p class="field__hint mono">
+            Frames a pose must be steady before it counts (advanced).
+          </p>
+        </div>
+
+        <div class="bindings">
+          <div class="bindings__head">
+            <h3 class="bindings__h mono">Bindings</h3>
+            <div class="bindings__actions">
+              <button class="btn btn--sm" id="capture-pose" type="button">
+                Capture current pose
+              </button>
+              <button class="btn btn--sm" id="add-binding" type="button">
+                Add binding
+              </button>
+            </div>
+          </div>
+          <p class="bindings__legend mono" aria-hidden="true">
+            fingers: T I M R P &middot; cycle each - / up / down
+          </p>
+          <ul class="binding-list" id="binding-list"></ul>
+        </div>
+
+        <div class="controls-row controls-row--save">
+          <button class="btn btn--primary" id="save" type="button">Save</button>
+          <button class="btn" id="export" type="button">Export JSON</button>
+          <button class="btn" id="reset" type="button">
+            Reset to defaults
+          </button>
+        </div>
+        <p class="note mono" id="save-note" role="status"></p>
+
+        <div class="export" id="export-box" hidden>
+          <div class="export__head">
+            <label class="field__label mono" for="export-json"
+              >data/gestures.json</label
+            >
+            <button class="btn btn--sm" id="copy-json" type="button">
+              Copy
+            </button>
+          </div>
+          <textarea
+            class="export__text mono"
+            id="export-json"
+            readonly
+            rows="16"
+            spellcheck="false"
+          ></textarea>
+        </div>
+      </section>
+    </main>
+
+    <script type="module" src="admin.js"></script>
+  </body>
+</html>

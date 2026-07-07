@@ -1,23 +1,26 @@
 /**
- * src/gestures.js - hand-shape signatures from landmarks (pure, DOM-free).
+ * fragmentary/gestures.js - hand-shape reading from landmarks (pure, DOM-free).
  *
+ * Part of "Fragmentary": a reusable gesture-control layer for hand-driven pieces.
  * MediaPipe Hand Landmarker gives 21 normalized landmarks { x, y, z } (x,y in
- * 0..1, origin top-left). We reduce a hand to a discrete *signature*: which
- * fingers are extended plus a coarse orientation bucket. When the stable
- * signature CHANGES (a new shape held for a few frames), the player advances to
- * the next moment - this is "when my fingers change shape, the layout changes".
+ * 0..1, origin top-left). Here we turn one hand into:
+ *   - `up`         : which fingers are extended  [thumb,index,middle,ring,pinky]
+ *   - `extensions` : a continuous 0..1 openness per finger (drives the HUD bars)
+ *   - `signature`  : a discrete comparable string for the pose
  *
  * Landmark indices (MediaPipe):
- *   0 wrist
- *   thumb  1 2 3 4 (4 tip)
- *   index  5 6 7 8 (8 tip, 6 pip)
- *   middle 9 10 11 12
- *   ring   13 14 15 16
- *   pinky  17 18 19 20
+ *   0 wrist; thumb 1-4 (4 tip); index 5-8 (8 tip, 6 pip); middle 9-12;
+ *   ring 13-16; pinky 17-20.
  */
+
+export const FINGER_NAMES = ["thumb", "index", "middle", "ring", "pinky"];
 
 const TIPS = { thumb: 4, index: 8, middle: 12, ring: 16, pinky: 20 };
 const PIPS = { index: 6, middle: 10, ring: 14, pinky: 18 };
+const MCPS = { thumb: 2, index: 5, middle: 9, ring: 13, pinky: 17 };
+
+const dist = (a, b) => Math.hypot(a.x - b.x, a.y - b.y);
+const clamp01 = (v) => (v < 0 ? 0 : v > 1 ? 1 : v);
 
 /**
  * Boolean array [thumb, index, middle, ring, pinky] of extended fingers.
@@ -28,8 +31,6 @@ export function fingersUp(landmarks, handedness = "Right") {
   if (!landmarks || landmarks.length < 21)
     return [false, false, false, false, false];
   const up = [];
-  // thumb: extended when its tip is far (in x) from the hand center, sign depends
-  // on which hand. Use index-finger MCP (5) as the reference.
   const ref = landmarks[5];
   const thumbTip = landmarks[TIPS.thumb];
   const dx = thumbTip.x - ref.x;
@@ -38,6 +39,26 @@ export function fingersUp(landmarks, handedness = "Right") {
     up.push(landmarks[TIPS[f]].y < landmarks[PIPS[f]].y - 0.02);
   }
   return up;
+}
+
+/**
+ * Continuous 0..1 openness per finger, for the visual bars. Uses tip-to-knuckle
+ * distance normalized by palm size, mapped through empirical curled/extended
+ * bounds so a fist reads near 0 and an open hand near 1.
+ */
+export function fingerExtensions(landmarks) {
+  if (!landmarks || landmarks.length < 21) return [0, 0, 0, 0, 0];
+  const palm = Math.max(1e-4, dist(landmarks[0], landmarks[9]));
+  const map = (raw, lo, hi) => clamp01((raw - lo) / (hi - lo));
+  const out = [];
+  // thumb: tip(4) spread from the index knuckle(5)
+  out.push(map(dist(landmarks[4], landmarks[5]) / palm, 0.28, 0.95));
+  for (const f of ["index", "middle", "ring", "pinky"]) {
+    out.push(
+      map(dist(landmarks[TIPS[f]], landmarks[MCPS[f]]) / palm, 0.35, 1.25),
+    );
+  }
+  return out;
 }
 
 /** Coarse pointing direction of the hand (wrist -> middle finger MCP). */
@@ -57,6 +78,28 @@ export function handSignature(landmarks, handedness = "Right") {
     .map((b) => (b ? "1" : "0"))
     .join("");
   return `${up}:${orientation(landmarks)}`;
+}
+
+/** One hand reduced to everything the control + HUD need. */
+export function handReading(landmarks, handedness = "Right") {
+  if (!landmarks || landmarks.length < 21) {
+    return {
+      present: false,
+      up: [false, false, false, false, false],
+      extensions: [0, 0, 0, 0, 0],
+      orientation: "none",
+      signature: "none",
+    };
+  }
+  const up = fingersUp(landmarks, handedness);
+  const orient = orientation(landmarks);
+  return {
+    present: true,
+    up,
+    extensions: fingerExtensions(landmarks),
+    orientation: orient,
+    signature: `${up.map((b) => (b ? "1" : "0")).join("")}:${orient}`,
+  };
 }
 
 /**

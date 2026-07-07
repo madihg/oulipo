@@ -1,0 +1,462 @@
+/*
+ * admin.css - Fragmentary gesture console. De Stijl neutrals, hairline borders,
+ * no rounded corners / shadows / gradients. Two columns on desktop (live left,
+ * editor right); one column on mobile. Utilitarian, on-brand.
+ */
+
+:root {
+  --paper: #f3f3f1;
+  --ink: #141414;
+  --line: rgba(20, 20, 20, 0.85);
+  --line-soft: rgba(20, 20, 20, 0.28);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+}
+
+.mono {
+  font-family: var(--mono);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* --- header ------------------------------------------------------------ */
+.head {
+  padding: 20px 20px 12px;
+  border-bottom: 1px solid var(--line);
+}
+.head__title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+}
+.head__sub {
+  margin: 4px 0 0;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* --- layout ------------------------------------------------------------ */
+.cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
+}
+@media (min-width: 860px) {
+  .cols {
+    grid-template-columns: minmax(300px, 380px) 1fr;
+  }
+  .panel--live {
+    border-right: 1px solid var(--line);
+  }
+}
+
+.panel {
+  padding: 18px 20px 24px;
+}
+.panel + .panel {
+  border-top: 1px solid var(--line);
+}
+@media (min-width: 860px) {
+  .panel + .panel {
+    border-top: 0;
+  }
+}
+.panel__h {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  opacity: 0.65;
+}
+
+/* --- camera ------------------------------------------------------------ */
+.cam {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+  background: rgba(20, 20, 20, 0.04);
+  overflow: hidden;
+}
+.cam__video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  background: rgba(20, 20, 20, 0.06);
+}
+.cam__msg {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  right: 8px;
+  margin: 0;
+  padding: 4px 6px;
+  font-size: 11px;
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+}
+
+.hud-wrap {
+  margin-top: 14px;
+}
+
+/* --- readout ----------------------------------------------------------- */
+.readout {
+  margin: 14px 0 0;
+  font-size: 12px;
+}
+.readout__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.readout dt {
+  opacity: 0.6;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 10px;
+}
+.readout dd {
+  margin: 0;
+  text-align: right;
+  word-break: break-all;
+}
+.readout__fire.is-active {
+  font-weight: 700;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0 4px;
+}
+
+.note {
+  margin: 12px 0 0;
+  font-size: 11px;
+  opacity: 0.6;
+  line-height: 1.5;
+}
+
+/* --- fields ------------------------------------------------------------ */
+.field {
+  margin: 0 0 18px;
+}
+.field__label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  letter-spacing: 0.02em;
+}
+.field__val {
+  opacity: 0.6;
+}
+.field__range {
+  width: 100%;
+  height: 44px;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.field__num {
+  width: 72px;
+  height: 44px;
+  padding: 0 8px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+.field--inline {
+  display: grid;
+  grid-template-columns: auto auto 1fr;
+  align-items: center;
+  gap: 10px;
+}
+.field--inline .field__label {
+  margin-bottom: 0;
+}
+.field--inline .field__hint {
+  margin: 0;
+}
+.field__hint {
+  margin: 6px 0 0;
+  font-size: 11px;
+  opacity: 0.55;
+}
+
+/* --- bindings ---------------------------------------------------------- */
+.bindings {
+  margin-top: 6px;
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+}
+.bindings__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.bindings__h {
+  margin: 0;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.65;
+}
+.bindings__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.bindings__legend {
+  margin: 10px 0 0;
+  font-size: 10px;
+  opacity: 0.5;
+  letter-spacing: 0.04em;
+}
+
+.binding-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+}
+.binding {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+.binding--empty {
+  display: block;
+  font-size: 11px;
+  opacity: 0.5;
+  padding: 10px 0;
+}
+
+.binding__fingers {
+  display: flex;
+  gap: 3px;
+}
+.finger-toggle {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 2px 4px;
+  font-family: var(--mono);
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.finger-toggle:hover {
+  opacity: 0.7;
+}
+.finger-toggle[data-state="up"] {
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.finger-toggle[data-state="down"] {
+  border-color: var(--line);
+  border-style: dashed;
+}
+
+.binding__action {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.binding__select {
+  height: 44px;
+  padding: 0 8px;
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  cursor: pointer;
+}
+.binding__goto {
+  width: 64px;
+  height: 44px;
+  padding: 0 6px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+.binding__labelwrap {
+  min-width: 0;
+}
+.binding__label {
+  width: 100%;
+  height: 44px;
+  padding: 0 8px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line-soft);
+}
+.binding__label:focus,
+.binding__select:focus,
+.binding__goto:focus,
+.field__num:focus {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.binding__del {
+  white-space: nowrap;
+}
+
+@media (max-width: 620px) {
+  .binding {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+  .binding__fingers {
+    flex-wrap: wrap;
+  }
+}
+
+/* --- buttons ----------------------------------------------------------- */
+.controls-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 12px;
+}
+.controls-row--save {
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+.btn {
+  min-height: 44px;
+  padding: 0 16px;
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--paper);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+.btn:hover {
+  opacity: 0.7;
+}
+.btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn--sm {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* --- save note + export ------------------------------------------------ */
+.save-note,
+#save-note {
+  margin: 10px 0 0;
+  font-size: 12px;
+  min-height: 1.2em;
+}
+#save-note.is-flash {
+  animation: note-flash 0.5s ease;
+}
+@keyframes note-flash {
+  0% {
+    opacity: 0.2;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.export {
+  margin-top: 16px;
+  border: 1px solid var(--line);
+}
+.export__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--line-soft);
+}
+.export__head .field__label {
+  margin: 0;
+}
+.export__text {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--paper);
+  border: 0;
+  resize: vertical;
+}
+.export__text:focus {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn,
+  .finger-toggle {
+    transition: none;
+  }
+  #save-note.is-flash {
+    animation: none;
+  }
+}

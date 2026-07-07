@@ -33,6 +33,7 @@
       name="description"
       content="A poem in five tongues for one mother - a live performance instrument of camera, words and morphing color, sized for a phone."
     />
+    <link rel="stylesheet" href="src/fragmentary/fragmentary.css" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -75,6 +76,9 @@
         <span class="box-label mono" aria-hidden="true">illustration</span>
       </section>
 
+      <!-- Fragmentary HUD: 5 finger bars + the dwell meter (built by hud.js) -->
+      <div class="hud-panel" id="hud-panel" aria-hidden="true"></div>
+
       <div class="hint mono" id="hint" aria-hidden="true"></div>
 
       <!-- the start gate: a tap so the browser will grant the camera -->
@@ -82,8 +86,9 @@
         <div class="intro__inner">
           <h2 class="intro__title">mother, not metaphor</h2>
           <p class="intro__note" id="intro-note">
-            A poem in five tongues. Let the camera see your hands - change their
-            shape to turn from one tongue to the next. No camera? It plays
+            A poem in five tongues. Let the camera see your hand: hold an open
+            hand to move forward, a peace sign to go back. Hold the shape a
+            moment - relax your hand between gestures. No camera? It plays
             itself.
           </p>
           <button class="intro__start" id="start" type="button">begin</button>

@@ -1,0 +1,32 @@
+{
+  "_comment": "Fragmentary gesture config for mother-not-metaphor. Editable live at /admin/. dwellMs = how long a pose is held before it fires (~1.5s). Each binding maps a finger pattern (thumb,index,middle,ring,pinky : any|up|down) to an action. A relaxed hand matches nothing (a neutral), so switches only happen on a deliberately-formed shape - relax between gestures.",
+  "dwellMs": 1500,
+  "stableFrames": 4,
+  "showHud": true,
+  "bindings": [
+    {
+      "id": "next",
+      "label": "open hand → next",
+      "action": { "type": "next" },
+      "fingers": {
+        "thumb": "up",
+        "index": "up",
+        "middle": "up",
+        "ring": "up",
+        "pinky": "up"
+      }
+    },
+    {
+      "id": "back",
+      "label": "peace sign → back",
+      "action": { "type": "prev" },
+      "fingers": {
+        "thumb": "down",
+        "index": "up",
+        "middle": "up",
+        "ring": "down",
+        "pinky": "down"
+      }
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+/*
+ * fragmentary.css - shared styles for the Fragmentary gesture HUD (fx-* classes).
+ * Used by the piece (a bottom overlay) and the admin console. De Stijl neutrals;
+ * inherits --ink / --paper from the host page, with fallbacks.
+ */
+
+.fx-hud {
+  --fx-ink: var(--ink, #141414);
+  --fx-paper: var(--paper, #f3f3f1);
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid rgba(20, 20, 20, 0.85);
+  background: var(--fx-paper);
+  opacity: 0.55;
+  transition: opacity 0.3s ease;
+}
+.fx-hud.is-present {
+  opacity: 1;
+}
+
+.fx-bars {
+  display: flex;
+  gap: 5px;
+  align-items: flex-end;
+}
+.fx-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.fx-bar__track {
+  position: relative;
+  width: 9px;
+  height: 34px;
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  background: transparent;
+  overflow: hidden;
+}
+.fx-bar__fill {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 0%;
+  background: rgba(20, 20, 20, 0.35);
+  transition: height 0.09s linear;
+}
+.fx-bar.is-up .fx-bar__fill {
+  background: var(--fx-ink);
+}
+.fx-bar__cap {
+  font-size: 9px;
+  line-height: 1;
+  opacity: 0.55;
+}
+.fx-bar.is-up .fx-bar__cap {
+  opacity: 1;
+}
+
+.fx-meter {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 64px;
+  height: 12px;
+  border: 1px solid rgba(20, 20, 20, 0.28);
+  overflow: hidden;
+}
+.fx-meter__fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0%;
+  background: var(--fx-ink);
+  transition: width 0.08s linear;
+}
+.fx-meter__label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  color: var(--fx-ink);
+  mix-blend-mode: difference;
+  filter: invert(1);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.fx-flash {
+  animation: fx-flash 0.5s ease;
+}
+@keyframes fx-flash {
+  0% {
+    box-shadow: 0 0 0 0 rgba(20, 20, 20, 0.55);
+  }
+  100% {
+    box-shadow: 0 0 0 8px rgba(20, 20, 20, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fx-bar__fill,
+  .fx-meter__fill,
+  .fx-hud {
+    transition: none;
+  }
+  .fx-flash {
+    animation: none;
+  }
+}

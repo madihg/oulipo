@@ -8,6 +8,7 @@
  *   ?mode=live   force the camera path
  *   ?speed=N     multiply timing speed (tests / impatience)
  *   ?loop=1      loop after the last moment
+ *   ?hud=off     hide the finger HUD (clean capture)
  */
 
 import { createIllustration } from "./illustration.js";
@@ -15,18 +16,39 @@ import { createWords } from "./words.js";
 import { createLayout } from "./layout.js";
 import { createPlayer } from "./player.js";
 import { startCamera, stopCamera } from "./camera.js";
+import { createGestureControl } from "./fragmentary/control.js";
+import { createFingerHud } from "./fragmentary/hud.js";
+import {
+  validateConfig,
+  mergeConfig,
+  loadStored,
+} from "./fragmentary/config.js";
 
 const params = new URLSearchParams(location.search);
 const forcedMode = params.get("mode");
 const speed = Math.max(0.1, parseFloat(params.get("speed") || "1") || 1);
 const loop = params.get("loop") === "1";
+const hudParam = params.get("hud");
 const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const $ = (id) => document.getElementById(id);
 
+async function loadGestureConfig() {
+  let defaults = {};
+  try {
+    defaults = await (await fetch("data/gestures.json")).json();
+  } catch {
+    // fall back to the validator's built-in defaults
+  }
+  // an admin-saved override (localStorage) wins over the shipped default
+  return mergeConfig(validateConfig(defaults), loadStored());
+}
+
 async function boot() {
-  const res = await fetch("data/poem.json");
-  const poem = await res.json();
+  const [poem, gestureConfig] = await Promise.all([
+    fetch("data/poem.json").then((r) => r.json()),
+    loadGestureConfig(),
+  ]);
 
   document.documentElement.style.setProperty("--paper", poem.palette.paper);
   document.documentElement.style.setProperty("--ink", poem.palette.ink);
@@ -40,9 +62,9 @@ async function boot() {
     caption: $("words-caption"),
     translation: $("words-translation"),
     hint: $("hint"),
+    hud: $("hud-panel"),
     intro: $("intro"),
     start: $("start"),
-    introNote: $("intro-note"),
   };
 
   const illustration = createIllustration(els.svg, poem.palette, { reduced });
@@ -55,6 +77,16 @@ async function boot() {
     { me: $("box-me"), words: $("box-words"), illus: $("box-illus") },
     { reduced },
   );
+  const control = createGestureControl({
+    dwellMs: gestureConfig.dwellMs,
+    stableFrames: gestureConfig.stableFrames,
+    bindings: gestureConfig.bindings,
+  });
+  const hud = createFingerHud(els.hud, { reduced });
+
+  const showHud = hudParam !== "off" && gestureConfig.showHud;
+  stage.setAttribute("data-hud", "off"); // shown once live hand tracking starts
+
   const player = createPlayer({
     poem,
     illustration,
@@ -62,6 +94,8 @@ async function boot() {
     layout,
     hint: els.hint,
     stage,
+    control,
+    hud,
     speed,
     loop,
   });
@@ -72,6 +106,9 @@ async function boot() {
     next: () => player.advance(),
     goTo: (i) => player.goTo(i),
     still: (i, k) => player.still(i, k),
+    feed: (reading, now) =>
+      player.feed(reading, now == null ? performance.now() : now),
+    config: gestureConfig,
     poem,
   };
 
@@ -82,10 +119,13 @@ async function boot() {
       // load hand tracking lazily; if it fails we still show the camera + auto-play
       const { loadHandLandmarker, trackHands } = await import("./hands.js");
       const landmarker = await loadHandLandmarker();
-      trackHands(landmarker, els.video, (sig) => player.onSignature(sig));
+      trackHands(landmarker, els.video, (reading) =>
+        player.feed(reading, performance.now()),
+      );
+      if (showHud) stage.setAttribute("data-hud", "on");
       player.start("live");
       return true;
-    } catch (err) {
+    } catch {
       stopCamera(els.video);
       stage.removeAttribute("data-camera");
       return false;
@@ -104,7 +144,6 @@ async function boot() {
   }
 
   if (forcedMode === "auto") {
-    // deterministic path: no user gesture needed (no camera requested)
     begin();
   } else {
     els.start.addEventListener("click", begin, { once: true });

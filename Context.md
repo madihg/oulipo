@@ -1,5 +1,70 @@
 # Oulipo.xyz Context
 
+## Session State (Jul 5, 2026 - computer theater initiative)
+
+### Current Task: NEW page oulipo.xyz/computer-theater
+
+**Status: BUILT + UNDER REVIEW** - uncommitted, awaiting Halim's eye.
+
+A reading-room initiative explaining computer theater (what it is / how it
+started / its components), built from Halim's four-track research doc
+("The Computer Theater Reading Room"). One self-contained file,
+`computer-theater/index.html`, in the modern signal v3.1 system. Three views
+(hash-routed tabs):
+
+1. THE GRAPH - Obsidian-like force layout, hand-rolled canvas physics (no
+   libraries, brand rule). ~53 nodes over 4 tracks (breaking the form /
+   bodies & networks / screens onstage / the screen as stage) + writings +
+   adjacents + 9 Evenings origin + hub. Track colors = sanctioned palette
+   encoding (blue = track 4). Click node -> draggable desktop-style WINDOW
+   (role=dialog, Escape closes) - the desktop-performance gesture as UI.
+   Sim settles + SLEEPS (frame budget 480/wake, energy floor ~4e-5 made a
+   fixed threshold impossible); wakes on drag/resize. reduced-motion =
+   static render. Keyboard/SR path = "node index" details element.
+   halim node kept MODEST (size 4.5, no superlatives, "the tracing, not
+   the trophy") per brief.
+2. THE COMPONENTS - seven parts (body, apparatus, screen, code, network,
+   audience, archive), each with ref-chips that jump into graph windows.
+3. THE MANIFESTO - Halim's body lines nearly verbatim as VT323 stanzas +
+   3 extension stanzas drawing on his motifs (borders/forms, prayer/clicks,
+   room that admits it is a room) + working-document coda.
+
+Voice pulled from Supabase brand_system doc->'voice' (hosted register, NO em
+dashes anywhere - en-dash only in numeric year ranges).
+
+Checks: scripts/check-computer-theater.mjs - 27 pass (static design-system
+asserts + playwright e2e: windows open/close, related buttons, index
+keyboard path, view switching, no mobile h-scroll, sim sleeps, no console
+errors). Research ground truth for reviewers at scratchpad/ct-research.md.
+Review workflow wf_bad7299a-c11 (5 dims x adversarial verify) IN FLIGHT.
+
+Review round DONE (wf_bad7299a-c11, 37 agents): 28 confirmed findings; 22
+applied, 5 rejected as digest artifacts (Wagner/Dixon attribution, OBIE,
+Sermon "among the first", Kattenbelt aphorism, Isadora "widely used" - ALL
+present in Halim's ORIGINAL research message; my compressed ct-research.md
+digest had dropped them. SAME failure mode as the chrome-alt incident:
+reviewers are only as good as the ground truth they get). 1 held for Halim:
+the two extension stanzas in the manifesto (borders/prayer + room-that-
+admits) - reviewer flagged as invented; Halim's brief explicitly asked for
+extension from his writing, so KEPT pending his read.
+
+Applied fixes: facts (Ping Body/Fractal Flesh conflation, House/Lights
+1998/99, E.A.T. moved works->blurb, United States Parts I-IV, Troika
+"1990s->", Kattenbelt quote wording "provides"); design (hover redraw after
+sleep + pointerleave, footer parity with landing, glitch idiom ported, 11px
+->12px + 0.08em, en-dashes in ranges, typographic apostrophes x30, hero
+hint scoped to graph view); a11y (focus returns to opener on close, Escape
+closes focused/topmost, touch-action pan-y + node-touch guard,
+pointercancel/multi-pointer drag cleanup, noscript fallback renders all
+views, legend swatch ink border, index h3->h2); visual (anchor labels
+clamped + paper knockout, legend exclusion zone in physics).
+
+Ground truth now IN REPO: docs/computer-theater-research.md (backfilled with
+the dropped lines + reviewer-verified dates). All 27 checks pass post-fix.
+
+Next: Halim reviews -> ship on his word (branch -> PR). Landing does not yet
+link to /computer-theater; suggest adding to featured/series after approval.
+
 ## Session State (Jul 2, 2026 - modern signal redesign)
 
 ### Current Task: Apply "modern signal" v3.1 design system to the Kitchen Lab landing

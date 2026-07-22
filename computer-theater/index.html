@@ -1,0 +1,2071 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>computer theater - oulipo.xyz</title>
+    <meta
+      name="description"
+      content="An initiative to explain computer theater: what it is, how it started, what it is made of. A living graph of its lineages, a map of its components, and a manifesto for the body."
+    />
+    <meta name="theme-color" content="#FBFBF9" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23FBFBF9%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%231C39E8%22/></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <noscript>
+      <style>
+        section.view[hidden] {
+          display: block;
+        }
+      </style>
+    </noscript>
+    <style>
+      /* ================================================================
+         oulipo.xyz/computer-theater - "modern signal" v3.1
+         A reading room for computer theater: graph, components, manifesto.
+         Tokens per DESIGN-SYSTEM.md section 10.1; the numbers are law.
+         ================================================================ */
+      :root {
+        --blue: #1c39e8;
+        --ink: #0b0b0d;
+        --paper: #fbfbf9;
+        --chrome: #b8bcc2;
+        --chrome-alt: #9aa0a8;
+        --copper: #c9772e;
+        --ink-45: rgba(11, 11, 13, 0.45);
+        --ink-60: rgba(11, 11, 13, 0.6);
+        --paper-60: rgba(251, 251, 249, 0.6);
+        --font-display: "VT323", monospace;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+        --margin: clamp(24px, 6vw, 64px);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 16px;
+        line-height: 1.65;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      .label {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 500;
+        line-height: 1.2;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .detail {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        font-weight: 400;
+        line-height: 1.4;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-60);
+      }
+      a {
+        color: inherit;
+      }
+      :focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 2px;
+      }
+      .wrap {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding-inline: var(--margin);
+      }
+
+      /* ---- nav ---- */
+      .site-nav {
+        border-bottom: 1px solid var(--chrome);
+        background: var(--paper);
+      }
+      .site-nav .wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 72px;
+      }
+      .brand {
+        font-family: var(--font-display);
+        font-size: 28px;
+        text-transform: lowercase;
+        text-decoration: none;
+        line-height: 1;
+      }
+      .nav-link {
+        text-decoration: none;
+        color: var(--ink);
+      }
+
+      /* ---- hero ---- */
+      .hero {
+        padding-top: 56px;
+      }
+      .hero-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(52px, 8vw, 130px);
+        line-height: 0.85;
+        letter-spacing: -0.01em;
+        text-transform: lowercase;
+        margin: 24px 0 28px;
+      }
+      .hero-intro {
+        max-width: 68ch;
+      }
+      .hero-intro p {
+        margin: 0 0 16px;
+        max-width: 44rem;
+      }
+      .hero-hint {
+        margin-top: 8px;
+      }
+
+      /* ---- view switcher ---- */
+      .views {
+        display: flex;
+        gap: 28px;
+        margin-top: 40px;
+        border-bottom: 1px solid var(--chrome);
+        padding-bottom: 0;
+      }
+      .view-tab {
+        text-decoration: none;
+        padding: 10px 0 12px;
+        border-bottom: 2px solid transparent;
+        color: var(--ink-60);
+      }
+      .view-tab[aria-current="true"] {
+        color: var(--ink);
+        border-bottom-color: var(--ink);
+      }
+      .view-tab:hover {
+        color: var(--ink);
+      }
+
+      section[hidden] {
+        display: none;
+      }
+      .view {
+        margin-top: 40px;
+      }
+
+      /* ---- graph ---- */
+      .graph-shell {
+        position: relative;
+        border: 1px solid var(--chrome);
+        background: var(--paper);
+      }
+      #graph-canvas {
+        display: block;
+        width: 100%;
+        height: min(72vh, 760px);
+        cursor: grab;
+        touch-action: pan-y;
+      }
+      .legend {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        display: grid;
+        gap: 6px;
+        padding: 12px 14px;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+      }
+      .legend-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-60);
+      }
+      .legend-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        flex: 0 0 auto;
+      }
+
+      /* ---- windows: the desktop-performance gesture ---- */
+      .win {
+        position: fixed;
+        width: min(400px, calc(100vw - 32px));
+        background: var(--paper);
+        border: 1px solid var(--ink);
+        box-shadow: none;
+        z-index: 50;
+      }
+      .win-bar {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--chrome);
+        cursor: grab;
+        user-select: none;
+      }
+      .win-bar:active {
+        cursor: grabbing;
+      }
+      .win-title {
+        font-family: var(--font-display);
+        font-size: 26px;
+        line-height: 1;
+        text-transform: lowercase;
+      }
+      .win-close {
+        appearance: none;
+        border: 0;
+        background: none;
+        font-family: var(--font-mono);
+        font-size: 14px;
+        cursor: pointer;
+        color: var(--ink-60);
+        padding: 2px 4px;
+      }
+      .win-close:hover {
+        color: var(--ink);
+      }
+      .win-body {
+        padding: 14px;
+        max-height: min(48vh, 420px);
+        overflow-y: auto;
+      }
+      .win-meta {
+        margin: 0 0 10px;
+      }
+      .win-blurb {
+        font-size: 14px;
+        line-height: 1.6;
+        margin: 0 0 12px;
+      }
+      .win-works {
+        margin: 0 0 12px;
+        padding: 0;
+        list-style: none;
+        font-size: 13px;
+        line-height: 1.5;
+        color: var(--ink-60);
+      }
+      .win-works li::before {
+        content: "· ";
+      }
+      .win-rel {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .win-rel button {
+        appearance: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 8px;
+        cursor: pointer;
+        color: var(--ink-60);
+      }
+      .win-rel button:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+
+      /* ---- node index: the keyboard way in ---- */
+      .node-index {
+        margin-top: 28px;
+        border: 1px solid var(--chrome);
+      }
+      .node-index summary {
+        padding: 14px 16px;
+        cursor: pointer;
+        list-style: none;
+      }
+      .node-index summary::-webkit-details-marker {
+        display: none;
+      }
+      .node-index[open] summary {
+        border-bottom: 1px solid var(--chrome);
+      }
+      .index-track {
+        padding: 14px 16px;
+        border-bottom: 1px solid var(--chrome);
+      }
+      .index-track:last-child {
+        border-bottom: 0;
+      }
+      .index-track h2 {
+        margin: 0 0 10px;
+      }
+      .index-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .index-list button {
+        appearance: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 6px 10px;
+        cursor: pointer;
+        color: var(--ink);
+      }
+      .index-list button:hover {
+        border-color: var(--ink);
+      }
+
+      /* ---- components view ---- */
+      .comp-lead {
+        max-width: 44rem;
+        margin: 0 0 40px;
+      }
+      .comp-row {
+        display: grid;
+        grid-template-columns: 140px 1fr;
+        gap: 24px;
+        padding: 28px 0;
+        border-top: 1px solid var(--chrome);
+      }
+      .comp-row:last-child {
+        border-bottom: 1px solid var(--chrome);
+      }
+      .comp-num {
+        color: var(--ink-45);
+        font-family: var(--font-display);
+        font-size: 40px;
+        line-height: 1;
+      }
+      .comp-title {
+        font-family: var(--font-display);
+        font-size: clamp(30px, 3.6vw, 44px);
+        line-height: 0.95;
+        text-transform: lowercase;
+        margin: 0 0 10px;
+      }
+      .comp-body {
+        max-width: 44rem;
+        margin: 0 0 12px;
+      }
+      .comp-refs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .comp-refs button {
+        appearance: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 5px 8px;
+        cursor: pointer;
+        color: var(--ink-60);
+      }
+      .comp-refs button:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+
+      /* ---- manifesto view ---- */
+      .manifesto {
+        max-width: 900px;
+      }
+      .man-label {
+        margin: 0 0 24px;
+      }
+      .man-stanza {
+        margin: 0 0 44px;
+      }
+      .man-stanza p {
+        font-family: var(--font-display);
+        font-size: clamp(26px, 3.4vw, 44px);
+        line-height: 1.1;
+        text-transform: lowercase;
+        margin: 0 0 6px;
+      }
+      .man-coda {
+        border-top: 1px solid var(--chrome);
+        padding-top: 24px;
+        max-width: 44rem;
+      }
+      .man-coda p {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--ink-60);
+        margin: 0 0 12px;
+      }
+
+      /* ---- footer ---- */
+      .site-foot {
+        margin-top: 128px;
+        background: var(--ink);
+        color: var(--paper);
+      }
+      .foot-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: 32px;
+        padding-block: 72px 48px;
+      }
+      .foot-name {
+        font-family: var(--font-display);
+        font-size: clamp(36px, 5vw, 72px);
+        line-height: 0.9;
+        text-transform: lowercase;
+        margin: 0 0 20px;
+      }
+      .foot-by {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--paper-60);
+        margin: 0 0 24px;
+        max-width: 34rem;
+      }
+      .foot-links {
+        display: flex;
+        gap: 28px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .foot-links a {
+        text-decoration: none;
+        color: var(--chrome-alt);
+      }
+      .foot-links a:hover,
+      .foot-links a:focus-visible {
+        color: var(--paper);
+      }
+      .site-foot :focus-visible {
+        outline-color: var(--paper);
+      }
+      /* glitch: one machine hiccup, never a loop - same as the landing */
+      .nav-link:hover,
+      .nav-link:focus-visible,
+      .foot-links a:hover,
+      .foot-links a:focus-visible {
+        animation: glitch 120ms steps(2) 1;
+      }
+      @keyframes glitch {
+        0% {
+          text-shadow: 2px 0 var(--blue);
+          transform: translateX(-1px);
+        }
+        50% {
+          text-shadow: 2px 0 var(--blue);
+          transform: none;
+        }
+        100% {
+          text-shadow: none;
+        }
+      }
+      .blue-tick {
+        width: 12px;
+        height: 12px;
+        background: var(--blue);
+        flex: 0 0 auto;
+      }
+
+      /* ---- responsive ---- */
+      @media (max-width: 640px) {
+        .site-nav .wrap {
+          height: 56px;
+        }
+        body {
+          font-size: 15px;
+        }
+        .label,
+        .detail {
+          font-size: 12px;
+        }
+        .views {
+          gap: 18px;
+        }
+        #graph-canvas {
+          height: 64vh;
+        }
+        .legend {
+          position: static;
+          border: 0;
+          border-top: 1px solid var(--chrome);
+          grid-template-columns: 1fr 1fr;
+        }
+        .win {
+          left: 12px !important;
+          right: 12px;
+          top: auto !important;
+          bottom: 12px;
+          width: auto;
+        }
+        .comp-row {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+        .foot-inner {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+      }
+
+      /* motion is punctuation; none of it is required */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition-duration: 1ms !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Site">
+      <div class="wrap">
+        <a class="brand" href="/">oulipo.xyz</a>
+        <a class="nav-link label" href="https://www.halimmadi.com"
+          >halimmadi.com &#x2197;&#xFE0E;</a
+        >
+      </div>
+    </nav>
+
+    <header class="hero wrap">
+      <div class="hero-meta">
+        <span class="label">Kitchen lab &middot; initiative</span>
+        <span class="detail">A reading room &middot; ongoing</span>
+      </div>
+      <h1>computer theater</h1>
+      <div class="hero-intro">
+        <p>
+          Computer theater is live performance that takes the computer seriously
+          - as stage, scene partner, apparatus, and sometimes author. This page
+          is an initiative to explain it: what it is, how it started, and what
+          it is made of.
+        </p>
+        <p>
+          It has no single origin. It has four braided lineages: the avant-garde
+          breaking of the form, the networked body, screens brought onstage, and
+          the screen itself becoming the stage. The graph below traces them -
+          from Artaud to the algorave, from a 1966 armory in New York to the
+          browser you are holding now.
+        </p>
+        <p class="detail hero-hint">
+          click a node. a window opens. that gesture is part of the history.
+        </p>
+      </div>
+
+      <nav class="views label" aria-label="Views">
+        <a class="view-tab" href="#graph" data-view="graph">The graph</a>
+        <a class="view-tab" href="#components" data-view="components"
+          >The components</a
+        >
+        <a class="view-tab" href="#manifesto" data-view="manifesto"
+          >The manifesto</a
+        >
+      </nav>
+    </header>
+
+    <main class="wrap">
+      <!-- ============ VIEW 1: THE GRAPH ============ -->
+      <section id="view-graph" class="view" aria-label="The graph">
+        <noscript>
+          <p class="detail">
+            the graph needs javascript; the views below read fine without it.
+          </p>
+        </noscript>
+        <div class="graph-shell">
+          <canvas id="graph-canvas"></canvas>
+          <div class="legend" aria-hidden="true">
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #0b0b0d"></span>
+              breaking the form
+            </div>
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #c9772e"></span>
+              bodies &amp; networks
+            </div>
+            <div class="legend-row">
+              <span
+                class="legend-dot"
+                style="background: #b8bcc2; border: 1px solid #0b0b0d"
+              ></span>
+              screens onstage
+            </div>
+            <div class="legend-row">
+              <span class="legend-dot" style="background: #1c39e8"></span>
+              the screen as stage
+            </div>
+            <div class="legend-row">
+              <span
+                class="legend-dot"
+                style="background: #fbfbf9; border: 1px solid #0b0b0d"
+              ></span>
+              the writings
+            </div>
+            <div class="legend-row">
+              <span
+                class="legend-dot"
+                style="background: rgba(11, 11, 13, 0.45)"
+              ></span>
+              adjacent
+            </div>
+          </div>
+        </div>
+
+        <details class="node-index">
+          <summary class="label">Node index - every point, in text</summary>
+          <div id="index-body"></div>
+        </details>
+      </section>
+
+      <!-- ============ VIEW 2: THE COMPONENTS ============ -->
+      <section
+        id="view-components"
+        class="view"
+        aria-label="The components"
+        hidden
+      >
+        <p class="comp-lead">
+          Take any work of computer theater apart and the same seven parts are
+          on the table. Different eras weighted them differently; none of them
+          ever fully leaves the room.
+        </p>
+        <div id="components-body"></div>
+      </section>
+
+      <!-- ============ VIEW 3: THE MANIFESTO ============ -->
+      <section
+        id="view-manifesto"
+        class="view manifesto"
+        aria-label="The manifesto"
+        hidden
+      >
+        <p class="label man-label">A manifesto for computer theater</p>
+        <div class="man-stanza">
+          <p>the body will be present.</p>
+          <p>the body will continue to be present.</p>
+          <p>
+            the body cannot be removed, even as the digital takes over, even as
+            the mind begins its upload.
+          </p>
+        </div>
+        <div class="man-stanza">
+          <p>the body is the new virus. the body is the oldest virus.</p>
+          <p>the body is here because the body is what we are.</p>
+          <p>the body as invasion. the body as contamination.</p>
+          <p>the body as vessel.</p>
+        </div>
+        <div class="man-stanza">
+          <p>the body as original algorithm.</p>
+          <p>the body as the most addictive algorithm there is.</p>
+          <p>the body as the ultimate provocation of the mirror neuron.</p>
+          <p>the body as gift and trick, as wisdom and fool.</p>
+        </div>
+        <div class="man-stanza">
+          <p>the body as instantiation, high precision.</p>
+          <p>the making real of dreams and fantasies.</p>
+          <p>the body as promise. the body as proof of work.</p>
+        </div>
+        <div class="man-stanza">
+          <p>the body crosses; the form files it.</p>
+          <p>every border is a dramaturgy. every checkpoint is a stage.</p>
+          <p>we pray by clicking now. the machine keeps the vigil.</p>
+          <p>devotion did not leave the room. it changed seats.</p>
+        </div>
+        <div class="man-stanza">
+          <p>a theater is a room that admits it is a room.</p>
+          <p>a browser is a room that forgets.</p>
+          <p>computer theater is the reminder.</p>
+        </div>
+        <div class="man-stanza">
+          <p>
+            even if the body disappears, the desire for the body will sit in the
+            substrate of every model built after us.
+          </p>
+          <p>even if the models forget, the body continues as an echo.</p>
+          <p>
+            the body has ultimate romanticism. the body has ultimate classicism.
+          </p>
+          <p>the body as end-all, be-all.</p>
+          <p>the body is here. the body isn’t going anywhere.</p>
+        </div>
+        <div class="man-coda">
+          <p>
+            This manifesto is a working document, like the graph beside it. It
+            borrows its pulse from the pieces in this kitchen: bodies made into
+            input, borders made into forms, prayers made into clicks. It will be
+            revised. The body will still be here.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap foot-inner">
+        <div>
+          <p class="foot-name">oulipo.xyz</p>
+          <p class="foot-by">
+            Computer theater, a reading room. Part of the Kitchen Lab by Halim
+            Madi. Poet x machines.
+          </p>
+          <div class="foot-links label">
+            <a href="/">kitchen lab</a>
+            <a href="https://www.halimmadi.com">halimmadi.com</a>
+            <span class="blue-tick" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* ==============================================================
+         The graph: a hand-rolled force layout. No libraries - the
+         design system builds its own instruments.
+         ============================================================== */
+      "use strict";
+
+      var TRACKS = {
+        1: { name: "breaking the form", color: "#0B0B0D" },
+        2: { name: "bodies & networks", color: "#C9772E" },
+        3: { name: "screens onstage", color: "#B8BCC2" },
+        4: { name: "the screen as stage", color: "#1C39E8" },
+        w: { name: "the writings", color: "hollow" },
+        x: { name: "adjacent", color: "rgba(11,11,13,0.45)" },
+        o: { name: "origin", color: "#0B0B0D" },
+        c: { name: "initiative", color: "#0B0B0D" },
+      };
+
+      var NODES = [
+        {
+          id: "ct",
+          name: "computer theater",
+          years: "ongoing",
+          track: "c",
+          size: 11,
+          blurb:
+            "Live performance that takes the computer seriously - as stage, scene partner, apparatus, and sometimes author. Not one movement but a braid of lineages: the avant-garde breaking of theatrical form, the networked and instrumented body, screens carried onto the stage, and finally the screen itself becoming the stage. This page is an initiative to trace that braid and keep tracing it.",
+          works: [],
+          links: [
+            "nineevenings",
+            "artaud",
+            "stelarc",
+            "wooster",
+            "dorsen",
+            "dixon",
+          ],
+        },
+        {
+          id: "nineevenings",
+          name: "9 evenings: theatre & engineering",
+          years: "1966",
+          track: "o",
+          size: 8.5,
+          blurb:
+            "New York, October 13-23, 1966. Bell Labs engineers and artists - Rauschenberg, Cage, Rainer among them - built the first large-scale art-and-engineering performance series. Its systems were more analog and electronic than computational in the modern sense, but it is the landmark scholars keep returning to: the moment performance and engineering agreed to share a room. The collaboration hardened into E.A.T. (Experiments in Art and Technology) afterwards.",
+          works: [],
+          links: ["cunningham", "pask", "dixon"],
+        },
+
+        /* ---- track 1: breaking the form ---- */
+        {
+          id: "wagner",
+          name: "richard wagner",
+          years: "1813–1883",
+          track: 1,
+          size: 4,
+          blurb:
+            "The Gesamtkunstwerk - the total artwork unifying music, drama, and image - is where Dixon roots the whole story. Every immersive, multimedia, all-consuming stage since owes the ambition to Bayreuth.",
+          works: ["Gesamtkunstwerk (concept)"],
+          links: ["artaud", "piscator"],
+        },
+        {
+          id: "artaud",
+          name: "antonin artaud",
+          years: "1896–1948",
+          track: 1,
+          size: 6,
+          blurb:
+            "Theatre of Cruelty. In The Theatre and Its Double (1938) Artaud imagined theater as a total sensory environment exceeding the script - a key conceptual ancestor of immersive and intermedial performance. His writing is still invoked in scholarship on live-cinema dramaturgy.",
+          works: ["The Theatre and Its Double (1938)"],
+          links: ["mitchell", "causey"],
+        },
+        {
+          id: "brecht",
+          name: "bertolt brecht",
+          years: "1898–1956",
+          track: 1,
+          size: 6,
+          blurb:
+            "Epic theatre and the Verfremdungseffekt. His 1932 radio essay theorized the media apparatus as something to be seized and turned from one-way distribution into two-way communication - a foundation for participatory and networked performance. He exposed the machinery to remind you where you were.",
+          works: [
+            "The Radio as an Apparatus of Communication (1932)",
+            "Brecht on Theatre (ed. Willett, 1964)",
+          ],
+          links: ["piscator", "wooster", "auslander"],
+        },
+        {
+          id: "beckett",
+          name: "samuel beckett",
+          years: "1906–1989",
+          track: 1,
+          size: 6,
+          blurb:
+            "Recording technology as dramatic device. In Krapp’s Last Tape (1958) a reel-to-reel recorder is effectively a second character: a man in dialogue with his recorded younger self. Television plays, radio plays, and Film (1965) extend the inquiry into every medium he could reach.",
+          works: [
+            "Krapp’s Last Tape (1958)",
+            "Eh Joe (1965/66)",
+            "Film (1965)",
+          ],
+          links: ["causey", "auslander"],
+        },
+        {
+          id: "piscator",
+          name: "erwin piscator",
+          years: "1893–1966",
+          track: 1,
+          size: 5.5,
+          blurb:
+            "Weimar Berlin, the 1920s: film and newsreel projection, treadmills, mechanized sets. Hoppla, We’re Alive! (1927) played live action against multiple screens. He is credited with coining epic theatre at the Volksbühne before Brecht developed it.",
+          works: [
+            "In Spite of Everything! (1925)",
+            "Hoppla, We’re Alive! (1927)",
+            "Das politische Theater (1929)",
+          ],
+          links: ["svoboda", "wooster"],
+        },
+        {
+          id: "futurists",
+          name: "the futurists",
+          years: "1909–1930s",
+          track: 1,
+          size: 4.5,
+          blurb:
+            "Marinetti and company championed speed, machines, simultaneity, and the abolition of psychological narrative. The Futurist Synthetic Theatre (1915) compressed drama to the density of a machine cycle.",
+          works: [
+            "The Variety Theatre (1913)",
+            "The Futurist Synthetic Theatre (1915)",
+          ],
+          links: ["schlemmer", "meyerhold"],
+        },
+        {
+          id: "schlemmer",
+          name: "oskar schlemmer",
+          years: "1888–1943",
+          track: 1,
+          size: 5.5,
+          blurb:
+            "Bauhaus theatre. The Triadic Ballet (1922) put dancers in sculptural costumes that reduce the figure to geometry - the body as mechanized art figure. His essay Man and Art Figure is the core statement of the body as mechanism.",
+          works: [
+            "Das Triadische Ballett (1922)",
+            "The Theater of the Bauhaus (1925)",
+          ],
+          links: ["cunningham", "stelarc"],
+        },
+        {
+          id: "fuller",
+          name: "loïe fuller",
+          years: "1862–1928",
+          track: 1,
+          size: 4,
+          blurb:
+            "Serpentine Dance: electric light, colored gels, and projected effects on moving fabric, with the apparatus patented. An ancestor of the body dissolved in light.",
+          works: ["Serpentine Dance (1890s)"],
+          links: ["svoboda"],
+        },
+        {
+          id: "meyerhold",
+          name: "vsevolod meyerhold",
+          years: "1874–1940",
+          track: 1,
+          size: 4.5,
+          blurb:
+            "Biomechanics: the actor’s body trained as an efficient machine on a Constructivist stage-as-apparatus. A key node in the body-as-machine lineage.",
+          works: ["Biomechanics (system)"],
+          links: ["stelarc", "troika"],
+        },
+        {
+          id: "svoboda",
+          name: "josef svoboda",
+          years: "1920–2002",
+          track: 1,
+          size: 5,
+          blurb:
+            "Czech scenographer. Laterna Magika, debuting at Expo 58 in Brussels, integrated film projection, screens, and live performers - among the most important direct precursors of screens onstage.",
+          works: ["Laterna Magika (1958)"],
+          links: ["lepage", "wooster"],
+        },
+
+        /* ---- track 2: bodies & networks ---- */
+        {
+          id: "stelarc",
+          name: "stelarc",
+          years: "b. 1946",
+          track: 2,
+          size: 6.5,
+          blurb:
+            "The body as networked, remote-controlled interface. Fractal Flesh (1995) let audiences in three cities actuate his muscles remotely; Ping Body (1996) let internet traffic itself move him. Suspensions, a third hand, an ear grown on an arm: the body opened like a port.",
+          works: [
+            "Fractal Flesh (1995)",
+            "Ping Body (1996)",
+            "Third Hand (1980–1998)",
+            "Ear on Arm",
+          ],
+          links: ["kac"],
+        },
+        {
+          id: "ascott",
+          name: "roy ascott",
+          years: "b. 1934",
+          track: 2,
+          size: 5,
+          blurb:
+            "The theory of telematic art, grounded in cybernetics since the early 1960s. His argument: the content of telematic art is the human interaction itself.",
+          works: [
+            "Is There Love in the Telematic Embrace? (1990)",
+            "Telematic Embrace (2003)",
+          ],
+          links: ["sermon", "galloway"],
+        },
+        {
+          id: "galloway",
+          name: "galloway & rabinowitz",
+          years: "1977–1984",
+          track: 2,
+          size: 5,
+          blurb:
+            "Satellite Arts Project (1977) joined dancers on two coasts through NASA satellites. Hole-in-Space (1980) opened a live satellite window between pedestrians in New York and Los Angeles - a public communication sculpture with no signage and no instructions.",
+          works: [
+            "Satellite Arts Project (1977)",
+            "Hole-in-Space (1980)",
+            "Electronic Café (1984)",
+          ],
+          links: ["sermon", "blasttheory"],
+        },
+        {
+          id: "sermon",
+          name: "paul sermon",
+          years: "b. 1966",
+          track: 2,
+          size: 4.5,
+          blurb:
+            "Telematic Dreaming (1992): ISDN video and chroma-key place two remote people on the same bed. Intimacy and touch across the network, by one of the first graduates of Ascott’s interactive arts course.",
+          works: ["Telematic Dreaming (1992)"],
+          links: ["blasttheory"],
+        },
+        {
+          id: "pask",
+          name: "gordon pask",
+          years: "1928–1996",
+          track: 2,
+          size: 4,
+          blurb:
+            "Cybernetician of conversation. Responsive environments like Colloquy of Mobiles (1968) sit upstream of every interactive performance system that listens back.",
+          works: ["Colloquy of Mobiles (1968)"],
+          links: ["troika", "toplap"],
+        },
+        {
+          id: "cunningham",
+          name: "merce cunningham",
+          years: "1919–2009",
+          track: 2,
+          size: 6.5,
+          blurb:
+            "Began choreographing with the software LifeForms in 1989, then made the motion-capture landmark BIPED (1999) with OpenEndedGroup: digital figures on a downstage scrim, live dancers behind. The cleanest early case of computer-driven choreography.",
+          works: [
+            "LifeForms (1989→)",
+            "Hand-drawn Spaces (1998)",
+            "BIPED (1999)",
+          ],
+          links: ["openended", "troika"],
+        },
+        {
+          id: "openended",
+          name: "openendedgroup",
+          years: "1998→",
+          track: 2,
+          size: 3.5,
+          blurb:
+            "Paul Kaiser and Shelley Eshkar, the digital artists behind Hand-drawn Spaces and the projected figures of BIPED - motion capture as drawing.",
+          works: ["Hand-drawn Spaces (1998)", "BIPED (1999, with Cunningham)"],
+          links: [],
+        },
+        {
+          id: "troika",
+          name: "troika ranch",
+          years: "1990s→",
+          track: 2,
+          size: 4.5,
+          blurb:
+            "Mark Coniglio and Dawn Stoppiello built the MidiDancer sensor suit and, in 1999, Isadora - the interactive-media software named for Isadora Duncan and still in wide use. The dancer instrumented, the stage listening.",
+          works: ["MidiDancer (suit)", "Isadora (1999)"],
+          links: ["birringer"],
+        },
+
+        /* ---- track 3: screens onstage ---- */
+        {
+          id: "wooster",
+          name: "the wooster group",
+          years: "1975→",
+          track: 3,
+          size: 7,
+          blurb:
+            "Elizabeth LeCompte’s company made monitors, live cameras, and dense media a first-class part of the stage: Brace Up! (1991), House/Lights (1998/99), To You, the Birdie! (2002), and a Hamlet (2007) performed against the 1964 Burton film. The foundational integration of live and recorded video.",
+          works: [
+            "Brace Up! (1991)",
+            "House/Lights (1998/99)",
+            "Hamlet (2007)",
+          ],
+          links: ["builders", "vanhove", "mitchell"],
+        },
+        {
+          id: "lepage",
+          name: "robert lepage",
+          years: "b. 1957",
+          track: 3,
+          size: 6,
+          blurb:
+            "Ex Machina (founded 1994): projection-heavy, mechanized productions from The Far Side of the Moon (2000) to the Met Opera’s notorious Ring machine (2010–2012). Multimedia spectacle at the scale of opera houses.",
+          works: [
+            "Elsinore (1995)",
+            "The Far Side of the Moon (2000)",
+            "The Ring at the Met (2010–2012)",
+          ],
+          links: [],
+        },
+        {
+          id: "builders",
+          name: "the builders association",
+          years: "1994→",
+          track: 3,
+          size: 5.5,
+          blurb:
+            "Marianne Weems, a former Wooster Group dramaturg, founded the OBIE-winning crossmedia company: Jet Lag (1998, with Diller + Scofidio), Alladeen (2003, on call centers), Super Vision (2005, on dataveillance). Theater explicitly about the systems it runs on.",
+          works: ["Jet Lag (1998)", "Alladeen (2003)", "Super Vision (2005)"],
+          links: ["rimini"],
+        },
+        {
+          id: "mitchell",
+          name: "katie mitchell",
+          years: "b. 1964",
+          track: 3,
+          size: 6,
+          blurb:
+            "Live cinema. In The Waves (National Theatre, 2006) actors and Foley artists construct a film in real time onstage, edited live and projected above the action - often to foreground a woman’s subjectivity. The camera as the play’s inner voice.",
+          works: [
+            "The Waves (2006)",
+            "Fräulein Julie (Schaubühne)",
+            "The Director’s Craft (2009)",
+          ],
+          links: ["intermediality"],
+        },
+        {
+          id: "vanhove",
+          name: "ivo van hove",
+          years: "b. 1958",
+          track: 3,
+          size: 4.5,
+          blurb:
+            "With designer Jan Versweyveld, brought live cameras and screens into the mainstream large house: Roman Tragedies, Network. The video table became standard equipment.",
+          works: ["Roman Tragedies (2007)", "Network (2017)"],
+          links: [],
+        },
+        {
+          id: "castorf",
+          name: "frank castorf",
+          years: "1990s→",
+          track: 3,
+          size: 4.5,
+          blurb:
+            "The Volksbühne live-video aesthetic: actors filmed in spaces the audience cannot see, projected above the stage. The signature of post-Wall German theater.",
+          works: ["Volksbühne productions (1992–2017)"],
+          links: ["mitchell", "vanhove", "gobsquad"],
+        },
+        {
+          id: "coates",
+          name: "george coates performance works",
+          years: "1980s–90s",
+          track: 3,
+          size: 3.5,
+          blurb:
+            "San Francisco. An under-remembered pioneer of computer-generated stereoscopic projection environments for live performers.",
+          works: ["Stereoscopic projection theater works"],
+          links: ["lepage"],
+        },
+
+        /* ---- track 4: the screen as stage ---- */
+        {
+          id: "lialina",
+          name: "olia lialina",
+          years: "b. 1971",
+          track: 4,
+          size: 6,
+          blurb:
+            "My Boyfriend Came Back from the War (1996): a browser-native narrative told by splitting HTML frames into smaller and smaller windows. Foundational net.art, and a founding text of the vernacular web she has spent decades defending.",
+          works: [
+            "My Boyfriend Came Back from the War (1996)",
+            "A Vernacular Web",
+            "Turing Complete User",
+          ],
+          links: ["jodi", "amisola", "halim"],
+        },
+        {
+          id: "jodi",
+          name: "jodi",
+          years: "1994→",
+          track: 4,
+          size: 6,
+          blurb:
+            "Joan Heemskerk and Dirk Paesmans make browser-breaking HTML, glitch, and game mods - many first mistook their site for a broken one. They describe improvising on the desktop as the main space to play. First Prix Net Art, 2014.",
+          works: [
+            "wwwwwwwww.jodi.org (1995)",
+            "SOD (1999)",
+            "Untitled Game (1996–2001)",
+          ],
+          links: ["shulgin", "machinima", "amisola"],
+        },
+        {
+          id: "shulgin",
+          name: "alexei shulgin",
+          years: "b. 1963",
+          track: 4,
+          size: 4.5,
+          blurb:
+            "386 DX (1998–2013): a Windows 3.1 PC on a 386 processor singing rock covers through MIDI and text-to-speech, in clubs and on street corners. The computer stops accompanying the performer and becomes the performer.",
+          works: ["386 DX (1998–2013)", "The Best of 386 DX (2001)"],
+          links: ["toplap"],
+        },
+        {
+          id: "seu",
+          name: "mindy seu",
+          years: "b. 1991",
+          track: 4,
+          size: 5,
+          blurb:
+            "The Cyberfeminism Index (online 2020, in print 2022, 700+ entries) and the lecture-performances that activate it - indexing performed as a feminist method, citation over authorship, the reference list as a stage.",
+          works: ["Cyberfeminism Index (2020/2022)"],
+          links: ["amisola"],
+        },
+        {
+          id: "amisola",
+          name: "chia amisola",
+          years: "b. 2000",
+          track: 4,
+          size: 5.5,
+          blurb:
+            "Internet and ambient artist from Manila. Performs websites live: hundreds of windows splayed across an exposed screen, terminal and browser history included - the personal computer become a public stage, devotional computing as practice.",
+          works: [
+            "We Are Only Moving (2023)",
+            "Himala (2024)",
+            "Philippine Internet Archive",
+          ],
+          links: ["halim"],
+        },
+        {
+          id: "toplap",
+          name: "toplap / live coding",
+          years: "2004→",
+          track: 4,
+          size: 5.5,
+          blurb:
+            "Born in a Hamburg bar at 1am in February 2004, live coding made a demand of performance with computers: “show us your screens.” Code projected as the score; TidalCycles and the algorave (2012→) carried it to the dance floor.",
+          works: [
+            "TOPLAP ManifestoDraft (2004)",
+            "TidalCycles (2006→)",
+            "Algorave (2012→)",
+          ],
+          links: ["dorsen", "halim"],
+        },
+        {
+          id: "dorsen",
+          name: "annie dorsen",
+          years: "2010→",
+          track: 4,
+          size: 6.5,
+          blurb:
+            "Algorithmic theatre. Hello Hi There (2010) stages two chatbots rebuilding the Chomsky-Foucault debate nightly; A Piece of Work (2013) resequences Hamlet by Markov chain. Algorithms write the text live, so no two shows match. MacArthur Fellowship, 2019.",
+          works: [
+            "Hello Hi There (2010)",
+            "A Piece of Work (2013)",
+            "Prometheus Firebringer (2023)",
+          ],
+          links: ["halim"],
+        },
+        {
+          id: "machinima",
+          name: "machinima & virtual worlds",
+          years: "1996→",
+          track: 4,
+          size: 3.5,
+          blurb:
+            "The cousin form: performance staged inside game engines and virtual worlds, from Quake movies to Second Life theater, with desktop documentary as an adjacent practice.",
+          works: ["Second Life performance", "Game-engine theater"],
+          links: [],
+        },
+        {
+          id: "halim",
+          name: "halim madi",
+          years: "ongoing",
+          track: 4,
+          size: 4.5,
+          blurb:
+            "Poet working between language models, browsers, and the performing body. Singulars stages algorithmic poem-selection with a live audience; the Kitchen Lab’s browser instruments and somatic poems treat the reader’s body as input. One point in this lineage among many - this page is the tracing, not the trophy.",
+          works: ["Singulars", "Somatic poetry sandbox", "Kitchen Lab pieces"],
+          links: [],
+        },
+        {
+          id: "more",
+          name: "...and many more",
+          years: "always",
+          track: "x",
+          size: 3.5,
+          blurb:
+            "This graph is incomplete on purpose. Laurie Anderson, Blast Theory, Eduardo Kac, Forced Entertainment, Rimini Protokoll, Gob Squad are sketched at its edges, and whole scenes are still missing. If someone belongs here, say so: the connect page at halimmadi.com is open.",
+          works: [],
+          links: ["ct"],
+        },
+
+        /* ---- adjacent ---- */
+        {
+          id: "anderson",
+          name: "laurie anderson",
+          years: "b. 1947",
+          track: "x",
+          size: 4,
+          blurb:
+            "Performance art wired for sound and screen, decades before it was infrastructure. Composed music for Lepage’s The Far Side of the Moon; extends every track she touches.",
+          works: [
+            "United States Parts I-IV (1983)",
+            "The Far Side of the Moon (music, 2000)",
+          ],
+          links: ["lepage"],
+        },
+        {
+          id: "blasttheory",
+          name: "blast theory",
+          years: "1991→",
+          track: "x",
+          size: 4,
+          blurb:
+            "Mixed-reality performance and networked games across city streets and screens - the audience as players inside the work.",
+          works: ["Can You See Me Now? (2001)"],
+          links: ["giannachi"],
+        },
+        {
+          id: "kac",
+          name: "eduardo kac",
+          years: "b. 1962",
+          track: "x",
+          size: 3.5,
+          blurb:
+            "Telepresence and bio art: the networked body extended past the human, into robots and organisms.",
+          works: ["Telepresence works (1990s)"],
+          links: ["giannachi"],
+        },
+        {
+          id: "forced",
+          name: "forced entertainment",
+          years: "1984→",
+          track: "x",
+          size: 3.5,
+          blurb:
+            "Sheffield’s durational experimenters, whose deadpan mediations of liveness haunt the theory as much as the practice.",
+          works: ["Quizoola! (1996)"],
+          links: ["giannachi"],
+        },
+        {
+          id: "rimini",
+          name: "rimini protokoll",
+          years: "2000→",
+          track: "x",
+          size: 3.5,
+          blurb:
+            "Documentary and participatory theater built on real systems and real people - call centers, cargo trucks, city audio walks.",
+          works: ["Call Cutta (2005)"],
+          links: [],
+        },
+        {
+          id: "gobsquad",
+          name: "gob squad",
+          years: "1994→",
+          track: "x",
+          size: 3.5,
+          blurb:
+            "UK/Berlin collective performing with live cameras in public space - the street fed to the stage in real time.",
+          works: ["Kitchen (2007)"],
+          links: [],
+        },
+
+        /* ---- the writings ---- */
+        {
+          id: "dixon",
+          name: "steve dixon",
+          years: "2007",
+          track: "w",
+          size: 7,
+          blurb:
+            "Digital Performance (MIT Press, 2007): the single best one-volume map of the field. Charts technology, theory, and practice in parallel, and roots digital performance in precursors from the deus ex machina to Wagner and the avant-gardes.",
+          works: ["Digital Performance (2007)"],
+          links: ["auslander"],
+        },
+        {
+          id: "auslander",
+          name: "philip auslander",
+          years: "1999",
+          track: "w",
+          size: 6,
+          blurb:
+            "Liveness: the central text on liveness versus mediation, arguing the live and the mediatized are not ontologically opposed - the media has thoroughly encroached on the live, stadium screens included.",
+          works: ["Liveness (1999; 3rd ed. 2023)"],
+          links: ["phelan"],
+        },
+        {
+          id: "phelan",
+          name: "peggy phelan",
+          years: "1993",
+          track: "w",
+          size: 6,
+          blurb:
+            "Unmarked: the ontology of performance as disappearance - performance becomes itself through vanishing, and recording turns it into something else. The field’s central counter-position; the Phelan-Auslander debate is its main axis.",
+          works: ["Unmarked (1993)"],
+          links: [],
+        },
+        {
+          id: "causey",
+          name: "matthew causey",
+          years: "2006",
+          track: "w",
+          size: 4.5,
+          blurb:
+            "Theatre and Performance in Digital Culture: the theatre has always been virtual, and the digital shifts us from simulation to embeddedness. Has himself directed Beckett’s television plays.",
+          works: ["Theatre and Performance in Digital Culture (2006)"],
+          links: [],
+        },
+        {
+          id: "giannachi",
+          name: "gabriella giannachi",
+          years: "2004",
+          track: "w",
+          size: 4.5,
+          blurb:
+            "Virtual Theatres: the first book-length investigation of the theatre/digital interface, reading Blast Theory, Cunningham, Kac, Forced Entertainment, Stelarc, and JODI in one frame.",
+          works: ["Virtual Theatres (2004)"],
+          links: ["stelarc"],
+        },
+        {
+          id: "salter",
+          name: "chris salter",
+          years: "2010",
+          track: "w",
+          size: 4.5,
+          blurb:
+            "Entangled: a wide history of how technologies from the mechanical to the computational transformed performance, with a foreword by Peter Sellars.",
+          works: ["Entangled (2010)"],
+          links: ["ct"],
+        },
+        {
+          id: "intermediality",
+          name: "the intermediality school",
+          years: "2006/2010",
+          track: "w",
+          size: 4,
+          blurb:
+            "Chapple, Kattenbelt, Bay-Cheng, Lavender, Nelson: theatre understood as a hypermedium that can stage all other media. Film provides the illusion of reality; theatre provides the reality of illusion.",
+          works: [
+            "Intermediality in Theatre and Performance (2006)",
+            "Mapping Intermediality in Performance (2010)",
+          ],
+          links: [],
+        },
+        {
+          id: "birringer",
+          name: "johannes birringer",
+          years: "1998",
+          track: "w",
+          size: 3.5,
+          blurb:
+            "Media and Performance: Along the Border - dance, media, and technology read together at the edge where they meet.",
+          works: ["Media and Performance (1998)"],
+          links: [],
+        },
+        {
+          id: "schechner",
+          name: "richard schechner",
+          years: "1985→",
+          track: "w",
+          size: 4,
+          blurb:
+            "Performance studies as a discipline: restored behavior, the broad spectrum from ritual to media. The ground the rest of the shelf stands on.",
+          works: ["Performance Studies: An Introduction"],
+          links: ["ct"],
+        },
+        {
+          id: "ijpadm",
+          name: "intl. journal of performance arts & digital media",
+          years: "2005→",
+          track: "w",
+          size: 3,
+          blurb:
+            "The field’s dedicated peer-reviewed venue, where the conversation continues issue by issue.",
+          works: [],
+          links: ["dixon"],
+        },
+      ];
+
+      /* ---- derive edges ---- */
+      var byId = {};
+      NODES.forEach(function (n) {
+        byId[n.id] = n;
+      });
+      var EDGES = [];
+      var seenEdge = {};
+      NODES.forEach(function (n) {
+        (n.links || []).forEach(function (t) {
+          if (!byId[t]) return;
+          var k = n.id < t ? n.id + "|" + t : t + "|" + n.id;
+          if (seenEdge[k]) return;
+          seenEdge[k] = 1;
+          EDGES.push([n.id, t]);
+        });
+      });
+
+      /* ---- physics ---- */
+      var canvas = document.getElementById("graph-canvas");
+      var ctx = canvas.getContext("2d");
+      var W = 0,
+        H = 0,
+        DPR = Math.max(1, window.devicePixelRatio || 1);
+      var reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+
+      var LEG = null; /* legend exclusion rect, normalized */
+      function sizeCanvas() {
+        var r = canvas.getBoundingClientRect();
+        W = r.width;
+        H = r.height;
+        canvas.width = Math.round(W * DPR);
+        canvas.height = Math.round(H * DPR);
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        /* keep nodes out from under the legend (desktop overlay only) */
+        LEG = null;
+        var lg = document.querySelector(".graph-shell .legend");
+        if (lg && W > 0 && getComputedStyle(lg).position === "absolute") {
+          LEG = {
+            x0: (lg.offsetLeft - 18) / W,
+            y1: (lg.offsetTop + lg.offsetHeight + 18) / H,
+          };
+        }
+      }
+
+      /* deterministic pseudo-random so the graph settles the same way */
+      var seed = 7;
+      function rnd() {
+        seed = (seed * 16807) % 2147483647;
+        return (seed - 1) / 2147483646;
+      }
+
+      NODES.forEach(function (n, i) {
+        var a = (i / NODES.length) * Math.PI * 2;
+        var r = 0.25 + rnd() * 0.2;
+        n.x = 0.5 + Math.cos(a) * r;
+        n.y = 0.5 + Math.sin(a) * r * 0.8;
+        n.vx = 0;
+        n.vy = 0;
+        n.fixed = false;
+      });
+
+      function tick() {
+        var i, j, a, b, dx, dy, d2, d, f;
+        /* repulsion */
+        for (i = 0; i < NODES.length; i++) {
+          for (j = i + 1; j < NODES.length; j++) {
+            a = NODES[i];
+            b = NODES[j];
+            dx = a.x - b.x;
+            dy = a.y - b.y;
+            d2 = dx * dx + dy * dy + 0.0004;
+            f = 0.000012 / d2;
+            dx *= f;
+            dy *= f;
+            if (!a.fixed) {
+              a.vx += dx;
+              a.vy += dy;
+            }
+            if (!b.fixed) {
+              b.vx -= dx;
+              b.vy -= dy;
+            }
+          }
+        }
+        /* springs */
+        for (i = 0; i < EDGES.length; i++) {
+          a = byId[EDGES[i][0]];
+          b = byId[EDGES[i][1]];
+          dx = b.x - a.x;
+          dy = b.y - a.y;
+          d = Math.sqrt(dx * dx + dy * dy) || 0.001;
+          f = (d - 0.16) * 0.012;
+          dx = (dx / d) * f;
+          dy = (dy / d) * f;
+          if (!a.fixed) {
+            a.vx += dx;
+            a.vy += dy;
+          }
+          if (!b.fixed) {
+            b.vx -= dx;
+            b.vy -= dy;
+          }
+        }
+        /* gravity + integrate */
+        for (i = 0; i < NODES.length; i++) {
+          a = NODES[i];
+          if (a.fixed) continue;
+          a.vx += (0.5 - a.x) * 0.0015;
+          a.vy += (0.5 - a.y) * 0.0022;
+          a.vx *= 0.9;
+          a.vy *= 0.9;
+          a.x += a.vx;
+          a.y += a.vy;
+          a.x = Math.min(0.97, Math.max(0.03, a.x));
+          a.y = Math.min(0.95, Math.max(0.05, a.y));
+          /* nothing hides under the legend */
+          if (LEG && a.x > LEG.x0 && a.y < LEG.y1) {
+            if (a.x - LEG.x0 < LEG.y1 - a.y) a.x = LEG.x0;
+            else a.y = LEG.y1;
+          }
+        }
+      }
+
+      var hoverNode = null;
+      function px(n) {
+        return { x: n.x * W, y: n.y * H };
+      }
+
+      function draw() {
+        ctx.clearRect(0, 0, W, H);
+        /* edges */
+        ctx.lineWidth = 1;
+        for (var i = 0; i < EDGES.length; i++) {
+          var a = px(byId[EDGES[i][0]]);
+          var b = px(byId[EDGES[i][1]]);
+          var lit =
+            hoverNode &&
+            (EDGES[i][0] === hoverNode.id || EDGES[i][1] === hoverNode.id);
+          ctx.strokeStyle = lit
+            ? "rgba(11,11,13,0.55)"
+            : "rgba(184,188,194,0.55)";
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+        /* nodes */
+        for (i = 0; i < NODES.length; i++) {
+          var n = NODES[i];
+          var p = px(n);
+          var col = TRACKS[n.track].color;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, n.size, 0, Math.PI * 2);
+          if (col === "hollow") {
+            ctx.fillStyle = "#FBFBF9";
+            ctx.fill();
+            ctx.strokeStyle = "#0B0B0D";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+          } else {
+            ctx.fillStyle = col;
+            ctx.fill();
+            if (n.track === 3) {
+              ctx.strokeStyle = "#0B0B0D";
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
+            if (n.track === "o" || n.track === "c") {
+              ctx.strokeStyle = "#B8BCC2";
+              ctx.lineWidth = 2;
+              ctx.stroke();
+            }
+          }
+        }
+        /* hover label */
+        if (hoverNode) {
+          var hp = px(hoverNode);
+          ctx.font = "500 12px 'JetBrains Mono', monospace";
+          var label = hoverNode.name.toUpperCase();
+          var tw = ctx.measureText(label).width;
+          var lx = Math.min(W - tw - 14, Math.max(6, hp.x + 12));
+          var ly = Math.max(16, hp.y - 12);
+          ctx.fillStyle = "#FBFBF9";
+          ctx.fillRect(lx - 4, ly - 12, tw + 8, 17);
+          ctx.fillStyle = "#0B0B0D";
+          ctx.fillText(label, lx, ly);
+        }
+        /* persistent labels for the anchors: clamped to the canvas,
+           knocked out on paper so edges never strike through the text */
+        ctx.font = "500 12px 'JetBrains Mono', monospace";
+        ["ct", "nineevenings"].forEach(function (id) {
+          var n = byId[id];
+          if (hoverNode === n) return;
+          var p = px(n);
+          var label = n.name.toUpperCase();
+          var tw = ctx.measureText(label).width;
+          var lx = Math.min(W - tw - 6, Math.max(6, p.x + n.size + 5));
+          var ly = p.y + 4;
+          ctx.fillStyle = "#FBFBF9";
+          ctx.fillRect(lx - 4, ly - 11, tw + 8, 15);
+          ctx.fillStyle = "rgba(11,11,13,0.6)";
+          ctx.fillText(label, lx, ly);
+        });
+      }
+
+      /* settle fast, then run until the layout goes still - the graph
+         sleeps when it has nothing left to say, and wakes on touch */
+      for (var s = 0; s < 320; s++) tick();
+      sizeCanvas();
+      draw();
+
+      var running = false,
+        frameBudget = 0;
+      function energy() {
+        var e = 0;
+        for (var i = 0; i < NODES.length; i++)
+          e += NODES[i].vx * NODES[i].vx + NODES[i].vy * NODES[i].vy;
+        return e;
+      }
+      function loop() {
+        if (!running) return;
+        tick();
+        draw();
+        frameBudget--;
+        if (frameBudget <= 0 || energy() < 2e-6) {
+          running = false;
+          return;
+        }
+        requestAnimationFrame(loop);
+      }
+      function kick() {
+        if (reduced) {
+          draw();
+          return;
+        }
+        frameBudget = 480; /* ~8s of drift per wake, then the graph sleeps */
+        if (!running && !document.hidden) {
+          running = true;
+          requestAnimationFrame(loop);
+        }
+      }
+      kick();
+      document.addEventListener("visibilitychange", function () {
+        if (document.hidden) {
+          running = false;
+        } else {
+          kick();
+        }
+      });
+      window.addEventListener("resize", function () {
+        sizeCanvas();
+        kick();
+      });
+
+      /* ---- interaction ---- */
+      function nodeAt(mx, my) {
+        for (var i = NODES.length - 1; i >= 0; i--) {
+          var p = px(NODES[i]);
+          var dx = mx - p.x,
+            dy = my - p.y;
+          if (dx * dx + dy * dy <= (NODES[i].size + 6) * (NODES[i].size + 6))
+            return NODES[i];
+        }
+        return null;
+      }
+
+      var dragNode = null,
+        dragPointer = null,
+        downAt = null,
+        moved = false;
+      function endDrag() {
+        if (dragNode) {
+          dragNode.fixed = false;
+          dragNode = null;
+          kick();
+        }
+        dragPointer = null;
+        downAt = null;
+      }
+      canvas.addEventListener("pointerdown", function (e) {
+        if (dragPointer !== null) return; /* one pointer drives the graph */
+        var r = canvas.getBoundingClientRect();
+        var mx = e.clientX - r.left,
+          my = e.clientY - r.top;
+        dragNode = nodeAt(mx, my);
+        dragPointer = e.pointerId;
+        downAt = { x: mx, y: my };
+        moved = false;
+        if (dragNode) {
+          dragNode.fixed = true;
+          canvas.setPointerCapture(e.pointerId);
+        }
+      });
+      canvas.addEventListener("pointermove", function (e) {
+        if (dragPointer !== null && e.pointerId !== dragPointer) return;
+        var r = canvas.getBoundingClientRect();
+        var mx = e.clientX - r.left,
+          my = e.clientY - r.top;
+        if (dragNode && downAt) {
+          if (Math.abs(mx - downAt.x) > 4 || Math.abs(my - downAt.y) > 4)
+            moved = true;
+          if (moved) {
+            dragNode.x = mx / W;
+            dragNode.y = my / H;
+            kick();
+          }
+        } else {
+          var h = nodeAt(mx, my);
+          if (h !== hoverNode) {
+            hoverNode = h;
+            canvas.style.cursor = h ? "pointer" : "grab";
+            draw(); /* one static frame; the physics stays asleep */
+          }
+        }
+      });
+      canvas.addEventListener("pointerup", function (e) {
+        if (dragPointer !== null && e.pointerId !== dragPointer) return;
+        if (dragNode && !moved) openWindow(dragNode, e.clientX, e.clientY);
+        endDrag();
+      });
+      canvas.addEventListener("pointercancel", endDrag);
+      /* with touch-action: pan-y the page keeps scrolling over the graph;
+         a touch that lands ON a node claims the gesture for dragging */
+      canvas.addEventListener(
+        "touchstart",
+        function (e) {
+          var r = canvas.getBoundingClientRect();
+          var t = e.touches[0];
+          if (t && nodeAt(t.clientX - r.left, t.clientY - r.top))
+            e.preventDefault();
+        },
+        { passive: false },
+      );
+      canvas.addEventListener("pointerleave", function () {
+        if (hoverNode) {
+          hoverNode = null;
+          canvas.style.cursor = "grab";
+          draw();
+        }
+      });
+
+      /* ---- windows ---- */
+      var winZ = 60,
+        winCount = 0;
+      function trackLabel(n) {
+        return TRACKS[n.track].name;
+      }
+      function closeWin(w) {
+        var opener = w._opener;
+        w.remove();
+        if (opener && document.contains(opener) && opener.focus) opener.focus();
+      }
+      function openWindow(node, cx, cy) {
+        var existing = document.querySelector(
+          '.win[data-node="' + node.id + '"]',
+        );
+        if (existing) {
+          existing.style.zIndex = ++winZ;
+          existing.querySelector(".win-close").focus();
+          return;
+        }
+        var win = document.createElement("div");
+        win.className = "win";
+        win.setAttribute("data-node", node.id);
+        win.setAttribute("role", "dialog");
+        win.setAttribute("aria-label", node.name);
+        win._opener = document.activeElement; /* focus returns here on close */
+        var x = Math.min(
+          window.innerWidth - 420,
+          Math.max(
+            12,
+            (cx || window.innerWidth / 2) + 16 + (winCount % 5) * 24,
+          ),
+        );
+        var y = Math.min(
+          window.innerHeight - 260,
+          Math.max(84, (cy || 160) - 40 + (winCount % 5) * 24),
+        );
+        win.style.left = x + "px";
+        win.style.top = y + "px";
+        win.style.zIndex = ++winZ;
+        winCount++;
+
+        var works = (node.works || [])
+          .map(function (w) {
+            return "<li>" + w + "</li>";
+          })
+          .join("");
+        var rel = (node.links || [])
+          .concat(
+            EDGES.filter(function (e) {
+              return e[1] === node.id;
+            }).map(function (e) {
+              return e[0];
+            }),
+          )
+          .filter(function (id, i, arr) {
+            return byId[id] && arr.indexOf(id) === i && id !== node.id;
+          })
+          .map(function (id) {
+            return (
+              '<button type="button" data-open="' +
+              id +
+              '">' +
+              byId[id].name +
+              "</button>"
+            );
+          })
+          .join("");
+
+        win.innerHTML =
+          '<div class="win-bar"><span class="win-title">' +
+          node.name +
+          '</span><button class="win-close" type="button" aria-label="Close window">✕</button></div>' +
+          '<div class="win-body"><p class="detail win-meta">' +
+          trackLabel(node) +
+          " · " +
+          node.years +
+          '</p><p class="win-blurb">' +
+          node.blurb +
+          "</p>" +
+          (works ? '<ul class="win-works">' + works + "</ul>" : "") +
+          (rel ? '<div class="win-rel">' + rel + "</div>" : "") +
+          "</div>";
+        document.body.appendChild(win);
+
+        win.querySelector(".win-close").addEventListener("click", function () {
+          closeWin(win);
+        });
+        win.addEventListener("pointerdown", function () {
+          win.style.zIndex = ++winZ;
+        });
+        win.querySelectorAll("[data-open]").forEach(function (b) {
+          b.addEventListener("click", function () {
+            openWindow(byId[b.getAttribute("data-open")], x + 40, y + 40);
+          });
+        });
+        /* drag by the bar (desktop only) */
+        var bar = win.querySelector(".win-bar");
+        var wDrag = null;
+        bar.addEventListener("pointerdown", function (e) {
+          if (window.innerWidth <= 640) return;
+          /* the close button is not a drag handle - capturing its pointer
+             would swallow the click that closes the window */
+          if (e.target.closest(".win-close")) return;
+          wDrag = {
+            dx: e.clientX - win.offsetLeft,
+            dy: e.clientY - win.offsetTop,
+          };
+          bar.setPointerCapture(e.pointerId);
+        });
+        bar.addEventListener("pointermove", function (e) {
+          if (!wDrag) return;
+          win.style.left =
+            Math.max(
+              0,
+              Math.min(window.innerWidth - 80, e.clientX - wDrag.dx),
+            ) + "px";
+          win.style.top =
+            Math.max(
+              0,
+              Math.min(window.innerHeight - 60, e.clientY - wDrag.dy),
+            ) + "px";
+        });
+        bar.addEventListener("pointerup", function () {
+          wDrag = null;
+        });
+        bar.addEventListener("pointercancel", function () {
+          wDrag = null;
+        });
+        win.querySelector(".win-close").focus();
+      }
+      document.addEventListener("keydown", function (e) {
+        if (e.key !== "Escape") return;
+        /* close the focused window if any, else the topmost by z-index */
+        var active =
+          document.activeElement &&
+          document.activeElement.closest &&
+          document.activeElement.closest(".win");
+        if (active) {
+          closeWin(active);
+          return;
+        }
+        var wins = document.querySelectorAll(".win");
+        if (!wins.length) return;
+        var top = wins[0];
+        wins.forEach(function (w) {
+          if (+w.style.zIndex >= +top.style.zIndex) top = w;
+        });
+        closeWin(top);
+      });
+
+      /* ---- node index (keyboard + screen reader path) ---- */
+      var ORDER = ["c", "o", 1, 2, 3, 4, "x", "w"];
+      var indexBody = document.getElementById("index-body");
+      ORDER.forEach(function (t) {
+        var group = NODES.filter(function (n) {
+          return n.track === t;
+        });
+        if (!group.length) return;
+        var div = document.createElement("div");
+        div.className = "index-track";
+        div.innerHTML =
+          '<h2 class="detail">' +
+          TRACKS[t].name +
+          '</h2><div class="index-list"></div>';
+        var list = div.querySelector(".index-list");
+        group.forEach(function (n) {
+          var b = document.createElement("button");
+          b.type = "button";
+          b.textContent = n.name;
+          b.addEventListener("click", function () {
+            openWindow(n, window.innerWidth / 2 - 200, 140);
+          });
+          list.appendChild(b);
+        });
+        indexBody.appendChild(div);
+      });
+
+      /* ---- components view ---- */
+      var COMPONENTS = [
+        {
+          title: "the body",
+          text: "The live performer: the one component every other exists to argue with. Phelan says performance becomes itself by disappearing; Auslander answers that the live was never pure. Stelarc wires the body to the network, Cunningham captures its motion, the somatic browser pieces make it the input device. It stays.",
+          refs: ["phelan", "auslander", "stelarc", "cunningham"],
+        },
+        {
+          title: "the apparatus",
+          text: "The machinery, made visible. Piscator’s projectors and treadmills, Brecht’s exposed lights, Svoboda’s Laterna Magika, Lepage’s Machine at the Met. Computer theater inherits the avant-garde instinct to show the rig instead of hiding it.",
+          refs: ["piscator", "brecht", "svoboda", "lepage"],
+        },
+        {
+          title: "the screen",
+          text: "First carried onto the stage - Wooster monitors, Castorf’s backstage cameras, Mitchell’s live cinema - then becoming the stage itself: net.art in the browser, desktop performance, a personal computer exposed as a public room.",
+          refs: ["wooster", "mitchell", "lialina", "amisola"],
+        },
+        {
+          title: "the code",
+          text: "The algorithm as dramaturg. Dorsen’s chatbots rebuild a debate nightly; live coders project their screens and let you read the score being written; generative text keeps no two performances identical. “Algorithms are thoughts,” says the TOPLAP draft.",
+          refs: ["dorsen", "toplap", "shulgin"],
+        },
+        {
+          title: "the network",
+          text: "Distance as material. Ascott’s telematic embrace, a satellite window between two sidewalks, a bed shared over ISDN, ping traffic twitching a body’s muscles. Latency is not a bug of this theater; it is a character.",
+          refs: ["ascott", "galloway", "sermon", "stelarc"],
+        },
+        {
+          title: "the audience",
+          text: "Witness, participant, operator. From Brecht’s two-way apparatus to Blast Theory’s players and the visitor who advances a browser piece by moving their hand: the click is a stage direction, and the audience performs it.",
+          refs: ["brecht", "blasttheory", "halim"],
+        },
+        {
+          title: "the archive",
+          text: "Recording and memory, onstage since Krapp threaded his first reel. Documentation, reconstruction, the debate about what survives - and now the model as an archive of bodies, echoing what it was trained on.",
+          refs: ["beckett", "nineevenings", "seu"],
+        },
+      ];
+      var compBody = document.getElementById("components-body");
+      COMPONENTS.forEach(function (c, i) {
+        var row = document.createElement("div");
+        row.className = "comp-row";
+        row.innerHTML =
+          '<div class="comp-num">0' +
+          (i + 1) +
+          '</div><div><h2 class="comp-title">' +
+          c.title +
+          '</h2><p class="comp-body">' +
+          c.text +
+          '</p><div class="comp-refs"></div></div>';
+        var refs = row.querySelector(".comp-refs");
+        c.refs.forEach(function (id) {
+          if (!byId[id]) return;
+          var b = document.createElement("button");
+          b.type = "button";
+          b.textContent = byId[id].name;
+          b.addEventListener("click", function () {
+            location.hash = "#graph";
+            openWindow(byId[id], window.innerWidth / 2 - 200, 140);
+          });
+          refs.appendChild(b);
+        });
+        compBody.appendChild(row);
+      });
+
+      /* ---- view switching ---- */
+      var tabs = document.querySelectorAll(".view-tab");
+      var sections = {
+        graph: document.getElementById("view-graph"),
+        components: document.getElementById("view-components"),
+        manifesto: document.getElementById("view-manifesto"),
+      };
+      function showView(name) {
+        if (!sections[name]) name = "graph";
+        Object.keys(sections).forEach(function (k) {
+          sections[k].hidden = k !== name;
+        });
+        tabs.forEach(function (t) {
+          t.setAttribute(
+            "aria-current",
+            t.getAttribute("data-view") === name ? "true" : "false",
+          );
+        });
+        /* the click-a-node hint only makes sense where there are nodes */
+        var hint = document.querySelector(".hero-hint");
+        if (hint) hint.hidden = name !== "graph";
+        if (name === "graph") {
+          sizeCanvas();
+          draw();
+        }
+      }
+      window.addEventListener("hashchange", function () {
+        showView(location.hash.replace("#", ""));
+      });
+      showView(location.hash.replace("#", "") || "graph");
+
+      /* test hooks for scripts/check-computer-theater.mjs */
+      window.__ctNodes = NODES;
+      window.__ctDebug = {
+        running: function () {
+          return running;
+        },
+      };
+    </script>
+  </body>
+</html>

@@ -23,3 +23,24 @@ ADJACENT: Laurie Anderson (b. 1947; United States Parts I-IV, 1983; music for Le
 CAVEATS: "Firsts" are contested. 9 Evenings used analog/early electronic more than computers. Shulgin's "first cyberpunk band" self-styled. Some dates conflict (House/Lights 1998 vs 1999).
 
 HALIM'S BRIEF: page = initiative explaining computer theater (what it is / how it started / main components). Three views: Obsidian-like graph (click node -> window explains it), components view, manifesto view (body-themed, from his lines). His work included but NOT overbragged - one node among many.
+
+## Dorsen expansion (Halim, Jul 2026 - ground truth from the artist's notes)
+
+Democracy in America: participatory piece built out of the audience's
+contributions gathered prior to the show. Hello Hi There: two robots in
+dialogue as Chomsky and Foucault. A Piece of Work and Prometheus Firebringer
+mix live acting with computer-generated content. Yesterday Tomorrow (2015):
+algorithm as composer and dramaturg dictating the movement of the actors,
+linking a beginning point (the Beatles' Yesterday) to the song Tomorrow from
+the musical Annie. Across the algorithmic works the performance differs each
+night - a new production nightly, each performance unique; the
+unpredictability matters to Dorsen.
+
+## Card resources (Jul 2026 round)
+
+Each node carries ONE verified external link (canonical: artist site, living
+piece, archive, publisher) and, where a STRICTLY public-domain/CC0 Wikimedia
+Commons image exists (15 of 53 nodes - mostly the historical figures), a
+halftone-treated card image in computer-theater/img/ with the Commons file
+page linked as credit. Research fan-out: workflow wf_0ce77d35-f10; raw
+results in the session scratchpad (ct-resources.json).

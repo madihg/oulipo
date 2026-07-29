@@ -172,10 +172,59 @@
       }
 
       /* ---- graph ---- */
+      .graph-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+      .graph-modes {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .graph-modes button {
+        appearance: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 8px 12px;
+        cursor: pointer;
+        color: var(--ink-60);
+      }
+      .graph-modes button:hover {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+      .graph-modes button[aria-pressed="true"] {
+        color: var(--paper);
+        background: var(--ink);
+        border-color: var(--ink);
+      }
+      .graph-wip {
+        margin: 12px 0 0;
+      }
+      .graph-wip a {
+        color: inherit;
+      }
       .graph-shell {
         position: relative;
         border: 1px solid var(--chrome);
         background: var(--paper);
+      }
+      /* pinned layouts draw their own labels; the legend steps aside */
+      .graph-shell.shell-pinned .legend {
+        position: static;
+        border: 0;
+        border-top: 1px solid var(--chrome);
+        grid-template-columns: repeat(3, auto);
+        justify-content: start;
+        column-gap: 24px;
       }
       #graph-canvas {
         display: block;
@@ -274,6 +323,50 @@
       }
       .win-works li::before {
         content: "· ";
+      }
+      .win-img {
+        width: 100%;
+        max-height: 210px;
+        object-fit: cover;
+        object-position: top center;
+        display: block;
+        margin: 0 0 12px;
+        border: 1px solid var(--chrome);
+        filter: grayscale(1) contrast(1.08);
+      }
+      .win-img--pixel {
+        image-rendering: pixelated; /* a 1996 gif deserves its pixels */
+        max-height: 260px;
+        object-fit: contain;
+        background: var(--paper);
+      }
+      .win-img-credit {
+        display: block;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-45);
+        text-decoration: none;
+        margin: -6px 0 12px;
+      }
+      .win-img-credit:hover {
+        color: var(--ink);
+      }
+      .win-link {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink);
+        text-decoration: none;
+        border-bottom: 1px solid var(--chrome);
+        padding-bottom: 2px;
+        margin: 0 0 12px;
+      }
+      .win-link:hover {
+        border-bottom-color: var(--ink);
       }
       .win-rel {
         display: flex;
@@ -406,14 +499,14 @@
         margin: 0 0 24px;
       }
       .man-stanza {
-        margin: 0 0 44px;
+        margin: 0;
       }
       .man-stanza p {
         font-family: var(--font-display);
         font-size: clamp(26px, 3.4vw, 44px);
-        line-height: 1.1;
+        line-height: 1.12;
         text-transform: lowercase;
-        margin: 0 0 6px;
+        margin: 0;
       }
       .man-coda {
         border-top: 1px solid var(--chrome);
@@ -425,6 +518,78 @@
         line-height: 1.6;
         color: var(--ink-60);
         margin: 0 0 12px;
+      }
+
+      /* ---- dispatches ---- */
+      .dispatch-list {
+        display: grid;
+        gap: 0;
+      }
+      .dispatch {
+        display: grid;
+        gap: 4px;
+        padding: 20px 0;
+        border-top: 1px solid var(--chrome);
+        text-decoration: none;
+        color: var(--ink);
+      }
+      .dispatch-list .dispatch:last-child {
+        border-bottom: 1px solid var(--chrome);
+      }
+      .dispatch-title {
+        font-family: var(--font-display);
+        font-size: clamp(26px, 3vw, 38px);
+        line-height: 1;
+        text-transform: lowercase;
+      }
+      .dispatch:hover .dispatch-title {
+        animation: glitch 120ms steps(2) 1;
+      }
+      .dispatch-line {
+        font-size: 14px;
+        line-height: 1.6;
+        color: var(--ink-60);
+        max-width: 44rem;
+      }
+
+      /* ---- the ask: one clear way to keep going ---- */
+      .subscribe-cta {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        text-decoration: none;
+        background: var(--paper);
+        border: 1px solid var(--chrome);
+        border-left: 12px solid var(--blue);
+        padding: 24px 24px 24px 32px;
+        margin-top: 96px;
+        color: var(--ink);
+      }
+      .subscribe-cta .label {
+        color: var(--blue);
+      }
+      .cta-copy {
+        display: grid;
+        gap: 8px;
+        min-width: 0;
+      }
+      .cta-title {
+        font-family: var(--font-display);
+        font-size: clamp(28px, 4vw, 48px);
+        line-height: 1;
+        text-transform: lowercase;
+      }
+      .cta-btn {
+        flex: 0 0 auto;
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 10px 14px;
+        white-space: nowrap;
+      }
+      .subscribe-cta:hover .cta-btn,
+      .subscribe-cta:focus-visible .cta-btn {
+        animation: glitch 120ms steps(2) 1;
       }
 
       /* ---- footer ---- */
@@ -537,6 +702,11 @@
           flex-direction: column;
           align-items: flex-start;
         }
+        .subscribe-cta {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 16px;
+        }
       }
 
       /* motion is punctuation; none of it is required */
@@ -576,9 +746,8 @@
         <p>
           It has no single origin. It has four braided lineages: the avant-garde
           breaking of the form, the networked body, screens brought onstage, and
-          the screen itself becoming the stage. The graph below traces them -
-          from Artaud to the algorave, from a 1966 armory in New York to the
-          browser you are holding now.
+          the screen itself becoming the stage. The graph below traces them,
+          from Artaud to the algorave.
         </p>
         <p class="detail hero-hint">
           click a node. a window opens. that gesture is part of the history.
@@ -593,6 +762,9 @@
         <a class="view-tab" href="#manifesto" data-view="manifesto"
           >The manifesto</a
         >
+        <a class="view-tab" href="#dispatches" data-view="dispatches"
+          >The dispatches</a
+        >
       </nav>
     </header>
 
@@ -604,6 +776,26 @@
             the graph needs javascript; the views below read fine without it.
           </p>
         </noscript>
+        <div class="graph-toolbar">
+          <div
+            class="graph-modes label"
+            role="group"
+            aria-label="Graph layouts"
+          >
+            <button type="button" data-mode="free" aria-pressed="true">
+              Constellation
+            </button>
+            <button type="button" data-mode="chrono" aria-pressed="false">
+              Chronology
+            </button>
+            <button type="button" data-mode="braids" aria-pressed="false">
+              Braids
+            </button>
+            <button type="button" data-mode="orbit" aria-pressed="false">
+              Orbit
+            </button>
+          </div>
+        </div>
         <div class="graph-shell">
           <canvas id="graph-canvas"></canvas>
           <div class="legend" aria-hidden="true">
@@ -643,6 +835,12 @@
           </div>
         </div>
 
+        <p class="detail graph-wip">
+          work in progress - this graph is incomplete and will keep growing.
+          missing someone?
+          <a href="https://www.halimmadi.com/connect/">say so</a>.
+        </p>
+
         <details class="node-index">
           <summary class="label">Node index - every point, in text</summary>
           <div id="index-body"></div>
@@ -657,9 +855,8 @@
         hidden
       >
         <p class="comp-lead">
-          Take any work of computer theater apart and the same seven parts are
-          on the table. Different eras weighted them differently; none of them
-          ever fully leaves the room.
+          Taken apart, most works of computer theater share the same seven
+          parts.
         </p>
         <div id="components-body"></div>
       </section>
@@ -679,57 +876,275 @@
             the body cannot be removed, even as the digital takes over, even as
             the mind begins its upload.
           </p>
-        </div>
-        <div class="man-stanza">
-          <p>the body is the new virus. the body is the oldest virus.</p>
+          <p>the body is the new virus.</p>
+          <p>the body is the oldest virus.</p>
           <p>the body is here because the body is what we are.</p>
           <p>the body as invasion. the body as contamination.</p>
           <p>the body as vessel.</p>
-        </div>
-        <div class="man-stanza">
           <p>the body as original algorithm.</p>
-          <p>the body as the most addictive algorithm there is.</p>
+          <p>the body as the most addictive algorithm.</p>
           <p>the body as the ultimate provocation of the mirror neuron.</p>
-          <p>the body as gift and trick, as wisdom and fool.</p>
-        </div>
-        <div class="man-stanza">
+          <p>the body as gift and trick, wisdom and fool.</p>
           <p>the body as instantiation, high precision.</p>
           <p>the making real of dreams and fantasies.</p>
           <p>the body as promise. the body as proof of work.</p>
-        </div>
-        <div class="man-stanza">
-          <p>the body crosses; the form files it.</p>
-          <p>every border is a dramaturgy. every checkpoint is a stage.</p>
-          <p>we pray by clicking now. the machine keeps the vigil.</p>
-          <p>devotion did not leave the room. it changed seats.</p>
-        </div>
-        <div class="man-stanza">
-          <p>a theater is a room that admits it is a room.</p>
-          <p>a browser is a room that forgets.</p>
-          <p>computer theater is the reminder.</p>
-        </div>
-        <div class="man-stanza">
+          <p>even if the body disappears,</p>
           <p>
-            even if the body disappears, the desire for the body will sit in the
-            substrate of every model built after us.
+            the desire for the body will sit in the substrate of every model
+            built after us.
           </p>
           <p>even if the models forget, the body continues as an echo.</p>
           <p>
-            the body has ultimate romanticism. the body has ultimate classicism.
+            the body as ultimate romanticism. the body as ultimate classicism.
           </p>
           <p>the body as end-all, be-all.</p>
           <p>the body is here. the body isn’t going anywhere.</p>
         </div>
-        <div class="man-coda">
-          <p>
-            This manifesto is a working document, like the graph beside it. It
-            borrows its pulse from the pieces in this kitchen: bodies made into
-            input, borders made into forms, prayers made into clicks. It will be
-            revised. The body will still be here.
-          </p>
+      </section>
+      <!-- ============ VIEW 4: THE DISPATCHES ============ -->
+      <section
+        id="view-dispatches"
+        class="view"
+        aria-label="The dispatches"
+        hidden
+      >
+        <p class="comp-lead">
+          Writing about computer theater and its edges, published on Substack.
+          New pieces land there first.
+        </p>
+        <h2 class="section-label label">On computer theater</h2>
+        <div class="dispatch-list">
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/evals-for-poets-part-4-the-slow-looking"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Jul 11 · 2026</span>
+            <span class="dispatch-title"
+              >Evals for Poets Part 4: The Slow Looking</span
+            >
+            <span class="dispatch-line"
+              >the singulars duel reread as releasement: two voices onstage, the
+              audience votes, and the model is slowly transformed in
+              return</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/what-i-learned-inside-a-poetry-cage"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Dec 16 · 2025</span>
+            <span class="dispatch-title"
+              >What I Learned Inside a Poetry Cage in Buenos Aires</span
+            >
+            <span class="dispatch-line"
+              >notes from performing reinforcement.exe inside a cage at
+              devconnect, where every thirty minutes human and model wrote poems
+              and the audience&#x27;s votes became the training loop</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/the-wire-and-the-cuddle-puddle"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Nov 4 · 2025</span>
+            <span class="dispatch-title">The Wire and the Cuddle Puddle</span>
+            <span class="dispatch-line"
+              >early networked performance (hole in space, satellite arts,
+              electronic cafe) as communion: art living in the transmission
+              between bodies and machines, kin to the mosh pit</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/embodied-practice-in-the-age-of-ai"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Sep 2 · 2025</span>
+            <span class="dispatch-title"
+              >Embodied Practice in the Age of AI: Cosmotechnics Revisited</span
+            >
+            <span class="dispatch-line"
+              >why performance art, theater, and live poetry matter more under
+              ai: presence is not replaced by digital systems, only shifted and
+              deepened, via yuk hui&#x27;s cosmotechnics</span
+            >
+          </a>
+        </div>
+        <h2 class="section-label label" style="margin-top: 48px">
+          At the edges
+        </h2>
+        <div class="dispatch-list">
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/evals-for-poets-part-3-ambience"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Jun 27 · 2026</span>
+            <span class="dispatch-title">Evals for Poets Part 3: Ambience</span>
+            <span class="dispatch-line"
+              >the human-or-machine reveal in singulars as mcluhan&#x27;s juicy
+              meat: the real event is a medium reorganizing how a room&#x27;s
+              taste forms, with the llm as disco at larger magnitude</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/evals-for-poets-part-2-the-grain"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Jun 13 · 2026</span>
+            <span class="dispatch-title"
+              >Evals for Poets Part 2: The Grain</span
+            >
+            <span class="dispatch-line"
+              >a model has a grain the way wood does, and evaluation is the slow
+              attention a maker pays to it, down to the trembling of a single
+              sampled token</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/evals-for-poets-part-1-the-hammer"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">May 31 · 2026</span>
+            <span class="dispatch-title"
+              >Evals for Poets Part 1: The Hammer &amp; the Paint</span
+            >
+            <span class="dispatch-line"
+              >opening of the series behind singulars: computation as artistic
+              medium rather than tool, so tokenizer, dataset, and temperature
+              are formal choices where the work lives</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/vibe-thinking"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Mar 24 · 2026</span>
+            <span class="dispatch-title">Vibe Thinking, Part 1</span>
+            <span class="dispatch-line"
+              >written while making the digital theater piece &#x27;i&#x27;ve
+              always wanted to become everyone&#x27;: almost outsourcing a
+              mother&#x27;s monologue to the next-token predictor, and what that
+              arbitrage does to thought</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/where-the-hydra-splits"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Feb 25 · 2026</span>
+            <span class="dispatch-title">Where the Hydra Splits</span>
+            <span class="dispatch-line"
+              >a branching browser piece on migrant longing where each click
+              forks the poem and forecloses the other path, choice enacted
+              onscreen as total tragedy</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/becoming-border"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Feb 12 · 2026</span>
+            <span class="dispatch-title">Becoming Border</span>
+            <span class="dispatch-line"
+              >net art on enclosures and migration, the screen as the checkpoint
+              you enact: the border as gesture, pause, and dramaturgy of a life
+              redirected</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/the-doors-we-leave-open"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Jan 7 · 2026</span>
+            <span class="dispatch-title">The Doors We Leave Open</span>
+            <span class="dispatch-line"
+              >a live talk turned participatory ritual: an audience&#x27;s
+              secret longings become a jsonl, a click on &#x27;create&#x27;
+              becomes contemporary magic, and a fine-tuned model speaks
+              back</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/lossy-jpegs-as-votive-patina"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Dec 4 · 2025</span>
+            <span class="dispatch-title">Lossy JPEGs as votive patina</span>
+            <span class="dispatch-line"
+              >family whatsapp forwards as networked happening: each re-send
+              pixelates the virgin further, compression as devotional wear,
+              praying by clicking while the machine keeps the vigil</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/system-poem"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Nov 20 · 2025</span>
+            <span class="dispatch-title">POEM = SYSTEM</span>
+            <span class="dispatch-line"
+              >a browser agent hesitating mid-sentence as the choreography of a
+              system finding itself: instruction pieces, author-removal, and
+              pipelines as the artwork performing</span
+            >
+          </a>
+          <a
+            class="dispatch"
+            href="https://halimmadi.substack.com/p/the-combinatorial-occult"
+            target="_blank"
+            rel="noopener"
+          >
+            <span class="detail">Oct 7 · 2025</span>
+            <span class="dispatch-title">The Combinatorial Occult</span>
+            <span class="dispatch-line"
+              >jackson mac low&#x27;s chance operations and code as spellwork:
+              procedural language that does something, the avant-garde
+              generative lineage behind machine performance</span
+            >
+          </a>
         </div>
       </section>
     </main>
+
+    <div class="wrap">
+      <a class="subscribe-cta" href="https://halimmadi.substack.com/subscribe">
+        <span class="cta-copy">
+          <span class="label">Keep learning</span>
+          <span class="cta-title"
+            >want to keep learning about computer theater?</span
+          >
+          <span class="detail"
+            >the dispatches land in halim's newsletter first</span
+          >
+        </span>
+        <span class="cta-btn label">subscribe on substack ↗</span>
+      </a>
+    </div>
 
     <footer class="site-foot">
       <div class="wrap foot-inner">
@@ -769,12 +1184,13 @@
       var NODES = [
         {
           id: "ct",
+          year: 2026,
           name: "computer theater",
           years: "ongoing",
           track: "c",
           size: 11,
           blurb:
-            "Live performance that takes the computer seriously - as stage, scene partner, apparatus, and sometimes author. Not one movement but a braid of lineages: the avant-garde breaking of theatrical form, the networked and instrumented body, screens carried onto the stage, and finally the screen itself becoming the stage. This page is an initiative to trace that braid and keep tracing it.",
+            "Live performance that takes the computer seriously - as stage, scene partner, apparatus, and sometimes author. Not one movement but a braid of lineages: the avant-garde breaking of theatrical form, the networked and instrumented body, screens carried onto the stage, and finally the screen itself becoming the stage. This page is an initiative to trace that braid.",
           works: [],
           links: [
             "nineevenings",
@@ -787,12 +1203,20 @@
         },
         {
           id: "nineevenings",
+          link: {
+            url: "https://www.fondation-langlois.org/html/e/page.php?NumPage=294",
+            label: "the fonds at fondation langlois",
+          },
+          img: "img/nineevenings.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Armory_Show_1.jpg",
+          year: 1966,
           name: "9 evenings: theatre & engineering",
           years: "1966",
           track: "o",
           size: 8.5,
           blurb:
-            "New York, October 13-23, 1966. Bell Labs engineers and artists - Rauschenberg, Cage, Rainer among them - built the first large-scale art-and-engineering performance series. Its systems were more analog and electronic than computational in the modern sense, but it is the landmark scholars keep returning to: the moment performance and engineering agreed to share a room. The collaboration hardened into E.A.T. (Experiments in Art and Technology) afterwards.",
+            "New York, October 13-23, 1966. Bell Labs engineers and artists - Rauschenberg, Cage, Rainer among them - built the first large-scale art-and-engineering performance series. Its systems were more analog and electronic than computational in the modern sense, but it is the landmark scholars keep returning to. The collaboration hardened into E.A.T. (Experiments in Art and Technology) afterwards.",
           works: [],
           links: ["cunningham", "pask", "dixon"],
         },
@@ -800,17 +1224,33 @@
         /* ---- track 1: breaking the form ---- */
         {
           id: "wagner",
+          link: {
+            url: "https://www.bayreuther-festspiele.de/",
+            label: "bayreuth festival",
+          },
+          img: "img/wagner.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Richard_Wagner,_Paris,_1861.jpg",
+          year: 1876,
           name: "richard wagner",
           years: "1813–1883",
           track: 1,
           size: 4,
           blurb:
-            "The Gesamtkunstwerk - the total artwork unifying music, drama, and image - is where Dixon roots the whole story. Every immersive, multimedia, all-consuming stage since owes the ambition to Bayreuth.",
+            "The Gesamtkunstwerk - the total artwork unifying music, drama, and image - is where Dixon roots the whole story.",
           works: ["Gesamtkunstwerk (concept)"],
           links: ["artaud", "piscator"],
         },
         {
           id: "artaud",
+          link: {
+            url: "https://www.ubu.com/sound/artaud.html",
+            label: "artaud's radio work on ubuweb",
+          },
+          img: "img/artaud.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Antonin_Artaud_1926.jpg",
+          year: 1938,
           name: "antonin artaud",
           years: "1896–1948",
           track: 1,
@@ -822,6 +1262,14 @@
         },
         {
           id: "brecht",
+          link: {
+            url: "https://www.berliner-ensemble.de/",
+            label: "berliner ensemble",
+          },
+          img: "img/brecht.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Bertolt_Brecht_(met_bril)_bewerkt_geheel_naar_eigen_inzicht_de_'Driestuiversopera',_waarvan_de,_SFA001009024.jpg",
+          year: 1932,
           name: "bertolt brecht",
           years: "1898–1956",
           track: 1,
@@ -836,12 +1284,20 @@
         },
         {
           id: "beckett",
+          link: {
+            url: "https://ubu.com/film/beckett.html",
+            label: "beckett's film + tv plays, ubuweb",
+          },
+          img: "img/beckett.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Samuel_Beckett,_Pic,_1.jpg",
+          year: 1958,
           name: "samuel beckett",
           years: "1906–1989",
           track: 1,
           size: 6,
           blurb:
-            "Recording technology as dramatic device. In Krapp’s Last Tape (1958) a reel-to-reel recorder is effectively a second character: a man in dialogue with his recorded younger self. Television plays, radio plays, and Film (1965) extend the inquiry into every medium he could reach.",
+            "Recording technology as dramatic device. In Krapp’s Last Tape (1958) a reel-to-reel recorder is effectively a second character: a man in dialogue with his recorded younger self. He repeated the experiment in television, radio, and film.",
           works: [
             "Krapp’s Last Tape (1958)",
             "Eh Joe (1965/66)",
@@ -851,6 +1307,14 @@
         },
         {
           id: "piscator",
+          link: {
+            url: "https://histories.newschool.edu/people/erwin-piscator",
+            label: "piscator at the new school",
+          },
+          img: "img/piscator.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Piscator-Portrait.jpg",
+          year: 1927,
           name: "erwin piscator",
           years: "1893–1966",
           track: 1,
@@ -866,12 +1330,20 @@
         },
         {
           id: "futurists",
+          link: {
+            url: "https://monoskop.org/Futurism",
+            label: "monoskop futurism dossier",
+          },
+          img: "img/futurists.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:FilippoTommasoMarinetti.jpg",
+          year: 1915,
           name: "the futurists",
           years: "1909–1930s",
           track: 1,
           size: 4.5,
           blurb:
-            "Marinetti and company championed speed, machines, simultaneity, and the abolition of psychological narrative. The Futurist Synthetic Theatre (1915) compressed drama to the density of a machine cycle.",
+            "Marinetti and company championed speed, machines, simultaneity, and the abolition of psychological narrative. The Futurist Synthetic Theatre (1915) argued for compressed, simultaneous, machine-age drama.",
           works: [
             "The Variety Theatre (1913)",
             "The Futurist Synthetic Theatre (1915)",
@@ -880,6 +1352,14 @@
         },
         {
           id: "schlemmer",
+          link: {
+            url: "https://schlemmer.org/",
+            label: "the schlemmer estate",
+          },
+          img: "img/schlemmer.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Oskar_Schlemmer_Triadisches_Ballett_400.jpg",
+          year: 1922,
           name: "oskar schlemmer",
           years: "1888–1943",
           track: 1,
@@ -894,17 +1374,33 @@
         },
         {
           id: "fuller",
+          link: {
+            url: "https://www.maryhillmuseum.org/loie-fuller",
+            label: "maryhill museum's fuller collection",
+          },
+          img: "img/fuller.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Loie_Fuller_Dancing_MET_DP267664.jpg",
+          year: 1892,
           name: "loïe fuller",
           years: "1862–1928",
           track: 1,
           size: 4,
           blurb:
-            "Serpentine Dance: electric light, colored gels, and projected effects on moving fabric, with the apparatus patented. An ancestor of the body dissolved in light.",
+            "Serpentine Dance: electric light, colored gels, and projected effects on moving fabric, with the apparatus patented. An early case of performance built on lighting technology.",
           works: ["Serpentine Dance (1890s)"],
           links: ["svoboda"],
         },
         {
           id: "meyerhold",
+          link: {
+            url: "https://monoskop.org/Vsevolod_Meyerhold",
+            label: "monoskop meyerhold dossier",
+          },
+          img: "img/meyerhold.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Vsevolod_Meyerhold.jpg",
+          year: 1922,
           name: "vsevolod meyerhold",
           years: "1874–1940",
           track: 1,
@@ -916,6 +1412,11 @@
         },
         {
           id: "svoboda",
+          link: {
+            url: "https://www.svoboda-scenograph.cz/",
+            label: "the svoboda archive",
+          },
+          year: 1958,
           name: "josef svoboda",
           years: "1920–2002",
           track: 1,
@@ -929,12 +1430,14 @@
         /* ---- track 2: bodies & networks ---- */
         {
           id: "stelarc",
+          link: { url: "https://stelarc.org", label: "the artist's site" },
+          year: 1995,
           name: "stelarc",
           years: "b. 1946",
           track: 2,
           size: 6.5,
           blurb:
-            "The body as networked, remote-controlled interface. Fractal Flesh (1995) let audiences in three cities actuate his muscles remotely; Ping Body (1996) let internet traffic itself move him. Suspensions, a third hand, an ear grown on an arm: the body opened like a port.",
+            "The body as networked, remote-controlled interface. Fractal Flesh (1995) let audiences in three cities actuate his muscles remotely; Ping Body (1996) let internet traffic itself move him. Suspensions, a third hand, an ear grown on an arm.",
           works: [
             "Fractal Flesh (1995)",
             "Ping Body (1996)",
@@ -945,6 +1448,11 @@
         },
         {
           id: "ascott",
+          link: {
+            url: "https://www.ucpress.edu/books/telematic-embrace",
+            label: "telematic embrace, uc press",
+          },
+          year: 1990,
           name: "roy ascott",
           years: "b. 1934",
           track: 2,
@@ -959,6 +1467,11 @@
         },
         {
           id: "galloway",
+          link: {
+            url: "https://www.ecafe.com/getty/HIS/",
+            label: "hole-in-space, on the artists' site",
+          },
+          year: 1980,
           name: "galloway & rabinowitz",
           years: "1977–1984",
           track: 2,
@@ -974,6 +1487,11 @@
         },
         {
           id: "sermon",
+          link: {
+            url: "https://www.paulsermon.org/dream/",
+            label: "telematic dreaming, artist's site",
+          },
+          year: 1992,
           name: "paul sermon",
           years: "b. 1966",
           track: 2,
@@ -985,17 +1503,30 @@
         },
         {
           id: "pask",
+          link: {
+            url: "https://colloquyofmobiles.com",
+            label: "the colloquy, rebuilt",
+          },
+          year: 1968,
           name: "gordon pask",
           years: "1928–1996",
           track: 2,
           size: 4,
           blurb:
-            "Cybernetician of conversation. Responsive environments like Colloquy of Mobiles (1968) sit upstream of every interactive performance system that listens back.",
+            "Cybernetician of conversation. Responsive environments like Colloquy of Mobiles (1968) sit upstream of interactive performance systems.",
           works: ["Colloquy of Mobiles (1968)"],
           links: ["troika", "toplap"],
         },
         {
           id: "cunningham",
+          link: {
+            url: "https://www.mercecunningham.org/the-work/choreography/biped/",
+            label: "biped, at the cunningham trust",
+          },
+          img: "img/cunningham.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Merce_Cunningham_1961.png",
+          year: 1989,
           name: "merce cunningham",
           years: "1919–2009",
           track: 2,
@@ -1011,6 +1542,11 @@
         },
         {
           id: "openended",
+          link: {
+            url: "https://openendedgroup.com",
+            label: "openendedgroup.com",
+          },
+          year: 1998,
           name: "openendedgroup",
           years: "1998→",
           track: 2,
@@ -1022,12 +1558,17 @@
         },
         {
           id: "troika",
+          link: {
+            url: "https://troikatronix.com",
+            label: "troikatronix / isadora",
+          },
+          year: 1999,
           name: "troika ranch",
           years: "1990s→",
           track: 2,
           size: 4.5,
           blurb:
-            "Mark Coniglio and Dawn Stoppiello built the MidiDancer sensor suit and, in 1999, Isadora - the interactive-media software named for Isadora Duncan and still in wide use. The dancer instrumented, the stage listening.",
+            "Mark Coniglio and Dawn Stoppiello built the MidiDancer sensor suit and, in 1999, Isadora - the interactive-media software named for Isadora Duncan and still in wide use.",
           works: ["MidiDancer (suit)", "Isadora (1999)"],
           links: ["birringer"],
         },
@@ -1035,6 +1576,11 @@
         /* ---- track 3: screens onstage ---- */
         {
           id: "wooster",
+          link: {
+            url: "https://thewoostergroup.org/",
+            label: "the company site",
+          },
+          year: 1975,
           name: "the wooster group",
           years: "1975→",
           track: 3,
@@ -1050,6 +1596,8 @@
         },
         {
           id: "lepage",
+          link: { url: "https://exmachina.ca/", label: "ex machina" },
+          year: 1994,
           name: "robert lepage",
           years: "b. 1957",
           track: 3,
@@ -1065,6 +1613,11 @@
         },
         {
           id: "builders",
+          link: {
+            url: "https://thebuildersassociation.org/",
+            label: "the company site",
+          },
+          year: 1994,
           name: "the builders association",
           years: "1994→",
           track: 3,
@@ -1076,12 +1629,17 @@
         },
         {
           id: "mitchell",
+          link: {
+            url: "https://www.nationaltheatre.org.uk/people/katie-mitchell/",
+            label: "national theatre profile",
+          },
+          year: 2006,
           name: "katie mitchell",
           years: "b. 1964",
           track: 3,
           size: 6,
           blurb:
-            "Live cinema. In The Waves (National Theatre, 2006) actors and Foley artists construct a film in real time onstage, edited live and projected above the action - often to foreground a woman’s subjectivity. The camera as the play’s inner voice.",
+            "Live cinema. In The Waves (National Theatre, 2006) actors and Foley artists construct a film in real time onstage, edited live and projected above the action - often to foreground a woman’s subjectivity.",
           works: [
             "The Waves (2006)",
             "Fräulein Julie (Schaubühne)",
@@ -1091,6 +1649,11 @@
         },
         {
           id: "vanhove",
+          link: {
+            url: "https://ita.nl/en/employees/ivo-van-hove/2/",
+            label: "ita amsterdam",
+          },
+          year: 2007,
           name: "ivo van hove",
           years: "b. 1958",
           track: 3,
@@ -1102,6 +1665,14 @@
         },
         {
           id: "castorf",
+          link: {
+            url: "https://www.volksbuehne.berlin/",
+            label: "volksbuhne berlin",
+          },
+          img: "img/castorf.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Volksb%C3%BChne_am_Rosa-Luxemburg-Platz.jpg",
+          year: 1992,
           name: "frank castorf",
           years: "1990s→",
           track: 3,
@@ -1113,6 +1684,11 @@
         },
         {
           id: "coates",
+          link: {
+            url: "https://web.archive.org/web/20051228112914/http://www.georgecoates.org/",
+            label: "archived company site",
+          },
+          year: 1985,
           name: "george coates performance works",
           years: "1980s–90s",
           track: 3,
@@ -1126,6 +1702,14 @@
         /* ---- track 4: the screen as stage ---- */
         {
           id: "lialina",
+          link: {
+            url: "http://www.teleportacia.org/war/",
+            label: "the piece, still live",
+          },
+          img: "img/lialina.jpg",
+          imgCredit: "https://commons.wikimedia.org/wiki/File:Accordiol.gif",
+          imgPixel: true,
+          year: 1996,
           name: "olia lialina",
           years: "b. 1971",
           track: 4,
@@ -1141,6 +1725,11 @@
         },
         {
           id: "jodi",
+          link: {
+            url: "http://wwwwwwwww.jodi.org/",
+            label: "wwwwwwwww.jodi.org, still live",
+          },
+          year: 1995,
           name: "jodi",
           years: "1994→",
           track: 4,
@@ -1156,6 +1745,11 @@
         },
         {
           id: "shulgin",
+          link: {
+            url: "http://www.easylife.org/386dx/",
+            label: "386 dx on easylife.org",
+          },
+          year: 1998,
           name: "alexei shulgin",
           years: "b. 1963",
           track: 4,
@@ -1167,6 +1761,11 @@
         },
         {
           id: "seu",
+          link: {
+            url: "https://cyberfeminismindex.com/",
+            label: "cyberfeminism index, online",
+          },
+          year: 2020,
           name: "mindy seu",
           years: "b. 1991",
           track: 4,
@@ -1178,6 +1777,8 @@
         },
         {
           id: "amisola",
+          link: { url: "https://chia.design/", label: "chia.design" },
+          year: 2023,
           name: "chia amisola",
           years: "b. 2000",
           track: 4,
@@ -1193,6 +1794,11 @@
         },
         {
           id: "toplap",
+          link: {
+            url: "https://toplap.org/wiki/ManifestoDraft",
+            label: "the manifestodraft, still a draft since 2004",
+          },
+          year: 2004,
           name: "toplap / live coding",
           years: "2004→",
           track: 4,
@@ -1208,21 +1814,33 @@
         },
         {
           id: "dorsen",
+          link: { url: "https://anniedorsen.com", label: "anniedorsen.com" },
+          year: 2010,
           name: "annie dorsen",
           years: "2010→",
           track: 4,
           size: 6.5,
           blurb:
-            "Algorithmic theatre. Hello Hi There (2010) stages two chatbots rebuilding the Chomsky-Foucault debate nightly; A Piece of Work (2013) resequences Hamlet by Markov chain. Algorithms write the text live, so no two shows match. MacArthur Fellowship, 2019.",
+            "Algorithmic theatre, and before it, participation: Democracy in America built the show out of the audience's contributions gathered ahead of curtain. Hello Hi There (2010) stages two robots in dialogue as Chomsky and Foucault. Yesterday Tomorrow (2015) makes the algorithm composer and dramaturg, steering singers note by note from the Beatles' Yesterday to Annie's Tomorrow. A Piece of Work (2013) and Prometheus Firebringer (2023) mix live actors with computer-generated text. Every night the machines produce a new script: each performance is unique, and the unpredictability is the point. MacArthur Fellowship, 2019.",
           works: [
+            "Democracy in America",
             "Hello Hi There (2010)",
             "A Piece of Work (2013)",
+            "Yesterday Tomorrow (2015)",
             "Prometheus Firebringer (2023)",
           ],
           links: ["halim"],
         },
         {
           id: "machinima",
+          link: {
+            url: "https://archive.org/details/machinima",
+            label: "the machinima archive",
+          },
+          img: "img/machinima.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Being_in_Second_Life_(502787761).jpg",
+          year: 1996,
           name: "machinima & virtual worlds",
           years: "1996→",
           track: 4,
@@ -1234,23 +1852,30 @@
         },
         {
           id: "halim",
+          link: { url: "https://www.halimmadi.com", label: "halimmadi.com" },
+          year: 2024,
           name: "halim madi",
           years: "ongoing",
           track: 4,
           size: 4.5,
           blurb:
-            "Poet working between language models, browsers, and the performing body. Singulars stages algorithmic poem-selection with a live audience; the Kitchen Lab’s browser instruments and somatic poems treat the reader’s body as input. One point in this lineage among many - this page is the tracing, not the trophy.",
+            "Poet working between language models, browsers, and the performing body. Singulars stages algorithmic poem-selection with a live audience; the Kitchen Lab’s browser instruments and somatic poems treat the reader’s body as input. One point among many in this lineage.",
           works: ["Singulars", "Somatic poetry sandbox", "Kitchen Lab pieces"],
           links: [],
         },
         {
           id: "more",
+          link: {
+            url: "https://www.halimmadi.com/connect/",
+            label: "write to halim",
+          },
+          year: 2026,
           name: "...and many more",
           years: "always",
           track: "x",
           size: 3.5,
           blurb:
-            "This graph is incomplete on purpose. Laurie Anderson, Blast Theory, Eduardo Kac, Forced Entertainment, Rimini Protokoll, Gob Squad are sketched at its edges, and whole scenes are still missing. If someone belongs here, say so: the connect page at halimmadi.com is open.",
+            "This graph is incomplete. Laurie Anderson, Blast Theory, Eduardo Kac, Forced Entertainment, Rimini Protokoll, Gob Squad are sketched at its edges, and whole scenes are still missing. If someone belongs here, say so: the connect page at halimmadi.com is open.",
           works: [],
           links: ["ct"],
         },
@@ -1258,12 +1883,17 @@
         /* ---- adjacent ---- */
         {
           id: "anderson",
+          link: {
+            url: "https://laurieanderson.com",
+            label: "the artist's site",
+          },
+          year: 1983,
           name: "laurie anderson",
           years: "b. 1947",
           track: "x",
           size: 4,
           blurb:
-            "Performance art wired for sound and screen, decades before it was infrastructure. Composed music for Lepage’s The Far Side of the Moon; extends every track she touches.",
+            "Performance art built on custom audio and video technology from the 1970s on. Composed the music for Lepage’s The Far Side of the Moon.",
           works: [
             "United States Parts I-IV (1983)",
             "The Far Side of the Moon (music, 2000)",
@@ -1272,6 +1902,11 @@
         },
         {
           id: "blasttheory",
+          link: {
+            url: "https://www.blasttheory.co.uk",
+            label: "blasttheory.co.uk",
+          },
+          year: 1991,
           name: "blast theory",
           years: "1991→",
           track: "x",
@@ -1283,6 +1918,11 @@
         },
         {
           id: "kac",
+          link: { url: "https://www.ekac.org", label: "ekac.org" },
+          img: "img/kac.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Eduardo_Kac_-_Genesis_-_Ars_Electronica_99.jpg",
+          year: 1994,
           name: "eduardo kac",
           years: "b. 1962",
           track: "x",
@@ -1294,17 +1934,27 @@
         },
         {
           id: "forced",
+          link: {
+            url: "https://www.forcedentertainment.com",
+            label: "forcedentertainment.com",
+          },
+          year: 1984,
           name: "forced entertainment",
           years: "1984→",
           track: "x",
           size: 3.5,
           blurb:
-            "Sheffield’s durational experimenters, whose deadpan mediations of liveness haunt the theory as much as the practice.",
+            "Sheffield company, founded 1984. Their durational and mediated performances are a recurring case in the liveness debate.",
           works: ["Quizoola! (1996)"],
           links: ["giannachi"],
         },
         {
           id: "rimini",
+          link: {
+            url: "https://www.rimini-protokoll.de/website/en/",
+            label: "rimini-protokoll.de",
+          },
+          year: 2000,
           name: "rimini protokoll",
           years: "2000→",
           track: "x",
@@ -1316,6 +1966,8 @@
         },
         {
           id: "gobsquad",
+          link: { url: "https://www.gobsquad.com", label: "gobsquad.com" },
+          year: 1994,
           name: "gob squad",
           years: "1994→",
           track: "x",
@@ -1329,6 +1981,11 @@
         /* ---- the writings ---- */
         {
           id: "dixon",
+          link: {
+            url: "https://www.penguinrandomhouse.com/books/655657/digital-performance-by-steve-dixon/",
+            label: "the mit press book",
+          },
+          year: 2007,
           name: "steve dixon",
           years: "2007",
           track: "w",
@@ -1340,6 +1997,11 @@
         },
         {
           id: "auslander",
+          link: {
+            url: "https://www.routledge.com/Liveness-Performance-in-a-Mediatized-Culture/Auslander/p/book/9780367468170",
+            label: "routledge, third edition",
+          },
+          year: 1999,
           name: "philip auslander",
           years: "1999",
           track: "w",
@@ -1351,6 +2013,11 @@
         },
         {
           id: "phelan",
+          link: {
+            url: "https://www.routledge.com/Unmarked-The-Politics-of-Performance/Phelan/p/book/9780415068222",
+            label: "routledge",
+          },
+          year: 1993,
           name: "peggy phelan",
           years: "1993",
           track: "w",
@@ -1362,6 +2029,11 @@
         },
         {
           id: "causey",
+          link: {
+            url: "https://www.routledge.com/Theatre-and-Performance-in-Digital-Culture-From-Simulation-to-Embeddedness/Causey/p/book/9780415488662",
+            label: "routledge",
+          },
+          year: 2006,
           name: "matthew causey",
           years: "2006",
           track: "w",
@@ -1373,6 +2045,11 @@
         },
         {
           id: "giannachi",
+          link: {
+            url: "https://www.routledge.com/Virtual-Theatres-An-Introduction/Giannachi/p/book/9780415283793",
+            label: "routledge",
+          },
+          year: 2004,
           name: "gabriella giannachi",
           years: "2004",
           track: "w",
@@ -1384,6 +2061,8 @@
         },
         {
           id: "salter",
+          link: { url: "https://chrissalter.com", label: "the artist's site" },
+          year: 2010,
           name: "chris salter",
           years: "2010",
           track: "w",
@@ -1395,6 +2074,11 @@
         },
         {
           id: "intermediality",
+          link: {
+            url: "https://www.aup.nl/en/book/9789089642554/mapping-intermediality-in-performance",
+            label: "amsterdam university press",
+          },
+          year: 2006,
           name: "the intermediality school",
           years: "2006/2010",
           track: "w",
@@ -1409,6 +2093,11 @@
         },
         {
           id: "birringer",
+          link: {
+            url: "https://dap-lab.brunel.ac.uk/",
+            label: "dap-lab at brunel",
+          },
+          year: 1998,
           name: "johannes birringer",
           years: "1998",
           track: "w",
@@ -1420,23 +2109,32 @@
         },
         {
           id: "schechner",
+          link: {
+            url: "https://www.routledge.com/Performance-Studies-An-Introduction/Schechner/p/book/9781138284562",
+            label: "routledge",
+          },
+          year: 1985,
           name: "richard schechner",
           years: "1985→",
           track: "w",
           size: 4,
           blurb:
-            "Performance studies as a discipline: restored behavior, the broad spectrum from ritual to media. The ground the rest of the shelf stands on.",
+            "Performance studies as a discipline: restored behavior, the broad spectrum from ritual to media. Most of the writing on this shelf builds on it.",
           works: ["Performance Studies: An Introduction"],
           links: ["ct"],
         },
         {
           id: "ijpadm",
+          link: {
+            url: "https://www.tandfonline.com/journals/rpdm20",
+            label: "the journal at taylor & francis",
+          },
+          year: 2005,
           name: "intl. journal of performance arts & digital media",
           years: "2005→",
           track: "w",
           size: 3,
-          blurb:
-            "The field’s dedicated peer-reviewed venue, where the conversation continues issue by issue.",
+          blurb: "The field’s dedicated peer-reviewed journal.",
           works: [],
           links: ["dixon"],
         },
@@ -1503,10 +2201,148 @@
         n.vx = 0;
         n.vy = 0;
         n.fixed = false;
+        n.tx = n.x;
+        n.ty = n.y;
       });
+
+      /* ---- layouts: four ways to situate the same nodes.
+         constellation = free physics (influence as gravity);
+         chronology    = x is time, y is track lane (answers "when");
+         braids        = one column per lineage, time flowing down
+                         (answers "which braid");
+         orbit         = rings by hop-distance from the hub (answers
+                         "how close to the idea"). ---- */
+      var mode = "free";
+      var YEAR_MIN = 1870,
+        YEAR_MAX = 2030;
+      function yearX(y) {
+        return (
+          0.07 + ((y - YEAR_MIN) / (YEAR_MAX - YEAR_MIN)) * (0.97 - 0.07 - 0.09)
+        );
+      }
+      var CHRONO_LANES = {
+        1: 0.12,
+        2: 0.28,
+        3: 0.44,
+        4: 0.6,
+        o: 0.36,
+        c: 0.72,
+        x: 0.8,
+        w: 0.9,
+      };
+      var hops = {};
+      (function bfs() {
+        var q = ["ct"];
+        hops.ct = 0;
+        var adj = {};
+        EDGES.forEach(function (e) {
+          (adj[e[0]] = adj[e[0]] || []).push(e[1]);
+          (adj[e[1]] = adj[e[1]] || []).push(e[0]);
+        });
+        while (q.length) {
+          var id = q.shift();
+          (adj[id] || []).forEach(function (t) {
+            if (hops[t] === undefined) {
+              hops[t] = hops[id] + 1;
+              q.push(t);
+            }
+          });
+        }
+        NODES.forEach(function (n) {
+          if (hops[n.id] === undefined) hops[n.id] = 4;
+        });
+      })();
+
+      function computeTargets(m) {
+        var i, n;
+        if (m === "chrono") {
+          for (i = 0; i < NODES.length; i++) {
+            n = NODES[i];
+            n.tx = yearX(n.year);
+            n.ty = (CHRONO_LANES[n.track] || 0.5) + ((i % 3) - 1) * 0.035;
+          }
+        } else if (m === "braids") {
+          var cols = { 1: 0.1, 2: 0.28, 3: 0.46, 4: 0.64, x: 0.8, w: 0.92 };
+          Object.keys(cols).forEach(function (t) {
+            var group = NODES.filter(function (n) {
+              return String(n.track) === String(t);
+            }).sort(function (a, b) {
+              return a.year - b.year;
+            });
+            group.forEach(function (n, gi) {
+              n.tx = cols[t] + ((gi % 2) - 0.5) * 0.02;
+              n.ty =
+                group.length > 1
+                  ? 0.14 + (gi / (group.length - 1)) * 0.74
+                  : 0.5;
+            });
+          });
+          byId.nineevenings.tx = 0.37;
+          byId.nineevenings.ty = 0.06;
+          byId.ct.tx = 0.37;
+          byId.ct.ty = 0.94;
+        } else if (m === "orbit") {
+          var rings = {};
+          NODES.forEach(function (n) {
+            (rings[hops[n.id]] = rings[hops[n.id]] || []).push(n);
+          });
+          Object.keys(rings).forEach(function (h) {
+            var ring = rings[h].sort(function (a, b) {
+              return String(a.track) === String(b.track)
+                ? a.year - b.year
+                : String(a.track) < String(b.track)
+                  ? -1
+                  : 1;
+            });
+            var r = 0.115 * h;
+            ring.forEach(function (n, ri) {
+              var a = (ri / ring.length) * Math.PI * 2 + h * 0.5;
+              n.tx = 0.5 + Math.cos(a) * r * 1.35;
+              n.ty = 0.5 + Math.sin(a) * r * 0.92;
+            });
+          });
+        }
+      }
+
+      function setMode(m) {
+        mode = m;
+        if (m !== "free") computeTargets(m);
+        document.querySelectorAll(".graph-modes button").forEach(function (b) {
+          b.setAttribute(
+            "aria-pressed",
+            b.dataset.mode === m ? "true" : "false",
+          );
+        });
+        /* pinned layouts label themselves; the legend moves below */
+        document
+          .querySelector(".graph-shell")
+          .classList.toggle("shell-pinned", m !== "free");
+        sizeCanvas(); /* legend geometry changed; remeasure + refresh LEG */
+        if (reduced && m !== "free") {
+          NODES.forEach(function (n) {
+            n.x = n.tx;
+            n.y = n.ty;
+          });
+        }
+        kick();
+      }
 
       function tick() {
         var i, j, a, b, dx, dy, d2, d, f;
+        if (mode !== "free") {
+          /* pinned layouts: every node springs to its assigned seat */
+          for (i = 0; i < NODES.length; i++) {
+            a = NODES[i];
+            if (a.fixed) continue;
+            a.vx += (a.tx - a.x) * 0.03;
+            a.vy += (a.ty - a.y) * 0.03;
+            a.vx *= 0.82;
+            a.vy *= 0.82;
+            a.x += a.vx;
+            a.y += a.vy;
+          }
+          return;
+        }
         /* repulsion */
         for (i = 0; i < NODES.length; i++) {
           for (j = i + 1; j < NODES.length; j++) {
@@ -1572,8 +2408,72 @@
         return { x: n.x * W, y: n.y * H };
       }
 
+      function drawModeChrome() {
+        var i;
+        ctx.font = "500 11px 'JetBrains Mono', monospace";
+        if (mode === "chrono") {
+          /* decade ticks along the floor */
+          ctx.strokeStyle = "rgba(184,188,194,0.55)";
+          ctx.fillStyle = "rgba(11,11,13,0.45)";
+          ctx.lineWidth = 1;
+          for (var y = 1880; y <= 2020; y += 20) {
+            var x = yearX(y) * W;
+            ctx.beginPath();
+            ctx.moveTo(x, H - 26);
+            ctx.lineTo(x, H - 20);
+            ctx.stroke();
+            ctx.fillText(String(y), x - 14, H - 8);
+          }
+          /* lane labels at the left margin */
+          var laneNames = {
+            1: "BREAKING THE FORM",
+            2: "BODIES & NETWORKS",
+            3: "SCREENS ONSTAGE",
+            4: "THE SCREEN AS STAGE",
+            x: "ADJACENT",
+            w: "THE WRITINGS",
+          };
+          Object.keys(laneNames).forEach(function (t) {
+            ctx.fillStyle = "rgba(11,11,13,0.45)";
+            ctx.fillText(laneNames[t], 8, CHRONO_LANES[t] * H - 12);
+          });
+        } else if (mode === "braids") {
+          var cols = {
+            "BREAKING THE FORM": 0.1,
+            "BODIES & NETWORKS": 0.28,
+            "SCREENS ONSTAGE": 0.46,
+            "THE SCREEN AS STAGE": 0.64,
+            ADJACENT: 0.8,
+            "THE WRITINGS": 0.92,
+          };
+          ctx.fillStyle = "rgba(11,11,13,0.45)";
+          Object.keys(cols).forEach(function (name) {
+            var tw = ctx.measureText(name).width;
+            var cx = Math.min(W - tw - 4, Math.max(4, cols[name] * W - tw / 2));
+            ctx.fillText(name, cx, 18);
+          });
+        } else if (mode === "orbit") {
+          ctx.strokeStyle = "rgba(184,188,194,0.35)";
+          ctx.lineWidth = 1;
+          for (i = 1; i <= 4; i++) {
+            ctx.beginPath();
+            ctx.ellipse(
+              0.5 * W,
+              0.5 * H,
+              0.115 * i * 1.35 * W,
+              0.115 * i * 0.92 * H,
+              0,
+              0,
+              Math.PI * 2,
+            );
+            ctx.stroke();
+          }
+        }
+      }
+
       function draw() {
         ctx.clearRect(0, 0, W, H);
+        drawModeChrome();
         /* edges */
         ctx.lineWidth = 1;
         for (var i = 0; i < EDGES.length; i++) {
@@ -1590,6 +2490,11 @@
           ctx.lineTo(b.x, b.y);
           ctx.stroke();
         }
+        /* which cards are open right now: their nodes get a ring */
+        var openIds = {};
+        document.querySelectorAll(".win").forEach(function (w) {
+          openIds[w.getAttribute("data-node")] = 1;
+        });
         /* nodes */
         for (i = 0; i < NODES.length; i++) {
           var n = NODES[i];
@@ -1617,7 +2522,36 @@
               ctx.stroke();
             }
           }
+          if (openIds[n.id]) {
+            /* the open-card ring: a registration mark around the point */
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, n.size + 5, 0, Math.PI * 2);
+            ctx.strokeStyle = "#0B0B0D";
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, n.size + 9, 0, Math.PI * 2);
+            ctx.strokeStyle = "rgba(184,188,194,0.9)";
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
+        /* labels for open-card nodes (skip the anchors, they label below) */
+        ctx.font = "500 12px 'JetBrains Mono', monospace";
+        Object.keys(openIds).forEach(function (id) {
+          var n = byId[id];
+          if (!n || id === "ct" || id === "nineevenings" || n === hoverNode)
+            return;
+          var p = px(n);
+          var label = n.name.toUpperCase();
+          var tw = ctx.measureText(label).width;
+          var lx = Math.min(W - tw - 6, Math.max(6, p.x + n.size + 13));
+          var ly = p.y + 4;
+          ctx.fillStyle = "#FBFBF9";
+          ctx.fillRect(lx - 4, ly - 11, tw + 8, 15);
+          ctx.fillStyle = "#0B0B0D";
+          ctx.fillText(label, lx, ly);
+        });
         /* hover label */
         if (hoverNode) {
           var hp = px(hoverNode);
@@ -1795,6 +2729,7 @@
         var opener = w._opener;
         w.remove();
         if (opener && document.contains(opener) && opener.focus) opener.focus();
+        draw(); /* drop the node's open-card ring */
       }
       function openWindow(node, cx, cy) {
         var existing = document.querySelector(
@@ -1854,11 +2789,34 @@
           })
           .join("");
 
+        var media = "";
+        if (node.img) {
+          media =
+            '<img class="win-img' +
+            (node.imgPixel ? " win-img--pixel" : "") +
+            '" src="' +
+            node.img +
+            '" alt="" loading="lazy" />' +
+            (node.imgCredit
+              ? '<a class="win-img-credit" href="' +
+                node.imgCredit +
+                '" target="_blank" rel="noopener">image: public domain, commons ↗</a>'
+              : "");
+        }
+        var outLink = node.link
+          ? '<a class="win-link" href="' +
+            node.link.url +
+            '" target="_blank" rel="noopener">' +
+            node.link.label +
+            " ↗</a>"
+          : "";
         win.innerHTML =
           '<div class="win-bar"><span class="win-title">' +
           node.name +
           '</span><button class="win-close" type="button" aria-label="Close window">✕</button></div>' +
-          '<div class="win-body"><p class="detail win-meta">' +
+          '<div class="win-body">' +
+          media +
+          '<p class="detail win-meta">' +
           trackLabel(node) +
           " · " +
           node.years +
@@ -1866,6 +2824,7 @@
           node.blurb +
           "</p>" +
           (works ? '<ul class="win-works">' + works + "</ul>" : "") +
+          outLink +
           (rel ? '<div class="win-rel">' + rel + "</div>" : "") +
           "</div>";
         document.body.appendChild(win);
@@ -1915,6 +2874,7 @@
           wDrag = null;
         });
         win.querySelector(".win-close").focus();
+        draw(); /* light the node's open-card ring on the graph */
       }
       document.addEventListener("keydown", function (e) {
         if (e.key !== "Escape") return;
@@ -1967,7 +2927,7 @@
       var COMPONENTS = [
         {
           title: "the body",
-          text: "The live performer: the one component every other exists to argue with. Phelan says performance becomes itself by disappearing; Auslander answers that the live was never pure. Stelarc wires the body to the network, Cunningham captures its motion, the somatic browser pieces make it the input device. It stays.",
+          text: "The live performer. Most of the field’s arguments run through this part: Phelan holds that performance becomes itself by disappearing; Auslander answers that the live was never pure. Stelarc wires the body to the network, Cunningham captures its motion, somatic browser pieces make it the input device.",
           refs: ["phelan", "auslander", "stelarc", "cunningham"],
         },
         {
@@ -1987,17 +2947,17 @@
         },
         {
           title: "the network",
-          text: "Distance as material. Ascott’s telematic embrace, a satellite window between two sidewalks, a bed shared over ISDN, ping traffic twitching a body’s muscles. Latency is not a bug of this theater; it is a character.",
+          text: "Distance as material. Ascott’s telematic embrace, a satellite window between two sidewalks, a bed shared over ISDN, ping traffic twitching a body’s muscles. In these works the network’s delay is treated as material rather than as a defect.",
           refs: ["ascott", "galloway", "sermon", "stelarc"],
         },
         {
           title: "the audience",
-          text: "Witness, participant, operator. From Brecht’s two-way apparatus to Blast Theory’s players and the visitor who advances a browser piece by moving their hand: the click is a stage direction, and the audience performs it.",
+          text: "Witness, participant, operator. From Brecht’s two-way apparatus to Blast Theory’s players and the visitor who advances a browser piece by moving their hand: in this work the audience’s input is part of the score.",
           refs: ["brecht", "blasttheory", "halim"],
         },
         {
           title: "the archive",
-          text: "Recording and memory, onstage since Krapp threaded his first reel. Documentation, reconstruction, the debate about what survives - and now the model as an archive of bodies, echoing what it was trained on.",
+          text: "Recording and memory, onstage since Krapp’s tape recorder in 1958. Documentation, reconstruction, the debate about what survives - and now the model as an archive of bodies, echoing what it was trained on.",
           refs: ["beckett", "nineevenings", "seu"],
         },
       ];
@@ -2034,7 +2994,15 @@
         graph: document.getElementById("view-graph"),
         components: document.getElementById("view-components"),
         manifesto: document.getElementById("view-manifesto"),
+        dispatches: document.getElementById("view-dispatches"),
       };
+
+      /* layout switcher */
+      document.querySelectorAll(".graph-modes button").forEach(function (b) {
+        b.addEventListener("click", function () {
+          setMode(b.dataset.mode);
+        });
+      });
       function showView(name) {
         if (!sections[name]) name = "graph";
         Object.keys(sections).forEach(function (k) {

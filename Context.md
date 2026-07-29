@@ -62,8 +62,38 @@ clamped + paper knockout, legend exclusion zone in physics).
 Ground truth now IN REPO: docs/computer-theater-research.md (backfilled with
 the dropped lines + reviewer-verified dates). All 27 checks pass post-fix.
 
-Next: Halim reviews -> ship on his word (branch -> PR). Landing does not yet
-link to /computer-theater; suggest adding to featured/series after approval.
+### Round 2 (Jul 5, shipped as follow-up to PR #49) - resources, layouts, dispatches
+
+Halim's asks, all done: (1) every card carries ONE verified external link
+(canonical: living piece > artist site > archive > publisher; researched +
+curl-verified by workflow wf_0ce77d35-f10, 10 agents); (2) public-domain
+images on cards - STRICT PD/CC0 Commons only, 15 of 53 nodes qualify
+(historical figures; living artists rarely have PD imagery), halftone-treated
+into computer-theater/img/, credit links to the Commons file page; Wikimedia
+needs a User-Agent header or it serves an HTML error page. (3) open card ->
+node highlighted on graph (double ring + label; draw() on open/close);
+(4) FOUR LAYOUTS: constellation (free physics) / chronology (x=year,
+y=track lane, decade axis) / braids (columns per lineage, time down) /
+orbit (rings by hop distance from hub) - same nodes spring between computed
+targets; legend drops below canvas in pinned modes; (5) Dorsen expanded per
+Halim's notes (Democracy in America participatory, robots as Chomsky/
+Foucault, Yesterday Tomorrow algorithm-as-composer/dramaturg, nightly-unique
+performances) - notes appended to docs/computer-theater-research.md;
+(6) 4th view THE DISPATCHES: 14 substack posts (verified 200; one agent had
+listed a scheduled post - all now live), grouped core/at-the-edges;
+(7) subscribe CTA band before footer -> halimmadi.substack.com/subscribe;
+(8) WIP note on the graph view; (9) manifesto REPLACED with Halim's
+rewritten version - continuous lines, NO stanza gaps, my extension stanzas
+and coda REMOVED; (10) HUMILITY COPY PASS (Halim: cut pseudo-poetic
+flourish sentences that don't aid comprehension - 24 rewrites across hero,
+components, blurbs; e.g. "the tracing, not the trophy" cut).
+
+check-computer-theater.mjs now 40 checks incl. close-button (a real
+pointer-capture bug Halim caught), ring highlight pixel-sample, mode
+ordering, dispatches, CTA. All pass.
+
+ALSO: link to /computer-theater added under "universe" on halimmadi.com
+(separate halim-madi repo).
 
 ## Session State (Jul 2, 2026 - modern signal redesign)
 

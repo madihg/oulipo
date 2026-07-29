@@ -144,6 +144,117 @@ check(
 );
 await page.keyboard.press("Escape");
 
+/* cards carry an external resource link and (where held) a treated image.
+   NB: the index <details> is already open from the previous test - clicking
+   summary again would toggle it closed. */
+const indexOpen = await page
+  .locator(".node-index")
+  .evaluate((d) => d.open)
+  .catch(() => false);
+if (!indexOpen) await page.locator(".node-index summary").click();
+await page.locator(".index-list button", { hasText: "olia lialina" }).click();
+await page.waitForTimeout(400);
+const liaWin = page.locator('.win[data-node="lialina"]');
+check(
+  "card carries an external resource link",
+  ((await liaWin.locator(".win-link").getAttribute("href")) || "").includes(
+    "teleportacia",
+  ),
+);
+check(
+  "card image loads",
+  await liaWin
+    .locator(".win-img")
+    .evaluate((i) => i.complete && i.naturalWidth > 0)
+    .catch(() => false),
+);
+check(
+  "card image credits the commons file",
+  (
+    (await liaWin.locator(".win-img-credit").getAttribute("href")) || ""
+  ).includes("commons.wikimedia.org"),
+);
+
+/* the open card's node is highlighted on the graph (ring sample) */
+const ringHit = await page.evaluate(() => {
+  const c = document.getElementById("graph-canvas");
+  const ctx = c.getContext("2d");
+  const dpr = Math.max(1, window.devicePixelRatio || 1);
+  const r = c.getBoundingClientRect();
+  const n = window.__ctNodes.find((n) => n.id === "lialina");
+  const cx = n.x * r.width,
+    cy = n.y * r.height,
+    rad = n.size + 5;
+  for (let a = 0; a < 16; a++) {
+    const x = Math.round((cx + Math.cos((a / 16) * Math.PI * 2) * rad) * dpr);
+    const y = Math.round((cy + Math.sin((a / 16) * Math.PI * 2) * rad) * dpr);
+    const d = ctx.getImageData(x, y, 1, 1).data;
+    if (d[3] > 0 && d[0] < 80 && d[1] < 80) return true;
+  }
+  return false;
+});
+check("open card highlights its node with a ring", ringHit);
+await page.keyboard.press("Escape");
+
+/* layout modes reorder the graph */
+await page.locator('.graph-modes button[data-mode="chrono"]').click();
+await page
+  .waitForFunction(
+    () => window.__ctDebug && window.__ctDebug.running() === false,
+    null,
+    { timeout: 15000 },
+  )
+  .catch(() => {});
+const chrono = await page.evaluate(() => {
+  const g = (id) => window.__ctNodes.find((n) => n.id === id).x;
+  return { wagner: g("wagner"), nine: g("nineevenings"), seu: g("seu") };
+});
+check(
+  "chronology mode orders nodes by year",
+  chrono.wagner < chrono.nine && chrono.nine < chrono.seu,
+);
+check(
+  "mode button reflects pressed state",
+  (await page
+    .locator('.graph-modes button[data-mode="chrono"]')
+    .getAttribute("aria-pressed")) === "true",
+);
+await page.locator('.graph-modes button[data-mode="free"]').click();
+
+/* work-in-progress note is visible on the graph view */
+check(
+  "wip note present on graph view",
+  (await page.locator(".graph-wip").innerText())
+    .toLowerCase()
+    .includes("work in progress"),
+);
+
+/* the subscribe call to action */
+check(
+  "subscribe CTA links to the substack",
+  ((await page.locator(".subscribe-cta").getAttribute("href")) || "").includes(
+    "halimmadi.substack.com/subscribe",
+  ),
+);
+
+/* the dispatches view */
+await page.locator('.view-tab[data-view="dispatches"]').click();
+await page.waitForTimeout(200);
+check(
+  "dispatches view shows",
+  await page.locator("#view-dispatches").isVisible(),
+);
+check(
+  "dispatches list at least ten posts",
+  (await page.locator(".dispatch").count()) >= 10,
+);
+check(
+  "dispatch links point at the substack",
+  (
+    (await page.locator(".dispatch").first().getAttribute("href")) || ""
+  ).includes("halimmadi.substack.com"),
+);
+
 /* views switch by hash */
 await page.locator('.view-tab[data-view="components"]').click();
 await page.waitForTimeout(200);

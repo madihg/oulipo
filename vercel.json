@@ -158,6 +158,14 @@
   ],
   "rewrites": [
     {
+      "source": "/make-baby",
+      "destination": "https://make-baby.vercel.app/"
+    },
+    {
+      "source": "/make-baby/:path+",
+      "destination": "https://make-baby.vercel.app/:path+"
+    },
+    {
       "source": "/becoming-crossings",
       "destination": "https://becoming-borders.vercel.app/becoming-crossings"
     },

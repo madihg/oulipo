@@ -68,25 +68,19 @@ check(
 );
 
 // 5. Voice: no em dashes authored; renderer sanitizes data strings
-check("no em dashes in source", !html.includes("—") && !html.includes("&mdash;"));
 check(
-  "em-dash sanitizer in renderer",
-  /replace\(\/\\u2014\/g/.test(html),
+  "no em dashes in source",
+  !html.includes("—") && !html.includes("&mdash;"),
 );
+check("em-dash sanitizer in renderer", /replace\(\/\\u2014\/g/.test(html));
 
 // 6. Blue budget: picks bar + focus ring only, never a background fill
-check(
-  "no blue background fills",
-  !/background: var\(--blue\)/.test(cssOnly),
-);
+check("no blue background fills", !/background: var\(--blue\)/.test(cssOnly));
 
 // 7. Data safety: publishable key only, no service/secret key, DOM built
 //    without innerHTML so feed strings can't inject markup
 check("publishable key only", /sb_publishable_/.test(html));
-check(
-  "no secret/service key",
-  !/sb_secret|service_role/i.test(html),
-);
+check("no secret/service key", !/sb_secret|service_role/i.test(html));
 check(
   "phone number never in plain text",
   !/6503046842|650[\s.()-]*304[\s.()-]*6842/.test(html),
@@ -100,21 +94,32 @@ if (!process.argv.includes("--offline")) {
   const KEY = html.match(/const KEY = "([^"]+)"/)[1];
   const headers = { apikey: KEY, Authorization: "Bearer " + KEY };
   const briefings = await fetch(
-    SUPA + "/derive_briefings?select=week_start,week_end,pulse,top_picks&order=week_start.desc&limit=1",
+    SUPA +
+      "/derive_briefings?select=week_start,week_end,pulse,top_picks&order=week_start.desc&limit=1",
     { headers },
   );
-  check("derive_briefings answers 200", briefings.status === 200, String(briefings.status));
+  check(
+    "derive_briefings answers 200",
+    briefings.status === 200,
+    String(briefings.status),
+  );
   const bRows = briefings.ok ? await briefings.json() : [];
   check("briefing row present", bRows.length === 1);
   check(
     "briefing has pulse + 3 picks",
-    Boolean(bRows[0] && bRows[0].pulse && (bRows[0].top_picks || []).length === 3),
+    Boolean(
+      bRows[0] && bRows[0].pulse && (bRows[0].top_picks || []).length === 3,
+    ),
   );
   const events = await fetch(
     SUPA + "/derive_events?select=title,starts_at,signal&limit=5",
     { headers },
   );
-  check("derive_events answers 200", events.status === 200, String(events.status));
+  check(
+    "derive_events answers 200",
+    events.status === 200,
+    String(events.status),
+  );
   const eRows = events.ok ? await events.json() : [];
   check("events rows present", eRows.length > 0, "0 rows");
   check(

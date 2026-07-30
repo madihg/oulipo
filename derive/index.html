@@ -546,7 +546,8 @@
         return n;
       };
 
-      const fmt = (opts) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, ...opts });
+      const fmt = (opts) =>
+        new Intl.DateTimeFormat("en-US", { timeZone: TZ, ...opts });
       const dayKey = (d) =>
         new Intl.DateTimeFormat("en-CA", {
           timeZone: TZ,
@@ -651,8 +652,10 @@
               line.appendChild(dot);
             }
             line.appendChild(linkOrSpan("name", e.title || "", e.url));
-            if (/^top pick/i.test(note)) line.appendChild(el("span", "chip", "top pick"));
-            if (/sold out/i.test(note)) line.appendChild(el("span", "chip", "sold out"));
+            if (/^top pick/i.test(note))
+              line.appendChild(el("span", "chip", "top pick"));
+            if (/sold out/i.test(note))
+              line.appendChild(el("span", "chip", "sold out"));
             body.appendChild(line);
             body.appendChild(
               el(

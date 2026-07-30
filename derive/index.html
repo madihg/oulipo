@@ -457,9 +457,8 @@
       <div class="join">
         <p>
           The d&eacute;rive itself runs on a broadcast channel: one text when
-          the week&rsquo;s drift is set. Tap the button - your messages app
-          opens with the join note prefilled. Send it and you&rsquo;re on the
-          list.
+          the week&rsquo;s drift is set. Tap the button - WhatsApp opens with
+          the join note prefilled. Send it and you&rsquo;re on the list.
         </p>
         <button class="join-btn" id="join-btn" type="button">
           text to join &#x2197;&#xFE0E;
@@ -778,11 +777,17 @@
       }
 
       // join button: the number never appears in the page as text - it is
-      // assembled on tap and handed straight to the messages app.
+      // assembled on tap and handed straight to WhatsApp.
       $("join-btn").addEventListener("click", () => {
-        const n = atob("KzE2NTAzMDQ2ODQy");
-        window.location.href =
-          "sms:" + n + "?&body=" + encodeURIComponent("Add me to dérive");
+        const n = atob("KzE2NTAzMDQ2ODQy").slice(1);
+        window.open(
+          "https://wa.me/" +
+            n +
+            "?text=" +
+            encodeURIComponent("Add me to dérive"),
+          "_blank",
+          "noopener",
+        );
       });
 
       load();

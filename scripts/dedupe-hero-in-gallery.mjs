@@ -62,15 +62,14 @@ for (const slug of slugs) {
 
   if (removed.length) {
     // Drop any strip div left with only whitespace, and collapse blank lines.
-    flow = flow.replace(
-      /<div class="detail-image-strip">\s*<\/div>\s*/g,
-      "",
-    );
+    flow = flow.replace(/<div class="detail-image-strip">\s*<\/div>\s*/g, "");
     flow = flow.replace(/\n[ \t]*\n[ \t]*\n/g, "\n\n");
     html = before + flow + after;
     fs.writeFileSync(file, html);
     totalRemoved += removed.length;
-    console.log(`${slug}: removed ${removed.length} dup figure(s) -> ${removed.join(", ")}`);
+    console.log(
+      `${slug}: removed ${removed.length} dup figure(s) -> ${removed.join(", ")}`,
+    );
   }
 }
 console.log(`\ntotal dup figures removed: ${totalRemoved}`);

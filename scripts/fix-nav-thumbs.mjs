@@ -53,7 +53,8 @@ for (const slug of slugs) {
         /<span class="work-nav__thumb"\s*>[\s\S]*?<\/span>/,
         thumb,
       );
-      if (!feat[navSlug]) report.push(`  EMPTY (no featured): ${slug} -> ${navSlug}`);
+      if (!feat[navSlug])
+        report.push(`  EMPTY (no featured): ${slug} -> ${navSlug}`);
       return open + newBody + close;
     },
   );
@@ -67,4 +68,5 @@ for (const slug of slugs) {
   }
 }
 console.log(`changed files: ${changed}`);
-if (report.length) console.log("intentionally-empty thumbs:\n" + report.join("\n"));
+if (report.length)
+  console.log("intentionally-empty thumbs:\n" + report.join("\n"));

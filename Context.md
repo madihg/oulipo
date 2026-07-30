@@ -1,6 +1,38 @@
 # Oulipo.xyz Context
 
-## Session State (Jul 5, 2026 - computer theater initiative)
+## Session State (Jul 29, 2026 - oulipo.xyz/derive + outings routine migration)
+
+### Current Task: NEW page oulipo.xyz/derive (weekly SF field guide)
+
+**Status: SHIPPED (Jul 29, Halim's go-ahead)** - merged to main as
+032fa508 (PR #53 shows merged; main had moved to #54 meanwhile, no file
+overlap). Live at www.oulipo.xyz/derive - verified 200, hydrated from
+hmart, zero console errors, phone number absent from served source.
+
+- `derive/index.html` - self-contained, modern signal v3.1. Hydrates
+  client-side from Supabase oulipo_main (`smytgqkgomsfyurskpcl`) views
+  `public.derive_events` + `public.derive_briefings` (read-only anon
+  projections over `hmart.outings_events` / new `hmart.outings_briefings`;
+  migration `derive_public_surface`). Publishable key in page (browser-safe).
+  Times pinned America/Los_Angeles. Renderer strips em dashes from feed
+  strings; DOM via textContent only. Copper dot = high signal; past days
+  dim with "passed" tag.
+- Join strip: derive runs on a broadcast channel; button assembles
+  `sms:+1650...` from base64 ON TAP - number never plain text in page/DOM
+  (ship check enforces). Note: the number IS visible in the visitor's
+  Messages app once tapped - unavoidable with sms.
+- Top picks stacked vertically (Halim: 3-col was cramped). Hero shortened
+  per Halim. Intro copy is a PLACEHOLDER frame (his actual derive writing
+  was not findable in vault/hmart/Substack/Gmail/Drive/DayOne/Granola/web) -
+  marked with an HTML comment for his swap.
+- `scripts/check-derive.mjs` - 25 checks (design system + live views +
+  phone-privacy). All pass.
+- Replaces the Cowork outings-briefing artifact. New scheduled task
+  `outings-briefing` in Claude Code (`~/.claude/scheduled-tasks/`), Mondays
+  ~4am PT: same Gmail City/_SF_ + web sweep (now incl. sfrats.com/agents),
+  writes outings_events + upserts outings_briefings, page self-updates.
+  Old Cowork task: Halim deletes via its trash icon (not reachable from
+  Claude Code; Chrome extension disconnected).
 
 ### Current Task: NEW page oulipo.xyz/computer-theater
 

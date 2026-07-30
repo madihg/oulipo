@@ -87,6 +87,10 @@ check(
   "no secret/service key",
   !/sb_secret|service_role/i.test(html),
 );
+check(
+  "phone number never in plain text",
+  !/6503046842|650[\s.()-]*304[\s.()-]*6842/.test(html),
+);
 check("no innerHTML rendering", !/innerHTML/.test(html));
 check("SF timezone pinned", /America\/Los_Angeles/.test(html));
 

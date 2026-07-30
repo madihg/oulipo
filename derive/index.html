@@ -128,7 +128,7 @@
 
       /* hero */
       .hero {
-        padding-top: 56px;
+        padding-top: 36px;
         padding-bottom: 8px;
       }
 
@@ -142,11 +142,11 @@
       .hero h1 {
         font-family: var(--font-display);
         font-weight: 400;
-        font-size: clamp(72px, 14vw, 150px);
+        font-size: clamp(60px, 10vw, 112px);
         line-height: 0.9;
         letter-spacing: -0.01em;
         text-transform: lowercase;
-        margin: 12px 0 20px;
+        margin: 8px 0 14px;
       }
 
       .hero-intro {
@@ -155,6 +155,41 @@
 
       .hero-intro p {
         margin: 0 0 1em;
+      }
+
+      /* join the broadcast channel - the page's connect moment */
+      .join {
+        border: 1px solid var(--chrome);
+        border-left: 12px solid var(--blue);
+        padding: 14px 16px;
+        margin-top: 20px;
+        max-width: 620px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .join p {
+        margin: 0;
+        flex: 1;
+        min-width: 220px;
+        font-size: 14px;
+        line-height: 1.5;
+      }
+
+      .join-btn {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 10px 16px;
+        cursor: pointer;
       }
 
       /* week bar */
@@ -203,8 +238,8 @@
       /* top picks - the one place blue leads on this page */
       .picks {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
+        grid-template-columns: 1fr;
+        gap: 12px;
       }
 
       .pick {
@@ -375,10 +410,6 @@
       }
 
       @media (max-width: 900px) {
-        .picks {
-          grid-template-columns: 1fr;
-        }
-
         .two-col {
           columns: 1;
         }
@@ -412,21 +443,27 @@
         <span class="detail">San Francisco 37.7749 N &middot; 122.4194 W</span>
       </div>
       <h1>d&eacute;rive</h1>
-      <!-- HALIM: this intro is a placeholder frame written from the concept +
-           the City Outings project notes. Swap in your own d&eacute;rive text
-           whenever - the rest of the page hydrates itself. -->
+      <!-- HALIM: swap this intro for your own d&eacute;rive text whenever -
+           the rest of the page hydrates itself. -->
       <div class="hero-intro">
         <p>
-          A d&eacute;rive is an unplanned drift through the city - attention
-          handed to the terrain instead of the errand. The Situationists coined
-          it in 1950s Paris. San Francisco keeps proving it still works.
+          A d&eacute;rive is an unplanned drift through the city. The
+          Situationists coined it; San Francisco keeps proving it works. Every
+          Monday this page re-reads the city and lays out the week worth
+          drifting through.
         </p>
+      </div>
+
+      <div class="join">
         <p>
-          This is the field guide for the one I organize here. Every Monday a
-          small machine re-reads the city - the galleries, the basements, the
-          eucalyptus bowls - and lays out the week worth drifting through. Come
-          along, or drift alone and compare notes.
+          The d&eacute;rive itself runs on a broadcast channel: one text when
+          the week&rsquo;s drift is set. Tap the button - your messages app
+          opens with the join note prefilled. Send it and you&rsquo;re on the
+          list.
         </p>
+        <button class="join-btn" id="join-btn" type="button">
+          text to join &#x2197;&#xFE0E;
+        </button>
       </div>
 
       <div class="weekbar">
@@ -736,6 +773,14 @@
           status.appendChild(retry);
         }
       }
+
+      // join button: the number never appears in the page as text - it is
+      // assembled on tap and handed straight to the messages app.
+      $("join-btn").addEventListener("click", () => {
+        const n = atob("KzE2NTAzMDQ2ODQy");
+        window.location.href =
+          "sms:" + n + "?&body=" + encodeURIComponent("Add me to dérive");
+      });
 
       load();
     </script>

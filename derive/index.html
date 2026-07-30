@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>dérive - oulipo.xyz</title>
+    <meta
+      name="description"
+      content="A weekly dérive through San Francisco: galleries, talks, screenings, rooms worth drifting into. Refreshed every Monday."
+    />
+    <meta name="theme-color" content="#FBFBF9" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23FBFBF9%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%231C39E8%22/></svg>"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=VT323&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* ================================================================
+         oulipo.xyz/derive - "modern signal" v3.1
+         The weekly San Francisco field guide, hydrated from hmart.
+         Tokens per DESIGN-SYSTEM.md section 10.1; the numbers are law.
+         ================================================================ */
+      :root {
+        --blue: #1c39e8;
+        --ink: #0b0b0d;
+        --paper: #fbfbf9;
+        --chrome: #b8bcc2;
+        --chrome-alt: #9aa0a8;
+        --copper: #c9772e;
+        --ink-60: rgba(11, 11, 13, 0.6);
+        --ink-12: rgba(11, 11, 13, 0.12);
+        --font-display: "VT323", monospace;
+        --font-mono: "JetBrains Mono", ui-monospace, monospace;
+        --margin: clamp(24px, 6vw, 64px);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-size: 16px;
+        line-height: 1.65;
+      }
+
+      a {
+        color: inherit;
+        transition: opacity 0.3s ease;
+      }
+
+      a:hover {
+        opacity: 0.7;
+      }
+
+      :focus-visible {
+        outline: 3px solid var(--blue);
+        outline-offset: 2px;
+      }
+
+      .wrap {
+        max-width: 860px;
+        margin: 0 auto;
+        padding-left: var(--margin);
+        padding-right: var(--margin);
+      }
+
+      .label {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .detail {
+        font-size: 12px;
+        letter-spacing: 0.04em;
+        color: var(--ink-60);
+      }
+
+      .skip {
+        position: absolute;
+        left: -9999px;
+        top: 8px;
+        background: var(--ink);
+        color: var(--paper);
+        padding: 8px 14px;
+        z-index: 10;
+      }
+
+      .skip:focus-visible {
+        left: 8px;
+      }
+
+      /* nav - chrome hairline, brand left */
+      .site-nav {
+        border-bottom: 1px solid var(--chrome);
+      }
+
+      .site-nav .wrap {
+        max-width: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        padding-top: 18px;
+        padding-bottom: 18px;
+      }
+
+      .brand {
+        font-family: var(--font-display);
+        font-size: 22px;
+        text-decoration: none;
+        text-transform: lowercase;
+      }
+
+      .nav-link {
+        text-decoration: none;
+      }
+
+      /* hero */
+      .hero {
+        padding-top: 56px;
+        padding-bottom: 8px;
+      }
+
+      .hero-meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .hero h1 {
+        font-family: var(--font-display);
+        font-weight: 400;
+        font-size: clamp(72px, 14vw, 150px);
+        line-height: 0.9;
+        letter-spacing: -0.01em;
+        text-transform: lowercase;
+        margin: 12px 0 20px;
+      }
+
+      .hero-intro {
+        max-width: 620px;
+      }
+
+      .hero-intro p {
+        margin: 0 0 1em;
+      }
+
+      /* week bar */
+      .weekbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 16px;
+        flex-wrap: wrap;
+        border-top: 1px solid var(--chrome);
+        border-bottom: 1px solid var(--chrome);
+        padding: 12px 0;
+        margin: 28px 0 0;
+      }
+
+      /* sections */
+      main {
+        padding-bottom: 48px;
+      }
+
+      section {
+        margin-top: 44px;
+      }
+
+      .section-label {
+        color: var(--ink-60);
+        margin: 0 0 16px;
+      }
+
+      .status {
+        color: var(--ink-60);
+        margin: 24px 0 0;
+      }
+
+      .retry {
+        font-family: var(--font-mono);
+        font-size: 13px;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 6px 12px;
+        cursor: pointer;
+        margin-left: 8px;
+      }
+
+      /* top picks - the one place blue leads on this page */
+      .picks {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .pick {
+        border: 1px solid var(--chrome);
+        border-left: 12px solid var(--blue);
+        padding: 18px 18px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .pick .title {
+        font-family: var(--font-display);
+        font-size: 26px;
+        line-height: 1;
+        text-transform: lowercase;
+      }
+
+      .pick .why {
+        font-size: 13.5px;
+        line-height: 1.55;
+        color: var(--ink-60);
+        flex: 1;
+      }
+
+      .pick a.go {
+        text-decoration: none;
+        color: var(--blue);
+        align-self: flex-start;
+      }
+
+      /* day-by-day */
+      .day {
+        border-top: 1px solid var(--chrome);
+        padding: 14px 0 6px;
+      }
+
+      .day.past {
+        opacity: 0.55;
+      }
+
+      .day-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 6px;
+      }
+
+      .ev {
+        display: grid;
+        grid-template-columns: 76px 1fr;
+        gap: 14px;
+        padding: 8px 0;
+        border-top: 1px solid var(--ink-12);
+      }
+
+      .ev:first-of-type {
+        border-top: 0;
+      }
+
+      .ev .time {
+        color: var(--ink-60);
+        font-size: 13px;
+        padding-top: 2px;
+        white-space: nowrap;
+      }
+
+      .ev .name {
+        font-weight: 500;
+        text-decoration: none;
+      }
+
+      .ev .name[href]:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .ev .meta {
+        color: var(--ink-60);
+        font-size: 12.5px;
+        letter-spacing: 0.02em;
+      }
+
+      .ev .note {
+        font-size: 13.5px;
+        color: var(--ink-60);
+        margin-top: 2px;
+        max-width: 640px;
+      }
+
+      .sig {
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--copper);
+        margin-right: 8px;
+        vertical-align: baseline;
+      }
+
+      .chip {
+        display: inline-block;
+        border: 1px solid var(--chrome-alt);
+        color: var(--ink-60);
+        font-size: 10.5px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 0 6px;
+        margin-left: 8px;
+        vertical-align: middle;
+      }
+
+      /* simple lists: recurring, galleries, horizon */
+      .plain {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .plain li {
+        border-top: 1px solid var(--ink-12);
+        padding: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .plain li:first-child {
+        border-top: 1px solid var(--chrome);
+      }
+
+      .plain .lhs a {
+        text-decoration: none;
+      }
+
+      .plain .lhs a:hover {
+        text-decoration: underline;
+        text-underline-offset: 3px;
+      }
+
+      .plain .rhs {
+        color: var(--ink-60);
+        font-size: 12.5px;
+        text-align: right;
+      }
+
+      .two-col {
+        columns: 2;
+        column-gap: 40px;
+      }
+
+      .two-col li {
+        break-inside: avoid;
+      }
+
+      /* footer */
+      .site-foot {
+        border-top: 1px solid var(--chrome);
+        padding: 24px 0 40px;
+      }
+
+      .site-foot .wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      @media (max-width: 900px) {
+        .picks {
+          grid-template-columns: 1fr;
+        }
+
+        .two-col {
+          columns: 1;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          transition: none !important;
+          animation: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip label" href="#main">skip to the week</a>
+
+    <nav class="site-nav" aria-label="Site">
+      <div class="wrap">
+        <a class="brand" href="/">oulipo.xyz</a>
+        <a class="nav-link label" href="https://www.halimmadi.com"
+          >halimmadi.com &#x2197;&#xFE0E;</a
+        >
+      </div>
+    </nav>
+
+    <header class="hero wrap">
+      <div class="hero-meta">
+        <span class="label">weekly field guide &middot; refreshed mondays</span>
+        <span class="detail">San Francisco 37.7749 N &middot; 122.4194 W</span>
+      </div>
+      <h1>d&eacute;rive</h1>
+      <!-- HALIM: this intro is a placeholder frame written from the concept +
+           the City Outings project notes. Swap in your own d&eacute;rive text
+           whenever - the rest of the page hydrates itself. -->
+      <div class="hero-intro">
+        <p>
+          A d&eacute;rive is an unplanned drift through the city - attention
+          handed to the terrain instead of the errand. The Situationists coined
+          it in 1950s Paris. San Francisco keeps proving it still works.
+        </p>
+        <p>
+          This is the field guide for the one I organize here. Every Monday a
+          small machine re-reads the city - the galleries, the basements, the
+          eucalyptus bowls - and lays out the week worth drifting through. Come
+          along, or drift alone and compare notes.
+        </p>
+      </div>
+
+      <div class="weekbar">
+        <span class="label" id="week-range">loading the week&hellip;</span>
+        <span class="detail" id="week-stamp"></span>
+      </div>
+    </header>
+
+    <main class="wrap" id="main">
+      <p class="status" id="status" hidden></p>
+
+      <section id="pulse-section" hidden aria-labelledby="pulse-label">
+        <h2 class="section-label label" id="pulse-label">week pulse</h2>
+        <p id="pulse" style="max-width: 640px; margin: 0"></p>
+      </section>
+
+      <section id="picks-section" hidden aria-labelledby="picks-label">
+        <h2 class="section-label label" id="picks-label">top picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+
+      <section id="days-section" hidden aria-labelledby="days-label">
+        <h2 class="section-label label" id="days-label">day by day</h2>
+        <div id="days"></div>
+      </section>
+
+      <section id="recurring-section" hidden aria-labelledby="recurring-label">
+        <h2 class="section-label label" id="recurring-label">
+          recurring this week
+        </h2>
+        <ul class="plain" id="recurring"></ul>
+      </section>
+
+      <section id="galleries-section" hidden aria-labelledby="galleries-label">
+        <h2 class="section-label label" id="galleries-label">
+          galleries + museums open this week
+        </h2>
+        <ul class="plain two-col" id="galleries"></ul>
+      </section>
+
+      <section id="horizon-section" hidden aria-labelledby="horizon-label">
+        <h2 class="section-label label" id="horizon-label">on the horizon</h2>
+        <ul class="plain" id="horizon"></ul>
+      </section>
+
+      <noscript>
+        <p class="status">
+          This page reads the week from a small database and needs JavaScript.
+          The city is still out there.
+        </p>
+      </noscript>
+    </main>
+
+    <footer class="site-foot">
+      <div class="wrap">
+        <span class="detail"
+          >assembled every monday at 4am from the city&rsquo;s own feeds,
+          filtered by taste. copper dot = high signal.</span
+        >
+        <a class="nav-link label" href="/">back to the kitchen lab</a>
+      </div>
+    </footer>
+
+    <script>
+      // hydrate from hmart via the public derive_* views (read-only, anon).
+      const SUPA = "https://smytgqkgomsfyurskpcl.supabase.co/rest/v1";
+      const KEY = "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
+      const HEADERS = { apikey: KEY, Authorization: "Bearer " + KEY };
+      const TZ = "America/Los_Angeles";
+
+      // voice rule: feed renderers sanitize incoming data strings at render
+      // time - an em dash never reaches the page.
+      const clean = (s) => String(s ?? "").replace(/\u2014/g, " - ");
+
+      const $ = (id) => document.getElementById(id);
+      const el = (tag, cls, text) => {
+        const n = document.createElement(tag);
+        if (cls) n.className = cls;
+        if (text != null) n.textContent = clean(text);
+        return n;
+      };
+
+      const fmt = (opts) => new Intl.DateTimeFormat("en-US", { timeZone: TZ, ...opts });
+      const dayKey = (d) =>
+        new Intl.DateTimeFormat("en-CA", {
+          timeZone: TZ,
+          year: "numeric",
+          month: "2-digit",
+          day: "2-digit",
+        }).format(d);
+      const timeOf = (d) =>
+        fmt({ hour: "numeric", minute: "2-digit" })
+          .format(d)
+          .toLowerCase()
+          .replace(" ", "");
+      const dayLabel = (d) =>
+        fmt({ weekday: "short", month: "short", day: "numeric" })
+          .format(d)
+          .toLowerCase()
+          .replace(",", " ·");
+      const noonOf = (dateStr) => new Date(dateStr + "T12:00:00-08:00");
+
+      const get = async (path) => {
+        const res = await fetch(SUPA + path, { headers: HEADERS });
+        if (!res.ok) throw new Error("fetch " + res.status);
+        return res.json();
+      };
+
+      const show = (sectionId, on) => {
+        $(sectionId).hidden = !on;
+      };
+
+      const linkOrSpan = (cls, text, url) => {
+        const n = url ? el("a", cls, text) : el("span", cls, text);
+        if (url) {
+          n.href = url;
+          n.rel = "noopener";
+        }
+        return n;
+      };
+
+      function renderPicks(picks) {
+        const box = $("picks");
+        box.replaceChildren();
+        picks.forEach((p) => {
+          const card = el("article", "pick");
+          card.appendChild(el("span", "label", p.venue || ""));
+          card.appendChild(el("span", "title", p.title || ""));
+          const when = p.starts_at
+            ? dayLabel(new Date(p.starts_at)) +
+              " · " +
+              timeOf(new Date(p.starts_at))
+            : "";
+          card.appendChild(
+            el("span", "detail", [when, p.price].filter(Boolean).join(" · ")),
+          );
+          card.appendChild(el("p", "why", p.why || p.notes || ""));
+          if (p.url) {
+            const go = el("a", "go label", "get in ↗︎");
+            go.href = p.url;
+            go.rel = "noopener";
+            card.appendChild(go);
+          }
+          box.appendChild(card);
+        });
+        show("picks-section", picks.length > 0);
+      }
+
+      function renderDays(events, weekStart, weekEnd) {
+        const box = $("days");
+        box.replaceChildren();
+        const seen = new Set();
+        const byDay = new Map();
+        const todayKey = dayKey(new Date());
+        events.forEach((e) => {
+          const d = new Date(e.starts_at);
+          const k = dayKey(d);
+          if (k < weekStart || k > weekEnd) return;
+          const dedupe = (e.title || "") + "|" + e.starts_at;
+          if (seen.has(dedupe)) return;
+          seen.add(dedupe);
+          if (!byDay.has(k)) byDay.set(k, []);
+          byDay.get(k).push(e);
+        });
+        [...byDay.keys()].sort().forEach((k) => {
+          const day = el("div", "day" + (k < todayKey ? " past" : ""));
+          const head = el("div", "day-head");
+          head.appendChild(el("span", "label", dayLabel(noonOf(k))));
+          if (k < todayKey) head.appendChild(el("span", "detail", "passed"));
+          if (k === todayKey) head.appendChild(el("span", "detail", "today"));
+          day.appendChild(head);
+          byDay.get(k).forEach((e) => {
+            const note = clean(e.notes || "");
+            const tbc = /time tbc/i.test(note);
+            const row = el("div", "ev");
+            row.appendChild(
+              el("span", "time", tbc ? "tbc" : timeOf(new Date(e.starts_at))),
+            );
+            const body = el("div");
+            const line = el("div");
+            if (e.signal === "high") {
+              const dot = el("span", "sig");
+              dot.setAttribute("role", "img");
+              dot.setAttribute("aria-label", "high signal");
+              line.appendChild(dot);
+            }
+            line.appendChild(linkOrSpan("name", e.title || "", e.url));
+            if (/^top pick/i.test(note)) line.appendChild(el("span", "chip", "top pick"));
+            if (/sold out/i.test(note)) line.appendChild(el("span", "chip", "sold out"));
+            body.appendChild(line);
+            body.appendChild(
+              el(
+                "div",
+                "meta",
+                [e.kind, e.venue, e.price].filter(Boolean).join(" · "),
+              ),
+            );
+            const noteText = note
+              .replace(/^top pick:\s*/i, "")
+              .replace(/^time tbc\.?\s*/i, "");
+            if (noteText) body.appendChild(el("div", "note", noteText));
+            row.appendChild(body);
+            day.appendChild(row);
+          });
+          box.appendChild(day);
+        });
+        show("days-section", byDay.size > 0);
+        return byDay.size;
+      }
+
+      function renderPlain(listId, sectionId, items, lhsOf, rhsOf) {
+        const box = $(listId);
+        box.replaceChildren();
+        (items || []).forEach((it) => {
+          const li = el("li");
+          const lhs = el("span", "lhs");
+          lhs.appendChild(linkOrSpan(null, lhsOf(it), it.url));
+          li.appendChild(lhs);
+          const rhs = rhsOf(it);
+          if (rhs) li.appendChild(el("span", "rhs", rhs));
+          box.appendChild(li);
+        });
+        show(sectionId, (items || []).length > 0);
+      }
+
+      async function load() {
+        const status = $("status");
+        status.hidden = false;
+        status.textContent = "loading the week…";
+        try {
+          const briefings = await get(
+            "/derive_briefings?select=*&order=week_start.desc&limit=1",
+          );
+          const b = briefings[0];
+          let weekStart, weekEnd;
+          if (b) {
+            weekStart = b.week_start;
+            weekEnd = b.week_end;
+          } else {
+            const now = new Date();
+            weekStart = dayKey(now);
+            weekEnd = dayKey(new Date(now.getTime() + 7 * 864e5));
+          }
+          const events = await get(
+            "/derive_events?select=*&order=starts_at.asc" +
+              "&starts_at=gte." +
+              encodeURIComponent(weekStart + "T00:00:00-08:00") +
+              "&starts_at=lte." +
+              encodeURIComponent(weekEnd + "T23:59:59-07:00"),
+          );
+
+          $("week-range").textContent =
+            "week of " +
+            dayLabel(noonOf(weekStart)) +
+            " - " +
+            dayLabel(noonOf(weekEnd));
+          if (b)
+            $("week-stamp").textContent =
+              "assembled " + dayLabel(new Date(b.generated_at));
+
+          if (b && b.pulse) $("pulse").textContent = clean(b.pulse);
+          show("pulse-section", Boolean(b && b.pulse));
+
+          renderPicks((b && b.top_picks) || []);
+          const dayCount = renderDays(events, weekStart, weekEnd);
+          renderPlain(
+            "recurring",
+            "recurring-section",
+            b && b.recurring,
+            (it) => it.title || "",
+            (it) => clean(it.when || it.note || ""),
+          );
+          renderPlain(
+            "galleries",
+            "galleries-section",
+            b && b.galleries,
+            (it) => it.venue || it.title || "",
+            (it) => clean(it.note || ""),
+          );
+          renderPlain(
+            "horizon",
+            "horizon-section",
+            b && b.horizon,
+            (it) => it.title || "",
+            (it) =>
+              [clean(it.when || ""), clean(it.venue || "")]
+                .filter(Boolean)
+                .join(" · "),
+          );
+
+          if (!b && dayCount === 0) {
+            status.textContent = "nothing here yet. the frame is waiting.";
+          } else {
+            status.hidden = true;
+            status.textContent = "";
+          }
+        } catch (err) {
+          status.hidden = false;
+          status.replaceChildren();
+          status.appendChild(
+            document.createTextNode(
+              "couldn’t load this one. it’ll come back. ",
+            ),
+          );
+          const retry = el("button", "retry", "↻ try again");
+          retry.addEventListener("click", load);
+          status.appendChild(retry);
+        }
+      }
+
+      load();
+    </script>
+  </body>
+</html>

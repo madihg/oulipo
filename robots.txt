@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Performance control surfaces and experimental sandboxes - not content pages.
+Disallow: /votive-patina/admin/
+Disallow: /votive-patina/experimental/
+Disallow: /staging/
+
+Sitemap: https://www.oulipo.xyz/sitemap.xml

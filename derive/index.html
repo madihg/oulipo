@@ -154,6 +154,52 @@
         margin: 0 0 1em;
       }
 
+      .hero-intro a {
+        text-underline-offset: 3px;
+      }
+
+      /* city switch - same drift, three cities */
+      .cities {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 22px;
+      }
+
+      .city-btn {
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: var(--paper);
+        color: var(--ink);
+        border: 1px solid var(--ink);
+        padding: 10px 16px;
+        cursor: pointer;
+        transition: opacity 0.3s ease;
+      }
+
+      .city-btn:hover {
+        opacity: 0.7;
+      }
+
+      .city-btn[aria-pressed="true"] {
+        background: var(--ink);
+        color: var(--paper);
+      }
+
+      .city-btn .soon {
+        font-size: 10px;
+        letter-spacing: 0.08em;
+        color: var(--chrome-alt);
+        margin-left: 8px;
+      }
+
+      .city-btn[aria-pressed="true"] .soon {
+        color: var(--chrome);
+      }
+
       /* join the broadcast channel - the page's connect moment */
       .join {
         border: 1px solid var(--chrome);
@@ -437,8 +483,12 @@
 
     <header class="hero wrap">
       <div class="hero-meta">
-        <span class="label">weekly field guide &middot; refreshed mondays</span>
-        <span class="detail">San Francisco 37.7749 N &middot; 122.4194 W</span>
+        <span class="label" id="hero-kicker"
+          >weekly field guide &middot; refreshed mondays</span
+        >
+        <span class="detail" id="hero-coords"
+          >San Francisco 37.7749 N &middot; 122.4194 W</span
+        >
       </div>
       <h1>d&eacute;rive</h1>
       <!-- HALIM: swap this intro for your own d&eacute;rive text whenever -
@@ -446,17 +496,27 @@
       <div class="hero-intro">
         <p>
           A d&eacute;rive is an unplanned drift through the city. The
-          Situationists coined it; San Francisco keeps proving it works. Every
-          Monday this page re-reads the city and lays out the week worth
-          drifting through.
+          Situationists coined it; cities keep proving it works.
+        </p>
+        <p>
+          It is also a gathering
+          <a href="https://www.halimmadi.com" rel="noopener">Halim</a> puts
+          together roughly once a month: a few people, a starting point, no
+          itinerary, and whatever the city hands over from there.
+        </p>
+        <p>
+          When it is not running, the d&eacute;rive is this page - everything
+          worth drifting into in a given city, picked by Halim&rsquo;s taste.
         </p>
       </div>
 
+      <div class="cities" role="group" aria-label="City" id="cities"></div>
+
       <div class="join">
         <p>
-          The d&eacute;rive itself runs on a broadcast channel: one text when
-          the week&rsquo;s drift is set. Tap the button - WhatsApp opens with
-          the join note prefilled. Send it and you&rsquo;re on the list.
+          The gathering itself runs on a broadcast channel: one text when the
+          next drift is set. Tap the button - WhatsApp opens with the join note
+          prefilled. Send it and you&rsquo;re on the list.
         </p>
         <button class="join-btn" id="join-btn" type="button">
           text to join &#x2197;&#xFE0E;
@@ -529,7 +589,37 @@
       const SUPA = "https://smytgqkgomsfyurskpcl.supabase.co/rest/v1";
       const KEY = "sb_publishable_m509hZmnUb8NZRG94irXqA_AViI-8qf";
       const HEADERS = { apikey: KEY, Authorization: "Bearer " + KEY };
-      const TZ = "America/Los_Angeles";
+
+      // cities: san francisco is the one hmart assembles today. the others
+      // are on the map and not yet on the schedule.
+      const CITIES = [
+        {
+          id: "sf",
+          label: "SF",
+          name: "San Francisco",
+          coords: "37.7749 N · 122.4194 W",
+          tz: "America/Los_Angeles",
+          live: true,
+        },
+        {
+          id: "paris",
+          label: "Paris",
+          name: "Paris",
+          coords: "48.8566 N · 2.3522 E",
+          tz: "Europe/Paris",
+          live: false,
+        },
+        {
+          id: "barcelona",
+          label: "Barcelona",
+          name: "Barcelona",
+          coords: "41.3874 N · 2.1686 E",
+          tz: "Europe/Madrid",
+          live: false,
+        },
+      ];
+      let city = CITIES[0];
+      let TZ = city.tz;
 
       // voice rule: feed renderers sanitize incoming data strings at render
       // time - an em dash never reaches the page.
@@ -774,6 +864,64 @@
         }
       }
 
+      const SECTIONS = [
+        "pulse-section",
+        "picks-section",
+        "days-section",
+        "recurring-section",
+        "galleries-section",
+        "horizon-section",
+      ];
+
+      function selectCity(id, push) {
+        city = CITIES.find((c) => c.id === id) || CITIES[0];
+        TZ = city.tz;
+        [...$("cities").children].forEach((b) => {
+          b.setAttribute("aria-pressed", String(b.dataset.city === city.id));
+        });
+        $("hero-coords").textContent = city.name + " " + city.coords;
+        $("hero-kicker").textContent = city.live
+          ? "weekly field guide · refreshed mondays"
+          : "field guide · coming soon";
+        document.title = "dérive " + city.name.toLowerCase() + " - oulipo.xyz";
+        if (push) {
+          const url =
+            city.id === "sf" ? location.pathname : "?city=" + city.id;
+          history.replaceState(null, "", url);
+        }
+
+        if (city.live) {
+          load();
+          return;
+        }
+
+        SECTIONS.forEach((s) => show(s, false));
+        $("week-range").textContent = "coming soon";
+        $("week-stamp").textContent = "";
+        const status = $("status");
+        status.hidden = false;
+        status.textContent =
+          city.name.toLowerCase() +
+          " is coming soon. the walk happens there already - the listing is still being mapped.";
+      }
+
+      function renderCities() {
+        const box = $("cities");
+        box.replaceChildren();
+        CITIES.forEach((c) => {
+          const b = el("button", "city-btn", c.label);
+          b.type = "button";
+          b.dataset.city = c.id;
+          if (!c.live) {
+            b.appendChild(el("span", "soon", "soon"));
+            b.setAttribute("aria-label", c.name + " - coming soon");
+          }
+          b.setAttribute("aria-pressed", "false");
+          b.addEventListener("click", () => selectCity(c.id, true));
+          box.appendChild(b);
+        });
+      }
+
       // join button: the number never appears in the page as text - it is
       // assembled on tap and handed straight to WhatsApp.
       $("join-btn").addEventListener("click", () => {
@@ -788,7 +936,8 @@
         );
       });
 
-      load();
+      renderCities();
+      selectCity(new URLSearchParams(location.search).get("city") || "sf", false);
     </script>
   </body>
 </html>

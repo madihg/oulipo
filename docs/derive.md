@@ -29,6 +29,16 @@ A public page hydrated live from the `hmart` schema in Supabase project
 - No personal names or manual-check reminders on the public page - those
   stay in the scheduled task's run report.
 
+## Cities
+
+The hero carries a three-city switch (SF / Paris / Barcelona) rendered from
+the `CITIES` array in the page script. San Francisco is the only city hmart
+assembles today, so it is the one that hydrates; Paris and Barcelona swap the
+kicker, coordinates and timezone, hide the week sections and hold a short
+"the walk happens, the listing does not - yet" line. Selection is reflected in
+the URL as `?city=paris` and read back on load. To bring a city live, give it
+`live: true` once the views carry its rows.
+
 ## Checks
 
 `node scripts/check-derive.mjs` - static design-system asserts + live

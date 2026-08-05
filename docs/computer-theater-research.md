@@ -39,8 +39,16 @@ unpredictability matters to Dorsen.
 ## Card resources (Jul 2026 round)
 
 Each node carries ONE verified external link (canonical: artist site, living
-piece, archive, publisher) and, where a STRICTLY public-domain/CC0 Wikimedia
-Commons image exists (15 of 53 nodes - mostly the historical figures), a
-halftone-treated card image in computer-theater/img/ with the Commons file
-page linked as credit. Research fan-out: workflow wf_0ce77d35-f10; raw
+piece, archive, publisher) and, where a properly licensed Wikimedia Commons
+image exists (36 of 53 nodes), a halftone-treated card image in
+computer-theater/img/ with the Commons file page linked as credit.
+
+Licensing: round 1 (Jul 2026) took public domain and CC0 only, which left 38
+cards imageless and made the feature look broken. Round 2 (Jul 29) widened to
+PD, CC0, CC BY and CC BY-SA, and the credit line now names the author and the
+licence ("image: Andy Miah, CC BY-SA 2.0, commons") which is what those
+licences require. Still rejected: fair use, non-free, press-agency photos,
+and anything with unclear licensing - a missing image beats a licence
+problem. New images must go through the same route: read the actual Commons
+File: page, do not trust the filename. Research fan-out: workflow wf_0ce77d35-f10; raw
 results in the session scratchpad (ct-resources.json).

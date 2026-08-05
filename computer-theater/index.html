@@ -240,14 +240,35 @@
         background: var(--paper);
         border: 1px solid var(--chrome);
       }
+      /* each legend row is a switch: click a track to show or hide it */
       .legend-row {
         display: flex;
         align-items: center;
         gap: 8px;
+        font-family: var(--font-mono);
         font-size: 12px;
+        font-weight: 500;
         letter-spacing: 0.08em;
         text-transform: uppercase;
         color: var(--ink-60);
+        appearance: none;
+        background: none;
+        border: 0;
+        padding: 2px 0;
+        margin: 0;
+        cursor: pointer;
+        text-align: left;
+      }
+      .legend-row:hover {
+        color: var(--ink);
+      }
+      .legend-row[aria-pressed="false"] {
+        color: var(--ink-45);
+        text-decoration: line-through;
+      }
+      .legend-row[aria-pressed="false"] .legend-dot {
+        background: none !important;
+        border: 1px solid var(--chrome) !important;
       }
       .legend-dot {
         width: 10px;
@@ -716,7 +737,11 @@
         }
       }
     </style>
-    <script defer src="https://umami-three-dun.vercel.app/script.js" data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"></script>
+    <script
+      defer
+      src="https://umami-three-dun.vercel.app/script.js"
+      data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"
+    ></script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Site">
@@ -795,40 +820,70 @@
         </div>
         <div class="graph-shell">
           <canvas id="graph-canvas"></canvas>
-          <div class="legend" aria-hidden="true">
-            <div class="legend-row">
+          <div class="legend" role="group" aria-label="Show or hide tracks">
+            <button
+              class="legend-row"
+              type="button"
+              data-track="1"
+              aria-pressed="true"
+            >
               <span class="legend-dot" style="background: #0b0b0d"></span>
               breaking the form
-            </div>
-            <div class="legend-row">
+            </button>
+            <button
+              class="legend-row"
+              type="button"
+              data-track="2"
+              aria-pressed="true"
+            >
               <span class="legend-dot" style="background: #c9772e"></span>
               bodies &amp; networks
-            </div>
-            <div class="legend-row">
+            </button>
+            <button
+              class="legend-row"
+              type="button"
+              data-track="3"
+              aria-pressed="true"
+            >
               <span
                 class="legend-dot"
                 style="background: #b8bcc2; border: 1px solid #0b0b0d"
               ></span>
               screens onstage
-            </div>
-            <div class="legend-row">
+            </button>
+            <button
+              class="legend-row"
+              type="button"
+              data-track="4"
+              aria-pressed="true"
+            >
               <span class="legend-dot" style="background: #1c39e8"></span>
               the screen as stage
-            </div>
-            <div class="legend-row">
+            </button>
+            <button
+              class="legend-row"
+              type="button"
+              data-track="w"
+              aria-pressed="true"
+            >
               <span
                 class="legend-dot"
                 style="background: #fbfbf9; border: 1px solid #0b0b0d"
               ></span>
               the writings
-            </div>
-            <div class="legend-row">
+            </button>
+            <button
+              class="legend-row"
+              type="button"
+              data-track="x"
+              aria-pressed="true"
+            >
               <span
                 class="legend-dot"
                 style="background: rgba(11, 11, 13, 0.45)"
               ></span>
               adjacent
-            </div>
+            </button>
           </div>
         </div>
 
@@ -1407,6 +1462,10 @@
         },
         {
           id: "svoboda",
+          img: "img/svoboda.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Josef_Svoboda_ND.jpg",
+          imgBy: "Národní divadlo, CC BY-SA 4.0",
           link: {
             url: "https://www.svoboda-scenograph.cz/",
             label: "the svoboda archive",
@@ -1425,6 +1484,9 @@
         /* ---- track 2: bodies & networks ---- */
         {
           id: "stelarc",
+          img: "img/stelarc.jpg",
+          imgCredit: "https://commons.wikimedia.org/wiki/File:Stelarc_2011.jpg",
+          imgBy: "Andy Miah, CC BY-SA 2.0",
           link: { url: "https://stelarc.org", label: "the artist's site" },
           year: 1995,
           name: "stelarc",
@@ -1443,6 +1505,10 @@
         },
         {
           id: "ascott",
+          img: "img/ascott.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Roy_Ascott_2012.jpg",
+          imgBy: "CIANT Prague, CC BY 3.0",
           link: {
             url: "https://www.ucpress.edu/books/telematic-embrace",
             label: "telematic embrace, uc press",
@@ -1462,6 +1528,10 @@
         },
         {
           id: "galloway",
+          img: "img/galloway.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:LINCOLN_CENTER_PLAZA_IS_ENCLOSED_BY_TWO_THEATERS,_AN_OPERA_HOUSE_AND_A_CONCERT_HALL._BOUNDING_THE_CENTER_ARE_62ND_AND..._-_NARA_-_551637.jpg",
+          imgBy: "Suzanne Szasz, public domain",
           link: {
             url: "https://www.ecafe.com/getty/HIS/",
             label: "hole-in-space, on the artists' site",
@@ -1537,6 +1607,10 @@
         },
         {
           id: "openended",
+          img: "img/openended.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Openendedgroup.jpg",
+          imgBy: "Shelleyeshkar, CC BY-SA 3.0",
           link: {
             url: "https://openendedgroup.com",
             label: "openendedgroup.com",
@@ -1571,6 +1645,10 @@
         /* ---- track 3: screens onstage ---- */
         {
           id: "wooster",
+          img: "img/wooster.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Performing_Garage_33_Wooster_Street.jpg",
+          imgBy: "Beyond My Ken, CC BY-SA 4.0",
           link: {
             url: "https://thewoostergroup.org/",
             label: "the company site",
@@ -1591,6 +1669,10 @@
         },
         {
           id: "lepage",
+          img: "img/lepage.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Robert_Lepage.jpg",
+          imgBy: "TBWA/Busted, CC BY 2.0",
           link: { url: "https://exmachina.ca/", label: "ex machina" },
           year: 1994,
           name: "robert lepage",
@@ -1624,6 +1706,10 @@
         },
         {
           id: "mitchell",
+          img: "img/mitchell.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Katie_Mitchell,_2016.jpg",
+          imgBy: "Kleon3, CC BY-SA 4.0",
           link: {
             url: "https://www.nationaltheatre.org.uk/people/katie-mitchell/",
             label: "national theatre profile",
@@ -1644,6 +1730,10 @@
         },
         {
           id: "vanhove",
+          img: "img/vanhove.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Ivo_van_Hove_(2024).jpg",
+          imgBy: "Mozamaniac, CC BY 4.0",
           link: {
             url: "https://ita.nl/en/employees/ivo-van-hove/2/",
             label: "ita amsterdam",
@@ -1679,6 +1769,10 @@
         },
         {
           id: "coates",
+          img: "img/coates.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:100McAllister.jpg",
+          imgBy: "Binksternet, public domain",
           link: {
             url: "https://web.archive.org/web/20051228112914/http://www.georgecoates.org/",
             label: "archived company site",
@@ -1720,6 +1814,10 @@
         },
         {
           id: "jodi",
+          img: "img/jodi.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Jodi_lecture_at_Erg_-_3020983261.jpg",
+          imgBy: "Marc Wathieu, CC BY 2.0",
           link: {
             url: "http://wwwwwwwww.jodi.org/",
             label: "wwwwwwwww.jodi.org, still live",
@@ -1740,6 +1838,10 @@
         },
         {
           id: "shulgin",
+          img: "img/shulgin.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:386_DX_(Alexei_Shulgin)_on_Tishina_eto_smert_exibition_02.JPG",
+          imgBy: "Okorok, CC BY-SA 3.0",
           link: {
             url: "http://www.easylife.org/386dx/",
             label: "386 dx on easylife.org",
@@ -1789,6 +1891,10 @@
         },
         {
           id: "toplap",
+          img: "img/toplap.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Algorave_Birmingham_2016.jpg",
+          imgBy: "Antonio Roberts, CC BY-SA 4.0",
           link: {
             url: "https://toplap.org/wiki/ManifestoDraft",
             label: "the manifestodraft, still a draft since 2004",
@@ -1809,6 +1915,10 @@
         },
         {
           id: "dorsen",
+          img: "img/dorsen.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Annie_Dorsen_in_2010.jpg",
+          imgBy: "tomislav medak, CC BY 2.0",
           link: { url: "https://anniedorsen.com", label: "anniedorsen.com" },
           year: 2010,
           name: "annie dorsen",
@@ -1878,6 +1988,10 @@
         /* ---- adjacent ---- */
         {
           id: "anderson",
+          img: "img/anderson.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Laurie_Anderson,_avant-garde,_experimental_music_composer,_performance_artist_00163.jpg",
+          imgBy: "Bernard Gotfryd, public domain",
           link: {
             url: "https://laurieanderson.com",
             label: "the artist's site",
@@ -1929,6 +2043,9 @@
         },
         {
           id: "forced",
+          img: "img/forced.jpg",
+          imgCredit: "https://commons.wikimedia.org/wiki/File:Tim_Etchells.jpg",
+          imgBy: "Artmax, CC BY-SA 3.0",
           link: {
             url: "https://www.forcedentertainment.com",
             label: "forcedentertainment.com",
@@ -1945,6 +2062,10 @@
         },
         {
           id: "rimini",
+          img: "img/rimini.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Portrait_RiminiProtokoll@DavidvonBecker.jpg",
+          imgBy: "David von Becker, CC BY-SA 4.0",
           link: {
             url: "https://www.rimini-protokoll.de/website/en/",
             label: "rimini-protokoll.de",
@@ -1961,6 +2082,10 @@
         },
         {
           id: "gobsquad",
+          img: "img/gobsquad.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Gob_Squad_Foto_Garrett_Davis-Capture_Imaging.jpg",
+          imgBy: "Garrett Davis / Capture Imaging, CC BY-SA 4.0",
           link: { url: "https://www.gobsquad.com", label: "gobsquad.com" },
           year: 1994,
           name: "gob squad",
@@ -2024,6 +2149,10 @@
         },
         {
           id: "causey",
+          img: "img/causey.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Matthew_Causey.png",
+          imgBy: "Causeym, CC BY-SA 4.0",
           link: {
             url: "https://www.routledge.com/Theatre-and-Performance-in-Digital-Culture-From-Simulation-to-Embeddedness/Causey/p/book/9780415488662",
             label: "routledge",
@@ -2040,6 +2169,10 @@
         },
         {
           id: "giannachi",
+          img: "img/giannachi.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Transmediale-2010-Gabriella_Giannachi.jpg",
+          imgBy: "Shervin Afshar, CC BY-SA 3.0",
           link: {
             url: "https://www.routledge.com/Virtual-Theatres-An-Introduction/Giannachi/p/book/9780415283793",
             label: "routledge",
@@ -2104,6 +2237,10 @@
         },
         {
           id: "schechner",
+          img: "img/schechner.jpg",
+          imgCredit:
+            "https://commons.wikimedia.org/wiki/File:Performing_Garage_33_Wooster_Street.jpg",
+          imgBy: "Beyond My Ken, CC BY-SA 4.0",
           link: {
             url: "https://www.routledge.com/Performance-Studies-An-Introduction/Schechner/p/book/9781138284562",
             label: "routledge",
@@ -2208,6 +2345,13 @@
          orbit         = rings by hop-distance from the hub (answers
                          "how close to the idea"). ---- */
       var mode = "free";
+
+      /* which tracks are switched on. the hub and the origin always show;
+         they are the anchors the rest of the graph is read against. */
+      var shown = { 1: true, 2: true, 3: true, 4: true, x: true, w: true };
+      function isShown(n) {
+        return shown[n.track] !== false;
+      }
       var YEAR_MIN = 1870,
         YEAR_MAX = 2030;
       function yearX(y) {
@@ -2328,7 +2472,7 @@
           /* pinned layouts: every node springs to its assigned seat */
           for (i = 0; i < NODES.length; i++) {
             a = NODES[i];
-            if (a.fixed) continue;
+            if (a.fixed || !isShown(a)) continue;
             a.vx += (a.tx - a.x) * 0.03;
             a.vy += (a.ty - a.y) * 0.03;
             a.vx *= 0.82;
@@ -2338,11 +2482,13 @@
           }
           return;
         }
-        /* repulsion */
+        /* repulsion (hidden tracks sit out) */
         for (i = 0; i < NODES.length; i++) {
+          if (!isShown(NODES[i])) continue;
           for (j = i + 1; j < NODES.length; j++) {
             a = NODES[i];
             b = NODES[j];
+            if (!isShown(b)) continue;
             dx = a.x - b.x;
             dy = a.y - b.y;
             d2 = dx * dx + dy * dy + 0.0004;
@@ -2363,6 +2509,7 @@
         for (i = 0; i < EDGES.length; i++) {
           a = byId[EDGES[i][0]];
           b = byId[EDGES[i][1]];
+          if (!isShown(a) || !isShown(b)) continue;
           dx = b.x - a.x;
           dy = b.y - a.y;
           d = Math.sqrt(dx * dx + dy * dy) || 0.001;
@@ -2381,7 +2528,7 @@
         /* gravity + integrate */
         for (i = 0; i < NODES.length; i++) {
           a = NODES[i];
-          if (a.fixed) continue;
+          if (a.fixed || !isShown(a)) continue;
           a.vx += (0.5 - a.x) * 0.0015;
           a.vy += (0.5 - a.y) * 0.0022;
           a.vx *= 0.9;
@@ -2472,6 +2619,8 @@
         /* edges */
         ctx.lineWidth = 1;
         for (var i = 0; i < EDGES.length; i++) {
+          if (!isShown(byId[EDGES[i][0]]) || !isShown(byId[EDGES[i][1]]))
+            continue;
           var a = px(byId[EDGES[i][0]]);
           var b = px(byId[EDGES[i][1]]);
           var lit =
@@ -2493,6 +2642,7 @@
         /* nodes */
         for (i = 0; i < NODES.length; i++) {
           var n = NODES[i];
+          if (!isShown(n)) continue;
           var p = px(n);
           var col = TRACKS[n.track].color;
           ctx.beginPath();
@@ -2537,6 +2687,7 @@
           var n = byId[id];
           if (!n || id === "ct" || id === "nineevenings" || n === hoverNode)
             return;
+          if (!isShown(n)) return;
           var p = px(n);
           var label = n.name.toUpperCase();
           var tw = ctx.measureText(label).width;
@@ -2630,6 +2781,7 @@
       /* ---- interaction ---- */
       function nodeAt(mx, my) {
         for (var i = NODES.length - 1; i >= 0; i--) {
+          if (!isShown(NODES[i])) continue;
           var p = px(NODES[i]);
           var dx = mx - p.x,
             dy = my - p.y;
@@ -2795,7 +2947,9 @@
             (node.imgCredit
               ? '<a class="win-img-credit" href="' +
                 node.imgCredit +
-                '" target="_blank" rel="noopener">image: public domain, commons ↗</a>'
+                '" target="_blank" rel="noopener">image: ' +
+                (node.imgBy || "public domain") +
+                ", commons ↗</a>"
               : "");
         }
         var outLink = node.link
@@ -2901,6 +3055,7 @@
         if (!group.length) return;
         var div = document.createElement("div");
         div.className = "index-track";
+        div.setAttribute("data-track", t);
         div.innerHTML =
           '<h2 class="detail">' +
           TRACKS[t].name +
@@ -2996,6 +3151,31 @@
       document.querySelectorAll(".graph-modes button").forEach(function (b) {
         b.addEventListener("click", function () {
           setMode(b.dataset.mode);
+        });
+      });
+
+      /* track switches: the legend rows show and hide their tracks */
+      function setTrack(t, on) {
+        shown[t] = on;
+        var btn = document.querySelector('.legend-row[data-track="' + t + '"]');
+        if (btn) btn.setAttribute("aria-pressed", on ? "true" : "false");
+        var sec = document.querySelector(
+          '.index-track[data-track="' + t + '"]',
+        );
+        if (sec) sec.hidden = !on;
+        /* a card whose node just went dark closes with it */
+        document.querySelectorAll(".win").forEach(function (w) {
+          var n = byId[w.getAttribute("data-node")];
+          if (n && !isShown(n)) closeWin(w);
+        });
+        if (hoverNode && !isShown(hoverNode)) hoverNode = null;
+        if (mode !== "free") computeTargets(mode);
+        kick();
+        draw();
+      }
+      document.querySelectorAll(".legend-row").forEach(function (b) {
+        b.addEventListener("click", function () {
+          setTrack(b.dataset.track, b.getAttribute("aria-pressed") !== "true");
         });
       });
       function showView(name) {

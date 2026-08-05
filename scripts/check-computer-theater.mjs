@@ -41,7 +41,13 @@ check(
   "focus-visible ring",
   /:focus-visible\s*{\s*outline: 2px solid var\(--blue\)/.test(html),
 );
-check("no external script libraries", !/<script[^>]+src=/.test(html));
+// The graph is hand-rolled: no charting or force-layout library. The
+// site-wide Umami analytics tag is sanctioned and does not count.
+const scriptSrcs = [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(
+  (m) => m[1],
+);
+const libSrcs = scriptSrcs.filter((u) => !/umami/.test(u));
+check("no external script libraries", libSrcs.length === 0, libSrcs.join(", "));
 check("lowercase display transform", /text-transform: lowercase/.test(html));
 check("uppercase label transform", /text-transform: uppercase/.test(html));
 check(
@@ -228,6 +234,61 @@ check(
     .toLowerCase()
     .includes("work in progress"),
 );
+
+/* track switches: legend rows show and hide their tracks */
+const inkCount = () =>
+  page.evaluate(() => {
+    const c = document.getElementById("graph-canvas");
+    const d = c.getContext("2d").getImageData(0, 0, c.width, c.height).data;
+    let n = 0;
+    for (let i = 0; i < d.length; i += 16)
+      if (d[i + 3] > 0 && (d[i] < 200 || d[i + 1] < 200 || d[i + 2] < 200)) n++;
+    return n;
+  });
+// measured in a pinned layout: seats are fixed there, so hiding a track
+// strictly removes marks instead of letting the rest spread out
+await page.locator('.graph-modes button[data-mode="chrono"]').click();
+await page.waitForTimeout(2500);
+const inkAll = await inkCount();
+await page.locator('.legend-row[data-track="3"]').click();
+await page.waitForTimeout(2000);
+const inkLess = await inkCount();
+check(
+  "switching a track off removes it from the graph",
+  inkLess < inkAll * 0.95,
+);
+check(
+  "track switch reports its state",
+  (await page
+    .locator('.legend-row[data-track="3"]')
+    .getAttribute("aria-pressed")) === "false",
+);
+check(
+  "hidden track also leaves the node index",
+  await page.locator('.index-track[data-track="3"]').isHidden(),
+);
+const hiddenPt = await page.evaluate(() => {
+  const n = window.__ctNodes.find((n) => n.id === "wooster");
+  const c = document.getElementById("graph-canvas").getBoundingClientRect();
+  return { x: c.left + n.x * c.width, y: c.top + n.y * c.height };
+});
+await page.mouse.click(hiddenPt.x, hiddenPt.y);
+await page.waitForTimeout(250);
+check(
+  "hidden nodes are not clickable",
+  (await page.locator(".win").count()) === 0,
+);
+await page.locator('.legend-row[data-track="3"]').click();
+await page.waitForTimeout(2000);
+check("switching a track back on restores it", (await inkCount()) > inkLess);
+await page.locator('.graph-modes button[data-mode="free"]').click();
+await page.waitForTimeout(500);
+
+/* card images: most cards carry one, and they load */
+const imgNodes = await page.evaluate(
+  () => window.__ctNodes.filter((n) => n.img).length,
+);
+check("most cards carry an image", imgNodes >= 30, `only ${imgNodes}`);
 
 /* the subscribe call to action */
 check(

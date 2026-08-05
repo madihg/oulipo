@@ -48,6 +48,14 @@ const scriptSrcs = [...html.matchAll(/<script[^>]*\ssrc="([^"]+)"/g)].map(
 );
 const libSrcs = scriptSrcs.filter((u) => !/umami/.test(u));
 check("no external script libraries", libSrcs.length === 0, libSrcs.join(", "));
+// Assets must be root-absolute. At oulipo.xyz/computer-theater (no trailing
+// slash) a relative "img/x.jpg" resolves to /img/x.jpg and 404s.
+const relImgs = [...html.matchAll(/img: "(?!\/)([^"]+)"/g)].map((m) => m[1]);
+check(
+  "card image paths are root-absolute",
+  relImgs.length === 0,
+  relImgs.join(", "),
+);
 check("lowercase display transform", /text-transform: lowercase/.test(html));
 check("uppercase label transform", /text-transform: uppercase/.test(html));
 check(
@@ -358,6 +366,32 @@ check(
   errors.length === 0,
   errors.join(" | "),
 );
+
+/* the no-trailing-slash URL must serve working images too */
+const noSlash = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+await noSlash.goto("http://localhost:4242/computer-theater", {
+  waitUntil: "networkidle",
+});
+await noSlash
+  .waitForFunction(
+    () => window.__ctDebug && window.__ctDebug.running() === false,
+    null,
+    { timeout: 15000 },
+  )
+  .catch(() => {});
+await noSlash.locator(".node-index summary").click();
+await noSlash
+  .locator(".index-list button", { hasText: "katie mitchell" })
+  .click();
+await noSlash.waitForTimeout(800);
+check(
+  "images load at the URL without a trailing slash",
+  await noSlash
+    .locator('.win[data-node="mitchell"] .win-img')
+    .evaluate((i) => i.complete && i.naturalWidth > 0)
+    .catch(() => false),
+);
+await noSlash.close();
 
 await browser.close();
 console.log(failed ? "\nsome checks FAILED" : "\nall checks pass");

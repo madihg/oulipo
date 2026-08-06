@@ -1,11 +1,10 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>RAMZ (Taper #17)</title>
-    <link rel="icon" href="/favicon.svg" />
+<head>
+	<meta charset="utf-8">
+	<title>RAMZ (Taper #17)</title>
 
-    <!-- “RAMZ” Copyright (C) 2026 Halim Madi
+<!-- “RAMZ” Copyright (C) 2026 Halim Madi
 
 Copying and distribution of this file, with or without modification,
 are permitted in any medium without royalty provided the copyright 
@@ -44,142 +43,49 @@ the alphabet with them.
 
 -->
 
-    <style>
-      body {
-        margin: 0;
-        overflow: hidden;
-      }
-      a {
-        color: #eee;
-        text-decoration: none;
-      }
-      header {
-        margin: 0;
-        padding: 0;
-        background-color: #444;
-        color: #bbb;
-        position: relative;
-        z-index: 1000;
-      }
-      header > h1 {
-        margin: 0;
-        font-size: 12px;
-        font-family: sans-serif;
-        border-bottom: 1px #999 solid;
-        padding: 5px 10px;
-        line-height: 17px;
-      }
-    </style>
-    <script defer src="https://umami-three-dun.vercel.app/script.js" data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"></script>
-  </head>
-  <body>
-    <i>enter a number: a phone, a birthday</i>
-    <input id="q" autocomplete="off" />
-    <p id="k">
-      <span dir="rtl">ء2 ع3 خ5 ح7 <s>ذ4 ط6 ق8 ص9</s></span>
-    </p>
-    <i>tape</i>
-    <p id="t"></p>
-    <i>arabizi</i>
-    <p id="z"></p>
-    <i>arabic</i>
-    <h1 id="a" lang="ar"></h1>
-    <p><small id="g"></small></p>
-    <style>
-      body {
-        background: #fff;
-        padding: 6vh 8vw;
-        font: 1rem/1.6 monospace;
-      }
-      i {
-        display: block;
-        font-style: normal;
-        font-size: 0.7em;
-        color: #999;
-        margin: 2em 0 0;
-      }
-      #q {
-        font: inherit;
-        font-size: 1.6em;
-        background: none;
-        border: 0;
-        border-bottom: 1px solid;
-        border-radius: 0;
-        outline: 0;
-        width: 9em;
-        caret-color: #1c39e8;
-      }
-      s,
-      small,
-      #k {
-        color: #999;
-      }
-      #t,
-      #z {
-        font-size: 1.3em;
-        margin: 0;
-      }
-      h1 {
-        font: 700 min(13vmin, 73px) serif;
-        margin: 0;
-      }
-    </style>
-    <script>
-      let M = "2أ3ع5خ7حqقbبtتjجdدrرzزsسTطfفkكlلmمnنhهwوyيiيAاOو4ذ6ط8ق9ص",
-        R = "23574689",
-        A = "ءعخحذطقص",
-        o = "",
-        L =
-          "qamar moon,qalb heart,2amal hope,2alam ache,qahwe coffee,2amAn safety,2awal first;3yOun eyes,3omr life,3asal honey,3eTr scent,3Alam world,3aql mind,3atme dark;5ayAl mirage,5abar news,5arif autumn,5ayT thread,5Atem ring,5ajal shyness,5ebz bread;7elw sweet,7ob love,7elm dream,7anin longing,7Are alley,7adA someone,7ay alive;4ahab gold;6ayr bird;8a9ide poem;9abr patience",
-        X = (w) =>
-          [...w]
-            .map((c, i) =>
-              c == "e"
-                ? w[i + 1]
-                  ? ""
-                  : "ة"
-                : (i = M.indexOf(c)) < 0
-                  ? ""
-                  : M[i + 1],
-            )
-            .join("");
-      (q.oninput = (_) => {
-        let v = q.value,
-          f = v.startsWith(o),
-          h = 7;
-        for (c of v) h = (h * 31 + c.charCodeAt()) & 8191;
-        f || (t.innerHTML = o = "");
-        for (c of v.slice(o.length)) {
-          let k = R.indexOf(c),
-            s = document.createElement(k < 0 || k > 3 ? "s" : "b");
-          s.dir = "ltr";
-          t.append(s);
-          s.textContent = c;
-          k < 0 || setTimeout((_) => (s.textContent = A[k]), f && 600);
-        }
-        o = v;
-        let E = [...v].filter((c) => R.includes(c)),
-          P = E.filter((c) => R.search(c) < 4).slice(0, 5),
-          W = (P[0] ? P : E.slice(0, 1)).map((d, j) =>
-            (b = L.split(";")[R.search(d)].split(","))[
-              (h >> j) % b.length
-            ].split(" "),
-          ),
-          y = h & 1 ? ["ya ", "يا ", "o "] : ["", "", ""];
-        z.innerHTML = W[0]
-          ? (
-              y[0] +
-              W.map((w) => w[0])
-                .join(" el ")
-                .toLowerCase()
-                .replace(/q/g, "2")
-            ).replace(/\d/g, "<b>$&</b>")
-          : "sifr";
-        a.textContent = W[0] ? y[1] + W.map((w) => X(w[0])).join(" ال") : "صفر";
-        g.textContent = W[0]
-          ? y[2] + W.map((w) => w[1]).join(" of ")
-          : "cipher";
-      })();
-    </script>
-  </body>
+<style>
+	body { margin:0 ; overflow:hidden }
+	a { color:#eee ; text-decoration:none }
+	header { margin:0 ; padding:0 ; background-color:#444 ; color:#bbb ;
+		position:relative ; z-index:1000 }
+	header > h1 { margin:0 ; font-size:12px ; font-family:sans-serif ;
+		border-bottom:1px #999 solid ; padding:5px 10px ; line-height:17px }
+</style>
+</head>
+<body>
+
+<main>
+<i>enter a number: a phone, a birthday</i>
+<input id=q autocomplete=off>
+<p id=k><span dir=rtl>ء2 ع3 خ5 ح7 <s>ذ4 ط6 ق8 ص9</s></span></p>
+<i>tape</i>
+<p id=t></p>
+<i>arabizi</i>
+<p id=z></p>
+<i>arabic</i>
+<h1 id=a lang=ar></h1>
+<p><small id=g></small></p>
+</main>
+<style>
+main{padding:6vh 8vw;font:1rem/1.6 monospace}
+i{display:block;font-style:normal;font-size:.7em;color:#999;margin:2em 0 0}
+#q{font:inherit;font-size:1.6em;background:none;border:0;border-bottom:1px solid;border-radius:0;outline:0;width:9em;caret-color:#1C39E8}
+s,small,#k{color:#999}
+#t,#z{font-size:1.3em;margin:0}
+#a{font:700 min(13vmin,73px) serif;margin:0}
+</style>
+<script>
+let M="2أ3ع5خ7حqقbبtتjجdدrرzزsسTطfفkكlلmمnنhهwوyيiيAاOو4ذ6ط8ق9ص",R="23574689",A="ءعخحذطقص",o="",
+L="qamar moon,qalb heart,2amal hope,2alam ache,qahwe coffee,2amAn safety,2awal first;3yOun eyes,3omr life,3asal honey,3eTr scent,3Alam world,3aql mind,3atme dark;5ayAl mirage,5abar news,5arif autumn,5ayT thread,5Atem ring,5ajal shyness,5ebz bread;7elw sweet,7ob love,7elm dream,7anin longing,7Are alley,7adA someone,7ay alive;4ahab gold;6ayr bird;8a9ide poem;9abr patience",
+X=w=>[...w].map((c,i)=>c=="e"?w[i+1]?"":"ة":(i=M.indexOf(c))<0?"":M[i+1]).join("");
+(q.oninput=_=>{let v=q.value,f=v.startsWith(o),h=7;for(c of v)h=h*31+c.charCodeAt()&8191;
+f||(t.innerHTML=o="");
+for(c of v.slice(o.length)){let k=R.indexOf(c),s=document.createElement(k<0||k>3?"s":"b");s.dir="ltr";t.append(s);s.textContent=c;k<0||setTimeout(_=>s.textContent=A[k],f&&600)}o=v;
+let E=[...v].filter(c=>R.includes(c)),P=E.filter(c=>R.search(c)<4).slice(0,5),W=(P[0]?P:E.slice(0,1)).map((d,j)=>(b=L.split(";")[R.search(d)].split(","))[(h>>j)%b.length].split(" ")),y=h&1?["ya ","يا ","o "]:["","",""];
+z.innerHTML=W[0]?(y[0]+W.map(w=>w[0]).join(" el ").toLowerCase().replace(/q/g,"2")).replace(/\d/g,"<b>$&</b>"):"sifr";
+a.textContent=W[0]?y[1]+W.map(w=>X(w[0])).join(" ال"):"صفر";
+g.textContent=W[0]?y[2]+W.map(w=>w[1]).join(" of "):"cipher"})()
+</script>
+
+</body>
 </html>

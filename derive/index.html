@@ -314,14 +314,66 @@
         align-self: flex-start;
       }
 
-      /* day-by-day */
-      .day {
+      /* day-by-day - one tab per day, the panel holds the chosen one */
+      .daytabs {
+        display: flex;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
         border-top: 1px solid var(--chrome);
-        padding: 14px 0 6px;
+        border-bottom: 1px solid var(--chrome);
       }
 
-      .day.past {
-        opacity: 0.55;
+      .daytabs::-webkit-scrollbar {
+        display: none;
+      }
+
+      .daytab {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        background: none;
+        color: var(--ink-60);
+        border: 0;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -1px;
+        padding: 13px 14px;
+        min-height: 44px;
+        white-space: nowrap;
+        cursor: pointer;
+        transition: color 0.3s ease;
+      }
+
+      .daytab:hover {
+        color: var(--ink);
+      }
+
+      .daytab[aria-selected="true"] {
+        color: var(--ink);
+        border-bottom-color: var(--ink);
+      }
+
+      /* the days you are not looking at recede; the ones already gone recede
+         further, and a quiet day says so before you tap it. */
+      .daytab.past {
+        opacity: 0.5;
+      }
+
+      .daytab.quiet {
+        color: var(--chrome-alt);
+      }
+
+      .daytab[aria-selected="true"].past,
+      .daytab[aria-selected="true"].quiet {
+        opacity: 1;
+        color: var(--ink);
+      }
+
+      .daypanel {
+        padding: 14px 0 6px;
       }
 
       .day-head {
@@ -329,6 +381,10 @@
         justify-content: space-between;
         align-items: baseline;
         margin-bottom: 6px;
+      }
+
+      .empty-day {
+        margin: 8px 0 4px;
       }
 
       .ev {
@@ -455,6 +511,18 @@
       @media (max-width: 900px) {
         .two-col {
           columns: 1;
+        }
+      }
+
+      /* phones: the time column and the tab padding both give up a little */
+      @media (max-width: 430px) {
+        .ev {
+          grid-template-columns: 62px 1fr;
+          gap: 10px;
+        }
+
+        .daytab {
+          padding: 13px 11px;
         }
       }
 
@@ -652,6 +720,11 @@
           .format(d)
           .toLowerCase()
           .replace(",", " ·");
+      // "wed 19" - weekday first, whatever order the locale would pick.
+      const tabLabel = (d) =>
+        fmt({ weekday: "short" }).format(d).toLowerCase() +
+        " " +
+        fmt({ day: "numeric" }).format(d);
       const noonOf = (dateStr) => new Date(dateStr + "T12:00:00-08:00");
 
       const get = async (path) => {
@@ -700,6 +773,45 @@
         show("picks-section", picks.length > 0);
       }
 
+      // one event row - the same shape whichever day is on screen.
+      function eventRow(e) {
+        const note = clean(e.notes || "");
+        const tbc = /time tbc/i.test(note);
+        const row = el("div", "ev");
+        row.appendChild(
+          el("span", "time", tbc ? "tbc" : timeOf(new Date(e.starts_at))),
+        );
+        const body = el("div");
+        const line = el("div");
+        if (e.signal === "high") {
+          const dot = el("span", "sig");
+          dot.setAttribute("role", "img");
+          dot.setAttribute("aria-label", "high signal");
+          line.appendChild(dot);
+        }
+        line.appendChild(linkOrSpan("name", e.title || "", e.url));
+        if (/^top pick/i.test(note))
+          line.appendChild(el("span", "chip", "top pick"));
+        if (/sold out/i.test(note))
+          line.appendChild(el("span", "chip", "sold out"));
+        body.appendChild(line);
+        body.appendChild(
+          el(
+            "div",
+            "meta",
+            [e.kind, e.venue, e.price].filter(Boolean).join(" · "),
+          ),
+        );
+        const noteText = note
+          .replace(/^top pick:\s*/i, "")
+          .replace(/^time tbc\.?\s*/i, "");
+        if (noteText) body.appendChild(el("div", "note", noteText));
+        row.appendChild(body);
+        return row;
+      }
+
+      // the week as tabs, not as a scroll. someone checking on a wednesday
+      // should land on wednesday.
       function renderDays(events, weekStart, weekEnd) {
         const box = $("days");
         box.replaceChildren();
@@ -716,51 +828,105 @@
           if (!byDay.has(k)) byDay.set(k, []);
           byDay.get(k).push(e);
         });
-        [...byDay.keys()].sort().forEach((k) => {
-          const day = el("div", "day" + (k < todayKey ? " past" : ""));
+        if (byDay.size === 0) {
+          show("days-section", false);
+          return 0;
+        }
+
+        // every day in the range gets a tab, quiet ones included - the week
+        // should still read as a week.
+        const keys = [];
+        for (let d = noonOf(weekStart), n = 0; n < 14; n++) {
+          const k = dayKey(d);
+          if (k > weekEnd) break;
+          keys.push(k);
+          d = new Date(d.getTime() + 864e5);
+        }
+        [...byDay.keys()].forEach((k) => {
+          if (!keys.includes(k)) keys.push(k);
+        });
+        keys.sort();
+
+        const tabs = el("div", "daytabs");
+        tabs.setAttribute("role", "tablist");
+        tabs.setAttribute("aria-label", "day of the week");
+        const panel = el("div", "daypanel");
+        panel.id = "day-panel";
+        panel.setAttribute("role", "tabpanel");
+        panel.tabIndex = 0;
+        const tabOf = new Map();
+
+        function fillPanel(k) {
+          panel.replaceChildren();
           const head = el("div", "day-head");
           head.appendChild(el("span", "label", dayLabel(noonOf(k))));
           if (k < todayKey) head.appendChild(el("span", "detail", "passed"));
           if (k === todayKey) head.appendChild(el("span", "detail", "today"));
-          day.appendChild(head);
-          byDay.get(k).forEach((e) => {
-            const note = clean(e.notes || "");
-            const tbc = /time tbc/i.test(note);
-            const row = el("div", "ev");
-            row.appendChild(
-              el("span", "time", tbc ? "tbc" : timeOf(new Date(e.starts_at))),
+          panel.appendChild(head);
+          const list = byDay.get(k) || [];
+          if (list.length === 0) {
+            panel.appendChild(
+              el("p", "detail empty-day", "nothing listed for this day."),
             );
-            const body = el("div");
-            const line = el("div");
-            if (e.signal === "high") {
-              const dot = el("span", "sig");
-              dot.setAttribute("role", "img");
-              dot.setAttribute("aria-label", "high signal");
-              line.appendChild(dot);
-            }
-            line.appendChild(linkOrSpan("name", e.title || "", e.url));
-            if (/^top pick/i.test(note))
-              line.appendChild(el("span", "chip", "top pick"));
-            if (/sold out/i.test(note))
-              line.appendChild(el("span", "chip", "sold out"));
-            body.appendChild(line);
-            body.appendChild(
-              el(
-                "div",
-                "meta",
-                [e.kind, e.venue, e.price].filter(Boolean).join(" · "),
-              ),
-            );
-            const noteText = note
-              .replace(/^top pick:\s*/i, "")
-              .replace(/^time tbc\.?\s*/i, "");
-            if (noteText) body.appendChild(el("div", "note", noteText));
-            row.appendChild(body);
-            day.appendChild(row);
+            return;
+          }
+          list.forEach((e) => panel.appendChild(eventRow(e)));
+        }
+
+        function selectDay(k, moveFocus) {
+          keys.forEach((key) => {
+            const t = tabOf.get(key);
+            t.setAttribute("aria-selected", String(key === k));
+            t.tabIndex = key === k ? 0 : -1;
           });
-          box.appendChild(day);
+          const t = tabOf.get(k);
+          panel.setAttribute("aria-labelledby", t.id);
+          fillPanel(k);
+          // keep the chosen day in view inside the strip without scrolling
+          // the page out from under anyone.
+          tabs.scrollLeft = Math.max(
+            0,
+            t.offsetLeft - (tabs.clientWidth - t.offsetWidth) / 2,
+          );
+          if (moveFocus) t.focus();
+        }
+
+        keys.forEach((k, i) => {
+          const quiet = (byDay.get(k) || []).length === 0;
+          const t = el(
+            "button",
+            "daytab" + (k < todayKey ? " past" : "") + (quiet ? " quiet" : ""),
+            tabLabel(noonOf(k)),
+          );
+          t.type = "button";
+          t.id = "daytab-" + k;
+          t.setAttribute("role", "tab");
+          t.setAttribute("aria-selected", "false");
+          t.setAttribute("aria-controls", "day-panel");
+          t.tabIndex = -1;
+          t.addEventListener("click", () => selectDay(k, false));
+          t.addEventListener("keydown", (ev) => {
+            const step =
+              ev.key === "ArrowRight" ? 1 : ev.key === "ArrowLeft" ? -1 : 0;
+            if (!step) return;
+            ev.preventDefault();
+            selectDay(keys[(i + step + keys.length) % keys.length], true);
+          });
+          tabOf.set(k, t);
+          tabs.appendChild(t);
         });
-        show("days-section", byDay.size > 0);
+
+        box.appendChild(tabs);
+        box.appendChild(panel);
+
+        // today when the week holds it, else the next day still to come,
+        // else the last day of a week that has already run out.
+        const opening = keys.includes(todayKey)
+          ? todayKey
+          : keys.find((k) => k > todayKey) || keys[keys.length - 1];
+        selectDay(opening, false);
+
+        show("days-section", true);
         return byDay.size;
       }
 

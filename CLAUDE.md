@@ -2,6 +2,16 @@
 
 This file contains important guidelines for any AI agent working on the oulipo.xyz project.
 
+## Shipping Work
+
+**Always commit and push. Do not ask first.**
+
+When work on this repo is finished, commit it and push it to the working branch
+without waiting to be told. Same for follow-up fixes: commit, push, done. Opening
+a draft PR for a pushed branch is part of the same reflex.
+
+Merging to `main` stays Halim's call - push and open the PR, then say it is ready.
+
 ## Screenshot Requirements
 
 **IMPORTANT: All screenshots MUST have a 1px black border.**

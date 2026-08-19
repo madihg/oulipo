@@ -25,7 +25,13 @@ A public page hydrated live from the `hmart` schema in Supabase project
   (`—` -> " - ") per the brand voice row in `public.brand_system`.
 - DOM built with `textContent` only - feed strings can never inject markup.
 - Copper dot = high signal. Blue leads only on the top-pick cards.
-- Past days of the current week stay listed, dimmed, tagged `passed`.
+- Day by day is a tab strip, one tab per day of the week range. It opens
+  on today when the week holds it, else the next day still to come, else
+  the last day. Past days dim and their panel is tagged `passed`; days
+  with nothing listed sit in chrome until selected. The strip scrolls
+  horizontally on phones and keeps the selected tab in view without
+  scrolling the page. Tabs carry `tablist`/`tab`/`tabpanel` roles and
+  left/right arrow keys move between them.
 - No personal names or manual-check reminders on the public page - those
   stay in the scheduled task's run report.
 

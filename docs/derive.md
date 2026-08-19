@@ -18,6 +18,35 @@ A public page hydrated live from the `hmart` schema in Supabase project
   key (`sb_publishable_...`, browser-safe) and renders client-side in
   `America/Los_Angeles`.
 
+## Sources
+
+The Monday assembly reads the canonical roster in hmart
+(`memory_entries`, title "Derive source roster - SF (canonical...)"); this
+section mirrors it.
+
+Two venues are full-program mandates - their complete week goes into
+day-by-day, every night, not selections:
+
+- **Black Cat Jazz Supper Club** - blackcatsf.com, calendar at
+  blackcatsf.turntabletickets.com. Both sets when listed.
+- **SFJAZZ** - sfjazz.org/calendar, Miner Auditorium and Joe Henderson Lab.
+
+The weekly sweep also checks: Keys Jazz Bistro, Mr. Tipple's, Bird & Beckett,
+Center for New Music, Old First Concerts, SF Symphony, Stern Grove (in
+season), Great American Music Hall, The Chapel, Rickshaw Stop, Public Works,
+August Hall, Groupmuse, Other Minds; Roxie, BAMPFA, Castro, Balboa, 4 Star,
+Alamo New Mission, Vogue/Presidio, Internet Archive screenings; SFMOMA,
+famsf (de Young + Legion), Asian Art Museum, YBCA, ICA SF, KADIST, CCA
+Wattis, 500 Capp Street, CJM, Minnesota Street Project, Fraenkel, Rebecca
+Camacho, Rosebud, Luggage Store, 120710.art, Counterculture Museum;
+Commonwealth Club, Manny's, City Arts & Lectures, Long Now / The Interval,
+Exploratorium After Dark, Cal Academy NightLife, KQED, Nerd Nite; The Marsh,
+SF Playhouse, NCTC, Z Space, ODC, CounterPulse, Fresh Meat, The Lab, Gray
+Area; aggregators as cross-check only (Funcheap, DoTheBay, Luma SF, SF
+Standard, 19hz.info) plus the Gmail City/_SF_ label sweep.
+
+The taste filter stays Halim's - aggregator noise stays out.
+
 ## Rules encoded in the page
 
 - Modern signal v3.1 tokens; closed palette; VT323 + JetBrains Mono.

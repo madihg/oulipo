@@ -1,5 +1,57 @@
 # Oulipo.xyz Context
 
+## Session State (Aug 24, 2026 - hugo ball added to /computer-theater)
+
+**Status: BUILT + VERIFIED, uncommitted** - awaiting Halim's eye. All 54 ship
+checks pass (was 40 checks / 53 nodes, now 54 nodes).
+
+Dada had no node even though the research doc already named it as one of the
+avant-gardes Dixon roots digital performance in. Hugo Ball fills that gap on
+track 1, inserted between futurists (1915) and schlemmer (1922).
+
+Halim's four calls this round, all taken as proposed: card link = the Cabaret
+Voltaire venue (not UbuWeb's recordings, not the Getty essay); edges = wagner,
+futurists, schlemmer, dixon; components view left untouched; scope = Ball only,
+no Huelsenbeck or Schwitters cluster.
+
+- `computer-theater/index.html` - one node, id "ball", track 1, year 1916,
+  size 5.5 (peer of piscator and schlemmer). Blurb carries Cabaret Voltaire
+  Feb 5 1916 with Emmy Hennings named as co-founder, the June 23 sound poems
+  in the cubist cardboard costume, and the Gesamtkunstwerk line that justifies
+  the wagner edge (hedged as "has since been called", because it is a reading
+  applied later). Works: Karawane, Dada Manifesto, Die Flucht aus der Zeit.
+  First draft ran 634 chars, the longest blurb on the page against a median of
+  199, so it was cut to 474 - below dorsen's 620. The diary phrase about being
+  carried off "like a magic bishop" was cut for length and lives in the
+  research doc if he wants it back.
+- `computer-theater/img/ball.jpg` - File:Hugo_Ball_Cabaret_Voltaire.jpg, the
+  1916 invitation-postcard studio photo. Licence read in full on the Commons
+  page: PD-US + PD-anon-70-EU, author unknown, so the credit reads "public
+  domain". The card crop (object-position: top center, max-height 210px) shows
+  the hat and collar on desktop and more of the figure on mobile; the full
+  frame is one click away through the credit link.
+- `scripts/treat-ct-image.py` - NEW, and the reason it exists: the card
+  treatment was never in the repo, so it was recovered empirically. Re-treating
+  File:Antonin_Artaud_1926.jpg reproduces the committed artaud.jpg at 760x969
+  with mean luminance 70.74 vs 70.95. That sweep showed card images carry NO
+  grain pass and no brightness lift, unlike treat-images.py. Adding either puts
+  a new card visibly off its neighbours. Future card images go through this
+  script.
+- `scripts/check-computer-theater.mjs` - 6 new checks: the card opens, sits on
+  track 1 in 1916, links to cabaretvoltaire.ch, its image loads, its four edges
+  are wired, and the wagner jump button renders.
+- `docs/computer-theater-research.md` - ground truth appended, including the
+  venue distinction worth keeping straight (June 23 1916 at the Cabaret
+  Voltaire vs the Dada Manifesto on July 14 1916 at the Zunfthaus zur Waag),
+  and the two edges considered and rejected as invented lineage (stelarc,
+  toplap/dorsen).
+
+Side effect to expect: the constellation seeds node angles from array index and
+NODES.length, so a 54th node reshuffles the whole free layout. Verified it
+still reads - ball's four edges are all short (0.15 to 0.20 normalized) and it
+sits inside the track 1 cluster, 15th most peripheral of 54, less peripheral
+than beckett. Both files stay prettier-clean.
+
 ## Session State (Jul 29, 2026 - oulipo.xyz/derive + outings routine migration)
 
 ### Current Task: NEW page oulipo.xyz/derive (weekly SF field guide)

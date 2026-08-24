@@ -210,6 +210,53 @@ const ringHit = await page.evaluate(() => {
 check("open card highlights its node with a ring", ringHit);
 await page.keyboard.press("Escape");
 
+/* hugo ball, added Aug 2026: track 1, one verified resource link, a treated
+   commons image, and the wagner edge that carries the gesamtkunstwerk line */
+const ballIndexOpen = await page
+  .locator(".node-index")
+  .evaluate((d) => d.open)
+  .catch(() => false);
+if (!ballIndexOpen) await page.locator(".node-index summary").click();
+await page.locator(".index-list button", { hasText: "hugo ball" }).click();
+await page.waitForTimeout(400);
+const ballWin = page.locator('.win[data-node="ball"]');
+check("hugo ball card opens", (await ballWin.count()) === 1);
+check(
+  "hugo ball sits on track 1 in 1916",
+  await page.evaluate(() => {
+    const n = window.__ctNodes.find((x) => x.id === "ball");
+    return !!n && n.track === 1 && n.year === 1916;
+  }),
+);
+check(
+  "hugo ball links to the cabaret voltaire",
+  ((await ballWin.locator(".win-link").getAttribute("href")) || "").includes(
+    "cabaretvoltaire.ch",
+  ),
+);
+check(
+  "hugo ball card image loads",
+  await ballWin
+    .locator(".win-img")
+    .evaluate((i) => i.complete && i.naturalWidth > 0)
+    .catch(() => false),
+);
+check(
+  "hugo ball is wired to wagner, futurists, schlemmer and dixon",
+  await page.evaluate(() => {
+    const n = window.__ctNodes.find((x) => x.id === "ball");
+    return ["wagner", "futurists", "schlemmer", "dixon"].every((id) =>
+      (n.links || []).includes(id),
+    );
+  }),
+);
+check(
+  "hugo ball card offers the wagner jump",
+  (await ballWin.locator('.win-rel button[data-open="wagner"]').count()) === 1,
+);
+await page.keyboard.press("Escape");
+await page.waitForTimeout(150);
+
 /* layout modes reorder the graph */
 await page.locator('.graph-modes button[data-mode="chrono"]').click();
 await page
@@ -368,7 +415,9 @@ check(
 );
 
 /* the no-trailing-slash URL must serve working images too */
-const noSlash = await browser.newPage({ viewport: { width: 1440, height: 900 } });
+const noSlash = await browser.newPage({
+  viewport: { width: 1440, height: 900 },
+});
 await noSlash.goto("http://localhost:4242/computer-theater", {
   waitUntil: "networkidle",
 });

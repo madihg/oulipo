@@ -52,3 +52,62 @@ and anything with unclear licensing - a missing image beats a licence
 problem. New images must go through the same route: read the actual Commons
 File: page, do not trust the filename. Research fan-out: workflow wf_0ce77d35-f10; raw
 results in the session scratchpad (ct-resources.json).
+
+## Hugo Ball (added Aug 24, 2026)
+
+Dada was already named in this doc as one of the avant-gardes Dixon roots
+digital performance in (Futurism, Dada, Constructivism, Bauhaus), but it had no
+node. Ball fills that gap on track 1.
+
+Hugo Ball (1886-1927, b. Pirmasens, d. Sant'Abbondio/Gentilino, Switzerland).
+With Emmy Hennings he opened the Cabaret Voltaire on February 5, 1916, in a
+room rented at the Meierei tavern, Spiegelgasse 1, Zurich, announced as an
+"artist's tavern" with music recitations and lectures. Recent scholarship
+treats Hennings as a co-founder, not a companion; the node blurb names her
+first alongside him for that reason. Ball married her February 21, 1920, in
+Bern.
+
+June 23, 1916, at the Cabaret Voltaire: Ball recited his sound poems, Karawane
+among them, in what the surviving photograph's inscription calls "Verse ohne
+Worte im kubistischen Kostüm" - verse without words in a cubist costume. The
+costume: legs and body in blue cardboard cylinders, a huge cardboard collar
+(gold outside, scarlet within) fastened so raising his elbows read as wings, a
+tall blue-and-white striped witch doctor's hat. It restricted his ordinary
+movements. His diary records being carried from the stage "like a magic
+bishop". Lautsprache / Verse ohne Worte = language handled as pure sound, the
+sense taken out.
+
+Ball read the Dada Manifesto at the first public Dada evening, Zunfthaus zur
+Waag, Zurich, July 14, 1916 - a different venue from the June 23 cabaret
+night, worth keeping straight. He left organized Dada at the end of May 1917.
+Later works: Zur Kritik der deutschen Intelligenz (1919), Byzantinisches
+Christentum (1923), the diary Die Flucht aus der Zeit (1927).
+
+Gesamtkunstwerk: the multi-media style pioneered by Dadaists including Ball
+has also been called a Gesamtkunstwerk, which is the term Wagner's node
+already carries. That is the justification for the ball-wagner edge. The
+blurb keeps the hedge ("has since been called") because the attribution is a
+reading applied later, not Ball's own claim. Huelsenbeck's German Dada
+Manifesto supplies the same idea from inside the movement - life as a
+simultaneous confusion of noises, colours and spiritual rhythms - and would be
+the node to add if the Dada cluster grows (Huelsenbeck, Schwitters' Merzbau).
+Deliberately out of scope this round.
+
+Edges: wagner (Gesamtkunstwerk), futurists (simultaneity, noise, the machine
+age Dada drew on and turned against), schlemmer (the costume that reduces the
+performer to a construction), dixon (who names Dada as a precursor).
+Considered and rejected: stelarc (the immobilising costume as proto-exoskeleton
+is my reading, not a cited claim) and toplap/dorsen (sound poetry as precursor
+to machine-generated language - no source makes that link, so it would be an
+invented lineage).
+
+Card link: https://www.cabaretvoltaire.ch/ - the room at Spiegelgasse 1, still
+running as a museum and venue. Same logic as Wagner to Bayreuth and Brecht to
+the Berliner Ensemble. Verified 200.
+
+Card image: File:Hugo_Ball_Cabaret_Voltaire.jpg, the 1916 studio photograph
+made for the Cabaret Voltaire's invitation postcard. Licence templates read in
+full on the Commons page: PD-US and PD-anon-70-EU, author unknown, so the
+credit line reads "public domain". Kunsthaus Zurich holds a large reproduction
+(Dada-Sammlung, VI:5) and also does not know the photographer. Treated with
+the new scripts/treat-ct-image.py.

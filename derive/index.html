@@ -200,7 +200,7 @@
         color: var(--chrome);
       }
 
-      /* join the broadcast channel - the page's connect moment */
+      /* join the community - the page's connect moment */
       .join {
         border: 1px solid var(--chrome);
         border-left: 12px solid var(--blue);
@@ -233,6 +233,7 @@
         border: 1px solid var(--ink);
         padding: 10px 16px;
         cursor: pointer;
+        text-decoration: none;
       }
 
       /* week bar */
@@ -582,13 +583,17 @@
 
       <div class="join">
         <p>
-          The gathering itself runs on a broadcast channel: one text when the
-          next drift is set. Tap the button - WhatsApp opens with the join note
-          prefilled. Send it and you&rsquo;re on the list.
+          The gathering runs on a WhatsApp community: word goes out there when
+          the next drift is set, and the people who show up keep talking after.
+          It is open - let yourself in.
         </p>
-        <button class="join-btn" id="join-btn" type="button">
-          text to join &#x2197;&#xFE0E;
-        </button>
+        <a
+          class="join-btn"
+          href="https://chat.whatsapp.com/DSsfeVkVYsGGp3Nz3RQiNp"
+          rel="noopener"
+          target="_blank"
+          >join the whatsapp community &#x2197;&#xFE0E;</a
+        >
       </div>
 
       <div class="weekbar">
@@ -1087,20 +1092,6 @@
           box.appendChild(b);
         });
       }
-
-      // join button: the number never appears in the page as text - it is
-      // assembled on tap and handed straight to WhatsApp.
-      $("join-btn").addEventListener("click", () => {
-        const n = atob("KzE2NTAzMDQ2ODQy").slice(1);
-        window.open(
-          "https://wa.me/" +
-            n +
-            "?text=" +
-            encodeURIComponent("Add me to dérive"),
-          "_blank",
-          "noopener",
-        );
-      });
 
       renderCities();
       selectCity(new URLSearchParams(location.search).get("city") || "sf", false);

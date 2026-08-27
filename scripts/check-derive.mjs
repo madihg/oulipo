@@ -85,7 +85,10 @@ check(
   "phone number never in plain text",
   !/6503046842|650[\s.()-]*304[\s.()-]*6842/.test(html),
 );
-check("join opens WhatsApp (wa.me)", /wa\.me/.test(html) && !/sms:/.test(html));
+check(
+  "join opens the WhatsApp community",
+  /chat\.whatsapp\.com\//.test(html) && !/sms:/.test(html) && !/wa\.me/.test(html),
+);
 check("no innerHTML rendering", !/innerHTML/.test(html));
 check("SF timezone pinned", /America\/Los_Angeles/.test(html));
 

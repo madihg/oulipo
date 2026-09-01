@@ -392,7 +392,15 @@
 
       var year =
         w.year || (w.date_start ? String(w.date_start).slice(0, 4) : "");
-      var sectionSlug = w.section || sectionFromKind(w.kind);
+      // Post GO-migration: alias the shared DB's new slugs back to
+      // oulipo's section vocabulary (see works-page.js).
+      var dbAliases = {
+        "machine-poetry": "machine-talk",
+        "computer-theater": "algorithmic-plays",
+        "net-art": "somatic-semantics",
+      };
+      var sectionSlug =
+        dbAliases[w.section] || w.section || sectionFromKind(w.kind);
 
       // Halim 2026-06-01: richer meta line (date · location · venue), like
       // the events strip, instead of just venue + year.

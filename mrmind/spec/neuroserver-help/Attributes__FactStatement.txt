@@ -1,0 +1,20 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/FactStatement.htm
+
+NeuroScript Attributes: FactStatement 
+
+ ?FactStatement
+
+ The ?FactStatement attribute is set when someone states some
+other type of fact. Usually this is just an assertion that something has happened,
+or will happened, or is happening.
+
+ Examples
+
+"Jack ran across the yard",
+"I ate that bird."
+"I'll worry about that later."
+"This dog fetches thrown sticks."
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

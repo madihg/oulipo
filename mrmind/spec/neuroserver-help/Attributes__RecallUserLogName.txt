@@ -1,0 +1,17 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/RecallUserLogName.htm
+
+NeuroScript Attributes: RecallUser.LogName 
+
+ ?RecallUser.LogName
+
+This attribute is set by the system to be the login name of the
+recalled user when the 
+RetrieveAccountInfo command is used.
+
+ See Also
+
+ RetrieveAccountInfo 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

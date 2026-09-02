@@ -1,0 +1,71 @@
+# source: archive/_research/wayback/neurostudio.com/19990901150504/html/documentation/Keywords/PatternList.htm
+
+PatternList 
+
+ The PatternList keyword is used to define 
+a shortcut that is used to represent one or more strings that
+are used frequently throughout a script. The name of a pattern can be any
+word, and is not surrounded by quote marks. 
+Most commonly, they are used to represent sets of patterns that are 
+repeatedly tested for (often using IfHeard), but they may also be used in 
+output responses, as values assigned to keys, and so on. PatternList 
+definitions are placed in the GeRBiL script outside any topic. 
+It is not necessary to define a PatternList earlier in the script 
+than it is used, but it is illegal to use a PatternList that is not defined anywhere.
+
+ The keyword PatternList is followed by one or more objects
+evaluating to strings, separated by commas, and ending with a 
+semicolon. Most commonly, these are actually strings, but a PatternList
+may also contain memory references and concatenations 
+(strings and memory references combined using a �+�) as well.
+
+ Pattern and PatternList definitions may contain
+other Pattern or PatternList names, provided that
+the included Pattern or PatternList is defined
+earlier in the script. See the example below.
+
+ PatternLists do not add any additional
+capabilities to the GeRBiL language, but have the following uses:
+
+ Lists of synonyms that cover different words or phrases
+ with the same meaning can be defined as a PatternList.
+ The use of PatternLists allows the scripter to avoid typing in the
+ same list of words repeatedly, avoids forgetting
+ synonyms, helps reduce typographical errors (since the
+ list of words is only repeated once), and allows for easy
+ update of the script if additional words need to be added
+ to the list (a new word can be added to the definition of
+ the PatternList rather than added everywhere in the script where
+ the script is checking for such words.)
+
+ Matching statements (such as IfHeard) are more easily
+ readable if they use PatternLists rather than long lists
+ of words, particularly if they include and .
+
+ PatternLists can be combined using concatenation
+ (‘+’) to easily create a variety of statements:
+
+ PatternList MOODS is "happy", "sad", "angry";
+ SayOneOf "I am feeling " + MOODS + " today";
+
+ By convention, Pattern names are capitalized. 
+
+ Example:
+
+// An ordinary PatternList
+PatternList BOT is "bot", "virtual robot", "chatterbot";
+// The use of a PatternList within another.
+PatternList NEUROMEDIA_SYNONYMS is "Neuromedia", "the company";
+PatternList NEUROMEDIA_ADDRESS is "address of " + NEUROMEDIA_SYNONYMS;
+// NEUROMEDIA_ADDRESS is "address of Neuromedia", "address of the company";
+
+// Here is an example of the use of a PatternList
+Topic "Are you a bot?" is
+ IfHeard "are you*" + BOT Then
+ Say "Yes, I am a bot";
+ Done
+EndTopic
+
+ See Also:
+
+ Pattern

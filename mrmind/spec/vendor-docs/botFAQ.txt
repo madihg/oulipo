@@ -1,0 +1,48 @@
+# source: archive/_research/wayback/neurostudio.com/19981205195027/html/botFAQ.htm
+
+The Shallow Red FAQ 
+
+ The Shallow Red FAQ
+
+What is Shallow Red? 
+
+Shallow Red is a marketing information "bot" created
+ with the NeuroStudio authoring system. Shallow Red is primarily a
+ Virtual Representative, providing answers to basic questions about Neuromedia,
+ Neuromedia's products, and how bots are created and used. Red is also pretty good 
+ with mundane stuff.
+
+Is Shallow Red a search engine?
+
+No, but bots make a good front end to search engines. For example, if you ask red to find information
+ that's not in the script, you may just have your request referred to Alta Vista! Unlike search engines,
+ Shallow Red does not rely on simple keywords. Instead, the order of words,
+ and many common words that search engines ignore, can be important in
+ helping Shallow Red understand what you are saying. So remember to ask
+ your questions in plain English sentences. 
+
+Is Shallow Red an "Eliza" clone? 
+
+ No. Shallow Red does not feign understanding when the
+ answer to a question is not known. Unlike early bots such as the well-known
+ "Eliza the Psychiatrist" which are made to entertain, Shallow Red means
+ business. Shallow Red is scripted to provide meaningful answers to
+ questions within a specific domain for people who need them, and to do so in
+ a polite and businesslike way. More whimsical agents can, however, easily be
+ scripted with NeuroStudio.
+
+What's the easiest way to make comments, talk to the botmaster, etc?
+
+When chatting, any line that begins with // will be sent to the BotMaster as a
+ comment on the previous interaction. Your comments are appreciated. 
+ Send us some feedback- we'd like to know what you think. 
+
+Can Shallow Red play relaxing Samba music? 
+
+ Yes. And more importantly
+ Shallow Red can turn it off, too. 
+
+Is there anything else I should know? 
+
+ Shallow Red is being modified and improved all the
+ time. Be sure to check back periodically.

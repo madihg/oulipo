@@ -1,0 +1,19 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/UserLogPass.htm
+
+NeuroScript Attributes: User.LogPass 
+
+ ?User.LogPass
+
+When a user logs in successfully, this attribute is set by the system to the login
+password of the current user. It can be changed by using the
+ChangeAccountPasswordTo command; otherwise attempting to change it is an
+error.
+
+ See Also
+
+ ChangeAccountPasswordTo 
+ ?LogPass 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousReasonQuestion.htm
+
+NeuroScript Attributes: PreviousReasonQuestion
+
+ ?PreviousReasonQuestion
+
+ The ?PreviousReasonQuestion attribute is set whenever
+the ?ReasonQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?ReasonQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?ReasonQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

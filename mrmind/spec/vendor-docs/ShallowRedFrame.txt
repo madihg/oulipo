@@ -1,0 +1,41 @@
+# source: archive/_research/wayback/neurostudio.com/19990223202433/html/ShallowRedFrame.htm
+
+Shallow Red's Frame
+
+ Contacting
+Shallow Red...
+
+ Conversations
+may be monitored for quality control purposes
+
+ Click Here to connect normally 
+
+ Click Here to connect with NO FRAMES 
+
+To talk with Shallow Red your browser must... 
+
+ Support
+ JavaScript (A.K.A. JScript). 
+
+ Accept
+ a 'cookie' 
+
+ Details:
+
+ JavaScript/JScript should
+ not be a problem when using Netscape 2.0,
+ Explorer 3.0, or higher-numbered versions of
+ those products. 
+
+ The cookie contains a
+ serial number which uniquely identifies your
+ session. 
+
+ This is necessary to tell
+ you apart from other users who may be talking to
+ Red simultaneously. 
+
+ The cookie expires when
+ you exit your browser. 
+
+-->

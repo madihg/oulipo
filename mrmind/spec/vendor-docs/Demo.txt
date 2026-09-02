@@ -1,0 +1,38 @@
+# source: archive/_research/wayback/neurostudio.com/19990221173421/html/Demo.htm
+
+Neuromedia's Home Page for Neurostudio(tm) 
+
+ Demo and Tutorial 
+
+ Where can I see a working bot created with NeuroStudio? 
+
+ Shallow Red : Chat with "Shallow Red," our SalesBot built with NeuroStudio. Shallow Red can tell you all about bots and Neuromedia products, show you some useful urls, and can even play a little music... 
+
+ What's it like to use NeuroStudio? 
+
+ This 
+
+on-line tutorial is taken directly from the NeuroStudio documentation provided
+with all NeuroStudio products.
+It introduces the major features of NeuroStudio and, at the same time, 
+guides you on a step-by-step example for building the framework of a simple, 
+conversational bot. 
+Of course, to get the full benefit of the tutorial you will need to go through
+it while running NeuroStudio, but the on-line version will give you an overview of the 
+bot-building process.
+
+ Neuromedia, Inc
+
+ 298 4th Ave #400
+
+ San Francisco CA 94118
+
+ Voice: 415.752.3793
+
+ Fax: 415.386.0114 
+
+ E-mail: 
+
+ shallowred@neurostudios.com
+
+ [ HOME ] [ DEMOS ] [ BUY NEUROSTUDIO ] [ INFO ] [ TALK TO SHALLOW RED! ]

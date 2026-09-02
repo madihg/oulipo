@@ -1,0 +1,101 @@
+# source: archive/_research/wayback/neurostudio.com/19990224092717/html/documentation/Tutorial2.htm
+
+NeuroStudio Tutorial - Lesson Two
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+Lesson Two: Defaults and PatternLists 
+
+ Defaults
+
+When you experiment with Galatea, you'll quickly 
+find that anytime you type something containing the word, 
+"hello", Galatea says hello. Anytime you say something 
+that doesn't include the word hello, Galatea remains silent. 
+Since you are building a conversational bot, you want to be
+certain that Galatea provides an answer even when Galatea has
+no idea what the user just said. This type of topic is called a
+ default topic because it is 
+processed only after reviewing all available regular topics.
+
+Generally, it is best to keep all of your default topics 
+together in one file. Therefore, create a file for them by
+selecting " N ew" from the " F ile" menu and 
+selecting "New Gerbil Source File".
+In this file you should enter the following topic: 
+
+Default Topic "Last Line Of Defense" is 
+ Always
+ Say "I have no idea what you meant by that." ;
+ Done
+EndTopic
+
+Notice that the conditional statement has been replaced by an 
+ Always statement, which terminates with 
+the Done keyword. 
+That means that this topic can be activated by 
+anything at all the user says -- and that if it is activated, no 
+topic after it will ever be activated. Obviously, this must be the 
+very last default topic in the project -- because default topics are 
+always considered in order, any which appear after this one in the 
+file can never be reached. 
+
+Now, save this new file, calling it "Defaults.Galatea.g", and add it to
+the project using the Project Organizer.
+
+Now, build the bot again. You can experiment with it a little; 
+it will now say "hello" anytime you tell it anything that includes 
+the word "hello", and "I have no idea what you meant by that" to 
+anything else. 
+
+ PatternLists
+
+At this point, look at the "Hello" topic again. If the "Galatea.g" file
+is not currently visible in your NeuroStudio window, you can open it 
+either by selecting " O pen" from the " F ile" menu, or by
+double-clicking on the name "Galatea.g" in the Project Organizer window.
+
+When talking to each other, people 
+say hello in dozens of different ways. They say "hi", "how are 
+you", "what's up", "how's it going", "how do you do", and even 
+"hey you". For a "hello" topic to only recognize the string "hello" 
+doesn't make it very worthwhile. 
+
+To build a better "hello" topic that recognizes a lot of different 
+greetings, you should use a 
+ PatternList . Create another Gerbil 
+source code file, name it "Patterns.Galatea.g", and add it to the project. 
+In this new file, put the following statements:
+
+ //Hello: These can appear anywhere in a string and still mean hello 
+PatternList HELLO is "hello","hi","howdy", "hey" ;
+
+ //HELLOQUESTION: These can be greetings only if matched 
+PatternList HELLOQUESTION is "how do you do","what's up","how are you" ;
+
+Now, go back to your hello topic in "Galatea.g" and modify it like this: 
+
+Topic "Hello" is 
+SUBJECTS "Greeting" ;
+ If Heard HELLO 
+ or ?WhatUserSaid Matches HELLOQUESTION 
+ Then 
+ Example "hello" ;
+ Say "hello" ;
+ Done
+EndTopic
+
+Now build and start experimenting with the bot again. You will find
+that it recognizes all the ways of saying hello above. Also, it will 
+respond by saying "hello" to someone who says "how do you do", but not 
+to someone who says "how do you do pattern recognition", or to someone 
+who says "what's up", but not to someone who says "what's up on the 
+roof". The Matches keyword
+used in the "Hello" topic insures that only the exact questions in 
+HELLOQUESTION trigger the "hello" response.
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

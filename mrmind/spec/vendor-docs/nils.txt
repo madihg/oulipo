@@ -1,0 +1,42 @@
+# source: archive/_research/wayback/neurostudio.com/19990225002312/html/nils.htm
+
+Nils Page 
+
+ Nils J. Nilsson, Ph.D. 
+
+ Member, Board of Directors
+
+Nils J. Nilsson received his PhD 
+degree in electrical engineering from Stanford in 1958. He is 
+currently the Kumagai Professor of Engineering (Emeritus) in the 
+Department of Computer Science at Stanford University. He also served there 
+as Chairman of the Department of Computer Science from 1985 to 1990. 
+
+He has published four textbooks on artificial intelligence. Besides teaching 
+courses on artificial intelligence and on machine learning, he is conducting 
+research on flexible robots that are able to react to dynamic worlds, plan 
+courses of action, and learn from experience. 
+
+Professor Nilsson spent twenty-three 
+years at the Artificial Intelligence Center of SRI International working 
+on statistical and neural-network approaches to pattern recognition, 
+co-inventing the A* heuristic search algorithm and the STRIPS automatic 
+planning system, directing work on the integrated mobile robot, SHAKEY, 
+and collaborating in the development of the PROSPECTOR expert system.
+
+Professor Nilsson served on the editorial boards of the journal Artificial 
+Intelligence and of the Journal of Artificial Intelligence Research. He was 
+an Area Editor for the Journal of the Association for Computing Machinery. 
+
+He is a past-president and Fellow of the American Association for 
+Artificial Intelligence and is also a Fellow of the American Association 
+for the Advancement of Science. He is a founding director of Morgan Kaufmann 
+Publishers, Inc. In 1993, he was elected a foreign member of the Royal Swedish 
+Academy of Engineering Sciences. Prof. Nilsson is currently finishing another 
+textbook on Artificial Intelligence
+
+[ HOME ] 
+[ DEMOS ] 
+[ BUY NEUROSTUDIO ] 
+[ INFO ] 
+[ TALK TO SHALLOW RED! ]

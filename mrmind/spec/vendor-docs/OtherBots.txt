@@ -1,0 +1,37 @@
+# source: archive/_research/wayback/neurostudio.com/19981206063249/html/OtherBots.htm
+
+Other Bots Made Using Neurostudio 
+
+ Bots created with NeuroStudio
+
+ Or, more accurately, some of the bots we know about...
+
+ Julie-1 : Built by Govcon.com, the leading supplier of government
+ contracting information, Julie-1 provides answers to service and
+ paperwork questions for Govcon's clients. 
+
+ Millie : Millie is a bot built by Y2klinks.com. Millie gives answers
+ to people who have questions about computers and software
+ relating to Year 2000 compliance. 
+
+ Mr. Mind : Developed for a PBS project by Producer Peggy Weil and
+ the WebLab Group, Mr. Mind puts a new twist on the classic
+ Turing Test by asking you to prove to the computer that you
+ are human. Good luck! 
+
+ Shallow Red : Chat with "Shallow Red," our SalesBot built with
+ NeuroStudio. Shallow Red can tell you all about bots and
+ Neuromedia products, show you some useful urls, and can
+ even play a little music... 
+
+ BRAIN : Bill Orlowski's InfoBot knows all kinds of facts,
+ and can help you find stuff. And like Bill, BRAIN
+ has quite the affinity for parrots. 
+
+ Tecia : An inquisitive chat hostess in the employ of
+ Robots by Jack. Unlike SR and BRAIN, she doesn't
+ like to fess up that she's a bot. You'll never
+ be lonely again... 
+
+ And what about
+ Your Bot??

@@ -1,0 +1,33 @@
+# source: archive/_research/wayback/neurostudio.com/19990901122830/html/documentation/Keywords/Always.htm
+
+Always 
+
+ The Always condition is a condition that is always true,
+equivalent to IfHeard "*" Then . The Always condition
+is most useful in Sequence topics and
+ Otherwise conditions. Unlike other 
+condition keywords, the Always condition is not preceded by the
+keyword If or followed by the keyword Then .
+
+ Always conditions cannot be combined with other conditions
+using And or Or .
+
+ Example:
+
+// This topic might be used as the last topic in a script,
+// to handle questions that aren't handled anywhere else
+Default Topic "Last Topic" is
+ Always
+ Say "I'm sorry, I'm not sure I know what you mean";
+ Done
+EndTopic
+
+ See Also:
+
+ Overview of Conditions 
+
+ If 
+
+ Sequence Topics 
+
+ Otherwise

@@ -1,0 +1,103 @@
+# source: archive/_research/wayback/neurostudio.com/19990223222140/html/Splash.htm
+
+Neuromedia's Home Page for Neurostudio(tm) 
+
+ "We've found that client response to NeuroServer VSRs is fabulous, and the ease-of-use provided by
+ Neuromedia's VSR authoring tools let us concentrate on the subject matter rather than the technology." 
+
+ -- Rick Washburn, Managing Director, Executive Automation, Charles Schwab & Company
+
+ "Until we implemented [a solution with NeuroServer], our staff was
+ burdened with support calls and email from users with common questions, even
+ though we had a Frequently Asked Questions section on our Web site. The amount 
+ of questions that end up coming to our staff are now about 20% of what we had before."
+ -- Raj Khera, President, govcon.com 
+
+--> 
+ "I don't believe it. I have NO programming experience, 
+ and I have (my bot) on the web already. I only had part 
+ of the weekend to work on him ... he is working like a 
+ charm. AND I DIDNT NEED E-CERV!!! " 
+ -- William Orlowski, Florida, USA
+
+-->
+
+ NEUROSERVER: Customer Service Solutions for the Enterprise 
+
+ NeuroServer® is the enterprise solution for automating customer service both on the
+ web and in the call center. It allows your organization to develop and deploy V irtual S ervice 
+ R epresentatives (VSRs) that interactively converse with your customers and CSRs in 
+ real time by combining a natural language interface with your existing web content. 
+
+ NeuroServer VSRs are versatile - they can answer one-off FAQ-type questions , and they can also step the user through 
+ "flip book"-style procedures for problem solving. And like a real service reps, they have the flexibility to act in both
+ modes simultaneously.
+
+ NeuroServer VSR technology provides increased customer satisfaction by giving people what they're looking
+ for with no waiting. And because NeuroServer VSRs are fully autonomous, they facilitate labor savings that 
+ will provide your organization with positive ROI within months of your NeuroServer purchase . 
+
+ Most important of all, NeuroServer makes VSRs easy to develop by non-programmers . 
+ The content of your VSR is entirely under your control
+ without requiring outside consultants or software developers. The people your organization employs today - Level 2 
+ CSRs and CS Supervisors - train your VSR the same way they train people. That means your VSR can always be current with the latest 
+ up-to-the-minute information.
+
+ NeuroServer VSRs can "recall" information from external databases - each customer can have a unique personal
+ interaction based on previous purchases, trouble tickets, or personal preferences.
+
+ Go global - NeuroServer technology can be used in any language by incorporating foreign-language libraries available from
+ our 3rd-party partners.
+
+ Get started fast - NeuroServer comes with a complete working VSR, as well as hundreds of re-usable topics and scripts . All you need
+ to add is the information specific to your organization.
+
+ To experience a VSR for yourself, have a chat with Shallow Red , 
+ our own automated sales and marketing rep, in the frame
+ above!
+
+ For pricing and more information: 
+
+ Call 415.752.3793 
+ Email sales@neuromedia.com 
+ Want to see for yourself? Can't wait? You can get familiar with our technology by purchasing
+ our NeuroStudio evaluation system right here on line.
+
+ Talk to Shallow Red, Neuromedia's own virtual representative. -->
+
+ NeuroStudio is a full-featured system for stand-alone bot development and personal web sites. Want to
+ learn bot develoment? Make a demo for customers? This is the place to start!
+
+ Personal bot server with web server built in.
+ Integrated Development Environment and visual script editor with "why-did-you-say-that?" code navigation.
+ Teach your chatterbot how to respond without typing any code.
+ "Log analyzer" tools for testing and quality control let you create and alter content 
+ based on past converations.
+ Thorough documentation and detailed step-by-step tutorials.
+
+ You can purchase NeuroStudio and NeuroStudio PRO right here on-line! 
+
+-->
+
+ Questions? 
+ Talk to Shallow Red, Neuromedia's own virtual representative. 
+
+ Neuromedia, Inc
+
+ 298 4th Ave #400
+
+ San Francisco CA 94118
+
+ Voice: 415.752.3793
+
+ Fax: 415.386.0114 
+
+ E-mail: 
+
+ shallowred@neuromedia.com
+
+ [ HOME ] 
+ [ DEMOS ] 
+ [ BUY NEUROSTUDIO ] 
+ [ INFO ] 
+ [ TALK TO SHALLOW RED! ]

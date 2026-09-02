@@ -1,0 +1,465 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/NeuroScriptManual/Operators.htm
+
+NeuroScript Language Reference: Pattern-matching Operators 
+
+ [ Contents ]   
+ [ < Conditional Statements ]  
+ [ Keywords > ]  
+
+ Pattern-matching Operators
+
+ Pattern-matching operators allow you to create patterns that are flexible enough to match unpredictable punctuation, spacing, and wording in a user's input. They also allow you to match specific patterns of unknown input, such as a customer number.
+
+ Sections
+
+ Operators 
+
+ Matching Any Character 
+
+ Matching Any Word 
+
+ Matching Phrases 
+
+ Matching a Pattern-matching Operator 
+
+ Case-sensitive Matching 
+
+ Recalling Values Matched to Wildcard Operators 
+
+ Recalling the Matched Value from a List (*match) 
+
+ [ Return to Top ] 
+
+ Operators
+
+ The following are descriptions for each of the pattern-matching operators.
+
+ Apostrophe
+
+(')
+
+An apostrophe represents an optional apostrophe. Users often omit apostrophes, so it is important to create patterns that account for missing apostrophes. For example, the following conditional clause matches both "I don't know" and "I dont know":
+
+ IfHeard "I don't know" Then 
+
+ Asterisk
+
+(*)
+
+An asterisk is a wildcard operator that matches zero or more words, or punctuation. For example, the following conditional clause matches "virtualrobot", "virtual reality robots", "virtual/robot" and "virtual. The robot". Each word in the input pattern must match a user's input exactly, therefore, "virtualrobotic" and "virtuallyrobot" do not match:
+
+ IfHeard "virtual*robot" Then 
+
+ Caret
+
+(^)
+
+A caret is a wildcard operator that matches exactly one character that is not a space. For example, the following conditional clause matches "hello" and "heloo", but not "helllo".
+
+ IfHeard "hel^o" Then 
+
+ Comma
+
+(,)
+
+A comma matches zero or more spaces, and/or punctuation marks. It's particularly useful for detecting profanity, even if a user attempts to disguise it. For example, the following conditional clause matches when a user's input is "fudge", "f u d g e", or "f.u.d.g.e":
+
+ If ?WhatUserSaid Contains "f,u,d,g,e" Then 
+
+ Note: Conditional clauses used for filtering profanity should match input before the spelling checker runs. To do this, use the memory attribute ?WhatUserSaid instead of ?WhatUserMeant .
+
+ Number Sign
+
+(#)
+
+A number sign is a wildcard operator that matches any one character, multiple characters, or no character. By itself, it can match an entire word. Refer to the following sections form more information about using the number sign pattern-matching operator:
+
+ The Matching any Character section.
+
+ The Matching Any Word section.
+
+ Percent Sign
+
+(%)
+
+A percent sign is a wildcard operator that matches exactly one digit (0 - 9). For example, the following conditional clause matches any American seven-digit telephone number:
+
+ IfHeard "%%%-%%%%" Then
+
+ Period
+
+(.)
+
+A period matches one or more spaces, and/or punctuation marks. For example, the following conditional clause matches "part-time", "part time", and "part - time":
+
+ IfHeard "part.time" Then
+
+ Space Character
+
+( )
+
+A space character matches one or more spaces in a user's input. For example, the following conditional clause matches both "hello there" and "hello   there": 
+
+ IfHeard "hello there" Then
+
+ Note: For using space characters to match phrases, refer to the Matching Phrases section . 
+
+ [ Return to Top ] 
+
+ Matching Any Character 
+
+ A number sign (#) is a wildcard pattern-matching operator that can match any one character, multiple characters, or no character. 
+
+ When you combine the number sign operator with other characters in a word, or a part of a word, it can match one or more additional characters, resulting in a match with variations of that word. 
+
+ Be aware of the following when you use the number sign as a pattern-matching operator:
+
+ Some variations of words, such as the plural form, drop the letter "y" and add "ies", or make other changes to the root word. You can often compensate for this. For example, to match both the word "library" and the word "libraries", drop the letter "y" from the root word in the pattern, and use the following:
+
+ IfHeard "librar#" Then 
+
+ Some unintended words might match your pattern. For example, the input pattern in the first of the following conditional clauses not only matches "cat" and "cats", it also matches "cattle", "cathedral", and "caterer". If you only want the pattern to match "cat" and "cats", then the solution is to use both complete patterns, as in the second of the following conditional clauses: 
+
+ IfHeard "cat#" Then 
+
+ IfHeard "cat" , "cats" Then 
+
+ Note
+
+ By itself, the number sign operator can match any word . 
+
+ Examples
+
+ You can use the number sign at the beginning of a word, in the middle of a word, or by itself. For example, the input pattern in the following conditional clause matches "market", "markets", and "marketing", but not "remarket": 
+
+ IfHeard "market#" Then 
+
+ The following conditional clause is an example of the number sign at the beginning of a word. The input pattern "#ing" matches "reading", "marketing", "singing", and so on:
+
+ IfHeard "#ing" Then 
+
+ The following conditional clause is an example of the number sign in the middle of a word. The input pattern "r#t" matches any word that begins with the letter "r" and ends with the letter "t": 
+
+ IfHeard "r#t" Then 
+
+ [ Return to Top ] 
+
+ Matching Any Word 
+
+ A number sign (#) is a wildcard pattern-matching operator that can match any entire word.
+
+ Note
+
+ When combined with other characters in a word, or a part of a word, the number sign operator can match any character . 
+
+ Examples
+
+ You can use the number sign by itself to represent any word. For example, the input pattern in the following conditional clause matches any input of exactly one word: 
+
+ IfHeard "#" Then 
+
+ In the following conditional clause there is a space between the number signs (# #), and the input pattern matches input that contains exactly two words separated by one or more spaces: 
+
+ IfHeard "# #" Then 
+
+ To match more than one word, the number signs must have a space between them. The following conditional clause contains two number signs without a space between them, therefore, it matches exactly one word instead of two:
+
+ If ?WhatUserMeant Matches "##" Then 
+
+ [ Return to Top ] 
+
+ Matching Phrases
+
+ There are different ways to match phrases, depending on whether the phrase you want to match consists of two or more consecutive words, two or more words that may have other words or punctuation between them, or two or more words in any order.
+
+ Examples
+
+ To match a phrase consisting of two or more consecutive words, you only need to separate each word by a space character within the input pattern. The space character matches one or more consecutive spaces in a user's input. For example, the input pattern in the following conditional clause matches "virtual robot", "virtual robots", "virtual    robot", and "What is a virtual robot?", but does not match "Is this robot virtual?", "What are virtual robots?", "virtual reality robot" or "virtualrobot":
+
+ IfHeard "virtual robot#" Then 
+
+ To match a phrase that contains two or more words that may have other words or punctuation between them, use the asterisk (*) pattern-matching operator in the input pattern. The asterisk matches zero or more words. For example, the input pattern in the following example matches "virtual reality robots", "virtual/robot", and "virtual. The robot". Each word in the pattern must match exactly, (unless you also use the number sign (#) pattern-matching operator); therefore, "virtual robotic" and "virtually robot" do not match. 
+
+ IfHeard "virtual*robot" Then 
+
+ To match a phrase that contains two or more words in any order, use the keyword and between each word in the input pattern. Each word needs to be a string that is enclosed in quotation marks. For example, the input patterns in the following conditional clause match "I want a virtual robot", "What does a virtual robot want?", and "I want a robot that is virtual":
+
+ IfHeard "want" and "virtual" and "robot" Then 
+
+ The following table summarizes whether or not the pattern "X", as described in each instance, is true when tested against different user input:
+
+ User's Input: 
+
+Condition: IfHeard "X" 
+
+Where "X" represents:
+
+ Match? 
+
+ Are you a robot 
+ "robot" 
+ Yes 
+
+ Are you a robot? 
+ "robot" 
+ Yes 
+
+ You are a Robot. 
+ "robot" 
+ Yes 
+
+ Have you seen any robots? 
+ "robot" 
+ No 
+
+ Have you seen any robots? 
+ "robot#" 
+ Yes 
+
+ Are you a robot? 
+ "robot#" 
+ Yes 
+
+ Chat Site 
+ "chat# site#" 
+ Yes 
+
+ Chat Sites 
+ "chat# site#" 
+ Yes 
+
+ Chatter Sites 
+ "chat# site#" 
+ Yes 
+
+ Chat World Site 
+ "chat# site#" 
+ No 
+
+ Chat Site 
+ "chat#*site#" 
+ Yes 
+
+ Chat World Sites 
+ "chat#*site#" 
+ Yes 
+
+ Chat Web site 
+ "chat#*site#" 
+ Yes 
+
+ [ Return to Top ] 
+
+ Matching a Pattern-Matching Operator
+
+ To test for any of the pattern-matching operators in a user's input, place a back slash (\) in the input pattern immediately before that operator.
+
+ Examples
+
+ The following conditional clause matches the user's input "100%":
+
+ IfHeard "100\%" Then 
+
+ The following conditional clause matches the user's input "\":
+
+ IfHeard "\\" Then 
+
+ The following conditional clause matches a user's input such as, "$10.00" or "$99.99":
+
+ IfHeard "$%%\.%%" Then 
+
+ [ Return to Top ] 
+
+ Case-sensitive Matching
+
+ NeuroScript is ordinarily not case-sensitive, however, there are two different ways to create template patterns that are case-sensitive:
+
+ Type a back slash (\) immediately before the letter you want to match exactly. For example, the following conditional clause matches "May" or "MAY", but not "may":
+
+ IfHeard "\May" Then
+
+ The ExactlyMatches condition causes the vRep to disregard extra spaces at the beginning or end of a user's input, but otherwise requires an exact match between the pattern and a user's input. For example, the following conditional clause matches only "May":
+
+ If ?WhatUserMeant ExactlyMatches "May" Then 
+
+ Note
+
+ You cannot use pattern-matching operators in an ExactlyMatches condition. In an ExactlyMatches condition, the pattern-matching operators are treated as literal characters, not as pattern-matching operators.
+
+ [ Return to Top ] 
+
+ Recalling Values Matched to Wildcard Operators
+
+ The wildcard operators are the asterisk (*), the number sign (#), the caret (^), and the percent sign (%). In the same topic where you use one or more of these operators in an input pattern, you can use buffers to recall the value that each operator matches.
+
+ In the condition that recalls the value set to an operator, create a matching buffer by using the operator with a reference number appended to it. The reference number indicates whether you are recalling the first, second, or third instance (and so on) already matched by that operator.
+
+ The matching buffers that represent values matched by the number sign and the asterisk, such as #1, #2, and *1, and *2, match individual instances of the matched value.
+
+ The matching buffers that represent values matched by the caret and the percent sign, such as ^1, ^2, and %1 and %2, match a group of consecutive instances of the matched value.
+
+ A matching buffer that represents a value from input tested against more than one input pattern, or against a PatternList , represents only the first successful match.
+
+ Note
+
+ To avoid unpredictable results when you use matching buffers, you should use either the keyword Contains or the keyword Matches in the conditional clauses that contain the pattern-matching operators. 
+
+ Examples
+
+ The following script fragments are examples of how you can use wildcard operators, then recall the values they match in order to set them to a memory attribute, or to use them in a vRep's Say statement.
+
+ If the asterisk operator in the following conditional statement matches "Walter", then the vRep recalls the first value that the operator matches, and responds "Hello, Walter. How are you?" The command Remember causes the vRep to set the first value the operator matches (in this case it's "Walter") to the memory attribute ?Name :
+
+ // To avoid running the spelling checker on a user's name, 
+// this matches ?WhatUserSaid, not ?WhatUserMeant. 
+If ?WhatUserSaid Matches "My name is *" Then
+ Say "Hello, " + *1 + ". How are you?" ; 
+ Remember ?Name is *1 ; 
+Done 
+
+When a value is set to a memory attribute, space characters and punctuation are automatically stripped from the beginning and end of the value matched by the pattern-matching operator.
+
+ If the first number sign operator in the following conditional statement matches "Walter", and the second matches "Tackett", then the Remember command sets the first matched value to the memory attribute ?FirstName , and the second matched value to the memory attribute ?LastName . The vRep then responds "Hi, Walter. How are you?".
+
+ If ?WhatUserSaid Matches "My name is # #" Then
+ Remember ?FirstName is #1 ; 
+ Remember ?LastName is #2 ; 
+ Say "Hi, " + #1 + ". How are you?" ; 
+Done 
+
+ If the first number sign operator in the following conditional statement matches "talk", then the vRep recalls "talk" as the first value that operator matches, and then responds "The past tense of the word you typed might be talked":
+
+ // This is ridiculous for some user input, such as "thing", or "going". 
+If ?WhatUserSaid Matches "#ing" Then
+ Say "The past tense of the word you typed might be " + #1 + "ed" ; 
+Done 
+
+ The percent sign and caret wildcard operators are different from the others because they match groups of consecutive matches instead of individual matches. In the following conditional statement, there are three groups of percent sign wildcard operators. If the matching input is a standard United States telephone number, then the Remember command sets the first group of matches to the memory attribute ?AreaCode , and the second and third groups of matches, with a hyphen between them, are set to the memory attribute ?PhoneNumber :
+
+ // Note that a dash is included in the phone number. 
+If ?WhatUserSaid Contains "(%%%) %%%-%%%%" Then
+ Remember ?AreaCode is %1 ; 
+ Remember ?PhoneNumber is %2 + "-" + %3 ; 
+Done 
+
+ A complete Topic "Name Capture" is provided here as an example of how to use, and recall, values matched by wildcard operators in a topic. (Another example is available in the scripts for "Red.") This sets a user's input to memory attributes that represent the user's name, including the attribute ?Name , which represents something appropriate to call the user. The attributes set in the Topic "Name Capture" are described below the topic:
+
+ // This topic sets values to the attributes ?FirstName and ?LastName . 
+// The value set to the attribute ?Name is something appropriate to call a user. 
+Topic "Name Capture" is 
+ IfHeard "My name is *" , "Call me *" Then 
+ If *1 Matches "#" Then // This can only be a one-word name. 
+ Remember ?FirstName is #1 ; 
+ Remember ?Name is #1 ; 
+ Done 
+ If *1 Matches "# #" Then // This can only be a two-word name. 
+ If #1 Matches "Dr." , "Mr." , "Ms." , "Mrs." , "Miss" Then
+ Remember ?LastName is #2 ; 
+ Remember ?Name is *1 // The title and last name. ; 
+ Done 
+ Remember ?FirstName is #1 ; // If there is no title. 
+ Remember ?LastName is #2 ; 
+ Remember ?Name is ?FirstName ; 
+ Done 
+ If *1 Matches "# # #" Then // This can only be a three-word name. 
+ If #1 Matches "Dr." , "Mr." , "Ms.", "Mrs." , "Miss" Then
+ Remember ?FirstName is #2 ; 
+ Remember ?LastName is #3 ; 
+ Remember ?Name is ?FirstName ; 
+ Done 
+ Remember ?FirstName is #1 ; // Assume #2 represents a middle name. 
+ Remember ?LastName is #3 ; 
+ Remember ?Name is #1 ; 
+ Done
+EndTopic 
+
+A one-word name is set to both the attributes ?FirstName and ?Name .
+
+ The first word in a two-word name is checked for a title, and if a title matches the input, then nothing is set to the attribute ?FirstName , the second word is set to the attribute ?LastName , and both words (the title and the last name) are set to the attribute ?Name . 
+
+ If the first word in a two-word name does not match a title, then the first word is set to the attribute ?FirstName , the second word is set to the attribute ?LastName , and the value already set to the attribute ?FirstName is set to the attribute ?Name .
+
+ The first word in a three-word name is checked for a title, and if a title matches the input, then the second word is set to the attribute ?FirstName , the third word is set to the attribute ?LastName , and the attribute already set to the attribute ?FirstName is set to the attribute ?Name .
+
+ If the first word in a three-word name does not match a title, then the first word is set to the attribute ?FirstName , the second word is not set to any attribute, the third word is set to the attribute ?LastName , and the first word is set to the attribute ?Name .
+
+ The following table provides examples of input patterns that use wildcard operators, user input that matches the input patterns, and the values set to the wildcard operators *1, #1, and %1:
+
+ Input Pattern 
+ Matching User Input 
+ *1 Value 
+ #1 Value 
+ %1 Value 
+
+ "You*#vRep" 
+ You are a vRep. 
+ are 
+ a 
+ (no value) 
+
+ "You*#vRep" 
+ You are a sales
+ vRep. 
+ are a 
+ sales 
+ (no value) 
+
+ "You* #bot" 
+ I think you are a
+ chatterbot. 
+ are a
+
+ chatter 
+ (no value) 
+
+ "You* #bot" 
+ You are a robot. 
+ are a 
+ ro 
+ (no value) 
+
+ "$%%% *" 
+ You cost $500
+ dollars. 
+ dollars 
+ (no value) 
+ 500 
+
+ [ Return to Top ] 
+
+ Recalling the Matched Value from a List ( *match )
+
+ To recall the value that matches one of multiple patterns, or a single string in a PatternList , (with or without pattern-matching operators) use an asterisk (*) immediately preceding the word "match" ( *match ). 
+
+ Examples
+
+ This example includes both a PatternList and a conditional statement.
+
+ The PatternList FAMILYWORDS is the following:
+
+ PatternList FAMILYWORDS is "mother" , "father" , "sister" , "brother" ; 
+
+ The following conditional statement was inspired by the Eliza program. If a user's input contains one of the strings in the PatternList FAMILYWORDS, such as "father", then *match represents the word "father", and the vRep responds, "Please tell me more about your father":
+
+ IfHeard FAMILYWORDS Then 
+ Say "Please tell me more about your " + *match + "." ; 
+Done 
+
+ This example includes both a PatternList and a conditional statement. 
+
+ The PatternList STUPIDWORDS is the following:
+
+ PatternList STUPIDWORDS is "stupid" , "dumb" , "dull" , "dense" , "moronic" ; 
+
+ In the following conditional statement, if a user's input contains one of the strings in the PatternList STUPIDWORDS, such as "dumb", then *match represents the word "dumb", and the vRep responds, "Why are you calling me dumb?":
+
+ IfHeard "You are #" Then
+ If #1 Matches STUPIDWORDS Then
+ Say "Why are you calling me " + *match + "?" ; 
+ Done
+Continue 
+
+ [ Contents ]   
+ [ Return to Top ] 
+
+Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

@@ -1,0 +1,99 @@
+# source: archive/_research/wayback/neurostudio.com/19990224121526/html/documentation/Tutorial4.htm
+
+NeuroStudio Tutorial - Lesson Four
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+Lesson Four: The Spell Checker
+
+Now, go to the text entry line and say "helllo" to 
+Galatea. That is not a typo; misspell it 
+with three l's. Observe what occurs. The Gerbil 
+spelling checker changed the input to "hello". What actually
+happened is that the value of 
+ ?WhatUserMeant 
+was set to the corrected input, "hello". The value of
+ ?WhatUserSaid 
+remains "helllo".
+
+Note that Galatea's "hello" topic looked at 
+ ?WhatUserMeant (by using 
+ Heard ), 
+and discovered "Hello" and answered it. The 
+spell checking actually occurs in the 
+Standard Question Library using the 
+ CheckSpelling command.
+In this case, it saved Galatea from making a mistake. 
+
+Now, on the text entry line again, say "Who is Hermes?"
+to Galatea. Galatea doesn't know the answer to this question yet, 
+but look at what happens when the spelling checker sees this input. 
+It changes 
+"Hermes" to "here's". The name "Hermes", not surprisingly,
+is not included in the default vocabulary of 
+the spelling checker. There are several ways to fix this problem. 
+Go to the Topic Wizard (by selecting " T opic Wizard" from the
+" T ools" menu). Enter the questions
+
+who is Hermes?
+
+and 
+
+who was Hermes?
+
+the response 
+
+Hermes was the messenger god of the greeks. He was the patron of theives, liars, and lawyers. 
+
+and the Subject 
+
+HERMES
+
+The resulting topic looks like this:
+
+Topic "Who is Hermes?" is
+Subjects "HERMES";
+ If ?WhoQuestion Contains "Hermes" 
+ Then
+ Example "Who is Hermes?" ;
+ Say "Hermes was the messenger god of the greeks. He was the patron of theives, liars, and lawyers." ;
+ Done
+EndTopic
+
+Now compile Galatea again. This time, you will get a dialog box titled "Gerbil 
+Spell Checker". It will highlight the unfamiliar word, "Hermes", in the 
+ Example statement of the topic. Click on the " A dd word" 
+button (or press alt-a) 
+and it will then go on to complain that you didn't capitalize "Greeks" and 
+that you misspelled "thieves" by transposing "i" with 
+"e". For both of these, click on the " R eplace" button (or press alt-r)
+and NeuroStudio will finish compiling the bot. 
+
+Now, when you ask the bot, "who is Hermes", it will answer correctly.
+But the word "Hermes" itself can also be misspelled. If you ask 
+"Who is Hermees?" it will be corrected, but when you ask it "Who is 
+Herms", it won't know -- the spelling checker will change the unfamiliar 
+word "Herms" in this case into "hems". Since Galatea is not 
+intended to talk about clothes, this is probably a replacement that should be 
+changed. Enter the " B uild" menu in NeuroStudio and pick the 
+" P roject Vocabulary" option. This will display a dialog box that 
+allows you to edit the set of new words you've taught the bot. At this 
+moment, it will have just one word, "Hermes" in it. Click on 
+the button that says " A dd Misspelling/Replacement" and add the 
+"herms --> Hermes" change by entering "herms" as the 
+misspelling and "Hermes" as the replacement. 
+
+ Now click " D one" 
+and ask the bot "Who is herms" again. This time, the spelling 
+checker will change the utterance the way you wanted it to. 
+
+The vocabulary dialog box also has an " A dd word" button which 
+allows you to add new words to the project dictionary and a " R emove 
+word" button which takes them out again. If you had added "theives" 
+by accident, for example, you could use the " R emove word" button to remove it. 
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

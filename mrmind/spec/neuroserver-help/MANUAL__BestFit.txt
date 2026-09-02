@@ -1,0 +1,443 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/NeuroScriptManual/BestFit.htm
+
+NeuroScript Language Reference: Best-fit Matching 
+
+ [ Contents ]   
+ [ < The Spelling Checker ]   
+ [ Conditional Statements > ] 
+
+ Best-fit Matching
+
+Standard topics are executed differently than priority topics and default topics. NeuroServer checks user input against priority topics and default topics in the order in which the topics appear in the NeuroScript files. For standard topics, NeuroServer assumes that the user's input might match more than topic. It, therefore, checks all standard topics to obtain the set of topics that match the user's input. It then uses specificity , the auto-focus mechanism , and the focus of attention to determine the best-fit topic. This method automatically helps ensure that the correct topic runs in response to potentially ambiguous input.
+
+ Best-fit matching works best when you create topics that respond to only one question each.
+
+ To match potentially ambiguous input, it's usually better to rely on best-fit matching rather than on matching conditions, such as a condition that uses the combined keywords and not .
+
+ Sections
+
+ How Specificity is Determined 
+
+ Enhancing Specificity Values 
+
+ Changing Numeric Specificity Values 
+
+ Automatic Focus of Attention 
+
+ Subjects and Focus of Attention 
+
+ Commands 
+
+ Focused 
+
+ Focus 
+
+ DontFocus 
+
+ [ Return to Top ] 
+
+ How Specificity is Determined
+
+ A conditional statement with more words that match a user's input is generally more specific than a conditional statement with fewer matching words.
+
+ A conditional statement with matching words that appear infrequently in the vRep's Example statements (unusual words), is assigned greater specificity than a conditional statement that contains matching words that do appear frequently in the vRep's Example statements (common words).
+
+ Topics that are the current focus of attention have greater specificity than topics that are less recently the focus of attention.
+
+ Attributes in conditional clauses are automatically assigned the specificity index number "2000" unless you use the keyword Specificity to change it.
+
+ Note: If a conditional clause contains a list of possible matching words, then only the word or words that match a user's input determine specificity.
+
+ Examples
+
+ Refer to the following conditional statements for the examples below. Each is from a different topic:
+
+ From Topic "1":
+
+ IfHeard "what*vRep" Then 
+
+ From Topic "2":
+
+ IfHeard "what*vRep" and "good for" Then 
+
+ From Topic "3":
+
+ IfHeard "what*vRep" and "sales" Then 
+
+ From Topic "4":
+
+ IfHeard "what*vRep" and "sales" and "good for" Then 
+
+ These examples refer to the conditional statements above, and illustrate how best-fit matching uses specificity to run the correct topic when more than one topic contains a conditional statement that matches the current input:
+
+ If a user types "What is a sales vRep good for?" then:
+
+ All four conditions are true.
+
+ Only Topic "4" runs because it has the greatest specificity.
+
+ If a user types "What is a vRep good for?" then:
+
+ The conditions from Topics "1" and "2" are true.
+
+ Only Topic "2" runs because it has the greatest specificity.
+
+ If a user types "What is a sales vRep?" then:
+
+ The conditions from Topics "1" and "3" are true.
+
+ Only Topic "3" runs because it has the greatest specificity.
+
+ If a user types "What is a vRep?" then:
+
+ Only the condition from Topic "1" is true.
+
+ Only Topic "1" runs because it has the greatest specificity.
+
+ [ Return to Top ] 
+
+ Enhancing Specificity Values
+
+ Best-fit matching is automatic, but in some cases you may need to enhance a topic's specificity value by modifying its input patterns. This section illustrates how best-fit matching may run an incorrect topic, and how you can modify an input pattern to prevent such a problem.
+
+ The following Topics "Are You Complex?" and "Are You a vRep?" both match two different possible questions. One question activates the correct topic, and the other does not, as described below the topics:
+
+ The specificity value of this topic needs to be enhanced in order for it to run in response to "Are you a complex virtual robot?":
+
+ Topic "Are You Complex?" is
+ If Recall ?FactQuestion and Heard "you" and "complex" Then
+ Say "Yes, I'm pretty complex." ; 
+ Done
+EndTopic 
+
+ This topic runs in response to the question "Are you a complex virtual robot?" even though the Topic "Are You Complex?" provides a better response:
+
+ Topic "Are You a vRep?" is
+ If Recall ?FactQuestion and 
+ Heard "you" and ( "vRep" , "virtual robot" ) Then
+ Say "Yes, I am a vRep." ; 
+ Done
+EndTopic 
+
+ If a user's input is "Are you a complex vRep?" then both topics match. Assuming that this particular vRep has many topics that contain the word "vRep", then the Topic "Are You Complex?" runs because the word "complex" is more specific (occurs less often in the vRep's script files) than the word vRep".
+
+ If a user's input is "Are you a complex virtual robot?" then both topics match, but the wrong Topic "Are You a vRep?" runs because the words "virtual robot" are more specific than the word "complex".
+
+ The following are different ways to enhance the specificity value of a topic: 
+
+ Add longer strings to the input pattern or to a PatternList referred to in the input pattern. See the example below.
+
+ Use braces ({}) in the input pattern to surround optional patterns that don't need to match user input, but that increase the specificity value so that if an optional pattern is present, other topics that contain the same base pattern are less likely to run.
+
+ Examples
+
+ To increase the specificity value of the Topic "Are You Complex?" you can add "complex vRep" and "complex virtual robot" to the input pattern as follows:
+
+ Topic "Are you complex?" is
+ If Recall ?FactQuestion and 
+ Heard "you" and ( "complex" , "complex vRep" , "complex virtual robot" ) Then
+ Say "Yes, I'm pretty complex" ; 
+ Done
+EndTopic 
+
+ To increase the specificity value of the Topic "Are You Complex?" you can use braces ({}) in the input pattern to surround the optional patterns vRep" and "virtual robot" as follows:
+
+ Topic "Are you complex?" is
+ If Recall ?FactQuestion and 
+ Heard "you" and "complex" and { vRep" , "virtual robot" } Then
+ Say "Yes, I'm pretty complex" ; 
+ Done
+EndTopic 
+
+ [ Return to Top ] 
+
+ Changing Numeric Specificity Values
+
+ The specificity value is calculated and used by NeuroServer to indicate how closely a
+pattern in a topic matches the current input. When multiple standard topics match the user's input,
+NeuroServer executes the topic in that group whose pattern has the highest specificity score.
+
+ You can change the specificity of a topic by changing its conditional clause to include more, fewer, or different words. You also can assign numeric specificity values to attributes. The greater the numeric specificity value that's assigned to an attribute, the greater specificity it has.
+
+ The keyword Specificity assigns a numeric specificity value to an attribute. It's used only with the keyword Attribute . For the most part, the Specificity keyword is used only in the Standard Question Library and any customizations that you make of similar libraries.
+
+ [ Return to Top ] 
+
+ Automatic Focus of Attention
+
+ When more than one topic contains a matching condition and specificity alone cannot determine which topic is correct, best-fit matching uses automatic focus of attention to help select the correct topic. This is especially useful when a user asks an ambiguous question, such as "How old is he?" or "What is that?" In such a situation, the current focus of attention determines which of the matching topics runs in response. 
+
+ The most recently run standard topic becomes the focus of attention unless you specifically override automatic focus of attention by using a Focus command. 
+
+ Priority, default, and sequence topics cannot automatically become the focus of attention.
+
+ When a user first logs on, standard topics are ordered on the "attention stack" in the same order in which they appear in the script files. The "attention stack" changes as the conversation progresses. Each topic that runs becomes the top of the focused topics list, followed successively by the topics that ran before the active topic.
+
+ A vRep maintains a separate focus of attention for each user, which means that one concurrent conversation does not affect another.
+
+ If a user's input matches a conditional statement in more than one topic, the matching topic with the most recent focus of attention runs in response. The topic that runs, however, must be able to run a command statement, such as a Say or Do statement. A topic that contains a nested conditional statement might contain a conditional clause that matches a user's input, as well as other clauses that do not match. A topic with a nested conditional statement, such as the following, cannot run unless each required condition is met:
+
+ IfHeard "who" Then
+ IfHeard "Scott" Then 
+
+ Note: If specificity and automatic focus of attention are not enough to ensure that the correct topic runs in response to an ambiguous question, you can use the keyword Focused to control or override the automatic focus mechanism.
+
+ Examples
+
+ The keyword Done appears twice in the following topic, preventing the second Say statement from running until after a user asks "How old is Walter?":
+
+ Topic "Walter" is 
+ IfHeard "Who*Walter" Then
+ Say "Walter is the President of NativeMinds, Inc." ; 
+ Done
+ IfHeard "How*old*he" , "How*old*Walter" Then
+ Say "Walter is over 35." ; 
+ Done
+EndTopic 
+
+This format is not recommended. You should write topics that each respond to only one question, such as the topics "Who is Walter?" and "How Old is Walter?" in the Subjects and Focus of Attention section.
+
+ The keyword Done appears twice in the following topic, just as it does in the previous topic. The conditional clause that contains the input pattern "How*old*he" is identical to one of the conditional clauses in the previous example:
+
+ Topic "Scott" is
+ IfHeard "Who*Scott" Then
+ Say "Scott is the CTO at NativeMinds, Inc." ; 
+ Done
+ IfHeard "How*old*he" , "How*old*Scott" Then
+ Say "Scott is over 30." ; 
+ Done
+EndTopic 
+
+This format is not recommended. You should write topics that each respond to only one question, such as the topics "Who is Scott?" and "How Old is Scott?" in the Subjects and Focus of Attention section.
+
+ The following conversation might result when the topics "Walter" and "Scott" run. It demonstrates how focus of attention causes the correct topic to run each time a user asks "How old is he?": 
+
+ User said: Who is Scott?
+ vRep said: Scott is the CTO at NativeMinds, Inc.
+
+ User said: How old is he?
+ vRep said: Scott is over 30.
+
+ User said: Who is Walter?
+ vRep said: Walter is the President of NativeMinds, Inc.
+
+ User said: How old is he?
+ vRep said: Walter is over 35. 
+
+ [ Return to Top ] 
+
+ Subjects and Focus of Attention
+
+ Related topics can also be the focus of attention, even if they have not yet run. Topics are related if they have at least one Subject in common with a topic that has already run.
+
+ Examples
+
+ The format of these examples is recommended over the format in the Topic "Walter" and the Topic "Scott" , each of which use two conditional statements instead of just one. Together, the following Topics "Who is Walter?", "How Old is Walter?", "Who is Scott?", and "How Old is Scott?" can result in the same conversation as the Topics "Walter" and "Scott".
+
+ When the following topic runs, it becomes the primary focus of attention. Any other topic that contains the first subject "WALTER" becomes the focus of attention one step below it. Any other topic that contains the second subject "CAR" becomes the focus of attention two steps below it:
+
+ Topic "Walter's Car" is
+Subjects "WALTER" , "CAR" ; 
+ IfHeard "what*car*Walter*have" Then
+ Say "Walter has a Ford Explorer." ; 
+ Done
+EndTopic 
+
+ The following example differs from the Topic "Walter" in that it has a Subjects line, and it only has one conditional statement instead of two. This topic uses the recommended format, and only responds to the question "Who is Walter?":
+
+ Topic "Who is Walter?" is 
+Subjects "WALTER" ; 
+ IfHeard "Who*Walter" Then
+ Say "Walter is the President of NativeMinds, Inc." ; 
+ Done
+EndTopic 
+
+ The following example differs from the Topic "Walter" in that it has a Subjects line, and it only has one conditional statement instead of two. This topic uses the recommended format, and only responds to the question ""How old is Walter (he)?":
+
+ Topic "How Old is Walter?" is
+Subjects "WALTER" ; 
+ IfHeard "How*old*he" , "How*old*Walter" Then
+ Say "Walter is 35." ; 
+ Done
+EndTopic 
+
+ The following example differs from the Topic "Scott" in that it has a Subjects line, and it only has one conditional statement instead of two. This topic uses the recommended format, and only responds to the question "Who is Scott?":
+
+ Topic "Who is Scott?" is
+Subjects "SCOTT" ; 
+ IfHeard "Who*Scott" Then
+ Say "Scott is the CTO at NativeMinds, Inc." ; 
+ Done
+EndTopic 
+
+ The following example differs from the Topic "Scott" in that it also has a Subjects line, and it only has one conditional statement instead of two. This topic uses the recommended format, and only responds to the question ""How old is Scott (he)?":
+
+ Topic "How Old is Scott?" is
+Subjects "SCOTT" ; 
+ IfHeard "How*old*he" , "How*old*Scott" Then
+ Say "Scott is over 30." ; 
+ Done
+EndTopic 
+
+ [ Return to Top ] 
+
+ Keywords
+
+ Sometimes you may want to prevent a topic from becoming the focus of attention, or you may want the focus of attention to be one or more topics other than, or in addition to, the topic that just ran. 
+
+ [ Return to Top ] 
+
+ Focused
+
+ If you rely solely on automatic focus of attention, the wrong topic might run. For example, a vRep might make a mistake if the active focus of attention is the subject "SCOTT", and if there is also no topic that provides Scott's age. Suppose that the subject "WALTER" is also present, including a topic that contains a conditional statement that matches the question, "How old is he?" (meaning "How old is Walter?"). Unless the keyword Focused is used in the topic that provides Walter's age, if a user asks "How old is he?" (meaning "How old is Scott?"), the Topic "How Old is Walter?" runs instead.
+
+ Automatic focus of attention keeps track of which topics and subjects run during a conversation. By itself, focus of attention can't always be relied upon to help a vRep run the correct topic when a user's input is ambiguous. 
+
+NeuroServer also keeps track of the subject (or subjects) currently being
+discussed. The focused subjects are the subjects that were set by the most recently activated (executed) topic.
+
+Within a topic, you can set the subject using the Subjects keyword or the Focus Subjects keywords together, followed by the names of one or more subjects (see below .
+
+A topic can check the
+focused subjects by using the keyword Focused . Use the keyword Focused in a conditional statement to help further ensure that a vRep runs the correct topic. 
+ Focused returns TRUE if one of the topic's
+subjects (that is, one of the subjects set by the topic) matches one of the focused subjects. 
+
+ Examples
+
+ The following topics and the conversation they might generate illustrate how to use the keyword Focused to ensure that a vRep can correctly answer ambiguous questions.
+
+ If the current focus of attention is "NativeMinds", then the question "What is it?" activates the following topic:
+
+ Topic "What is NativeMinds?" is
+Subjects "NativeMinds" ; 
+ If ( Heard "what*NativeMinds" ) or
+ ( Focused and heard "what*it" , "what*that" ) 
+ Then
+ Example "What is NativeMinds?" ; 
+ Say "NativeMinds is a corporation that sells vRep authoring software." ; 
+ Done
+EndTopic 
+
+ If the current focus of attention is "NativeMinds", then the question "Where is it?" activates the following topic:
+
+ Topic "Where is NativeMinds?" is
+Subjects "NativeMinds" ; 
+ If ( Heard "where*NativeMinds" ) or
+ ( Focused and Heard "where" ) 
+ Then
+ Example "Where is NativeMinds" ; 
+ Say "NativeMinds is located in San Francisco." ; 
+ Done
+EndTopic 
+
+ If the current focus of attention is "NEUROSCRIPT", then the question "What is it?" activates the following topic:
+
+ // The command statement in this topic contains HTML code.
+ Topic "What is NeuroScript?" is
+Subjects "NEUROSCRIPT" ; 
+ If ( Heard "what*NeuroScript" ) or
+ ( Focused and Heard "what*it" ) 
+ Then
+ Example "What is NeuroScript" ; 
+ Say "NeuroScript is a vRep-scripting language." ; 
+ Done
+EndTopic 
+
+ If the current focus of attention is "NEUROSCRIPT", then the question "Is it easy?" activates the following topic:
+
+ // The command statement in this topic contains HTML code.
+ Topic "Is NeuroScript Easy?" is
+Subjects "NEUROSCRIPT" ; 
+ If ( Heard "is*NeuroScript*easy" ) or
+ ( Focused and ( Heard "is*it*easy" )) 
+ Then
+ Example "Is NeuroScript easy to use?" ; 
+ Say "Yes, NeuroScript is very easy to use." ; 
+ Done
+EndTopic 
+
+ If the current focus of attention is "NEUROSCRIPT", then the request "Give me an example" activates the following topic:
+
+ // The command statement in this topic contains HTML code, and a back slash (\) before each
+// quotation mark that you want the user to see. 
+ Topic "Give Me an Example of NeuroScript" is
+Subjects "NEUROSCRIPT" ; 
+ If ( Heard "example" and "NeuroScript" ) or
+ ( Focused and heard "example" ) 
+ Then
+ Example "Give me an example of NeuroScript" ; 
+ Say "Here's an example of a topic in NeuroScript:" ,
+ " Topic \"Hello World\" is" ,
+ " If Heard \"hello\" Then" ,
+ " Say \"Hi there!\"" ,
+ " Done" ,
+ " EndTopic" ; 
+ Done
+EndTopic 
+
+ No matter what the current focus of attention is, if there is no topic that matches a user's input, the following default topic activates:
+
+ Default Topic "I Don't Know" is
+ Always
+ Say "I don't know what you mean." ; 
+ Done
+EndTopic 
+
+ Because the Focused keyword is used in them, the previous examples might result in the following conversation (explanatory notes are in black text and enclosed in parentheses):
+
+ User said: What is NativeMinds?
+ vRep said: NativeMinds is a corporation that sells vRep authoring software.
+
+ User said: Where? 
+ vRep said: NativeMinds is located in San Francisco. 
+ (This question is ambiguous.)
+
+ User said: What is NeuroScript?
+ vRep said: NeuroScript is a vRep-scripting language.
+
+ User said: Where?
+ vRep said: I don't know what you mean.
+ (This question activates the Topic "Where is NativeMinds?" when the topic is the most 
+recent focus of attention. In this case, a default topic runs because the topic 
+"Where is NativeMinds?" is no longer the most recent focus of attention.)
+
+ User said: Is it easy? 
+ vRep said: Yes, NeuroScript is very easy to use. 
+ (This question is ambiguous. Also, because the default Topic "I Don't Know" 
+has no Subjects line, the subject NEUROSCRIPT is preserved as the 
+focus of attention.) 
+
+ User said: Give me an example.
+ vRep said: Here's an example of a NeuroScript topic:
+ vRep said: Topic "Hello World" is
+ vRep said: If Heard "hello" Then
+ vRep said: Say "Hi there!"
+ vRep said: Done
+ vRep said: EndTopic
+
+ User said: Where is NativeMinds?
+ vRep said: NativeMinds is located in San Francisco.
+
+ User said: What is it?
+ vRep said: NativeMinds is a corporation that sells vRep authoring software.
+
+ User said: Give me an example.
+ vRep said: I don't know what you mean. 
+
+ [ Return to Top ] 
+
+ Focus
+
+ You can use the Focus command to focus topics or subjects.
+
+ [ Return to Top ] 
+
+ DontFocus
+
+ You can use the DontFocus command to prevent a topic from becoming the focus of attention. 
+
+[ Contents ]   
+ [ Return to Top ] 
+
+Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

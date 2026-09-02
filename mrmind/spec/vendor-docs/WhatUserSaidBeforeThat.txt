@@ -1,0 +1,24 @@
+# source: archive/_research/wayback/neurostudio.com/19990901101023/html/documentation/Attributes/WhatUserSaidBeforeThat.htm
+
+?WhatUserSaidBeforeThat 
+
+ The ?WhatUserSaidBeforeThat attribute refers to the third-most recent text input
+from the user. It is the exact text typed in by the user, not modified
+by spell-checking or other operations. Most of the time you will wish
+to check ?WhatUserMeantBeforeThat 
+ instead
+of ?WhatUserSaidBeforeThat .
+ Logins and other "non-text" 
+actions by the user do not change ?WhatUserSaidBeforeThat .
+
+ See Also:
+
+ ?WhatUserSaid 
+
+ ?WhatUserSaidBefore 
+
+ ?WhatUserMeant 
+
+ ?WhatUserDid 
+
+ Summary of Attributes

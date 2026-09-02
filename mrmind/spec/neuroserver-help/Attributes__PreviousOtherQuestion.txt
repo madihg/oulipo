@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousOtherQuestion.htm
+
+NeuroScript Attributes: PreviousOtherQuestion
+
+ ?PreviousOtherQuestion
+
+ The ?PreviousOtherQuestion attribute is set whenever
+the ?OtherQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?OtherQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?OtherQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

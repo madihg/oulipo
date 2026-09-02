@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousAnyQuestion.htm
+
+NeuroScript Attributes: PreviousAnyQuestion 
+
+ ?PreviousAnyQuestion
+
+ The ?PreviousAnyQuestion attribute is set whenever
+the ?AnyQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?AnyQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?AnyQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

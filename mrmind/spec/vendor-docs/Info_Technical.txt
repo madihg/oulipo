@@ -1,0 +1,85 @@
+# source: archive/_research/wayback/neurostudio.com/19990222011546/html/Info_Technical.htm
+
+NeuroStudio Technical Information 
+
+ NeuroStudio TM Technical Information 
+
+ System Requirements 
+
+ Software 
+
+ Windows 95 or higher OR 
+
+ Windows NT 4.0 or higher (i386 architecture only) 
+
+ Web Server that supports standard CGI (BGI only; not 
+necessarily needed if you create your own adapter to the bot server) 
+
+ Hardware 
+
+ INTEL PENTIUM 100MHz or higher 
+
+ 200MHz or higher recommended for serving 
+
+ 32Mb or Greater (Windows 95-98) 
+
+ 64Mb or Greater (Windows NT 4.0 Workstation) 
+
+ 128Mb or Greater (Windows NT 4.0 Server) 
+
+ TCP/IP Web connection 
+
+ Internet Connectivity
+
+ NeuroStudio comes with portable 
+source code for 'BGI' (Bot Gateway Interface), a CGI-based web interface that 
+can work with most systems and can be used to derive your own non-CGI solution.
+
+ BGI C source code is designed to be portable to any server hardware/software*
+
+ BGI uses TCP/IP streams to communicate with Bot server: web server
+software and bot server software do not need to reside on the same host. 
+
+ BGI has been thoroughly tested against Netscape FastTrack, 
+MS IIS, and MS PWS under Windows NT and 95 OS. 
+
+ Count on between 512b and 1Kb of data between the web
+server and bot server for each 2-way user transaction. 
+
+ * NOTE: As time goes on, 
+Neuromedia will port BGI to all reasonable systems. If such a port is not 
+currently available we will help you port and debug BGI for your make of 
+server software, hardware, and operating system, provided they are 
+"popular" - e.g., IBM, DEC, Sun, SGI, Intel, Netscape, Microsoft, 
+Apache, Linux, HP. This will not be charged as support incidents 
+provided that the work is placed in the public domain (as is the rest of BGI).
+
+ BGI Connectivity Details 
+
+ NeuroStudio includes BGI 
+(Bot Gateway Interface) C source code for Internet connectivity - 
+full C source code for CGI connection to NeuroServer lets you get 
+your bot on the web immediately regardless of your web-server 
+hardware and software. It can be easily modified to adapt any 
+Internet (or other) application to the bot server. Using this 
+code as an example, any experienced web developer can quickly 
+create an adapter for your favorite Java, VRML, or Middleware 
+front end.
+
+ BGI is written using NeuroServer Bot 
+Connector API (BCAPI), an API for connecting to and communicating 
+with NeuroServer via NeuroServer Bot Protocol. Other connectors 
+for persistent server-side solutions such as NSAPI and WAI have 
+been developed as well using BCAPI. BCAPI forms an easy-to-use basis 
+for your own connectivity solutions.
+
+ BCAPI in turn uses Bot Connector Protocol 
+(BCP) to communicate with NeuroServer. If you need access at a lower 
+level than BCAPI, you can implement your own connectors using our 
+TCP-streams-based protocol.
+
+[ HOME ] 
+[ DEMOS ] 
+[ BUY NEUROSTUDIO ] 
+[ INFO ] 
+[ TALK TO SHALLOW RED! ]

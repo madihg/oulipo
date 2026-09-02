@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousTimeQuestion.htm
+
+NeuroScript Attributes: PreviousTimeQuestion
+
+ ?PreviousTimeQuestion
+
+ The ?PreviousTimeQuestion attribute is set whenever
+the ?TimeQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?TimeQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?TimeQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

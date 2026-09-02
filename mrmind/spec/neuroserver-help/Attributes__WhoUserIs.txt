@@ -1,0 +1,15 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/WhoUserIs.htm
+
+NeuroScript Attributes: WhoUserIs 
+
+ ?WhoUserIs
+
+ The ?WhoUserIs attribute is set by NeuroServer so that it can
+recognize user utterances as belonging to a particular user even if running
+without cookies.
+
+ Note: Running without cookies is not recommended.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

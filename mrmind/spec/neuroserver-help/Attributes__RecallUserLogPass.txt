@@ -1,0 +1,16 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/RecallUserLogPass.htm
+
+NeuroScript Attributes: RecallUserLogPass 
+
+ ?RecallUser.LogPass
+
+ This memory attribute is set to the password of the recalled user account
+ when the command RetrieveAccountInfo is used.
+
+ See Also
+
+ RetrieveAccountInfo 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

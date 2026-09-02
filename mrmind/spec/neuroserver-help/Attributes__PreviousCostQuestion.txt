@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousCostQuestion.htm
+
+NeuroScript Attributes: PreviousCostQuestion 
+
+ ?PreviousCostQuestion
+
+ The ?PreviousCostQuestion attribute is set whenever
+the ?CostQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?CostQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?CostQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

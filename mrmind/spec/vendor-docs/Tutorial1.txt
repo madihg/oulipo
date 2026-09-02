@@ -1,0 +1,120 @@
+# source: archive/_research/wayback/neurostudio.com/19990224074248/html/documentation/Tutorial1.htm
+
+NeuroStudio Tutorial - Lesson One
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+ Lesson One: Files and Projects 
+
+Start Neurostudio. If there are any child windows open in the application 
+window, then close them. It will most likely start with the Shallow Red 
+project open.
+
+The first step in creating the bot is to create a "project file" for the
+bot. This file will eventually contain all the information relevant to the
+bot you are creating. In order to create the project file, select " N ew"
+from the " F ile" option on the menu bar. (Alternatively, you can use the
+toolbar item that looks like a little button with an icon 
+of a blank piece of paper on it.) NeuroStudio will now display a 
+dialog box that asks whether you want to create a 
+"New Gerbil Source File" or a "New Bot Project".
+Select "New Bot Project", either by doubleclicking on it, or by 
+clicking first on it and then on the "OK" button.
+
+NeuroStudio will now display a dialog that asks you to name your project.
+
+Note that this is in the same folder as the Shallow Red project. Since you 
+really want each bot to have its own folder, you should click on the "Parent folder" 
+button (the little folder with an arrow pointing up, immediately to the right of the name 
+of the present folder) and then the "new folder" button immediately to the right of that 
+to create a new folder. The name "New folder" will be highlighted, so you can type 
+a name for the new folder. Type "Galatea", but do not hit return. 
+
+Now, click on the folder icon next to the new folder to open it, then highlight 
+the project name again. The screen should look like this:
+
+Finally, type "Galatea.bot." Press "Enter" or click the "OK" button.
+Once you have done this, it should ask you whether you want to add the file 
+"StdQuestion.us.g" to the project. This file contains both the
+ Standard Question Library 
+that helps analyze questions answered by users, and the 
+ Standard Statement library 
+that helps analyze statements made by users. Assuming that 
+you are writing your bot in English, you probably want to include 
+this file, so click the "Yes" button. (The Standard Question Library 
+will be covered in Lesson Three .) 
+
+Neurostudio will now ask you to confirm changes to Galatea.bot, 
+and when you answer yes, it will compile for the first time.
+
+You should now have two windows on your screen; 
+The first window is titled "Project Organizer" and includes 
+a list of all the files that make up the bot. The second window 
+includes ".bot" in the title and contains a gray output subwindow and, below it, 
+a white input subwindow. This window is called the session output window .
+
+Now, select " N ew" from the " F ile" option on the menu bar again.
+This time, select "New Gerbil Source File". A window will now appear
+labeled "BotSource1.g". This window is where you will be creating your
+Gerbil scripts. It functions as an ordinary text-editing window. 
+
+The next step is to type something into the gerbil source code 
+window. This simple topic will get you started. (Note that the text-editing
+window will automatically color the text appropriately. "Strings", surrounded
+by quotes, appear in red.)
+
+Topic "Hello" is 
+SUBJECTS "Greeting" ;
+ If Heard "hello" 
+ Then 
+ Example "hello" ;
+ Say "hello" ;
+ Done
+EndTopic
+
+Okay, now save the file. You can save files in any of four 
+ways: You can pick the " S ave" option or the "Save A s" 
+option off the " F ile menu, or press Control-s, or simply 
+click the little 'X' box (the close box) in the upper right corner of the 
+"BotSource1.g" window and answer 'yes' when NeuroStudio asks if 
+you want to save the file. 
+
+Now you should get a dialog box asking where and under 
+what file name you want to save it. Name it "Galatea.g" and 
+save it in the galatea directory which you created earlier. 
+Note: You will always get this dialog box if you save 
+using the "Save A s" option from the " F ile" menu. 
+Using the other three save methods, you will only get it if, like this time, 
+you have just created this file and it doesn't have a file name 
+yet. 
+
+You should now get a dialog box asking if you want to add 
+Galatea.g to the Galatea Project. Select "Yes."
+
+If you ever want to add files to a project that aren't files you've 
+just created in this way, you can add them from the Project 
+Organizer Window. Go to the Project Organizer window, pick the 
+Project view, and hit the "insert" key. You should get a windows 
+dialog box asking what file you want to add to the project. 
+
+Now you need to build the bot. Go to the " B uild" menu and 
+pick the " B uild" option -- or just press control-B. If you 
+have an error message, then doubleclick on the error message. 
+Neurostudio will open the file galatea.g and put the cursor 
+on the line containing the last symbol it read before 
+encountering the error. The most common error with a hand-
+written topic like this is that you may have forgotten a 
+semicolon at the end of a line that needed one. So, you 
+can fix the error and build again. 
+
+You should now have a very simple bot running. Go to the 
+session output window and click on the text entry box,
+which is the white one-line box at the bottom of it. 
+Type the word, "hello". Galatea should respond by saying 
+hello back to you. Congratulations! 
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

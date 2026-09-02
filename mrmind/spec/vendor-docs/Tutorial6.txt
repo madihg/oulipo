@@ -1,0 +1,109 @@
+# source: archive/_research/wayback/neurostudio.com/19990224155739/html/documentation/Tutorial6.htm
+
+NeuroStudio Tutorial - Lesson Six
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+Lesson Six: Putting your bot on the web
+
+Before you put Galatea on to the web, she needs to be able to respond
+when users first connect to her. When a user logs into the web page to
+talk to Galatea, they will expect to see a greeting, such as "Hello,
+I'm Galatea." At this point, the user has not actually said anything,
+so none of the topics that have been added to Galatea so far will do this.
+
+When a user connects to Galatea for the first time, 
+they have performed an "action" rather than made a "statement". Actions are handled by 
+ Scenarios rather than 
+ Topics .
+
+In order to make Galatea welcome visitors to the web page,
+create a new file, name it "Web.Gal.g", and add it to your project.
+For best results, put it right after the Stdquestion file and before galatea.g.
+
+Into it, paste the following. Most of these topics are based on topics
+found in StdGreeting.g in Shallow Red, modified for Galatea. 
+
+// This scenario will handle users who connect over the web.
+Priority Scenario "Login over Web" is
+ If ?WhatUserDid Contains "Web ACCEPT CONNECTION" Then
+ IfRecall ?HostName Then
+ SayToConsole "User logged in from " + ?HostName + ", IP address " + ?IPAddress;
+ Continue
+ Otherwise Always
+ SayToConsole "User logged in from IP address " + ?IPAddress + " (no hostname found)";
+ Continue
+ SayToConsole "HTTP_FROM = " + ?HTTP_FROM;
+ SayToConsole "HTTP_HOST = " + ?HTTP_HOST;
+ SayToConsole "HTTP_REFERRER = " + ?HTTP_REFERRER; //as correctly spelled -- rarely used.
+ SayToConsole "HTTP_REFERER = " + ?HTTP_REFERER; //as in the spec -- rarely used.
+ SayToConsole "REMOTE_HOST = " + ?REMOTE_HOST;
+ SayToConsole "REMOTE_ADDR = " + ?REMOTE_ADDR;
+ SayToConsole "SCRIPT_NAME = " + ?SCRIPT_NAME;
+ SayToConsole "SERVER_NAME = " + ?SERVER_NAME;
+ SayToConsole "DOCUMENT_ROOT = " + ?DOCUMENT_ROOT;
+ Suppress "Login from Console"; 
+ SwitchTo "Robot Greeting";
+ Done
+EndScenario
+
+// This scenario will handle users who reconnect to the web page after
+// leaving it.
+Priority Scenario "ReConnect" is
+ If ?WhatUserDid Contains "Web RECONNECT" Then
+ SayOneOf "Hello again.",// " + ?Name + ".",
+ "Hi again. What can I do for you?",
+ "So, what can I help you with now?" ;
+ Done
+EndScenario
+
+// This topic will handle the case where the user starts talking to the
+// bot from the session window within NeuroStudio. This case must be
+// handled separately since there is no web connection message.
+Priority Topic "Login from Console" is
+ Always
+ Suppress This;
+ SwitchTo "Robot Greeting";
+ Done
+EndTopic
+
+Sequence Topic "Robot Greeting" is
+ Always
+ InitialExample 1 "Hi"; 
+ Do "SETNAME Galatea";
+ Say " Hello. I'm Galatea. ";
+ Done
+EndTopic
+
+The above topics include a number of new GeRBiL keywords, including
+ ?WhatUserDid , 
+ Suppress , 
+ SwitchTo ,
+ Sequence topics ,
+ Do ,
+and InitialExample .
+None of these keywords are needed for ordinary bot scripting. You can 
+safely include the above topics in "Web.Gal.g" and forget about them.
+
+Now that your bot is ready for the web, you will need to serve it. The preferred method for putting your bot on the web is through the use of the NeuroStudio Integrated HTTP Server (NIHS). Under certain conditions, you may need to use BGI as a connectivity method instead. 
+
+ Quick-Start: Putting a Bot on the Web Using NeuroStudio Integrated HTTP Server ( preferred )
+
+ Quick-Start: Putting a Bot on the Web Using BGI ( only use this if NIHS doesn't work )
+
+ You may also want to change the colors, fonts, and layout of your bot-enabled web pages to match the look and feel of your web site. The methods for doing this are different, depending on whether you use NIHS or BGI. NIHS is far more flexible than BGI in this regard. The following documents show you how to quickly get started configuring your bot pages to match your site.
+
+ Quick-Start: Controlling the "Look" of Bot Pages Using NeuroStudio Integrated HTTP Server 
+
+ Changing Colors and Fonts of BGI Bot Pages Using BGI.inf 
+
+At this point, if you haven't run into unanticipated configuration difficulties, 
+your bot is on the web. Congratulations. You may have made this move a bit 
+prematurely; as a general rule, a bot should have hundred or more topics before 
+it goes live. 
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

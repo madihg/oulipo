@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousCanQuestion.htm
+
+NeuroScript Attributes: PreviousCanQuestion 
+
+ ?PreviousCanQuestion
+
+ The ?PreviousCanQuestion attribute is set whenever
+the ?CanQuestion attribute was set on the previous user utterance.
+It is set to the same thing that the ?CanQuestion was set to on the
+previous user utterance.
+
+ See Also
+
+ ?CanQuestion 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

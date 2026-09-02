@@ -1,0 +1,37 @@
+# source: archive/_research/wayback/neurostudio.com/19990901141145/html/documentation/Keywords/Done.htm
+
+Done 
+
+ The Done keyword appears at the end of a condition, and is
+used to stop processing of the current input. 
+When a Done keyword is reached, execution of the bot script ceases until
+another input is received from the user. (There is an exception if an
+ InterruptSequence command has 
+been executed.) Most commonly, any condition that includes
+an action taken by the robot (such as Say or Do ) is ended with a 
+ Done keyword, so that the robot does not answer a question more than once.
+
+ Example:
+
+Topic "Greeting" is
+ IfHeard "Hello" Then
+ Say "Hello", "How are you?";
+ SayOneOf "I'm OK myself", "My bits are a little off today";
+ // Once the robot says the above phrases, the script is exited until the
+ // user says something else.
+ Done
+EndTopic
+
+ See Also:
+
+ Overview of Conditions 
+
+ Continue 
+
+ NextTopic 
+
+ NextScenario 
+
+ SwitchBack 
+
+ TryAgain

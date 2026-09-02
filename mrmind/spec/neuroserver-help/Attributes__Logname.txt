@@ -1,0 +1,21 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/Logname.htm
+
+NeuroScript Attributes: Logname 
+
+ ?Logname
+
+?Logname is set to the name given as the user's login name when the user attempts to
+log in. It is not the same as ?User.Logname.
+
+ See Also
+
+ ?User.Logname 
+
+ [ Summary of Attributes ] 
+
+ 4(�!H�
+1ML�
+=AeI%!P��4(�@�
+1ML�
+=AeI%!P��
+���ɥ��Ѐ���������䰀�������9�ѥٕ5���̰�%�������ɥ���́ɕ͕�ٕ���@�4(� =d�4(�!Q50�

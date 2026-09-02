@@ -1,0 +1,44 @@
+# source: archive/_research/wayback/neurostudio.com/19990901144143/html/documentation/Keywords/Matches.htm
+
+Matches 
+
+ The Matches keyword is used in pattern matching conditions.
+In its most basic form, the keyword If is followed by an input,
+most commonly ?WhatUserSaid or ?WhatUserMeant , then the keyword
+ Matches , and one or more patterns to be tested, separated by commas.
+The condition is true if at least one of the patterns is "equivalent" to the
+user input, except possibly for extra punctuation. In general, Matches 
+functions similarly to Contains except 
+that input with Matches may not contain extra words. 
+For instance, the test 
+
+If ?WhatUserMeant Matches "How are you"]
+
+would match "How are you?" but not "How are you doing?".
+
+ See the GeRBiL language manual for complete
+documentation on pattern matching.
+
+ Example:
+
+// This condition just looks for the single word "What", i.e. 
+// "What", "What?", "What!?", etc. It will not match longer
+// input such as "What are you?".
+If ?WhatUserMeant Matches "What" Then
+ Say "I'm sorry; I'm not sure what you mean.";
+ Say "Could you be more specific?";
+Done
+
+ See Also:
+
+ Overview of Conditions 
+
+ Overview of Pattern Matching 
+
+ If 
+
+ DoesNotMatch 
+
+ Contains 
+
+ ExactlyMatches

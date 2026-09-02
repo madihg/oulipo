@@ -1,0 +1,14 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Plugins/PITOC.htm
+
+NeuroServer Plug-in Documentation 
+
+ NeuroServer Plug-in Documentation
+
+ NativeMinds offers a variety of plug-ins for NeuroServer. The HTTP plug-in is provided with the base NeuroServer product. Other plug-ins are sold, 
+packaged, and documented separately. This table of contents lists the plug-ins that are currently 
+available and links to their documentation (if installed).
+
+ Using the HTTP Plug-in 
+ Using the ODBC Plug-in 
+
+Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

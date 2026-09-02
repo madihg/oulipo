@@ -1,0 +1,26 @@
+# source: archive/_research/wayback/neurostudio.com/19990225074705/html/scott.htm
+
+Scott Page 
+
+ Scott Benson, Ph.D.
+
+ Executive Vice President and CTO
+
+Scott Benson was awarded the Ph.D. in Computer Science 
+from Stanford University in 1996, where he worked with 
+ Nils Nilsson 's
+"BOTS" research group on Machine Learning 
+and Intelligent Agents.
+His dissertation is titled "Learning Action Models for
+Reactive Autonomous Agents." He received the B.S. degree in 
+Computer Science from Cornell University in 1991.
+ Scott joined Neuromedia in 1995, working on various
+consulting projects with Walter Tackett , and became a 
+co-founder of Neuromedia's product-focused venture upon
+its incorporation in 1996. 
+
+[ HOME ] 
+[ DEMOS ] 
+[ BUY NEUROSTUDIO ] 
+[ INFO ] 
+[ TALK TO SHALLOW RED! ]

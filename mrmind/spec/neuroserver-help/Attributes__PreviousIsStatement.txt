@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/PreviousIsStatement.htm
+
+NeuroScript Attributes: PreviousIsStatement 
+
+ ?PreviousIsStatement
+
+ The ?PreviousIsStatement attribute is set whenever
+the ?IsStatement attribute was set on the previous user utterance.
+It is set to the same thing that the ?IsStatement was set to on the
+previous user utterance.
+
+ See Also
+
+ ?IsStatement 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

@@ -1,0 +1,15 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/HttpScriptName.htm
+
+NeuroScript Attributes: HttpScriptName 
+
+ ?HTTP_SCRIPT_NAME
+
+ ?HTTP_SCRIPT_NAME is provided as a part of NeuroServer's HTTP connection.
+It is imported by the same mechanism that imports all other HTTP variables.
+
+This attribute will not have a value in normal configurations of NeuroServer, because there
+is no CGI script associated with the user's interactions.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

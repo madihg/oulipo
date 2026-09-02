@@ -1,0 +1,125 @@
+# source: archive/_research/wayback/neurostudio.com/19990221203038/html/Info_FAQ.htm
+
+Product FAQ Sheet 
+
+ Some Common Questions And Answers 
+
+ Am I going to have to hire high-priced consultants, C++ or Java 
+programmers to build and maintain this thing?
+
+ No. NeuroStudio is easy to learn, allowing Virtual 
+Representatives to be created by writers and/or web content developers . 
+Our Gerbil TM language technology (patent pending) reduces 
+programming skill requirements and thereby helps to hold down the up-front 
+costs of Virtual Representative development. However, if you want to 
+farm the work out, we have consulting staff available, or we can connect you
+with third-party contractors. We can also provide training services.
+
+ How much time and resources are required to make a 
+Virtual Representative?
+
+ First off, a developer doesn�t have to start "from scratch." 
+NeuroStudio includes all the scripts for "Shallow Red," Neuromedia�s own 
+Virtual Representative. Shallow Red handles many 
+different kinds of questions, statements, and queries in over a thousand different 
+topic areas � an excellent starting point for almost any bot. 
+
+Assuming a chatterbot author who is computer literate but not 
+necessarily a programmer, here are some general guidelines for estimating 
+development time. Expect a week or two of reading documentation and experimenting 
+with sample code to become proficient. After that, expect 10 to 20 
+"topics" can be developed and tested per working day, including time that will 
+eventually be put into refining the topics (the topic is the basic unit of 
+Gerbil code). For example we have found that when converting Frequently Asked 
+Question lists (FAQs), each question+answer pair usually consists of about 3 
+topics since the questions are "loaded." So a FAQ with 100 questions requires 
+about 300 topics to encode, which in turn is 15 to 30 working days. Because 
+Gerbil is modular, the calendar time can be reduced using multiple authors.
+
+ Can Virtual Representatives access data in existing databases and other resources?
+
+ Yes, NeuroServer can communicate through your 
+existing middleware or via custom scripting methods such as CGI. 
+A simple example is demonstrated by Shallow Red: when a user asks for 
+information on a topic not known to Red, the key words from their question 
+are reformatted and sent as a query to the Alta Vista search engine.
+
+ Does this require some kind of special plug-in, 
+or something that my users will have to download?
+
+ No special software is required for a Web client 
+to talk to Neuromedia�s Virtual Representative. All the "smarts" of Neuromedia 
+bots are contained in the host (i.e., the server), so that bots appear to 
+end-users strictly as Web content. The client user does not need to 
+purchase or download special browsers or plug-ins. If you want to create 
+special clients, however, NeuroStudio comes with an API to help you do it! 
+
+ What if I need to develop for a language other than English?
+
+ Neuromedia�s Gerbil language technology can be 
+used for any language, not just English . Because Gerbil is based 
+on text patterns, rather than grammar, it is not tied to any language. 
+It can be used with European languages "as is," and can support non-ASCII 
+character sets for Asian and Middle Eastern languages with minor modifications.
+
+ Why is Gerbil a proprietary language?
+
+ When Neuromedia started, the first thing we realized 
+was that above all else Virtual Reps had to be easy for non-programmers to create. 
+The second thing we realized was that all existing computer-scripting 
+languages were written by and for computer programmers. So we had to 
+develop a new language, Gerbil (and we used only non-programmers as our 
+testers!). The third thing we realized was that we needed to solve some 
+very tough Artificial Intelligence problems in a way that was hidden from 
+the script author. We came up with some very good solutions, and the 
+patentable ideas they embody form key components of Gerbil.
+
+ Does your software run on Unix / Linux / Mac / NT3.x ?
+
+ NeuroServer is designed to integrate easily with all 
+platforms, although the NeuroServer software itself runs only on Win32 
+(e.g., NT4, Win95). For example, our own web site is run by a Sun Sparc4 
+machine using Solaris and Apache, while all the bots that appear on 
+those pages are served from a separate NT box. For any significant 
+application, it is probably best to have a separate NeuroServer 
+machine the same way you usually have a separate database server. 
+
+ Some Macs emulate Windows95 well enough to run NeuroStudio. 
+
+ Obviously, bots aren�t a solution to all problems. 
+What happens when the situation calls for intervention from a real person?
+
+ Your Virtual Representative can be scripted to summon 
+a live representative when special "hot button" topics are brought up, 
+allowing your skilled professional staff to use chatterbots as intelligent 
+assistants, screening and routing incoming inquiries.
+
+ I read that your system can handle 1,000,000 questions 
+a day on a high-end machine. What if I need to handle more than that?
+
+ NeuroServer is scaleable. The technology is 
+designed so that a single Virtual Representative can be mirrored across 
+multiple host machines, allowing an arbitrary number of simultaneous users.
+
+ I would like to OEM this capability into my company�s 
+product, rather than using it over the web. Can you package the server as 
+a component or plug-in?
+
+ Neuromedia�s "Runtime Engine" can be embedded into 
+database products, web-servers, games, and non-Web applications . 
+Please call to discuss licensing.
+
+ Can content and other assets for a Virtual 
+Representative be re-used across applications?
+
+ The Gerbil authoring language is highly "modular." 
+When you make a Virtual Representative for one application, much of 
+the work done and materials created can be transferred to other related 
+applications. As a matter of fact we include several pre-built modules 
+with NeuroStudio, which encompass the functions common to most chatterbots.
+
+[ HOME ] 
+[ DEMOS ] 
+[ BUY NEUROSTUDIO ] 
+[ INFO ] 
+[ TALK TO SHALLOW RED! ]

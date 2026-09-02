@@ -1,0 +1,52 @@
+# source: archive/_research/wayback/neurostudio.com/19990221212812/html/Info_Marketing.htm
+
+Why NeuroStudio? 
+
+ Why NeuroStudio TM ? 
+
+ Virtual Representatives are easy to create -- 
+finally! Chatterbot technology has been around in its early forms since 
+the 60�s � but until now you needed a Ph.D. or equivalent skill to create 
+one. NeuroStudio and NeuroServer hide the sophisticated 
+technical features "under the hood" so that writers, marketers, 
+and web developers can develop a bot by themselves -- they can 
+ focus on the content , rather than on tough programming problems. 
+
+ Our key products are the NEUROSTUDIO TM 
+Authoring System and NEUROSERVER TM for deployment of Virtual 
+Representatives. Together they provide high added value and ROI to any 
+Web, Internet, Intranet, or other interactive medium where rich two-way 
+communication is needed. These products provide ease of access and ease 
+of use by bridging the gap between reading a static text page and having 
+an on-line conversation with a real person. 
+
+ NeuroStudio enables Virtual Representatives to 
+improve with experience (like all good employees!). NeuroStudio 
+and NeuroServer provide an environment that enables continuous 
+improvement and testing. Chatterbot authors can efficiently and 
+effectively update their bot �scripts� in real-time, using transcripts 
+of what users are saying and doing as the raw material for new scripts.
+
+ Neuromedia's technology is compatible with the 
+systems that end-users already have: unlike many Internet 
+technologies (e.g., RealAudio, Shockwave, ActiveX, VRML) there is no 
+"plug-in" or accessory required in order to make a Virtual Representative 
+connect with the end-user. There is no dependency on whether they run 
+PC, Mac, or UNIX. Web developers (and others) can now add a new and 
+unique dimension to interactive content without requiring their audience 
+to add any new hardware or software. 
+
+ NeuroServer makes Virtual Representatives a 
+market research bonanza for your web site. NeuroServer can 
+provide anonymous log files of user conversations and interactions: 
+you can keep an exact track of what customers are saying to your 
+Virtual Representative, and what questions they are asking. 
+NeuroServer comes bundled with a "Log Analyzer Tool" that can quickly 
+summarize and analyze the subject areas and special comments from your 
+users, even if you have thousands of visitors a day. 
+
+[ HOME ] 
+[ DEMOS ] 
+[ BUY NEUROSTUDIO ] 
+[ INFO ] 
+[ TALK TO SHALLOW RED! ]

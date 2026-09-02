@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/WantStatement.htm
+
+NeuroScript Attributes: WantStatement 
+
+ ?WantStatement
+
+ The ?WantStatement attribute is a statement that someone
+wants, needs, or desires something.
+
+ Examples
+
+"Uncle Sam needs you."
+"The barn needs a new coat of paint."
+"I want a bot of my very own."
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

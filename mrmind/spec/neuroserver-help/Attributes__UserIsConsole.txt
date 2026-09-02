@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/UserIsConsole.htm
+
+NeuroScript Attributes: UserIsConsole 
+
+ ?UserIsConsole
+
+ The ?UserIsConsole attribute is "TRUE" if the user is
+logged in from the NeuroServer console. If the user is 
+logged in over the web or some other interface, the ?UserIsConsole 
+attribute has no value.
+
+This attribute is primarily useful for debugging purposes; it
+is also useful in applications where the console user has
+special privileges.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

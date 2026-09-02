@@ -300,3 +300,38 @@ Kept from the branches: `engine/src/spellcheck.js` (off by default),
 `node engine/test/all.mjs` — `node --test engine/test` mis-resolves on Node
 25; use `node --test engine/test/*.test.mjs`. Next: the site, then the email
 to Peggy.
+
+## Session State (2026-09-02, end)
+
+**Status: shipped to a PR, waiting on Halim to merge.**
+
+- Branch `mrmind-revival`, PR https://github.com/madihg/oulipo/pull/67, four
+  commits: the revival, the root-absolute path fix, the fidelity pass, and the
+  README/page copy correction.
+- `https://www.oulipo.xyz/mrmind` is **404 until that PR merges**. The verified
+  working URL is the Vercel preview on the PR.
+- Preview checked with Playwright at both `/mrmind` and `/mrmind/`, holding a
+  real conversation, zero console errors and zero failed requests. Both forms
+  matter: Vercel serves the folder at each and relative paths break at the
+  first, which is why every path in `index.html` is root-absolute. Do not
+  reintroduce a relative path.
+- `node engine/test/all.mjs` green, six files.
+
+**The correction that closed the session.** The fidelity pass changed no
+runtime behaviour, and an earlier commit message and PR body wrongly claimed it
+landed "best-fit selection corrections" moving the default rate 36.97% ->
+25.05%. False on both counts: `git diff f3364061 HEAD -- engine/src/` touches
+only `spellcheck.js` (new, disabled), `loader.js` and `index.js`, and 25.05%
+was already the shipped number. The commit was amended and force-pushed and the
+PR body rewritten. `README.md` and `index.html` had also gone out still leading
+their deviation lists with the spell checker, which the pass retracted; both now
+lead with the measured largest cause, a different Standard topic winning
+best-fit (1438 turns, 35.14% of misses).
+
+**Next, all needing Halim:**
+1. Merge the PR, then send the email (draft delivered, sign-off bare "Halim",
+   54/90 body words). Do not send before the merge: the email carries the
+   production URL.
+2. Not started and deliberately out of scope: the written credit/use
+   understanding Peggy asked for, sending her the seven Singulars rubrics, and
+   pointing the two domains from her Network Solutions account.

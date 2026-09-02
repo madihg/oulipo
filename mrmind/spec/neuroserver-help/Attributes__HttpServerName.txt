@@ -1,0 +1,14 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/HttpServerName.htm
+
+NeuroScript Attributes: HttpServerName 
+
+ ?HTTP_SERVER_NAME
+
+ ?HTTP_SERVER_NAME is provided as a part of NeuroServer's HTTP connection.
+It is imported by the same mechanism that imports all other HTTP variables.
+
+By default, it is set to the numeric IP address of the machine that is running NeuroServer.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

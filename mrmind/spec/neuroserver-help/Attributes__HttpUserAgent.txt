@@ -1,0 +1,15 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/HttpUserAgent.htm
+
+NeuroScript Attributes: HttpUserAgent 
+
+ ?HTTP_USER_AGENT
+
+ ?HTTP_USER_AGENT is provided as a part of NeuroServer's HTTP connection.
+It is a reference to a standard HTTP variable, imported in the same way that
+all HTTP variables are imported.
+
+This variable is set to the name of the browser the user is using.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

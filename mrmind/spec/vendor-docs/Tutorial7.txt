@@ -1,0 +1,56 @@
+# source: archive/_research/wayback/neurostudio.com/19990224163956/html/documentation/Tutorial7.htm
+
+NeuroStudio Tutorial - Lesson Seven
+
+ [Table of contents] 
+ [To Previous Lesson] 
+
+Lesson Seven: The Log Analyzer
+
+After Galatea has a few conversations, you will notice 
+First, your cgitmp directory will be getting cluttered up with 
+bits of old conversations. You'll need to delete these occasionally, or 
+set up a shell script (batch file) to do it for you. We've found that 
+these need to exist so people with MicroSoft Internet Explorer will see 
+their conversations normally. Apparently IE doesn't handle displaying CGI 
+forms which are returned from other forms inside frames correctly; it needs 
+an actual file reference, or it just changes the contents of the frame back 
+to whatever it originally held after a couple of seconds. Netscape browsers, 
+on the other hand, seem to handle this in full accordance with the spec. 
+But whatever; after one of these is a few seconds old and the browser's 
+seen it, there's no reason to keep it around. 
+
+Second, there will be --> that there is a file in the Galatea directory called 
+Galatea.log, which is getting longer and longer. That file is extremely 
+important. It is the log of conversations your bot is having. Make a copy 
+of that file. Save it as Galatea1.log. Select the " A nalyze Log File"
+option from the " A nalyzer" menu in
+NeuroStudio and open Galatea1.log. You scan 
+through these conversations using the " N ext" and " P revious"
+buttons, and whenever you see a response you want to fix, double-click on 
+the statement/response pair, write a comment to remind yourself what you 
+wanted to fix, and go on. when you're done, save the result as 
+galatea1.comment.log. You can work from the comment logs instead of the 
+actual logfiles when you're working on Galatea; this makes it faster and 
+easier to find the next error you need to work on.
+
+ Where To Go Next
+
+There are many other references available as you begin working with Neurostudio.
+Before creating your first original bot, you should read the 
+ tips on creating a bot . The 
+ NeuroStudio reference manual describes all
+of the features of NeuroStudio in detail, including those introduced in this
+tutorial. The Gerbil language manual explains
+the features of the Gerbil Language. There are also reference sections
+which cover every command and
+ every predefined memory attribute 
+within Gerbil, the Standard Statement library , 
+and the Standard Question library . Finally, if 
+you are having difficulty connecting your bot to the web, the 
+ BGI manual describes the BGI connection
+system in greater detail.
+
+ Table of contents 
+
+ <<< To Previous Lesson

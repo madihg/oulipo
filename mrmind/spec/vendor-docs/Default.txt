@@ -1,0 +1,36 @@
+# source: archive/_research/wayback/neurostudio.com/19990901132215/html/documentation/Keywords/Default.htm
+
+Default 
+
+ The Default keyword is placed in front of a topic or scenario
+definition to indicate that the topic or scenario should be executed
+after all of the other types of topics or scenarios. Default topics, 
+as the name suggests, are useful for things like having default responses 
+that are used whenever the user makes a statement that is not handled by any
+other topic.
+
+ Default topics and scenarios are executed in the order in which they appear in
+the bot script, after all other topics or scenarios. They do not have to be
+placed at the end of the input files.
+
+ Example:
+
+// This topic might be used as the last topic in a script,
+// to handle questions that aren't handled anywhere else
+Default Topic "Last Topic" is
+ Always
+ Say "I'm sorry, I'm not sure I know what you mean";
+ Done
+EndTopic
+
+ See Also:
+
+ Overview of Categories 
+
+ Topic 
+
+ Scenario 
+
+ Priority 
+
+ Sequence

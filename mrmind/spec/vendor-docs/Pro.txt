@@ -1,0 +1,87 @@
+# source: archive/_research/wayback/neurostudio.com/19990222162019/html/Pro.htm
+
+Neuromedia's Order Page for NeuroStudio Pro(TM) 
+
+ NeuroStudio Pro TM 
+
+NEUROSTUDIO PRO TM 
+offers high-capacity service with a complete chatterbot 
+development environment. Integrated bot authoring system and server 
+allow easy creation, testing, and quality control. Ideal for 
+medium-traffic sites. Includes documentation, tutorial, script 
+libraries, diagnostics, conversation log analyzer, and full scripts for 
+our own "Shallow Red" SalesBot! 
+
+ PURCHASE NEUROSTUDIO PRO $995.00 - Order Now! 
+
+ FEATURES - What you get when you buy NeuroStudio Pro
+
+ COMPARISON - How NeuroStudio Pro compares with Standard Edition and Enterprise Server.
+
+ FAQs - Frequently Asked Questions about creating bot projects with NeuroStudio Pro
+
+ TECH DETAILS - Information about resource use, connectivity, interoperability
+
+ DEMO PAGE - Talk to a bot, or browse through our tutorial materials
+
+ NeuroStudio PRO TM features: 
+
+ High-capacity Bot Server lets your bot host up 
+to 10 simultaneous
+individual 'conversations' with visitors to your web site. 
+
+ The Artificial Intelligence is 'under the hood' 
+- no Ph.D. required! 
+The Gerbil compiler and runtime AI engine perform the difficult
+chores behind the scenes so you don't have to program them. 
+
+ Neuromedia�s GeRBiL (General Robot Building Language) 
+technology can be used for any language, not just English. Because Gerbil is 
+not dependent on English grammar, it can be used with a wide range of
+languages "as is." 8-bit character sets are supported. 
+
+ Information is organized in a common-sense way: 
+topics, answers, things to say and do, and patterns to respond to
+are organized the way you think. 
+
+ Script-browsing editor- jump between the
+definitions of related topics, patterns, and answers via 
+point-and-click. 
+
+ "Why did you say that?" navigation- when your
+bot produces an unusual result, you can instantly find out why with 
+a click of the mouse. 
+
+ Standard libraries for recognizing the most
+common kinds of questions and statements are already written for you- 
+just include them in your bot. More are becoming available from
+Neuromedia all the time - watch for announcements on our site 
+(Or write your own libraries and sell them to third parties!) 
+
+ Evaluation tools help locate problems in 
+scripts and ensure that changes made to scripts will not cause new 
+problems.
+
+ Spell-checking at compile time AND runtime-
+check your content for spelling errors, and build a dictionary that 
+corrects users' spelling at runtime, too. 
+
+ Full working bot included - all the Gerbil 
+source files to Shallow Red, who responds to over a thousand topic 
+areas, are included along with documentation. 
+
+ Intelligent script compiler provides error
+messages that mean something, and helpful style tips, too. 
+
+ Test tools let you check how your bot 
+responds to thousands of inputs with the click of a button. 
+
+ Log analyzer - browse user inputs, and use them 
+
+to create new topics in your bot, or improve old ones, quickly and
+easily. You can even store them for later testing. 
+
+ PURCHASE NEUROSTUDIO PRO $995.00 - Order Now! 
+
+ [ NeuroStudio ] [ NeuroStudio Pro ] [ NeuroStudio Enterprise Server ]
+ [ HOME ] [ DEMOS ] [ BUY NEUROSTUDIO ] [ INFO ] [ TALK TO SHALLOW RED! ]

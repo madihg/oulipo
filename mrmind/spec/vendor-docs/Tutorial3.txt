@@ -1,0 +1,188 @@
+# source: archive/_research/wayback/neurostudio.com/19990224111201/html/documentation/Tutorial3.htm
+
+NeuroStudio Tutorial - Lesson Three
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+Lesson Three: The StandardQuestion Library and the Topic Wizard
+
+NeuroStudio comes with a Gerbil script known as "StdQuestion.us.g", which
+you have already included in Galatea, although it has not been used so far.
+StdQuestion.us.g is a "library" that helps to understand questions and statements 
+in English. It decides which of several general semantic classes a user utterance 
+ falls into. There is a 
+ Standard Question Reference Manual that
+contains further information about the Standard Question library and a 
+ Standard Statement Reference Manual that 
+contains further information about the Standard Statement library.
+
+The StdQuestion files are specific to English, and (somewhat) to US english; 
+that's why there's a country code in the names of the files. If you 
+write StandardQuestion Libraries that work in other languages, you can 
+use NeuroStudio with any language. 
+
+The StdQuestion.us.g file has already been added to your project. 
+However, for convenience and clarity, some of the files you've created
+ought to be moved around in the Project Organizer window. 
+First, select the file "patterns.gal.g" with the mouse. Then drag it to 
+the top of the list. This is a good place for the pattern file, because 
+it's one of the files that you'll need to edit most frequently. Next, 
+select the file "defaults.gal.g" and drag it down to the very bottom. 
+It's always the last thing evaluated, so it's easy to remember to look 
+for it at the bottom of the list. Now take the file "galatea.g" and 
+move it down below the StdQuestion.us.g file -- since the StdQuestion 
+file is processed first, the order of files in the Project Organizer reflect
+the order in which the files are used.
+
+Now open the file galatea.g again. Notice that when the topmost window is 
+a text window (like Galatea.g) there is a T ools menu available. If 
+the topmost window is the Galatea.bot window, then the T ools menu 
+is unavailable but there is a C onnection window instead. 
+
+From the T ools window, pick the Topic Wizard. You can 
+invoke the Topic Wizard in either of two ways: You can go to the " T ools" 
+menu and pick the " T opic Wizard" option, or you can just hit control-T. 
+
+The Topic Wizard will ask you several questions. The first of them is 
+what question you intend to answer with this topic. Enter "who are
+you?" in response to this. There's a box provided for other ways of 
+asking the question; in this box, put "Who is Galatea?" and "what's 
+your name?" Note that you shouldn't use the quotation marks; just the 
+sentences. Hit the N ext button to go on. 
+
+The second question the topic Wizard asks is what answers you want to 
+give one of when someone asks this question. Enter "I am Galatea", "I'm 
+Galatea, the tutorial bot for NeuroStudio.", and "My name is Galatea. I'm 
+a bot." 
+
+The last question the topic wizard will ask is what subjects did your 
+answer bring up. Enter the word "ME", because the question and the 
+answer were about the bot -- after this question is asked and answered, 
+the current topic will be Galatea herself. Be sure the new topic, "ME", 
+shows in the window on the right before you click F inish or hit 
+Return. 
+
+Now, click the "Finish" button. The following topic should appear within 
+the Galatea.g file.
+
+Topic "Who are you?" is 
+SUBJECTS "ME" ;
+ If (?WhoQuestion Contains "you" , "Galatea" )
+ or (?DescriptionQuestion Contains "your name" )
+ Then
+ Example "Who are you?" ;
+ SayOneOf "I am Galatea" , 
+ "I'm Galatea, the tutorial bot for NeuroStudio and BotMaker." ,
+ "My name is Galatea. I'm a bot." ;
+ Done
+EndTopic
+
+OtherExamples of "Who are you?" are 
+ "Who is Galatea?" ,
+ "What's your name?" ; 
+
+The Topic Wizard is there to save some of the tedium of typing 
+gerbil scripts and to make sure you get your commas and semicolons right 
+without having to think about it. But it doesn't do a terribly good job of 
+making recognition patterns yet. It will recognize your example statements, 
+and will recognize some other ways of asking the same question, 
+but it won't take advantage of PatternLists or other features. 
+You will need to edit the code between If and 
+ Then to put a more general pattern into this topic. Replace it 
+with these lines: 
+
+ If ?WhoQuestion contains YOU 
+ or ?DescriptionQuestion contains YOUR + "name" 
+ Then
+
+Now, you probably noticed that we used two more PatternLists -- 
+YOU and YOUR -- that we haven't defined yet. So let's 
+go define them. In the Patterns.gal.g file, enter the following 
+PatternLists.
+
+ //YOU: Various ways for people to refer to Galatea herself.
+//"u" is a fairly common way of saying "you" on the net. 
+PatternList YOU is "you","Galatea","this bot","u","y,all","yourself" ;
+
+ //YOUR: this is actually several different grammatical entities, but 
+//people tend to blur the distinctions between them. 
+PatternList YOUR is "You,r","you are","You,re" ;
+
+Okay. Now build the bot again. Experiment with it a little. You'll find 
+that Galatea now knows how to answer when someone asks "who are you" 
+or "what's your name?", or "who is Galatea?", and many other phrasings of
+the basic question. Note that with 
+ SayOneOf , Galatea never repeats the
+same thing she said most recently. But, when you ask these new questions
+several times, notice that sometimes she says:
+
+I am Galatea
+
+and there's no period at the end of the sentence. You can fix this easily. 
+Just doubleclick on the line she said, in the session output window, and the source 
+file containing the Say or SayOneOf statement that was executed to put 
+the line there will open, with the cursor at the line. Then you can edit 
+the line (in this case just inserting a period in it) and rebuild the bot. 
+
+By the way, if you get tired of typing "who are you?" waiting for this 
+response to come up, one shortcut is just to doubleclick on one of the lines 
+in the conversation window where you've said it before. This has the 
+effect of repeating what you said on that line to the bot.
+
+One of the things you may want to do now that you have StdQuestion 
+linked into your bot is to try various questions on it and see which 
+question attributes StandardQuestion sets, and to what values. From the 
+" D ebug" menu, pick the " C heck Attribute Values" option, 
+and a dialog box with a text entry window will appear. 
+Type any question in that box, and lines will appear in the bot project window that 
+say what registered attributes are set by that question, and what 
+values they're set to. Here are some to try: 
+
+who are you?
+where are you?
+what is your name?
+Is the President bald?
+do you know your name?
+what are you? 
+How do you do that?
+tell me about yourself.
+
+Notice something about "tell me about yourself". Although
+it's not really a question grammatically, StandardQuestion has 
+identified it as both an ?AnyQuestion and a ?DescriptionQuestion.
+This is because StandardQuestion classifies things by the 
+intent of the speaker rather than the grammatical form, and this 
+is the sort of statement that ought to be responded to as if it 
+were a question. 
+
+StdQuestion also classifies Statements. Here are some statements 
+to try on it. 
+
+I'm a vegetarian.
+I like bananas.
+Give me a hand.
+Life is strange.
+We painted the barn red.
+She loves him.
+
+It is important to realize two things: First, StdQuestion 
+is occasionally wrong. When a topic is failing to match and 
+you don't know why, it is always good to try the "Check Attribute Values"
+dialog on it and see what gets set. If it's not what you expected, then 
+you may have found your problem. Usually, you can fix it by editing 
+your Gerbil script and leaving StdQuestion strictly alone.
+
+But second, StdQuestion is a Gerbil script and you have 
+the source code for it. If you want to create a version of 
+StdQuestion for a different language, or a version of 
+StdQuestion that recognizes a particular idiom that the 
+"standard" version does not, you can do so. But if you do, 
+be sure to keep an original copy of StdQuestion.us.g that you 
+can use for other bots, and to have just in case the modified version 
+doesn't work.
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

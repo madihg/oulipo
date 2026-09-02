@@ -1,0 +1,33 @@
+# source: archive/_research/wayback/neurostudio.com/19981206182406/html/documentation/Tutorial.htm
+
+An Introduction to Bot-Building using NeuroStudio
+
+ An Introduction to Bot-Building Using NeuroStudio
+
+This tutorial is a step-by-step tutorial in the use of Neurostudio and 
+bot building. It introduces the major features of NeuroStudio and,
+at the same time, build the framework of a simple, conversational bot. 
+
+This tutorial assumes that you have already installed Neurostudio and 
+have entered a valid registration key upon starting it for the first time. If
+you have not, then do so before proceeding.
+
+ Table of Contents:
+
+ Lesson Zero: Before You Begin 
+
+ Lesson One: Files and Projects 
+
+ Lesson Two: PatternLists and Defaults 
+
+ Lesson Three: The StandardQuestion Library and the Topic Wizard 
+
+ Lesson Four: The Spell Checker 
+
+ Lesson Five: Automated Testing 
+
+ Lesson Six: Putting your Bot on the Web 
+
+ Lesson Seven: The Log Analyzer 
+
+ Where To Go Next

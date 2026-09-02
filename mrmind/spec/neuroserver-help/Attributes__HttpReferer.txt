@@ -1,0 +1,21 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/HttpReferer.htm
+
+NeuroScript Attributes: HttpReferer 
+
+ ?HTTP_REFERER
+
+ ?HTTP_REFERER is provided as a part of NeuroServer's HTTP connection.
+It is a reference to a standard HTTP variable, imported in the same way that
+all HTTP variables are imported.
+
+This variable is set to the URL that the user was last browsing before
+coming to the vRep.
+
+ [ Summary of Attributes ] 
+
+ 4(�!H�
+1ML�
+=AeI%!P��4(�@�
+1ML�
+=AeI%!P��
+���ɥ��Ѐ���������䰀�������9�ѥٕ5���̰�%�������ɥ���́ɕ͕�ٕ���@�4(� =d�4(�!Q50�

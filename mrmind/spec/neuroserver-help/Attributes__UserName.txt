@@ -1,0 +1,16 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/UserName.htm
+
+NeuroScript Attributes: UserName 
+
+ ?UserName
+
+ The ?UserName attribute is the system name assigned to a particular
+user. It is usually "WEBUSER" (followed by a number) or "CONSOLE".
+
+ See Also
+
+ ?Name 
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

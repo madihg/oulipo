@@ -6,3 +6,9 @@
 
 # private files (CV, personal data)
 .private/
+
+# mrmind: raw archive Peggy Weil shared (her copyright, contains user logs) - never commit
+mrmind/archive/
+mrmind/_work/
+mrmind/corpus/
+mrmind/spec/G-all-say-strings.tsv

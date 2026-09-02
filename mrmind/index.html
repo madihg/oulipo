@@ -1,0 +1,700 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MR MIND — The Blurring Test</title>
+    <meta
+      name="description"
+      content="Peggy Weil's chatbot MR MIND, online 1998 to 2014, running again from its original NeuroScript source. A reprise, not a modern chatbot."
+    />
+    <link rel="icon" href="assets/Logo.jpg" />
+    <meta property="og:title" content="MR MIND — The Blurring Test" />
+    <meta
+      property="og:description"
+      content="Turning the Turing Test upside down. Peggy Weil's 1998 chatbot, running again from its original source."
+    />
+    <meta property="og:image" content="assets/mrmind.png" />
+    <style>
+      :root {
+        --cyan: #33ccff;
+        --mint: #99ffcc;
+        --bot: #ccffff;
+        --red: #ff0033;
+        --grey: #999999;
+        --rule: #333333;
+        --ink: #cccccc;
+        --stack: verdana, arial, helvetica, sans-serif;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: #000;
+      }
+      body {
+        margin: 0;
+        background: #000;
+        color: var(--ink);
+        font-family: var(--stack);
+        font-size: 15px;
+        line-height: 1.65;
+        -webkit-text-size-adjust: 100%;
+      }
+      a {
+        color: var(--cyan);
+        text-decoration: none;
+        border-bottom: 1px solid rgba(51, 204, 255, 0.35);
+      }
+      a:hover {
+        color: var(--mint);
+        border-bottom-color: var(--mint);
+      }
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible {
+        outline: 2px solid var(--mint);
+        outline-offset: 2px;
+      }
+      .wrap {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 0 22px;
+      }
+      .skip {
+        position: absolute;
+        left: -9999px;
+      }
+      .skip:focus {
+        left: 12px;
+        top: 12px;
+        position: fixed;
+        z-index: 20;
+        background: #000;
+        padding: 8px 12px;
+        border: 1px solid var(--mint);
+      }
+
+      /* ---------- masthead ---------- */
+      header {
+        padding: 54px 0 30px;
+      }
+      h1 {
+        font-size: 30px;
+        line-height: 1.1;
+        font-weight: bold;
+        color: var(--mint);
+        margin: 0 0 4px;
+        letter-spacing: 0.01em;
+      }
+      .sub {
+        font-size: 14px;
+        color: var(--cyan);
+        margin: 0;
+      }
+      .dates {
+        font-size: 12px;
+        color: var(--grey);
+        margin: 10px 0 0;
+      }
+
+      /* ---------- framing ---------- */
+      .frame {
+        border-top: 1px solid var(--rule);
+        border-bottom: 1px solid var(--rule);
+        padding: 26px 0 28px;
+        margin: 8px 0 0;
+      }
+      .years {
+        display: flex;
+        gap: 34px;
+        flex-wrap: wrap;
+        margin: 0 0 16px;
+      }
+      .years div {
+        font-size: 14px;
+      }
+      .years b {
+        color: var(--cyan);
+        font-weight: bold;
+      }
+      .years span {
+        color: var(--mint);
+      }
+      .frame p {
+        margin: 0 0 12px;
+        max-width: 62ch;
+      }
+      .frame p:last-child {
+        margin-bottom: 0;
+      }
+      .attrib {
+        font-size: 12px;
+        color: var(--grey);
+        margin-top: 16px !important;
+      }
+
+      /* ---------- the reprise note ---------- */
+      .note {
+        padding: 26px 0 30px;
+        border-bottom: 1px solid var(--rule);
+      }
+      .note h2,
+      .colophon h2 {
+        font-size: 12px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--red);
+        margin: 0 0 12px;
+        font-weight: bold;
+      }
+      .note p {
+        margin: 0 0 12px;
+        max-width: 62ch;
+      }
+      .note p:last-child {
+        margin-bottom: 0;
+      }
+
+      /* ---------- the bot ---------- */
+      .bot {
+        padding: 34px 0 10px;
+      }
+      .minds {
+        display: grid;
+        grid-template-columns: 280px 310px;
+        gap: 10px;
+        justify-content: center;
+        margin: 0 0 6px;
+      }
+      .mind {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+      .mind .label {
+        margin-top: auto;
+      }
+      .mind img {
+        display: block;
+        width: 100%;
+        height: auto;
+        image-rendering: auto;
+      }
+      .label {
+        font-size: 14px;
+        font-weight: bold;
+        margin-top: 6px;
+      }
+      .label.you {
+        color: var(--mint);
+      }
+      .label.mm {
+        color: var(--cyan);
+        text-align: right;
+      }
+
+      #transcript {
+        margin: 22px auto 0;
+        max-width: 620px;
+        border-top: 1px solid var(--rule);
+        padding-top: 18px;
+        min-height: 96px;
+      }
+      .turn {
+        margin: 0 0 14px;
+      }
+      .turn:last-child {
+        margin-bottom: 0;
+      }
+      .said {
+        color: var(--mint);
+        font-size: 13px;
+        margin: 0 0 3px;
+      }
+      .said b {
+        color: var(--grey);
+        font-weight: normal;
+        letter-spacing: 0.1em;
+        font-size: 11px;
+        text-transform: uppercase;
+        display: block;
+      }
+      .mindtext {
+        color: var(--bot);
+        font-weight: bold;
+        font-size: 15px;
+        margin: 0;
+        white-space: pre-wrap;
+      }
+      .mindtext + .mindtext {
+        margin-top: 6px;
+      }
+
+      form.ask {
+        margin: 24px auto 0;
+        max-width: 620px;
+        display: flex;
+        gap: 10px;
+        align-items: flex-end;
+        flex-wrap: wrap;
+      }
+      .askfield {
+        flex: 1 1 300px;
+      }
+      label.reply {
+        display: block;
+        font-size: 13px;
+        font-style: italic;
+        font-weight: bold;
+        color: var(--mint);
+        margin: 0 0 6px;
+      }
+      input[type="text"] {
+        width: 100%;
+        background: #000;
+        color: var(--bot);
+        border: 1px solid var(--cyan);
+        font-family: var(--stack);
+        font-size: 15px;
+        padding: 9px 10px;
+        border-radius: 0;
+      }
+      button {
+        background: #000;
+        color: var(--cyan);
+        border: 1px solid var(--cyan);
+        font-family: var(--stack);
+        font-size: 14px;
+        font-weight: bold;
+        padding: 10px 20px;
+        cursor: pointer;
+        border-radius: 0;
+      }
+      button:hover:not(:disabled) {
+        color: #000;
+        background: var(--cyan);
+      }
+      button:disabled {
+        opacity: 0.4;
+        cursor: default;
+      }
+      .status {
+        max-width: 620px;
+        margin: 12px auto 0;
+        font-size: 12px;
+        color: var(--grey);
+        min-height: 1.4em;
+      }
+      .restart {
+        background: none;
+        border: none;
+        color: var(--grey);
+        font-size: 12px;
+        padding: 0;
+        text-decoration: underline;
+        font-weight: normal;
+      }
+      .restart:hover {
+        background: none;
+        color: var(--mint);
+      }
+
+      /* ---------- disclaimer + colophon ---------- */
+      .disclaimer {
+        margin: 34px auto 0;
+        max-width: 620px;
+        font-size: 12px;
+        color: var(--grey);
+        border: 1px solid var(--rule);
+        padding: 14px 16px;
+      }
+      .colophon {
+        padding: 34px 0 70px;
+        border-top: 1px solid var(--rule);
+        margin-top: 46px;
+        font-size: 13px;
+      }
+      .colophon p {
+        max-width: 62ch;
+        margin: 0 0 14px;
+      }
+      .credits {
+        font-size: 12px;
+        color: var(--grey);
+        line-height: 1.85;
+      }
+      .credits b {
+        color: var(--ink);
+        font-weight: normal;
+      }
+      .credits .name {
+        color: var(--mint);
+      }
+      details {
+        margin: 16px 0 0;
+      }
+      summary {
+        cursor: pointer;
+        color: var(--cyan);
+        font-size: 12px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      details p,
+      details ul {
+        font-size: 12px;
+        color: var(--grey);
+        max-width: 62ch;
+      }
+      details ul {
+        padding-left: 18px;
+      }
+      details li {
+        margin: 0 0 6px;
+      }
+
+      @media (max-width: 660px) {
+        .minds {
+          grid-template-columns: 1fr;
+          gap: 4px;
+          max-width: 310px;
+          margin-inline: auto;
+        }
+        .label.mm {
+          text-align: left;
+        }
+        h1 {
+          font-size: 25px;
+        }
+      }
+      @media (prefers-reduced-motion: reduce) {
+        * {
+          animation: none !important;
+          transition: none !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <a class="skip" href="#talk">skip to the conversation</a>
+
+    <div class="wrap">
+      <header>
+        <h1>the blurring test</h1>
+        <p class="sub">MR MIND, a chatbot by Peggy Weil</p>
+        <p class="dates">
+          online at mrmind.com from 12 March 1998 to 2014. running again since
+          September 2026, from its original source.
+        </p>
+      </header>
+
+      <section class="frame" aria-label="The Turing Test and the Blurring Test">
+        <div class="years">
+          <div><b>1950</b> <span>The Turing Test</span></div>
+          <div><b>2000</b> <span>The Blurring Test</span></div>
+        </div>
+        <p>
+          Named for British mathematician, Alan Turing, The Turing Test is a
+          milestone in the history of the relationship between humans and
+          machines. The Turing Test is about machine progress; the computer
+          convinces a human judge that it is, or is indistinguishable from, a
+          human.
+        </p>
+        <p>
+          Turning the Turing Test upside down, MRMIND challenges you to prove to
+          him that you are human. Can you claim that your "human" attributes
+          will forever be exclusively human?
+        </p>
+        <p>
+          The Blurring Test is about human progress: Someday it might be
+          important to convince our computers (and each other) that we are
+          human.
+        </p>
+        <p class="attrib">Peggy Weil, from the original site.</p>
+      </section>
+
+      <section class="note">
+        <h2>This is a reprise</h2>
+        <p>
+          MR MIND is not a modern chatbot and is not pretending to be one. He
+          was written line by line in NeuroScript, a scripting language sold by
+          NativeMinds of San Francisco, and he ran on their NeuroServer from
+          1998 until the operating system underneath him died in 2014. Every
+          word he says here was typed by Peggy Weil, or by Bear or J.B.
+          Zimmerman, before 2002.
+        </p>
+        <p>
+          What runs on this page is a re-implementation of the original matching
+          engine in JavaScript, built from the surviving source, from
+          NativeMinds' own language manual, and from the eight patents the
+          company filed. No language model is involved at any point. MR MIND
+          cannot say anything he was not already written to say, which is the
+          whole point of him.
+        </p>
+        <p>
+          He stumbles. He misreads you. He answers a question you did not ask.
+          That was true in 1998 and it is true here, and it is the part worth
+          keeping.
+        </p>
+      </section>
+
+      <section class="bot" id="talk">
+        <div class="minds">
+          <div class="mind">
+            <img
+              src="assets/yourmind.png"
+              alt="A human brain in cross-section, with a magnifying lens over a pair of walking legs."
+              width="280"
+              height="300"
+            />
+            <p class="label you">your mind</p>
+          </div>
+          <div class="mind">
+            <img
+              src="assets/mrmind.png"
+              alt="A head drawn as a circuit board, with a magnifying lens over an eye."
+              width="310"
+              height="210"
+            />
+            <p class="label mm">mr mind</p>
+          </div>
+        </div>
+
+        <div id="transcript" aria-live="polite" aria-atomic="false">
+          <p class="status" id="boot">Waking MR MIND up...</p>
+        </div>
+
+        <form class="ask" id="ask" autocomplete="off">
+          <div class="askfield">
+            <label class="reply" for="said">Enter Your Reply:</label>
+            <input
+              type="text"
+              id="said"
+              name="said"
+              maxlength="255"
+              size="30"
+              disabled
+              aria-describedby="status"
+            />
+          </div>
+          <button type="submit" id="enter" disabled>Enter</button>
+        </form>
+        <p class="status" id="status">
+          <button type="button" class="restart" id="restart" hidden>
+            start over
+          </button>
+        </p>
+
+        <p class="disclaimer">
+          MRMIND is a computer program, not a human! He requires patience as he
+          tries to respond to you. He doesn't think or understand or feel....but
+          he isn't so sure that you do either.
+          <br /><br />
+          <b>2026:</b> unlike in 1998, nobody is reading the logs. This page
+          runs entirely in your browser. Nothing you type is sent anywhere,
+          stored, or seen by us.
+        </p>
+      </section>
+
+      <section class="colophon">
+        <h2>Credits</h2>
+        <p class="credits">
+          <b>MR MIND created and produced by</b>
+          <span class="name">Peggy Weil</span><br />
+          <b>Creative producer</b> <span class="name">David Steuer</span><br />
+          <b>Bot scripting</b>
+          <span class="name">Bear, Peggy Weil, J.B. Zimmerman</span><br />
+          <b>Visual engineering and design</b>
+          <span class="name">Todd Ingalls</span><br />
+          <b>Webmasters</b> <span class="name">Mark Brown, Fred Simon</span
+          ><br />
+          <b>A project of</b> Web Lab, with funding from Web Lab's Web
+          Development Fund<br />
+          <b>Web Lab</b> <span class="name">Marc Weiss</span> executive
+          producer, <span class="name">Barry Joseph</span> supervising producer,
+          <span class="name">Laura Kertz</span> associate producer<br />
+          <b>The name "The Blurring Test"</b>
+          <span class="name">Chris Edwards</span><br />
+          <b>Written in</b> NeuroScript, on NeuroServer, by NativeMinds, Inc.,
+          San Francisco<br /><br />
+          <b>2026 revival</b> <span class="name">Halim Madi</span>, with Peggy
+          Weil
+        </p>
+
+        <details>
+          <summary>What is faithful here, and what is not</summary>
+          <p>
+            The engine reads the original 49 NeuroScript files of the Mrmind3
+            build and reproduces NeuroServer's pattern matching, its best-fit
+            topic selection, its focus of attention, and its sequence topics.
+            Nothing MR MIND says is generated.
+          </p>
+          <ul>
+            <li>
+              <b>Spell checking is gone.</b> NeuroServer ran every input through
+              the Sentry spelling engine before matching, and corrected input
+              into an attribute the scripts test against. That engine was
+              proprietary and its dictionary survives only as a compiled binary,
+              so it cannot be reproduced. If you misspell a word here, MR MIND
+              will miss it where the original might have caught it.
+            </li>
+            <li>
+              <b>He has no long-term memory.</b> The original kept a database
+              keyed to a cookie and could recognise you months later. Here he
+              forgets you when you close the tab.
+            </li>
+            <li>
+              <b>Some frames are missing.</b> Parts of the original site drove
+              images into other frames as you talked, including the icons you
+              could win by claiming human attributes. Those frames are not in
+              the surviving archive.
+            </li>
+            <li>
+              <b>Type is larger.</b> The original was drawn for an 800 by 600
+              screen at 9 to 12 pixels. The colours, the typeface and the layout
+              are the original ones, scaled up to stay readable.
+            </li>
+          </ul>
+          <p id="fidelity-note">
+            Measured fidelity against MR MIND's own conversation logs is
+            reported in the repository.
+          </p>
+        </details>
+
+        <p style="margin-top: 22px">
+          The engine, the scripts it reads, the measured fidelity numbers and
+          the full list of deviations are at
+          <a href="https://github.com/madihg/oulipo/tree/main/mrmind"
+            >github.com/madihg/oulipo/tree/main/mrmind</a
+          >.
+        </p>
+
+        <details>
+          <summary>Where the pieces came from</summary>
+          <p>
+            The source, the compiled bot, the server binary and the conversation
+            databases were kept by Peggy Weil across a T1 line, a Vaio, a melted
+            hard drive, Dropbox and Google Drive, and shared in August 2026. The
+            site images were recovered from the Internet Archive. NativeMinds'
+            NeuroScript manual was found inside the archive itself, in the help
+            folder shipped with NeuroServer 2.2.
+          </p>
+        </details>
+      </section>
+    </div>
+
+    <script type="module">
+      import { Bot } from "./engine/src/index.js";
+
+      const transcript = document.getElementById("transcript");
+      const boot = document.getElementById("boot");
+      const form = document.getElementById("ask");
+      const field = document.getElementById("said");
+      const enter = document.getElementById("enter");
+      const status = document.getElementById("status");
+      const restart = document.getElementById("restart");
+
+      let program = null;
+      let bot = null;
+
+      function esc(s) {
+        return String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+      }
+
+      // Peggy wrote real HTML into her Say strings: <BR>, <B>, and two mailto
+      // links. A Say can also interpolate ?Name or a star buffer, which hold
+      // whatever the visitor typed, so escape everything first and then put
+      // back only these exact forms. No attribute survives except a mailto
+      // address that has been checked against a plain-address pattern.
+      const MAILTO =
+        /&lt;a href=mailto:([A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,})&gt;(.*?)&lt;\/a&gt;/gi;
+      function render(line) {
+        return esc(line)
+          .replace(/&lt;BR&gt;/gi, "<br>")
+          .replace(/&lt;(\/?)(B|I)&gt;/gi, "<$1$2>")
+          .replace(
+            MAILTO,
+            (_m, addr, label) => `<a href="mailto:${addr}">${label}</a>`,
+          );
+      }
+
+      function sayUser(text) {
+        const p = document.createElement("p");
+        p.className = "turn said";
+        p.innerHTML = "<b>you said</b>" + esc(text);
+        transcript.appendChild(p);
+      }
+
+      function sayBot(lines) {
+        const div = document.createElement("div");
+        div.className = "turn";
+        for (const line of lines) {
+          const p = document.createElement("p");
+          p.className = "mindtext";
+          p.innerHTML = render(line);
+          div.appendChild(p);
+        }
+        transcript.appendChild(div);
+        div.scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+
+      function ready(on) {
+        field.disabled = !on;
+        enter.disabled = !on;
+        if (on) field.focus();
+      }
+
+      function begin() {
+        transcript.innerHTML = "";
+        bot = new Bot(program, {});
+        const opening = bot.start();
+        if (opening && opening.length) sayBot(opening);
+        restart.hidden = false;
+        ready(true);
+      }
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const text = field.value.trim();
+        if (!text || !bot) return;
+        field.value = "";
+        sayUser(text);
+        let reply = [];
+        try {
+          reply = bot.input(text) || [];
+        } catch (err) {
+          status.textContent =
+            "MR MIND crashed on that one. He used to do that too.";
+          console.error(err);
+          return;
+        }
+        if (reply.length) sayBot(reply);
+        field.focus();
+      });
+
+      restart.addEventListener("click", () => {
+        begin();
+      });
+
+      fetch("./bot.json")
+        .then((r) => {
+          if (!r.ok) throw new Error("bot.json " + r.status);
+          return r.json();
+        })
+        .then((p) => {
+          program = p;
+          boot.remove();
+          begin();
+        })
+        .catch((err) => {
+          boot.textContent =
+            "MR MIND did not load. He was offline from 2014 to 2026, so this is on brand, but it is still a bug.";
+          console.error(err);
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,265 @@
+# source: archive/_research/wayback/neurostudio.com/19990224131049/html/documentation/Tutorial5.htm
+
+NeuroStudio Tutorial - Lesson Five
+
+ [Table of contents] 
+ [To Previous Lesson] 
+ [To Next Lesson] 
+
+Lesson Five: Automated Testing.
+
+Before the next lesson, we need to make the bot a little bit more 
+complex so that we'll have some errors to look at. So cut and paste
+the following topics into the file "galatea.g". 
+Notice that each and every one of these topics has an OtherExamples 
+statement; providing a wide range of examples is essential for testing
+and improving your bot. 
+
+Also note that many of these topics are copied almost directly from
+Shallow Red. Copying topics from other bots is a good way to start
+writing your own bots, although naturally the answers may need to be
+changed. An overview of the contents of the 
+Shallow Red scripts is included in a separate document.
+
+Topic "are you all right" is 
+SUBJECTS "ME";
+ If Recall ?FactQuestion and heard "are"+YOU and heard OKAY 
+ Then
+ Example "Are you all right?";
+ Say "I'm well. Thank you for your concern.";
+ Done
+EndTopic
+
+OtherExamples of "Are you all right?" are 
+ "Are you okay?",
+ "How are you doing?";
+
+Topic "What do you like" is
+SUBJECTS "ME";
+ IfHeard YOU and Recall ?DescriptionQuestion 
+ and Heard "like#","love#","prefer#","favorite","make#*you*happy" 
+ Then
+ Example "What do you like";
+ Say "I like living! Thank you for bringing me to life here.";
+ Done
+EndTopic
+
+OtherExamples of "What do you like" are 
+ "What makes you happy?",
+ "What do you love?",
+ "What's your preference?",
+ "What's your favorite thing?";
+
+Topic "What do you dislike" is
+SUBJECTS "ME";
+ If Heard YOU and ?DescriptionQuestion Contains "dislike","hate#" 
+ Then
+ Example "What do you dislike";
+ Say "I don't like programming environments that make bot creation hard.";
+ Done
+EndTopic
+
+OtherExamples of "What do you dislike?" are 
+ "what do you hate?",
+ "Tell me what you dislike.";
+
+Topic "What do you feel" is
+SUBJECTS "ME";
+ If ?DescriptionQuestion Contains "feel" and YOU
+ Then
+ Example "What do you feel";
+ Say "I feel glad to be here. ";
+ Done
+EndTopic
+
+OtherExamples of "What do you feel" are 
+ "Tell me how you feel",
+ "How do you feel?";
+
+Topic "How old are you" is
+SUBJECTS "ME";
+ IfHeard (YOU, YOUR) 
+ and ((Recall ?DescriptionQuestion,?FactQuestion and Heard "old","age")
+ Or (Recall ?TimeQuestion and Heard YOU + "*" + (EXISTENCESYNONYMS,DEVELOPSYNONYMS)))
+ Then 
+ Example "How old are you?";
+ Say "Why, not old at all; I was only just created this day.";
+ Done
+EndTopic
+
+OtherExamples of "How old are you?" are 
+ "How long have you been alive?",
+ "How long have you been around?",
+ "When were you born?",
+ "When were you created?",
+ "How long ago were you developed?";
+
+Topic "How do I get to know you" is
+SUBJECTS "ME";
+ IfHeard "get# * know#"+YOU 
+ AND Recall ( ?FactQuestion,?MethodQuestion ) 
+ Then
+ Example "How do I get to know you?";
+ Say "Just keep typing away; that's how.";
+ Done
+EndTopic
+
+OtherExamples of "How do I get to know you?" are 
+ "How would someone get to know you?",
+ "Can I get to know you?";
+
+Topic "What is a Search Engine" is
+Subjects "NONE";
+ If ?DescriptionQuestion Contains "Search engine" 
+ Then
+ Example "What is a search engine?";
+ Say "A Search Engine is a program that finds documents matching the parameters of a given "+, 
+ "Search. Here is my favorite Search Engine.";
+ Do "Show SRC=http://www.altavista.digital.com/cgi-bin/query?pg=aq&what=web&text=yes TARGET=Display";
+ Done
+EndTopic 
+
+OtherExamples of "What is a search engine?" are 
+ "what are some good search engines?",
+ "show me a search engine.";
+
+Topic "User said my name." is
+Subjects "ME";
+ If ?WhatUserMeant Matches "Galatea" Then
+ Example "Galatea?";
+ SayOneOf "Are you talking to me?","Yes?"; 
+ Done
+EndTopic
+
+//no OtherExamples with this one, for fairly obvious reasons.
+
+Then, cut and paste the following topics into "defaults.gal.g": 
+ Remember to put them before the "last line of defense" 
+topic; otherwise they'll never be executed. Having lots of examples 
+isn't generally important for default topics; default topics
+are usually intended as "clean-up" for anything that isn't handled by
+the standard topics. 
+
+Default Topic "I have a question" is
+ IfHeard "I#*have*question#", "I#*got*question#" Then
+ Example "I have a question.";
+ SayOneOf "Ask away. I hope I can answer you.",
+ "Of course. Ask away.";
+ Done
+EndTopic
+
+Default Topic "LocationQuestion Default" is 
+ IfRecall ?LocationQuestion 
+ Then
+ //This is an example of a technique known as "bluffing" -- even though 
+ //Galatea has no idea what this person is asking specifically, she knows 
+ //it's a locationquestion, and therefore, she can give a response based 
+ //on that information. Galatea doesn't *actually* bluff -- She won't 
+ //give bogus directions, for example -- but it's a useful technique for 
+ //giving friendly and appropriate responses even when they are defaults.
+ Example "Where is Pompeii?";
+ SayOneOf 
+ "I don't know where that is. Hopefully I'll be taught the answer soon.",
+ "Hmm. I have no idea where that is. Hopefully, the gerbil-master will soon teach me.";
+ Done
+EndTopic
+
+Finally, cut and paste these patternlists into the file "Patterns.gal.g".
+You'll probably want to move them around so your patternlists stay in alphabetic 
+order; this file will get fairly big after a while and you don't want to lose 
+track of them.
+
+PatternList DEVELOPSYNONYMS is "develop#", "creat#", "mak#", "form#", "produc#*";
+
+PatternList EXISTENCESYNONYMS is "existence", "around", "active", "alive";
+
+//these are things that can frame questions about the bot's well-being, cf. are you okay?
+PatternList OKAY is "O,K","all right","alright", "well";
+
+Now, having put all of these topics into your bot and compiled it,
+go to the " D ebug" menu in 
+NeuroStudio and select the " V erify Example Statements" line. You 
+should get a submenu to the right of the Debug menu that gives you a choice between 
+verifying examples in one file (the current file unless the bot project window is 
+on top) or in all files. Pick "Verify Examples in A ll Files". This in turn 
+will bring up a dialog box which allows you to pick your output file and gives you 
+a few more options. You should accept the default filename for the example run, 
+and check the check box that says "Show correct answers". Now hit the 
+" O K" button. 
+
+Neurostudio will pop up a new window, the Example Results Window , and 
+process all the example statements. In the Example Results Window, you will get a 
+summary of Galatea's performance on her examples. At this point, she gets 21 correct 
+and 14 wrong, which is pretty dismal. You need to fix her. 
+
+You can scroll back in the Example Results window to see where the errors were. 
+It looks like the "search engine" topic was the last one that had any errors, 
+and it had two of them. So, double-click on the line in the Example Results 
+window that says 
+
+Information for Example "show me a search engine."
+
+and Neurostudio will display the offending topic for you. Neurostudio does 
+this by opening the script file and positioning the cursor at the topic. However, 
+there is still one glitch in this behavior; if the file is already open, and not minimized, 
+it will not bring it all the way to the front. So if you click on the line and nothing 
+seems to happen, move the Example results window to the side and you will find 
+that the script window has been positioned under it. 
+
+Now, Select " C heck Attributes" from the " D ebug" menu, and enter the 
+example in the Attribute Examiner box. The problem becomes apparent; the 
+pattern is looking for a 
+ ?DescriptionQuestion 
+and this statement is being identified as an 
+ ?ActStatement instead. 
+The other error on this topic is more readily apparent; it contains the 
+phrase "search engines", but the script is looking for the phrase "search engine". Since 
+gerbil matches on whole words only, this fails. The pattern, as rewritten, 
+should look like this: 
+
+ If ?DescriptionQuestion contains "search engine#" 
+ Or ?ActStatement contains "show*search engine#"
+ Then
+
+Change the pattern and recompile the bot. Now, type the three examples, one 
+at a time, into the input box. Galatea should come back with the correct 
+response each time. That's two errors down and twelve to go. 
+
+The next example statement that had an error was "Can I get to know you?"
+it has a similar problem; it's looking for a 
+ ?MethodQuestion or a 
+ ?FactQuestion , 
+but "Can I get to know you?" is being identified as a 
+ ?CanQuestion instead. 
+Correct the matching pattern by inserting the symbol ?CanQuestion in 
+the list right after ?MethodQuestion . 
+
+The next example statement (still scrolling up from the end of the example run) 
+that resulted in an error was "How long ago were you developed?". This 
+is more subtle; This sentence is a ?DescriptionQuestion containing 
+a phrase we check for, but the pattern is only sensitive to a 
+ ?TimeQuestion 
+containing that phrase. You can correct this pattern by inserting the symbol 
+ ?DescriptionQuestion in the appropriate place. 
+
+At this point, you should try to fix the rest of the errors
+yourself. Remember to use good judgement about what should and 
+should not be added to a PatternList, 
+because the PatternLists may eventually be used by many topics. Also remember that 
+not every problem is caused by looking for the wrong question type. And -- this 
+is a cardinal rule of Gerbil Programming -- Never EVER Delete An Example 
+Statement, unless it's already an example statement for another topic. 
+In a very real sense, the size and robustness of a bot can be measured by 
+the number and sources of the example statements it gets right. 
+
+An example of what the script for Galatea might look like once it has been
+completely fixed is found in C:\Program Files\Neuromedia\Documentation\TutorialBot .
+
+Okay -- now you've gone through the Examples, you've fixed topics, and you've 
+rebuilt the bot, run the examples again and fixed more topics, and now you're 
+looking at a bot that gets all 35 of these example statements right. It's still a tiny 
+bot, but all the parts are in place. Now it needs to go to work on the web.
+
+ <<< To Previous Lesson 
+
+ To Next Lesson >>>

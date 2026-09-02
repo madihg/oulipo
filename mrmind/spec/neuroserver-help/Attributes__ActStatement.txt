@@ -1,0 +1,18 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/ActStatement.htm
+
+NeuroScript Attributes: ActStatement 
+
+ ?ActStatement
+
+ The ?ActStatement attribute is used for all statements that are
+requests to do something.
+
+ Examples
+
+Work on the problem.
+Kill the mockingbird.
+List your products.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

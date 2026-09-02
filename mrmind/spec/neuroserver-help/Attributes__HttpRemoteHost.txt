@@ -1,0 +1,12 @@
+# source: archive/1_NeuroServer_fromVaio_MrMind/Program/Help/Attributes/HttpRemoteHost.htm
+
+NeuroScript Attributes: HttpRemoteHost 
+
+ ?HTTP_REMOTE_HOST
+
+ ?HTTP_REMOTE_HOST is provided as a part of NeuroServer's HTTP connection.
+It is imported by the same mechanism that imports all other HTTP variables.
+
+ [ Summary of Attributes ] 
+
+ Copyright © 1999, 2000 by NativeMinds, Inc. All rights reserved.

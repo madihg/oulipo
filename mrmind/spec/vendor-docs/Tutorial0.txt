@@ -1,0 +1,41 @@
+# source: archive/_research/wayback/neurostudio.com/19990224051945/html/documentation/Tutorial0.htm
+
+NeuroStudio Tutorial - Lesson Zero
+
+ [Table of contents] 
+ [To Next Lesson] 
+
+ Lesson Zero: Before You Begin 
+
+This tutorial uses complete filenames (ie, filenames which include the 
+file extension), so before you begin, you you need to make sure that the 
+copy of Windows on your machine is not set to "Hide File 
+Extensions." This will make things easier to follow. 
+
+A file extension is the part at the end of a file-name comprising 
+a dot followed (usually) by three letters, for example, '.doc', 'txt', '.htm', 
+or '.exe'. 
+
+When in doubt, you can make sure by opening My Computer on the 
+Windows Desktop and choosing V iew from the menu. 
+Depending on your Windows version, the menu has an item labeled 
+ O ptions or Folder O ptions . 
+
+This will bring up a tabbed dialog box. Click the tab marked "View." 
+
+Somewhere in there, again depending on your make and model of 
+Windows, you will find a check-box labeled "Hide File Extensions for 
+known types", "Hide DOS File Extensions", or similar sentiment. Make 
+sure it is NOT checked.
+
+For example, if you happen to be running Windows NT version 4 with 
+Internet Explorer 4 installed and the default color set, it will look like 
+this:
+
+Make sure that Neurostudio is installed in the default directory, ie, 
+
+ C:\Program files\Neuromedia\Neurostudio . 
+
+Okay, if you've done that, you're ready to start. 
+
+ To Next Lesson >>>

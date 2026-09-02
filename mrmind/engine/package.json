@@ -1,0 +1,13 @@
+{
+  "name": "mrmind-engine",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "node build/compile.mjs",
+    "test": "node test/parser.test.mjs && node test/pattern.test.mjs && node test/runtime.test.mjs && node test/smoke.test.mjs",
+    "test:parser": "node test/parser.test.mjs",
+    "test:pattern": "node test/pattern.test.mjs",
+    "test:runtime": "node test/runtime.test.mjs",
+    "test:smoke": "node test/smoke.test.mjs"
+  }
+}

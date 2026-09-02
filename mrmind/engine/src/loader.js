@@ -9,7 +9,7 @@
 // Sources cited inline:
 //   [A] spec/A-lexical-and-structure.md §1.1, §10
 
-import { readFileSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, readdirSync, statSync, existsSync } from "node:fs";
 import { dirname, join, resolve, basename } from "node:path";
 
 /** Parse a Windows INI-shaped .vsr into { SECTION: [key, ...] }. */
@@ -132,6 +132,30 @@ export function loadProject(vsrPath) {
   }
 
   return { files, manifest, missing, projectDir, libraryRoot };
+}
+
+/**
+ * Read the .tlx spelling lexicons for src/spellcheck.js, in load order.
+ *
+ * The originals live in the archive beside the bot they belong to:
+ *
+ *   Program/Ssceam.tlx           the vendor common-word list
+ *   Program/Additions.tlx        the vendor additions + the auto-change table
+ *   Mrmind3/MRMIND3.tlx          Peggy Weil's project vocabulary
+ *   Mrmind3/MRMIND3.script.tlx   the given-name lexicon
+ *
+ * `#LID`-headed word lists are Latin-1, like every other archive file.
+ *
+ * @param {string[]} paths
+ * @returns {{name: string, text: string}[]}  input for buildLexicon
+ */
+export function loadLexiconSources(paths) {
+  const out = [];
+  for (const p of paths) {
+    if (!existsSync(p)) continue;
+    out.push({ name: basename(p), text: readFileSync(p, "latin1") });
+  }
+  return out;
 }
 
 export default loadProject;

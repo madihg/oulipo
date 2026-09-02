@@ -45,6 +45,8 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { Bot } from "../src/index.js";
+import { buildLexicon, makeSpellChecker } from "../src/spellcheck.js";
+import { loadLexiconSources } from "../src/loader.js";
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, "..", "..");
@@ -55,6 +57,10 @@ const args = process.argv.slice(2);
 const LIMIT = Number(args.find((a) => /^\d+$/.test(a)) || Infinity);
 const WRITE_REPORT = !args.includes("--no-report");
 const SHOW_CAUSES = args.includes("--causes");
+// --spell=<preset> turns on the approximate Sentry corrector (src/spellcheck.js).
+// It is OFF unless asked for, so the deviation stays visible by default, and the
+// measured recommendation (engine/DEVIATIONS.md, "Branch A") is to leave it off.
+const SPELL = (args.find((a) => a.startsWith("--spell")) || "").split("=")[1];
 
 /** Deterministic LCG so SayOneOf / IfChance are reproducible run to run. */
 function seeded(seed) {
@@ -77,6 +83,46 @@ if (!fs.existsSync(BOTJSON)) {
 }
 
 const program = JSON.parse(fs.readFileSync(BOTJSON, "utf8"));
+
+// --- optional spelling corrector (engine/src/spellcheck.js) ---------------
+const SPELL_PRESETS = {
+  auto: { maxDist: 0, longWordDist: 0 },
+  ed1: { maxDist: 1, longWordDist: 1 },
+  ed1freq: { maxDist: 1, longWordDist: 1, tiebreak: "freq" },
+  ed2long: { maxDist: 1, longWordDist: 2, tiebreak: "freq" },
+  short: { maxDist: 1, longWordDist: 1, tiebreak: "freq", minLength: 3 },
+  sentry: {
+    maxDist: 1,
+    longWordDist: 1,
+    tiebreak: "freq",
+    minLength: 3,
+    suggestTiers: 2,
+    onAmbiguity: "take",
+  },
+};
+let SPELLCHECK = null;
+if (SPELL) {
+  const DATA = path.resolve(HERE, "..", "data");
+  const DICT = process.env.MRMIND_DICT || "/usr/share/dict/words";
+  SPELLCHECK = makeSpellChecker(
+    buildLexicon({
+      tlxSources: loadLexiconSources(
+        [
+          "Ssceam.tlx",
+          "Additions.tlx",
+          "MRMIND3.tlx",
+          "MRMIND3.script.tlx",
+        ].map((f) => path.join(DATA, f)),
+      ),
+      dictWords: fs.existsSync(DICT)
+        ? fs.readFileSync(DICT, "latin1").split("\n")
+        : [],
+      program,
+    }),
+    SPELL_PRESETS[SPELL] || SPELL_PRESETS.ed1freq,
+  );
+  console.log(`spellcheck: ${SPELL}`);
+}
 const sessions = JSON.parse(fs.readFileSync(CORPUS, "utf8"));
 
 /** Topic names this build actually contains, lowercased for comparison. */
@@ -147,6 +193,7 @@ outer: for (const session of sessions) {
   for (const seg of segmentsOf(session)) {
     M.segments++;
     const bot = new Bot(program, {
+      ...(SPELLCHECK ? { spellcheck: SPELLCHECK } : {}),
       random: seeded(++seedCounter * 2654435761),
     });
     // No bot.start(): "Login from Console" is a Priority Topic with Always, so
@@ -438,10 +485,18 @@ if (WRITE_REPORT) {
   md.push(
     "**2. `Compute SpellCheck` is the identity function.** It runs on every input " +
       "before any topic sees it (`Library/StdQuestion/combis/QuesResDebug.us.n:149`) " +
-      "and the original rewrote misspellings against a compiled binary lexicon that " +
-      "is not in the archive. The corpus is full of typos and of the developer's own " +
-      "shorthand, and every input the original spell-corrected into a matchable form " +
-      "now falls through. See `engine/DEVIATIONS.md`.",
+      "and the original rewrote misspellings against a compiled binary lexicon " +
+      "(`Program/Ssceam2.clx`) that survives only as a prefix trie. This ceiling has " +
+      "now been measured rather than assumed, and it is **small**: of the 18,096 " +
+      "words in the 7,160 recorded inputs, 1,814 (10.02%) are unknown to the " +
+      "recoverable lexicons and 1,641 inputs (22.92%) contain at least one of them, " +
+      "but 83% of those unknown words have no neighbour one edit away — they are " +
+      "names, mashed keys, URLs and coinages, not typos. A reconstructed corrector " +
+      "rewrites between 0.13% (the vendor's own auto-change table alone) and 3.23% " +
+      "(most aggressive) of inputs, and its best effect on the correct-topic rate is " +
+      "+0.09 points. Reproduce with `node engine/test/spell-reach.mjs` and " +
+      "`node engine/test/conformance.mjs --spell=ed1`. See `engine/DEVIATIONS.md`, " +
+      '"Branch A".',
   );
   md.push("");
   md.push(
@@ -501,6 +556,100 @@ if (WRITE_REPORT) {
       "(`Activities/20Questions.n:14-22`) reachable at all — under the wider reading " +
       "an answer about HELP also activated ME and WantSomePointers and the user's " +
       '"yes" was stolen by a different sequence.',
+  );
+  md.push("");
+  md.push("## The two harnesses disagree, and the recording says which is right");
+  md.push("");
+  md.push(
+    "`engine/test/calibrate.mjs` replays the same database and reports a " +
+      "default-only rate near 38-39%, not the ~25% above. The difference is " +
+      "entirely the session model, and the corpus itself settles it. " +
+      "`calibrate.mjs` builds one `Bot` per CDB connection id; connection 1 holds " +
+      "6,880 of the 7,160 recorded inputs, so under that model one user record " +
+      "accumulates for thousands of turns and the `Suppress` list and the hundreds " +
+      'of `IfDontRecall ?Told.X` guards starve the Standard phase. But connection 1 ' +
+      'contains **331 recorded "Robot Greeting" replies**, and that topic is ' +
+      "reachable at most once per user record: `Utilities/WebNameGreet.n:858` is " +
+      "inside the `Login over Web` Scenario (one `Web ACCEPT CONNECTION` per " +
+      "connection, and it suppresses the other path) and `:877` is the " +
+      "`Login from Console` Priority Topic, which begins `Suppress This`. The " +
+      "original therefore started a fresh user record 331 times inside that one " +
+      "connection id. This file's segmentation (a new record at every recorded " +
+      '"Robot Greeting", 391 records) is the one that matches the recording; ' +
+      "`calibrate.mjs`'s number is a session-model artifact and should not be " +
+      "tuned against.",
+  );
+  md.push("");
+  md.push(
+    "A second caveat applies to the archive's own 25.68%. " +
+      "`Mrmind3/MRMIND3CDB.cdb.report.txt` says it summarises **25 conversations " +
+      "and 6,187 user statements**, with the 11 December 2000 console session at " +
+      "5,914 of them. The export replayed here holds **7,160 user statements " +
+      "across 28 connections with any input**, 6,880 of them in that same console " +
+      "session. The archive's figure was computed before roughly 970 further " +
+      "developer-console turns were added, so it describes an earlier snapshot of " +
+      "this database, not the rows replayed here. It is a band to land in, not a " +
+      "number to hit.",
+  );
+  md.push("");
+  md.push("## Merge of branches A, B and C");
+  md.push("");
+  md.push(
+    "Three parallel experiments were run against separate copies of the engine " +
+      "and merged here. **The merge changed no runtime behaviour**: every " +
+      "runtime change any branch proposed either measured worse on the full " +
+      "corpus or was contradicted by its own source. What was kept is evidence " +
+      "and pinned tests. The numbers at the top of this file are therefore " +
+      "identical, turn for turn, to the pre-merge engine.",
+  );
+  md.push("");
+  md.push("**Kept**");
+  md.push("");
+  md.push(
+    "- `test/bestfit.test.mjs` (7 assertions). Reproduces `MANUAL__BestFit.txt`'s " +
+      'four worked "sales vRep" topics ordinally and `[P §14.4]`\'s ' +
+      "9000-vs-14000 arithmetic to the integer. It passes against the unmodified " +
+      "engine, so it is a pin, not a change.",
+  );
+  md.push(
+    "- `src/spellcheck.js` + `data/*.tlx` + `test/spellcheck.test.mjs` " +
+      "(38 assertions) + `test/spell-reach.mjs` + `test/spell-sweep.mjs` + " +
+      "`conformance.mjs --spell=<preset>`. An approximate Sentry corrector built " +
+      "from the archive's own `.tlx` lexicons and `Ssceam2.clx`'s affix table. " +
+      "**It is off by default and the measurement says leave it off.** " +
+      "`new Bot(program)` still gets the identity function.",
+  );
+  md.push("");
+  md.push("**Tried and discarded, with the numbers**");
+  md.push("");
+  md.push(
+    "| change | source it cited | full-corpus effect | why discarded |",
+  );
+  md.push("| ------ | --------------- | ------------------ | ------------- |");
+  md.push(
+    "| spelling correction, 6 presets (auto / ed1 / ed1freq / ed2long / short / sentry) | `vendor-docs/Tutorial4.txt:11-19, 32-35, 69-71, 77-78`; `Additions.tlx:71-93` | best variant: topic 39.39% -> 39.48%, exact 9.51% -> 9.49%, default-only 25.05% -> 24.81% | at most 22.9% of inputs contain a word the lexicon does not know, 83% of those unknown words have no neighbour one edit away, and the best corrector rewrites 1.4-3.2% of inputs. Every variant moves the default rate *away* from the band. |",
+  );
+  md.push(
+    "| D6: an unset attribute in pattern position supplies no alternative rather than the empty pattern | `[D §1.2]` grammar `eval(?A) = memory[A] (* [] if unset *)`; `vendor-docs/Matches.txt` | calibrate default 38.60% -> 38.74%, calibrate exact 9.22% -> 9.10%; conformance topic 39.39% -> 39.11%, exact 9.51% -> 9.39%, default-only 25.05% -> 24.53% | four of the six headline metrics worse, including both the brief names, and it drops out of the 25-27% band. The same `[D §1.2]` says `eval(*n) = [ starbuffer[n] ] (* \"\" if unbound *)`, so the section does not speak with one voice; the measurement breaks the tie. The narrow variant (`mem` only) measures **turn for turn identical** to the wide one, so the star/PatternList/unresolved-symbol arms were no-ops in this build. |",
+  );
+  md.push(
+    "| specificity arithmetic: log base 2 and 10, doc-frequency `f`, exact-stem partial words, `missingCount` 0.5 and 2, phrase penalty 1000, attribute bonus off, negated specificity 2000, conjunction penalty 0 and 2000 | `[P §14.2-14.4]` | base 2 bit-identical; base 10 worse on 3 of 4; doc-frequency +7 topic / -12 exact; every other variant worse | the defaults are what the patent states verbatim (`1000` scale, `1000` conjunction penalty, `100` focused unit, `2000` default attribute specificity). Nothing that measured better also survived its source. |",
+  );
+  md.push("");
+  md.push(
+    "Branch C additionally verified, and left unchanged: `#` semantics against " +
+      "every row of `MANUAL__Operators.txt`'s summary table (65 of 66 hold; the " +
+      "one failure is documented divergence X1, which the manual contradicts " +
+      "three lines later); `Matches` vs `Contains`; `,` and `.` inside pattern " +
+      "strings against the real shipped profanity and name-parser strings; " +
+      "trailing-punctuation tokenisation; the run loop's exclusion of executed " +
+      "categories, first-active-block rule, build-order Priority and Default " +
+      "scans, and `Done` semantics; and `WaitForResponse` resumption ahead of " +
+      "best-fit. Two latent inconsistencies were reported and deliberately not " +
+      "changed because nothing in the build reaches them: " +
+      "`runtime.needsStructural` does not walk `concat` (0 of 172 `and` lists " +
+      "and 0 of 5 `not` nodes sit under one), and `renderValue`'s `optional` " +
+      "branch drops the node's `op` (0 of 8 `optional` nodes carry `op:'and'`).",
   );
   md.push("");
   md.push("## What is left, and whether it is fixable");

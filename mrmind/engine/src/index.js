@@ -19,6 +19,13 @@ export {
   buildPatternIndex,
 } from "./specificity.js";
 export { Bot } from "./runtime.js";
+export {
+  parseTlx,
+  botVocabulary,
+  buildLexicon,
+  knownWithAffix,
+  makeSpellChecker,
+} from "./spellcheck.js";
 
 import { parseProgram } from "./parser.js";
 import { buildFrequencyTable, buildPatternIndex } from "./specificity.js";

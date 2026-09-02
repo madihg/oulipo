@@ -272,3 +272,31 @@ Drive tool will not serve). Research sweep done. Conformance corpus built.
 Census workflow running (7 agents, one per language dimension) to produce
 `spec/IMPL-SPEC.md`. Next: build the JS engine against that spec, test it
 against the corpus, then the site, then the email to Peggy.
+
+2026-09-02, later: engine built and calibrated. Three parallel fidelity
+experiments (spell correction, specificity arithmetic, matching strictness)
+were run and merged. **The merge changed no runtime behaviour** — every
+proposed change either measured worse on the full corpus or was contradicted
+by its own source. Final numbers, `node engine/test/conformance.mjs`:
+correct topic **39.39%**, exact reply 9.51%, engine default-only **25.05%**
+against the recording's own 25.12% on the same turns and `spec/E §10.1`'s
+25-27% band. `node engine/test/calibrate.mjs` reads 38.60% default-only, and
+that difference is now explained and documented: calibrate builds one `Bot`
+per CDB connection id, but connection 1 alone contains **331 recorded "Robot
+Greeting" replies**, a topic reachable once per user record — so the original
+reset the record 331 times inside that connection. Calibrate's default rate
+is a session-model artifact and must not be tuned against. The archive's own
+25.68% is likewise over an earlier 6,187-statement snapshot, not the 7,160 we
+replay.
+
+Two standing claims in `engine/DEVIATIONS.md` were retracted on measurement:
+`Compute SpellCheck` being the identity function is **not** the largest
+fixable contributor to the default rate (the best corrector the archive
+supports rewrites 1.4-3.2% of inputs for +0.09 points of topic rate).
+
+Kept from the branches: `engine/src/spellcheck.js` (off by default),
+`engine/data/*.tlx`, and 45 new pinned assertions
+(`test/spellcheck.test.mjs`, `test/bestfit.test.mjs`). Suite runner is
+`node engine/test/all.mjs` — `node --test engine/test` mis-resolves on Node
+25; use `node --test engine/test/*.test.mjs`. Next: the site, then the email
+to Peggy.

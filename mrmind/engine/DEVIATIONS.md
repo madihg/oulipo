@@ -91,9 +91,14 @@ engine.
 What this costs, concretely:
 
 - Every misspelled input matches fewer topics than it did in 2001, so it falls
-  through to the Default categories more often. This is the largest single
-  contributor to the default-response rate being above the archive's own figure
-  (see "Calibration" below).
+  through to the Default categories more often. **This cost has since been
+  measured rather than assumed, and it is small** — see "Branch A" at the end of
+  this file. Of the 18,096 words in the 7,160 recorded inputs only 1,814
+  (10.02%) are unknown to the recoverable lexicons, 83% of those have no
+  neighbour one edit away (they are names, mashed keys, URLs and coinages, not
+  typos), and a reconstructed corrector rewrites 0.13-3.23% of inputs for at
+  best +0.09 points of correct-topic rate. The earlier claim that this was the
+  largest single contributor to the default rate is retracted.
 - The NeuroServer Tutorial's own worked example is a casualty: it lists
   `whois kronos` and `whoaskflkronos` as activating a `"who*kronos"` topic, and
   then explains 25 lines later that the Spell Checker rewrote them first
@@ -483,8 +488,11 @@ be NeuroServer's. A turn that picks a different alternative of the _correct_
 between 9.51% (exact) and 39.39% (correct topic) is mostly that.
 
 **`Compute SpellCheck` is still the identity function.** Unchanged from the
-section above; it is the largest single fixable-in-principle item and it cannot be
-fixed without the binary lexicon, which is not in the archive.
+section above, and it cannot be fixed without the binary lexicon, which is not in
+the archive. It is **not** the largest fixable-in-principle item: the "Branch A"
+section at the end of this file builds the best corrector the archive supports
+and measures its whole reach at +0.09 points of correct-topic rate, against a
+0.24-point *loss* on the default-only rate. Retracted.
 
 ### Harness judgement calls (`engine/test/conformance.mjs`)
 
@@ -510,3 +518,294 @@ input straight in reproduces it.
 
 **Privacy.** `REPORT.md` contains no user text: only topic names, counts and
 script line references. The harness never writes corpus input anywhere.
+
+---
+
+## Branch A: an approximate Sentry spelling checker, built and measured
+
+New: `src/spellcheck.js`, `src/loader.js`'s `loadLexiconSources`,
+`test/spellcheck.test.mjs`, `test/spell-reach.mjs`, `test/spell-sweep.mjs`,
+`data/*.tlx` (verbatim copies of the four archive lexicons), and
+`conformance.mjs --spell=<preset>`.
+
+**It is OFF by default and the recommendation is to leave it off.**
+`new Bot(program)` still gets `x => x`. What follows is the measurement that
+justifies that, and it corrects a claim made higher up this file.
+
+### What is actually in the archive
+
+| file | what it holds |
+| ---- | ------------- |
+| `Program/Ssceam2.clx` | the lexicon, compiled. `strings` yields 11,634 shared stem fragments, not words. **Not recoverable.** |
+| `Program/Ssceam.tlx` | 1,017 common English words, one per line |
+| `Program/Additions.tlx` | 62 vendor words flagged `i`, and **23 flagged `A<replacement>`** — Sentry's auto-change type |
+| `Mrmind3/MRMIND3.tlx` | 117 words Peggy Weil added to the project vocabulary |
+| `Mrmind3/MRMIND3.script.tlx` | 1,450 given names |
+
+Two things in that table are evidence, not raw material.
+
+**1. `Additions.tlx` carries the vendor's own rewrite table.** Lines 71-72 read
+`# The following are common substitutions that aren't always handled` /
+`# correctly by the automatic substitution mechanism`, and the 23 lines under
+them are `waht -> what`, `yuo -> you`, `u -> you`, `r -> are`, `b4 -> before`,
+`im -> I'm`, `alot -> a lot`, `thee -> you`, and so on. Nothing is inferred.
+
+**2. Two of those 23 are dead in this bot, and the scripts say so.**
+`Mrmind3/MRMIND3.tlx:110` re-adds `u` and `:67` re-adds `alot` as correctly
+spelled words — and both are live match alternatives that a rewrite would kill:
+
+```
+Mrmind3/Patterns.n:356                 Patternlist YOU is "you", "your", "u","yourself";
+Mrmind3/Utilities/WebNameGreet.n:722   or (?WhoQuestion contains ("you","u" )+"* I am")
+Mrmind3/Issues/Emotion.n:497           Topic "I worry alot" is
+Mrmind3/AboutUser/UserSociety.n:370    Topic "I read alot" is
+```
+
+So the project vocabulary supersedes the vendor table, 21 substitutions
+survive, and no other auto-change word occurs as a literal anywhere in the
+build.
+
+**3. `Ssceam2.clx` gives up its affix table even though it will not give up its
+words.** From byte 0x28 the file is a run of NUL-terminated endings —
+`s ing ness ly ed y d r st ment t al less able ier ic es ally or ve te tion
+ability ous ies ism ities ity er ties ful en tic nce ion ist ries ation ial
+ization ibility ter age ish ted us ian ze ped led sion ess ory se ied ize ical
+aries` — the lexicon stored `believe` once and reached `believes` through `s`.
+That matters, because any general word list standing in for the compiled
+lexicon is lemma-heavy (the one on this machine has `thief` but not `thieves`,
+`computer` but not `computers`), and without the affix table every regular
+plural in the corpus would look misspelled.
+
+### The behaviour being approximated
+
+- `spec/vendor-docs/Tutorial4.txt:11-19` — "say `helllo` ... The Gerbil spelling
+  checker changed the input to `hello`. What actually happened is that the value
+  of ?WhatUserMeant was set to the corrected input".
+- `:32-35` — "look at what happens when the spelling checker sees this input. It
+  changes `Hermes` to `here's`." Distance 2, and to a word the bot never
+  declared: the original was **not** conservative and did **not** prefer the
+  bot's vocabulary.
+- `:77-78` — "the spelling checker will change the unfamiliar word `Herms` in
+  this case into `hems`." It always replaced; it never declined.
+- `:69-71` — "you misspelled `thieves` by transposing `i` with `e`" — a
+  transposition is one edit, so the metric is Damerau, not Levenshtein.
+- `Library/StdQuestion/combis/QuesResDebug.us.n:147-148` — "then the spellchecker
+  (ships with English dictionary -- dictionaries for other languages are
+  available from Neuromedia or Wintertree)".
+- `[6629087:3146-3148]` — "the attribute ?WhatUserMeant (i.e. the user's input
+  statement with spell-checking applied)".
+
+### What the corrector does
+
+Word by word over `?WhatUserMeant`: an entry in the surviving auto-change table
+is applied unconditionally; a word already in the lexicon — directly, or as a
+known stem plus one of `Ssceam2.clx`'s own endings — is left alone; otherwise
+the nearest lexicon words within a bounded Damerau distance are found through a
+SymSpell deletion index and ranked by distance, then by tier (the bot's own
+condition-side vocabulary, then the vendor lists, then general English), then
+optionally by condition-side frequency. A tie the ranking cannot break leaves
+the word alone unless `onAmbiguity: "take"`. Case is carried over and words
+containing a digit are never touched (`Mrmind3/Patterns.n`'s AGE list matches
+literal numerals).
+
+### The ceiling, before any replay
+
+`node engine/test/spell-reach.mjs`, over the 7,160 recorded inputs, no engine in
+the loop:
+
+```
+total input words                                   18096
+unknown to the lexicon                        1814 (10.02%), 1039 distinct
+inputs containing at least one unknown word   1641 (22.92%)   <- the ceiling
+```
+
+**83% of those unknown words have no neighbour at all one edit away.** They are
+names, mashed keys, URLs and coinages, not typos. With the archive lexicons
+alone and nothing standing in for `Ssceam2.clx` (5,329 known words instead of
+236,385) the unknown share rises to 27.09% of inputs and the most aggressive
+configuration still rewrites only 5.13% of them.
+
+### Measured
+
+`node engine/test/conformance.mjs --spell=<preset>`, all 7,304 turns, one run
+each; the rewrite column is from `spell-reach.mjs` over the 7,160 CDB inputs.
+
+| corrector | inputs rewritten | correct topic | exact line | engine default-only |
+| --------- | ---------------: | ------------: | ---------: | ------------------: |
+| **identity (shipped)** | 0 | **2659 (39.39%)** | **642 (9.51%)** | **1830 (25.05%)** |
+| `--spell=auto` auto-change table only | 9 (0.13%) | 2659 (39.39%) | 642 (9.51%) | 1830 (25.05%) |
+| `--spell=ed1` edit distance 1 | 102 (1.42%) | 2665 (39.48%) | 641 (9.49%) | 1812 (24.81%) |
+| `--spell=ed1freq` ED1 + frequency tiebreak | 112 (1.56%) | 2665 (39.48%) | 641 (9.49%) | 1812 (24.81%) |
+| `--spell=ed2long` ED1, ED2 over 6 letters | 119 (1.66%) | 2665 (39.48%) | 641 (9.49%) | 1812 (24.81%) |
+| `--spell=short` ED1 down to 3 letters | 159 (2.22%) | 2661 (39.42%) | 638 (9.45%) | 1808 (24.75%) |
+| `--spell=sentry` general-English, never declines | 231 (3.23%) | 2660 (39.40%) | 637 (9.44%) | 1809 (24.77%) |
+
+The original, on the same 7,304 turns: **1835 default-only (27.18%)**.
+
+And the same question through the older calibration harness,
+`node engine/test/spell-sweep.mjs`, all 7,160 CDB inputs, one `Bot` per
+connection (that harness never resets a user record, which is why its default
+rate sits so much higher than `conformance.mjs`'s — see the harness note above):
+
+| corrector | default-only | same topic | exact line |
+| --------- | -----------: | ---------: | ---------: |
+| identity | 38.60% | 39.72% | 9.22% |
+| ED1 + frequency tiebreak | 38.62% | 39.85% | 9.37% |
+
+### Verdict: do not enable it
+
+**No configuration moves the default rate toward the archive's 25.68%.** The
+engine already sits at 25.05% and every corrector moves it *down*, away from
+both 25.68% and the 27.18% the original produced on these very turns. The
+best topic gain is **+6 turns out of 6,751 (+0.09 points)**, bought for one lost
+exact line — inside the noise of a single `IfChance` roll.
+
+The frequency tiebreak buys nothing (`ed1` and `ed1freq` are identical to the
+turn). Extending to distance 2 for long words buys nothing. Going down to
+three-letter words and imitating Sentry's refusal to decline both make the
+topic rate *worse* than plain ED1.
+
+**This corrects the claim made twice above.** `SpellCheck` is *not* "the largest
+single fixable-in-principle item": at most 22.9% of inputs contain a word the
+lexicon does not know, the best recoverable corrector rewrites 1.4-3.2% of
+inputs, and the measured effect on topic agreement is under a tenth of a point.
+The residue is cascade divergence, `IfChance`, and the fact that the recording
+is of a later build.
+
+What is kept, therefore, is the measurement and the evidence — the module, its
+tests, `spell-reach.mjs`, and the `--spell` flag — with the identity function
+still in place. `engine/test/spellcheck.test.mjs` pins the two archive findings
+that would otherwise be lost: the vendor rewrite table, and the two entries the
+project vocabulary kills.
+
+---
+
+## Branch C: matching strictness and the run loop, audited and left alone
+
+An independent audit ran every worked example in `MANUAL__Operators.txt` and
+`spec/vendor-docs/Matches.txt` as assertions and read the run loop against
+`[P §14.1]`. **No change was adopted.** What follows is the record, so that the
+next reader does not repeat it.
+
+### Verified conformant, unchanged
+
+- **`#`** never crosses a space, so `"##"` matches one word and `"# #"` two;
+  `"cat#"` matches "cat" with zero characters; `#` excludes apostrophes. 65 of
+  the 66 rows of `MANUAL__Operators.txt`'s summary table and worked examples
+  hold. The one failure is the already-documented divergence X1
+  (`"virtual*robot"` against "virtual reality robots"), which the same manual
+  contradicts three lines later with `"robot"` against "robots" = No. No single
+  model satisfies both sentences.
+- **`Matches` vs `Contains`.** `matchWhole` tolerates leading and trailing
+  spaces and punctuation and no extra words; `matchAnywhere` is a substring test
+  with a word-boundary rule at both ends. Asserted against
+  `vendor-docs/Matches.txt`'s own examples ("How are you?" matches, "How are you
+  doing?" does not; "What", "What?", "What!?" match, "What are you?" does not).
+- **`,` and `.` inside pattern strings.** Compiled node dumps of the real
+  shipped strings — the profanity filter's `"f,u,d,g,e"` and `"ass,hole#"`, the
+  name parser's `"#,one"` and `"#\'s"`, `"sex.organ"`, `"%%%-%%%%"` — show every
+  operator compiled as an operator and nothing literalised.
+- **Trailing punctuation never blocks a match**, and hyphens are punctuation, so
+  `Contains "time"` matches "part-time" as `MANUAL__Operators.txt`'s `part.time`
+  example requires.
+- **The run loop.** Already-executed categories are excluded in the Priority
+  scan, in `selectBestFit` and in the Default scan; only the first *active*
+  base-level block of a category is eligible; the 33 Priority and 38 Default
+  topics run in `MRMIND3.vsr`'s `[FILES]` order and `attentionFocus` starts as a
+  copy of the Standard list in build order; a `Done` anywhere ends the run
+  unless a SequenceContinuation is outstanding.
+- **`WaitForResponse` resumption** happens after the Priority phase and before
+  any best-fit selection, whatever the continuation's specificity, as
+  `[P GetNextCategory]` describes. Name Capture agrees with the recording on
+  93.7% of the 714 turns it was recorded on, and the Priority buckets are 35
+  missed and 6 spurious out of 7,304 turns.
+
+`[P §14.1]`'s exclusion of blocks that follow a guaranteed non-IF statement is
+still not implemented, and is a no-op here: **zero** categories in this build
+have a top-level bare statement.
+
+### D6, proposed and measured and rejected
+
+An unset attribute in *pattern* position currently renders to `""`, and an empty
+pattern matches every input, so `IfHeard ?YesResponse, ?NoResponse,
+?NotSureResponse` (`Mrmind3/Issues/Emotion.n:115`) and `heard ?AnyQuestion`
+(`Mrmind3/Issues/Consciousness.n:401`) are true on any turn on which those
+attributes have never been set. `renderPattern({t:'mem'}, unsetEnv)` returns
+`[{text:"",path:[]}]` and `test(anyInput, ?unset, "contains", env)` returns a
+match.
+
+The proposal — return no alternative instead — has a real source:
+`spec/D-commands.md §1.2`'s grammar is `eval(?A) = memory[A]  (* [] if unset *)`,
+and `vendor-docs/Matches.txt` says the condition is true "if at least one of the
+patterns is 'equivalent' to the user input", which nothing satisfies when there
+are no patterns. It also has a real source against it, in the same section:
+`eval(*n) = [ starbuffer[n] ]  (* "" if unbound *)`, and the archive artifact
+`Mrmind3/TextFiles/Ashamed.txt` proves an unset attribute contributed `""` to a
+`+` cross product rather than annihilating it. `[D §1.2]` does not speak with
+one voice about a memref that is being *rendered* rather than *tested*.
+
+It was measured on the full corpus and it is worse on four of the six headline
+metrics, including both the ones the project tracks:
+
+| metric | engine as shipped | with D6 |
+| ------ | ----------------: | ------: |
+| calibrate default-only (7,160 inputs) | 38.60% | 38.74% |
+| calibrate same topic | 39.72% | 39.88% |
+| calibrate exact line | 9.22% | 9.10% |
+| conformance correct topic (7,304 turns) | **39.39%** | 39.11% |
+| conformance exact reply | **9.51%** | 9.39% |
+| conformance engine default-only | **25.05%** | 24.53% |
+
+25.05% is inside `spec/E §10.1`'s 25-27% acceptance band; 24.53% is below it.
+A narrow variant that changes only the `mem` case and the empty-list fallback,
+leaving unbound stars, unresolved PatternList symbols and unknown nodes at `""`,
+measures **turn for turn identical** to the wide one — so the star, symbol and
+default arms of the proposal are no-ops in this build and only the attribute
+case has any reach at all. Rejected on the measurement, recorded here because
+the semantics are genuinely unsettled and someone will find it again.
+
+### Two latent inconsistencies, reported and not changed
+
+- `runtime.needsStructural` walks `list`, `optional` and `symbol` but not
+  `concat`, so an `and` list or an `and not` element inside a concatenation
+  would be flattened into OR alternatives. **Zero** of the build's 172 `and`
+  lists and 5 `not` nodes sit under a `concat`.
+- `renderValue`'s `optional` branch drops the node's `op`. **Zero** of the
+  build's 8 `optional` nodes carry `op:'and'`.
+- `tokenizeInput` treats an apostrophe as word-internal ("don't" is one word)
+  but `boundaryOk` uses letter-or-digit only, so a `Contains` span may legally
+  end between "don" and "'t". Making the apostrophe a word character would also
+  stop `Contains "Mom"` matching "Mom's". No manual sentence settles it and the
+  manual's own `IfHeard "I don't know"` example works either way.
+
+---
+
+## The calibration harness measures a session that never happened
+
+`engine/test/calibrate.mjs` reports a default-only rate near 38-39% where
+`engine/test/conformance.mjs` reports 25%. The corpus settles which is right.
+
+`calibrate.mjs` builds one `Bot` per CDB connection id, and connection 1 holds
+6,880 of the 7,160 recorded inputs — so one user record accumulates for
+thousands of turns, and the `Suppress` list plus the hundreds of
+`IfDontRecall ?Told.X` guards progressively starve the Standard phase. But that
+one connection contains **331 recorded "Robot Greeting" replies**, and that
+topic is reachable at most once per user record: `Utilities/WebNameGreet.n:858`
+sits inside the "Login over Web" Scenario (one `Web ACCEPT CONNECTION` per
+connection, and it suppresses the other path) and `:877` is the "Login from
+Console" Priority Topic, which opens with `Suppress This`. The original started
+a fresh user record 331 times inside that connection id.
+
+`calibrate.mjs` is left as it is, because it is a useful independent replay and
+because changing a harness to move a number is the thing this project forbids.
+But its default-only figure is a session-model artifact and **must not be tuned
+against**. `conformance.mjs`'s segmentation — a new record at every recorded
+"Robot Greeting", 391 records — is the comparable one.
+
+One more caveat on the target itself. `Mrmind3/MRMIND3CDB.cdb.report.txt` states
+its 25.68% over **25 conversations and 6,187 user statements**, the 11 December
+2000 console session accounting for 5,914. The export replayed here holds
+**7,160 user statements over 28 connections with input**, 6,880 of them in that
+same session. The archive's figure was computed before roughly 970 further
+console turns were appended. It describes an earlier snapshot of this database,
+not the rows we replay. Treat it as a band to land in, not a number to hit.

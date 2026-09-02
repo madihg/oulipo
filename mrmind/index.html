@@ -8,13 +8,13 @@
       name="description"
       content="Peggy Weil's chatbot MR MIND, online 1998 to 2014, running again from its original NeuroScript source. A reprise, not a modern chatbot."
     />
-    <link rel="icon" href="assets/Logo.jpg" />
+    <link rel="icon" href="/mrmind/assets/Logo.jpg" />
     <meta property="og:title" content="MR MIND — The Blurring Test" />
     <meta
       property="og:description"
       content="Turning the Turing Test upside down. Peggy Weil's 1998 chatbot, running again from its original source."
     />
-    <meta property="og:image" content="assets/mrmind.png" />
+    <meta property="og:image" content="https://www.oulipo.xyz/mrmind/assets/mrmind.png" />
     <style>
       :root {
         --cyan: #33ccff;
@@ -443,7 +443,7 @@
         <div class="minds">
           <div class="mind">
             <img
-              src="assets/yourmind.png"
+              src="/mrmind/assets/yourmind.png"
               alt="A human brain in cross-section, with a magnifying lens over a pair of walking legs."
               width="280"
               height="300"
@@ -452,7 +452,7 @@
           </div>
           <div class="mind">
             <img
-              src="assets/mrmind.png"
+              src="/mrmind/assets/mrmind.png"
               alt="A head drawn as a circuit board, with a magnifying lens over an eye."
               width="310"
               height="210"
@@ -585,7 +585,7 @@
     </div>
 
     <script type="module">
-      import { Bot } from "./engine/src/index.js";
+      import { Bot } from "/mrmind/engine/src/index.js";
 
       const transcript = document.getElementById("transcript");
       const boot = document.getElementById("boot");
@@ -680,7 +680,7 @@
         begin();
       });
 
-      fetch("./bot.json")
+      fetch("/mrmind/bot.json")
         .then((r) => {
           if (!r.ok) throw new Error("bot.json " + r.status);
           return r.json();

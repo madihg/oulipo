@@ -52,8 +52,12 @@ Needs Node 20 or newer. No dependencies, no build step, no bundler.
 node engine/build/compile.mjs      # rebuild bot.json from the archive
 node engine/test/all.mjs           # unit tests, a few seconds
 node engine/test/conformance.mjs   # replay the 2001 conversations, ~4 min
-python3 -m http.server 8899        # then open http://localhost:8899
+cd .. && python3 -m http.server 8899   # then open http://localhost:8899/mrmind/
 ```
+
+The page uses root-absolute `/mrmind/...` paths so it behaves identically
+locally and in production, which is why the server runs from the repo root
+rather than from this folder.
 
 `bot.json` is committed, so the page runs without the archive present. You only
 need `compile.mjs` if you change a script.

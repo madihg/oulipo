@@ -89,16 +89,31 @@ sessions and 7,304 turns recorded between December 2000 and 2004, and compares
 what this engine says against what the original said. Current numbers are in
 `engine/test/REPORT.md`.
 
+At the time of writing it answers whenever the original answered (99.63%),
+falls back to a Default topic at 25.05% against the recording's own 25.12% on
+the same turns, picks the same topic 39.39% of the time and says the identical
+sentence 9.51% of the time.
+
 It will never reach 100 per cent, for reasons listed in full in
 `engine/DEVIATIONS.md`. The three that matter:
 
-1. **Spell checking is gone.** NeuroServer ran every input through the Sentry
-   spelling engine and the scripts match against the corrected text. The engine
-   was proprietary and its dictionary survives only as a compiled binary.
+1. **A different Standard topic wins best-fit**, 1,438 turns or 35.14% of the
+   disagreements. This is the largest single cause by a wide margin. The reply
+   is still a line Peggy wrote, just not the one MR MIND chose that day.
 2. **`SayOneOf` is random.** Where a topic offers several replies, matching the
-   original exactly is a coin toss by design.
+   original exactly is a coin toss by design, which caps the exact-sentence
+   number well under 100% no matter how good the matching gets.
 3. **The logs are from a later build** than the `.vsr` in the archive, so a few
-   topics in the database do not exist in these source files.
+   topics in the database do not exist in these source files (302 turns).
+
+`Compute SpellCheck` is the identity function here, because the Sentry engine
+was proprietary and its dictionary survives only as a compiled binary. That was
+once assumed to be the largest fixable gap and it is not: only 10.02% of the
+words people typed are unknown to the recoverable lexicons, 83% of those have no
+neighbour one edit away, and the best corrector the archive supports moves the
+correct-topic rate by at most 0.09 points. It ships disabled. See
+`engine/DEVIATIONS.md`, "Branch A", and reproduce with
+`node engine/test/spell-reach.mjs`.
 
 ## Credits
 

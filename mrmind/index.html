@@ -211,6 +211,10 @@
         color: var(--mint);
         font-size: 13px;
         margin: 0 0 3px;
+        /* A visitor can type a URL or a 40-character run with no spaces in it.
+           Without this the line cannot break, so it widens the page and the
+           whole document scrolls sideways on a phone. */
+        overflow-wrap: anywhere;
       }
       .said b {
         color: var(--grey);
@@ -225,7 +229,11 @@
         font-weight: bold;
         font-size: 15px;
         margin: 0;
+        /* pre-wrap keeps the hard line breaks Peggy typed into her Say
+           strings. overflow-wrap then breaks anything the visitor supplied
+           that is too long for the column, such as a name pasted as a URL. */
         white-space: pre-wrap;
+        overflow-wrap: anywhere;
       }
       .mindtext + .mindtext {
         margin-top: 6px;
@@ -534,9 +542,9 @@
             <li>
               <b>He sometimes picks a different topic.</b> Replaying MR MIND's
               own conversation database, 7,304 turns recorded from 2000 onward,
-              this engine answers whenever the original answered and reaches for
-              a fallback line at the same rate, but it chooses the same topic
-              39% of the time. A different topic winning the best-fit contest is
+              this engine answers on all but 25 of the turns the original
+              answered, and reaches for a fallback line at the same rate, but it
+              chooses the same topic 39% of the time. A different topic winning the best-fit contest is
               the largest single difference, 35% of the disagreements. When it
               happens he is still saying a line Peggy wrote, just not the line he
               said that day.
@@ -586,10 +594,12 @@
         <details>
           <summary>Where the pieces came from</summary>
           <p>
-            The source, the compiled bot, the server binary and the conversation
-            databases were kept by Peggy Weil across a T1 line, a Vaio, a melted
-            hard drive, Dropbox and Google Drive, and shared in August 2026. The
-            site images were recovered from the Internet Archive. NativeMinds'
+            MR MIND ran on a T1 line from 1998 to 2014, for a while on an NT
+            emulator, and finally stopped when the operating system it needed
+            became obsolete. The source, the compiled bot, the server binary and
+            the conversation databases were kept by Peggy Weil, carried off the
+            Vaio that served them, and shared in August 2026. The site images
+            were recovered from the Internet Archive. NativeMinds'
             NeuroScript manual was found inside the archive itself, in the help
             folder shipped with NeuroServer 2.2.
           </p>

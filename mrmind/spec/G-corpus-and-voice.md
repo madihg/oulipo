@@ -7,14 +7,14 @@ Every quoted string is Peggy Weil's, reproduced byte-for-byte from the archive w
 double spaces and inconsistent capitalisation intact.**
 
 **Primary source (ground truth).** The 2002 shipped build,
-`/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/`,
+`mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/`,
 as enumerated by `Mrmind3/MRMIND3.vsr` `[FILES]`.
 **Secondary.** `NeuroScript/MrMind/` (1998-2001, `.g` dialect), `NeuroScript/Mrmind3old/`,
 `NeuroScript/Library/`, and the compiled `.nso` objects in `Mrmind3/NSOBJ/`.
-**Tertiary.** `/Users/halim/Documents/oulipo/mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`,
+**Tertiary.** `mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`,
 cited as `[spec §N]`.
 
-**Companion data file.** `/Users/halim/Documents/oulipo/mrmind/spec/G-all-say-strings.tsv`
+**Companion data file.** `mrmind/spec/G-all-say-strings.tsv`
 — **1375 data rows** (1376 lines including the header), the complete list of user-visible
 `Say` / `SayOneOf` output strings in the Mrmind3 build. See §2.
 

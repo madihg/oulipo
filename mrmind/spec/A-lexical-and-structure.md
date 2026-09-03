@@ -10,7 +10,7 @@ other dimensions; this document specifies only the surface syntax that encloses 
 non-terminal `PatList` that dimension B defines.
 
 **Ground truth.** The shipped bot is `Mrmind3`, whose build manifest is
-`/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/MRMIND3.vsr`.
+`mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/MRMIND3.vsr`.
 Its `[FILES]` section lists **49** source files (not 50); all 49 resolve on disk. Unless stated otherwise
 every count below is over exactly those 49 files ("the build"), read as bytes and normalised only by
 converting CRLF to LF. Corpus size: 489,625 bytes, 14,180 lines, of which 2,585 are blank, 997 are

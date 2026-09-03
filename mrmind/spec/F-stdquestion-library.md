@@ -6,10 +6,10 @@ topics — `StdQuestion` (question/statement/response classification), the `Util
 name-capture/greeting machinery, the profanity filter and the goodbye handler.
 
 Ground truth is the archive at
-`/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
+`mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
 Everything quoted below is copied verbatim from those files (CRLF stripped); every quote carries
 `file:line`. Semantics that the archive cannot show (the run loop, block terminators, specificity)
-are taken from `/Users/halim/Documents/oulipo/mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`
+are taken from `mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`
 and cited as `[spec §N]`. **Where the two disagree, the archive wins**; disagreements are listed
 explicitly in §13.
 

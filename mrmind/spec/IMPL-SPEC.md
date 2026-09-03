@@ -21,7 +21,7 @@ This document is **self-contained for §2 (grammar), §5 (matching), §6 (condit
 
 **Sources, in order of authority.**
 
-1. **The archive.** `/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
+1. **The archive.** `mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
    Paths below are relative to that directory. Ground truth.
 2. **The vendor's own NeuroScript Language Manual**, shipped with NeuroServer and preserved at
    `archive/1_NeuroServer_fromVaio_MrMind/Program/Help/NeuroScriptManual/`, extracted to

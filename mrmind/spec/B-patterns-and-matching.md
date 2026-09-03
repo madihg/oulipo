@@ -5,17 +5,17 @@ Target: a faithful JavaScript re-implementation of the MrMind3 runtime with **no
 
 Sources, in order of authority:
 
-1. **The archive** — `/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
+1. **The archive** — `mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`.
    The shipped bot is `Mrmind3`; its 49 build files are listed in `Mrmind3/MRMIND3.vsr` `[FILES]`.
    All counts below labelled **BUILD** are over exactly those 49 files; counts labelled **ALL** are over all
    184 `.n` files in the archive (including `Base`, `MrMind`, `Mrmind3old`, `Library`, `Copy of Library`, `HttpExample`).
 2. **The vendor manual** — `NEUROSERVER_tutorial.pdf` (NativeMinds, _NeuroServer Tutorial, Version 3.5_,
    © 2000, 2001, Document Revision 9), text extracted at
-   `/Users/halim/Documents/oulipo/mrmind/archive/_research/raw/NEUROSERVER_tutorial.txt`.
+   `mrmind/archive/_research/raw/NEUROSERVER_tutorial.txt`.
    This is the **vendor's own operator table** and is contemporaneous with NeuroScript 2.2 (May 2000).
    It settles several questions the patents leave open and it **overrides the patents** where they disagree.
    Cited as `[tut:LINE]`.
-3. **The patent-derived spec** — `/Users/halim/Documents/oulipo/mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`,
+3. **The patent-derived spec** — `mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`,
    cited as `[spec §N]`.
 
 Where the three disagree, the ranking used here is **archive > tutorial > patents**, and every such

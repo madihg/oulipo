@@ -40,8 +40,8 @@ assets/                   the 2001 site images, recovered from the Internet Arch
 ```
 
 The shipped bot is defined by `Mrmind3/MRMIND3.vsr`, whose `[FILES]` section
-lists 49 source files in build order. Those files hold 690 topics and 228
-pattern lists. Build order matters: it fixes the order Priority and Default
+lists 49 source files in build order. Those files hold 691 categories, 688
+topics and 3 scenarios, plus 228 pattern lists. Build order matters: it fixes the order Priority and Default
 topics run in, and the initial focus of attention.
 
 ## Running it
@@ -49,18 +49,29 @@ topics run in, and the initial focus of attention.
 Needs Node 20 or newer. No dependencies, no build step, no bundler.
 
 ```bash
-node engine/build/compile.mjs      # rebuild bot.json from the archive
 node engine/test/all.mjs           # unit tests, a few seconds
-node engine/test/conformance.mjs   # replay the 2001 conversations, ~4 min
 cd .. && python3 -m http.server 8899   # then open http://localhost:8899/mrmind/
 ```
+
+Those two work from a plain clone. The other two commands need inputs that are
+not in git, because they are Peggy's copyright or hold real visitor
+conversations:
+
+```bash
+node engine/build/compile.mjs      # needs archive/ ; rebuilds bot.json
+node engine/test/conformance.mjs   # needs archive/ and corpus/ ; ~4 min
+```
+
+Without `archive/`, `all.mjs` still exits 0 and still runs four of its six
+files; the two that rebuild from source say `skipped` and explain why. With the
+archive present it runs all six.
 
 The page uses root-absolute `/mrmind/...` paths so it behaves identically
 locally and in production, which is why the server runs from the repo root
 rather than from this folder.
 
 `bot.json` is committed, so the page runs without the archive present. You only
-need `compile.mjs` if you change a script.
+need `compile.mjs` if you change a script, and for that you need the archive.
 
 ## Changing what MR MIND says
 

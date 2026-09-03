@@ -8,6 +8,9 @@
 //   node engine/test/smoke.test.mjs
 
 import assert from "node:assert/strict";
+import { existsSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { buildBotJson } from "../build/compile.mjs";
 import { Bot } from "../src/index.js";
 
@@ -42,6 +45,20 @@ function seeded(seed) {
 const alwaysLast = () => 0.999999;
 /** Always returns the FIRST alternative. */
 const alwaysFirst = () => 0;
+
+// The archive is Peggy Weil's copyright and is not committed. bot.json is, so
+// the site runs from a clean clone; this file cannot, because it deliberately
+// rebuilds from source. Say so and skip rather than dying on ENOENT.
+const VSR = join(
+  dirname(fileURLToPath(import.meta.url)),
+  "..",
+  "..",
+  "archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/MRMIND3.vsr",
+);
+if (!existsSync(VSR)) {
+  console.log("skipped: this suite rebuilds from the archive, which is not in this clone");
+  process.exit(0);
+}
 
 console.log("building bot.json from the archive ...");
 const t0 = Date.now();

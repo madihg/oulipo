@@ -9,10 +9,10 @@ other sections; this document covers them only where they change what reaches th
 
 Sources and how they are cited:
 
-- **Archive** = `/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/`.
+- **Archive** = `mrmind/archive/1_NeuroServer_fromVaio_MrMind/`.
   Script paths below are relative to `…/NeuroScript/`. Quoted lines are verbatim (CRLF stripped).
-- **[spec §N]** = `/Users/halim/Documents/oulipo/mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`.
-- **CDB** = `/Users/halim/Documents/oulipo/mrmind/_work/transcripts/mrmind3-cdb.txt`
+- **[spec §N]** = `mrmind/archive/_research/patents/GERBIL-LANGUAGE-NOTES.md`.
+- **CDB** = `mrmind/_work/transcripts/mrmind3-cdb.txt`
   (7,312 real bot replies, 57 connections, 12 Dec 2000 – 29 Aug 2001, each tagged
   `[<topic name> | <file>:<line>]`).
 - **NSO** = compiled `.nso` objects; `strings -n 3` yields the runtime class names.
@@ -210,16 +210,18 @@ contribute the empty string, not the literal name and not `"TRUE"`.
 		SayToFile "C:\Program Files\NativeMinds\TextFiles\Ashamed.txt" ?Name + ?IPaddress+ " says: " + ?UserAshamed;
 ```
 
-produced, in `Mrmind3/TextFiles/Ashamed.txt`:
+produced, in `Mrmind3/TextFiles/Ashamed.txt`, three lines of the shape below. The
+surviving file holds what real visitors typed in 2001, so the values here are invented and
+only the shape is reproduced:
 
 ```
-User says: I have flaws
- says: sljflk
-New169.254.200.48 says: gee, I never thought of that
+User says: <the visitor's answer>
+ says: <the visitor's answer>
+New10.0.0.1 says: <the visitor's answer>
 ```
 
 `?Name`=`"User"`, `?IPaddress`=`""` → `User says: …`. Second line: `?Name` unset → leading
-space only. Third: `?Name`=`"New"`, `?IPaddress`=`"169.254.200.48"`, concatenated with
+space only. Third: `?Name`=`"New"`, `?IPaddress`=`"10.0.0.1"`, concatenated with
 nothing between them.
 
 **Evidence for `+` = cross product over multi-valued operands.** The greeting,
@@ -567,20 +569,23 @@ entries).
 		SayToFile "C:\Program Files\NativeMinds\TextFiles\Ashamed.txt" ?Name + ?IPaddress+ " continues: " + ?UserAshamed;
 ```
 
-produced `Mrmind3/TextFiles/Ashamed.txt`, first bytes verbatim (`\r\n` shown literally):
+produced `Mrmind3/TextFiles/Ashamed.txt`. Its structure, with the line terminators shown
+literally and the visitor-supplied values replaced by placeholders, since the real file is
+2001 visitor input and is not published:
 
 ```
 MRMIND Says "Do you think that machines will ever be ashamed of their human origins?";\r\n
 \r\n
-Pw says: slkjfd\r\n
-Pw elaborates: slkjfd\r\n
-User says: I have flaws\r\n
-User elaborates: I have flaws\r\n
- says: sljflk\r\n
+<name> says: <answer>\r\n
+<name> elaborates: <answer>\r\n
+User says: <answer>\r\n
+User elaborates: <answer>\r\n
+ says: <answer>\r\n
 ```
 
 (The header line is a hand-written note by the author, not engine output; the `elaborates:`
-lines come from an earlier revision of the second statement.)
+lines come from an earlier revision of the second statement. The last line has an unset
+`?Name`, which is what leaves the leading space.)
 
 Paths in the build are absolute Windows paths under
 `C:\Program Files\NativeMinds\TextFiles\` — except `Mrmind3/Reactions/Asides.n:174`, which

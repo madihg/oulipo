@@ -9,6 +9,7 @@
 // documents (spec/A-lexical-and-structure.md, spec/C-conditions.md), not from
 // this parser's own output.  The citation is on each assertion.
 
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { tokenize } from "../src/lexer.js";
@@ -985,6 +986,24 @@ for (const junk of [
 // 8. Loader
 // ===========================================================================
 suite("loader");
+
+// bot.json is committed, so the page and most of this suite run from a clean
+// clone. The archive is Peggy Weil's copyright and is not in git, so the
+// loader suite has nothing to load there. Skip it and say so, rather than
+// dying on ENOENT and reporting a failure that is really an absent input.
+if (!existsSync(VSR)) {
+  console.log(
+    "\n  skipped: loader suite needs the archive, which is not in this clone",
+  );
+  const t = passed + failures.length;
+  console.log(`\n${passed}/${t} assertions passed (loader suite skipped)`);
+  if (failures.length) {
+    console.log(`\n${failures.length} FAILURES:`);
+    for (const f of failures) console.log("  - " + f);
+    process.exit(1);
+  }
+  process.exit(0);
+}
 
 const project = loadProject(VSR);
 // [A §10.1] the [FILES] section lists 49 sources, not 50.

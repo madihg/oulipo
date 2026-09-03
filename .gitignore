@@ -12,3 +12,8 @@ mrmind/archive/
 mrmind/_work/
 mrmind/corpus/
 mrmind/spec/G-all-say-strings.tsv
+# mrmind/Context.md is the agent's working memory for this project, not a
+# deliverable. It holds notes from private calls, a collaborator's email and
+# the id of the Drive folder the archive came from, and everything under
+# mrmind/ is served publicly at oulipo.xyz/mrmind. Keep it local.
+mrmind/Context.md

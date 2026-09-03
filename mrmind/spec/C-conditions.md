@@ -14,12 +14,12 @@ and the disagreement is called out in §14.
 Two corpora are used. Every count in this document names which one it comes from.
 
 **BUILD** — the 49 source files listed in the `[FILES]` section of
-`/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/MRMIND3.vsr`,
+`mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/Mrmind3/MRMIND3.vsr`,
 resolved case-insensitively (48 under `Mrmind3/`, 1 under `Library/` —
 `Library/StdQuestion/combis/QuesResDebug.us.n`). This is the bot that shipped.
 
 **ALL** — every non-empty `.n` file under
-`/Users/halim/Documents/oulipo/mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`
+`mrmind/archive/1_NeuroServer_fromVaio_MrMind/NeuroScript/`
 (180 files: BUILD + `MrMind/`, `Mrmind3old/`, `Base/`, `Library/`, `Copy of Library/`, `HttpExample/`).
 
 Four `.n` files in the tree are **zero bytes** (damaged-disk artefacts, not empty scripts).

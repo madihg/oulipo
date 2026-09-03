@@ -86,7 +86,16 @@
     tools: "tools",
   };
   function sectionOf(work) {
-    return work.section || KIND_TO_SECTION[work.kind] || null;
+    // Post GO-migration (halimmadi taxonomy, Sep 2026): the shared DB
+    // now stores machine-poetry / computer-theater / net-art. Alias them
+    // back to oulipo's own section vocabulary at read time.
+    var DB_SECTION_ALIASES = {
+      "machine-poetry": "machine-talk",
+      "computer-theater": "algorithmic-plays",
+      "net-art": "somatic-semantics",
+    };
+    var s = DB_SECTION_ALIASES[work.section] || work.section;
+    return s || KIND_TO_SECTION[work.kind] || null;
   }
   function yearOf(work) {
     if (work.year) return work.year;

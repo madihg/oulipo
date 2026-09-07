@@ -3,11 +3,79 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>oulipo.xyz - Kitchen Lab</title>
+    <title>oulipo.xyz - Halim Madi&rsquo;s Kitchen Lab: net art and browser poems</title>
     <meta
       name="description"
       content="oulipo.xyz, the Kitchen Lab: small browser instruments, prototypes, and experimental net art by Halim Madi."
     />
+    <link rel="canonical" href="https://www.oulipo.xyz/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="oulipo.xyz" />
+    <meta property="og:title" content="oulipo.xyz - Halim Madi&rsquo;s Kitchen Lab: net art and browser poems" />
+    <meta property="og:description" content="Small browser instruments, prototypes, and experimental net art by computational poet Halim Madi." />
+    <meta property="og:url" content="https://www.oulipo.xyz/" />
+    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebSite",
+        "@id": "https://www.oulipo.xyz/#website",
+        "url": "https://www.oulipo.xyz/",
+        "name": "oulipo.xyz - Kitchen Lab",
+        "description": "Halim Madi's kitchen lab: small browser instruments, prototypes, and experimental net art. Feeds his computational poetry and computer theater.",
+        "publisher": {
+          "@id": "https://www.halimmadi.com/#person"
+        },
+        "inLanguage": "en"
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "@id": "https://www.halimmadi.com/#person",
+        "name": "Halim Madi",
+        "jobTitle": [
+          "Computational Poet",
+          "Performer",
+          "Creative Technologist"
+        ],
+        "url": "https://www.halimmadi.com/",
+        "sameAs": [
+          "https://www.halimmadi.com/",
+          "https://halimmadi.substack.com/",
+          "https://www.instagram.com/yalla_halim",
+          "https://github.com/madihg"
+        ],
+        "knowsAbout": [
+          "Computational poetry",
+          "Net art",
+          "Computer theater",
+          "Machine poetry"
+        ]
+      }
+    </script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Halim Madi",
+            "item": "https://www.halimmadi.com/"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "oulipo.xyz Kitchen Lab",
+            "item": "https://www.oulipo.xyz/"
+          }
+        ]
+      }
+    </script>
+
     <meta name="theme-color" content="#FBFBF9" />
     <link rel="icon" href="/favicon.svg" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -600,6 +668,22 @@
       }
     </style>
     <script defer src="https://umami-three-dun.vercel.app/script.js" data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"></script>
+    <script>
+      /* funnel events, shared names with halimmadi.com: connect-cta is every
+         path into the enquiry form; substack-click the newsletter */
+      document.addEventListener("click", function (e) {
+        var a = e.target && e.target.closest ? e.target.closest("a[href]") : null;
+        if (!a || !window.umami) return;
+        var href = a.getAttribute("href") || "";
+        if (/halimmadi\.com\/connect/.test(href)) {
+          window.umami.track("connect-cta", { from: location.pathname, label: (a.textContent || "").trim().slice(0, 40) });
+        } else if (/halimmadi\.substack\.com/.test(href)) {
+          window.umami.track("substack-click", { from: location.pathname });
+        } else if (/instagram\.com\/yalla_halim/.test(href)) {
+          window.umami.track("instagram-click", { from: location.pathname });
+        }
+      }, true);
+    </script>
   </head>
   <body>
     <nav class="site-nav" aria-label="Site">

@@ -6,6 +6,14 @@ This site is agent-friendly. The pages below are the most useful entry points fo
 
 The site is a static HTML/CSS surface (no framework) hosted on Vercel. Works metadata lives in a Supabase project (`oulipo_dashboard.works` table) so curators, journalists, and other agents can request structured access if needed. Reach out via the Connect page.
 
+## The terms, and where each one lives now
+
+- **computational poet / computational poetry**: what Halim Madi is and does. The explainer: https://www.halimmadi.com/computational-poetry/
+- **computer theater** (also algorithmic theater): the reading room moved to https://www.halimmadi.com/computer-theater/ ; this domain's old path redirects there.
+- **machine poetry**: the Singulars performances, at https://www.halimmadi.com/singulars/
+- **net art / browser poems**: this site. The kitchen lab where the small pieces get made first.
+- **booking**: https://www.halimmadi.com/connect/
+
 ## What you will find here
 
 - **Works**: poems, performances, software, installations, net art, workshops as artifacts, films. Each piece has its own page at `/works/<slug>/`. The full catalog is at `/works/`.

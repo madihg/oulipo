@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script>
-      /* The fonts are loaded by relative path, so a folder address needs its
-         closing slash: /longing becomes /longing/. */
+      /* This page is a folder: /longing becomes /longing/. */
       if (!/(\/|\.html?)$/.test(location.pathname))
         location.replace(
           location.pathname + "/" + location.search + location.hash,
@@ -16,527 +15,137 @@
       name="description"
       content="Ten small programs after Anne Carson and bpNichol. They start with a lover and a beloved and end with a migrant and a home."
     />
-    <meta name="theme-color" content="#FBFBF9" />
     <link
       rel="icon"
-      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23FBFBF9%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%231C39E8%22/></svg>"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ffffff%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%231c39e8%22/></svg>"
     />
-    <style>
-      /* I wish you were
-         Ten small programs after Anne Carson and bpNichol.
-         No libraries. Two typefaces, both bundled (see fonts/OFL.txt). */
-      @font-face {
-        font-family: "VT323";
-        src: url("fonts/vt323-400.woff2") format("woff2");
-        font-display: swap;
-      }
-      @font-face {
-        font-family: "JetBrains Mono";
-        src: url("fonts/jetbrains-mono.woff2") format("woff2");
-        font-weight: 400 500;
-        font-display: swap;
-      }
-      :root {
-        --blue: #1c39e8;
-        --ink: #0b0b0d;
-        --paper: #fbfbf9;
-        --chrome: #b8bcc2;
-        --ink-dim: rgba(11, 11, 13, 0.58);
-        --ink-60: rgba(11, 11, 13, 0.6);
-        --font-display: "VT323", monospace;
-        --font-mono: "JetBrains Mono", ui-monospace, monospace;
-      }
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        background: var(--paper);
-        color: var(--ink);
-        font-family: var(--font-mono);
-        font-size: 15px;
-        line-height: 1.6;
-        -webkit-font-smoothing: antialiased;
-        overflow: hidden;
-      }
-      :focus-visible {
-        outline: 2px solid var(--blue);
-        outline-offset: 2px;
-      }
-      button {
-        font: inherit;
-        color: inherit;
-      }
-      .label {
-        font-size: 12px;
-        font-weight: 500;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
-        line-height: 1.3;
-      }
-
-      .piece {
-        position: fixed;
-        inset: 0;
-        display: grid;
-        /* minmax(0, ...) so the column follows the window, not the widest row
-           of the screen: otherwise the stage never narrows on resize. */
-        grid-template-columns: minmax(0, 1fr);
-        grid-template-rows: auto minmax(0, 1fr) auto auto auto;
-      }
-
-      /* ---- top: the sentence, and the title ---- */
-      .top {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        gap: 24px;
-        padding: 20px 24px 0;
-      }
-      .said {
-        max-width: 36rem;
-        min-height: 5.6em;
-      }
-      .said-n {
-        color: var(--ink-60);
-        margin: 0 0 6px;
-      }
-      .said-line {
-        margin: 0;
-        font-size: 16px;
-        line-height: 1.5;
-      }
-      .said-quote {
-        margin: 6px 0 0;
-        font-size: 14px;
-        color: var(--ink-60);
-      }
-      .said-after {
-        margin: 6px 0 0;
-        color: var(--ink-60);
-      }
-      .title {
-        margin: 0;
-        font-family: var(--font-display);
-        font-weight: 400;
-        font-size: 22px;
-        line-height: 1;
-        text-transform: lowercase;
-        white-space: nowrap;
-        color: var(--ink-60);
-      }
-
-      /* ---- the stage: a character grid, like a 40-column screen ---- */
-      .stage {
-        position: relative;
-        min-width: 0;
-        min-height: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0 12px;
-        touch-action: none;
-      }
-      .stage:focus-visible {
-        outline-offset: -2px;
-      }
-      #grid {
-        margin: 0;
-        font-family: var(--font-display);
-        font-size: 24px;
-        line-height: 1;
-        white-space: pre;
-        user-select: none;
-        -webkit-user-select: none;
-        cursor: crosshair;
-      }
-      #grid b {
-        color: var(--blue);
-        font-weight: 400;
-      }
-      #grid i {
-        color: var(--ink-dim);
-        font-style: normal;
-      }
-      #free {
-        position: absolute;
-        inset: 0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        pointer-events: none;
-        color: var(--blue);
-        font-family: "Geeza Pro", "Noto Naskh Arabic", "Segoe UI", serif;
-        line-height: 1;
-      }
-
-      #free[hidden] {
-        display: none;
-      }
-
-      .status {
-        min-height: 2.2em;
-        margin: 0;
-        padding: 0 24px;
-        text-align: center;
-        color: var(--ink-60);
-      }
-      /* the two-line Python programs two of the parts are ported from */
-      .code {
-        margin: 0 auto 10px;
-        padding: 0 24px;
-        max-width: 100%;
-        overflow-x: auto;
-        font-family: var(--font-mono);
-        font-size: 12px;
-        line-height: 1.5;
-        color: var(--ink-60);
-        text-align: left;
-        white-space: pre;
-      }
-      .code[hidden] {
-        display: none;
-      }
-
-      /* ---- bottom: about, parts, next ---- */
-      /* the bottom right corner stays empty: a host page may put its own
-         controls there when this runs inside a frame. */
-      .bottom {
-        display: grid;
-        grid-template-columns: 1fr auto 1fr;
-        align-items: center;
-        gap: 12px;
-        padding: 0 24px 20px;
-      }
-      .about-btn {
-        justify-self: start;
-      }
-      .mid {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: center;
-        gap: 6px 14px;
-        min-width: 0;
-      }
-      .chip {
-        appearance: none;
-        background: var(--paper);
-        border: 1px solid var(--chrome);
-        padding: 7px 10px;
-        min-width: 36px;
-        cursor: pointer;
-        color: var(--ink-60);
-      }
-      .chip:hover {
-        color: var(--ink);
-        border-color: var(--ink);
-      }
-      .chip[aria-current="true"] {
-        background: var(--ink);
-        border-color: var(--ink);
-        color: var(--paper);
-      }
-      .parts {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-      }
-
-      /* ---- about ---- */
-      .about[hidden] {
-        display: none;
-      }
-      .about {
-        position: fixed;
-        inset: 0;
-        z-index: 10;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background: rgba(251, 251, 249, 0.92);
-      }
-      .about-box {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        width: min(560px, calc(100% - 32px));
-        max-height: calc(100% - 32px);
-        background: var(--paper);
-        border: 1px solid var(--ink);
-      }
-      .about-scroll {
-        min-height: 0;
-        overflow-y: auto;
-        padding: 32px 28px 28px;
-      }
-      .about-close {
-        position: absolute;
-        z-index: 1;
-        top: 10px;
-        right: 10px;
-        appearance: none;
-        background: var(--paper);
-        border: 0;
-        cursor: pointer;
-        padding: 6px 8px;
-        color: var(--ink-60);
-      }
-      .about-close:hover {
-        color: var(--ink);
-      }
-      .about h2 {
-        margin: 0 0 16px;
-        font-family: var(--font-display);
-        font-weight: 400;
-        font-size: 34px;
-        line-height: 1;
-        text-transform: lowercase;
-      }
-      .about p {
-        margin: 0 0 14px;
-        font-size: 14px;
-      }
-      .about h3 {
-        margin: 22px 0 8px;
-        color: var(--ink-60);
-      }
-      .about ol {
-        margin: 0 0 14px;
-        padding: 0;
-        list-style: none;
-        font-size: 13px;
-        line-height: 1.55;
-      }
-      .about ol li {
-        display: grid;
-        grid-template-columns: 2.2em 1fr;
-        padding: 3px 0;
-      }
-      .about ol li span:first-child {
-        color: var(--ink-dim);
-      }
-      .about-links {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px 18px;
-      }
-      .about a {
-        color: var(--ink);
-      }
-
-      .sr-only {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-        white-space: nowrap;
-      }
-
-      @media (max-width: 640px) {
-        .top {
-          padding: 14px 16px 0;
-          flex-direction: column-reverse;
-          gap: 8px;
-        }
-        .said {
-          min-height: 7.4em;
-        }
-        .said-line {
-          font-size: 15px;
-        }
-        .title {
-          font-size: 18px;
-        }
-        .bottom {
-          position: relative;
-          grid-template-columns: minmax(0, 1fr);
-          padding: 0 16px 14px;
-        }
-        .mid {
-          grid-row: 1;
-        }
-        .parts {
-          flex-basis: 100%;
-          gap: 4px;
-        }
-        .chip {
-          min-width: 0;
-          padding: 6px 5px;
-        }
-        .about-btn,
-        .next {
-          padding: 6px 10px;
-        }
-        .about-btn {
-          position: absolute;
-          left: 16px;
-          bottom: 14px;
-        }
-        .code {
-          white-space: pre-wrap;
-          overflow-wrap: anywhere;
-        }
-      }
-
-      @media (max-height: 480px) {
-        .top {
-          flex-direction: row;
-          padding: 8px 16px 0;
-          gap: 16px;
-        }
-        .said-after,
-        .code {
-          display: none;
-        }
-        .status {
-          min-height: 1.4em;
-        }
-        .bottom {
-          grid-template-columns: 1fr auto 1fr;
-          padding: 0 16px 8px;
-        }
-        .mid {
-          grid-column: 2;
-          grid-row: 1;
-        }
-        .parts {
-          flex-basis: auto;
-        }
-        .about-btn {
-          position: static;
-          grid-column: 1;
-          grid-row: 1;
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="piece">
-      <header class="top">
-        <div class="said" id="said">
-          <p class="said-n label" id="said-n"></p>
-          <p class="said-line" id="said-line"></p>
-          <p class="said-quote" id="said-quote" hidden></p>
-          <p class="said-after label" id="said-after"></p>
-        </div>
-        <h1 class="title">I wish you were</h1>
-      </header>
+    <!--
+      I wish you were
+      Ten small programs after Anne Carson and bpNichol. Halim Madi, 2026.
+      There is no CSS on this page: HTML and JavaScript only.
+    -->
+    <h1>I wish you were</h1>
 
-      <main
-        class="stage"
-        id="stage"
-        tabindex="0"
-        aria-label="Screen. Space or Enter acts on it."
-        aria-describedby="alt"
-      >
-        <pre id="grid" aria-hidden="true"></pre>
-        <div id="free" lang="ar" dir="rtl" aria-hidden="true" hidden></div>
-        <p class="sr-only" id="alt"></p>
-        <p class="sr-only" id="live" aria-live="polite"></p>
-      </main>
-
-      <p class="status label" id="status" aria-live="off"></p>
-      <pre class="code" id="code" hidden></pre>
-
-      <footer class="bottom">
-        <button
-          class="chip label about-btn"
-          id="about-btn"
-          type="button"
-          aria-label="About this piece"
-          aria-haspopup="dialog"
-        >
-          ?
-        </button>
-        <div class="mid">
-          <nav class="parts" id="parts" aria-label="Parts"></nav>
-          <button class="chip label next" id="next" type="button">next</button>
-        </div>
-      </footer>
+    <div id="said" aria-live="polite">
+      <p><small id="said-n"></small></p>
+      <p><i id="said-line"></i></p>
+      <p id="said-two" hidden></p>
     </div>
-
-    <div
-      class="about"
-      id="about"
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="about-title"
-      hidden
-    >
-      <div class="about-box">
-        <button
-          class="about-close label"
-          id="about-close"
-          type="button"
-          aria-label="Close"
+    <p><small id="said-after"></small></p>
+    <details id="tip">
+      <summary id="tip-summary">
+        <small
+          ><svg
+            width="10"
+            height="14"
+            viewBox="0 0 10 14"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M5 .75a4.25 4.25 0 0 0-2.6 7.6c.6.5.85 1 .85 1.6v.8h3.5v-.8c0-.6.25-1.1.85-1.6A4.25 4.25 0 0 0 5 .75z"
+              fill="none"
+              stroke="black"
+              stroke-width="1.2"
+            />
+            <path
+              d="M3.4 12.1h3.2M3.9 13.4h2.2"
+              stroke="black"
+              stroke-width="1.2"
+            />
+          </svg>
+          tip</small
         >
-          close
-        </button>
-        <div class="about-scroll">
-          <h2 id="about-title">I wish you were</h2>
-          <p>
-            Ten small programs about wanting what is not here. They start with a
-            lover and a beloved and end with a migrant and a home.
-          </p>
-          <p>
-            Each part takes one idea from Anne Carson&rsquo;s Eros the
-            Bittersweet or Plainwater and runs it as a program. The sentence
-            above each program is my own, most of them from my notebooks. Black
-            text is the one who wants. Blue text is what is wanted. Parts 02 and
-            04 are two Python couplets of mine from 2026, ported to this screen.
-            Their code is shown under them. The form follows bpNichol&rsquo;s
-            First Screening (1984), twelve kinetic poems he wrote in Apple
-            BASIC.
-          </p>
-          <p>
-            The numbered buttons switch parts. Click, hold, or move over the
-            text. The arrow keys and the space bar work too.
-          </p>
-          <h3 class="label">The ten parts and where they come from</h3>
-          <ol id="about-parts"></ol>
-          <h3 class="label">Halim Madi, poet x machines</h3>
-          <div class="about-links label">
-            <a href="https://www.halimmadi.com" target="_blank" rel="noopener"
-              >halimmadi.com</a
-            >
-            <a href="https://oulipo.xyz" target="_blank" rel="noopener"
-              >oulipo.xyz</a
-            >
-            <a
-              href="https://oulipo.xyz/becoming-crossings"
-              target="_blank"
-              rel="noopener"
-              >becoming crossings</a
-            >
-            <a
-              href="https://www.instagram.com/yalla_halim"
-              target="_blank"
-              rel="noopener"
-              >@yalla_halim</a
-            >
-            <a
-              href="https://halimmadi.substack.com"
-              target="_blank"
-              rel="noopener"
-              >substack</a
-            >
-          </div>
-        </div>
-      </div>
-    </div>
+      </summary>
+      <p><small id="tip-text"></small></p>
+    </details>
+
+    <fieldset id="code" hidden>
+      <legend><small>the program, in Python</small></legend>
+      <p><code id="code-text"></code></p>
+    </fieldset>
+
+    <pre
+      id="grid"
+      tabindex="0"
+      aria-label="The screen. Space or Enter acts on it."
+      aria-describedby="alt"
+    ><font id="size" size="3"></font></pre>
+    <p id="alt" hidden></p>
+
+    <p>
+      <button id="about-btn" type="button" aria-haspopup="dialog">?</button>
+      <span id="parts" role="group" aria-label="Parts"></span>
+      <button id="next" type="button">next</button>
+    </p>
+
+    <dialog id="about" aria-labelledby="about-title">
+      <form method="dialog">
+        <button id="about-close">close</button>
+      </form>
+      <h2 id="about-title">I wish you were</h2>
+      <p>
+        Ten small programs about wanting what is not here. They start with a
+        lover and a beloved and end with a migrant and a home.
+      </p>
+      <p>
+        Each part takes one idea from Anne Carson&rsquo;s Eros the Bittersweet
+        or Plainwater and runs it as a program. The sentence above each program
+        is mine, most of them from my notebooks. The two in quotation marks are
+        Carson&rsquo;s. Black text is the one who wants. Blue text is what is
+        wanted.
+      </p>
+      <p>
+        Part 02 is a Python couplet of mine from 2026, and part 04 is a
+        variation on another one. Their code is shown above the screen. The form
+        follows bpNichol&rsquo;s First Screening (1984), twelve kinetic poems he
+        wrote in Apple BASIC.
+      </p>
+      <p>
+        There is no CSS on this page, only HTML and JavaScript. The numbered
+        buttons switch parts. Click, hold, or move over the screen, and open the
+        tip on each part. The arrow keys and the space bar work too.
+      </p>
+      <h3>The ten parts and where they come from</h3>
+      <ol id="about-parts"></ol>
+      <h3>Halim Madi, poet x machines</h3>
+      <p>
+        <a href="https://www.halimmadi.com" target="_blank" rel="noopener"
+          >halimmadi.com</a
+        >
+        &middot;
+        <a href="https://oulipo.xyz" target="_blank" rel="noopener"
+          >oulipo.xyz</a
+        >
+        &middot;
+        <a
+          href="https://oulipo.xyz/becoming-crossings"
+          target="_blank"
+          rel="noopener"
+          >becoming crossings</a
+        >
+        &middot;
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener"
+          >@yalla_halim</a
+        >
+        &middot;
+        <a href="https://halimmadi.substack.com" target="_blank" rel="noopener"
+          >substack</a
+        >
+      </p>
+    </dialog>
 
     <script>
       /* ==============================================================
          A 40 x 12 character screen and ten small programs that run on it.
          Colour codes in the buffer: 0 ink (the one who wants),
-         1 blue (what is wanted), 2 dim (everything else).
+         1 blue (what is wanted), 2 grey (everything else). Colour is
+         drawn with <font color>, size with <font size>: no CSS.
          ============================================================== */
       "use strict";
 
@@ -546,29 +155,34 @@
       var reduced = window.matchMedia(
         "(prefers-reduced-motion: reduce)",
       ).matches;
+      var COLOR = ["", "#1c39e8", "#666666"];
 
-      var gridEl = document.getElementById("grid");
-      var freeEl = document.getElementById("free");
-      var stageEl = document.getElementById("stage");
-      var statusEl = document.getElementById("status");
-      var altEl = document.getElementById("alt");
-      var codeEl = document.getElementById("code");
-      var saidN = document.getElementById("said-n");
-      var saidLine = document.getElementById("said-line");
-      var saidQuote = document.getElementById("said-quote");
-      var saidAfter = document.getElementById("said-after");
-      var saidBox = document.getElementById("said");
-      var liveEl = document.getElementById("live");
-      var pieceEl = document.querySelector(".piece");
+      function $(id) {
+        return document.getElementById(id);
+      }
+      var gridEl = $("grid"),
+        sizeEl = $("size"),
+        altEl = $("alt"),
+        codeBox = $("code"),
+        codeEl = $("code-text"),
+        saidN = $("said-n"),
+        saidLine = $("said-line"),
+        saidTwo = $("said-two"),
+        saidAfter = $("said-after"),
+        tipEl = $("tip"),
+        tipSummary = $("tip-summary"),
+        tipText = $("tip-text");
 
       /* ---- the screen buffer ---- */
       var buf = [],
         col = [],
+        rowHtml = [],
         lastHtml = "";
       function clear() {
         for (var r = 0; r < ROWS; r++) {
           buf[r] = [];
           col[r] = [];
+          rowHtml[r] = null;
           for (var c = 0; c < COLS; c++) {
             buf[r][c] = " ";
             col[r][c] = 0;
@@ -593,30 +207,29 @@
               ? "&gt;"
               : ch;
       }
-      var TAG = ["", "b", "i"];
       function render() {
         var out = "";
         for (var r = 0; r < ROWS; r++) {
-          var cur = 0;
-          for (var c = 0; c < COLS; c++) {
-            var k = buf[r][c] === " " ? cur : col[r][c];
-            if (k !== cur) {
-              if (cur) out += "</" + TAG[cur] + ">";
-              if (k) out += "<" + TAG[k] + ">";
-              cur = k;
+          if (rowHtml[r] !== null) out += rowHtml[r];
+          else {
+            var cur = 0;
+            for (var c = 0; c < COLS; c++) {
+              var k = buf[r][c] === " " ? cur : col[r][c];
+              if (k !== cur) {
+                if (cur) out += "</font>";
+                if (k) out += '<font color="' + COLOR[k] + '">';
+                cur = k;
+              }
+              out += esc(buf[r][c]);
             }
-            out += esc(buf[r][c]);
+            if (cur) out += "</font>";
           }
-          if (cur) out += "</" + TAG[cur] + ">";
           if (r < ROWS - 1) out += "\n";
         }
         if (out !== lastHtml) {
-          gridEl.innerHTML = out;
+          sizeEl.innerHTML = out;
           lastHtml = out;
         }
-      }
-      function setStatus(s) {
-        if (statusEl.textContent !== s) statusEl.textContent = s;
       }
       function centerC(len) {
         return Math.floor((COLS - len) / 2);
@@ -630,14 +243,14 @@
 
       /* ==============================================================
          The ten parts. Each has:
-           line   - the one sentence shown before the program runs. These are
-                    Halim's own, from his notebooks; 02 and 04 are the lines he
-                    wrote for the two couplets.
-           quote  - optional: a short sentence from the cited passage, shown
-                    under the line. Left empty in this version.
-           after  - the passage the program is built on
-           gloss  - one plain line for the about panel
-           alt    - a text description of what the program does
+           line    - the one sentence shown above the program
+           line2   - optional: a second sentence the program reveals
+           quoted  - the sentence is Carson's, so it is shown in quotation
+                     marks and cited without "after"
+           after   - the passage the program is built on
+           gloss   - one plain line for the about panel
+           tip     - what it does and what you can do, in a few words
+           alt     - a text description of what the program does
            init / tick / act / move / hold - the program
          ============================================================== */
       var PARTS = [
@@ -645,11 +258,11 @@
         {
           key: "sweetbitter",
           line: "Contemplating Whether joy and pain are neighbors Or closer Lovers",
-          quote: "",
           after: "Eros the Bittersweet, “Bittersweet”",
           gloss:
             "Sappho calls eros sweetbitter. She means both at once, not in turn.",
-          alt: "One word in the middle of the screen. Each of its letters flickers between the word sweet and the word bitter, so neither word can be read alone.",
+          tip: "every letter flips between bitter and sweet, so you never read just one. click to hold it still.",
+          alt: "One word in the middle of the screen, between the word bitter above and the word sweet below. Each of its letters flickers between the two words, so neither can be read alone. A click holds it still for a moment.",
           init: function (S) {
             S.a = "sweet ";
             S.b = "bitter";
@@ -661,22 +274,16 @@
             if (S.freeze > 0) S.freeze--;
             else for (i = 0; i < 6; i++) if (Math.random() < 0.3) S.m[i] ^= 1;
             clear();
-            var c0 = centerC(6),
-              sweet = 0;
-            put("sweet", c0, MID - 3, 2);
-            put("bitter", c0, MID + 3, 2);
-            for (i = 0; i < 6; i++) {
-              if (!S.m[i]) sweet++;
+            var c0 = centerC(6);
+            put("bitter", c0, MID - 3, 2);
+            put("sweet", c0, MID + 3, 2);
+            for (i = 0; i < 6; i++)
               put(
                 S.m[i] ? S.b.charAt(i) : S.a.charAt(i),
                 c0 + i,
                 MID,
                 S.m[i] ? 0 : 1,
               );
-            }
-            setStatus(
-              "sweet " + sweet + " of 6. bitter " + (6 - sweet) + " of 6",
-            );
           },
           act: function (S) {
             if (reduced) for (var i = 0; i < 6; i++) S.m[i] = rnd(2);
@@ -689,12 +296,14 @@
           /* A port of Halim's Python couplet "Gone" (2026). The sentence it
              prints is Carson's, from the chapter "Gone". */
           key: "gone",
-          line: "Her sentence loses a word a line, then wants again.",
-          quote: "",
+          line: "the lover wants what he does not have",
+          quoted: true,
+          small: true,
           after: "Eros the Bittersweet, “Gone”",
           gloss:
             "Desire is for what is missing. The program prints Carson’s sentence and takes a word away each line.",
-          alt: "A sentence prints down the screen, one line at a time: the lover wants what he does not have. Each new line is one word shorter, down to a single word. Then the full sentence comes back and it starts again. A click pauses it.",
+          tip: "the two lines of python above print carson’s sentence and drop a word every line, down to one, then start over. click to pause.",
+          alt: "The program prints a sentence down the screen, one line at a time: the lover wants what he does not have. Each new line is one word shorter, down to a single word. Then the full sentence comes back and it starts again. A click pauses it.",
           code: [
             'import itertools as t;w="the lover wants what he does not have".split()',
             "for i in t.count():print(*w[:8-i%8])",
@@ -723,26 +332,18 @@
             var r0 = ROWS - S.lines.length;
             for (var n = 0; n < S.lines.length; n++)
               put(S.lines[n], 1, r0 + n, 0);
-            var k = 8 - ((S.i - 1) % 8);
-            setStatus(
-              (S.paused ? "paused. " : "") +
-                "line " +
-                S.i +
-                ". " +
-                k +
-                (k === 1 ? " word" : " words"),
-            );
           },
         },
 
         /* 03 ---------------------------------------------------------- */
         {
           key: "triangle",
-          line: "In a world of twos, the other is always one doubtful thought away.",
-          quote: "",
+          line: "Conjoined they are held apart.",
+          quoted: true,
           after: "Eros the Bittersweet, “Ruse”",
           gloss:
             "Desire needs three points: the lover, the beloved, and whatever keeps them apart.",
+          tip: "desire needs three: lover, beloved, and what keeps them apart. click to take the third away and watch the other two collapse.",
           alt: "Three words form a triangle: lover, beloved, and between. On a click the word between is removed, the other two slide into each other until neither can be read, and everything goes blank. Then the triangle comes back.",
           init: function (S) {
             S.phase = "open";
@@ -779,20 +380,12 @@
             var la = Math.round(4 + (11 * S.k) / 12);
             var lb = Math.round(29 - (12 * S.k) / 12);
             clear();
-            if (S.phase === "shut" && S.w < 8) {
-              setStatus("points 0");
-              return;
-            }
+            if (S.phase === "shut" && S.w < 8) return;
             if (S.phase === "open") {
               put("between", 16, 1, 2);
               this.dots(19, 2, la + 2, 9);
               this.dots(19, 2, lb + 3, 9);
               this.dots(la + 5, 9, lb - 1, 9);
-              setStatus("points 3");
-            } else {
-              setStatus(
-                S.phase === "shut" ? "points 2. distance 0" : "points 2",
-              );
             }
             put("lover", la, 9, 0);
             var word = "beloved";
@@ -807,61 +400,81 @@
 
         /* 04 ---------------------------------------------------------- */
         {
-          /* A port of Halim's Python couplet "The Reach" (2026). His gap
-             starts at 68; this screen is 40 columns wide, so it starts at 28. */
+          /* A variation on Halim's Python couplet "The Reach" (2026). His
+             couplet halves the gap until one space is left. Here what halves
+             is the distance from the start of lover to the start of beloved,
+             so the two words overlap and lover is cut short, but the distance
+             never reaches zero and lover never disappears. The code starts
+             at 73 for an 80-column terminal; this screen is 40 wide, so 33. */
           key: "reach",
           line: "Lover, beloved, and the space between. It halves every line and never reaches zero.",
-          quote: "",
           after: "Eros the Bittersweet, “The Reach”",
           gloss:
             "Sappho’s apple hangs on the highest branch, where the pickers could not reach it. Carson reads the whole poem as an act of reaching.",
-          alt: "Each line prints the word lover, a gap, and the word beloved in blue. The gap is half as wide on every line: 28 spaces, 14, 7, 3, and then 1 forever. It never becomes zero. A click starts the reach again.",
-          code: ["g=68", 'while 1:print("lover"+" "*g+"beloved");g=g//2 or 1'],
+          tip: "the distance between them halves every line. they get close enough to overlap, but it never reaches zero, so they never become one word. click to start over.",
+          alt: "Each line prints the word lover and then the word beloved in blue. The distance from the start of one to the start of the other halves on every line: 33, 16, 8, 4, 2, then 1 forever. Each new line slides in slowly. From the fourth line they overlap and lover is cut short, down to its first letter, but it never disappears. A click starts again.",
+          code: [
+            "g=73",
+            'while 1:print(("lover"+" "*g)[:g]+"beloved");g=g//2 or 1',
+          ],
           init: function (S) {
-            S.g = 28;
-            S.n = 0;
-            S.lines = [];
+            S.lines = [33];
+            S.prev = 33;
+            S.live = null;
+            S.wait = 10;
+            S.ones = 0;
             S.f = 0;
-            this.print(S);
           },
-          print: function (S) {
-            S.lines.push(S.g);
+          next: function (x) {
+            return Math.floor(x / 2) || 1;
+          },
+          commit: function (S, x) {
+            S.lines.push(x);
             if (S.lines.length > ROWS) S.lines.shift();
-            S.n++;
-            S.last = S.g;
-            S.g = Math.floor(S.g / 2) || 1;
+            S.prev = x;
           },
           act: function (S) {
-            if (reduced && S.last > 1) this.print(S);
-            else {
-              S.g = 28;
-              S.lines = [];
-              S.n = 0;
-              this.print(S);
-            }
+            if (reduced) this.commit(S, this.next(S.prev));
+            else this.init(S);
+          },
+          draw: function (x, r) {
+            put("lover".slice(0, Math.min(5, x)), 0, r, 0);
+            put("beloved", x, r, 1);
           },
           tick: function (S) {
             S.f++;
-            if (!reduced && S.f % 7 === 0) this.print(S);
-            clear();
-            var r0 = ROWS - S.lines.length;
-            for (var n = 0; n < S.lines.length; n++) {
-              put("lover", 0, r0 + n, 0);
-              put("beloved", 5 + S.lines[n], r0 + n, 1);
+            if (!reduced) {
+              if (S.live) {
+                if (S.f % 2 === 0 && S.live.pos > S.live.to) S.live.pos--;
+                if (S.live.pos === S.live.to) {
+                  this.commit(S, S.live.to);
+                  S.live = null;
+                  /* at 1 it keeps printing, each line twice as slow as the
+                     last, so the approach stays on screen */
+                  if (S.live === null && S.prev === 1) S.ones++;
+                  S.wait = 12 * Math.pow(2, Math.min(S.ones, 8));
+                }
+              } else if (--S.wait <= 0)
+                S.live = { pos: S.prev, to: this.next(S.prev) };
             }
-            setStatus("line " + S.n + ". gap " + S.last);
+            clear();
+            var shown = S.lines.slice();
+            if (S.live) shown.push(S.live.pos);
+            shown = shown.slice(-ROWS);
+            var r0 = ROWS - shown.length;
+            for (var n = 0; n < shown.length; n++) this.draw(shown[n], r0 + n);
           },
         },
 
         /* 05 ---------------------------------------------------------- */
         {
           key: "edge",
-          line: "The frontier of intimacy.",
+          line: "The moving frontier of intimacy.",
           line2: "The most dangerous immigrant is the one who loves you.",
-          quote: "",
           after: "Eros the Bittersweet, “Finding the Edge”",
           gloss:
             "Wanting someone shows you where you stop and they begin. Here that edge turns into a border.",
+          tip: "move across the screen: the edge follows you but never closes. click three times and it becomes a border.",
           alt: "The left side of the screen is filled with the word me and the right side with the word you. Between them runs one column that holds only the word edge, written downwards. The column follows your pointer but never closes. After three clicks the column spells border and the word you turns into home.",
           init: function (S) {
             S.e = 20;
@@ -896,25 +509,19 @@
             var r0 = Math.floor((ROWS - word.length) / 2);
             for (var i = 0; i < word.length; i++)
               put(word.charAt(i), S.e, r0 + i, 2);
-            setStatus(word + " at column " + S.e + ". gap 1");
           },
         },
 
         /* 06 ---------------------------------------------------------- */
         {
           key: "alphabet",
-          line: "How my Arabic is frozen in 15 years ago. How it is a cryogenic version of Arabic.",
-          quote: "",
+          line: "My Arabic is cryogenic, a frozen version of the 2000s’ Lebanese.",
           after: "Eros the Bittersweet, “Alphabetic Edge”",
           gloss:
             "Carson ties eros to the Greek alphabet, whose consonants mark where a sound starts and stops. Arabic speakers type a 7 for the sound Latin letters lack.",
+          tip: "click to take the word from english to arabic. one sound has no latin letter, so lebanese texting writes it as a 7.",
           alt: "One word, changing on each click: longing in English, then hanin in Latin letters, then 7anin in Arabizi where the number 7 stands for a missing letter, then the Arabic word for longing.",
-          steps: [
-            { w: "longing", s: "english" },
-            { w: "hanin", s: "latin letters. one sound has no letter" },
-            { w: "7anin", s: "arabizi. 7 stands in for the missing letter" },
-            { w: "حنين", s: "arabic", ar: true },
-          ],
+          steps: ["longing", "hanin", "7anin", "حنين"],
           init: function (S) {
             S.i = 0;
             S.typ = 99;
@@ -924,28 +531,21 @@
             S.typ = reduced ? 99 : 0;
           },
           tick: function (S) {
-            var st = this.steps[S.i];
+            var w = this.steps[S.i];
             if (S.typ < 99) S.typ++;
             clear();
-            if (st.ar) {
-              freeEl.hidden = false;
-              freeEl.textContent = st.w;
-            } else {
-              freeEl.hidden = true;
-              var shown = st.w.slice(0, S.typ);
-              put(
-                shown,
-                centerC(st.w.length),
-                MID,
-                S.i === 0 ? 0 : S.i === 2 ? 1 : 0,
-              );
-              if (S.i === 2 && S.typ > 0)
-                put("7", centerC(st.w.length), MID, 1);
+            if (S.i === 3) {
+              rowHtml[MID] =
+                new Array(centerC(4) + 1).join(" ") +
+                '<font color="' +
+                COLOR[1] +
+                '"><span lang="ar" dir="rtl">' +
+                w +
+                "</span></font>";
+              return;
             }
-            setStatus(st.s);
-          },
-          leave: function () {
-            freeEl.hidden = true;
+            put(w.slice(0, S.typ), centerC(w.length), MID, 0);
+            if (S.i === 2 && S.typ > 0) put("7", centerC(w.length), MID, 1);
           },
         },
 
@@ -953,10 +553,10 @@
         {
           key: "symbolon",
           line: "How long has it been darling? A year and change. And change",
-          quote: "",
           after: "Eros the Bittersweet, “Symbolon”",
           gloss:
             "A symbolon is half of a broken token. Two people each keep a half, and the halves prove they belong together.",
+          tip: "click to bring the two halves together, click again to pull them apart. each time a year passes and the far half changes, so fewer rows fit.",
           alt: "A block of text made of the word home, broken in two along a jagged line. A click brings the halves together and another click pulls them apart. Each time they part a year passes and the far half changes shape, so fewer rows fit.",
           init: function (S) {
             S.L = [];
@@ -985,10 +585,8 @@
             else if (S.g > S.tg) S.g = Math.max(S.tg, S.g - 2);
             clear();
             var c0 = centerC(16 + S.g),
-              r0 = MID - 3,
-              fit = 0;
+              r0 = MID - 3;
             for (var r = 0; r < 6; r++) {
-              if (S.L[r] === S.R[r]) fit++;
               for (var x = 0; x < 16; x++) {
                 var ch = "home".charAt((x + r) % 4);
                 var left = x < S.L[r],
@@ -1001,22 +599,17 @@
                 }
               }
             }
-            setStatus(
-              S.g > 0
-                ? "apart. year " + S.year
-                : "together. " + fit + " of 6 rows still fit",
-            );
           },
         },
 
         /* 08 ---------------------------------------------------------- */
         {
           key: "ice",
-          line: "I didn’t abandon you I had to leave",
-          quote: "",
+          line: "Didn’t abandon you. Had to leave",
           after: "Eros the Bittersweet, “Ice-pleasure”",
           gloss:
             "Carson reads a fragment of Sophokles about children holding ice. They cannot keep holding it and they cannot put it down.",
+          tip: "press and hold and it melts. let go and it slides away. click again to bring it back.",
           alt: "The word home, built large out of small letters. While you press and hold, letters fall from it one at a time and collect at the bottom of the screen. When you let go, the word slides away to the right.",
           font: {
             h: ["#...#", "#...#", "#####", "#...#", "#...#"],
@@ -1084,16 +677,6 @@
               );
             for (var c = 0; c < COLS; c++)
               if (S.pud[c]) put(S.pud[c], c, ROWS - 1, 2);
-            var pct = Math.round((S.cells.length / S.total) * 100);
-            setStatus(
-              !S.cells.length
-                ? "melted"
-                : holding
-                  ? "holding. " + pct + "% left"
-                  : S.off >= COLS
-                    ? "not holding. gone"
-                    : "not holding. " + pct + "% left",
-            );
           },
         },
 
@@ -1101,19 +684,16 @@
         {
           key: "nowthen",
           line: "The day known as tomorrow",
-          quote: "",
           after: "Eros the Bittersweet, “Now Then”",
           gloss:
-            "The lover lives in two times, now and then. Here they are two real clocks: yours, and Beirut’s.",
-          alt: "Two clocks running live. On the left, the time where you are. On the right, in blue, the time in Beirut. Below them the words now and then. A click swaps which clock is called now.",
+            "The lover lives in two times, now and then. Here they are two real clocks: San Francisco and Beirut.",
+          tip: "two live clocks: san francisco, where i live, and beirut, about ten hours ahead. click to swap which one is now.",
+          alt: "Two clocks running live. On the left, the time in San Francisco. On the right, in blue, the time in Beirut, with the day of the week under each. Below them the words now and then. A click swaps which clock is called now.",
           clock: function (zone) {
             var parts = new Intl.DateTimeFormat("en-GB", {
               timeZone: zone,
               hour12: false,
               weekday: "long",
-              year: "numeric",
-              month: "2-digit",
-              day: "2-digit",
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit",
@@ -1126,14 +706,6 @@
             return {
               time: o.hour + ":" + o.minute + ":" + o.second,
               day: o.weekday.toLowerCase(),
-              utc: Date.UTC(
-                +o.year,
-                +o.month - 1,
-                +o.day,
-                +o.hour,
-                +o.minute,
-                +o.second,
-              ),
             };
           },
           init: function (S) {
@@ -1143,9 +715,8 @@
             S.swap = !S.swap;
           },
           tick: function (S) {
-            var here = this.clock(undefined),
+            var here = this.clock("America/Los_Angeles"),
               there = this.clock("Asia/Beirut");
-            var h = Math.round(((there.utc - here.utc) / 3600000) * 2) / 2;
             clear();
             put("here", 7, MID - 3, 2);
             put(here.time, 7, MID - 1, 0);
@@ -1155,64 +726,64 @@
             put(there.day, 25, MID, 2);
             put(S.swap ? "then" : "now", 7, MID + 2, 0);
             put(S.swap ? "now" : "then", 25, MID + 2, 1);
-            var s =
-              h === 0
-                ? "the same hour in both places"
-                : "beirut is " +
-                  Math.abs(h) +
-                  (Math.abs(h) === 1 ? " hour " : " hours ") +
-                  (h > 0 ? "ahead" : "behind");
-            if (there.day !== here.day)
-              s +=
-                ". it is " +
-                (h > 0 ? "already " : "still ") +
-                there.day +
-                " there";
-            setStatus(s);
           },
         },
 
         /* 10 ---------------------------------------------------------- */
         {
           key: "water",
-          line: "Be careful on the road.",
-          line2:
-            "It means I miss you already, I love you but my language can’t stomach affection anymore and all I have is room for fear.",
-          quote: "",
+          line: "Careful on the road",
+          line2: "I miss you already.",
+          define: "phrase, Lebanese.",
           after: "Plainwater, “The Anthropology of Water”",
           gloss:
             "Carson walks the pilgrim road to Compostela and writes about water, which she says no one can hold.",
-          alt: "The letter i stands on a shore with water moving below. A blue word sits on the horizon, always 24 steps away. Each click is a step. The ground moves, only the last three footprints show, and every five steps the word changes: home, mother, country, beloved.",
-          words: ["home", "mother", "country", "beloved"],
+          tip: "click to walk the i across the water. each step leaves a line behind it. on the far bank, the phrase up top gets its meaning.",
+          alt: "The letter i stands on a bank above a band of moving water. Each click moves it one row down and two columns across and leaves one line of a sentence next to it: It means, I miss you already, I love you, but my language, can’t stomach affection, anymore, and all I have, is room for fear. On the ninth click it reaches the far bank and a definition appears under the phrase at the top.",
+          poem: [
+            "It means",
+            "I miss you already,",
+            "I love you",
+            "but my language",
+            "can’t stomach affection",
+            "anymore",
+            "and all I have",
+            "is room for fear.",
+          ],
           wave: "_    __      -   ___     ",
           init: function (S) {
-            S.steps = 0;
+            S.k = 0;
             S.w = 0;
           },
           act: function (S) {
-            S.steps++;
-            if (S.steps === 5) said(1);
+            if (S.k >= 9) {
+              this.init(S);
+              said(0);
+              return;
+            }
+            S.k++;
+            if (S.k === 9) said(1);
           },
           tick: function (S) {
             S.w++;
-            var c, r;
+            var c, r, j;
             clear();
-            var word = this.words[Math.floor(S.steps / 5) % 4];
-            put(word, 30, 3, 1);
-            for (c = 0; c < COLS; c++)
-              if ((c + S.steps) % 6 === 0) put(".", c, 5, 2);
-            for (c = 1; c <= Math.min(3, S.steps); c++) put(",", 6 - c, 4, 2);
-            put("i", 6, 4, 0);
+            for (c = 1; c < COLS; c += 4) {
+              put(".", c, 0, 2);
+              put(".", c, ROWS - 1, 2);
+            }
             var wl = this.wave.length,
               drift = reduced ? 0 : Math.floor(S.w / 2);
-            for (r = 7; r <= 10; r++)
+            for (r = 2; r <= 9; r++)
               for (c = 0; c < COLS; c++) {
                 var ch = this.wave.charAt(
                   (((c + (r % 2 ? drift : -drift) + r * 5) % wl) + wl) % wl,
                 );
                 if (ch !== " ") put(ch, c, r, 2);
               }
-            setStatus("steps " + S.steps + ". " + word + " is 24 steps away");
+            for (j = 1; j <= Math.min(S.k, 8); j++)
+              put(" " + this.poem[j - 1] + " ", 3 + 2 * j, 1 + j, 0);
+            put("i", 2 + 2 * S.k, 1 + S.k, 0);
           },
         },
       ];
@@ -1221,51 +792,72 @@
          The runner: one part at a time, about 11 frames a second.
          ============================================================== */
       var cur = -1,
-        S = {},
-        typer = null,
-        told = 0;
+        S = {};
 
-      /* The sentence is typed on screen but announced once, whole. */
+      /* The second sentence: room is kept for it, it appears when the
+         program says so. */
       function said(which) {
         var p = PARTS[cur];
-        var text = which === 1 && p.line2 ? p.line2 : p.line;
-        if (which === 1) liveEl.textContent = text;
-        if (typer) clearInterval(typer);
-        if (reduced) {
-          saidLine.textContent = text;
+        saidTwo.textContent = "";
+        if (!p.line2) {
+          saidTwo.hidden = true;
           return;
         }
-        var n = 0;
-        saidLine.textContent = "";
-        typer = setInterval(function () {
-          n += 2;
-          saidLine.textContent = text.slice(0, n);
-          if (n >= text.length) clearInterval(typer);
-        }, 30);
+        saidTwo.hidden = false;
+        if (which !== 1) {
+          saidTwo.textContent = " ";
+          return;
+        }
+        if (p.define) {
+          var label = document.createElement("small"),
+            it = document.createElement("i");
+          it.textContent = p.define;
+          label.appendChild(it);
+          saidTwo.appendChild(label);
+          saidTwo.appendChild(document.createTextNode(" " + p.line2));
+        } else {
+          var i2 = document.createElement("i");
+          i2.textContent = p.line2;
+          saidTwo.appendChild(i2);
+        }
       }
 
       function show(n) {
         n = ((n % PARTS.length) + PARTS.length) % PARTS.length;
-        clearTimeout(told);
-        if (cur >= 0 && PARTS[cur].leave) PARTS[cur].leave();
+        if (cur >= 0 && PARTS[cur].leave) PARTS[cur].leave(S);
         cur = n;
         var p = PARTS[cur];
         S = {};
         p.init(S);
         saidN.textContent = (cur < 9 ? "0" : "") + (cur + 1) + " of 10";
-        saidAfter.textContent = "after anne carson, " + p.after;
-        saidQuote.hidden = !p.quote;
-        saidQuote.textContent = p.quote || "";
-        altEl.textContent = p.alt;
-        liveEl.textContent =
-          "Part " + (cur + 1) + " of 10. " + p.line + " " + p.alt;
-        codeEl.hidden = !p.code;
-        codeEl.textContent = p.code ? p.code.join("\n") : "";
-        reserve();
+        saidLine.textContent = p.quoted ? "“" + p.line + "”" : p.line;
         said(0);
-        fit();
-        document.querySelectorAll("#parts button").forEach(function (b, i) {
-          b.setAttribute("aria-current", i === cur ? "true" : "false");
+        saidAfter.textContent =
+          (p.quoted ? "Anne Carson, " : "after Anne Carson, ") + p.after;
+        tipSummary.title = p.tip;
+        tipText.textContent = p.tip;
+        tipEl.open = false;
+        altEl.textContent = p.alt;
+        codeBox.hidden = !p.code;
+        /* <code> in a paragraph, one statement per line: on a phone a long
+           line wraps at its spaces instead of pushing the page sideways */
+        codeEl.textContent = "";
+        (p.code || []).forEach(function (line, i) {
+          if (i) codeEl.appendChild(document.createElement("br"));
+          codeEl.appendChild(document.createTextNode(line));
+        });
+        partButtons.forEach(function (b, i) {
+          var num = (i < 9 ? "0" : "") + (i + 1);
+          b.textContent = "";
+          if (i === cur) {
+            var bold = document.createElement("b");
+            bold.textContent = num;
+            b.appendChild(bold);
+            b.setAttribute("aria-current", "true");
+          } else {
+            b.textContent = num;
+            b.removeAttribute("aria-current");
+          }
         });
         if (location.hash !== "#" + (cur + 1)) {
           try {
@@ -1274,18 +866,7 @@
         }
         p.tick(S);
         render();
-      }
-
-      /* Hold room for the longest sentence of the part before it is typed,
-         so the screen below does not move while it arrives. */
-      function reserve() {
-        var p = PARTS[cur];
-        var keep = saidLine.textContent;
-        saidBox.style.minHeight = "";
-        saidLine.textContent =
-          p.line2 && p.line2.length > p.line.length ? p.line2 : p.line;
-        saidBox.style.minHeight = saidBox.offsetHeight + "px";
-        saidLine.textContent = keep;
+        fit();
       }
 
       function settle(n) {
@@ -1304,26 +885,25 @@
         requestAnimationFrame(frame);
       }
 
-      /* ---- fit the 40 x 12 screen to the stage ---- */
+      /* ---- size the screen with <font size>: the largest of the seven
+         HTML sizes that fits the window ---- */
       function fit() {
-        var probe = document.createElement("span");
-        probe.style.cssText =
-          "position:absolute;visibility:hidden;white-space:pre;font-family:VT323,monospace;font-size:100px;line-height:1";
-        probe.textContent = "MMMMMMMMMM";
-        document.body.appendChild(probe);
-        var ratio = probe.getBoundingClientRect().width / 1000;
-        probe.remove();
-        var w = stageEl.clientWidth - 24,
-          h = stageEl.clientHeight - 8;
-        var fs = Math.floor(Math.min(w / (COLS * ratio), h / ROWS));
-        fs = clamp(fs, 9, 64);
-        gridEl.style.fontSize = fs + "px";
-        freeEl.style.fontSize = Math.round(fs * 2.4) + "px";
+        var maxW = document.documentElement.clientWidth - 16,
+          maxH = window.innerHeight * 0.6,
+          best = 1;
+        for (var s = 1; s <= 7; s++) {
+          sizeEl.setAttribute("size", String(s));
+          var r = sizeEl.getBoundingClientRect();
+          if (r.width <= maxW && r.height <= maxH) best = s;
+          else break;
+        }
+        if (PARTS[cur] && PARTS[cur].small) best = Math.max(1, best - 1);
+        sizeEl.setAttribute("size", String(best));
       }
 
-      /* ---- pointer and keys ---- */
+      /* ---- pointer, touch and keys ---- */
       function cell(e) {
-        var r = gridEl.getBoundingClientRect();
+        var r = sizeEl.getBoundingClientRect();
         return {
           c: Math.floor(((e.clientX - r.left) / r.width) * COLS),
           r: Math.floor(((e.clientY - r.top) / r.height) * ROWS),
@@ -1334,14 +914,14 @@
         if (p.act) p.act(S, c, r, repeat);
         if (reduced) settle(40);
       }
-      stageEl.addEventListener("pointermove", function (e) {
+      gridEl.addEventListener("pointermove", function (e) {
         var p = PARTS[cur];
         if (!p.move) return;
         var k = cell(e);
         p.move(S, k.c, k.r);
         if (reduced) settle(40);
       });
-      stageEl.addEventListener("pointerdown", function (e) {
+      gridEl.addEventListener("pointerdown", function (e) {
         if (e.button) return;
         var p = PARTS[cur],
           k = cell(e);
@@ -1349,42 +929,55 @@
         act(k.c, k.r);
       });
       ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
-        stageEl.addEventListener(ev, function () {
+        gridEl.addEventListener(ev, function () {
           var p = PARTS[cur];
           if (p.hold) p.hold(S, false);
         });
       });
-
-      var aboutEl = document.getElementById("about");
-      var aboutBtn = document.getElementById("about-btn");
-      var aboutFrom = null;
-      function about(open) {
-        if (open) aboutFrom = document.activeElement;
-        pieceEl.inert = open; /* keeps Tab inside the panel while it is open */
-        aboutEl.hidden = !open;
-        if (open) document.getElementById("about-close").focus();
-        else
-          (aboutFrom && aboutFrom !== document.body
-            ? aboutFrom
-            : stageEl
-          ).focus(); /* back to where the reader was */
-      }
-      aboutBtn.addEventListener("click", function () {
-        about(true);
+      /* on a phone, dragging or holding on the screen should not scroll
+         the page or open a menu */
+      gridEl.addEventListener(
+        "touchmove",
+        function (e) {
+          var p = PARTS[cur];
+          if (p.move || p.hold) e.preventDefault();
+        },
+        { passive: false },
+      );
+      gridEl.addEventListener("contextmenu", function (e) {
+        if (PARTS[cur].hold) e.preventDefault();
       });
-      document
-        .getElementById("about-close")
-        .addEventListener("click", function () {
-          about(false);
-        });
+      gridEl.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+
+      var aboutEl = $("about"),
+        aboutBtn = $("about-btn"),
+        aboutFrom = null;
+      aboutBtn.addEventListener("click", function () {
+        aboutFrom = document.activeElement;
+        aboutEl.showModal();
+      });
+      aboutEl.addEventListener("close", function () {
+        /* back to where the reader was */
+        (aboutFrom && aboutFrom !== document.body ? aboutFrom : gridEl).focus();
+      });
       aboutEl.addEventListener("click", function (e) {
-        if (e.target === aboutEl) about(false);
+        /* a click outside the panel closes it */
+        var r = aboutEl.getBoundingClientRect();
+        if (
+          e.target === aboutEl &&
+          (e.clientX < r.left ||
+            e.clientX > r.right ||
+            e.clientY < r.top ||
+            e.clientY > r.bottom)
+        )
+          aboutEl.close();
       });
 
       document.addEventListener("keydown", function (e) {
-        if (!aboutEl.hidden) {
-          if (e.key === "Escape") about(false);
-          else if (e.key === "Tab") {
+        if (aboutEl.open) {
+          if (e.key === "Tab") {
             /* Tab goes round inside the panel */
             var stops = aboutEl.querySelectorAll("button, a[href]");
             var first = stops[0],
@@ -1402,66 +995,52 @@
         }
         if (e.key === "ArrowRight") show(cur + 1);
         else if (e.key === "ArrowLeft") show(cur - 1);
-        else if (e.key === "?") about(true);
+        else if (e.key === "?") aboutBtn.click();
         else if (
           (e.key === " " || e.key === "Enter") &&
-          (e.target === document.body || e.target === stageEl)
+          (e.target === document.body || e.target === gridEl)
         ) {
           e.preventDefault();
           if (e.repeat && !PARTS[cur].hold) return;
-          /* say what the press did, once, unless a new sentence already did */
-          var heard = liveEl.textContent;
           act(undefined, undefined, e.repeat);
-          clearTimeout(told);
-          if (liveEl.textContent === heard)
-            told = setTimeout(function () {
-              liveEl.textContent = statusEl.textContent;
-            }, 900);
         }
       });
 
       /* ---- build the part buttons and the about list ---- */
-      var partsEl = document.getElementById("parts");
-      var aboutParts = document.getElementById("about-parts");
+      var partsEl = $("parts"),
+        aboutParts = $("about-parts"),
+        partButtons = [];
       PARTS.forEach(function (p, i) {
         var n = (i < 9 ? "0" : "") + (i + 1);
         var b = document.createElement("button");
         b.type = "button";
-        b.className = "chip label";
         b.textContent = n;
         b.setAttribute("aria-label", "Part " + (i + 1));
         b.addEventListener("click", function (e) {
           show(i);
-          if (e.detail) stageEl.focus();
+          /* after a mouse click, Space belongs to the screen again */
+          if (e.detail) gridEl.focus();
         });
         partsEl.appendChild(b);
+        partsEl.appendChild(document.createTextNode(" "));
+        partButtons.push(b);
         var li = document.createElement("li");
-        var a = document.createElement("span");
-        a.textContent = n;
-        var t = document.createElement("span");
-        t.textContent = p.after + ". " + p.gloss;
-        li.appendChild(a);
-        li.appendChild(t);
+        li.textContent = p.after + ". " + p.gloss;
         aboutParts.appendChild(li);
       });
-      document.getElementById("next").addEventListener("click", function (e) {
+      $("next").addEventListener("click", function (e) {
         show(cur + 1);
-        if (e.detail) stageEl.focus();
+        if (e.detail) gridEl.focus();
       });
 
       /* ---- start ---- */
       clear();
       var start = parseInt(location.hash.replace("#", ""), 10);
-      fit();
       show(start >= 1 && start <= PARTS.length ? start - 1 : 0);
-      if (document.fonts && document.fonts.ready)
-        document.fonts.ready.then(function () {
-          fit();
-          render();
-        });
-      window.addEventListener("resize", function () {
-        reserve();
-        fit();
+      window.addEventListener("resize", fit);
+      window.addEventListener("hashchange", function () {
+        var n = parseInt(location.hash.replace("#", ""), 10);
+        if (n >= 1 && n <= PARTS.length && n - 1 !== cur) show(n - 1);
       });
       if (reduced) {
         setInterval(function () {

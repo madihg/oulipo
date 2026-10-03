@@ -2,8 +2,8 @@
 
 ## Session State (Oct 3, 2026 - "I wish you were", the Crawlspace piece at /longing/)
 
-**Status: BUILT + VERIFIED (83 ship checks), unlisted at oulipo.xyz/longing/.**
-Submission to Crawlspace is drafted in Gmail, not sent. Deadline: Wednesday
+**Status: BUILT + VERIFIED (83 ship checks), shipped unlisted via PR #70 to
+oulipo.xyz/longing/.** Submission to Crawlspace is drafted in Gmail, not sent. Deadline: Wednesday
 7 October 2026, 11pm AEDT (5am Pacific), by email to hello@crawlspace.cool.
 
 What it is: ten small programs after Anne Carson (Eros the Bittersweet,
@@ -16,11 +16,13 @@ a border in 05, migrant and home in 06-10.
 - `longing/README.md` - parts, sources, how it is made.
 - `scripts/check-longing.mjs` - 23 static + 60 playwright checks. Needs the
   static server on 4242 (launch.json: oulipo-static). `--static` skips e2e.
-- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing` and
-  `/longing/:path*`. The page itself carries NO robots meta on purpose: the
+- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing(.*)`. A
+  `/longing/:path*` rule did NOT cover `/longing/` itself on the preview, so
+  it is a plain prefix now. The page itself carries NO robots meta on purpose: the
   same folder goes to the journal, whose hosted copy should be indexable.
-- `.private/crawlspace/` (gitignored) - the zip sent to the journal and the
-  notes that answer their three questions.
+- `.private/crawlspace/` (gitignored) - `i-wish-you-were.zip` (the folder,
+  for the journal) and `notes-for-crawlspace.txt` (answers to their three
+  questions, attached to the Gmail draft).
 
 Decisions taken this session (all reversible, all Halim's to overrule):
 
@@ -54,6 +56,9 @@ Open, for Halim:
 3. The notes say the piece was built "in conversation with Claude Code". His
    call how to word that.
 4. Optional: paste Carson sentences into the `quote` slots.
+5. The correctness review agent died when usage credits ran out, so the ten
+   programs got the e2e checks plus the accessibility review, not a separate
+   logic review.
 
 **Machine note, read before running git here.** `~/Documents` is iCloud-synced
 with storage optimisation, and it evicts repo files. On Oct 3 a 181 MB git

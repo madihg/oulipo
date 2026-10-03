@@ -7,7 +7,9 @@
       /* The fonts are loaded by relative path, so a folder address needs its
          closing slash: /longing becomes /longing/. */
       if (!/(\/|\.html?)$/.test(location.pathname))
-        location.replace(location.pathname + "/" + location.search + location.hash);
+        location.replace(
+          location.pathname + "/" + location.search + location.hash,
+        );
     </script>
     <title>I wish you were - Halim Madi</title>
     <meta
@@ -478,44 +480,54 @@
           close
         </button>
         <div class="about-scroll">
-        <h2 id="about-title">I wish you were</h2>
-        <p>
-          Ten small programs about wanting what is not here. They start with a
-          lover and a beloved and end with a migrant and a home.
-        </p>
-        <p>
-          Each part takes one idea from Anne Carson&rsquo;s Eros the Bittersweet
-          or Plainwater and runs it as a program. The sentence above each
-          program is my own, most of them from my notebooks. Black text is the
-          one who wants. Blue text is what is wanted. Parts 02 and 04 are two
-          Python couplets of mine from 2026, ported to this screen. Their code
-          is shown under them. The form follows bpNichol&rsquo;s First Screening
-          (1984), twelve kinetic poems he wrote in Apple BASIC.
-        </p>
-        <p>
-          The numbered buttons switch parts. Click, hold, or move over the
-          text. The arrow keys and the space bar work too.
-        </p>
-        <h3 class="label">The ten parts and where they come from</h3>
-        <ol id="about-parts"></ol>
-        <h3 class="label">Halim Madi, poet x machines</h3>
-        <div class="about-links label">
-          <a href="https://www.halimmadi.com" target="_blank" rel="noopener"
-            >halimmadi.com</a
-          >
-          <a href="https://oulipo.xyz" target="_blank" rel="noopener"
-            >oulipo.xyz</a
-          >
-          <a href="https://oulipo.xyz/becoming-crossings" target="_blank" rel="noopener"
-            >becoming crossings</a
-          >
-          <a href="https://www.instagram.com/yalla_halim" target="_blank" rel="noopener"
-            >@yalla_halim</a
-          >
-          <a href="https://halimmadi.substack.com" target="_blank" rel="noopener"
-            >substack</a
-          >
-        </div>
+          <h2 id="about-title">I wish you were</h2>
+          <p>
+            Ten small programs about wanting what is not here. They start with a
+            lover and a beloved and end with a migrant and a home.
+          </p>
+          <p>
+            Each part takes one idea from Anne Carson&rsquo;s Eros the
+            Bittersweet or Plainwater and runs it as a program. The sentence
+            above each program is my own, most of them from my notebooks. Black
+            text is the one who wants. Blue text is what is wanted. Parts 02 and
+            04 are two Python couplets of mine from 2026, ported to this screen.
+            Their code is shown under them. The form follows bpNichol&rsquo;s
+            First Screening (1984), twelve kinetic poems he wrote in Apple
+            BASIC.
+          </p>
+          <p>
+            The numbered buttons switch parts. Click, hold, or move over the
+            text. The arrow keys and the space bar work too.
+          </p>
+          <h3 class="label">The ten parts and where they come from</h3>
+          <ol id="about-parts"></ol>
+          <h3 class="label">Halim Madi, poet x machines</h3>
+          <div class="about-links label">
+            <a href="https://www.halimmadi.com" target="_blank" rel="noopener"
+              >halimmadi.com</a
+            >
+            <a href="https://oulipo.xyz" target="_blank" rel="noopener"
+              >oulipo.xyz</a
+            >
+            <a
+              href="https://oulipo.xyz/becoming-crossings"
+              target="_blank"
+              rel="noopener"
+              >becoming crossings</a
+            >
+            <a
+              href="https://www.instagram.com/yalla_halim"
+              target="_blank"
+              rel="noopener"
+              >@yalla_halim</a
+            >
+            <a
+              href="https://halimmadi.substack.com"
+              target="_blank"
+              rel="noopener"
+              >substack</a
+            >
+          </div>
         </div>
       </div>
     </div>
@@ -635,7 +647,8 @@
           line: "Contemplating Whether joy and pain are neighbors Or closer Lovers",
           quote: "",
           after: "Eros the Bittersweet, “Bittersweet”",
-          gloss: "Sappho calls eros sweetbitter. She means both at once, not in turn.",
+          gloss:
+            "Sappho calls eros sweetbitter. She means both at once, not in turn.",
           alt: "One word in the middle of the screen. Each of its letters flickers between the word sweet and the word bitter, so neither word can be read alone.",
           init: function (S) {
             S.a = "sweet ";

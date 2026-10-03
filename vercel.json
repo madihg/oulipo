@@ -194,11 +194,7 @@
   ],
   "headers": [
     {
-      "source": "/longing",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
-    },
-    {
-      "source": "/longing/:path*",
+      "source": "/longing(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
     }
   ]

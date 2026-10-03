@@ -8,18 +8,18 @@ screen. Black text is the one who wants. Blue text is what is wanted.
 
 ## The ten parts
 
-| #   | Sentence                                                                             | After                                           |
-| --- | ------------------------------------------------------------------------------------ | ----------------------------------------------- |
-| 01  | Contemplating Whether joy and pain are neighbors Or closer Lovers                    | Eros the Bittersweet, "Bittersweet"             |
-| 02  | Her sentence loses a word a line, then wants again.                                  | Eros the Bittersweet, "Gone"                    |
-| 03  | In a world of twos, the other is always one doubtful thought away.                   | Eros the Bittersweet, "Ruse"                    |
-| 04  | Lover, beloved, and the space between. It halves every line and never reaches zero.  | Eros the Bittersweet, "The Reach"               |
-| 05  | The frontier of intimacy. / The most dangerous immigrant is the one who loves you.   | Eros the Bittersweet, "Finding the Edge"        |
-| 06  | How my Arabic is frozen in 15 years ago. How it is a cryogenic version of Arabic.    | Eros the Bittersweet, "Alphabetic Edge"         |
-| 07  | How long has it been darling? A year and change. And change                          | Eros the Bittersweet, "Symbolon"                |
-| 08  | I didn’t abandon you I had to leave                                                  | Eros the Bittersweet, "Ice-pleasure"            |
-| 09  | The day known as tomorrow                                                            | Eros the Bittersweet, "Now Then"                |
-| 10  | Be careful on the road. / It means I miss you already, I love you but my language can’t stomach affection anymore and all I have is room for fear. | Plainwater, "The Anthropology of Water" |
+| #   | Sentence                                                                                                                                           | After                                    |
+| --- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| 01  | Contemplating Whether joy and pain are neighbors Or closer Lovers                                                                                  | Eros the Bittersweet, "Bittersweet"      |
+| 02  | Her sentence loses a word a line, then wants again.                                                                                                | Eros the Bittersweet, "Gone"             |
+| 03  | In a world of twos, the other is always one doubtful thought away.                                                                                 | Eros the Bittersweet, "Ruse"             |
+| 04  | Lover, beloved, and the space between. It halves every line and never reaches zero.                                                                | Eros the Bittersweet, "The Reach"        |
+| 05  | The frontier of intimacy. / The most dangerous immigrant is the one who loves you.                                                                 | Eros the Bittersweet, "Finding the Edge" |
+| 06  | How my Arabic is frozen in 15 years ago. How it is a cryogenic version of Arabic.                                                                  | Eros the Bittersweet, "Alphabetic Edge"  |
+| 07  | How long has it been darling? A year and change. And change                                                                                        | Eros the Bittersweet, "Symbolon"         |
+| 08  | I didn’t abandon you I had to leave                                                                                                                | Eros the Bittersweet, "Ice-pleasure"     |
+| 09  | The day known as tomorrow                                                                                                                          | Eros the Bittersweet, "Now Then"         |
+| 10  | Be careful on the road. / It means I miss you already, I love you but my language can’t stomach affection anymore and all I have is room for fear. | Plainwater, "The Anthropology of Water"  |
 
 ## Sources
 

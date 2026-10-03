@@ -1,5 +1,73 @@
 # Oulipo.xyz Context
 
+## Session State (Oct 3, 2026 - "I wish you were", the Crawlspace piece at /longing/)
+
+**Status: BUILT + VERIFIED (83 ship checks), unlisted at oulipo.xyz/longing/.**
+Submission to Crawlspace is drafted in Gmail, not sent. Deadline: Wednesday
+7 October 2026, 11pm AEDT (5am Pacific), by email to hello@crawlspace.cool.
+
+What it is: ten small programs after Anne Carson (Eros the Bittersweet,
+Plainwater) and bpNichol's First Screening. One sentence, then a program on a
+40 x 12 character screen. Lover and beloved in parts 01-04, the edge turns into
+a border in 05, migrant and home in 06-10.
+
+- `longing/index.html` - the whole piece, one file, no libraries.
+- `longing/fonts/` - VT323 + JetBrains Mono (OFL) and `OFL.txt`.
+- `longing/README.md` - parts, sources, how it is made.
+- `scripts/check-longing.mjs` - 23 static + 60 playwright checks. Needs the
+  static server on 4242 (launch.json: oulipo-static). `--static` skips e2e.
+- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing` and
+  `/longing/:path*`. The page itself carries NO robots meta on purpose: the
+  same folder goes to the journal, whose hosted copy should be indexable.
+- `.private/crawlspace/` (gitignored) - the zip sent to the journal and the
+  notes that answer their three questions.
+
+Decisions taken this session (all reversible, all Halim's to overrule):
+
+- Title is "I wish you were", a line from his "[material] Poetry" notebook
+  (his gloss there: just that, not "I wish you were here"). None of the titles
+  he floated appear in the notebook. The folder stays `longing/`.
+- The sentence above each program is HIS, verbatim: eight from the notebook,
+  two (02, 04) from his 16 Sept 2026 email to Nick Montfort with the two
+  Python couplets "Gone" and "The Reach", which parts 02 and 04 port. The
+  check script holds the allow-list; a sentence not on it fails the build.
+  The first draft had sentences written by the assistant - those are gone.
+- Carson is in copyright. Only her eight-word sentence that the Gone couplet
+  prints is in the piece. Each part cites book and chapter. The `quote` slots
+  are empty; Halim can paste a short sentence per part from his own Kindle
+  highlights (locations listed in the Oct 3 chat and in the PR body).
+- Crawlspace hosts accepted work in a nested iframe with their menu tab on
+  the bottom right edge. So: outbound links are target=_blank, `next` sits
+  beside the part numbers and the bottom right corner is empty, and a small
+  script adds the trailing slash so relative font paths work at `/longing`.
+- Accessibility pass (independent review, each fix re-verified): the screen
+  is focusable and Space/Enter act on it, Tab is trapped in the about panel,
+  reduced motion works on all ten parts, the typed sentence is announced once
+  through a separate live region, sentence height is reserved before typing,
+  short windows get their own layout, dim ink is 0.58 alpha (4.8:1).
+
+Open, for Halim:
+
+1. Read the ten sentences in place and veto any (README has the table).
+2. Fill the one bracket in the email and the one in the notes: how he found
+   Crawlspace / which piece of theirs brought him there. Nothing was invented.
+3. The notes say the piece was built "in conversation with Claude Code". His
+   call how to word that.
+4. Optional: paste Carson sentences into the `quote` slots.
+
+**Machine note, read before running git here.** `~/Documents` is iCloud-synced
+with storage optimisation, and it evicts repo files. On Oct 3 a 181 MB git
+pack, 527 playwright files and ~3,400 working-tree files were `dataless`
+placeholders: git said `bad object HEAD` / `mmap failed`, node threw on
+`require('playwright')`. Fix is `brctl download <path>` and wait; nothing was
+corrupt. iCloud had also dropped conflict copies into `.git` ("main 2",
+"index 2", "HEAD 2.lock"); "main 2" broke `git fetch` and was moved to
+`.git/icloud-conflict-copies/` (it pointed at an ancestor of main). The local
+checkout is still on an old `main` with ~29 files showing as modified from
+earlier plumbing commits; this session committed with plumbing on top of
+`origin/main` and touched nothing else. Moving the repos out of iCloud
+Documents (or marking them Keep Downloaded) would end all of this.
+
 ## Session State (Aug 24, 2026 - hugo ball added to /computer-theater)
 
 **Status: BUILT + VERIFIED, uncommitted** - awaiting Halim's eye. All 54 ship

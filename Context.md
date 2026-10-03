@@ -2,8 +2,11 @@
 
 ## Session State (Oct 3, 2026 - "I wish you were", the Crawlspace piece at /longing/)
 
-**Status: BUILT + VERIFIED (83 ship checks), shipped unlisted via PR #70 to
-oulipo.xyz/longing/.** Submission to Crawlspace is drafted in Gmail, not sent. Deadline: Wednesday
+**Status: BUILT + VERIFIED (83 ship checks). PR #70 is open and NOT merged -
+merging is Halim's call.** Its Vercel preview passed (headers, fonts, the
+/longing redirect). Once merged it is unlisted at oulipo.xyz/longing/. The
+submission is a Gmail draft in hi@halimmadi.com, not sent; its two links
+(oulipo.xyz/longing/ and the GitHub folder on main) only resolve after merge. Deadline: Wednesday
 7 October 2026, 11pm AEDT (5am Pacific), by email to hello@crawlspace.cool.
 
 What it is: ten small programs after Anne Carson (Eros the Bittersweet,
@@ -50,6 +53,7 @@ Decisions taken this session (all reversible, all Halim's to overrule):
 
 Open, for Halim:
 
+0. Merge PR #70, then send the draft (deadline Wed 7 Oct, 5am Pacific).
 1. Read the ten sentences in place and veto any (README has the table).
 2. Fill the one bracket in the email and the one in the notes: how he found
    Crawlspace / which piece of theirs brought him there. Nothing was invented.

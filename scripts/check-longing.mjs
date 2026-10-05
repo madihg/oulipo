@@ -633,6 +633,7 @@ for (const [w, h] of [
   [568, 320],
 ]) {
   await page.setViewportSize({ width: w, height: h });
+  await page.waitForTimeout(200);
   for (const part of [0, 1, 3, 9]) {
     await L((n) => {
       window.__longing.show(n);

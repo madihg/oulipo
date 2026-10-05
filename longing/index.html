@@ -926,8 +926,7 @@
         }
         p.tick(S);
         render();
-        if (wide === null) layout();
-        else fit();
+        layout(); /* also catches a width change the resize event has not reported yet */
       }
 
       function settle(n) {

@@ -1,0 +1,1193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      /* This page is a folder: /longing becomes /longing/. */
+      if (!/(\/|\.html?)$/.test(location.pathname))
+        location.replace(
+          location.pathname + "/" + location.search + location.hash,
+        );
+    </script>
+    <title>I wish you were - Halim Madi</title>
+    <meta
+      name="description"
+      content="Ten small programs after Anne Carson and bpNichol. They start with a lover and a beloved and end with a migrant and a home."
+    />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><rect width=%22100%22 height=%22100%22 fill=%22%23ffffff%22/><rect x=%2230%22 y=%2230%22 width=%2240%22 height=%2240%22 fill=%22%23aaaaaa%22/></svg>"
+    />
+  </head>
+  <body>
+    <!--
+      I wish you were
+      Ten small programs after Anne Carson and bpNichol. Halim Madi, 2026.
+      There is no CSS on this page: HTML and JavaScript only.
+    -->
+    <!-- Two columns on a wide screen, one on a phone. The script moves the
+         three blocks below into one or the other (see layout()). -->
+    <table id="cols" width="100%" cellspacing="0" cellpadding="0" border="0" hidden>
+      <tr>
+        <td id="col-a" valign="top"></td>
+        <td id="col-gap" width="56"></td>
+        <td id="col-b" valign="top"></td>
+      </tr>
+    </table>
+    <div id="stack"></div>
+
+    <div id="text">
+      <h1><font face="Georgia, 'Times New Roman', serif" size="3">I wish you were</font></h1>
+      <div id="said" aria-live="polite">
+      <p>
+        <font id="said-size" face="Georgia, 'Times New Roman', serif" size="5"><i id="said-line"></i></font>
+      </p>
+      <p id="said-quote" hidden>
+        <font face="Georgia, 'Times New Roman', serif"><i id="said-quote-text"></i></font>
+      </p>
+      <p>
+        <font face="Georgia, 'Times New Roman', serif" color="#666666"><small id="said-after"></small></font>
+      </p>
+      </div>
+    </div>
+
+    <div id="stage">
+      <img
+        id="spacer"
+        src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        width="1"
+        height="1"
+        alt=""
+        hidden
+      />
+      <table
+        id="box"
+        border="1"
+        frame="box"
+        rules="none"
+        bordercolor="#000000"
+        cellspacing="0"
+        cellpadding="28"
+        width="100%"
+      >
+        <tr>
+          <td id="box-cell" align="center" valign="middle">
+            <pre
+              id="grid"
+              tabindex="0"
+              aria-label="The screen. Space or Enter acts on it."
+              aria-describedby="alt"
+            ><font id="size" size="3" face="Menlo, Consolas, 'DejaVu Sans Mono', monospace"></font></pre>
+          </td>
+        </tr>
+      </table>
+      <div id="code" hidden>
+        <br />
+        <table
+          border="1"
+          frame="box"
+          rules="none"
+          bordercolor="#000000"
+          cellspacing="0"
+          cellpadding="16"
+          width="100%"
+        >
+          <tr>
+            <td>
+              <font face="Georgia, 'Times New Roman', serif" color="#666666"
+                ><small>the program, in Python</small></font
+              ><br /><br />
+              <font face="Menlo, Consolas, 'DejaVu Sans Mono', monospace"><code id="code-text"></code></font>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <p id="alt" hidden></p>
+    </div>
+
+    <div id="controls">
+      <p><span id="parts" role="group" aria-label="Parts"></span></p>
+      <p>
+        <button id="next" type="button">next</button>
+        &nbsp;
+        <button
+          id="tip-btn"
+          type="button"
+          aria-expanded="false"
+          aria-controls="tip-text"
+        >
+          <svg
+            width="10"
+            height="14"
+            viewBox="0 0 10 14"
+            aria-hidden="true"
+            focusable="false"
+          >
+            <path
+              d="M5 .75a4.25 4.25 0 0 0-2.6 7.6c.6.5.85 1 .85 1.6v.8h3.5v-.8c0-.6.25-1.1.85-1.6A4.25 4.25 0 0 0 5 .75z"
+              fill="none"
+              stroke="black"
+              stroke-width="1.2"
+            />
+            <path
+              d="M3.4 12.1h3.2M3.9 13.4h2.2"
+              stroke="black"
+              stroke-width="1.2"
+            />
+          </svg>
+          tip
+        </button>
+        <button id="about-btn" type="button" aria-haspopup="dialog">?</button>
+      </p>
+      <p id="tip-text" hidden>
+        <font face="Georgia, 'Times New Roman', serif" color="#666666"><small id="tip-words"></small></font>
+      </p>
+    </div>
+
+    <dialog id="about" aria-labelledby="about-title">
+      <form method="dialog">
+        <button id="about-close">close</button>
+      </form>
+      <h2 id="about-title">I wish you were</h2>
+      <p>
+        Ten small programs about wanting what is not here. They start with a
+        lover and a beloved and end with a migrant and a home.
+      </p>
+      <p>
+        Each part takes one idea from Anne Carson&rsquo;s Eros the Bittersweet
+        or Plainwater, runs it as a program, and finishes the title with one
+        sentence of mine. The two lines in quotation marks are Carson&rsquo;s.
+        Black is the one who wants. Pale grey is what is wanted.
+      </p>
+      <p>
+        Part 02 is a Python couplet of mine from 2026, and part 04 is a
+        variation on another one. Their code is shown below the screen. The form
+        follows bpNichol&rsquo;s First Screening (1984), twelve kinetic poems he
+        wrote in Apple BASIC.
+      </p>
+      <p>
+        There is no CSS on this page, only HTML and JavaScript. The numbered
+        buttons switch parts. Click, hold, or move over the screen, and open the
+        tip on each part. The arrow keys and the space bar work too.
+      </p>
+      <h3>The ten parts and where they come from</h3>
+      <ol id="about-parts"></ol>
+      <h3>Halim Madi, poet x machines</h3>
+      <p>
+        <a href="https://www.halimmadi.com" target="_blank" rel="noopener"
+          >halimmadi.com</a
+        >
+        &middot;
+        <a href="https://oulipo.xyz" target="_blank" rel="noopener"
+          >oulipo.xyz</a
+        >
+        &middot;
+        <a
+          href="https://oulipo.xyz/becoming-crossings"
+          target="_blank"
+          rel="noopener"
+          >becoming crossings</a
+        >
+        &middot;
+        <a
+          href="https://www.instagram.com/yalla_halim"
+          target="_blank"
+          rel="noopener"
+          >@yalla_halim</a
+        >
+        &middot;
+        <a href="https://halimmadi.substack.com" target="_blank" rel="noopener"
+          >substack</a
+        >
+      </p>
+    </dialog>
+
+    <script>
+      /* ==============================================================
+         A 40 x 12 character screen and ten small programs that run on it.
+         Colour codes in the buffer: 0 ink (the one who wants),
+         1 blue (what is wanted), 2 grey (everything else). Colour is
+         drawn with <font color>, size with <font size>: no CSS.
+         ============================================================== */
+      "use strict";
+
+      var COLS = 40,
+        ROWS = 12,
+        MID = 6;
+      var reduced = window.matchMedia(
+        "(prefers-reduced-motion: reduce)",
+      ).matches;
+      var COLOR = ["", "#aaaaaa", "#666666"];
+
+      function $(id) {
+        return document.getElementById(id);
+      }
+      var gridEl = $("grid"),
+        sizeEl = $("size"),
+        altEl = $("alt"),
+        codeBox = $("code"),
+        codeEl = $("code-text"),
+        saidLine = $("said-line"),
+        quoteBox = $("said-quote"),
+        quoteEl = $("said-quote-text"),
+        saidAfter = $("said-after"),
+        tipBtn = $("tip-btn"),
+        tipBox = $("tip-text"),
+        tipWords = $("tip-words"),
+        colsEl = $("cols"),
+        colA = $("col-a"),
+        colB = $("col-b"),
+        stackEl = $("stack"),
+        textEl = $("text"),
+        stageEl = $("stage"),
+        controlsEl = $("controls"),
+        boxEl = $("box"),
+        boxCell = $("box-cell"),
+        saidSize = $("said-size"),
+        spacer = $("spacer");
+
+      /* ---- the screen buffer ---- */
+      var buf = [],
+        col = [],
+        rowHtml = [],
+        lastHtml = "";
+      function clear() {
+        for (var r = 0; r < ROWS; r++) {
+          buf[r] = [];
+          col[r] = [];
+          rowHtml[r] = null;
+          for (var c = 0; c < COLS; c++) {
+            buf[r][c] = " ";
+            col[r][c] = 0;
+          }
+        }
+      }
+      function put(s, c, r, k) {
+        if (r < 0 || r >= ROWS) return;
+        for (var i = 0; i < s.length; i++) {
+          var x = c + i;
+          if (x < 0 || x >= COLS) continue;
+          buf[r][x] = s.charAt(i);
+          col[r][x] = k || 0;
+        }
+      }
+      function esc(ch) {
+        return ch === "&"
+          ? "&amp;"
+          : ch === "<"
+            ? "&lt;"
+            : ch === ">"
+              ? "&gt;"
+              : ch;
+      }
+      function render() {
+        var out = "";
+        for (var r = 0; r < ROWS; r++) {
+          if (rowHtml[r] !== null) out += rowHtml[r];
+          else {
+            var cur = 0;
+            for (var c = 0; c < COLS; c++) {
+              var k = buf[r][c] === " " ? cur : col[r][c];
+              if (k !== cur) {
+                if (cur) out += "</font>";
+                if (k) out += '<font color="' + COLOR[k] + '">';
+                cur = k;
+              }
+              out += esc(buf[r][c]);
+            }
+            if (cur) out += "</font>";
+          }
+          if (r < ROWS - 1) out += "\n";
+        }
+        if (out !== lastHtml) {
+          sizeEl.innerHTML = out;
+          lastHtml = out;
+        }
+      }
+      function centerC(len) {
+        return Math.floor((COLS - len) / 2);
+      }
+      function clamp(v, a, b) {
+        return Math.max(a, Math.min(b, v));
+      }
+      function rnd(n) {
+        return Math.floor(Math.random() * n);
+      }
+
+      /* ==============================================================
+         The ten parts. Each has:
+           line    - the one sentence shown above the program
+           line2   - optional: a second sentence the program reveals
+           quoted  - the sentence is Carson's, so it is shown in quotation
+                     marks and cited without "after"
+           after   - the passage the program is built on
+           gloss   - one plain line for the about panel
+           tip     - what it does and what you can do, in a few words
+           alt     - a text description of what the program does
+           init / tick / act / move / hold - the program
+         ============================================================== */
+      var PARTS = [
+        /* 01 ---------------------------------------------------------- */
+        {
+          key: "sweetbitter",
+          line: "I wish you were a neighbor instead of joy and pain wedded and melding",
+          after: "Eros the Bittersweet, “Bittersweet”",
+          gloss:
+            "Sappho calls eros sweetbitter. She means both at once, not in turn.",
+          tip: "every letter flips between bitter and sweet, so you never read just one. click to hold it still.",
+          alt: "One word in the middle of the screen, between the word bitter above and the word sweet below. Each of its letters flickers between the two words, so neither can be read alone. A click holds it still for a moment.",
+          init: function (S) {
+            S.a = "sweet ";
+            S.b = "bitter";
+            S.m = [0, 1, 0, 1, 0, 1];
+            S.freeze = 0;
+          },
+          tick: function (S) {
+            var i;
+            if (S.freeze > 0) S.freeze--;
+            else for (i = 0; i < 6; i++) if (Math.random() < 0.3) S.m[i] ^= 1;
+            clear();
+            var c0 = centerC(6);
+            put("bitter", c0, MID - 3, 2);
+            put("sweet", c0, MID + 3, 2);
+            for (i = 0; i < 6; i++)
+              put(
+                S.m[i] ? S.b.charAt(i) : S.a.charAt(i),
+                c0 + i,
+                MID,
+                S.m[i] ? 0 : 1,
+              );
+          },
+          act: function (S) {
+            if (reduced) for (var i = 0; i < 6; i++) S.m[i] = rnd(2);
+            else S.freeze = 14;
+          },
+        },
+
+        /* 02 ---------------------------------------------------------- */
+        {
+          /* A port of Halim's Python couplet "Gone" (2026). The sentence it
+             prints is Carson's, from the chapter "Gone". */
+          key: "gone",
+          line: "I wish you were what I do not have.",
+          quote: "The lover wants what he does not have",
+          small: true,
+          after: "Eros the Bittersweet, “Gone”",
+          gloss:
+            "Desire is for what is missing. The program prints Carson’s sentence and takes a word away each line.",
+          tip: "the two lines of python below print carson’s sentence and drop a word every line, down to one, then start over. click to pause.",
+          alt: "The program prints a sentence down the screen, one line at a time: the lover wants what he does not have. Each new line is one word shorter, down to a single word. Then the full sentence comes back and it starts again. A click pauses it.",
+          code: [
+            'import itertools as t;w="the lover wants what he does not have".split()',
+            "for i in t.count():print(*w[:8-i%8])",
+          ],
+          words: "the lover wants what he does not have".split(" "),
+          init: function (S) {
+            S.i = 0;
+            S.lines = [];
+            S.f = 0;
+            S.paused = false;
+            this.print(S);
+          },
+          print: function (S) {
+            S.lines.push(this.words.slice(0, 8 - (S.i % 8)).join(" "));
+            if (S.lines.length > ROWS) S.lines.shift();
+            S.i++;
+          },
+          act: function (S) {
+            if (reduced) this.print(S);
+            else S.paused = !S.paused;
+          },
+          tick: function (S) {
+            S.f++;
+            if (!reduced && !S.paused && S.f % 5 === 0) this.print(S);
+            clear();
+            var r0 = ROWS - S.lines.length;
+            for (var n = 0; n < S.lines.length; n++)
+              put(S.lines[n], 1, r0 + n, 0);
+          },
+        },
+
+        /* 03 ---------------------------------------------------------- */
+        {
+          key: "triangle",
+          line: "I wish you were the curvature.",
+          quote: "Conjoined they are held apart.",
+          after: "Eros the Bittersweet, “Ruse”",
+          gloss:
+            "Desire needs three points: the lover, the beloved, and whatever keeps them apart.",
+          tip: "desire needs three: lover, beloved, and what keeps them apart. click to take the third away and watch the other two collapse.",
+          alt: "Three words form a triangle: lover, beloved, and between. On a click the word between is removed, the other two slide into each other until neither can be read, and everything goes blank. Then the triangle comes back.",
+          init: function (S) {
+            S.phase = "open";
+            S.k = 0;
+            S.w = 0;
+            S.f = 0;
+          },
+          act: function (S) {
+            if (S.phase === "open") S.phase = "closing";
+            else if (reduced && S.phase === "shut") S.phase = "opening";
+          },
+          dots: function (x0, y0, x1, y1) {
+            var n = Math.max(Math.abs(x1 - x0), Math.abs(y1 - y0));
+            for (var i = 1; i < n; i += 2)
+              put(
+                ".",
+                Math.round(x0 + ((x1 - x0) * i) / n),
+                Math.round(y0 + ((y1 - y0) * i) / n),
+                2,
+              );
+          },
+          tick: function (S) {
+            S.f++;
+            if (S.phase === "closing") {
+              if (++S.k >= 12) {
+                S.phase = "shut";
+                S.w = 16;
+              }
+            } else if (S.phase === "shut") {
+              if (!reduced && --S.w <= 0) S.phase = "opening";
+            } else if (S.phase === "opening") {
+              if (--S.k <= 0) S.phase = "open";
+            }
+            var la = Math.round(4 + (11 * S.k) / 12);
+            var lb = Math.round(29 - (12 * S.k) / 12);
+            clear();
+            if (S.phase === "shut" && S.w < 8) return;
+            if (S.phase === "open") {
+              put("between", 16, 1, 2);
+              this.dots(19, 2, la + 2, 9);
+              this.dots(19, 2, lb + 3, 9);
+              this.dots(la + 5, 9, lb - 1, 9);
+            }
+            put("lover", la, 9, 0);
+            var word = "beloved";
+            for (var i = 0; i < word.length; i++) {
+              var x = lb + i;
+              var over = x >= la && x < la + 5;
+              if (over && S.f % 2) continue;
+              put(word.charAt(i), x, 9, 1);
+            }
+          },
+        },
+
+        /* 04 ---------------------------------------------------------- */
+        {
+          /* A variation on Halim's Python couplet "The Reach" (2026). His
+             couplet halves the gap until one space is left. Here what halves
+             is the distance from the start of lover to the start of beloved,
+             so the two words overlap and lover is cut short, but the distance
+             never reaches zero and lover never disappears. The code starts
+             at 73 for an 80-column terminal; this screen is 40 wide, so 33. */
+          key: "reach",
+          line: "I wish you were the space between, but halved, for convenience",
+          after: "Eros the Bittersweet, “The Reach”",
+          gloss:
+            "Sappho’s apple hangs on the highest branch, where the pickers could not reach it. Carson reads the whole poem as an act of reaching.",
+          tip: "the distance between them halves every line. they get close enough to overlap, but it never reaches zero, so they never become one word. click to start over.",
+          alt: "Each line prints the word lover and then the word beloved in pale grey. The distance from the start of one to the start of the other halves on every line: 33, 16, 8, 4, 2, then 1 forever. Each new line slides in slowly. From the fourth line they overlap and lover is cut short, down to its first letter, but it never disappears. A click starts again.",
+          code: [
+            "g=73",
+            'while 1:print(("lover"+" "*g)[:g]+"beloved");g=g//2 or 1',
+          ],
+          init: function (S) {
+            S.lines = [33];
+            S.prev = 33;
+            S.live = null;
+            S.wait = 10;
+            S.ones = 0;
+            S.f = 0;
+          },
+          next: function (x) {
+            return Math.floor(x / 2) || 1;
+          },
+          commit: function (S, x) {
+            S.lines.push(x);
+            if (S.lines.length > ROWS) S.lines.shift();
+            S.prev = x;
+          },
+          act: function (S) {
+            if (reduced) this.commit(S, this.next(S.prev));
+            else this.init(S);
+          },
+          draw: function (x, r) {
+            put("lover".slice(0, Math.min(5, x)), 0, r, 0);
+            put("beloved", x, r, 1);
+          },
+          tick: function (S) {
+            S.f++;
+            if (!reduced) {
+              if (S.live) {
+                if (S.f % 2 === 0 && S.live.pos > S.live.to) S.live.pos--;
+                if (S.live.pos === S.live.to) {
+                  this.commit(S, S.live.to);
+                  S.live = null;
+                  /* at 1 it keeps printing, each line twice as slow as the
+                     last, so the approach stays on screen */
+                  if (S.live === null && S.prev === 1) S.ones++;
+                  S.wait = 12 * Math.pow(2, Math.min(S.ones, 8));
+                }
+              } else if (--S.wait <= 0)
+                S.live = { pos: S.prev, to: this.next(S.prev) };
+            }
+            clear();
+            var shown = S.lines.slice();
+            if (S.live) shown.push(S.live.pos);
+            shown = shown.slice(-ROWS);
+            var r0 = ROWS - shown.length;
+            for (var n = 0; n < shown.length; n++) this.draw(shown[n], r0 + n);
+          },
+        },
+
+        /* 05 ---------------------------------------------------------- */
+        {
+          key: "edge",
+          line: "I wish you were the unmoving border of intimacy",
+          after: "Eros the Bittersweet, “Finding the Edge”",
+          gloss:
+            "Wanting someone shows you where you stop and they begin. Here that edge turns into a border.",
+          tip: "move across the screen: the edge follows you but never closes. click three times and it becomes a border.",
+          alt: "The left side of the screen is filled with the word me and the right side with the word you. Between them runs one column that holds only the word edge, written downwards. The column follows your pointer but never closes. After three clicks the column spells border and the word you turns into home.",
+          init: function (S) {
+            S.e = 20;
+            S.t = 20;
+            S.p = 0;
+            S.mix = 0;
+          },
+          move: function (S, c) {
+            S.t = clamp(c, 5, 34);
+          },
+          act: function (S, c) {
+            if (typeof c === "number") this.move(S, c);
+            else this.move(S, 5 + rnd(30));
+            S.p++;
+          },
+          tick: function (S) {
+            if (S.e < S.t) S.e++;
+            else if (S.e > S.t) S.e--;
+            var hinge = S.p >= 3;
+            if (hinge && S.mix < 1)
+              S.mix = Math.min(1, S.mix + (reduced ? 1 : 0.07));
+            clear();
+            for (var r = 1; r <= 10; r++) {
+              var c;
+              for (c = 0; c < S.e; c++) put("me ".charAt((c + r) % 3), c, r, 0);
+              var w = hinge && (r - 1) / 10 < S.mix ? "home " : "you ";
+              for (c = S.e + 1; c < COLS; c++)
+                put(w.charAt((c - S.e - 1 + r) % w.length), c, r, 1);
+            }
+            var word = hinge ? "border" : "edge";
+            var r0 = Math.floor((ROWS - word.length) / 2);
+            for (var i = 0; i < word.length; i++)
+              put(word.charAt(i), S.e, r0 + i, 2);
+          },
+        },
+
+        /* 06 ---------------------------------------------------------- */
+        {
+          key: "alphabet",
+          line: "I wish my Arabic wasn’t cryogenic and a frozen version of 1990s Lebanon",
+          after: "Eros the Bittersweet, “Alphabetic Edge”",
+          gloss:
+            "Carson ties eros to the Greek alphabet, whose consonants mark where a sound starts and stops. Arabic speakers type a 7 for the sound Latin letters lack.",
+          tip: "click to take the word from english to arabic. one sound has no latin letter, so lebanese texting writes it as a 7.",
+          alt: "One word, changing on each click: longing in English, then hanin in Latin letters, then 7anin in Arabizi where the number 7 stands for a missing letter, then the Arabic word for longing.",
+          steps: ["longing", "hanin", "7anin", "حنين"],
+          init: function (S) {
+            S.i = 0;
+            S.typ = 99;
+          },
+          act: function (S) {
+            S.i = (S.i + 1) % 4;
+            S.typ = reduced ? 99 : 0;
+          },
+          tick: function (S) {
+            var w = this.steps[S.i];
+            if (S.typ < 99) S.typ++;
+            clear();
+            if (S.i === 3) {
+              rowHtml[MID] =
+                new Array(centerC(4) + 1).join(" ") +
+                '<font color="' +
+                COLOR[1] +
+                '"><span lang="ar" dir="rtl">' +
+                w +
+                "</span></font>";
+              return;
+            }
+            put(w.slice(0, S.typ), centerC(w.length), MID, 0);
+            if (S.i === 2 && S.typ > 0) put("7", centerC(w.length), MID, 1);
+          },
+        },
+
+        /* 07 ---------------------------------------------------------- */
+        {
+          key: "symbolon",
+          line: "I wish you were unbroken symbolon, abridged time. How long has it been? A year and change. And change.",
+          after: "Eros the Bittersweet, “Symbolon”",
+          gloss:
+            "A symbolon is half of a broken token. Two people each keep a half, and the halves prove they belong together.",
+          tip: "click to bring the two halves together, click again to pull them apart. each time a year passes and the far half changes, so fewer rows fit.",
+          alt: "A block of text made of the word home, broken in two along a jagged line. A click brings the halves together and another click pulls them apart. Each time they part a year passes and the far half changes shape, so fewer rows fit.",
+          init: function (S) {
+            S.L = [];
+            S.R = [];
+            for (var r = 0; r < 6; r++) {
+              S.L[r] = 6 + rnd(5);
+              S.R[r] = S.L[r];
+            }
+            S.g = 10;
+            S.tg = 10;
+            S.year = 0;
+          },
+          act: function (S) {
+            if (S.tg === 0) {
+              S.tg = 10;
+              S.year++;
+              for (var n = 0; n < 2; n++) {
+                var r = rnd(6);
+                S.R[r] = clamp(S.R[r] + (rnd(2) ? 1 : -1), 3, 13);
+              }
+            } else S.tg = 0;
+            if (reduced) S.g = S.tg;
+          },
+          tick: function (S) {
+            if (S.g < S.tg) S.g = Math.min(S.tg, S.g + 2);
+            else if (S.g > S.tg) S.g = Math.max(S.tg, S.g - 2);
+            clear();
+            var c0 = centerC(16 + S.g),
+              r0 = MID - 3;
+            for (var r = 0; r < 6; r++) {
+              for (var x = 0; x < 16; x++) {
+                var ch = "home".charAt((x + r) % 4);
+                var left = x < S.L[r],
+                  right = x >= S.R[r];
+                if (left) put(ch, c0 + x, r0 + r, 0);
+                if (right) {
+                  var cx = c0 + S.g + x;
+                  if (S.g === 0 && left) put("#", cx, r0 + r, 2);
+                  else put(ch, cx, r0 + r, 1);
+                }
+              }
+            }
+          },
+        },
+
+        /* 08 ---------------------------------------------------------- */
+        {
+          key: "ice",
+          line: "I wish you were more mortar than bricks.",
+          after: "Eros the Bittersweet, “Ice-pleasure”",
+          gloss:
+            "Carson reads a fragment of Sophokles about children holding ice. They cannot keep holding it and they cannot put it down.",
+          tip: "press and hold and it melts. let go and it slides away. click again to bring it back.",
+          alt: "The word home, built large out of small letters. While you press and hold, letters fall from it one at a time and collect at the bottom of the screen. When you let go, the word slides away to the right.",
+          font: {
+            h: ["#...#", "#...#", "#####", "#...#", "#...#"],
+            o: [".###.", "#...#", "#...#", "#...#", ".###."],
+            m: ["#...#", "##.##", "#.#.#", "#...#", "#...#"],
+            e: ["#####", "#....", "####.", "#....", "#####"],
+          },
+          init: function (S) {
+            S.cells = [];
+            var word = "home";
+            for (var g = 0; g < 4; g++) {
+              var rows = this.font[word.charAt(g)];
+              for (var y = 0; y < 5; y++)
+                for (var x = 0; x < 5; x++)
+                  if (rows[y].charAt(x) === "#")
+                    S.cells.push({ x: g * 6 + x, y: y, ch: word.charAt(g) });
+            }
+            S.total = S.cells.length;
+            S.off = 0;
+            S.hold = false;
+            S.keyhold = 0;
+            S.idle = 0;
+            S.pud = [];
+            S.f = 0;
+          },
+          hold: function (S, down) {
+            S.hold = down;
+          },
+          act: function (S, c, r, repeat) {
+            if (!S.cells.length) {
+              if (repeat) return;
+              var held = S.hold;
+              this.init(S);
+              S.hold = held;
+            } else S.keyhold = reduced ? 6 : 10;
+          },
+          tick: function (S) {
+            S.f++;
+            var holding = S.hold || S.keyhold > 0;
+            if (S.keyhold > 0) S.keyhold--;
+            var c0 = centerC(23);
+            if (holding) {
+              S.idle = 0;
+              if (S.off > 0) S.off = Math.max(0, S.off - 3);
+              if (S.cells.length && S.off === 0) {
+                var pick = S.cells[rnd(S.cells.length)];
+                var low = pick;
+                for (var i = 0; i < S.cells.length; i++)
+                  if (S.cells[i].x === pick.x && S.cells[i].y > low.y)
+                    low = S.cells[i];
+                S.cells.splice(S.cells.indexOf(low), 1);
+                S.pud[c0 + low.x] = low.ch;
+              }
+            } else if (S.cells.length && !reduced) {
+              S.idle++;
+              if (S.idle > 10 && S.f % 3 === 0 && S.off < COLS) S.off++;
+            }
+            clear();
+            for (var j = 0; j < S.cells.length; j++)
+              put(
+                S.cells[j].ch,
+                c0 + S.off + S.cells[j].x,
+                2 + S.cells[j].y,
+                1,
+              );
+            for (var c = 0; c < COLS; c++)
+              if (S.pud[c]) put(S.pud[c], c, ROWS - 1, 2);
+          },
+        },
+
+        /* 09 ---------------------------------------------------------- */
+        {
+          key: "nowthen",
+          line: "I wish you were the day known as tomorrow",
+          after: "Eros the Bittersweet, “Now Then”",
+          gloss:
+            "The lover lives in two times, now and then. Here they are two real clocks: the reader’s and Beirut’s.",
+          tip: "two live clocks: yours and beirut. click to swap which one is now.",
+          alt: "Two clocks running live. On the left, the time where you are. On the right, in pale grey, the time in Beirut, with the day of the week under each. Below them the words now and then. A click swaps which clock is called now.",
+          clock: function (zone) {
+            var parts = new Intl.DateTimeFormat("en-GB", {
+              timeZone: zone,
+              hour12: false,
+              weekday: "long",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+            }).formatToParts(new Date());
+            var o = {};
+            parts.forEach(function (p) {
+              o[p.type] = p.value;
+            });
+            if (o.hour === "24") o.hour = "00";
+            return {
+              time: o.hour + ":" + o.minute + ":" + o.second,
+              day: o.weekday.toLowerCase(),
+            };
+          },
+          init: function (S) {
+            S.swap = false;
+          },
+          act: function (S) {
+            S.swap = !S.swap;
+          },
+          tick: function (S) {
+            var here = this.clock(undefined),
+              there = this.clock("Asia/Beirut");
+            clear();
+            put("here", 7, MID - 3, 2);
+            put(here.time, 7, MID - 1, 0);
+            put(here.day, 7, MID, 2);
+            put("beirut", 25, MID - 3, 2);
+            put(there.time, 25, MID - 1, 1);
+            put(there.day, 25, MID, 2);
+            put(S.swap ? "then" : "now", 7, MID + 2, 0);
+            put(S.swap ? "now" : "then", 25, MID + 2, 1);
+          },
+        },
+
+        /* 10 ---------------------------------------------------------- */
+        {
+          key: "water",
+          line: "I wish you were home",
+          withhold: "home",
+          after: "Plainwater, “The Anthropology of Water”",
+          gloss:
+            "Carson walks the pilgrim road to Compostela and writes about water, which she says no one can hold.",
+          tip: "click to walk the i across the water. each step leaves a line behind it. on the far bank, the sentence gets its last word.",
+          alt: "The letter i stands on a bank above a band of moving water. Each click moves it one row down and one column across and leaves one line of a poem next to it: Careful on the road, means I miss you, already I love you, but my language can’t, stomach affection and all I have, is room, for home. On the eighth click it reaches the far bank and the sentence at the top ends with the word home.",
+          poem: [
+            "Careful on the road",
+            "means I miss you",
+            "already I love you",
+            "but my language can’t",
+            "stomach affection and all I have",
+            "is room",
+            "for home",
+          ],
+          wave: "_    __      -   ___     ",
+          init: function (S) {
+            S.k = 0;
+            S.w = 0;
+          },
+          act: function (S) {
+            if (S.k >= 8) {
+              this.init(S);
+              said(false);
+              return;
+            }
+            S.k++;
+            if (S.k === 8) said(true);
+          },
+          tick: function (S) {
+            S.w++;
+            var c, r, j;
+            clear();
+            for (c = 1; c < COLS; c += 4) {
+              put(".", c, 0, 2);
+              put(".", c, ROWS - 1, 2);
+            }
+            var wl = this.wave.length,
+              drift = reduced ? 0 : Math.floor(S.w / 2);
+            for (r = 2; r <= 8; r++)
+              for (c = 0; c < COLS; c++) {
+                var ch = this.wave.charAt(
+                  (((c + (r % 2 ? drift : -drift) + r * 5) % wl) + wl) % wl,
+                );
+                if (ch !== " ") put(ch, c, r, 2);
+              }
+            /* the i walks one row down and one column across per step; each
+               step leaves one line of the poem beside it */
+            for (j = 1; j <= Math.min(S.k, 7); j++)
+              put(" " + this.poem[j - 1] + " ", 2 + j, 1 + j, 0);
+            put("i", 1 + S.k, 1 + S.k, 0);
+          },
+        },
+      ];
+
+      /* ==============================================================
+         The runner: one part at a time, about 11 frames a second.
+         ============================================================== */
+      var cur = -1,
+        S = {};
+
+      /* Every sentence completes "I wish you were". Part 10 holds back its
+         last word until the i has crossed the water. */
+      function said(done) {
+        var p = PARTS[cur];
+        saidLine.textContent =
+          p.withhold && !done
+            ? p.line.slice(0, p.line.length - p.withhold.length).trim()
+            : p.line;
+      }
+
+      /* The tip is a button like the others: it shows or hides one line. */
+      function tip(open) {
+        tipBox.hidden = !open;
+        tipBtn.setAttribute("aria-expanded", open ? "true" : "false");
+      }
+
+      function show(n) {
+        n = ((n % PARTS.length) + PARTS.length) % PARTS.length;
+        if (cur >= 0 && PARTS[cur].leave) PARTS[cur].leave(S);
+        cur = n;
+        var p = PARTS[cur];
+        S = {};
+        p.init(S);
+        said(false);
+        quoteBox.hidden = !p.quote;
+        quoteEl.textContent = p.quote ? "“" + p.quote + "”" : "";
+        saidAfter.textContent =
+          (p.quote ? "Anne Carson, " : "after Anne Carson, ") + p.after;
+        tipBtn.title = p.tip;
+        tipWords.textContent = p.tip;
+        tip(false);
+        altEl.textContent = p.alt;
+        codeBox.hidden = !p.code;
+        /* <code> in a paragraph, one statement per line: on a phone a long
+           line wraps at its spaces instead of pushing the page sideways */
+        codeEl.textContent = "";
+        (p.code || []).forEach(function (line, i) {
+          if (i) codeEl.appendChild(document.createElement("br"));
+          codeEl.appendChild(document.createTextNode(line));
+        });
+        partButtons.forEach(function (b, i) {
+          var num = (i < 9 ? "0" : "") + (i + 1);
+          b.textContent = "";
+          if (i === cur) {
+            var bold = document.createElement("b");
+            bold.textContent = num;
+            b.appendChild(bold);
+            b.setAttribute("aria-current", "true");
+          } else {
+            b.textContent = num;
+            b.removeAttribute("aria-current");
+          }
+        });
+        if (location.hash !== "#" + (cur + 1)) {
+          try {
+            history.replaceState(null, "", "#" + (cur + 1));
+          } catch (e) {}
+        }
+        p.tick(S);
+        render();
+        layout(); /* also catches a width change the resize event has not reported yet */
+      }
+
+      function settle(n) {
+        /* reduced motion: no loop. run the program forward and draw once. */
+        for (var i = 0; i < n; i++) PARTS[cur].tick(S);
+        render();
+      }
+
+      var last = 0;
+      function frame(t) {
+        if (t - last >= 90) {
+          last = t;
+          PARTS[cur].tick(S);
+          render();
+        }
+        requestAnimationFrame(frame);
+      }
+
+      /* ---- layout: two columns when there is room, one on a phone.
+         No media queries: the script moves the three blocks. ---- */
+      var wide = null,
+        pad = 28;
+      function layout() {
+        var docW = document.documentElement.clientWidth;
+        var w = docW >= 960;
+        if (w !== wide) {
+          wide = w;
+          if (wide) {
+            colA.appendChild(textEl);
+            colA.appendChild(controlsEl);
+            colB.appendChild(stageEl);
+            colsEl.hidden = false;
+            spacer.hidden = false;
+          } else {
+            stackEl.appendChild(textEl);
+            stackEl.appendChild(stageEl);
+            stackEl.appendChild(controlsEl);
+            colsEl.hidden = true;
+            spacer.hidden = true;
+          }
+          pad = wide ? 28 : 10;
+          boxEl.setAttribute("cellpadding", String(pad));
+          saidSize.setAttribute("size", wide ? "5" : "4");
+        }
+        if (wide) {
+          colA.setAttribute(
+            "width",
+            String(Math.max(400, Math.round((docW - 16) * 0.36))),
+          );
+          /* the box starts level with the title */
+          var title = textEl.querySelector("h1").getBoundingClientRect();
+          spacer.setAttribute(
+            "height",
+            String(Math.max(1, Math.round(title.top - colB.getBoundingClientRect().top))),
+          );
+        }
+        fit();
+      }
+
+      /* ---- size the screen with <font size>: the largest of the seven
+         HTML sizes that fits the space its box has ---- */
+      function fit() {
+        var docW = document.documentElement.clientWidth - 16,
+          margins = 26, // the <pre>'s own top and bottom margin
+          availW,
+          availH;
+        if (wide) {
+          availW = docW - Number(colA.getAttribute("width")) - 56 - 2 * pad - 2;
+          var top = boxEl.getBoundingClientRect().top + window.scrollY;
+          var codeH = codeBox.hidden ? 0 : codeBox.getBoundingClientRect().height;
+          availH = window.innerHeight - top - 2 * pad - 2 - margins - codeH - 16;
+        } else {
+          availW = docW - 2 * pad - 2;
+          availH = window.innerHeight * 0.55;
+        }
+        var best = 1,
+          bestH = 0;
+        for (var s = 1; s <= 7; s++) {
+          sizeEl.setAttribute("size", String(s));
+          var r = sizeEl.getBoundingClientRect();
+          if (s === 1 || (r.width <= availW && r.height <= availH)) {
+            best = s;
+            bestH = r.height;
+          } else break;
+        }
+        /* the box keeps its height when a part prints smaller */
+        boxCell.setAttribute("height", String(Math.round(bestH + margins)));
+        /* a part marked small prints one size down, never below 13px */
+        if (PARTS[cur] && PARTS[cur].small) best = Math.max(2, best - 1);
+        sizeEl.setAttribute("size", String(best));
+      }
+
+      /* ---- pointer, touch and keys ---- */
+      function cell(e) {
+        var r = sizeEl.getBoundingClientRect();
+        return {
+          c: Math.floor(((e.clientX - r.left) / r.width) * COLS),
+          r: Math.floor(((e.clientY - r.top) / r.height) * ROWS),
+        };
+      }
+      function act(c, r, repeat) {
+        var p = PARTS[cur];
+        if (p.act) p.act(S, c, r, repeat);
+        if (reduced) settle(40);
+      }
+      gridEl.addEventListener("pointermove", function (e) {
+        var p = PARTS[cur];
+        if (!p.move) return;
+        var k = cell(e);
+        p.move(S, k.c, k.r);
+        if (reduced) settle(40);
+      });
+      gridEl.addEventListener("pointerdown", function (e) {
+        if (e.button) return;
+        var p = PARTS[cur],
+          k = cell(e);
+        if (p.hold && !reduced) p.hold(S, true);
+        act(k.c, k.r);
+      });
+      ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) {
+        gridEl.addEventListener(ev, function () {
+          var p = PARTS[cur];
+          if (p.hold) p.hold(S, false);
+        });
+      });
+      /* on a phone, dragging or holding on the screen should not scroll
+         the page or open a menu */
+      gridEl.addEventListener(
+        "touchmove",
+        function (e) {
+          var p = PARTS[cur];
+          if (p.move || p.hold) e.preventDefault();
+        },
+        { passive: false },
+      );
+      gridEl.addEventListener("contextmenu", function (e) {
+        if (PARTS[cur].hold) e.preventDefault();
+      });
+      gridEl.addEventListener("selectstart", function (e) {
+        e.preventDefault();
+      });
+
+      var aboutEl = $("about"),
+        aboutBtn = $("about-btn"),
+        aboutFrom = null;
+      aboutBtn.addEventListener("click", function () {
+        aboutFrom = document.activeElement;
+        aboutEl.showModal();
+      });
+      aboutEl.addEventListener("close", function () {
+        /* back to where the reader was */
+        (aboutFrom && aboutFrom !== document.body ? aboutFrom : gridEl).focus();
+      });
+      aboutEl.addEventListener("click", function (e) {
+        /* a click outside the panel closes it */
+        var r = aboutEl.getBoundingClientRect();
+        if (
+          e.target === aboutEl &&
+          (e.clientX < r.left ||
+            e.clientX > r.right ||
+            e.clientY < r.top ||
+            e.clientY > r.bottom)
+        )
+          aboutEl.close();
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (aboutEl.open) {
+          if (e.key === "Tab") {
+            /* Tab goes round inside the panel */
+            var stops = aboutEl.querySelectorAll("button, a[href]");
+            var first = stops[0],
+              end = stops[stops.length - 1],
+              at = document.activeElement;
+            if (e.shiftKey && (at === first || !aboutEl.contains(at))) {
+              e.preventDefault();
+              end.focus();
+            } else if (!e.shiftKey && (at === end || !aboutEl.contains(at))) {
+              e.preventDefault();
+              first.focus();
+            }
+          }
+          return;
+        }
+        if (e.key === "ArrowRight") show(cur + 1);
+        else if (e.key === "ArrowLeft") show(cur - 1);
+        else if (e.key === "?") aboutBtn.click();
+        else if (
+          (e.key === " " || e.key === "Enter") &&
+          (e.target === document.body || e.target === gridEl)
+        ) {
+          e.preventDefault();
+          if (e.repeat && !PARTS[cur].hold) return;
+          act(undefined, undefined, e.repeat);
+        }
+      });
+
+      /* ---- build the part buttons and the about list ---- */
+      var partsEl = $("parts"),
+        aboutParts = $("about-parts"),
+        partButtons = [];
+      PARTS.forEach(function (p, i) {
+        var n = (i < 9 ? "0" : "") + (i + 1);
+        var b = document.createElement("button");
+        b.type = "button";
+        b.textContent = n;
+        b.setAttribute("aria-label", "Part " + (i + 1));
+        b.addEventListener("click", function (e) {
+          show(i);
+          /* after a mouse click, Space belongs to the screen again */
+          if (e.detail) gridEl.focus();
+        });
+        partsEl.appendChild(b);
+        partsEl.appendChild(document.createTextNode(" "));
+        partButtons.push(b);
+        var li = document.createElement("li");
+        li.textContent = p.after + ". " + p.gloss;
+        aboutParts.appendChild(li);
+      });
+      tipBtn.addEventListener("click", function () {
+        tip(tipBox.hidden);
+      });
+      $("next").addEventListener("click", function (e) {
+        show(cur + 1);
+        if (e.detail) gridEl.focus();
+      });
+
+      /* ---- start ---- */
+      clear();
+      var start = parseInt(location.hash.replace("#", ""), 10);
+      show(start >= 1 && start <= PARTS.length ? start - 1 : 0);
+      window.addEventListener("resize", layout);
+      window.addEventListener("hashchange", function () {
+        var n = parseInt(location.hash.replace("#", ""), 10);
+        if (n >= 1 && n <= PARTS.length && n - 1 !== cur) show(n - 1);
+      });
+      if (reduced) {
+        setInterval(function () {
+          if (PARTS[cur].key === "nowthen") settle(1);
+        }, 1000);
+      } else requestAnimationFrame(frame);
+
+      /* a small handle for the tests */
+      window.__longing = {
+        parts: PARTS,
+        state: function () {
+          return S;
+        },
+        current: function () {
+          return cur;
+        },
+        show: show,
+        act: act,
+        step: function (n) {
+          for (var i = 0; i < n; i++) PARTS[cur].tick(S);
+          render();
+        },
+        rows: function () {
+          return gridEl.textContent.split("\n");
+        },
+      };
+    </script>
+  </body>
+</html>

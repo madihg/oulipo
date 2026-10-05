@@ -191,5 +191,11 @@
       "source": "/staging/:path*",
       "destination": "/:path*"
     }
+  ],
+  "headers": [
+    {
+      "source": "/longing(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow" }]
+    }
   ]
 }

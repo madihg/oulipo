@@ -1,5 +1,66 @@
 # Oulipo.xyz Context
 
+## Session State (Oct 5, 2026 - "I wish you were", the Crawlspace piece at /longing/)
+
+**Status: BUILT + VERIFIED (115 ship checks), PR #70.** Halim asked on Oct 5
+to merge and to send the submission. Deadline: Wednesday 7 October 2026, 11pm
+AEDT (5am Pacific), by email to hello@crawlspace.cool. Once merged it is
+unlisted at oulipo.xyz/longing/.
+
+What it is: ten small programs after Anne Carson (Eros the Bittersweet,
+Plainwater) and bpNichol's First Screening. Each part finishes the title "I
+wish you were" with one sentence of Halim's (part 06, about his Arabic, breaks
+the pattern) and runs a program on a 40 x 12 character screen.
+
+- `longing/index.html` - the whole piece. ZERO CSS (Halim, Oct 3): no
+  `<style>`, no style attributes, no `.style` in JS. Layout is a two-column
+  `<table>` on screens 960px and wider (text left, piece right) and one column
+  below; `layout()` moves three blocks (#text, #stage, #controls). The piece
+  sits in a 1px black box: `<table border=1 frame=box rules=none
+  bordercolor=#000000>`. A 1x1 spacer gif lines the box up with the title.
+  Fonts via `<font face>`: Georgia for text, Menlo for the screen. Greys
+  (no blue, Oct 5): ink black, #aaaaaa what is wanted, #666666 the rest.
+  `fit()` picks the largest `<font size>` the box has room for.
+- `longing/README.md` - parts, sources, how it is made.
+- `scripts/check-longing.mjs` - static + playwright checks (115). Serves from
+  launch.json "oulipo-static" (4242) by default; `LONGING_URL=...` points it
+  elsewhere. `--static` skips e2e.
+- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing(.*)`.
+- `.private/crawlspace/` (gitignored) - zip and the notes attached to the email.
+
+Halim's Oct 5 edits, all applied: small title; two columns; no counter; thin
+black line; greys instead of blue; tip is a button; the ten "I wish you were"
+sentences; Carson's two lines in italic quotes under 02 and 03 with her
+credit; Python code in a box under the piece for 02 and 04; part 09 uses the
+reader's clock again; part 10's new poem ("Careful on the road / means I miss
+you / ... / for home") and "home" ends the sentence only once the i crosses.
+Dropped with his rewrite: the 05 second sentence and the 10 dictionary line.
+
+Decisions (reversible): 03 reads "I wish you were the curvature." (he typed "a
+the curvature"); his own punctuation kept as typed; the design agent stalled
+twice (subagent watchdog), so the layout was designed and verified inline;
+#aaaaaa is 2.3:1 on white, below WCAG for small text, chosen because he asked
+for a grey very unlike #666666 - the alt text carries each part for screen
+readers.
+
+**Machine note, read before running git here.** On Oct 5 iCloud stalled for
+good on this repo (801 files stuck dataless, `brctl download` made no
+progress), so the work moved to a sparse clone outside iCloud:
+`git clone --depth 1 --filter=blob:none --sparse` + `git sparse-checkout set
+longing scripts`, with `npm i --no-save playwright@1.58.2`. Commit and push
+from such a clone when the Documents checkout hangs. `~/Documents` is iCloud-synced
+with storage optimisation, and it evicts repo files. On Oct 3 a 181 MB git
+pack, 527 playwright files and ~3,400 working-tree files were `dataless`
+placeholders: git said `bad object HEAD` / `mmap failed`, node threw on
+`require('playwright')`. Fix is `brctl download <path>` and wait; nothing was
+corrupt. iCloud had also dropped conflict copies into `.git` ("main 2",
+"index 2", "HEAD 2.lock"); "main 2" broke `git fetch` and was moved to
+`.git/icloud-conflict-copies/` (it pointed at an ancestor of main). The local
+checkout is still on an old `main` with ~29 files showing as modified from
+earlier plumbing commits; this session committed with plumbing on top of
+`origin/main` and touched nothing else. Moving the repos out of iCloud
+Documents (or marking them Keep Downloaded) would end all of this.
+
 ## Session State (Aug 24, 2026 - hugo ball added to /computer-theater)
 
 **Status: BUILT + VERIFIED, uncommitted** - awaiting Halim's eye. All 54 ship

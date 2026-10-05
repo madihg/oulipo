@@ -1,78 +1,54 @@
 # Oulipo.xyz Context
 
-## Session State (Oct 3, 2026 - "I wish you were", the Crawlspace piece at /longing/)
+## Session State (Oct 5, 2026 - "I wish you were", the Crawlspace piece at /longing/)
 
-**Status: BUILT + VERIFIED (106 ship checks). PR #70 is open and NOT merged -
-merging is Halim's call.** Once merged it is unlisted at oulipo.xyz/longing/.
-The submission is a Gmail draft in hi@halimmadi.com, not sent; its two links
-(oulipo.xyz/longing/ and the GitHub folder on main) only resolve after merge.
-Deadline: Wednesday 7 October 2026, 11pm AEDT (5am Pacific), by email to
-hello@crawlspace.cool.
+**Status: BUILT + VERIFIED (115 ship checks), PR #70.** Halim asked on Oct 5
+to merge and to send the submission. Deadline: Wednesday 7 October 2026, 11pm
+AEDT (5am Pacific), by email to hello@crawlspace.cool. Once merged it is
+unlisted at oulipo.xyz/longing/.
 
 What it is: ten small programs after Anne Carson (Eros the Bittersweet,
-Plainwater) and bpNichol's First Screening. One sentence in italic, then a
-program on a 40 x 12 character screen, and a "tip" per part. Lover and beloved
-in parts 01-04, the edge turns into a border in 05, migrant and home in 06-10.
+Plainwater) and bpNichol's First Screening. Each part finishes the title "I
+wish you were" with one sentence of Halim's (part 06, about his Arabic, breaks
+the pattern) and runs a program on a 40 x 12 character screen.
 
 - `longing/index.html` - the whole piece. ZERO CSS (Halim, Oct 3): no
-  `<style>`, no style attributes, no `.style` in JS. Colour is
-  `<font color>`, the screen's size is `<font size>` picked by JS, the about
-  panel is a native `<dialog>`, tips are `<details>` with a `title` tooltip
-  and an inline SVG bulb. No fonts folder any more.
+  `<style>`, no style attributes, no `.style` in JS. Layout is a two-column
+  `<table>` on screens 960px and wider (text left, piece right) and one column
+  below; `layout()` moves three blocks (#text, #stage, #controls). The piece
+  sits in a 1px black box: `<table border=1 frame=box rules=none
+  bordercolor=#000000>`. A 1x1 spacer gif lines the box up with the title.
+  Fonts via `<font face>`: Georgia for text, Menlo for the screen. Greys
+  (no blue, Oct 5): ink black, #aaaaaa what is wanted, #666666 the rest.
+  `fit()` picks the largest `<font size>` the box has room for.
 - `longing/README.md` - parts, sources, how it is made.
-- `scripts/check-longing.mjs` - 30 static + 76 playwright checks, including
-  "no stylesheets and no [style] at runtime". Needs the static server on 4242
-  (launch.json: oulipo-static). `--static` skips e2e.
-- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing(.*)`. A
-  `/longing/:path*` rule did NOT cover `/longing/` itself, so it is a plain
-  prefix. The page carries no robots meta on purpose: the same folder goes to
-  the journal, whose hosted copy should be indexable.
-- `.private/crawlspace/` (gitignored) - `i-wish-you-were.zip` (the folder,
-  for the journal) and `notes-for-crawlspace.txt` (answers to their three
-  questions, attached to the Gmail draft).
+- `scripts/check-longing.mjs` - static + playwright checks (115). Serves from
+  launch.json "oulipo-static" (4242) by default; `LONGING_URL=...` points it
+  elsewhere. `--static` skips e2e.
+- `vercel.json` - `X-Robots-Tag: noindex, nofollow` on `/longing(.*)`.
+- `.private/crawlspace/` (gitignored) - zip and the notes attached to the email.
 
-Halim's Oct 3 edits, all applied:
+Halim's Oct 5 edits, all applied: small title; two columns; no counter; thin
+black line; greys instead of blue; tip is a button; the ten "I wish you were"
+sentences; Carson's two lines in italic quotes under 02 and 03 with her
+credit; Python code in a box under the piece for 02 and 04; part 09 uses the
+reader's clock again; part 10's new poem ("Careful on the road / means I miss
+you / ... / for home") and "home" ends the sentence only once the i crosses.
+Dropped with his rewrite: the 05 second sentence and the 10 dictionary line.
 
-- Zero CSS; sentences appear whole, in italic; status lines removed from all
-  parts; a small black-and-white bulb "tip" on every part (hover = title,
-  tap = opens), lowercase plain microcopy.
-- 01 bitter on top, sweet below. 02 top line is Carson's "the lover wants
-  what he does not have", code in a box above the screen, printed one size
-  smaller. 03 now Carson's "Conjoined they are held apart." (Ruse; his Kindle
-  highlight at loc 416) - his notebook line was not Carson's. 04 slow approach
-  with overlap that never completes (see below). 05 "The moving frontier of
-  intimacy." 06 "My Arabic is cryogenic, a frozen version of the 2000s’
-  Lebanese." 08 "Didn’t abandon you. Had to leave" 09 "here" is San
-  Francisco time. 10 "Careful on the road"; the i walks down across the water
-  leaving the notebook sentence line by line, and on the far bank a
-  dictionary line appears: "phrase, Lebanese. I miss you already."
+Decisions (reversible): 03 reads "I wish you were the curvature." (he typed "a
+the curvature"); his own punctuation kept as typed; the design agent stalled
+twice (subagent watchdog), so the layout was designed and verified inline;
+#aaaaaa is 2.3:1 on white, below WCAG for small text, chosen because he asked
+for a grey very unlike #666666 - the alt text carries each part for screen
+readers.
 
-Decisions taken (reversible, Halim's to overrule):
-
-- Carson lines are shown in quotation marks and cited "Anne Carson, ..."
-  (not "after"). Two only, each under 15 words; the check enforces it.
-- 04's code is now a VARIATION of his couplet so the screen matches it:
-  `g=73` / `while 1:print(("lover"+" "*g)[:g]+"beloved");g=g//2 or 1`. The
-  start-to-start distance halves, so lover is cut short ("lovebeloved",
-  "lobeloved", "lbeloved") but never disappears. Each line slides in; at 1
-  every further line waits twice as long. His original couplet stops at a
-  one-space gap and never overlaps.
-- Code is a `<code>` in a `<fieldset>`, not a `<pre>`, so it wraps on phones.
-- Crawlspace hosts accepted work in a nested iframe with their menu tab on the
-  bottom right edge: links target=_blank, controls flow left, corner empty.
-
-Open, for Halim:
-
-0. Merge PR #70, then send the draft (deadline Wed 7 Oct, 5am Pacific).
-1. Read the sentences in place and veto any (README has the table).
-2. Fill the one bracket in the email: how he found Crawlspace and a piece of
-   theirs he loved. Nothing was invented.
-3. The notes say the piece was built "in conversation with Claude Code". His
-   call how to word that.
-4. No separate line-by-line logic review of the programs was run (the agent
-   died on usage credits); the e2e covers each part's behaviour.
-
-**Machine note, read before running git here.** `~/Documents` is iCloud-synced
+**Machine note, read before running git here.** On Oct 5 iCloud stalled for
+good on this repo (801 files stuck dataless, `brctl download` made no
+progress), so the work moved to a sparse clone outside iCloud:
+`git clone --depth 1 --filter=blob:none --sparse` + `git sparse-checkout set
+longing scripts`, with `npm i --no-save playwright@1.58.2`. Commit and push
+from such a clone when the Documents checkout hangs. `~/Documents` is iCloud-synced
 with storage optimisation, and it evicts repo files. On Oct 3 a 181 MB git
 pack, 527 playwright files and ~3,400 working-tree files were `dataless`
 placeholders: git said `bad object HEAD` / `mmap failed`, node threw on

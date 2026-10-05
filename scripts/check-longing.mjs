@@ -60,12 +60,14 @@ check(
       .replace(/!==|!=|!S\.|!p\.|!about|!open|!reduced|!down|![a-zA-Z_(]/g, ""),
   ),
 );
-const PALETTE = new Set(["1c39e8", "666666", "ffffff"]);
+/* No blue (Halim, Oct 5): black, a pale grey for what is wanted, a mid grey
+   for everything else, white, and black for the thin lines. */
+const PALETTE = new Set(["aaaaaa", "666666", "ffffff", "000000"]);
 const hexes = [...html.matchAll(/(?:#|%23)([0-9a-f]{6})\b/gi)].map((m) =>
   m[1].toLowerCase(),
 );
 const off = [...new Set(hexes.filter((h) => !PALETTE.has(h)))];
-check("closed palette (blue, grey, white)", off.length === 0, off.join(", "));
+check("closed palette: greys only, no blue", off.length === 0, off.join(", "));
 check(
   "no script or stylesheet from another host",
   !/<(script|link)[^>]+(src|href)="https?:/i.test(html),
@@ -91,56 +93,40 @@ check(
     .join(" | "),
 );
 
-/* The sentence above each program. Eight are Halim's: from his notebook, from
-   the note he wrote for "The Reach", or rewritten by him on Oct 3 2026. Two
-   are Carson's, cited and shown in quotation marks: the eight words the Gone
-   couplet prints, and five words from "Ruse" (his Kindle highlight, loc 416).
-   A sentence not on this list fails the build. */
-const SENTENCES = new Map([
-  [
-    "Contemplating Whether joy and pain are neighbors Or closer Lovers",
-    "halim",
-  ],
-  ["the lover wants what he does not have", "carson"],
-  ["Conjoined they are held apart.", "carson"],
-  [
-    "Lover, beloved, and the space between. It halves every line and never reaches zero.",
-    "halim",
-  ],
-  ["The moving frontier of intimacy.", "halim"],
-  ["The most dangerous immigrant is the one who loves you.", "halim"],
-  [
-    "My Arabic is cryogenic, a frozen version of the 2000s\u2019 Lebanese.",
-    "halim",
-  ],
-  ["How long has it been darling? A year and change. And change", "halim"],
-  ["Didn\u2019t abandon you. Had to leave", "halim"],
-  ["The day known as tomorrow", "halim"],
-  ["Careful on the road", "halim"],
-  ["I miss you already.", "halim"],
-]);
-const shown = [...html.matchAll(/\n\s+line2?:\s*"([^"]+)",/g)].map((m) => m[1]);
-check("twelve sentences", shown.length === 12, String(shown.length));
+/* The ten sentences are Halim's (Oct 5 2026). Each completes the title,
+   "I wish you were", except 06, about his Arabic. Part 10 holds back its last
+   word, "home", until the i has crossed. Two parts carry a Carson sentence in
+   quotation marks under theirs: the eight words the Gone couplet prints, and
+   five words from "Ruse" (his Kindle highlight, loc 416). A sentence or quote
+   not on these lists fails the build. */
+const SENTENCES = [
+  "I wish you were a neighbor instead of joy and pain wedded and melding",
+  "I wish you were what I do not have.",
+  "I wish you were the curvature.",
+  "I wish you were the space between, but halved, for convenience",
+  "I wish you were the unmoving border of intimacy",
+  "I wish my Arabic wasn\u2019t cryogenic and a frozen version of 1990s Lebanon",
+  "I wish you were unbroken symbolon, abridged time. How long has it been? A year and change. And change.",
+  "I wish you were more mortar than bricks.",
+  "I wish you were the day known as tomorrow",
+  "I wish you were home",
+];
+const QUOTES = ["The lover wants what he does not have", "Conjoined they are held apart."];
+const shown = [...html.matchAll(/\n\s+line:\s*"([^"]+)",/g)].map((m) => m[1]);
 check(
-  "every sentence is on the list",
-  shown.every((t) => SENTENCES.has(t)),
-  shown.filter((t) => !SENTENCES.has(t)).join(" | "),
+  "the ten sentences, in order",
+  shown.length === 10 && shown.every((t, i) => t === SENTENCES[i]),
+  shown.join(" | "),
 );
-const quotedLines = [
-  ...html.matchAll(/\n\s+line:\s*"([^"]+)",\n\s+quoted: true,/g),
-].map((m) => m[1]);
+check("no second sentences any more", !/\n\s+line2:/.test(html));
+const quotes = [...html.matchAll(/\n\s+quote:\s*"([^"]+)",/g)].map((m) => m[1]);
 check(
-  "exactly the two Carson sentences are marked as quotes",
-  quotedLines.length === 2 &&
-    quotedLines.every((t) => SENTENCES.get(t) === "carson"),
-  quotedLines.join(" | "),
+  "exactly the two Carson quotes, each under 15 words",
+  quotes.length === 2 &&
+    quotes.every((q, i) => q === QUOTES[i] && q.split(/\s+/).length < 15),
+  quotes.join(" | "),
 );
-check(
-  "each Carson sentence is under 15 words",
-  [...SENTENCES]
-    .filter(([, w]) => w === "carson")
-    .every(([t]) => t.split(/\s+/).length < 15),
-);
+check("part 10 holds back home", /\n\s+withhold: "home",/.test(html));
 
 const links = [...html.matchAll(/<a\s+href="https:[^>]*>/g)].map((m) => m[0]);
 check(
@@ -167,6 +153,9 @@ if (process.argv.includes("--static")) {
 
 /* ---------- e2e ---------- */
 const { chromium } = await import("playwright");
+/* the static server: launch.json "oulipo-static" serves the repo on 4242;
+   LONGING_URL points the checks at another copy */
+const BASE = process.env.LONGING_URL || "http://localhost:4242/longing/";
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 const errors = [];
@@ -175,10 +164,10 @@ page.on("pageerror", (e) => errors.push(String(e)));
 page.on("console", (m) => m.type() === "error" && errors.push(m.text()));
 page.on("request", (r) => {
   const u = r.url();
-  if (!u.startsWith("http://localhost:4242") && !u.startsWith("data:"))
+  if (!u.startsWith(new URL(BASE).origin) && !u.startsWith("data:"))
     external.push(u);
 });
-await page.goto("http://localhost:4242/longing/", { waitUntil: "load" });
+await page.goto(BASE + "", { waitUntil: "load" });
 
 const L = (fn, arg) => page.evaluate(fn, arg);
 const rows = () => L(() => window.__longing.rows());
@@ -199,7 +188,11 @@ check(
 check("ten part buttons", (await page.locator("#parts button").count()) === 10);
 check(
   "the sentence is in italic",
-  await L(() => document.getElementById("said-line").tagName === "I"),
+  await L(() => !!document.getElementById("said-line").closest("i")),
+);
+check(
+  "no part counter",
+  !/\b\d\d of 10\b/.test(await L(() => document.body.innerText)),
 );
 
 /* every part draws something, names its source and has a tip */
@@ -208,7 +201,7 @@ for (let i = 0; i < 10; i++) {
   await L(() => window.__longing.step(3));
   const ink = (await rows()).join("").trim().length;
   const after = await page.locator("#said-after").innerText();
-  const tip = await page.locator("#tip-summary").getAttribute("title");
+  const tip = await page.locator("#tip-btn").getAttribute("title");
   check(
     `part ${i + 1} draws, cites and has a tip`,
     ink > 0 && /anne carson/i.test(after) && tip && tip.length > 20,
@@ -221,21 +214,30 @@ await L(() => window.__longing.show(6));
 check(
   "the sentence appears whole at once",
   (await page.locator("#said-line").textContent()) ===
-    "How long has it been darling? A year and change. And change",
+    "I wish you were unbroken symbolon, abridged time. How long has it been? A year and change. And change.",
 );
 
-/* tip: the title shows on hover, a click opens the same text */
-await page.locator("#tip-summary").click();
+/* tip: a button like the others; hover shows the title, a click the text */
+check(
+  "the tip is a button",
+  await L(() => document.getElementById("tip-btn").tagName === "BUTTON"),
+);
+check("the tip starts closed", await L(() => document.getElementById("tip-text").hidden));
+await page.locator("#tip-btn").click();
 check(
   "a click on the tip opens it",
-  (await L(() => document.getElementById("tip").open)) &&
-    (await page.locator("#tip-text").textContent()) ===
-      (await page.locator("#tip-summary").getAttribute("title")),
+  !(await L(() => document.getElementById("tip-text").hidden)) &&
+    (await page.locator("#tip-text").textContent()).trim() ===
+      (await page.locator("#tip-btn").getAttribute("title")) &&
+    (await page.locator("#tip-btn").getAttribute("aria-expanded")) === "true",
 );
+await page.locator("#tip-btn").click();
+check("a second click closes it", await L(() => document.getElementById("tip-text").hidden));
+await page.locator("#tip-btn").click();
 await L(() => window.__longing.show(7));
 check(
   "the tip closes when the part changes",
-  !(await L(() => document.getElementById("tip").open)),
+  await L(() => document.getElementById("tip-text").hidden),
 );
 
 /* 01: bitter on top, sweet below */
@@ -270,20 +272,28 @@ check(
   gone.join(" | "),
 );
 check(
-  "02 is quoted and cited as Carson's",
+  "02 sentence, then Carson's line in italic quotes, then her credit",
   (await page.locator("#said-line").textContent()) ===
-    "\u201cthe lover wants what he does not have\u201d" &&
-    /^Anne Carson, /.test(await page.locator("#said-after").innerText()),
+    "I wish you were what I do not have." &&
+    (await page.locator("#said-quote-text").textContent()) ===
+      "\u201cThe lover wants what he does not have\u201d" &&
+    (await L(() => !!document.getElementById("said-quote-text").closest("i"))) &&
+    !(await L(() => document.getElementById("said-quote").hidden)) &&
+    (await page.locator("#said-after").innerText()) ===
+      "Anne Carson, Eros the Bittersweet, \u201cGone\u201d",
+  await page.locator("#said-after").innerText(),
 );
 check(
-  "02 code sits in a box above the screen",
+  "02 code sits in a box below the screen",
   await L(() => {
     const box = document.getElementById("code");
     return (
       !box.hidden &&
-      box.tagName === "FIELDSET" &&
-      box.compareDocumentPosition(document.getElementById("grid")) &
-        Node.DOCUMENT_POSITION_FOLLOWING
+      !!box.querySelector('table[border="1"][frame="box"]') &&
+      document.getElementById("grid").compareDocumentPosition(box) &
+        Node.DOCUMENT_POSITION_FOLLOWING &&
+      box.getBoundingClientRect().top >=
+        document.getElementById("grid").getBoundingClientRect().bottom - 1
     );
   }),
 );
@@ -295,10 +305,18 @@ check(
 /* 03: Carson's sentence */
 await L(() => window.__longing.show(2));
 check(
-  "03 shows Carson's sentence from Ruse",
-  (await page.locator("#said-line").textContent()) ===
-    "\u201cConjoined they are held apart.\u201d" &&
-    /Ruse/.test(await page.locator("#said-after").innerText()),
+  "03 sentence, then Carson's line from Ruse",
+  (await page.locator("#said-line").textContent()) === "I wish you were the curvature." &&
+    (await page.locator("#said-quote-text").textContent()) ===
+      "\u201cConjoined they are held apart.\u201d" &&
+    (await page.locator("#said-after").innerText()) ===
+      "Anne Carson, Eros the Bittersweet, \u201cRuse\u201d",
+);
+await L(() => window.__longing.show(4));
+check(
+  "parts without a quote hide it and credit with after",
+  (await L(() => document.getElementById("said-quote").hidden)) &&
+    /^after Anne Carson, /.test(await page.locator("#said-after").innerText()),
 );
 
 /* 04: they overlap, lover is cut short, but it never disappears */
@@ -345,10 +363,6 @@ await L(() => {
   l.step(8);
 });
 check("05 the edge before the hinge", (await column()).includes("edge"));
-check(
-  "05 one sentence before the hinge",
-  (await page.locator("#said-two").innerText()).trim() === "",
-);
 await L(() => {
   const l = window.__longing;
   l.act(26);
@@ -356,9 +370,10 @@ await L(() => {
 });
 check("05 the edge turns into a border", (await column()).includes("border"));
 check(
-  "05 the second sentence arrives with the border",
-  (await page.locator("#said-two").innerText()) ===
-    "The most dangerous immigrant is the one who loves you.",
+  "05 one sentence only, before and after the border",
+  (await page.locator("#said-line").textContent()) ===
+    "I wish you were the unmoving border of intimacy" &&
+    (await page.locator("#said-two").count()) === 0,
 );
 check(
   "05 status lines are gone",
@@ -406,7 +421,7 @@ await L(() => {
 });
 check("08 the ice melts when held", (await st()).cells.length === 0);
 
-/* 09: here is San Francisco */
+/* 09: here is the reader's own clock */
 await L(() => {
   window.__longing.show(8);
   window.__longing.step(1);
@@ -414,49 +429,40 @@ await L(() => {
 {
   const r = (await rows()).join("\n");
   const clocks = r.match(/\d\d:\d\d:\d\d/g) || [];
-  const pacific = await L(() =>
-    new Intl.DateTimeFormat("en-GB", {
-      timeZone: "America/Los_Angeles",
-      hour12: false,
-      hour: "2-digit",
-      minute: "2-digit",
-    })
+  const local = await L(() =>
+    new Intl.DateTimeFormat("en-GB", { hour12: false, hour: "2-digit", minute: "2-digit" })
       .format(new Date())
       .replace(/^24/, "00"),
   );
   check("09 two clocks", clocks.length === 2, clocks.join(" "));
-  check(
-    "09 here is Pacific time",
-    clocks[0] && clocks[0].slice(0, 5) === pacific,
-    `${clocks[0]} vs ${pacific}`,
-  );
+  check("09 here is the reader's time", clocks[0] && clocks[0].slice(0, 5) === local, `${clocks[0]} vs ${local}`);
 }
 
-/* 10: the i crosses the water, the sentence trails behind, then the definition */
+/* 10: the i crosses the water leaving the poem behind; then "home" */
 await L(() => {
   window.__longing.show(9);
   window.__longing.step(2);
 });
 check(
-  "10 opens on the phrase alone",
-  (await page.locator("#said-line").textContent()) === "Careful on the road" &&
-    (await page.locator("#said-two").innerText()).trim() === "",
+  "10 opens without its last word",
+  (await page.locator("#said-line").textContent()) === "I wish you were",
 );
 await L(() => {
   const l = window.__longing;
-  for (let k = 0; k < 8; k++) l.act();
+  for (let k = 0; k < 7; k++) l.act();
   l.step(2);
 });
 {
   const r = await rows();
+  const poem = ["Careful on the road", "means I miss you", "already I love you", "but my language can\u2019t", "stomach affection and all I have", "is room", "for home"];
   check(
-    "10 each step leaves a line",
-    r.some((x) => x.includes("is room for fear.")) &&
-      r.some((x) => x.includes("I miss you already,")),
+    "10 each step leaves a line of the poem",
+    poem.every((line) => r.some((x) => x.includes(line))),
+    r.join(" | "),
   );
   check(
-    "10 no definition before the i crosses",
-    (await page.locator("#said-two").innerText()).trim() === "",
+    "10 still no home before the i crosses",
+    (await page.locator("#said-line").textContent()) === "I wish you were",
   );
 }
 await L(() => {
@@ -465,16 +471,10 @@ await L(() => {
 });
 {
   const r = await rows();
+  check("10 the i reaches the far bank", r[9].trim() === "i", JSON.stringify(r[9]));
   check(
-    "10 the i reaches the far bank",
-    r[10].trim() === "i",
-    JSON.stringify(r[10]),
-  );
-  check(
-    "10 the definition appears once it crosses",
-    (await page.locator("#said-two").innerText()) ===
-      "phrase, Lebanese. I miss you already.",
-    await page.locator("#said-two").innerText(),
+    "10 home appears once it crosses",
+    (await page.locator("#said-line").textContent()) === "I wish you were home",
   );
 }
 await L(() => {
@@ -483,9 +483,31 @@ await L(() => {
 });
 check(
   "10 a press after crossing walks again",
-  (await st()).k === 0 &&
-    (await page.locator("#said-two").innerText()).trim() === "",
+  (await st()).k === 0 && (await page.locator("#said-line").textContent()) === "I wish you were",
 );
+
+/* layout: two columns on a wide screen, the piece on the right in a thin
+   black box; one column on a phone */
+await L(() => window.__longing.show(2));
+{
+  const g = await L(() => {
+    const box = document.getElementById("box").getBoundingClientRect();
+    const said = document.getElementById("said-line").getBoundingClientRect();
+    const cs = getComputedStyle(document.getElementById("box"));
+    return {
+      right: box.left >= said.right,
+      border: [cs.borderTopWidth, cs.borderTopStyle, cs.borderTopColor, cs.borderLeftWidth, cs.borderLeftStyle],
+      title: Math.round(document.querySelector("h1 font").getBoundingClientRect().height),
+    };
+  });
+  check("desktop: the piece sits right of the sentences", g.right);
+  check(
+    "the piece is in a 1px solid black line",
+    g.border.join("|") === "1px|solid|rgb(0, 0, 0)|1px|solid",
+    g.border.join("|"),
+  );
+  check("the title is small", g.title <= 24, String(g.title));
+}
 
 /* the bottom right corner is left clear for a host page's own controls */
 const nextBox = await page.locator("#next").boundingBox();
@@ -539,7 +561,7 @@ check(
   "arrow keys change the part",
   (await L(() => window.__longing.current())) === 1,
 );
-await page.goto("http://localhost:4242/longing/#4", { waitUntil: "load" });
+await page.goto(BASE + "#4", { waitUntil: "load" });
 await L(() => {
   location.hash = "#7";
 });
@@ -589,6 +611,20 @@ check(
   ) && (await page.locator("#grid").getAttribute("aria-describedby")) === "alt",
 );
 
+/* phone: one column, the piece under the sentences */
+await page.setViewportSize({ width: 390, height: 844 });
+await page.waitForTimeout(200);
+check(
+  "phone: the piece sits under the sentences",
+  await L(() => document.getElementById("box").getBoundingClientRect().top >= document.getElementById("said-line").getBoundingClientRect().bottom),
+);
+check(
+  "phone: the screen is at least 13px",
+  Number(await page.locator("#size").getAttribute("size")) >= 2,
+);
+await page.setViewportSize({ width: 1280, height: 900 });
+await page.waitForTimeout(200);
+
 /* phones and short windows: no sideways scroll, the screen fits the width */
 for (const [w, h] of [
   [390, 844],
@@ -621,7 +657,7 @@ const calm = await browser.newPage({
   viewport: { width: 1280, height: 800 },
   reducedMotion: "reduce",
 });
-await calm.goto("http://localhost:4242/longing/#3", { waitUntil: "load" });
+await calm.goto(BASE + "#3", { waitUntil: "load" });
 const calmState = () => calm.evaluate(() => window.__longing.state());
 await calm.locator("#grid").focus();
 await calm.keyboard.press("Space");

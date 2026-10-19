@@ -128,12 +128,11 @@ correct-topic rate by at most 0.09 points. It ships disabled. See
 
 ## Credits
 
-MR MIND was created and produced by **Peggy Weil**. Creative producer David
-Steuer. Bot scripting by Bear, Peggy Weil and J.B. Zimmerman. Visual
-engineering and design by Todd Ingalls. Webmasters Mark Brown and Fred Simon. A
-project of Web Lab, funded by Web Lab's Web Development Fund, with Marc Weiss
-as executive producer, Barry Joseph supervising and Laura Kertz associate
-producer. Chris Edwards named The Blurring Test.
+MR MIND was created and produced by **Peggy Weil**. Creative producer (1998)
+David Steuer. Bot scripting by Bear, J.B. Zimmerman and Peggy Weil. Visual
+engineering and design by Todd Ingalls. A project of WebLAB, with funding from
+WebLAB's Development Fund (1998): Marc Weiss, executive producer; Barry Joseph,
+supervising producer. Credits as supplied by Peggy Weil, October 2026.
 
 Written in NeuroScript on NeuroServer, by NativeMinds, Inc., San Francisco.
 

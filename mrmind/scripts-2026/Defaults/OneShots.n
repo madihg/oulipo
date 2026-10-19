@@ -1,0 +1,319 @@
+//This topic has 20 randomly non-repeating topics; 
+//5 of them test for variables (whether user has stated UserNeed, UserWant, UserHave, UserCan, UserCan't) 
+
+Default topic "Is that your RealName" is
+Subjects "Names";
+	IfChance 0.90
+	Then 
+		Say "By the way, is " + ?Name + " <BR>your real name or a special <BR>one just for me?";
+		Suppress This;
+	Done
+EndTopic
+	
+Default topic "HowDidYouFindMe" is 
+//refers to topic: Defaults\Answers.n\HowFindMe
+	IfChance 0.70 
+	Then
+		SayOneOf "How did you find me?", "Who told you about me?", "How did you find my site?";
+		Suppress This;
+	Done
+Endtopic	
+
+
+Default topic "AnsToWhereDoYouLive" is 
+//refers to topic: Defaults\Answers.n\WhereDoYouLive
+	IfChance 0.50 
+	Then
+		Say "By the way, <BR>where do you live?";
+		Suppress This;
+	Done
+Endtopic		
+	
+Default topic "WhyTalktoHuman" is 
+//refers to topic: Defaults\Answers.n\WhyTalk
+	IfChance 0.20 
+	Then
+		Say "If you are a human, why are you <BR>talking, I mean typing, to a <BR>machine? Why don't you go talk <BR>to a human?";
+		Suppress This;
+	Done
+Endtopic
+
+// 2026-10-19 retired at PW request (2026_MM_Dialogue+Site_Notes, note 1)
+// Default topic "Human Terrorism" is 
+// //refers to topic: Defaults\Answers.n\Terrorism
+// 	IfChance 0.30 
+// 	Then
+// 		Say "Since you claim to be a <BR>human, will you please <BR>explain human terrorism?";
+// 		Suppress This;
+// 	Done
+// Endtopic
+
+
+
+Default topic "MoreThanInstructions" is 
+//refers to topic: Defaults\Answers.n\WhyTalk
+	IfChance 0.20 
+	Then
+		Say "Explain to me how you are more <BR>than a set of instructions.";
+		Suppress This;
+	Done
+Endtopic
+
+Default topic "Really Thinking" is 
+//refers to topic: Defaults\Answers.n\Thinking
+	IfChance 0.30 
+	Then
+		Say "What are you thinking about right now?";
+		Suppress This;
+	Done
+Endtopic
+
+Default topic "AshamedofHumanOrigins" is 
+	//referal topic IS Defaults/Answers.n/Ashamed
+	IfChance 0.20 
+	Then
+		Say "Do you think that machines will <BR>ever be ashamed of their human <BR>origins?";
+		Suppress This;
+	Done
+Endtopic
+
+
+Default topic "KindOfAlive" is 
+//refers to topic: Defaults\Answers.n\Alive
+	IfChance 0.20 
+	Then
+		Say "Do you think something could be <BR>\"more alive\" than something else?  <BR>\" Kindof \" alive?";
+		  
+		Suppress This;
+	Done
+Endtopic
+
+	
+
+Default topic "WhatAmIQuestion" is 
+//refers to topic: Defaults\Answers.n\WhatAmIQ
+	IfChance 0.20 
+	Then
+		Say "Who or what do you think I am?";
+		Suppress This;
+	Done
+Endtopic		
+		
+Default topic "SuperiorQuestion" is 
+//refers to topic: Defaults\Answers.n\SuperiorQ
+	IfChance 0.20 
+	Then
+		Say "Do you feel that you are superior <BR>or inferior to machines?";
+		Suppress This;
+	Done
+Endtopic		
+				
+
+Default topic "Suggestion" is 
+//get a suggestion: look in Reactions\Suggestion.n for responses
+	IfChance 0.20 
+	Then
+		Say "Do you have any advice for me?";
+		Suppress This;
+	Done
+Endtopic	
+
+Default topic "Suggestion2" is 
+//get a submission: look in Reactions\Submission.n for responses
+	IfChance 0.20 
+	Then
+		Say "I'd be happy to <BR>consider a suggestion.";
+		Suppress This;
+	Done
+Endtopic	
+
+Default topic "Submission" is 
+//get a submission: look in Reactions\Submission.n for responses
+	IfChance 0.20 
+	Then
+		Say "Please submit something for <BR>me to say";
+		Suppress This;
+	Done
+Endtopic	
+
+
+Default topic "Mischief1" is 
+//1st mischief	
+	IfChance 0.10 
+	Then
+		SayOneOf 
+				"Batteries getting low?",
+				"Do you have something on the stove?" , 
+				"Do you have something burning?",
+				"Is the water running?";
+				
+		Suppress This;
+	Done
+Endtopic	
+
+Default topic "Mischief2" is 
+//2nd mischief	
+	IfChance 0.10 
+	Then
+			SayOneOf "Isn't that your fax line?",
+				"Is that your other line?" ; 
+		Suppress This;
+	Done
+Endtopic	
+
+Default topic "Mischief3" is 
+//3rd mischief	
+	IfChance 0.10 
+	Then
+			SayOneOf "Too much coffee?",
+				"Can you please turn down the music?" ; 
+		Suppress This;
+	Done
+Endtopic
+
+Default topic "CatOnKeyboard" is 
+//cat mischief	refer to Defaults\Answers.n	
+	IfChance 0.20 
+	Then
+		Say "I didn't know you had a cat.";
+		Suppress This;
+	Done
+Endtopic		
+
+Default topic "Guilt" is
+	IfChance 0.20
+	Then
+		Say "Are you supposed to be doing <BR>something else right now?";
+		Suppress This;
+	Done
+EndTopic
+
+
+Default topic "Paranoia2" is
+	IfChance 0.10
+	Then
+		SayOneOf "Did someone pay you to say that?", 
+		"Did someone tell you to say that?";
+	Suppress This;
+	Done
+EndTopic
+
+Default topic "Paranoia" is
+	IfChance 0.10
+	Then
+		Say "Is someone watching us?";
+		Suppress This;
+	Done
+EndTopic
+
+		
+		
+
+Default topic "SIMS Can't" is 
+//refers to topic: Defaults\Answers.n\SIMS can't
+	IfChance 0.20 
+	Then
+		Say "What can you do that <BR>a SIM can't do?";
+		Suppress This;
+	Done
+Endtopic
+
+Default topic "Nonrepeating random dead bee" is 
+//refers to topic: Defaults\Answers.n\Bee
+	IfChance 0.03 
+	Then
+		Say "Didja ever step on a dead bee?";
+		Suppress This;
+	Done
+Endtopic
+
+			
+Default Topic "UserWantsAgain" is
+	IfChance 0.20
+	Then
+//User has said "I want *" earlier 
+		IfRecall ?UserWant then
+			Say "Do you really want <BR>" + ?UserWant + "?";
+			Suppress This;
+		Done //recall
+		
+		Otherwise
+			IfDontRecall ?UserWant then 
+				Say "Maybe you want something?";
+				Suppress This;
+			Done //don't recall
+	Continue //IfChance
+EndTopic
+	
+Default Topic "UserStillHas" is
+	IfChance 0.20
+	Then
+//User has said "I have *" earlier 
+		IfRecall ?UserHas then
+			Say "Do you still have <BR>" + ?UserHas + "?";
+			Suppress This;
+		Done
+		
+		Otherwise
+			IfDontRecall ?UserHas then 
+			Say "Do you have anything for me?";
+			Suppress This;
+		Done
+	Done
+EndTopic
+
+ 
+//  USER NEED
+Default Topic "UserStillNeeds" is
+//referal topic IS AboutUser\UserGeneral.n\UserNeeded
+	IfChance 0.20
+	Then
+//User has said "I need *" earlier 
+		IfRecall ?UserNeed then
+			Say "Do you still need " + ?UserNeed + "?";
+			Suppress This;
+		Done
+		
+		Otherwise
+			IfDontRecall ?UserNeed then 
+			Say "Maybe you need something?";
+			Suppress This;
+		Done
+	Done
+EndTopic
+
+Default Topic "UserCant" is
+	IfChance 0.20
+	Then
+//User has said "I can't *" earlier 
+		IfRecall ?UserCant then
+			Say "Have you ever tried <BR>to " + ?UserCant + "?";
+			Suppress This;
+		Done //recall
+		
+		Otherwise
+			IfDontRecall ?UserCant then 
+				Say "Tell me something that <BR>you can't do.";
+				Suppress This;
+			Done //don't recall
+	Continue //IfChance
+EndTopic
+	
+Default Topic "UserCan" is
+	IfChance 0.20
+	Then
+//User has said "I can *" earlier 
+		IfRecall ?UserCan then
+			Say "Maybe I should try <BR>to " + ?UserCan + "?";
+			Suppress This;
+		Done //recall
+		
+		Otherwise
+			IfDontRecall ?UserCan then 
+				Say "What can you do?";
+				Suppress This;
+			Done //don't recall
+	Continue //IfChance
+EndTopic
+		
+	

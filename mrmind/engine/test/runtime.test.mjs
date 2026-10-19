@@ -850,5 +850,50 @@ EndTopic`);
   assert.equal(typeof t.line, "number");
 });
 
+
+group("WaitForResponse keeps the pending SwitchTo chain across turns");
+
+test("a Sequence that SwitchTo's a yes/no helper resumes the caller after SwitchBack", () => {
+  // The shape of Activities/20Questions.n: a game Sequence calls GetYN, GetYN
+  // waits for input and SwitchBacks, the game continues. Before the fix the
+  // next turn's Priority phase emptied the switch stack, so GetYN's SwitchBack
+  // had nowhere to return to and the game fell silent after its first question.
+  const b = bot(`
+    Priority Topic "Classify" is
+      Always Forget ?YesResponse; Continue
+      If Heard "yes" Then Remember ?YesResponse; Continue
+    EndTopic
+    Topic "Play" is
+      If Heard "play" Then SwitchTo "Game"; Done
+    EndTopic
+    Sequence Topic "GetYN" is
+      Always
+        WaitForResponse;
+        IfRecall ?YesResponse Then SwitchBack
+        Say "yes or no please";
+        WaitForResponse;
+        SwitchBack
+    EndTopic
+    Sequence Topic "Game" is
+      Always
+        Say "question one?";
+        SwitchTo "GetYN";
+        Say "question two?";
+        SwitchTo "GetYN";
+        Say "done";
+      Done
+    EndTopic
+    Default Topic "Fallback" is
+      Always Say "fallback"; Done
+    EndTopic
+  `);
+  b.start();
+  assert.deepEqual(say(b, "play"), ["question one?"]);
+  assert.deepEqual(say(b, "yes"), ["question two?"]);
+  assert.deepEqual(say(b, "maybe"), ["yes or no please"]);
+  assert.deepEqual(say(b, "yes"), ["done"]);
+  assert.deepEqual(b.warnings, []);
+});
+
 console.log(`\n${passed} passed, ${failed} failed`);
 process.exit(failed ? 1 : 0);

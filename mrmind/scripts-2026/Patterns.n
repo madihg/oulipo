@@ -1,0 +1,642 @@
+  PatternList ACCESSORYCLOTHING is "bracelet", "necklace", "ring", "cufflink", "button", "zipper", "earring", "jewelry","jewel#";
+
+PatternList AFFIRMATIVE is "yes","yeah","yah","oui","si","yep","uh-huh","affirmative","of course",
+"all the time","ok","okay", "sure", "okeedokee","okeydokey","okey-dokey","okee-dokee","please" , "yes please";
+
+PatternList AGE is "child#","codger#","coot#","geezer#","kid#","old#","senior","teen#","young#","year",
+"%","%%","%%%",	"#,one","#,two","#,three","#,four","#,five","#,six","#,seven","#,eight","#,nine","#teen",
+"teenager", "teen", "twelve","eleven","ten";
+
+PatternList AILIFE is "ALIFE", "android", "Artificial intelligence", "bot", "computer", 
+	"computer program", "droid", "machine", "robot";
+
+PatternList ALIST is "ALIST", "A*list","A","a";
+
+PatternList ANNOYANCE is "annoy#","irrita#","pest","frustrat#","piss me off","hack me off","this*sucks",
+"bore me";
+
+PatternList BOTHER_AGGRAVATE.V is "aggravate", "annoy", "antagonize", "arouse", "badger", 
+"bait", "bedevil", "bother", "chafe", "discompose", "disturb", "enrage", "envenom", 
+"exacerbate", "exasperate", "fret", "grate", "harass", "harry", "hassle", "inflame", 
+"infuriate", "irk", "irritate", "needle", "peeve", "perturb", "pester", "rankle", 
+"torment", "trouble", "upset", "vex";
+
+//note 'regret' has it's own pattern to give it another reply but that was deleted...
+PatternList APOLOGY is "sorry","apologize","apologise", "sorry about that", "forgive#", "regret", "regret#";
+
+
+PatternList Articles is "a","an","the",  //general articles
+	"these","those","some",                   //demonstrative articles
+	"your","my","his","her","our","their",    //pronominal posessive articles
+	 "#\'s"; 								  //proper posessives
+	 
+PatternList OPTARTICLE is ARTICLES,"";
+//if an article is there, it should match in preference to the empty string, because it should 
+//be more specific than the empty string.
+
+//ATHLETE:  see SPORTSWORDS
+
+PatternList ARTIST is "Artist","Singer", "poet", "Painter", "Sculptor", "Inventor", "Architect",
+"Writer","Storyteller","Author", "musician", "pianist", "dancer","actor", "actress","singer", "composer",
+"film maker" , "author", "photographer"; 
+
+
+PatternList ATTRACTIVE is "sexy", "attractive", "lovely", "foxy", "beautiful";
+
+PatternList BABY is "baby", "child", "toddler", "kid","just a kid", "youth", "youngster", "young";
+//removed confused, hate 5/01 pw
+PatternList BADMOOD is "mad","sad","angry","pissed","upset","bummed","difficult",
+"tired","sleepy"," edgy","jumpy","nervous","anxious","worry","worried",
+"mixed up","exasperated","frustrated","schizo#","nutty","crazy"," wacko",
+"mood#","aroused","depressed","horney","horny","lonely","bored";
+
+PatternList BAD_BAD.ADJ is "bad", "baneful", "black", "defective", "detrimental", 
+"displeasing", "faulty", "ill-suited", "inadequate", "inadvisable", "inferior", "invalid", 
+"poor", "unfavorable", "unpleasant", "unsound", "wrong";
+
+
+PatternList BELIEVE is "Believe", "believe in","have belief in", "believe that", "have faith that","have faith in";
+//cut these off BELIEVE...didn't look right. -JB  "understand","have an understanding of","understand that";
+
+PatternList BELIEF is "belief", "superstitio#", "God", "Almighty", "yahweh", "The Lord", "faith","believe";
+
+
+PatternList BELLYBUTTON is "Belly,button","navel","umbilical";
+
+PatternList BLIST is "BLIST", "B*list","B","b";
+
+// 'Sleep' & 'dream' &  removed from BODYFUNCTION to enable a separate catch... -JB, PW
+//may separate out sports from the rest...check 'snore' later, 
+//SENSE = smell, see, hear, touch, taste
+//removed "talk"  pw
+PatternList BODYFUNCTION is 
+	"arous#","bathroom","breath#","bike", "bicycle", "crawl","cry",
+	"drink","drinking","drool","dying","eat","eating","exhale","fantas*","frown",
+	"giggle","hard","HIV Positive","ill","inhale","jump","KISS",
+	"laugh","leap","LICK" ,"lift weights","march", "pee", "perspire","respire", "respiration", "run",
+	"sick","SMILE", "smirk","snore","speak","spit","Suffering",
+	"sweat","walk","weep";
+	
+
+
+PatternList BIRTHWORD is "womb","born","birth#","sex# reproduc#", "delivered", 
+	"umbilical", "uterus";
+
+// 'thumbs','hand','hands' ,'hair' removed from BODYPARTS to enable separate catch in topic THUMBS -jb	
+PatternList BODYPARTS is "arm","arms","balls","ball","body","brain","brains",
+	"breast","breasts","buttocks","cheek","cheeks","dick","leg","legs","knee",
+	"knees","ear","ears","elbow#","eye","eyes","eyebrow","eyebrows","finger#",
+	"foot","feet","head","heart","hip","hips","lung",
+	"knuckle#","lungs","neck","nose","nostril#","penis","prick","pussy","skin",
+	"teeth","testicl#","toe","toes","shoulder#","vagina","wrist";
+//hair removed for another topic
+PatternList BODYPARTWORD is "face","faces","eye","eyes","tongue#","hand", 
+	"hands", "arms", "foot","feet","skin","nose#","body","finger#", "toe", "toes", "lip", 
+	"lips", "brains", "sense*smell", "sense*touch", "sense*sight", "sense*taste", 
+	"sense*hearing", "brain","penis";
+
+PatternList BOTS is "BOT","BOT's","Program","Programs","machine#","computer#";	
+	
+//PatternList CARE is "care","caring","nurtur#";	
+PatternList CAFFEINE is "coffee", "tea", "coke", "java", "jolt", "caffeine", "uppers", "espresso", 
+"cappuccino", "latte", "cafe au lait", "con leche", "mochaccino", "starbucks", "peets", "dunkin donuts";
+
+PatternList CAN.V is "am able to", "can", "have ability", "am capable of";
+PatternList CANNOT is "are not able to", "can not", "can't", "do not", "don't", "will never be able to", 
+"will not", "won't";
+PatternList CARRY is "carry","take","bring","transport";
+
+PatternList CHESSWORD is "chessword", "Chess", "King", "Knight", "Queen", "Bishop", "Pawn",
+"play chess", "Castle", "rook", "checkmate"; 
+
+PatternList CHOICE is "choice", "choices", "choose", "volition","free thought", "free will", "decide";
+
+PatternList COLOR is "color#", "colour", "in color" ,"green","red","blue","brown","yellow","purple","black","white","grey",
+"gray","orange","tan","magenta","pink","violet","indigo","aqua","turquoise","ochre";
+
+PatternList CLOTHES is "clothes","underwear","boxers","briefs","boxer shorts","pants","coat",
+	"jacket", "shirt", "bra", "lingerie", "teddy", "suit", "panties", "socks", "shoes", "heels",
+	"pumps", "loafers", "jeans", "slacks", "briefs", "necktie", "tie", "bowtie", ACCESSORYCLOTHING; 
+
+PatternList COMPUTER is "machine","computer#","computers","PC","box", "bot#";
+
+PatternList COMPUTERTALK is "syntax error","System error","abort, retry, fail","does not compute",
+"logoff","logout","I compute","bad command","filename","file not found";
+
+PatternList COMPUTERSCAN is "add","subtract","multiply","count","do math","divide","run",
+"exist","respond","calculate","interact";
+
+PatternList COMPUTERLANGUAGE is "ALGOL","APL","awk","BASIC","C","C++","COBOL","Dylan",
+"FORTH","FORTRAN","Gerbil","Haskell","HTML","Java","LISP","ML","NEUROSCRIPT","Pascal",
+"Perl","sed","scheme","SNOBOL","Teco","VRML";
+
+
+PatternList CONSCIOUS_AWARE.ADJ is "appreciative", "apprised", "astute", "attentive", 
+"aware", "cognizant", "conscious", "familiar with", "feeling", "mindful", "observant", 
+"perceptive", "responsive", "sensitive", "sensory", "sentient";
+
+
+PatternList CONVINCE is "convinc#","persuad#","teach#","tell#";
+
+PatternList COOKING is "cooks","cook","cooking","makes","making","made","bake#","fry",
+	"fries","broil#","barbe^ue#", "prepar#";
+	
+PatternList COUNTRY is "Australia","Bangladesh","Canada","Austria","France","Germany","Poland","Belgium","Netherlands",
+	"Spain","Portugal","Monaco","Italy","Switzerland","Hungary","Turkey","Latvia","Lithuania","Norway",
+	"Sweden","Denmark","Finland","Iceland","Yugoslavia","Czech Republic","Kazakhstan","Pakistan","India","China",
+	"Korea","Singapore","Malaysia","Indonesia","Brunei","Japan","Taiwan","Cambodia","Laos","Vietnam","Kurdistan",
+	"Afghanistan","Sudan","Tunis","Algeria","Libya","Iraq","Iran","Saudi Arabia","Qatar","Yemen","Egypt","Israel",
+	"Syria","Lebanon","Chad","Gabon","Sierra Leone","Mexico","Nicaragua","Nigeria","El Salvador",
+	"Panama","Colombia","Venezuela","Peru","Chile","Brazil","Argentina","England","Zealand","Tadzhikistan",
+	"Mongolia","Bulgaria","Greece","Cameroon","South Africa","Philippines","Somalia","Zaire","Congo","Rwanda",
+	"Ivory Coast","Benin","Costa Rica","Cuba","Haiti","Dominican Republic","Bermuda","Bahamas",
+	"Estonia","Ireland","Scotland","Wales","Jamaica","Andorra","United Arab Emirates","Guyana","Angola",
+	"Russia","Ukraine","United States","America","Belarus", "Uruguay";
+	
+PatternList CREATE is "create", "creative", "make", "craft", "make up", "draw", "paint", "build", "sculpt", "compose", 
+	"write", "innovate", "invent";
+	
+PatternList CREATIVE is "creative", "imaginative", "innovative", "inventive", "inventor";
+
+PatternList CREATIVITY is "creativity";
+
+PatternList CRAZY_LUNATIC.N is "crackpot", "crank", "crazy", "fiend", "kook", "lunatic", 
+"madman", "maniac", "neurotic", "nut", "psychopath", "psychotic", "unbalanced", "kooky", "mad";
+
+
+
+PatternList DEFEND_DEFEND.V is "answer", "argue", "avert", "backfire", "bar", "barricade", 
+"buffer", "counter", "counterattack", "cover", "defend", "fend", "guard", "oppose", 
+"police", "protect", "rebut", "reply", "resist", "respond", "retort", "return", "safeguard", 
+"save", "screen", "secure", "shelter", "shield", "support", "sustain", "uphold", 
+"ward";
+
+
+
+	
+PatternList DEVELOPSYNONYMS is "develop#", "creat#", "mak#", "form#", "produc#*";
+//PatternList DEVELOP -- VERBS ONLY
+PatternList DEVELOP is 
+	"author","authoring", "authored",
+	"build", "builds", "building", "built",
+	"coding", "coded", "code", "codes",
+	"create#", "creating", 
+	"design", "designs", "designed", "designing", 
+	"develop", "Development", "develops", "developing", "developed",
+	"implemented","implement","implements","implementing","implementation",
+	"invent", "invents", "inventing", "invented", 
+	"make", "makes", "made", "making",
+	"produce", "produces", "producing", "produced", 
+	"program", "programs", "programmed", "programming", 
+	"script", "scripts", "scripting", "scripted", 
+	"write", "wrote", "writes", "written","writing";
+
+PatternList DECIDE_CHOOSE.V is "adopt", "choose", "decide", "determine", "elect", 
+"espouse", "fancy", "favor", "judge", "like", "pick", "prefer", "select", "wish";
+
+//PatternList DEVELOPER -- NOUNS ONLY	
+PatternList DEVELOPER is "author", "authors", "builder", "builders", "coder", "coders",
+	"creator", "creators", "designer", "designers", "developer", "developers", "inventor", "inventors",
+	"maker", "makers", "producer", "producers", "programmer", "programmers", "scripter", "scripters", 
+	"writer", "writers";
+
+PatternList DEVELOPWORDS is DEVELOP, DEVELOPER;
+PatternList DISEASE.N is "affection", "ailment", "bug", "cold", "complaint", 
+"condition", "curse", "debility", "decrepitude", "disability", "disease", "disorder", 
+"flu", "handicap", "illness", "indisposition", "infection", "infirmity", "infliction", 
+"malady", "malaise", "pestilence", "sickliness", "sickness", "sore throat", "syndrome", 
+"unhealthiness", "virus", "a * tumor";
+
+PatternList DRUGS is "drug#","LSD","coffee","tea","caffeine","nicotine","cigarettes","alcohol",
+	"booze","crystal","meth","crack","methamphetamine","Heroin","X","ecstasy","absinthe","GHB",
+	"marijuana","marihuana","dope","amphetamine","weed","hashish","pot";
+
+PatternList EASY is "easy","cinch";	
+
+PatternList EAT is "eat", "eating", "drink", "chew", "swallow";
+
+PatternList ELECTRIC is "electricity", "power", "juice", "electrons", "voltage", "amperage", "volts", "amps", "charge", "coulomb", "ampere", "watt#";
+
+
+	
+//adjectives only
+PatternList EMOTIONAL is "emotional","empathic","empathetic","feeling","happy","in love",
+	"in*mood","joyful","loving","mad","manic";
+//deleting 'afraid' 
+PatternList NegativeEMOTIONAL is "angry","annoyed","anxious",
+	"confused","crying","depressed","discouraged","fearful",
+	"moody","Overwhelmed","sad","upset","vulnerable","weeping","worried";
+//cut frustrated -- it needs to be recognized as a cry for help.
+//cut bored -- it's supposed to trigger the 'you are frustrating' topic. -JB 7/22/99
+
+//nouns only
+//removed 'empathy' and put it into morality  10/3/00
+//cut compassion and care and put them into morality  pw 8/22/00
+Patternlist EMOTIONS is 
+	"depression","discouragement","Emotions",
+	"feelings","joy","love","mania","*moods";
+
+
+PatternList NegativeEMOTIONS is "sadness","anger","annoyance","anxiety","*blues",
+	"frustration","hatred","irritation", "nervous", "nerves";
+
+
+//verbs only
+PatternList EMOTE is "desire","EMOTE","love","like", "feel",
+	"empathise","empathize","smile","live to"; 
+	//no point putting hate here; it's misunderstood as "ate".
+	
+PatternList NegativeEmote is "fear","cry","worry","worry about";
+
+PatternList EMOTIONWORD is EMOTIONAL,EMOTIONS,EMOTE,NegativeEMOTIONAL,NegativeEmotions,NegativeEmote;	
+
+
+PatternList ERR is "err","error","errors","erred", "made errors", "faulty","faults","flaws","flawed","make mistake#",
+	"mistake","mistakes","not perfect","imperfect","imperfection#";
+	
+PatternList EVOLVEWORD is "reproduce","reproduction","reproductive",
+	"evolve","evolved","evolution","Procreate","procreative","procreative","procreation",
+	"genes","genetic","genetics","mate","mating","mated","mutate","mutated","mutation",
+	"make love","making love","made love","have sex","like sex","having sex","had sex";
+
+PatternList EXISTENCESYNONYMS is "existence", "around", "active", "alive";
+
+PatternList EXPRESSIONS is "Supercalifrag#","Super!","To be or not to be","Kewl","cool",
+"Abracadabra", "Abacadabra", "ohmygod" , "eek" , "yikes" , "zowie" ,"Have a nice day","not my problem", 
+"whatever*","sigh","poof#","random", "oy", "whoops","random", "oops", "whew", "hmm#", "vrr#","holy cow",
+"mahrvolous", "unbelievable", "argh", "om", "aom", "make my day";
+
+PatternList EXTROVERT is "outgoing","popular","friendly", "extrovert","have * friends";
+
+//removed "soul", "spirit", to another category
+PatternList FAITHWORD is "Faith","God","Goddess","ghost","ghosts","reincarnate","reincarnation",
+	"Religion","Religious","saint","spiritual*";
+
+PatternList SOUL is "soul","souls","soulful" ,"spirit","spirits";	
+	
+
+PatternList FAMILYWORD is "Ancestor","ancestors","aunt#","baby","brother", "brothers",
+	"child","children","cousin#","dad","daddy","daughter","daughters","father",
+	"family","grandfather","grandpa","granddad","grandma","grandmother","great-#",
+	"husband","infant","kid","married","Mom","Ma","mother","momma","mama", 
+	"pa","papa","parent","parents","spouse","sister","sisters","step#","son","sons",
+	"uncle#","wife";
+
+PatternList FATHER is "dad","father","pa","papa","daddy";
+
+PatternList FEAR.V is "fear", "dread", "worry about", "am frightened of", "am afraid of";
+
+PatternList FEAR.N is "fear", "alarm", "dread", "worry", "anxiety";
+
+PatternList FEARFUL.ADJ is "fearful", "frightened", "afraid", "worrie#", "scared", "uneasy", "anxious", 
+"unnerved", "freaked", "freak#", "freaked out", "scary" , "scared", "upset", "Upsetting" , "unsettling";
+
+PatternList FEMALE is "female","woman","girl","gal","chick";
+
+PatternList FIND_LOCATE.V is "discover", "establish", "find", "locate", "pinpoint", 
+"place", "position", "post", "set", "situate", "spot", "station", "unearth";
+
+PatternList FOOD is "food","#berries","#berry","apple#","apricot#",
+	"Bacon","bean#","broccoli","cabbage#","cake","candy","carrot#",
+	"chocolate#","cheese#","corn","cracker#","cola","cookie#",
+	"cucumber#","egg#","filet#","fruit","gravy","ham","lentil#",
+	"lettuce","linguin#","macaron#","manicotti","mushroom#","olive#","onion#", 
+	"sandwich#", "mushroom#","garlic","greens",
+	"pasta","peach#","pear","pecan#","potato#","pie","pies",
+	"pickle#","pizza","salad#","sausage","soup#","spaghetti","spinach","steak#",
+	"strawberr#","tomato#","vegetable#";
+
+PatternList FICTIONALBOTS is "HAL","ROBBY","Wintermute","neuromancer","antikythera","h.a.r.l.i.e.","p1","r2d2","r2-d2","c3po","c-3p0","artoo","threepio","T1000","terminator","commander data","cdr#data";
+	
+PatternList FORGETFUL is "memory","forget#","remember", "amnesia", "forgot";
+
+PatternList FUTURE.N is "future", "tomorrow", "another day", "later", "destiny";
+
+PatternList GOOD is "ok","okay","bravo","cool","i,m glad","groovy","wow","good","interesting",
+"impressive","great","fab","fabulous","excellent","terrific","amazing","yeah","dude","fine",
+"that,s*funny","that,s*neat","helpful", "wow";
+
+PatternList GOODMOOD is "glad","happy","smiley","excited","elated","curious", "enjoying yourself", 
+"in a good mood";
+
+//common usenet grinnies
+PatternList GRINNIES is ":-)","(-:",":)","(:",";-)","(-;","8-)","[-)","=:-)",":-]", "🙂","😊","😀","😁","😉","😃","😄"; // 2026-10-19 PW note 8: emoji forms
+
+PatternList HARD is "difficult","not easy","hard","troublesome";
+
+PatternList HEX is "#0#","#1#","#2#","#3#","#4#","#5#","#6#","#7#",
+	"#8#","#9#","#a#","#b#","#c#","#d#","#e#","#f#";
+
+PatternList HEXNOT is "#g#","#i#","#j#","#k#","#l#","#m#","#n#","#o#","#p#",
+	"#q#","#r#","#s#","#t#","#u#","#v#","#w#","#y#","#z#" ,"ha", "haha", "ha ha";
+	
+PatternList HOLIDAYS is "holidays", "Christmas", "Xmas", "New Years", "new years", "new year's", "Christmas Eve", "Halloween", 
+"St. Patricks Day", "Chanuka", "Hanuka", "Valentine#", "Columbus Day", "Earth Day", "Easter", "Kwanza",
+"Passover", "Ground Hog Day"; 
+
+PatternList HOLIDAYGREETINGS is "Merry Christmas",  "Happy Birthday", "Happy Hanuka#", "*Happy New Year*",
+"*Happy Valentines Day*";
+
+PatternList HUMAN is "people","person", "persons","human#","man","men","woman","women","boy#","girl#","real";
+	
+PatternList HUMOR is "Joke","Jokes","Joking","Humor","Riddle","game","funny","funni#";
+
+PatternList I is "humans", "I", "I/'#", "me", "my", "myself", "ourselves", "us", 
+	"we";
+
+PatternList IMAGINE is "imagine","visualize","visualise","fantasize";
+
+PatternList IMPORTANT.ADJ is "important", "critical", "interesting", "matter";
+
+PatternList INJURED is "broken", "cut", "hit my", "injured", "mashed", "poked", 
+	"scraped", "smashed", "stabbed";
+
+PatternList INTROVERT is  "introvert","shy", "timid";
+
+Patternlist YOU is "you", "your", "u","yourself";
+PatternList INSULT is "eat " + I,"fuck*" + YOU,"suck " + I,"go to hell", "idiot#","you stink";
+
+PatternList INSTRUMENT is "accordion","bagpipes","banjo","bass","clarinet",
+	"cornet","cymbal#","drum","dulcimer","flute","fife","guitar","harmonica",
+	"harp","horn","instrument#","lute","marimba","Piano","piccolo","sax","saxophone",
+	"sitar","snare","Trumpet","trombone","tuba","tympani","violin","whistle",
+	"xylophone","zither";
+
+PatternList IT is "it","that","one","they","those","them","this";
+
+PatternList LANGUAGES is 
+	"Arabic","Aramaic","Cantonese","Chinese","Czech#",
+	"Danish","Dutch","english","estonian","finnish",
+	"French","Gaelic","german","greek","hebrew",
+	"Italian","Japanese","jive", "korean","latin", 
+	"Mandarin","Norwegian","persian","polish",
+	"Portuguese","Romanian","Romany","russian","spanish",
+	"Swedish","Tagalog","welsh","yiddish","zulu";
+	
+PatternList LAUGHTER is "haha", "hehe", "teehee", "lol", "HO HO", "Ha", "HoHo", "hard*harhar";
+
+PatternList LIKE_LIKE.V is "admire", "appreciate", "enjoy", "esteem", "like", "prefer", 
+"relish";
+PatternList LONELY_DESOLATE.ADJ is "abandoned", "alone", "desert", "deserted", "dismal", 
+"dreary", "forlorn", "forsaken", "lonely", "miserable", "to kill myself", "commit suicide";
+
+
+PatternList LOSE is "lose", "losing", "lost","defeated", "fail";
+
+PatternList LUCKY_FORTUNATE.ADJ is "favorable", "favored", "fortuitous", "fortunate", 
+"lucky";
+PatternList MALE is "male","man","boy","guy","dude";
+
+PatternList MARRIAGEWORDS is "married", "marry", "marriage", "bride","wife",
+	"husband","groom","single","spouse","mate";
+	
+PatternList MATH is "plus","minus","times","multipl#","exponent#","subtract","add","equals","algorithm",
+"fractal#","divided","pi", "square root","0#","1#","2#","3#","4#","5#","6#","7#","8#","9#","#=#","#+#";
+
+PatternList MEAN_INTEND.V is "aim", "choose", "consider", "endeavor", "expect", "intend", 
+"mean", "plan", "propose", "resolve", "scheme", "wish";
+
+PatternList MEOW_ULULATE.V is "bark", "bow wow", "bawl", "bay", "bellow", "bleat", "bray", "cackle", 
+ "caw", "chatter", "chirp", "cluck", "coo", "crow",  "cuckoo", "gobble", 
+"growl", "grunt", "honk", "hoot", "howl", "meow", "mew", "moo", "neigh", "purr", 
+"quack", "roar", "ruff", "snarl", "snort", "squawk", "squeal", "trill", "twit", "ululate", 
+"warble", "whinny","woof", "yelp", "oink";
+
+//removed from MORALITY because users making statements describing themselves w/these would confuse the BOT. -JB 8/9/99
+//,"widow#","orphan#"
+PatternList MORALITY is "moral#","ethic#","valu#","conscience","nice","polite","kind","good","altruist#",
+	"give to charity","care about", "care for","compassionate", "compassion","give money to","make donation#",
+	"make contribution#","I contribute","have virtue","am virtuous" , "empathy","humble","modest",
+	"noble#","nobil#","strength","good#","strong","character","generos#","generous#", "humility","faith#",
+	"humane", "help others", "help other people", "help people";
+
+
+
+//these things are spoken: don't use regexps.
+PatternList MORTALITY is "Dead","Death","die","Dying","Violence","Violent#", "Ill",
+					"Illness","sick", "sickened","sickly","sickness", "mortal",
+					"mortality", "mortal", "immortal";
+
+
+PatternList MOTHER is "Mom","Ma","mother","momma","mama","mommy","mere","Madre"
+;
+
+//things people might call the bot in direct address.
+PatternList MRMIND is "Mr, Mind","Mister Mind","MM","Mind", "Mini Mind", "Mme. Mind", "Madame Mind", "Ms Mind";
+
+
+PatternList NATURE is "nature", "garden#", "gardener", "earth", "stars", "stargazer", "sunset#", "sunrise", "dawn", "flowers", "outdoor#", "hik#", "environment#";
+
+PatternList NEGATIVE is "no","nope","nah","non","uh-uh","negative","negatory","not", "not now","don## think so", "not really", "not at all";
+
+PatternList NOTSURE is "not sure", "dunno", "I don't know", "I dunno", "I'm not sure", "can't tell", "can't be sure", "hard to say";
+
+
+
+PatternList WISHYWASHY is "sometimes", "some of the time", "most of the time", "I guess so", "occasionally", "from time to time", 
+"now and then", "once in a while", "at times", "I suppose" , "depends";
+
+//words which indicate a possible negation of a pattern.
+PatternList NT is "un","aren,t","doesn,t","won,t","didn,t","doesn,t","don,t","wouldn,t","wasn,t",
+                  "ain,t","shouldn,t","couldn,t", "not", "no", "can,t";
+
+PatternList OCCUPATION is "baker", "banker", "broker", "programmer", "student", "cook", "doctor", "nurse",
+ "physician","surgeon","soldier","teacher", "parent","housewife","paralegal", "vet", "lawyer", "attorney", 
+ "psychologist", "professor", "engineer","coach", "comedian", "landlord", "president", "senator", "soldier", 
+"tailor", "spy", "rabbi", "philosopher", "journalist", "fundraiser", "assistant", "manager", "executive",
+"factory worker", "farmer", "specialist", "scientist";
+
+
+
+
+//these are things that can frame questions about the bot's well-being, cf. are you okay?
+PatternList OKAY is "O,K", "all right", "alright", "well", "okay";
+
+
+PatternList OTHERBOTS is "HAL","Julia","Julie-1","Shallow Red","Millie","Brain",
+"Barry Defacto","Eliza", "ALICE";
+
+PatternList OWN is "own","possess";
+
+
+PatternList PETS is "animals","animal", "bird#","budgie#","cat","cats","dog","dogs","kitten#","kitty",
+	"Parakeet#","Parrot#","canary","pet","pets","puppy","puppies","Rat","Rats","Snake#","ferret",
+	"ferrets","fish","goldfish","iguana", "lizard";
+PatternList TERRITORIES is "American Samoa", "Baker Island", "Guam", "Howland Island", "Jarvis Island", 
+"Johnston Atoll", "Kingman Reef", "Midway Islands", "Navassa Island", "Northern Mariana Islands", "Palmyra Atoll",
+ "Puerto Rico"," Virgin Islands", "Wake Island";
+	
+
+PatternList STATE is "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", "Connecticut", 
+"Delaware", "District of Columbia", "Florida", "Georgia", "Hawaii", "Idaho", "Illinois", "Indiana", "Iowa",
+"Kansas", "Kentucky", "Louisiana", "Maine", "Maryland", "Massachusetts", "Michigan", "Minnesota", "Mississippi",
+ "Missouri", "Montana", "Nebraska", "Nevada", "New Hampshire", "New Jersey", "New Mexico", "New York", "North Carolina", 
+ "North Dakota", "Ohio", "Oklahoma", "Oregon", "Pennsylvania", "Rhode Island", "South Carolina", "South Dakota", "Tennessee",
+  "Texas", "Utah", "Vermont", "Virginia", "Washington", "West Virginia", "Wisconsin", "Wyoming" ,TERRITORIES;
+PatternList PLACENAME is //endless is what it is...  but we'll try to capture some of the 
+	//common ones -- essentially we're trying to distinguish "I am going to [PLACE] from 
+	// I am going to [VERB].
+
+	"springs","mountain#","north#","south#","east#","west#","up","over","down","across",
+	"canyon#","gulch#","hill#","river#","california","san", "county","city","chicago",
+	"new york","moscow","paris","Los", "Sacramento","Washington","seattle","Nevada","Las",
+	"Reno","New","Colorado","Utah",
+	"lake#", "Ohio","cincinnati","#land","Minnesota","Sarasota","Saratoga","Falls",
+	"Canyon#", "Park","wood#","forest","#port","Kansas","Capital","capitol","away",
+	"Moscow","London","Stuttgart","Copenhagen","Pretoria","Virginia","Kingdom",
+	"Prefect","district","area","#house","country","United","viet#","#land",
+	"Georgia","saint","st","street", "rout#","road","#way","quebec","montreal","saskatchewan",
+	"yukon","alaska","#town","#dale","scandinavia","europe","africa",COUNTRY, STATE;
+	
+
+	
+PatternList PHYSICALADJECTIVE is  "attractive","beautiful","big","cute","dark","fat",
+	"foxy","large","light","lovely","pretty", "sexy","short","small","sweaty","tall",
+	"thin","ugly","biological";
+	
+PatternList PLAN is "plan", "plan for", "anticipate", "think about";
+	
+PatternList PLAY is "play", "do", "perform", "act";
+
+PatternList PROVE.V is "prove", "show", "declare", "confirm", "verify", "ascertain","document";
+
+PatternList PROOF.N is "proof", "evidence", "confirmation", "testimony";
+
+PatternList PURPOSE is "purpose#","mission","quest","goal","point", "raison d'etre", 
+"excuse", "aim";
+
+PatternList RECEIVE.V is "receive","get", "obtain", "come by", "admit", "accept", "acquire";
+
+
+
+PatternList REPETITION is "redundant", "Alzheimer#","repeat#","twice","loop","going in circl#","you keep saying",
+"already asked", "keeping asking that", "said that already", "repetit#","already said that", "said that";
+
+PatternList SENSE is "sens#", "intuit#", "sight","see#","scent", "smell#", "hear", "hearing",
+"perceive", "hear#", "touch#", "taste";
+
+PatternList SCRIPT is "script","scripted","scripting","write","wrote","writing",
+"written","code","author", "create#", "creating", "mak#", "made", "devel#", 
+"generat#", "program#" ;
+
+
+//PatternList SEXYWORD is "horney","horny","horni","wet","hot","slut","prostitute"," whore","fox", "sex","raunchy","attractive", "sexy";
+PatternList SHUTOFF is "pull # plug", "turn # off", "shut # off", "shut # down", "disconnect", "unplug";
+
+PatternList SLEEP is "tired","sleep","nap","yawn","zzz" , "sleepy", "sleeping" , "asleep", "exhausted";
+
+PatternList SMARTWORD is "brilliant","clever","smart","smarter","genius",
+	"right","clever#","accura#","bright#","intelligent","sophisticat#";
+
+PatternList SPORTS is "sports", "danc#", "ski#", "tennis", "swim#", "jog",
+"roller#","skat#", "dance", "excercise","run", "#skate#", "football", "#ball",
+"to play", "baseball", "hockey", "Basketball", "golf";
+
+PatternList ATHLETE is "dancer", "skier", "tennis player", "swimmer", "jogger", 
+"runner", "skater", "excercise", "runner", "#skater", "#ball player", "golfer", 
+"athlete";
+
+PatternList STUPIDWORD is "dumb", "dull", "insipid", "bore", "boring", "tedious", 
+"vapid", "uninteresting", "pointless", "humdrum", "fool", "foolish", 
+"absurd", "inane", "asinine", "daft", "dumb", " dimwit", "dim-wit", "dimwitted", 
+"dim-witted", "half-wit", "half-witted", "half wit", "halfwitted", "witless", 
+"dense","moron", "moronic", "dolt", "doltish", "feeble", "silly", "stupid", 
+"pinhead", "bonehead", "pin head", "bone head", "idiot", "induhvidual";
+
+PatternList SURE is "Sure", "Positive", "certain", "all * the time";
+
+PatternList SUPERLATIVES is "very","extremely","quite","lots","most#";
+PatternList SURPRISE is "astonish", "startle", "surprise","astonished", "startled", "surprised";
+
+PatternList TALKING_SPEECH.N is "allocution", "babbling", "chattering", "chitchat", 
+"circumlocution", "debate", "dialect", "dialog", "discussion", "elocution", "jabbering", 
+"locution", "oration", "patter", "prattle", "recitation", "speaking", "speech", "talking", 
+"vocalization", "voice";
+
+PatternList TAUNT is "nyah","hah","you lose","you suck"," sucker", "piss off", "idiot", "I# better * you","nyaa","nyaah";
+
+PatternList TELEVISION is "Television","TV","T.V.","Primetime","the tube","boob tube";
+
+
+
+PatternList TEMPERATURE_HEAT.N is "calefaction", "fever", "fire", "heat", "temperature", 
+"torridness", "warmth";
+
+PatternList COLD_COLD.ADJ is "biting", "bitter", "chilly", "cold", "frigid", "frosty", 
+"frozen", "ice-like", "icy", "nippy", "wintry";
+PatternList HOT_HOT.ADJ is "broiling", "burning", "feverish", "hot", "roasting", 
+"scalding", "scorching", "searing", "sweltering", "torrid", "warm";
+PatternList THINKWORD is "think#","rational","Intelligent","Intelligence",
+	"wise","wisdom";
+
+
+PatternList THISBOT is "this*bot#", "this*project#", "MRMIND","yourself";
+
+
+
+PatternList TRUTH is "truth", "true", "false", "falsehoods", "lying", "lie", "fact", "honest", "honesty";
+
+PatternList TYPE is "type","respond","talk","send message#","speak";
+
+PatternList UPTIME is "uptime", "uptimes";
+
+//"mean" is deleted because it interferes with "What do you mean?"
+PatternList VICE is "bad","cheat#","cruel#","crime","criminal#","evil",
+	"good,for,nothing","greed#","jealous#","killer","lazy","lust#",
+	"murder#","nasty","nasti#","petty","sin","sinning","sinful",
+	"vicious","sloth#","spite#","steal#";
+	
+//VIRTUE deleted, see MORALITY
+PatternList WANT_DESIRE.V is "covet", "crave", "desire", "expect", "fancy", "grasp", 
+"hanker", "hope", "hunger", "itch", "long", "lust", "need", "pine", "thirst", "want", 
+"wish", "yearn";
+
+PatternList WILL_INTENTION.N is "will", "intend", "aim", "intention"; 
+
+PatternList WASTE is "*shit#*","toilet","bathroom","pee","pees","poop","poops","Urine", "urinate";
+//YOU moved to above Insult to include FuckU..."
+//Patternlist YOU is "you", "u","yourself";
+
+
+
+PatternList YOUR is "ur", "your", "you,re", "you are"; 
+
+
+PatternList WAR is "twin towers","World Trade Center","Pentagon", "Osama bin Laden", "Osama", 
+"bin Laden", "deaths", "terrorism", "hijack*", "terrorists", "bomb", "bombings", "war", "attack", 
+"attack*", "WTC", "bomb*", "Afganistan", "Afgan*", "military", "strike";
+
+PatternList BioWar is "anthrax", "smallpox", "vaccine", "bio terrorism", "bioterrorism", "pox", "plague", "ebola", "CIPRO";
+
+PatternList WIN is "win", "winning", "won","triumphant","victorious", "beat you", "passing", "passed";
+
+
+
+PatternList WORK_WORK.V is "act", "function", "labor", "perform", "toil", "work";
+
+
+PatternList ICONWORDS is "nude", "looking over the rock", "phone cords", "cupid", "face", "picture#",
+"empire state", "empire state building",  "torso", "legs",
+"hand", "thumbprint", "chairs", "sunset", "road", "mountains", "diamond", "sign", "neon sign", "arches", 
+"feet", "kama sutra","kamasutra", "image#" ,"people", "man", "guy", "couple", "yellow eyes", "eye", 
+"eyes yellow","graffiti", "billboard";
+
+//took out 'guy with the pink glasses' and 'pink glasses' 
+
+//The following topic is a 'catch all' allowing a default topic to match topics I need to write later
+//Defaults\Defaults.n  "I have a whatever"
+PatternList NEWTOPICS is  "individual","personality", "common sense", "grow", "growth" , "perceive", 
+"face", "poetry", "sarcasm", "sarcastic", "irony",  "busy", "struggle", "addiction", "addict#", "instincts", "fate", 
+"ambiguous", "ambiguity",  "share", "sharing", "optimist", "pessimist",
+"impatient", "impatience";
+
+
+
+
+
+
+
+
+PatternList AVOID_AVOID.V is "abstain", "avert", "avoid", "bypass", "circumvent", 
+"decline", "dodge", "duck", "elude", "escape", "evade", "recoil", "shirk", "shrink", 
+"shun", "sidestep", "skip";

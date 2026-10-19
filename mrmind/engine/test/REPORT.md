@@ -18,22 +18,22 @@ replayed 7304 turns from 57 recorded sessions (391 user records)
   turns with a recorded reply   6751
   turns the original left silent 553
 
-  (a) exact reply text          642 (9.51%)
-      at least one exact line   796 (11.79%)
-  (b) correct topic             2659 (39.39%)
-      every recorded topic      2581 (38.23%)
-  (c) answered when original did 6726 (99.63%)
+  (a) exact reply text          650 (9.63%)
+      at least one exact line   808 (11.97%)
+  (b) correct topic             2698 (39.96%)
+      every recorded topic      2620 (38.81%)
+  (c) answered when original did 6724 (99.60%)
 
-  engine default-only           1830 (25.05%)
+  engine default-only           1845 (25.26%)
   original default-only         1835 (27.18%)
   engine spoke, original silent 548 / 553
   runtime warnings              0
-  208269 ms (28.5 ms/turn)
+  192033 ms (26.3 ms/turn)
 ```
 
 Headline, as integers:
 
-- **correct-topic rate: 39%**
+- **correct-topic rate: 40%**
 - **exact-match rate: 10%**
 - answered-when-the-original-did: 100%
 
@@ -41,13 +41,13 @@ Headline, as integers:
 
 | count | share of misses | cause |
 | ----: | --------------: | ----- |
-| 1438 | 35.14% | different Standard topic won best-fit |
-| 883 | 21.58% | engine answered where the original defaulted |
-| 740 | 18.08% | both defaulted, different Default topic (IfChance) |
-| 651 | 15.91% | engine fell through to a Default topic |
-| 302 | 7.38% | recorded topic absent from this build (later build) |
-| 34 | 0.83% | engine missed a Priority topic the original fired |
-| 25 | 0.61% | engine silent, original spoke |
+| 1385 | 34.17% | different Standard topic won best-fit |
+| 877 | 21.64% | engine answered where the original defaulted |
+| 746 | 18.41% | both defaulted, different Default topic (IfChance) |
+| 662 | 16.33% | engine fell through to a Default topic |
+| 303 | 7.48% | recorded topic absent from this build (later build) |
+| 34 | 0.84% | engine missed a Priority topic the original fired |
+| 27 | 0.67% | engine silent, original spoke |
 | 13 | 0.32% | some recorded topics absent from this build (later build) |
 | 6 | 0.15% | engine fired a Priority topic the original did not |
 
@@ -55,38 +55,38 @@ Headline, as integers:
 
 | topic | recorded | engine agreed | rate | dominant miss cause |
 | ----- | -------: | ------------: | ---: | ------------------- |
-| Last Line Of Defense | 1263 | 113 | 8.95% | engine answered where the original defaulted (601) |
-| Name Capture | 714 | 669 | 93.70% | engine fell through to a Default topic (26) |
+| Last Line Of Defense | 1263 | 113 | 8.95% | engine answered where the original defaulted (597) |
+| Name Capture | 714 | 669 | 93.70% | engine fell through to a Default topic (28) |
 | Robot Greeting | 386 | 386 | 100.00% | - |
-| Exit Survey | 107 | 35 | 32.71% | different Standard topic won best-fit (40) |
+| Exit Survey | 107 | 35 | 32.71% | different Standard topic won best-fit (39) |
 | STD_Greeting Detect | 95 | 90 | 94.74% | engine fell through to a Default topic (3) |
-| I'm repeating | 88 | 9 | 10.23% | different Standard topic won best-fit (73) |
-| IHave | 82 | 43 | 52.44% | different Standard topic won best-fit (33) |
-| WhyTalk | 76 | 3 | 3.95% | different Standard topic won best-fit (51) |
-| No | 68 | 2 | 2.94% | engine answered where the original defaulted (35) |
-| 20 questions | 68 | 6 | 8.82% | different Standard topic won best-fit (33) |
-| Is that your RealName | 68 | 24 | 35.29% | engine answered where the original defaulted (22) |
-| AskAboutPointers | 65 | 8 | 12.31% | different Standard topic won best-fit (37) |
+| I'm repeating | 88 | 14 | 15.91% | different Standard topic won best-fit (69) |
+| IHave | 82 | 44 | 53.66% | different Standard topic won best-fit (34) |
+| WhyTalk | 76 | 3 | 3.95% | different Standard topic won best-fit (46) |
+| No | 68 | 2 | 2.94% | engine answered where the original defaulted (34) |
+| 20 questions | 68 | 52 | 76.47% | engine fell through to a Default topic (7) |
+| Is that your RealName | 68 | 24 | 35.29% | engine answered where the original defaulted (23) |
+| AskAboutPointers | 65 | 8 | 12.31% | different Standard topic won best-fit (34) |
 | Yes to Intro | 65 | 23 | 35.38% | engine fell through to a Default topic (29) |
-| AskMe3 | 64 | 35 | 54.69% | different Standard topic won best-fit (15) |
-| Instructions | 60 | 2 | 3.33% | different Standard topic won best-fit (38) |
-| SuperiorQ | 58 | 2 | 3.45% | different Standard topic won best-fit (36) |
-| How | 56 | 9 | 16.07% | engine fell through to a Default topic (24) |
-| UserSuggestions | 55 | 1 | 1.82% | different Standard topic won best-fit (31) |
-| WhatAmIQ | 55 | 0 | 0.00% | different Standard topic won best-fit (39) |
-| SuperiorQ2 | 54 | 0 | 0.00% | different Standard topic won best-fit (28) |
+| AskMe3 | 64 | 37 | 57.81% | different Standard topic won best-fit (12) |
+| Instructions | 60 | 1 | 1.67% | different Standard topic won best-fit (41) |
+| SuperiorQ | 58 | 0 | 0.00% | different Standard topic won best-fit (34) |
+| How | 56 | 8 | 14.29% | different Standard topic won best-fit (24) |
+| UserSuggestions | 55 | 2 | 3.64% | different Standard topic won best-fit (31) |
+| WhatAmIQ | 55 | 0 | 0.00% | different Standard topic won best-fit (37) |
+| SuperiorQ2 | 54 | 0 | 0.00% | different Standard topic won best-fit (33) |
 
 ## What the ceiling actually is
 
 Three things put 100 per cent out of reach, and they are large. They are stated here so the 39 per cent is read against the right denominator.
 
-**1. Over half the corpus was recorded against different script text.** Every recorded reply carries the source file and line NeuroServer ran. Comparing those against the built categories' own line spans: 44.3% of the 7,312 recorded replies land inside the body the shipped `MRMIND3.vsr` sources give that topic, 47.9% land outside it (the topic moved, so the file was edited between that recording and this build), 4.4% name a topic this build does not contain at all, 1.4% name a different file, and 2.0% record no source. The recordings run from December 2000 to August 2001, with a tail of later turns reaching November 2004, and the same topic appears at several different line numbers across them ("Robot Greeting" at 867, 877, 879, 881 and 884), so the corpus is not one build at all. Reproduce with the line-span check described in this file's header comment.
+**1. Over half the corpus was recorded against different script text.** Every recorded reply carries the source file and line NeuroServer ran. Comparing those against the built categories' own line spans: 44.3% of the 7,312 recorded replies land inside the body the shipped `MRMIND3.vsr` sources give that topic, 47.9% land outside it (the topic moved, so the file was edited between that recording and this build), 4.4% name a topic this build does not contain at all, 1.4% name a different file, and 2.0% record no source. The recordings run from December 2000 to April 2001 and the same topic appears at several different line numbers across them ("Robot Greeting" at 867, 877, 879, 881 and 884), so the corpus is not one build at all. Reproduce with the line-span check described in this file's header comment.
 
 **2. `Compute SpellCheck` is the identity function.** It runs on every input before any topic sees it (`Library/StdQuestion/combis/QuesResDebug.us.n:149`) and the original rewrote misspellings against a compiled binary lexicon (`Program/Ssceam2.clx`) that survives only as a prefix trie. This ceiling has now been measured rather than assumed, and it is **small**: of the 18,096 words in the 7,160 recorded inputs, 1,814 (10.02%) are unknown to the recoverable lexicons and 1,641 inputs (22.92%) contain at least one of them, but 83% of those unknown words have no neighbour one edit away — they are names, mashed keys, URLs and coinages, not typos. A reconstructed corrector rewrites between 0.13% (the vendor's own auto-change table alone) and 3.23% (most aggressive) of inputs, and its best effect on the correct-topic rate is +0.09 points. Reproduce with `node engine/test/spell-reach.mjs` and `node engine/test/conformance.mjs --spell=ed1`. See `engine/DEVIATIONS.md`, "Branch A".
 
 **3. MrMind's defaults are decided by coin toss.** Every Default topic is gated on `IfChance` — 0.90, 0.70, 0.50, 0.20 down the one-shot ladder in `Defaults/OneShots.n`, then a bare `IfChance` ladder inside `Defaults/Defaults.n` "Last Line Of Defense" — and 27% of the original's replies came from a Default topic. Which default speaks is a draw from NeuroServer's RNG, which no port can repeat, and the default MrMind chooses is a question it then asks, so the *next* turn's answer topic (`?WhatRobotSaid matches "…"`, the whole of `Defaults/Answers.n`) diverges too. That is the single largest recurring miss in the table above.
 
-The one number that is not subject to any of this is the default-fallback rate, which `spec/E-topics-focus-and-selection.md` §10.1 sets as the acceptance test at 25-27%. This engine answers 25.05% of turns from a Default topic alone; the recording answers 25.12% of the same turns that way. Selection is landing in the right place at the right rate; it is choosing a different member of the set.
+The one number that is not subject to any of this is the default-fallback rate, which `spec/E-topics-focus-and-selection.md` §10.1 sets as the acceptance test at 25-27%. This engine answers 25.26% of turns from a Default topic alone; the recording answers 25.12% of the same turns that way. Selection is landing in the right place at the right rate; it is choosing a different member of the set.
 
 ## Engine corrections made against this measurement
 
@@ -133,5 +133,5 @@ Branch C additionally verified, and left unchanged: `#` semantics against every 
 - *different Standard topic won best-fit* is now mostly cascade: the previous turn already diverged, so `?WhatRobotSaid`, the focus list and the StdQuestion flags all describe a different conversation. Not separately fixable; it shrinks only as the per-turn accuracy rises.
 - *both defaulted, different Default topic* is the `IfChance` draw. Not fixable.
 - *recorded topic absent from this build* is the later build. Not fixable without those sources.
-- *engine silent, original spoke* is the only bucket that would be a plain bug, and it is 25 turns out of 6751. Worth re-reading if it ever grows.
+- *engine silent, original spoke* is the only bucket that would be a plain bug, and it is 27 turns out of 6751. Worth re-reading if it ever grows.
 

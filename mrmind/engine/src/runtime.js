@@ -914,6 +914,7 @@ export class Bot {
         if (this.continuation) {
           const frame = this.continuation;
           this.continuation = null;
+          if (frame.switchStack) this.switchStack = frame.switchStack;
           run.continuation = frame;
           return frame.category;
         }
@@ -1088,6 +1089,7 @@ export class Bot {
         this.continuation = {
           category: cat,
           path: path.map((f) => ({ ...f })),
+          switchStack: this.switchStack.splice(0),
         };
         return WAITING;
       }
@@ -1197,9 +1199,15 @@ export class Bot {
         return CONTINUE;
       }
       case "waitforresponse": {
+        // The SwitchTo chain that led here must survive until the next input.
+        // The next turn's Priority phase runs its own SwitchTo/SwitchBack pairs
+        // and a Done there empties the live stack, which used to strand every
+        // Sequence that waited mid-chain (20 Questions, GetYN). Snapshot it
+        // onto the continuation and restore it when the continuation resumes.
         this.continuation = {
           category: cat,
           path: frames.map((f) => ({ ...f })).concat([{ i: index + 1 }]),
+          switchStack: this.switchStack.splice(0),
         };
         return WAITING;
       }

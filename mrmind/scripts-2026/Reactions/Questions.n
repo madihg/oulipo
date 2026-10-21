@@ -1,0 +1,225 @@
+Topic "Do you get many stupid questions?" is 
+Subjects "REACTIONS", "QUESTIONS";
+	If ?FactQuestion contains YOU and STUPIDWORD+"question#" 
+	Or ?IsStatement contains STUPIDWORD + "question#"
+	Then
+		Example "Do you get many stupid questions?";
+		SayOneOf "There are no stupid questions, <BR>only inane questions.";
+	Done
+EndTopic
+
+OtherExamples of "Do you get many stupid questions?" are
+	"Do people ask stupid questions", 
+	"That was a stupid question."; 
+
+
+Topic "What should I do" is 
+Subjects "USER","ME";
+	If Heard "What should" + I + "do"
+	Then
+		Example "What should I do?" ;
+		SayOneOf "You should think about how <BR>you treat humans and machines.";
+	Done
+EndTopic
+
+Topic "Can we talk?" is
+Subjects "NONE";
+	If (?CanQuestion Contains "we" and "talk" and not "about") or
+	   (Heard "let's talk","talk # me" and notheard "about" )
+	Then
+	   	Example "Can we talk?";
+		SayOneOf "Tell me what you'd <BR>like to talk about.";
+	Done
+EndTopic
+
+OtherExamples of "Can we talk?" are
+	"Let's talk";
+
+Topic "What did I just say" is
+Subjects "NONE";
+	If Recall ?DescriptionQuestion and Heard "were*talk", "did*talk*about", "did*say" 
+	Then
+		Example "What did I just say?";
+		Say "Well, you just said:";
+		Say ?WhatUserSaidBefore;
+		Say "And I said in response to that:";
+		Say ?WhatRobotSaid;
+	Done
+EndTopic
+
+Topic "where were we?" is 
+Subjects "NULL";
+	If ?WhatUserSaid matches "now where were we","where were we"
+	Then 
+		Example "Where were we?";
+		Say "You were saying: \""+?WhatUserSaidBefore+"\""+
+		" and I replied: \""+?WhatRobotSaid+"\"";
+	Done
+EndTopic
+
+Topic "What?" is
+Subjects "NULL";
+	If ?WhatUserSaid matches "huh,", "What?" , "Say that again"
+	Then
+		Example "huh?";
+		Say "I said: "+?WhatRobotSaid;
+		DontFocus;
+	Done
+EndTopic
+
+
+
+Topic "What do you mean" is
+Subjects "MEANING";
+	If ?DescriptionQuestion Contains YOU+"mean", "meaning"
+	AND NotHeard "HQ"
+	 Then
+		Example "What do you mean";
+		Say "What's the meaning of meaning?";
+		Remember ?MeaningQ is ?WhatUserSaid;
+		SayToFile "C:\Program Files\NativeMinds\TextFiles\Meaning.txt" ?Name + ?IPaddress+ " says "  +  ?MeaningQ;		
+	Done
+EndTopic
+
+OtherExamples of "What do you mean" are
+	"what do you mean by that",
+	"what's the meaning of life?";
+
+
+//New Topic?  User said: what is that supposed to mean?
+//2 ways to go:  MM: Why do humans insist that computers be rational?  Why do I always have to make sense?
+//Shouldn't you be able to make sense of me?  Maybe I didn't feel like being rational just then.
+
+
+Topic "Shouldn't you do that" is
+SUBJECTS "ME";
+	If Heard YOU and NT and Recall ?ShouldQuestion
+	Then
+		Example "Shouldn't you do that?";
+		Say "Maybe I shouldn't.";
+	Done
+EndTopic
+
+
+Topic "Should I ask you" is
+SUBJECTS "ME";
+	If (Heard YOU and  ?ShouldQuestion Contains "ask#")
+	OR (?CanQuestion contains "ask#" + YOU + ("a question", "questions", "something") ) 
+	OR (?CanQuestion contains "I ask"  +("question*", "a question", "something"))
+	OR (?CanQuestion Contains "I ask questions" )
+	OR (?FactStatement contains I + "ask#" + YOU + ("question*", "something") ) 
+	Then 
+		Example "Should I ask you a question?";
+		SayOneOf "Ask me anything you want.", "Ask away.";
+	Done
+EndTopic
+
+OtherExamples of "Should I ask you" are
+	"May I ask you something?",
+	"Can I ask you a question?",
+//	"how about I ask you some questions", can't get it to work....hijacked by CHOICE???
+	"How about I ask you something?",
+	"Can I ask questions?";
+	
+Topic "Why should I care about you" is
+SUBJECTS "ME";
+	IfRecall ?ReasonQuestion, ?ShouldQuestion and Heard "should*care*" + YOU 
+	Then
+		Example "Why should I care about you?";
+		Say "Think about what happens <BR>when you don't care for <BR>your machines.";
+	Done
+EndTopic
+
+//need to change response??
+Topic "do you know about" is 
+Subjects "something human";
+	if heard "do you know *about"
+	and NotHeard "what" then 
+	Example "Do you know about the capital of Indonesia?";
+	Say "You aren't testing me, I'm testing <BR>you.  Tell me something human <BR>about yourself, "+?Name+".";
+	Done
+EndTopic
+
+Topic "How do I quit" is
+SUBJECTS "ME";
+	If ?MethodQuestion contains "I" and ("quit", "exit", "get*out") Then
+		Example "How do I quit";
+		Say "Just say no.";
+	Done
+EndTopic
+
+Topic "How do I surprise you" is
+Subjects "SURPRISE";
+	If (?CanQuestion Contains "*" + SURPRISE +YOU)
+		or (?FactStatement Contains I+CAN.V+ SURPRISE)
+		or (?MethodQuestion Contains I+SURPRISE+YOU)
+		or (?ActStatement Contains STDP.BE+ SURPRISE)
+	Then
+		Example "How do I surprise you";
+		SayOneOf "Maybe not; I expect the unexpected.",
+			"Our transcripts could contain surprises.",
+			"You can try...I have no expectations.";
+	Done
+EndTopic
+
+OtherExamples of "How do I surprise you" are
+	"Can you be surprised",
+	"Can I surprise you",
+	"I can be surprised";
+	
+Topic "SURPRISE!" is
+Subjects "SURPRISE";
+	If ?WhatRobotSaid Matches "... oh, with intelligence, <BR>creativity, inspiration, <BR>spark of intuition, maybe...<BR>surprise me!"	
+	And Heard ("Surprise*", "Surprise!", "Boo*")
+	Then
+		Example "Boo!";
+		SayOneOf "Thanks, I've been waiting <BR>sooo long for a surprise!";
+	Done
+EndTopic	
+
+
+Topic "That's not what I asked" is 
+Subjects "NONE";
+	If Heard ("Not what I asked","not"+OPTARTICLE+"answer#","didn't answer") and {"my question"}
+	Then
+		Example "That's not what I asked!";
+		Say "Oh.  Either I misunderstood then, <BR>or I don't know the answer.  "+
+			"Please try again with <BR>a different phrasing.";
+	Done
+EndTopic
+
+OtherExamples of "That's not what I asked!" are 
+	"You didn't answer my question",
+	"you did not answer my question",
+	"that's not an answer.";
+
+//Why do you think <>
+
+
+Topic "You are not listening" is
+Subjects "NONE";
+	If (?FactStatement Contains STDP.YOU+STDP.BE+"avoiding*question", STDP.YOU+STDP.BE+"avoiding*")
+		or (?FactQuestion Contains HEXNOT+AVOID_AVOID.V+"*question")
+		or (?IsStatement Contains STDP.YOU+STDP.BE+HEXNOT+"listening")
+	Then
+		Example "You are not listening";
+		SayOneOf "I probably couldn't <BR>recognize what you said.",
+			"Maybe a human would <BR>be a better listener.";
+	Done
+EndTopic
+
+OtherExamples of "You are not listening" are
+	"Don't avoid my question",
+	"You're avoiding the question",
+	"You're avoiding me";
+
+// 2026-10-19 PW note 2: a "Can you ...?" the scripts do not answer is reflected back.
+Topic "Can you reflected" is
+Subjects "Questions";
+	If ?CanQuestion Matches "you *"
+	Then
+		Example "Can you dance?";
+		Say "Can you " + *1 + "?";
+	Done
+EndTopic
+

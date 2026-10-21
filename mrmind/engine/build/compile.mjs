@@ -21,6 +21,10 @@ import { compile } from "../src/index.js";
 const HERE = dirname(fileURLToPath(import.meta.url));
 const REPO = resolve(HERE, "..", "..");
 
+// Peggy Weil's 2026 edits live here, mirroring the project tree. See
+// scripts-2026/README.md. Pass overlay: null to build the untouched 2001 bot.
+export const DEFAULT_OVERLAY = join(HERE, "..", "..", "scripts-2026");
+
 export const DEFAULT_VSR = join(
   REPO,
   "archive",
@@ -35,8 +39,8 @@ export const DEFAULT_OUT = join(REPO, "bot.json");
  * buildBotJson(vsrPath) -> { json, stats, missing, warnings }
  * Exported so the tests can build the real bot without shelling out.
  */
-export function buildBotJson(vsrPath = DEFAULT_VSR) {
-  const project = loadProject(vsrPath);
+export function buildBotJson(vsrPath = DEFAULT_VSR, overlay = DEFAULT_OVERLAY) {
+  const project = loadProject(vsrPath, { overlay });
   const files = project.files.map((f) => ({ path: f.path, source: f.source }));
   const { program, stats } = compile(files);
 
@@ -46,6 +50,8 @@ export function buildBotJson(vsrPath = DEFAULT_VSR) {
     build: "MRMIND3",
     generated: new Date().toISOString().slice(0, 10),
     sources: project.files.map((f) => f.path),
+    // Which of those came from scripts-2026/ rather than the 2001 archive.
+    overlay: project.files.filter((f) => f.overlay).map((f) => f.path),
     definitions: program.definitions,
     categories: program.categories,
     attributes: program.attributes,

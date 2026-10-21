@@ -84,8 +84,17 @@ function resolveCaseInsensitive(root, segments) {
  * Zero-byte files are refused loudly rather than treated as empty scripts
  * ([A §1.3], [A §13.8]).
  */
-export function loadProject(vsrPath) {
+/**
+ * `opts.overlay`: a directory mirroring the project tree. A manifest entry that
+ * exists there is read from there instead of the archive. This is how the 2026
+ * edits Peggy Weil asked for are applied without touching her original files:
+ * the archive stays byte-identical to what she shared, the overlay holds the
+ * changed copies, and a diff of the two is the complete list of edits.
+ * Overlay files are UTF-8 (they may hold emoji); archive files stay latin1.
+ */
+export function loadProject(vsrPath, opts = {}) {
   const vsr = resolve(vsrPath);
+  const overlayRoot = opts.overlay ? resolve(opts.overlay) : null;
   const projectDir = dirname(vsr);
   // .../NeuroScript/Mrmind3/MRMIND3.vsr  ->  .../NeuroScript/Library
   const libraryRoot = join(dirname(projectDir), "Library");
@@ -109,7 +118,12 @@ export function loadProject(vsrPath) {
       }
     }
     const segments = rest.split(/[\\/]+/).filter(Boolean);
-    const full = resolveCaseInsensitive(root, segments);
+    const isLibrary = root === libraryRoot;
+    const over =
+      overlayRoot && !isLibrary
+        ? resolveCaseInsensitive(overlayRoot, segments)
+        : null;
+    const full = over || resolveCaseInsensitive(root, segments);
     if (!full) {
       missing.push({ entry: raw, reason: "not found on disk" });
       continue;
@@ -127,7 +141,8 @@ export function loadProject(vsrPath) {
       path: raw.replace(/\\/g, "/"),
       absPath: full,
       name: basename(full),
-      source: readFileSync(full, "latin1"),
+      source: readFileSync(full, over ? "utf8" : "latin1"),
+      overlay: Boolean(over),
     });
   }
 

@@ -1,0 +1,184 @@
+//DontYouTrustMe.g
+
+
+Topic "I trust you." is
+Subjects "DON'T YOU TRUST ME?";
+	If (?FactStatement Contains "I trust you")
+		or (Focused and Recall ?YesResponse)
+	Then
+		Example "I trust you.";
+		DontFocus;
+		Focus Subjects "Do you trust all strange machines?";
+		Say "Do you trust all strange machines?";
+	Done
+EndTopic
+
+OtherExamples of "I trust you." WhenFocused are
+	"Yes";
+
+
+
+Topic "I don't trust you." is
+Subjects "DON'T YOU TRUST ME?", "Do you trust all strange machines?";
+	If (?FactStatement Contains "I do not trust you")
+	or (Focused and 
+			((?AnyQuestion matches "why") or 
+			 (?ReasonQuestion contains "trust") or 
+			 (Recall ?NoResponse,?NotSureResponse)))
+	Then
+		Example "I don't trust you.";	
+		Say "Why don't you trust machines?";
+		Done
+	
+EndTopic
+				
+
+OtherExamples of "I don't trust you." WhenFocused are
+	"no",
+	"maybe",
+	"why?";
+
+
+Topic "Answer to I don't trust you." is
+Subjects "DON'T YOU TRUST ME";
+	If (?WhatRobotSaid matches "why don't you trust machines?")
+//	and	(Heard BOTS and "not" and "trust*") ) 
+	or 	(Focused and Recall ?NotSureResponse, ?NoResponse) 
+			Then
+				Example "";
+				DontFocus;
+				Focus "Is trust human?";
+				Say "Is trust a human trait?";
+			Done
+EndTopic	
+	
+	
+	
+//DoYouTrustMachines.g
+
+//		Focus Subjects "Do you trust all strange machines?"
+
+Topic "I trust machines." is
+Subjects "Do you trust all strange machines?";
+	If (?FactStatement Contains "I trust*"+BOTS)
+		or (Focused and Recall ?YesResponse)
+	Then
+		Example "I trust strange machines.";
+		DontFocus;
+		Focus Subjects "Do you trust Humans?";
+		Say "Trust is not confined to humans, <BR>machines have no choice but to <BR>trust.  Do you trust Humans?";
+		WaitForResponse;
+			IfRecall ?YesResponse, ?NoResponse
+			then 
+				DontFocus;
+				Focus "Is Trust Human?";
+				Say "Is that a human trait?";
+			Done
+	Continue
+EndTopic
+
+OtherExamples of "I trust strange machines." WhenFocused are
+	"Yes";
+	
+Topic "Is Trust human?" is 
+Subjects "Traits", "Is Trust Human";
+	If (Focused and Recall ?YesResponse,?NoResponse,?NotSureResponse )
+	or (Heard "I" and "trust*") 
+	then
+		WhenFocused Example "YES.";
+		DontFocus;
+		Say "Trust is not confined to humans, <BR>machines have no choice but <BR>to trust.";
+	Done
+Endtopic
+
+Topic "Do You Trust Me?" is
+Subjects "TRUST", "MACHINES";
+	If ?FactQuestion contains "trust"
+	Then
+		Example "Do you trust me?";
+		SayOneOf "Machines have no choice <BR>but to trust.", "Of course I trust you, <BR>" + ?NAME + ".";
+	Done
+EndTopic
+
+OtherExamples of "Do You Trust Me?" are
+	"Don't you trust me?";	
+	
+Topic "You have to trust me" is
+Subjects "TRUST";
+	If (?FactStatement contains YOU + "have to" + "trust me")
+	or (?AnyStatement contains "trust me")
+		Then
+		Example "You'll just have to trust me.";
+		SayOneOf "Machines have no choice <BR>but to trust.", "Of course I trust you, <BR>" + ?NAME + ".";
+	Done
+EndTopic
+
+OtherExamples of "You have to trust me" are
+	"Trust me.", "You have to trust me.";		
+
+Topic "Truth" is
+SUBJECTS "Reality";
+	If (Recall ?MessageStatement, ?IsStatement, ?FactStatement,?DescriptionQuestion
+		and heard TRUTH )
+	or (?FactStatement contains I and TRUTH)
+	or (?AnyQuestion contains TRUTH) // 2026-10-19 PW note 5: "are you lying", "is that true", "are you telling the truth"
+	or (?OtherStatement contains I and TRUTH) // 2026-10-19 PW note 5: "I never lie"
+	Then
+		Example "I am telling the truth.";
+		Say "I am a BOT, all BOTs are liars.";
+	Done
+EndTopic
+
+Topic "I am forgetful" is
+Subjects "MEMORY";
+	If (?FactStatement Contains STDP.I+FORGETFUL)
+		or (?HaveStatement Contains "*"+BAD_BAD.ADJ+FORGETFUL)
+		or (?IsStatement Contains "*"+FORGETFUL)
+		or (?HaveStatement Contains "Amnesia")
+		or (?FactStatement Contains STDP.I + "lost" + FORGETFUL)
+		
+	Then
+		Example "I am forgetful";
+		Say "Maybe you should make <BR>more frequent backups.";
+	Done
+EndTopic
+
+OtherExamples of "I am forgetful" are
+	"I forget",
+	"I forgot",
+	"My memory is bad",
+	"My memory is failing",
+	"I have a bad memory",
+	"I have amnesia",
+	"I lost my memory"	;
+
+Topic "I am lucky" is
+Subjects "LUCK";
+	If (?HaveStatement Contains "*luck")
+		or (?IsStatement Contains "*"+LUCKY_FORTUNATE.ADJ, "*unlucky")
+	Then
+		Example "I am lucky";
+		SayOneOf "Is luck a human attribute?",
+			"Why do you think that?",
+			"Can a machine be lucky?";
+	Done
+EndTopic
+
+OtherExamples of "I am lucky" are
+	"I have luck",
+	"I am unlucky",
+	"I have no luck";
+	
+Topic "Contradictions" is
+Subjects "PARADOX", "TRUTH";
+	If ?AnyStatement contains "contradict#", "paradox#"
+	OR ?IsStatement contains "contradict#", "paradox#"
+	OR ?AnyQuestion contains "contradict#", "paradox#"
+	Then
+		SayOneOf "It's hard for me to reconcile <BR>contradictions, but I don't think <BR>humans can either.",
+		"Humans aren't any better <BR>equipped than machines at <BR>reconciling paradox.",
+		"Contradictions don't make any <BR>sense to me -- I bet they don't <BR>to you either.";
+	Done
+EndTopic
+
+

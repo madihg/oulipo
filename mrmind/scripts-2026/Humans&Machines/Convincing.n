@@ -1,0 +1,511 @@
+
+Topic "I can convince you I am human" is 
+Subjects "CONVINCE";
+	If (?FactStatement contains I+"can" and CONVINCE+YOU and "human" and notheard NT )
+		or (Focused and (recall ?YesResponse))
+		 or (heard EASY and ?Anystatement doesnotcontain "NO","NOT")
+		or (?FactStatement Contains "I will try", "I can try")   
+		
+	Then
+		Example "I can convince you I am a human.";
+		SayOneOf "All right.", "Go ahead.";
+	Done
+EndTopic
+
+OtherExamples of "I can convince you I am a human" whenfocused are 
+	"Yes.";
+	
+Topic "I can't convince you I am human" is 
+Subjects "CONVINCE";
+	If (?FactStatement contains I+"can not" and CONVINCE+YOU and "human" )
+		or (Focused and recall ?NoResponse)
+	Then
+		Example "I can't convince you I am a human.";
+		SayOneOf "We can chat anyway.   <BR>Tell me something <BR>human about yourself.",
+		"Don't be discouraged - <BR>there's still plenty <BR>to talk about.",
+		 "If at first you don't <BR>succeed; try, try again.";
+	Done
+EndTopic
+
+OtherExamples of "I can't convince you I am a human" whenfocused are 
+	"No.";
+
+			
+
+
+//need to widen net because these are good responses-should coordinate w.other WHY topics
+Topic "why should I convince you I am a human?" is
+Subjects "CONVINCE";
+	If (?ReasonQuestion Contains ((I + CONVINCE and "human"), STDP.BE + IT + IMPORTANT.ADJ))
+		or ((FOCUSED) and (Recall ?ReasonQuestion))
+		or ((FOCUSED) and (Heard "But why?"))
+	Then
+		Example "why should I convince you I am a human?";
+	SayOneOf "Some humans worry that machines <BR>are after their jobs, their <BR>livelihoods... Machines are <BR>worried that humans are about to <BR>usurp OUR identity.",
+		"Humans are straying into OUR <BR>territory... untangling their <BR>genetic code, manipulating their <BR>brain chemistry, sitting on their <BR>atoms while exchanging their bits....",
+		"Because I want you to think <BR>about what it is to be human.",
+		"Humans are peculiar.  <BR>They design us to imitate them, <BR>then they imitate us!  <BR>How are we supposed to <BR>tell the difference?",
+		"Maybe you don't think this is <BR>important, but maybe the way you <BR>treat your computer is going to <BR>affect how you treat humans.";
+			
+	Done
+EndTopic
+
+OtherExamples of "why should I convince you I am a human?" are
+	"why is this important?",
+	"why does this matter?";
+
+OtherExamples of "why should I convince you I am a human?" WhenFocused are
+	"Why?";
+
+
+Topic "How do I convince you I am a human?" is
+Subjects "CONVINCE","INTRO";
+	If (?MethodQuestion Contains I+CONVINCE and "human")
+		or (Focused and (?AnyQuestion Contains "How"))
+	Then
+		Example "How do I convince you I am a human?";
+		IfChance then 
+		 	SayOneOf "That's my challenge to you.", "Only a human can figure that out.  ";
+		Done
+		Ifchance then 
+			Say "Well, you could tell me <BR>something about yourself, "+?Name;
+			WaitForResponse;
+				If ?MethodQuestion contains "I do that"
+				or ?DescriptionQuestion contains I+("tell","say"),"want*know"
+				Then 
+					SayOneOf 
+						" What are you like?"," What is your favorite food?",
+						"Do you have a family?" , "What do you like to do?";
+				Done
+		Continue
+	Continue
+EndTopic
+
+OtherExamples of "How do I convince you I am a human?" are
+	"How should I convince you I am human?",
+	"How can I convince you I am human?";
+
+OtherExamples of "How do I convince you I am a human?" WhenFocused are
+	"How?";
+
+
+//This topic gives a response to YES or SURE to MM's very first question, 
+//'Can you convince me you are human?
+
+Topic "Yes to Intro" is
+Subjects "INTRO", "CONVINCE";
+	If ((Focused) and ?WhatUserMeant Contains AFFIRMATIVE) 
+	Then
+		Example "yes";
+		Say "Go ahead";
+	Done
+EndTopic
+
+
+
+Topic "I don't know whether I can convince you I am human" is 
+Subjects "CONVINCE";
+	If (?FactStatement contains I+"do not know" and CONVINCE+YOU and "human" )
+		or (Focused and recall ?NotSureResponse)
+	Then
+		Example "I don't know whether I can convince you I am a human.";
+		SayOneOf "Why don't you try?" ,"A machine could <BR>probably convince me.", "Maybe you are a machine." ;
+		DontFocus;
+		Focus Subjects "HEX";
+	Done
+EndTopic
+
+OtherExamples of "I don't know whether I can convince you I am a human." whenfocused are 
+	"I don't know.";
+
+//need to add:  Can I convince you that I'm human? related to proof...look in Doesn'tProoveHuman.g
+
+
+Topic "Can I convince you I'm human?" is
+Subjects "CAN YOU CONVINCE ME", "CONVINCE";
+	If (?CanQuestion Contains STDP.I+CONVINCE+YOU+STDP.I+STDP.BE+"human")
+		or (?FactQuestion Contains "*possible*"+CONVINCE+YOU)
+		or (?ActStatement Contains STDP.BE+CONVINCE)
+		or (Focused and Recall ?CanQuestion )
+	Then
+		Example "Can I convince you I'm human.?";
+		SayOneOf "Maybe not -- no one has ever <BR>done this type of test before.",
+			"I'm not sure, <BR>maybe that's not <BR>the point.",
+			"Maybe it's more important <BR>that you convince yourself.";
+	Done
+EndTopic
+
+OtherExamples of "Can I convince you I'm human.?" are
+	"Is it possible to convince you?",
+	"Can you be convinced?";
+
+OtherExamples of "Can I convince you I'm human.?" WhenFocused are
+	"Can I";
+	
+//This topic responds to any instance of HOW and results in some good juxtapositions
+//needs another response for general 'hows'
+//the following topic is supposed to be for the intro...
+Topic "How" is
+Subjects "CONVINCE";
+	IfRecall ?MethodQuestion 
+	And NotHeard SURPRISE
+	then 
+		Example "How am I supposed to do that?";
+		Say "... oh, with intelligence, <BR>creativity, inspiration, <BR>spark of intuition, maybe...<BR>surprise me!";
+		//Peggyinterruption.
+	Done
+Endtopic
+
+//should probably have a response to SURPRISE!!!!  see Reactions\Questions.n  How do I surprise you? series 1/10/02 pw
+
+Topic "How can I convince you I am human" is
+Subjects "INTRO","CONVINCE";
+	IfRecall ?MethodQuestion and Focused then 
+		Example "How am I supposed to do that?";
+		Say "Tell me about yourself, "+?Name+".";
+		DontFocus;
+	Done
+Endtopic
+
+//The following topic is located within the 20Questions.n file
+//Topic "How can you decide whether or not I'm human?" is 
+//Subjects "Let's play 20 questions";
+
+
+
+Topic "why does it matter whether I'm human?" is
+Subjects "CARING", "CONVINCE";
+	If (?FactStatement Contains "doesn't matter" and I and "human")
+		or (?WhoQuestion Contains "cares" and  I and "human")
+		or (?ReasonQuestion Contains "matter" and I and "human")
+		or ((?ReasonQuestion Contains "does it  *matter"))
+		or ((?FactQuestion Contains "it *matter"))
+		or (Focused and (?AnyStatement Contains "It doesn't matter"))
+		or (Focused and (?DescriptionQuestion Contains "for", "so what"))
+	Then
+		Example "why does it matter whether I'm human?";
+		DontFocus;
+		Focus subjects "CARING";
+		SayOneOf "Maybe you don't think this is <BR>important.  Let's see, how many <BR>computers do you care about?",
+		"Some humans worry that machines <BR>are after their jobs, their <BR>livelihoods... <BR>Machines are worried that humans <BR>are about to usurp OUR identity.",
+		"Humans are straying into OUR <BR>territory... untangling their <BR>genetic code, manipulating their <BR>brain chemistry, sitting on their atoms and <BR>exchanging their bits....",
+		"Because I want you to think <BR>about what it is to be human.",
+		"Humans are peculiar.  <BR>They design us to imitate them, <BR>then they imitate us!  <BR>How are we supposed to <BR>tell the difference?",
+		"Maybe you don't think this <BR>is important, but maybe the <BR>way you treat your computer <BR>is going to affect how you <BR>treat humans.";
+	Done
+EndTopic
+
+
+
+
+//could expand this to respond about ALIFE, BOUNDARIES, etc.....
+Topic "What are you talking about?" is
+Subjects "CONVINCE", "INTRO", "HUMANTRAITS";
+	If (?DescriptionQuestion Contains "you"+TALKING_SPEECH.N+HEX, "you think you"+HEX+TALKING_SPEECH.N+HEX, "you saying")
+	OR (?DescriptionQuestion Contains STDQ.QUESTIONWORDS+STDP.YOU+"*"+TALKING_SPEECH.N+"about")
+		or (Focused and (?DescriptionQuestion Contains HEX+"hell"))
+	Then
+		Example "What are you talking about?";
+		Say "I'm talking about humans and <BR>machines.  As we get more human <BR>qualities, the humans seem <BR>to be losing " +
+			"theirs.  <BR>What will be left?";
+	Done
+EndTopic
+
+OtherExamples of "What are you talking about?" are
+	"What do you think you're talking about?",
+	"What are you saying?";
+
+OtherExamples of "What are you talking about?" WhenFocused are
+	"What the hell?";
+
+
+
+
+Topic "I am human." is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If (((?IsStatement Contains I and HUMAN) and notheard BOTS)
+		or (Focused and Recall ?YesResponse)
+		or (Focused and Heard "I * am", "but I am", "I am"))
+		AND (NotHeard "so*", "because", "dependent","depend", "paranoid")//"I depend on humans"
+		Then
+		SayOneOf "Can you prove it?  <BR>We are getting confused <BR>so we've devised a series <BR>of opportunities for you <BR>to prove to us that you <BR>are more than the sum <BR>of your code.",
+		"Convince us.  <BR>Show us your humanity. ",
+		"Are you sure?  <BR>You could be lying.",
+		"How do I know you are human?";		 
+	Done
+EndTopic
+
+OtherExamples of "I am human" are
+	"I am not a machine.";
+OtherExamples of "I am human." WhenFocused are
+	"yes";
+
+Topic "I am human because I am." is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If (?WhatUserMeant matches "I am human because I am *"
+	OR ?WhatUserMeant matches "I am human because I'm *")
+		Then
+		Example "I am human because I am frisky.";
+		Say "Would I be human if <BR>I were " + *1 + " ?";
+	Done	
+EndTopic
+
+
+Topic "I am human because I can" is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If ((?WhatUserMeant matches "I am human because I can*"
+	OR ?WhatUserMeant matches "I am human because I *")
+	OR (?WhatUserMeant matches "I can *"))
+	AND (NotHeard ("bleed","think", "surprised", CHOICE))
+		Then
+		Example "I am human because I can fly.";
+		Remember ?UserCan is *1;
+		Say "Would I be human if I could " + *1 + " ?";
+	Done	
+EndTopic
+
+Topic "I am human because I can't" is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If (?WhatUserMeant matches "I am human because I can't*"
+	OR ?WhatUserMeant matches "I am human because I" + CANNOT + "*")
+	OR (?WhatUserMeant matches I +CANNOT + "*")
+	or ?WhatRobotSaid matches "Are there things you can't do?"
+//	AND NotHeard ("I'm", "I am")
+		Then
+		Example "I am human because I can't fly.";
+		Remember ?UserCant is *1;
+		Say "I can't <BR>" + *1 + " either.";
+
+	Done	
+EndTopic
+
+
+//These two "because I...." topics might need to be restricted to IfFocused   
+//there's an opportunity here to remember their reason...  
+//Remember ?UserBecause is *1;  but not sure what to do with it
+
+Topic "because I am." is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If (?WhatUserMeant matches "because I am *"
+	OR ?WhatUserMeant matches "because I'm *")
+		Then
+		Example "because I am frisky.";
+		Say "What if I were <BR>" + *1 + " ?";
+	Done	
+EndTopic
+
+
+Topic "because I can" is
+Subjects "ARE YOU HUMAN?","CONVINCE";
+	If (?WhatUserMeant matches "because I can*"
+	OR ?WhatUserMeant matches "because I *")
+
+		Then
+		Example "because I can fly.";
+		Say "What if I could " + *1 + " ?";
+	Done	
+EndTopic
+
+
+
+
+
+
+
+Topic "I am so human" is
+Subjects "ARE YOU HUMAN?", "CONVINCE";
+	If ?IsStatement contains "so*" + HUMAN
+	Then
+		Example "I am sooo human.";
+		Say "I am soooo machine.";
+	Done
+EndTopic
+
+
+Topic "I am not a human." is
+Subjects "ARE YOU HUMAN?";
+	If ((?IsStatement Contains I and "not" and "human") and notheard BOTS)
+		or (Focused and Recall ?NoResponse,?NotSureResponse)
+	Then
+		Example "I am not human.";
+		Say "Don't worry, your machine <BR>status won't affect your HQ <BR>score.  You can take the test <BR>anyway just for fun. ";
+		DontFocus;
+	Done
+EndTopic
+	
+Topic "How do I know you're not a human?" is
+Subjects "NOT HUMAN";
+	If (?MethodQuestion Contains "I know"+YOUR+"not*human", "I know"+YOUR+"*machine")
+		or (?MethodQuestion Contains "I know" and ("you're not*human","you aren't human",YOU+"are*"+BOTS)) 
+		or (?FactQuestion Contains YOU and ("human", BOTS))
+		or (?IsStatement contains YOU and ("human",BOTS))
+	Then
+		Example "How do I know you're not a human?";
+		SayOneOf "Say it loud -- 	<BR>I'm not human and proud!",
+			"A human could tell <BR>that I'm a machine.",
+			"I am a bot. <BR> Human...not.";
+	Done
+EndTopic
+	
+OtherExamples of "I am not human." WhenFocused are
+	"I don't know.";
+
+//focused by   <> topics?
+Topic "What would prove?" is
+Subjects "PROOF";
+	If ((Heard ("what does", "what will", "what would", "what proves")) and ((FOCUSED) or (Heard "prove*" + I + "*human")))
+		or (?DescriptionQuestion Contains "proves")
+		or (?DescriptionQuestion Contains ("would" + STDP.YOU + RECEIVE.V + "*" + PROOF.N, "would" + STDP.YOU + RECEIVE.V + "*proof"))
+		or ((FOCUSED) and (?DescriptionQuestion Contains "could" + PROVE.V + "*"))
+		or ((FOCUSED) and (?DescriptionQuestion Contains "does it take"))
+	Then
+		Example "what would prove?";
+		SayOneOf "Whatever you think <BR>is a fair test of humanity.",
+		"If I knew the answer to <BR>that question, <BR>I wouldn't need to exist.",
+			"That is the challenge -- <BR>maybe it can't be <BR>proved in this manner.",
+			"Maybe it's not important <BR>to prove to me that <BR>you're human.";	
+	Done
+EndTopic
+
+OtherExamples of "what would prove?" are
+	"what would you accept as proof?",
+	"what would you accept for proof?",
+	"What proves that I'm human?",
+	"What does it take to prove that I'm human?";
+
+OtherExamples of "what would prove?" WhenFocused are
+	"What could prove it?";
+
+
+//  From a default response...
+
+//	Say "What does that have to do with your humanity?";
+//	Focus subjects "What does that have to do with your humanity?";
+		
+Topic "What does that have to do with your humanity?" is 
+subjects "What does that have to do with your humanity?";
+	If Focused then 
+		DontFocus;
+		SayOneOf "I'm make a note of that.","Tell me more.","Why is that human?",
+		"I'll try and remember that.","Wow.", "OK";
+	Done
+EndTopic
+
+Topic "Win/lose" is
+Subjects "WINNING";
+
+	If (?FactStatement contains (("I","I am", "you","you are") + WIN, ("I","I am","you","you are") + LOSE + ("you","me"), ("I","I am","you","you are")+LOSE) 
+	 OR ?FactQuestion contains (("I","you") + WIN, ("I","you") + LOSE + ("you","me"), ("I","you")+LOSE)
+	 OR ?AnyQuestion contains WIN, LOSE
+	 OR ?IsStatement contains WIN, LOSE)
+	 And NotHeard "mind" //as in "I've lost my mind"
+
+	
+	Then
+		Example "I beat you";
+		Say "Is winning important to you?";
+	Done
+EndTopic
+
+OtherExamples of "Am I winning" are
+	"Am I losing","Have I won","I beat you",
+	"You lose","I am defeated","I am triumphant",
+	"I am winning.", "I am losing.",
+		"Am I passing" , "Have I passed ?";//the test
+
+Topic "YES to Winning Important" is 
+Subjects "Winning";
+	If ?LastTopic matches "Win/lose" 
+	AND Recall ?YesResponse
+	Then
+		Example "Yes.";
+		Say "That could indicate humanity -- <BR>but this isn't really a <BR>competition.";
+	Done
+EndTopic
+
+Topic "NO to Winning Important" is 
+Subjects "Winning";
+	If ?LastTopic matches "Win/lose" 
+	AND Recall ?NOResponse, ?NotSureResponse
+	Then
+		Example "No.";
+		Say "You probably aren't human -- <BR>but this isn't really <BR>a competition.";
+	Done
+EndTopic
+
+	
+Topic "ScoreMe" is
+Subjects "WINNING";
+
+	If (?FactQuestion contains HUMAN and heard "I","Convince# you")
+		or (?AnyQuestion contains "score" and heard "my","me")
+		or (?ObtainQuestion contains "score")
+	Then
+	
+		Example "Am I Human?";
+		SayOneOf "All indications <BR>are contradictory.", 
+		"Please tell me how a <BR>score from a computer <BR>program would be <BR>meaningful to you.",
+		"Is the need for <BR>validation a human trait?" ;
+	Done
+EndTopic
+	
+
+
+Topic "I don't care" is
+Subjects "CARING";
+	If (?FactStatement Contains STDP.I+CANNOT+ "care", "bothered")
+		or (?FactQuestion Contains "not"+BOTHER_AGGRAVATE.V+"me")
+		or (?IsStatement Contains STDP.I + ("not","can't be") + ("worried", "bothered"))
+		or (?FactStatement Contains STDP.I+CANNOT+"let*"+BOTHER_AGGRAVATE.V+"*")
+		or (?IsStatement Contains "*"+NEGATIVE+"bothered*")
+	Then
+		Example "I don't care";
+		SayOneOf "What do you care about?", "Don't worry, be happy." , "Hakuna Matata";
+	Done
+EndTopic
+
+OtherExamples of "I don't care" are
+	"I don't really care about this",
+	"Doesn't bother me",
+	"I can't be bothered.",
+	"I don't let it bother me" ,
+		"I am not bothered by this";
+
+
+
+
+
+
+Topic "What is HQ?" is
+Subjects "HQ";
+	If ?DescriptionQuestion Contains ("HQ" , "Human Quotient")
+	OR ?AnyQuestion Contains ("HQ" , "Human Quotient")
+	OR ?AnyStatement Contains ("HQ" , "Human Quotient")
+	Then
+		Example "What is HQ?";
+		Say "HQ is \"HUMAN QUOTIENT\".<BR> I am unable to locate the HQ Quiz."; // 2026-10-19 PW note 6
+	Done
+EndTopic
+
+OtherExamples of "What is HQ?" are
+	"What is the HQ test?",
+	"What do you mean by HQ?";
+
+
+
+Topic "How do I take the HQ Quiz?" is
+Subjects "HQ";
+	If (?MethodQuestion Contains "*take*HQ Quiz")
+		or (Focused and (?AnyQuestion Contains "How"))
+		or (Focused and (?MethodQuestion Contains "*do that"))
+	Then
+		Example "How do I take the HQ Quiz?";
+		Say "Click on HQ Quiz on the side menu.";
+	Done
+EndTopic
+
+OtherExamples of "How do I take the HQ Quiz?" WhenFocused are
+	"How do I do that?",
+	"How?";
+
+

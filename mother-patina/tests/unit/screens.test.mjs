@@ -140,7 +140,7 @@ test("exactly three high-stakes incoming lines carry extra typing weight", () =>
         weighted.push({ screen: i + 1, from: m.from, text: m.text });
     }),
   );
-  assert.equal(weighted.length, 3, "exactly three weighted moments");
+  assert.equal(weighted.length, 4, "exactly four weighted moments");
   // weight only makes sense on incoming (b) lines - those are the ones that show typing dots
   for (const w of weighted) {
     assert.equal(
@@ -153,6 +153,7 @@ test("exactly three high-stakes incoming lines carry extra typing weight", () =>
   assert.ok(texts.some((t) => t.includes("It must be hard to raise a child")));
   assert.ok(texts.includes("I tried to call you"));
   assert.ok(texts.includes("habibi. Me more."));
+  assert.ok(texts.includes("salvation?"), "the sister's question holds too");
 });
 
 test("every message has a valid from + kind", () => {
@@ -250,4 +251,71 @@ test("the last screen ends on the mother's 'habibi. Me more.'", () => {
   assert.equal(last.text, "habibi. Me more.");
   assert.equal(last.from, "b");
   assert.equal(last.reaction, "❤️", "with a heart reaction");
+});
+
+// ── the rhythm pass ──────────────────────────────────────────────────────────
+
+const allMessages = data.screens.flatMap((s) =>
+  s.messages.map((m) => ({ ...m, screen: s.screen })),
+);
+
+test("rhythm fields are well-formed: beat is ms of silence, weight true or a multiplier, hesitate only on incoming lines", () => {
+  for (const m of allMessages) {
+    if (m.beat !== undefined) {
+      assert.equal(typeof m.beat, "number", `screen ${m.screen} beat is ms`);
+      assert.ok(m.beat >= 1000 && m.beat <= 6000, `beat ${m.beat} in range`);
+    }
+    if (m.weight !== undefined) {
+      assert.ok(
+        m.weight === true || (typeof m.weight === "number" && m.weight >= 1.5 && m.weight <= 6),
+        `screen ${m.screen} weight ${m.weight} is true or 1.5..6`,
+      );
+      assert.equal(m.from, "b", "weight lives on incoming lines (the typing dots)");
+    }
+    if (m.hesitate !== undefined) {
+      assert.equal(m.hesitate, true);
+      assert.equal(m.from, "b", "only an incoming line can hesitate");
+      assert.equal(m.kind, "text");
+    }
+  }
+});
+
+test("the rhythm varies: silences, hesitations, and one line where someone types for a long time", () => {
+  const beats = allMessages.filter((m) => m.beat);
+  const hesitations = allMessages.filter((m) => m.hesitate);
+  assert.ok(beats.length >= 5, `>= 5 silences (got ${beats.length})`);
+  assert.ok(hesitations.length >= 4, `>= 4 hesitations (got ${hesitations.length})`);
+  // "I tried to call you" sits in a long silence, then the dots hold and hold
+  const call = allMessages.find((m) => m.text === "I tried to call you");
+  assert.ok(call && call.screen === 5);
+  assert.ok(call.beat >= 3000, "a long silence first");
+  assert.ok(typeof call.weight === "number" && call.weight >= 4, "then a long hold");
+  // the last line of the piece hesitates before it lands
+  const last = data.screens[4].messages.at(-1);
+  assert.equal(last.text, "habibi. Me more.");
+  assert.equal(last.hesitate, true);
+});
+
+// ── the Arabic-forward version ───────────────────────────────────────────────
+
+test("every screen carries its Arabic contact name, a she/he typing label, and the forward's Arabic name", () => {
+  const CONTACTS_AR = ["ماما", "طنطينا", "أختي", "خالو جوج", "إمي"];
+  data.screens.forEach((s, i) => {
+    assert.equal(s.contact_ar, CONTACTS_AR[i], `screen ${i + 1} contact_ar`);
+    assert.ok(["تكتب…", "يكتب…"].includes(s.typing_ar), `screen ${i + 1} typing_ar`);
+    if (s.forward && s.forward.to) {
+      assert.ok(CONTACTS_AR.includes(s.forward.to_ar), `screen ${i + 1} forward.to_ar`);
+    }
+  });
+  // the uncle is the one "he"
+  assert.equal(data.screens[3].typing_ar, "يكتب…");
+});
+
+test("the Arabic-forward saved prayer exists: the five lines above the same cathedral", () => {
+  assert.equal(data.prayer_ar, "data/prayer-ar.txt");
+  const ar = fs.readFileSync(path.join(ROOT, data.prayer_ar), "utf8");
+  const en = fs.readFileSync(path.join(ROOT, data.prayer), "utf8");
+  for (const line of ARABIC) assert.ok(ar.includes(line), `prayer-ar has ${line}`);
+  assert.ok(ar.endsWith(en), "the English cathedral + poem follow, unchanged");
+  assert.ok(ar.indexOf("أمين") < ar.indexOf("✠"), "the Arabic rides above the spire");
 });

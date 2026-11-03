@@ -1,11 +1,14 @@
 {
-  "_note": "mother-patina. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. reaction: a WhatsApp-style emoji that pops onto that bubble after a beat. weight: true on a few high-stakes incoming (b) lines holds the typing dots ~50% longer so the weight lands. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
+  "_note": "mother-patina. RHYTHM: beat = ms of silence before a line starts (nobody is typing); hesitate = an incoming line whose typing starts, stops (deleted), sits, then starts again; weight = true holds the typing dots ~50% longer, a number multiplies them (4 = someone types for a long time). ARABIC-FORWARD (?lang=ar): contact_ar, typing_ar (she/he types) and forward.to_ar are the Arabic names and chrome; the chats themselves are not translated. ONE Virgin Mary image (assets/mary.jpg, text-free) forwarded through the family - each screen is a chat with a DIFFERENT relative (contact + avatar + app), and the image pixelizes one step more each screen (gen 0..4) until it is barely recognizable. app = which messenger this screen imitates (whatsapp | imessage | telegram). avatar is the contact's profile picture (the mother's IS the Virgin Mary). The clean Arabic prayer line is laid over the image AND appears as the first chat bubble (from whoever sent the image). from: a = the reader (right/sent), b = the other person (left/incoming). kind: image | translit | text. reaction: a WhatsApp-style emoji that pops onto that bubble after a beat. weight: true on a few high-stakes incoming (b) lines holds the typing dots ~50% longer so the weight lands. forward: how the next screen arrives. prayer: the decorated text saved to the reader's device.",
   "image": "assets/mary.jpg",
   "prayer": "data/prayer.txt",
+  "prayer_ar": "data/prayer-ar.txt",
   "screens": [
     {
       "screen": 1,
       "contact": "Maman",
+      "contact_ar": "ماما",
+      "typing_ar": "تكتب…",
       "app": "whatsapp",
       "avatar": "assets/mary.jpg",
       "gen": 0,
@@ -13,6 +16,7 @@
       "forward": {
         "type": "notify",
         "to": "Tantina Auntie",
+        "to_ar": "طنطينا",
         "avatar": "assets/avatars/tantina.jpg"
       },
       "messages": [
@@ -69,7 +73,8 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "this is a story of submission"
+          "text": "this is a story of submission",
+          "beat": 2400
         },
         { "from": "a", "kind": "text", "text": "this is a story of transition" }
       ]
@@ -77,6 +82,8 @@
     {
       "screen": 2,
       "contact": "Tantina Auntie",
+      "contact_ar": "طنطينا",
+      "typing_ar": "تكتب…",
       "app": "whatsapp",
       "avatar": "assets/avatars/tantina.jpg",
       "gen": 1,
@@ -84,6 +91,7 @@
       "forward": {
         "type": "forward",
         "to": "Oukhti Sis",
+        "to_ar": "أختي",
         "avatar": "assets/avatars/sis.jpg"
       },
       "messages": [
@@ -137,7 +145,7 @@
           "text": "this is a story of prostration"
         },
         { "from": "a", "kind": "text", "text": "or loss" },
-        { "from": "b", "kind": "text", "text": "Loss?" },
+        { "from": "b", "kind": "text", "text": "Loss?", "hesitate": true },
         {
           "from": "a",
           "kind": "text",
@@ -158,13 +166,20 @@
           "kind": "text",
           "text": "the way this lossy jpeg fractures as it forwards through the family"
         },
-        { "from": "b", "kind": "text", "text": "i'm trying to call you" },
-        { "from": "a", "kind": "text", "text": "i missed you" }
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "i'm trying to call you",
+          "beat": 3600
+        },
+        { "from": "a", "kind": "text", "text": "i missed you", "beat": 1800 }
       ]
     },
     {
       "screen": 3,
       "contact": "Oukhti Sis",
+      "contact_ar": "أختي",
+      "typing_ar": "تكتب…",
       "app": "imessage",
       "avatar": "assets/avatars/sis.jpg",
       "gen": 2,
@@ -172,6 +187,7 @@
       "forward": {
         "type": "notify",
         "to": "Khalo joj",
+        "to_ar": "خالو جوج",
         "avatar": "assets/avatars/khalo.jpg"
       },
       "messages": [
@@ -183,7 +199,8 @@
           "from": "b",
           "kind": "text",
           "text": "It must be hard to raise a child who straps his body to a rocket bound to kingdom come.",
-          "weight": true
+          "weight": true,
+          "hesitate": true
         },
         { "from": "a", "kind": "text", "text": "lol" },
         {
@@ -233,20 +250,23 @@
         {
           "from": "b",
           "kind": "text",
-          "text": "I really want to go to Thailand this summer!!!"
+          "text": "I really want to go to Thailand this summer!!!",
+          "beat": 2200
         },
         {
           "from": "a",
           "kind": "text",
           "text": "the ghost relics of transmission. this is a story of"
         },
-        { "from": "b", "kind": "text", "text": "salvation?" },
+        { "from": "b", "kind": "text", "text": "salvation?", "weight": 2 },
         { "from": "a", "kind": "text", "text": "invasion" }
       ]
     },
     {
       "screen": 4,
       "contact": "Khalo joj",
+      "contact_ar": "خالو جوج",
+      "typing_ar": "يكتب…",
       "app": "telegram",
       "avatar": "assets/avatars/khalo.jpg",
       "gen": 3,
@@ -254,6 +274,7 @@
       "forward": {
         "type": "burst",
         "to": "mum",
+        "to_ar": "إمي",
         "avatar": "assets/mary.jpg",
         "count": 3
       },
@@ -265,7 +286,12 @@
           "kind": "text",
           "text": "Intercede for us. Pray for us"
         },
-        { "from": "b", "kind": "text", "text": "More like Pray to your son." },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "More like Pray to your son.",
+          "hesitate": true
+        },
         { "from": "b", "kind": "text", "text": "Khalo how is work?" },
         {
           "from": "a",
@@ -279,7 +305,12 @@
           "text": "Mary the middle woman. Mary, tell the boy we've been talking to him won't you. Won't you Mary, we've been in line for days and it doesn't let and you got your ways with him we know."
         },
         { "from": "a", "kind": "text", "text": "Won't you, won't you Mary." },
-        { "from": "b", "kind": "text", "text": "is this a new song" },
+        {
+          "from": "b",
+          "kind": "text",
+          "text": "is this a new song",
+          "beat": 2600
+        },
         {
           "from": "a",
           "kind": "text",
@@ -292,6 +323,8 @@
     {
       "screen": 5,
       "contact": "mum",
+      "contact_ar": "إمي",
+      "typing_ar": "تكتب…",
       "app": "whatsapp",
       "avatar": "assets/mary.jpg",
       "gen": 4,
@@ -345,7 +378,8 @@
           "from": "b",
           "kind": "text",
           "text": "I tried to call you",
-          "weight": true
+          "beat": 3200,
+          "weight": 4
         },
         { "from": "a", "kind": "text", "text": "I missed you" },
         { "from": "a", "kind": "text", "text": "I miss you", "reaction": "❤️" },
@@ -354,7 +388,8 @@
           "kind": "text",
           "text": "habibi. Me more.",
           "reaction": "❤️",
-          "weight": true
+          "weight": true,
+          "hesitate": true
         }
       ]
     }

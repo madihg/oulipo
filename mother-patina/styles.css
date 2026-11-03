@@ -702,3 +702,72 @@ html[data-app="telegram"] .notif-cue {
 html[data-app="telegram"] .notif-badge {
   background: #53a6e0;
 }
+
+/* ── the Arabic-forward version (?lang=ar): the same chats, mirrored ──
+   The document flips to rtl, so flex alignment and text flow mirror on their
+   own; only the few physical left/right rules below need turning around. */
+[dir="rtl"] {
+  --font-chat:
+    -apple-system, "Segoe UI", "Noto Sans Arabic", "Geeza Pro", Roboto, Arial,
+    sans-serif;
+}
+[dir="rtl"] .chat-back {
+  display: inline-block;
+  transform: scaleX(-1);
+}
+[dir="rtl"] .msg .meta {
+  text-align: left;
+}
+[dir="rtl"] .msg.in {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 1px;
+}
+[dir="rtl"] .msg.out {
+  border-top-right-radius: 8px;
+  border-top-left-radius: 1px;
+}
+[dir="rtl"] .msg.in .reaction {
+  left: auto;
+  right: 0.5rem;
+}
+[dir="rtl"] .msg.out .reaction {
+  right: auto;
+  left: 0.5rem;
+}
+[dir="rtl"] .typing {
+  border-top-left-radius: 8px;
+  border-top-right-radius: 1px;
+}
+[dir="rtl"] .jump-latest {
+  right: auto;
+  left: 0.8rem;
+}
+[dir="rtl"] .notif,
+[dir="rtl"] .lock-notif {
+  text-align: right;
+}
+[dir="rtl"] .lock-notif-head i {
+  margin-left: 0;
+  margin-right: auto;
+}
+/* Arabic leads: the prayer line larger, its Latin-letter echo stepping back */
+[dir="rtl"] .msg.arabic {
+  font-size: 1.75rem;
+}
+[dir="rtl"] .msg.translit {
+  opacity: 0.72;
+}
+/* the family's English lines keep their own direction inside the mirrored chat */
+[dir="rtl"] .msg .body[dir="auto"] {
+  unicode-bidi: plaintext;
+}
+/* the lock-screen clock stays "11:28 AM", never "AM 11:28" */
+[dir="rtl"] .lock-clock {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+/* an English line inside the mirrored chat ranges left, like any English text */
+[dir="rtl"] .msg .body[dir="auto"] {
+  display: block;
+  text-align: start;
+}

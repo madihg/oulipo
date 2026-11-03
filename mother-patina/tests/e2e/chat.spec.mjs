@@ -340,4 +340,130 @@ test.describe("mother-patina", () => {
     expect(notifTop).toBeGreaterThanOrEqual(headBottom - 1);
     await expect(page.locator("#chat-name")).toBeVisible();
   });
+
+  // ── the rhythm pass ────────────────────────────────────────────────────────
+
+  test("rhythm: silences, hesitations and long holds play (instrumented under ?fast=1)", async ({
+    page,
+  }) => {
+    await playScreen(page, 5);
+    const mp = await page.evaluate(() => ({ ...window.__mp }));
+    const reduced = await page.evaluate(
+      () => matchMedia("(prefers-reduced-motion: reduce)").matches,
+    );
+    if (reduced) {
+      // reduced motion plays no rhythm at all: no dots, no silences
+      expect(mp.typing).toBe(0);
+      expect(mp.beats).toBe(0);
+      expect(mp.hesitations).toBe(0);
+      return;
+    }
+    // every incoming line (plus the Arabic bubble the sender opens with) shows
+    // the dots once; a hesitation shows them a second time.
+    const expected = await page.evaluate(async () => {
+      const d = await (await fetch("data/screens.json")).json();
+      const s = d.screens[4];
+      const incoming = s.messages.filter(
+        (m) => m.from === "b" && m.kind !== "image",
+      ).length;
+      const arabic = s.messages[0].from === "b" ? 1 : 0;
+      const hesitations = s.messages.filter((m) => m.hesitate).length;
+      const beats = s.messages.filter((m) => m.beat).length;
+      return { typing: incoming + arabic + hesitations, hesitations, beats };
+    });
+    expect(mp.beats).toBe(expected.beats); // "I tried to call you" waits first
+    expect(mp.hesitations).toBe(expected.hesitations); // "habibi. Me more." starts, stops, starts
+    expect(mp.typing).toBe(expected.typing);
+    await expect(
+      page.locator(".msg", { hasText: "I tried to call you" }),
+    ).toBeVisible();
+  });
+
+  // ── the Arabic-forward version (?lang=ar) ──────────────────────────────────
+
+  test("?lang=ar: the page flips right-to-left and the lock screen speaks Arabic; the link carries through", async ({
+    page,
+  }) => {
+    await page.goto("/?lang=ar");
+    await expect(page.locator("html")).toHaveAttribute("dir", "rtl");
+    await expect(page.locator("html")).toHaveAttribute("lang", "ar");
+    await expect(page.locator(".lock-notif-title")).toContainText("العدرا");
+    await expect(page.locator(".lock-hint")).toHaveText("اضغط لتفتح");
+    await page.locator("#lock-open").click();
+    await expect(page).toHaveURL(/screen=1/);
+    await expect(page).toHaveURL(/lang=ar/);
+  });
+
+  test("?lang=ar: Arabic chrome and contact names, the prayer line leading, the English lines keeping their direction", async ({
+    page,
+  }) => {
+    await page.goto("/?screen=1&fast=1&lang=ar");
+    await page.waitForFunction(() => window.__mp && window.__mp.done);
+    await expect(page.locator("#chat-name")).toHaveText("ماما");
+    await expect(page.locator("#chat-status")).toHaveText("متصل الآن");
+    await expect(page.locator(".foot-input")).toHaveText("رسالة");
+    // the date separator is in Arabic too (a weekday: screen 1 is four days back)
+    await expect(page.locator(".date-sep").first()).toHaveText(/[\u0600-\u06FF]/);
+    await expect(page.locator(".date-sep").first()).not.toHaveText(/[A-Z]/);
+    // the Arabic prayer is still the first text bubble, now larger than in English
+    const first = page.locator(".thread .msg:not(.image)").first();
+    await expect(first).toHaveClass(/arabic/);
+    const size = await first.evaluate((n) => parseFloat(getComputedStyle(n).fontSize));
+    expect(size).toBeGreaterThan(24);
+    // an English line is dir=auto, so it reads left-to-right inside the rtl page
+    const en = page.locator(".msg .body", { hasText: "Hi mum, kifik" });
+    await expect(en).toHaveAttribute("dir", "auto");
+    // the forward names the aunt in Arabic and keeps lang=ar in the link
+    await expect(page.locator("#notif-title")).toHaveText("طنطينا");
+    await expect(page.locator("#notif-sub")).toHaveText("رسالة جديدة");
+    expect(await page.locator("#notif").getAttribute("aria-label")).toContain("طنطينا");
+  });
+
+  test("?lang=ar: the forward keeps the Arabic-forward version, screen to screen", async ({
+    page,
+    context,
+  }, testInfo) => {
+    await page.goto("/?screen=2&fast=1&lang=ar");
+    await page.waitForFunction(() => window.__mp && window.__mp.done);
+    await expect(page.locator("#notif-title")).toHaveText("إعادة توجيه");
+    await expect(page.locator("#notif-sub")).toHaveText("إلى أختي");
+    const popupP = context.waitForEvent("page", { timeout: 2500 }).catch(() => null);
+    await page.locator("#notif").click();
+    const popup = await popupP;
+    if (testInfo.project.name === "mobile") {
+      await expect(page).toHaveURL(/screen=3/);
+      await expect(page).toHaveURL(/lang=ar/);
+    } else {
+      expect(popup).not.toBeNull();
+      await popup.waitForLoadState("domcontentloaded");
+      expect(popup.url()).toContain("screen=3");
+      expect(popup.url()).toContain("lang=ar");
+    }
+  });
+
+  test("?lang=ar: the last screen saves mother-patina-ar.txt, the five Arabic lines above the cathedral", async ({
+    page,
+  }) => {
+    await page.goto("/?screen=5&fast=1&lang=ar");
+    await page.waitForFunction(() => window.__mp && window.__mp.done);
+    await expect(page.locator("#chat-name")).toHaveText("إمي");
+    await expect(page.locator("#notif-title")).toHaveText("احفظ الصلاة");
+    await expect(page.locator("#notif-sub")).toHaveText("mother-patina-ar.txt");
+    const downloadP = page.waitForEvent("download", { timeout: 5000 });
+    await page.locator("#notif").click();
+    const download = await downloadP;
+    expect(download.suggestedFilename()).toBe("mother-patina-ar.txt");
+    const stream = await download.createReadStream();
+    const text = await new Promise((resolve, reject) => {
+      let buf = "";
+      stream.on("data", (c) => (buf += c));
+      stream.on("end", () => resolve(buf));
+      stream.on("error", reject);
+    });
+    expect(text).toContain("بحضنك خذينا");
+    expect(text).toContain("أمين");
+    expect(text).toContain("✠");
+    expect(text).toContain("When my family forwards Mary");
+    await expect(page.locator("#notif-sub")).toHaveText("تم الحفظ على جهازك");
+  });
 });

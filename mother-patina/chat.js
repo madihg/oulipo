@@ -20,6 +20,11 @@ const coarse = matchMedia("(pointer: coarse)").matches;
 
 const params = new URLSearchParams(location.search);
 const fast = params.get("fast") === "1"; // tests: collapse the delays
+// ?lang=ar is the Arabic-forward version: the same chats, mirrored right-to-left,
+// the messenger chrome in Arabic, the prayer line leading and its Latin-letter
+// echo stepping back. The family's own lines stay in the language they wrote.
+const lang = params.get("lang") === "ar" ? "ar" : "en";
+const langQuery = lang === "ar" ? "&lang=ar" : "";
 const onLock = !params.has("screen");
 const screenNum = clamp(
   parseInt(params.get("screen") || "1", 10),
@@ -45,21 +50,92 @@ const els = {
 // each screen imitates a different messenger; the look is themed in CSS off
 // <html data-app="...">, the header status + input placeholder set here.
 const APPS = new Set(["whatsapp", "imessage", "telegram"]);
-const IDLE = {
-  whatsapp: "online",
-  imessage: "",
-  telegram: "last seen recently",
+// every string the messenger chrome says, in both versions. The chats themselves
+// come from data/screens.json.
+const STRINGS = {
+  en: {
+    idle: { whatsapp: "online", imessage: "", telegram: "last seen recently" },
+    placeholder: { whatsapp: "Message", imessage: "iMessage", telegram: "Message" },
+    typing: "typing…",
+    today: "TODAY",
+    yesterday: "YESTERDAY",
+    latest: "↓ latest",
+    save: "Save the prayer",
+    saveFile: "mother-patina.txt",
+    saveCue: "save",
+    saveLabel: "Save the prayer as mother-patina.txt",
+    saved: "saved to your device",
+    savedLabel: "Prayer saved to your device",
+    saveFailed: "could not save",
+    forward: "Forward",
+    forwardTo: (to) => "to " + to,
+    forwardLabel: (to) => "Forward to " + to,
+    send: "send",
+    open: "open",
+    newMessage: "new message",
+    newMessages: "new messages",
+    openLabel: (to) => "Open new message from " + (to || "your family"),
+    burstLabel: (n, to) => `Open ${n} new messages from ${to || "your mother"}`,
+    lockTitle: "Every day my mother sends me a picture of the Virgin Mary on WhatsApp",
+    lockSub: "Every day my mother sends me a WhatsApp",
+    lockNow: "now",
+    lockHint: "tap to open",
+    lockOpen: "Open Maman's message",
+    title: "mother",
+  },
+  ar: {
+    idle: { whatsapp: "متصل الآن", imessage: "", telegram: "آخر ظهور مؤخرًا" },
+    placeholder: { whatsapp: "رسالة", imessage: "iMessage", telegram: "رسالة" },
+    typing: "يكتب…", // overridden per screen by typing_ar (she / he)
+    today: "اليوم",
+    yesterday: "أمس",
+    latest: "↓ الأحدث",
+    save: "احفظ الصلاة",
+    saveFile: "mother-patina-ar.txt",
+    saveCue: "حفظ",
+    saveLabel: "احفظ الصلاة كملف mother-patina-ar.txt",
+    saved: "تم الحفظ على جهازك",
+    savedLabel: "تم حفظ الصلاة على جهازك",
+    saveFailed: "تعذّر الحفظ",
+    forward: "إعادة توجيه",
+    forwardTo: (to) => "إلى " + to,
+    forwardLabel: (to) => "إعادة توجيه إلى " + to,
+    send: "إرسال",
+    open: "فتح",
+    newMessage: "رسالة جديدة",
+    newMessages: "رسائل جديدة",
+    openLabel: (to) => "افتح رسالة جديدة من " + (to || "العيلة"),
+    burstLabel: (n, to) => `افتح ${n} رسائل جديدة من ${to || "إمي"}`,
+    lockTitle: "كل يوم إمي بتبعتلي صورة العدرا على الواتساب",
+    lockSub: "كل يوم إمي بتبعتلي واتساب",
+    lockNow: "الآن",
+    lockHint: "اضغط لتفتح",
+    lockOpen: "افتح رسالة ماما",
+    title: "إمي",
+  },
 };
-const PLACEHOLDER = {
-  whatsapp: "Message",
-  imessage: "iMessage",
-  telegram: "Message",
-};
+const T = STRINGS[lang];
+const IDLE = T.idle;
+const PLACEHOLDER = T.placeholder;
 // if the decorated prayer file can't be read, the artifact still holds the poem.
 const FALLBACK_PRAYER =
   "When my family forwards Mary\nThey are saying\nThey don't know what to say\nbut son, daughter, niece, love\nWe are aging and this faith\nis the buoy we know best.\nThese worn images are how we learned\nto say I love you.\n";
+// the Arabic-forward version saves the five lines riding above the same poem.
+const FALLBACK_PRAYER_AR =
+  "بحضنك خذينا\nوعن كل شر ابعدينا\nيا أم يسوع\nتشفعي فينا\nأمين\n\n" +
+  FALLBACK_PRAYER;
+const FALLBACK = lang === "ar" ? FALLBACK_PRAYER_AR : FALLBACK_PRAYER;
 
-window.__mp = { screen: screenNum, lock: onLock, done: false };
+window.__mp = {
+  screen: screenNum,
+  lock: onLock,
+  lang,
+  done: false,
+  // rhythm instrumentation (read by the e2e suite under ?fast=1)
+  typing: 0, // times the typing dots were shown
+  beats: 0, // silences played before a line
+  hesitations: 0, // typing that stopped, sat, then started again
+};
 
 let DATA = null;
 let SCREEN = null;
@@ -70,6 +146,7 @@ let stickToBottom = true;
 boot().catch((err) => console.error("mother-patina failed to start:", err));
 
 async function boot() {
+  applyLang();
   if (onLock) {
     setupLock();
     window.__mp.done = true;
@@ -83,7 +160,7 @@ async function boot() {
 
   DATA = await (await fetch("data/screens.json")).json();
   SCREEN = DATA.screens.find((s) => s.screen === screenNum) || DATA.screens[0];
-  PRAYER_TEXT = await loadPrayer(DATA.prayer);
+  PRAYER_TEXT = await loadPrayer(prayerPath(DATA));
   printPrayer();
 
   setContact(SCREEN);
@@ -98,12 +175,49 @@ async function boot() {
   }
 }
 
+// the Arabic-forward version flips the document and speaks its chrome in Arabic
+function applyLang() {
+  const root = document.documentElement;
+  root.dataset.lang = lang;
+  if (lang !== "ar") return;
+  root.lang = "ar";
+  root.dir = "rtl";
+  document.title = T.title;
+  const put = (sel, text) => {
+    const el = document.querySelector(sel);
+    if (el) el.textContent = text;
+  };
+  put(".lock-notif-title", T.lockTitle);
+  put(".lock-notif-sub", T.lockSub);
+  put(".lock-notif-head b", "ماما");
+  put(".lock-notif-head i", T.lockNow);
+  put(".lock-hint", T.lockHint);
+  const open = document.getElementById("lock-open");
+  if (open) open.setAttribute("aria-label", T.lockOpen);
+  if (els.jump) els.jump.textContent = T.latest;
+  if (els.foot) els.foot.textContent = PLACEHOLDER.whatsapp;
+  if (els.status) els.status.textContent = IDLE.whatsapp;
+}
+
+function contactName(s) {
+  return lang === "ar" && s.contact_ar ? s.contact_ar : s.contact;
+}
+function forwardName(f) {
+  return lang === "ar" && f.to_ar ? f.to_ar : f.to;
+}
+function prayerPath(data) {
+  return lang === "ar" && data.prayer_ar ? data.prayer_ar : data.prayer;
+}
+function typingLabel() {
+  return (lang === "ar" && SCREEN && SCREEN.typing_ar) || T.typing;
+}
+
 function setContact(s) {
   // skin the whole UI as the messenger this relative uses
   const app = APPS.has(s.app) ? s.app : "whatsapp";
   document.documentElement.dataset.app = app;
   IDLE_STATUS = IDLE[app];
-  if (els.name) els.name.textContent = s.contact;
+  if (els.name) els.name.textContent = contactName(s);
   if (els.status) els.status.textContent = IDLE_STATUS;
   if (els.foot) els.foot.textContent = PLACEHOLDER[app];
   if (els.avatar && s.avatar)
@@ -112,14 +226,14 @@ function setContact(s) {
 
 // load the decorated prayer text the reader can save (same-origin static file).
 async function loadPrayer(path) {
-  if (!path) return FALLBACK_PRAYER;
+  if (!path) return FALLBACK;
   try {
     const res = await fetch(path);
-    if (!res.ok) return FALLBACK_PRAYER; // a 404 body is not the prayer
+    if (!res.ok) return FALLBACK; // a 404 body is not the prayer
     const text = await res.text();
-    return text.trim() ? text : FALLBACK_PRAYER;
+    return text.trim() ? text : FALLBACK;
   } catch {
-    return FALLBACK_PRAYER;
+    return FALLBACK;
   }
 }
 
@@ -127,7 +241,11 @@ async function loadPrayer(path) {
 // text the reader can save - for anyone who thinks to open it. No hint in the UI.
 async function printPrayer() {
   try {
-    const text = PRAYER_TEXT || (await loadPrayer("data/prayer.txt"));
+    const text =
+      PRAYER_TEXT ||
+      (await loadPrayer(
+        lang === "ar" ? "data/prayer-ar.txt" : "data/prayer.txt",
+      ));
     if (text && text.trim()) console.log("\n" + text + "\n");
   } catch {
     /* the prayer is a gift in the console, never a requirement */
@@ -142,14 +260,13 @@ function setupLock() {
   const date = document.getElementById("lock-date");
   if (clock) clock.textContent = formatTime(now);
   if (date) {
-    date.textContent = now.toLocaleDateString(undefined, {
-      weekday: "long",
-      month: "long",
-      day: "numeric",
-    });
+    date.textContent = now.toLocaleDateString(
+      lang === "ar" ? "ar-LB" : undefined,
+      { weekday: "long", month: "long", day: "numeric" },
+    );
   }
   const open = () => {
-    location.href = location.pathname + "?screen=1";
+    location.href = location.pathname + "?screen=1" + langQuery;
   };
   const btn = document.getElementById("lock-open");
   if (btn) btn.addEventListener("click", (e) => (e.stopPropagation(), open()));
@@ -168,14 +285,33 @@ async function playScreen(screen) {
       if (!reduced && m.kind !== "image") {
         if (m.cont) {
           await wait(fast ? 6 : 380);
-        } else if (m.from === "b") {
-          setStatus("typing…");
-          showTyping();
-          await wait(typingDelay(m));
-          hideTyping();
-          setStatus(IDLE_STATUS);
         } else {
-          await wait(fast ? 8 : Math.min(900, 260 + words(m) * 38));
+          // the rhythm pass: a line can wait in silence first (beat, in ms),
+          // and an incoming line can start, stop, sit with it, then start again
+          // (hesitate), before the typing dots hold for their usual, or weighted,
+          // time. Someone "…" for a long time.
+          if (m.beat) {
+            window.__mp.beats += 1;
+            await wait(fast ? 6 : m.beat);
+          }
+          if (m.from === "b") {
+            if (m.hesitate) {
+              window.__mp.hesitations += 1;
+              setStatus(typingLabel());
+              showTyping();
+              await wait(fast ? 6 : Math.round(typingDelay(m) * 0.6));
+              hideTyping();
+              setStatus(IDLE_STATUS);
+              await wait(fast ? 6 : 1500);
+            }
+            setStatus(typingLabel());
+            showTyping();
+            await wait(typingDelay(m));
+            hideTyping();
+            setStatus(IDLE_STATUS);
+          } else {
+            await wait(fast ? 8 : Math.min(900, 260 + words(m) * 38));
+          }
         }
       }
 
@@ -286,6 +422,9 @@ function bubble(m) {
   if (m.kind === "arabic") {
     body.lang = "ar";
     body.dir = "rtl";
+  } else {
+    // the family's lines keep their own direction inside the mirrored chat
+    body.dir = "auto";
   }
   node.appendChild(body);
   node.appendChild(meta());
@@ -315,10 +454,14 @@ function addDateSeparator(n) {
   const d = new Date();
   d.setDate(d.getDate() - daysAgo);
   let label;
-  if (daysAgo === 0) label = "TODAY";
-  else if (daysAgo === 1) label = "YESTERDAY";
+  if (daysAgo === 0) label = T.today;
+  else if (daysAgo === 1) label = T.yesterday;
   else
-    label = d.toLocaleDateString(undefined, { weekday: "long" }).toUpperCase();
+    label = d
+      .toLocaleDateString(lang === "ar" ? "ar-LB" : undefined, {
+        weekday: "long",
+      })
+      .toUpperCase();
   const sep = document.createElement("div");
   sep.className = "sys date-sep";
   sep.textContent = label;
@@ -386,6 +529,7 @@ function lineCount(node) {
 
 function showTyping() {
   hideTyping();
+  window.__mp.typing += 1;
   const t = document.createElement("div");
   t.className = "typing";
   t.id = "typing";
@@ -427,39 +571,40 @@ function armForward(screen) {
 
   // the visible spans are aria-hidden-ish decoration; the button's own
   // aria-label is what assistive tech announces, so set it per screen.
+  const to = forwardName(f);
   if (f.type === "save") {
     if (av) av.style.backgroundImage = `url("${screen.avatar}")`;
-    set(els.notifTitle, "Save the prayer");
-    set(els.notifSub, "mother-patina.txt");
-    set(els.notifCue, "save");
+    set(els.notifTitle, T.save);
+    set(els.notifSub, T.saveFile);
+    set(els.notifCue, T.saveCue);
     hideBadge();
     els.notif.dataset.action = "save";
-    label("Save the prayer as mother-patina.txt");
+    label(T.saveLabel);
   } else if (f.type === "forward") {
     if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
-    set(els.notifTitle, "Forward");
-    set(els.notifSub, "to " + f.to);
-    set(els.notifCue, "send");
+    set(els.notifTitle, T.forward);
+    set(els.notifSub, T.forwardTo(to));
+    set(els.notifCue, T.send);
     hideBadge();
     els.notif.dataset.action = "next";
-    label("Forward to " + f.to);
+    label(T.forwardLabel(to));
   } else if (f.type === "burst") {
     const n = f.count || 3;
     if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
-    set(els.notifTitle, f.to || "");
-    set(els.notifSub, "new messages");
-    set(els.notifCue, "open");
+    set(els.notifTitle, to || "");
+    set(els.notifSub, T.newMessages);
+    set(els.notifCue, T.open);
     els.notif.dataset.action = "next";
-    label(`Open ${n} new messages from ${f.to || "your mother"}`);
+    label(T.burstLabel(n, to));
     burstBadge(n);
   } else {
     // "notify"
     if (av && f.avatar) av.style.backgroundImage = `url("${f.avatar}")`;
-    set(els.notifTitle, f.to || "");
-    set(els.notifSub, "new message");
-    set(els.notifCue, "open");
+    set(els.notifTitle, to || "");
+    set(els.notifSub, T.newMessage);
+    set(els.notifCue, T.open);
     els.notif.dataset.action = "next";
-    label("Open new message from " + (f.to || "your family"));
+    label(T.openLabel(to));
     hideBadge();
   }
   els.notif.hidden = false;
@@ -497,31 +642,31 @@ function hideBadge() {
 // Save the prayer to a local .txt file. Fully local (a Blob + a download link);
 // nothing leaves the device.
 function saveThePrayer() {
-  const text = PRAYER_TEXT || FALLBACK_PRAYER;
+  const text = PRAYER_TEXT || FALLBACK;
   try {
     const blob = new Blob([text], { type: "text/plain;charset=utf-8" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "mother-patina.txt";
+    a.download = T.saveFile;
     document.body.appendChild(a);
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 2000);
-    set(els.notifSub, "saved to your device");
+    set(els.notifSub, T.saved);
     set(els.notifCue, "✓");
     els.notif.dataset.saved = "true";
-    label("Prayer saved to your device");
+    label(T.savedLabel);
   } catch (e) {
     console.warn("mother-patina: save failed", e);
-    set(els.notifSub, "could not save");
+    set(els.notifSub, T.saveFailed);
   }
 }
 
 function forwardNext() {
   if (screenNum >= MAX_SCREEN) return;
   const next = screenNum + 1;
-  let search = `?screen=${next}`;
+  let search = `?screen=${next}` + langQuery;
   if (fast) search += "&fast=1";
   const relative = location.pathname + search;
   const absolute = location.origin + relative;
@@ -611,8 +756,11 @@ function readDelay(m) {
 function typingDelay(m) {
   if (fast) return 6;
   const base = clamp(360 + words(m) * 58, 560, 1800);
-  // a few high-stakes lines hold the typing dots ~50% longer, so the weight lands.
-  return m.weight ? Math.round(base * 1.5) : base;
+  // a few high-stakes lines hold the typing dots longer, so the weight lands:
+  // weight: true is ~50% longer; a number is a multiplier (4 = someone types,
+  // and types, and you wait).
+  const k = typeof m.weight === "number" ? m.weight : m.weight ? 1.5 : 1;
+  return clamp(Math.round(base * k), 560, 9000);
 }
 function formatTime(d) {
   let h = d.getHours();

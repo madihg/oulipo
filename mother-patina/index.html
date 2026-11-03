@@ -36,15 +36,25 @@
     />
     <link rel="stylesheet" href="assets/fonts/fonts.css" />
     <link rel="stylesheet" href="styles.css" />
-    <!-- pick lock screen vs chat before paint, so neither flashes -->
+    <!-- pick lock screen vs chat before paint, so neither flashes; and flip the
+         page right-to-left for the Arabic-forward version (?lang=ar) -->
     <script>
-      document.documentElement.classList.add(
-        new URLSearchParams(location.search).has("screen")
-          ? "is-chat"
-          : "is-lock",
-      );
+      (function () {
+        var q = new URLSearchParams(location.search);
+        document.documentElement.classList.add(
+          q.has("screen") ? "is-chat" : "is-lock",
+        );
+        if (q.get("lang") === "ar") {
+          document.documentElement.lang = "ar";
+          document.documentElement.dir = "rtl";
+        }
+      })();
     </script>
-    <script defer src="https://umami-three-dun.vercel.app/script.js" data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"></script>
+    <script
+      defer
+      src="https://umami-three-dun.vercel.app/script.js"
+      data-website-id="ea9130de-42d4-4221-b3b7-bb7d1e3404c2"
+    ></script>
   </head>
   <body>
     <h1 class="sr-only">
